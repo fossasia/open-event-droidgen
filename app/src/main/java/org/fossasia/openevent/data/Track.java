@@ -1,5 +1,7 @@
 package org.fossasia.openevent.data;
 
+import java.util.ArrayList;
+
 /**
  * Created by championswimmer on 16/5/15.
  */
@@ -25,5 +27,11 @@ public class Track {
 
     public String getDescription() {
         return description;
+    }
+
+    public static ArrayList<Track> getTrackList () {
+        ArrayList<Track> tracks = new ArrayList<>();
+        //TODO: Get data from database
+        return tracks;
     }
 }

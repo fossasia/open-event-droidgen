@@ -1,5 +1,7 @@
 package org.fossasia.openevent.data;
 
+import java.util.ArrayList;
+
 /**
  * Created by championswimmer on 16/5/15.
  */
@@ -31,5 +33,11 @@ public class Sponsor {
 
     public String getLogo() {
         return logo;
+    }
+
+    public static ArrayList<Sponsor> getSponsorList() {
+        ArrayList<Sponsor> sponsors = new ArrayList<>();
+        //TODO: Get data from database
+        return sponsors;
     }
 }

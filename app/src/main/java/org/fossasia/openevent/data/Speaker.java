@@ -1,5 +1,7 @@
 package org.fossasia.openevent.data;
 
+import java.util.ArrayList;
+
 /**
  * Created by championswimmer on 16/5/15.
  */
@@ -95,5 +97,15 @@ public class Speaker {
 
     public int[] getSessions() {
         return sessions;
+    }
+
+    public static ArrayList<Speaker> getSpeakerList () {
+        ArrayList<Speaker> speakers = new ArrayList<>();
+        //TODO: Get data from the database
+        return speakers;
+    }
+
+    public static Speaker getSpeakerById (int id) {
+        return null; //TODO: Write real code here
     }
 }

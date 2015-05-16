@@ -3,6 +3,7 @@ package org.fossasia.openevent.data;
 import org.fossasia.openevent.utils.ISO8601Date;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -97,5 +98,15 @@ public class Session {
 
     public int getMicrolocation() {
         return microlocation;
+    }
+
+    public static ArrayList<Session> getSessionList () {
+        ArrayList<Session> sessions = new ArrayList<>();
+        //TODO: Get data from the database
+        return sessions;
+    }
+
+    public static Session getSessionById (int id) {
+        return null; //TODO: Write real code here
     }
 }
