@@ -17,9 +17,10 @@ public final class ISO8601Date {
     /** Transform Calendar to ISO 8601 string. */
     public static String fromCalendar(final Calendar calendar) {
         Date date = calendar.getTime();
-        String formatted = new SimpleDateFormat("YYYY-MM-DD’T’hh:mm:ss.sssTZD")
+        String formatted = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
                 .format(date);
-        return formatted.substring(0, 27) + ":" + formatted.substring(27);
+        //to add the ':' to timezone
+        return formatted.substring(0, 22) + ":" + formatted.substring(22);
     }
 
     /** Get current date and time formatted as ISO 8601 string. */
@@ -33,7 +34,7 @@ public final class ISO8601Date {
         Calendar calendar = GregorianCalendar.getInstance();
         String s = iso8601string.replace("Z", "+00:00");
         try {
-            s = s.substring(0, 27) + s.substring(28);  // to get rid of the ":"
+            s = s.substring(0, 22) + s.substring(23);  // to get rid of the ":"
         } catch (IndexOutOfBoundsException e) {
             throw new ParseException("Invalid length", 0);
         }
