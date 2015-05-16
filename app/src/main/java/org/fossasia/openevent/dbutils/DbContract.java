@@ -28,6 +28,23 @@ public class DbContract {
         public static final String COUNTRY = "country";
         public static final String SESSIONS = "sessions";
 
+        public static final String[] FULL_PROJECTION = {
+                ID,
+                NAME,
+                PHOTO,
+                BIO,
+                EMAIL,
+                WEB,
+                FACEBOOK,
+                TWITTER,
+                GITHUB,
+                LINKEDIN,
+                ORGANISATION,
+                POSITION,
+                COUNTRY,
+                SESSIONS
+        };
+
         public static final String CREATE_TABLE =
                 "CREATE TABLE " + TABLE_NAME
                 + " ("

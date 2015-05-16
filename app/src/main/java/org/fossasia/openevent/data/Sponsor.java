@@ -35,9 +35,4 @@ public class Sponsor {
         return logo;
     }
 
-    public static ArrayList<Sponsor> getSponsorList() {
-        ArrayList<Sponsor> sponsors = new ArrayList<>();
-        //TODO: Get data from database
-        return sponsors;
-    }
 }

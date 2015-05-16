@@ -29,9 +29,4 @@ public class Track {
         return description;
     }
 
-    public static ArrayList<Track> getTrackList () {
-        ArrayList<Track> tracks = new ArrayList<>();
-        //TODO: Get data from database
-        return tracks;
-    }
 }

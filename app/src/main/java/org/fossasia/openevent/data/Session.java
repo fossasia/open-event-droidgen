@@ -100,13 +100,4 @@ public class Session {
         return microlocation;
     }
 
-    public static ArrayList<Session> getSessionList () {
-        ArrayList<Session> sessions = new ArrayList<>();
-        //TODO: Get data from the database
-        return sessions;
-    }
-
-    public static Session getSessionById (int id) {
-        return null; //TODO: Write real code here
-    }
 }

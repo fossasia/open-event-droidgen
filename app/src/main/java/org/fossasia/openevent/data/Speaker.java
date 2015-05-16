@@ -99,13 +99,4 @@ public class Speaker {
         return sessions;
     }
 
-    public static ArrayList<Speaker> getSpeakerList () {
-        ArrayList<Speaker> speakers = new ArrayList<>();
-        //TODO: Get data from the database
-        return speakers;
-    }
-
-    public static Speaker getSpeakerById (int id) {
-        return null; //TODO: Write real code here
-    }
 }
