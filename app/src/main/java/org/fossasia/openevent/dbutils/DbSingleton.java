@@ -10,6 +10,7 @@ import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Sponsor;
 import org.fossasia.openevent.data.Track;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 
 /**
@@ -43,9 +44,41 @@ public class DbSingleton {
         }
     }
 
-    public ArrayList<Session> getSessionList () {
+    public ArrayList<Session> getSessionList () throws ParseException {
         getReadOnlyDatabase();
+
+        String sortOrder = DbContract.Sessions.ID + " ASC";
+        Cursor cur = mDb.query(
+                DbContract.Sessions.TABLE_NAME,
+                DbContract.Sessions.FULL_PROJECTION,
+                null,
+                null,
+                null,
+                null,
+                sortOrder
+        );
+
         ArrayList<Session> sessions = new ArrayList<>();
+        Session s;
+
+        cur.moveToFirst();
+        while (cur.moveToNext()) {
+            s = new Session(
+                    cur.getInt(cur.getColumnIndex(DbContract.Sessions.ID)),
+                    cur.getString(cur.getColumnIndex(DbContract.Sessions.TITLE)),
+                    cur.getString(cur.getColumnIndex(DbContract.Sessions.SUBTITLE)),
+                    cur.getString(cur.getColumnIndex(DbContract.Sessions.SUMMARY)),
+                    cur.getString(cur.getColumnIndex(DbContract.Sessions.DESCRIPTION)),
+                    cur.getString(cur.getColumnIndex(DbContract.Sessions.START_TIME)),
+                    cur.getString(cur.getColumnIndex(DbContract.Sessions.END_TIME)),
+                    cur.getString(cur.getColumnIndex(DbContract.Sessions.TYPE)),
+                    cur.getInt(cur.getColumnIndex(DbContract.Sessions.TRACK)),
+                    new int[] {1,1,1}, //TODO: Parse the int array properly
+                    cur.getString(cur.getColumnIndex(DbContract.Sessions.LEVEL)),
+                    cur.getInt(cur.getColumnIndex(DbContract.Sessions.MICROLOCATION))
+                    );
+            sessions.add(s);
+        }
         //TODO: Get data from the database
         return sessions;
     }
