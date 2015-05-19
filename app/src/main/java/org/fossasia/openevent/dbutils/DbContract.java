@@ -66,6 +66,56 @@ public class DbContract {
                 + " )";
     }
 
-    //TODO: Also create tables for Sessions, Tracks, Sponsors
+    public static abstract class Sessions implements BaseColumns {
+        public static final String TABLE_NAME = "sessions";
+
+        public static final String ID = "id";
+        public static final String TITLE = "title";
+        public static final String SUBTITLE = "subtitle";
+        public static final String SUMMARY = "summary";
+        public static final String DESCRIPTION = "description";
+        public static final String START_TIME = "start_time";
+        public static final String END_TIME = "end_time";
+        public static final String TYPE = "type";
+        public static final String TRACK = "track";
+        public static final String SPEAKERS = "speakers";
+        public static final String LEVEL = "level";
+        public static final String MICROLOCATION = "microlocation";
+
+        public static final String[] FULL_PROJECTION = {
+                ID,
+                TITLE,
+                SUBTITLE,
+                SUMMARY,
+                DESCRIPTION,
+                START_TIME,
+                END_TIME,
+                TYPE,
+                TRACK,
+                SPEAKERS,
+                LEVEL,
+                MICROLOCATION
+        };
+
+        public static final String CREATE_TABLE =
+                "CREATE TABLE " + TABLE_NAME
+                + " ("
+                + _ID + " INTEGER PRIMARY KEY,"
+                + ID + " INTEGER,"
+                + TITLE + " TEXT,"
+                + SUBTITLE + " TEXT,"
+                + SUMMARY + " TEXT,"
+                + DESCRIPTION + " TEXT,"
+                + START_TIME + " TEXT,"
+                + END_TIME + " TEXT,"
+                + TYPE + " TEXT,"
+                + TRACK + " INTEGER,"
+                + SPEAKERS + " TEXT,"
+                + LEVEL + " TEXT,"
+                + MICROLOCATION + " INTEGER,"
+                + " )";
+    }
+
+    //TODO: Also create tables for Tracks, Sponsors
 
 }
