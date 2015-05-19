@@ -9,22 +9,24 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class DbHelper extends SQLiteOpenHelper {
 
-    public static final int VERSION = 1;
-    public static final String DB_NAME = "OpenEvent.db";
-
     public DbHelper(Context context) {
-        super(context, DB_NAME, null, VERSION);
+        super(context, DbContract.DATABASE_NAME, null, DbContract.DATABASE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(DbContract.Speakers.CREATE_TABLE);
-        //TODO: Also create tables for Sessions, Tracks, Sponsors
-
+        db.execSQL(DbContract.Sponsors.CREATE_TABLE);
+        db.execSQL(DbContract.Sessions.CREATE_TABLE);
+        db.execSQL(DbContract.Tracks.CREATE_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        db.execSQL(DbContract.Sponsors.DELETE_TABLE);
+        db.execSQL(DbContract.Sessions.DELETE_TABLE);
+        db.execSQL(DbContract.Tracks.DELETE_TABLE);
+        db.execSQL(DbContract.Speakers.DELETE_TABLE);
+        onCreate(db);
     }
 }
