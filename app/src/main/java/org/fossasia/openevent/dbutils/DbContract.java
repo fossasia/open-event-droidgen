@@ -116,6 +116,29 @@ public class DbContract {
                 + " )";
     }
 
-    //TODO: Also create tables for Tracks, Sponsors
+    public static abstract class Tracks implements BaseColumns {
+        public static final String TABLE_NAME = "sessions";
+
+        public static final String ID = "id";
+        public static final String NAME = "name";
+        public static final String DESCRIPTION = "description";
+
+        public static final String[] FULL_PROJECTION = {
+                ID,
+                NAME,
+                DESCRIPTION
+        };
+
+        public static final String CREATE_TABLE =
+                "CREATE TABLE " + TABLE_NAME
+                        + " ("
+                        + _ID + " INTEGER PRIMARY KEY,"
+                        + ID + " INTEGER,"
+                        + NAME + " TEXT,"
+                        + DESCRIPTION + " TEXT,"
+                        + " )";
+    }
+
+    //TODO: Also create tables for Sponsors
 
 }
