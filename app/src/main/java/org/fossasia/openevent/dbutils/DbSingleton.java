@@ -73,7 +73,7 @@ public class DbSingleton {
                     cur.getString(cur.getColumnIndex(DbContract.Sessions.END_TIME)),
                     cur.getString(cur.getColumnIndex(DbContract.Sessions.TYPE)),
                     cur.getInt(cur.getColumnIndex(DbContract.Sessions.TRACK)),
-                    new int[] {1,1,1}, //TODO: Parse the int array properly
+                    cur.getString(cur.getColumnIndex(DbContract.Sessions.SPEAKERS)),
                     cur.getString(cur.getColumnIndex(DbContract.Sessions.LEVEL)),
                     cur.getInt(cur.getColumnIndex(DbContract.Sessions.MICROLOCATION))
                     );
@@ -122,9 +122,7 @@ public class DbSingleton {
                     cur.getString(cur.getColumnIndex(DbContract.Speakers.ORGANISATION)),
                     cur.getString(cur.getColumnIndex(DbContract.Speakers.POSITION)),
                     cur.getString(cur.getColumnIndex(DbContract.Speakers.COUNTRY)),
-                    //cur.getString(cur.getColumnIndex(DbContract.Speakers.SESSIONS))
-                    //TODO: Parse the int array properly
-                    new int[]{1,1,1}
+                    cur.getString(cur.getColumnIndex(DbContract.Speakers.SESSIONS))
                     );
             speakers.add(s);
         }
