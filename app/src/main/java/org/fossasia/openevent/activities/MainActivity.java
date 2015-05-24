@@ -1,23 +1,34 @@
 package org.fossasia.openevent.activities;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
 import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -28,7 +39,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.fragments.MapFragment;
@@ -40,28 +53,31 @@ import org.fossasia.openevent.fragments.TracksFragment;
 public class MainActivity extends ActionBarActivity
         implements ListView.OnItemClickListener {
 
+    private static final String STATE_CURRENT_SECTION = "current_section";
+
+    private Section currentSection;
     private DrawerLayout mDrawerLayout;
-    private ActionBarDrawerToggle mDrawerToggle;
+    private ActionBarDrawerToggle drawerToggle;
     private View mainMenu;
-    private Section current_section;
-    private MainMenuAdapter menuAdapter;
-
-    private static final String CURRENT_SECTION = "current_section";
-
     private final View.OnClickListener menuFooterClickListener = new View.OnClickListener() {
+
         @Override
-        public void onClick(View v) {
-            switch (v.getId()) {
+        public void onClick(View view) {
+            switch (view.getId()) {
                 case R.id.settings:
                     startActivity(new Intent(MainActivity.this, SettingsActivity.class));
-                    overridePendingTransition(R.anim.abc_slide_out_bottom, R.anim.abc_slide_out_top);
+                   // overridePendingTransition(R.anim.slide_in_right, R.anim.partial_zoom_out);
                     break;
-
+                case R.id.about:
+                    new AboutDialogFragment().show(getSupportFragmentManager(), "about");
+                    break;
             }
             mDrawerLayout.closeDrawer(mainMenu);
         }
     };
-    private TextView net_status;
+    private TextView lastUpdateTextView;
+    private MainMenuAdapter menuAdapter;
+    private MenuItem searchMenuItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,11 +85,17 @@ public class MainActivity extends ActionBarActivity
         setContentView(R.layout.activity_main);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
-        //Drawer Setup
+        //Test
+
+
+       // progressBar = (ProgressBar) findViewById(R.id.progress);
+
+        // Setup drawer layout
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         mDrawerLayout.setDrawerShadow(getResources().getDrawable(R.drawable.drawer_shadow), Gravity.LEFT);
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.main_menu, R.string.close_menu) {
+        drawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.main_menu, R.string.close_menu) {
+
             @Override
             public void onDrawerOpened(View drawerView) {
                 updateActionBar();
@@ -87,50 +109,62 @@ public class MainActivity extends ActionBarActivity
                 updateActionBar();
                 supportInvalidateOptionsMenu();
             }
-
-
         };
-        mDrawerToggle.setDrawerIndicatorEnabled(true);
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
-        mDrawerLayout.setFocusable(true);
+        drawerToggle.setDrawerIndicatorEnabled(true);
+        mDrawerLayout.setDrawerListener(drawerToggle);
+        // Disable drawerLayout focus to allow trackball navigation.
+        // We handle the drawer closing on back press ourselves.
+        mDrawerLayout.setFocusable(false);
 
-
+        // Setup Main menu
         mainMenu = findViewById(R.id.main_menu);
-        ListView menuList = (ListView) findViewById(R.id.main_menu_list);
+        ListView menuListView = (ListView) findViewById(R.id.main_menu_list);
         LayoutInflater inflater = LayoutInflater.from(this);
-
-        //Header Main Menu
         View menuHeaderView = inflater.inflate(R.layout.header_main_menu, null);
-        menuList.addHeaderView(menuHeaderView, null, false);
+        menuListView.addHeaderView(menuHeaderView, null, false);
         View menuFooterView = inflater.inflate(R.layout.footer_main_menu, null);
         menuFooterView.findViewById(R.id.settings).setOnClickListener(menuFooterClickListener);
         menuFooterView.findViewById(R.id.about).setOnClickListener(menuFooterClickListener);
-        menuList.addFooterView(menuFooterView, null, false);
+        menuListView.addFooterView(menuFooterView, null, false);
 
 
-        menuList.setOnItemClickListener(this);
+        menuAdapter = new MainMenuAdapter(inflater);
+        menuListView.setAdapter(menuAdapter);
+        menuListView.setOnItemClickListener(this);
 
+        lastUpdateTextView = (TextView) findViewById(R.id.last_update);
+
+        // Restore current section
         if (savedInstanceState == null) {
-            current_section = Section.TRACKS;
-            String fragmentName = current_section.getFragmentClassName();
-            Fragment fragment = Fragment.instantiate(this, fragmentName);
-            getSupportFragmentManager().beginTransaction().add(R.id.content_frame, fragment, fragmentName).commit();
-
+            currentSection = Section.TRACKS;
+            String fragmentClassName = currentSection.getFragmentClassName();
+            Fragment f = Fragment.instantiate(this, fragmentClassName);
+            getSupportFragmentManager().beginTransaction().add(R.id.content_frame, f, fragmentClassName).commit();
         } else {
-            current_section = Section.values()[savedInstanceState.getInt(CURRENT_SECTION)];
-            menuList.setSelection(current_section.ordinal());
-            updateActionBar();
+            currentSection = Section.values()[savedInstanceState.getInt(STATE_CURRENT_SECTION)];
+        }
+        // Ensure the current section is visible in the menu
+        menuListView.setSelection(currentSection.ordinal());
+        updateActionBar();
+    }
+
+    private void updateActionBar() {
+        if (mDrawerLayout.isDrawerOpen(mainMenu)) {
+            getSupportActionBar().setTitle(null);
+        } else {
+            getSupportActionBar().setTitle(currentSection.getTitleResId());
         }
     }
 
+
     @Override
-    protected void onPostCreate(Bundle savedInstance) {
-        super.onPostCreate(savedInstance);
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
 
         if (mDrawerLayout.isDrawerOpen(mainMenu)) {
             updateActionBar();
         }
-        mDrawerToggle.syncState();
+        drawerToggle.syncState();
     }
 
     @Override
@@ -145,7 +179,22 @@ public class MainActivity extends ActionBarActivity
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt(CURRENT_SECTION, current_section.ordinal());
+        outState.putInt(STATE_CURRENT_SECTION, currentSection.ordinal());
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+//        progressBar.setVisibility(View.GONE);
+
+    }
+
+    @Override
+    protected void onStop() {
+        if ((searchMenuItem != null) && (MenuItemCompat.isActionViewExpanded(searchMenuItem))) {
+            MenuItemCompat.collapseActionView(searchMenuItem);
+        }
+        super.onStop();
     }
 
     @Override
@@ -153,19 +202,24 @@ public class MainActivity extends ActionBarActivity
         super.onDestroy();
     }
 
-    private void updateActionBar() {
-        if (mDrawerLayout.isDrawerOpen(mainMenu)) {
-            getSupportActionBar().setTitle(null);
-
-        } else {
-            getSupportActionBar().setTitle(current_section.getTitleResId());
-        }
-    }
-
     @SuppressLint("NewApi")
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
+//
+//        MenuItem searchMenuItem = menu.findItem(R.id.search);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) {
+//            this.searchMenuItem = searchMenuItem;
+//            // Associate searchable configuration with the SearchView
+//            SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+//            SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenuItem);
+//            searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+//        } else {
+//            // Legacy search mode for Eclair
+//            MenuItemCompat.setActionView(searchMenuItem, null);
+//            MenuItemCompat.setShowAsAction(searchMenuItem, MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
+//        }
+
         return true;
     }
 
@@ -181,20 +235,70 @@ public class MainActivity extends ActionBarActivity
                 }
             }
         }
+
         return super.onPrepareOptionsMenu(menu);
-
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Will close the drawer if the home button is pressed
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
+        if (drawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
+
+//        switch (item.getItemId()) {
+//            case R.id.search:
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) {
+//                    return false;
+//                } else {
+//                    // Legacy search mode for Eclair
+//                    onSearchRequested();
+//                    return true;
+//                }
+//            case R.id.refresh:
+////                startDownloadSchedule();
+//                // TODO: resolve this
+//                Toast.makeText(getApplication(), "Updating database", Toast.LENGTH_SHORT).show();
+//                return true;
+//        }
         return false;
     }
 
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        // Decrease position by 1 since the listView has a header view.
+        Section section = menuAdapter.getItem(position - 1);
+        if (section != currentSection) {
+            // Switch to new section
+            FragmentManager fm = getSupportFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            Fragment f = fm.findFragmentById(R.id.content_frame);
+            if (f != null) {
+                if (currentSection.shouldKeep()) {
+                    ft.detach(f);
+                } else {
+                    ft.remove(f);
+                }
+            }
+            String fragmentClassName = section.getFragmentClassName();
+            if (section.shouldKeep() && ((f = fm.findFragmentByTag(fragmentClassName)) != null)) {
+                ft.attach(f);
+            } else {
+                f = Fragment.instantiate(this, fragmentClassName);
+                ft.add(R.id.content_frame, f, fragmentClassName);
+            }
+            ft.commit();
+
+            currentSection = section;
+            menuAdapter.notifyDataSetChanged();
+        }
+
+        mDrawerLayout.closeDrawer(mainMenu);
+    }
+
+
+    // MAIN MENU
 
     private enum Section {
         TRACKS(TracksFragment.class, R.string.menu_tracks, R.drawable.ic_event_grey600_24dp, false),
@@ -231,36 +335,31 @@ public class MainActivity extends ActionBarActivity
         public boolean shouldKeep() {
             return keep;
         }
-
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Section section = menuAdapter.getItem(position - 1);
-        if (section != current_section) {
-            FragmentManager fm = getSupportFragmentManager();
-            FragmentTransaction ft = fm.beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-            Fragment f = fm.findFragmentById(R.id.content_frame);
-            if (f != null) {
-                if (current_section.shouldKeep()) {
-                    ft.detach(f);
+    public static class AboutDialogFragment extends DialogFragment {
 
-                } else {
-                    ft.remove(f);
-                }
+        @NonNull
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            Context context = getActivity();
+            String title;
+            try {
+                String versionName = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
+                title = String.format("%1$s %2$s", getString(R.string.app_name), versionName);
+            } catch (PackageManager.NameNotFoundException e) {
+                title = getString(R.string.app_name);
             }
-            String fragmentClassName = section.getFragmentClassName();
-            if (section.shouldKeep() && ((f = fm.findFragmentByTag(fragmentClassName)) != null)) {
-                ft.attach(f);
-            } else {
-                f = Fragment.instantiate(this, fragmentClassName);
-                ft.add(R.id.content_frame, f, fragmentClassName);
-            }
-            ft.commit();
 
-            current_section = section;
-            menuAdapter.notifyDataSetChanged();
+            return new AlertDialog.Builder(context).setTitle(title).setIcon(R.drawable.ic_launcher).setMessage(getResources().getText(R.string.about))
+                    .setPositiveButton(android.R.string.ok, null).create();
+        }
 
+        @Override
+        public void onStart() {
+            super.onStart();
+            // Make links clickable; must be called after the dialog is shown
+            ((TextView) getDialog().findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
         }
     }
 
@@ -310,7 +409,7 @@ public class MainActivity extends ActionBarActivity
             SpannableString sectionTitle = new SpannableString(getString(section.getTitleResId()));
             Drawable sectionIcon = getResources().getDrawable(section.getIconResId());
             int backgroundColor;
-            if (section == current_section) {
+            if (section == currentSection) {
                 // Special color for the current section
                 //sectionTitle.setSpan(new StyleSpan(Typeface.BOLD), 0, sectionTitle.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 sectionTitle.setSpan(new ForegroundColorSpan(currentSectionForegroundColor), 0, sectionTitle.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);

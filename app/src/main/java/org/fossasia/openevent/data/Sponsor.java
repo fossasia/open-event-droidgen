@@ -35,4 +35,6 @@ public class Sponsor {
         return logo;
     }
 
+
+
 }
