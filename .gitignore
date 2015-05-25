@@ -3,6 +3,5 @@
 .DS_Store
 /build
 /captures
-/.idea
-/.idea/vcs.xml	
+**/.idea/**
 **/*.iml
