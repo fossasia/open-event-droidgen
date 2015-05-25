@@ -29,7 +29,7 @@ public class DbSingleton {
         }
     }
 
-    public static synchronized DbSingleton getInstance (Context context) {
+    public static synchronized DbSingleton getInstance(Context context) {
         if (mInstance == null) {
             /* NOTE: Important to use getApplicationContext so as not to
              leak someone's Activity context if they pass you one */
@@ -44,7 +44,7 @@ public class DbSingleton {
         }
     }
 
-    public ArrayList<Session> getSessionList () throws ParseException {
+    public ArrayList<Session> getSessionList() throws ParseException {
         getReadOnlyDatabase();
 
         String sortOrder = DbContract.Sessions.ID + " ASC";
@@ -76,19 +76,19 @@ public class DbSingleton {
                     cur.getString(cur.getColumnIndex(DbContract.Sessions.SPEAKERS)),
                     cur.getString(cur.getColumnIndex(DbContract.Sessions.LEVEL)),
                     cur.getInt(cur.getColumnIndex(DbContract.Sessions.MICROLOCATION))
-                    );
+            );
             sessions.add(s);
         }
         //TODO: Get data from the database
         return sessions;
     }
 
-    public Session getSessionById (int id) {
+    public Session getSessionById(int id) {
         getReadOnlyDatabase();
         return null; //TODO: Write real code here
     }
 
-    public ArrayList<Speaker> getSpeakerList () {
+    public ArrayList<Speaker> getSpeakerList() {
         getReadOnlyDatabase();
 
         String sortOrder = DbContract.Speakers.ID + " ASC";
@@ -121,8 +121,7 @@ public class DbSingleton {
                     cur.getString(cur.getColumnIndex(DbContract.Speakers.LINKEDIN)),
                     cur.getString(cur.getColumnIndex(DbContract.Speakers.ORGANISATION)),
                     cur.getString(cur.getColumnIndex(DbContract.Speakers.POSITION)),
-                    cur.getString(cur.getColumnIndex(DbContract.Speakers.COUNTRY)),
-                    cur.getString(cur.getColumnIndex(DbContract.Speakers.SESSIONS))
+                    cur.getString(cur.getColumnIndex(DbContract.Speakers.COUNTRY))
                     );
             speakers.add(s);
         }
@@ -131,12 +130,12 @@ public class DbSingleton {
         return speakers;
     }
 
-    public Speaker getSpeakerById (int id) {
+    public Speaker getSpeakerById(int id) {
         getReadOnlyDatabase();
         return null; //TODO: Write real code here
     }
 
-    public ArrayList<Track> getTrackList () {
+    public ArrayList<Track> getTrackList() {
         getReadOnlyDatabase();
         ArrayList<Track> tracks = new ArrayList<>();
         //TODO: Get data from database
@@ -149,7 +148,6 @@ public class DbSingleton {
         //TODO: Get data from database
         return sponsors;
     }
-
 
 
 }
