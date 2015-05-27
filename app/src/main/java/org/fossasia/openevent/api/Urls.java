@@ -9,10 +9,9 @@ public abstract class Urls {
 
     //TODO: Make it configurable. Shouldn't be hardcoded.
     public static final String BASE_URL = "http://championswimmer.in:8080";
+    public static final String BASE_GET_URL = BASE_URL + "/get/api/" + API_VERSION;
 
     public static abstract class Get {
-        public static final String BASE_GET_URL = BASE_URL + "/get/api/" + API_VERSION;
-
         public static final String SESSIONS = BASE_GET_URL + "/sessions";
         public static final String SPONSORS = BASE_GET_URL + "/sponsors";
         public static final String SPEAKERS = BASE_GET_URL + "/speakers";

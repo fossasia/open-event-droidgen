@@ -44,6 +44,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.fossasia.openevent.R;
+import org.fossasia.openevent.api.APIClient;
 import org.fossasia.openevent.fragments.MapFragment;
 import org.fossasia.openevent.fragments.SpeakerFragment;
 import org.fossasia.openevent.fragments.SponsorsFragment;
@@ -84,7 +85,7 @@ public class MainActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
-
+        //APIClient apiClient = new APIClient();
         //Test
 
 
