@@ -17,7 +17,7 @@ import retrofit.http.GET;
  */
 public interface OpenEventAPI {
 
-    @GET("/sponsors")
+    @GET("/speakers")
     void getSpeakers(Callback<SpeakerResponseList> speakerResponseListCallback);
 
     @GET("/sponsors")

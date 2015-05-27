@@ -8,7 +8,7 @@ public abstract class Urls {
     public static final String API_VERSION = "v1";
 
     //TODO: Make it configurable. Shouldn't be hardcoded.
-    public static final String BASE_URL = "http://championswimmer.in:8080";
+    public static final String BASE_URL = "http://glacial-earth-2730.herokuapp.com";
     public static final String BASE_GET_URL = BASE_URL + "/get/api/" + API_VERSION;
 
     public static abstract class Get {

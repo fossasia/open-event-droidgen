@@ -9,6 +9,6 @@ import java.util.List;
  * Date: 25/5/15
  */
 public class SpeakerResponseList {
-    @SerializedName("sponsors")
+    @SerializedName("speakers")
     public List<Speaker> speakers;
 }
