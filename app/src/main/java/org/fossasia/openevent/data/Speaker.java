@@ -20,13 +20,13 @@ public class Speaker {
     String organisation;
     String position;
     String country;
-    String sessions; // In the format [1, 4, 2]
+    Integer[] sessions;     // In the format [1, 4, 2]
 
     public Speaker(int id, String name, String photo,
                    String bio, String email, String web,
                    String twitter, String facebook, String github,
                    String linkedin, String organisation,
-                   String position, String country, String sessions) {
+                   String position, String country, Integer[] sessions) {
         this.id = id;
         this.name = name;
         this.photo = photo;
@@ -95,7 +95,7 @@ public class Speaker {
         this.country = country;
     }
 
-    public void setSessions(String sessions) {
+    public void setSessions(Integer[] sessions) {
         this.sessions = sessions;
     }
 
@@ -151,7 +151,7 @@ public class Speaker {
         return country;
     }
 
-    public String getSessions() {
+    public Integer[] getSessions() {
         return sessions;
     }
 

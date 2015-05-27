@@ -4,6 +4,8 @@ import android.test.AndroidTestCase;
 
 import org.fossasia.openevent.api.APIClient;
 import org.fossasia.openevent.api.protocol.SpeakerResponseList;
+import org.fossasia.openevent.api.protocol.SponsorResponseList;
+import org.fossasia.openevent.data.Sponsor;
 
 import java.util.concurrent.CountDownLatch;
 
@@ -36,4 +38,25 @@ public class APITest extends AndroidTestCase {
         });
         latch.await();
     }
+
+//    public void testSponsorAPIResponse() throws Exception {
+//        APIClient client = new APIClient();
+//        final CountDownLatch latch = new CountDownLatch(1);
+//        client.getOpenEventAPI().getSponsors(new Callback<SponsorResponseList>() {
+//            @Override
+//            public void success(SponsorResponseList sponsorResponseList, Response response) {
+//                assertNotNull(sponsorResponseList.sponsors);
+//                // Assert that the list size > 0
+//                assertTrue(sponsorResponseList.sponsors.size() > 0);
+//                latch.countDown();
+//            }
+//
+//            @Override
+//            public void failure(RetrofitError error) {
+//                fail("API Request Failed");
+//                latch.countDown();
+//            }
+//        });
+//        latch.await();
+//    }
 }

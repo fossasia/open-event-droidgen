@@ -108,23 +108,23 @@ public class DbSingleton {
 
         cur.moveToFirst();
         while (cur.moveToNext()) {
-            s = new Speaker(
-                    cur.getInt(cur.getColumnIndex(DbContract.Speakers.ID)),
-                    cur.getString(cur.getColumnIndex(DbContract.Speakers.NAME)),
-                    cur.getString(cur.getColumnIndex(DbContract.Speakers.PHOTO)),
-                    cur.getString(cur.getColumnIndex(DbContract.Speakers.BIO)),
-                    cur.getString(cur.getColumnIndex(DbContract.Speakers.EMAIL)),
-                    cur.getString(cur.getColumnIndex(DbContract.Speakers.WEB)),
-                    cur.getString(cur.getColumnIndex(DbContract.Speakers.TWITTER)),
-                    cur.getString(cur.getColumnIndex(DbContract.Speakers.FACEBOOK)),
-                    cur.getString(cur.getColumnIndex(DbContract.Speakers.GITHUB)),
-                    cur.getString(cur.getColumnIndex(DbContract.Speakers.LINKEDIN)),
-                    cur.getString(cur.getColumnIndex(DbContract.Speakers.ORGANISATION)),
-                    cur.getString(cur.getColumnIndex(DbContract.Speakers.POSITION)),
-                    cur.getString(cur.getColumnIndex(DbContract.Speakers.COUNTRY)),
-                    cur.getString(cur.getColumnIndex(DbContract.Speakers.SESSIONS))
-                    );
-            speakers.add(s);
+//            s = new Speaker(
+//                    cur.getInt(cur.getColumnIndex(DbContract.Speakers.ID)),
+//                    cur.getString(cur.getColumnIndex(DbContract.Speakers.NAME)),
+//                    cur.getString(cur.getColumnIndex(DbContract.Speakers.PHOTO)),
+//                    cur.getString(cur.getColumnIndex(DbContract.Speakers.BIO)),
+//                    cur.getString(cur.getColumnIndex(DbContract.Speakers.EMAIL)),
+//                    cur.getString(cur.getColumnIndex(DbContract.Speakers.WEB)),
+//                    cur.getString(cur.getColumnIndex(DbContract.Speakers.TWITTER)),
+//                    cur.getString(cur.getColumnIndex(DbContract.Speakers.FACEBOOK)),
+//                    cur.getString(cur.getColumnIndex(DbContract.Speakers.GITHUB)),
+//                    cur.getString(cur.getColumnIndex(DbContract.Speakers.LINKEDIN)),
+//                    cur.getString(cur.getColumnIndex(DbContract.Speakers.ORGANISATION)),
+//                    cur.getString(cur.getColumnIndex(DbContract.Speakers.POSITION)),
+//                    cur.getString(cur.getColumnIndex(DbContract.Speakers.COUNTRY)),
+//                    cur.getBlob(cur.getColumnIndex(DbContract.Speakers.SESSIONS))
+//                    );
+//            speakers.add(s);
         }
 
         //TODO: Get data from the database
