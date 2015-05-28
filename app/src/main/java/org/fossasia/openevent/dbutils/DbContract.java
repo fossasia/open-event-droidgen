@@ -32,7 +32,6 @@ public class DbContract {
         public static final String ORGANISATION = "organisation";
         public static final String POSITION = "position";
         public static final String COUNTRY = "country";
-        public static final String SESSIONS = "sessions";
 
         public static final String[] FULL_PROJECTION = {
                 ID,
@@ -48,7 +47,6 @@ public class DbContract {
                 ORGANISATION,
                 POSITION,
                 COUNTRY,
-                SESSIONS
         };
 
         public static final String CREATE_TABLE =
@@ -68,10 +66,31 @@ public class DbContract {
                         + ORGANISATION + TEXT_TYPE + COMMA_SEP
                         + POSITION + TEXT_TYPE + COMMA_SEP
                         + COUNTRY + TEXT_TYPE + COMMA_SEP
-                        + SESSIONS + TEXT_TYPE + COMMA_SEP
                         + " )";
         public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
 
+    }
+
+    public static abstract class Sessions_speakers implements BaseColumns{
+        public static final String TABLE_NAME = "sessions_speakers";
+
+        public static final String SPEAKER_ID = "speaker_id";
+        public static final String SESSION_ID = "subtitle";
+
+
+        public static final String[] FULL_PROJECTION = {
+                SESSION_ID,
+                SPEAKER_ID
+        };
+
+        public static final String CREATE_TABLE =
+                "CREATE TABLE " + TABLE_NAME
+                        + " ("
+                        + _ID + " INTEGER PRIMARY KEY,"
+                        + SESSION_ID + INT_TYPE + COMMA_SEP
+                        +SPEAKER_ID + INT_TYPE +COMMA_SEP
+                        + " )";
+        public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
     }
 
     public static abstract class Sessions implements BaseColumns {

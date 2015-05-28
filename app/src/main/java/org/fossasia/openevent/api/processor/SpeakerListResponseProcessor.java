@@ -11,9 +11,11 @@ import retrofit.client.Response;
  * Date: 25/5/15
  */
 public class SpeakerListResponseProcessor implements Callback<SpeakerResponseList> {
+    private final String TAG = "Speaker List";
     @Override
     public void success(SpeakerResponseList speakerResponseList, Response response) {
         // Do something with successful response
+
     }
 
     @Override

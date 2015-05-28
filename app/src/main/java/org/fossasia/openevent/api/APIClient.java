@@ -1,5 +1,7 @@
 package org.fossasia.openevent.api;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.squareup.okhttp.OkHttpClient;
 
@@ -19,7 +21,6 @@ public final class APIClient {
      * This is the base url can be changed via a config Param
      * Or Build Config
      */
-    public static final String BASE_URL = "http://springboard.championswimmer.in:8080/get/api/v1";
 
     static final int CONNECT_TIMEOUT_MILLIS = 20 * 1000; // 15s
 
@@ -36,10 +37,11 @@ public final class APIClient {
 
         RestAdapter adapter = new RestAdapter.Builder()
                 .setConverter(new GsonConverter(gson))
-                .setEndpoint(BASE_URL)
-                .setLogLevel(RestAdapter.LogLevel.BASIC)
+                .setEndpoint(Urls.BASE_GET_URL)
+                .setLogLevel(RestAdapter.LogLevel.FULL)
                 .build();
         openEventAPI = adapter.create(OpenEventAPI.class);
+        Log.d("APICLIENT" , openEventAPI.toString());
     }
 
     public OpenEventAPI getOpenEventAPI() {

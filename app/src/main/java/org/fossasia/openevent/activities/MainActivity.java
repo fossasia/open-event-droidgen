@@ -44,6 +44,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.fossasia.openevent.R;
+import org.fossasia.openevent.api.APIClient;
 import org.fossasia.openevent.fragments.MapFragment;
 import org.fossasia.openevent.fragments.SpeakerFragment;
 import org.fossasia.openevent.fragments.SponsorsFragment;
@@ -66,7 +67,6 @@ public class MainActivity extends ActionBarActivity
             switch (view.getId()) {
                 case R.id.settings:
                     startActivity(new Intent(MainActivity.this, SettingsActivity.class));
-                   // overridePendingTransition(R.anim.slide_in_right, R.anim.partial_zoom_out);
                     break;
                 case R.id.about:
                     new AboutDialogFragment().show(getSupportFragmentManager(), "about");
@@ -84,11 +84,6 @@ public class MainActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
-
-        //Test
-
-
-       // progressBar = (ProgressBar) findViewById(R.id.progress);
 
         // Setup drawer layout
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -185,7 +180,6 @@ public class MainActivity extends ActionBarActivity
     @Override
     protected void onStart() {
         super.onStart();
-//        progressBar.setVisibility(View.GONE);
 
     }
 
@@ -206,20 +200,6 @@ public class MainActivity extends ActionBarActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
-//
-//        MenuItem searchMenuItem = menu.findItem(R.id.search);
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) {
-//            this.searchMenuItem = searchMenuItem;
-//            // Associate searchable configuration with the SearchView
-//            SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-//            SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenuItem);
-//            searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-//        } else {
-//            // Legacy search mode for Eclair
-//            MenuItemCompat.setActionView(searchMenuItem, null);
-//            MenuItemCompat.setShowAsAction(searchMenuItem, MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
-//        }
-
         return true;
     }
 
@@ -245,22 +225,6 @@ public class MainActivity extends ActionBarActivity
         if (drawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
-
-//        switch (item.getItemId()) {
-//            case R.id.search:
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) {
-//                    return false;
-//                } else {
-//                    // Legacy search mode for Eclair
-//                    onSearchRequested();
-//                    return true;
-//                }
-//            case R.id.refresh:
-////                startDownloadSchedule();
-//                // TODO: resolve this
-//                Toast.makeText(getApplication(), "Updating database", Toast.LENGTH_SHORT).show();
-//                return true;
-//        }
         return false;
     }
 
@@ -411,7 +375,6 @@ public class MainActivity extends ActionBarActivity
             int backgroundColor;
             if (section == currentSection) {
                 // Special color for the current section
-                //sectionTitle.setSpan(new StyleSpan(Typeface.BOLD), 0, sectionTitle.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 sectionTitle.setSpan(new ForegroundColorSpan(currentSectionForegroundColor), 0, sectionTitle.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 // We need to mutate the drawable before applying the ColorFilter, or else all the similar drawable instances will be tinted.
                 sectionIcon.mutate().setColorFilter(currentSectionForegroundColor, PorterDuff.Mode.SRC_IN);
