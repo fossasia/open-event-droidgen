@@ -29,7 +29,7 @@ public class DbSingleton {
         }
     }
 
-    public static synchronized DbSingleton getInstance (Context context) {
+    public static synchronized DbSingleton getInstance(Context context) {
         if (mInstance == null) {
             /* NOTE: Important to use getApplicationContext so as not to
              leak someone's Activity context if they pass you one */
@@ -44,7 +44,7 @@ public class DbSingleton {
         }
     }
 
-    public ArrayList<Session> getSessionList () throws ParseException {
+    public ArrayList<Session> getSessionList() throws ParseException {
         getReadOnlyDatabase();
 
         String sortOrder = DbContract.Sessions.ID + " ASC";
@@ -76,19 +76,19 @@ public class DbSingleton {
                     cur.getString(cur.getColumnIndex(DbContract.Sessions.SPEAKERS)),
                     cur.getString(cur.getColumnIndex(DbContract.Sessions.LEVEL)),
                     cur.getInt(cur.getColumnIndex(DbContract.Sessions.MICROLOCATION))
-                    );
+            );
             sessions.add(s);
         }
         //TODO: Get data from the database
         return sessions;
     }
 
-    public Session getSessionById (int id) {
+    public Session getSessionById(int id) {
         getReadOnlyDatabase();
         return null; //TODO: Write real code here
     }
 
-    public ArrayList<Speaker> getSpeakerList () {
+    public ArrayList<Speaker> getSpeakerList() {
         getReadOnlyDatabase();
 
         String sortOrder = DbContract.Speakers.ID + " ASC";
@@ -108,35 +108,34 @@ public class DbSingleton {
 
         cur.moveToFirst();
         while (cur.moveToNext()) {
-//            s = new Speaker(
-//                    cur.getInt(cur.getColumnIndex(DbContract.Speakers.ID)),
-//                    cur.getString(cur.getColumnIndex(DbContract.Speakers.NAME)),
-//                    cur.getString(cur.getColumnIndex(DbContract.Speakers.PHOTO)),
-//                    cur.getString(cur.getColumnIndex(DbContract.Speakers.BIO)),
-//                    cur.getString(cur.getColumnIndex(DbContract.Speakers.EMAIL)),
-//                    cur.getString(cur.getColumnIndex(DbContract.Speakers.WEB)),
-//                    cur.getString(cur.getColumnIndex(DbContract.Speakers.TWITTER)),
-//                    cur.getString(cur.getColumnIndex(DbContract.Speakers.FACEBOOK)),
-//                    cur.getString(cur.getColumnIndex(DbContract.Speakers.GITHUB)),
-//                    cur.getString(cur.getColumnIndex(DbContract.Speakers.LINKEDIN)),
-//                    cur.getString(cur.getColumnIndex(DbContract.Speakers.ORGANISATION)),
-//                    cur.getString(cur.getColumnIndex(DbContract.Speakers.POSITION)),
-//                    cur.getString(cur.getColumnIndex(DbContract.Speakers.COUNTRY)),
-//                    cur.getBlob(cur.getColumnIndex(DbContract.Speakers.SESSIONS))
-//                    );
-//            speakers.add(s);
+            s = new Speaker(
+                    cur.getInt(cur.getColumnIndex(DbContract.Speakers.ID)),
+                    cur.getString(cur.getColumnIndex(DbContract.Speakers.NAME)),
+                    cur.getString(cur.getColumnIndex(DbContract.Speakers.PHOTO)),
+                    cur.getString(cur.getColumnIndex(DbContract.Speakers.BIO)),
+                    cur.getString(cur.getColumnIndex(DbContract.Speakers.EMAIL)),
+                    cur.getString(cur.getColumnIndex(DbContract.Speakers.WEB)),
+                    cur.getString(cur.getColumnIndex(DbContract.Speakers.TWITTER)),
+                    cur.getString(cur.getColumnIndex(DbContract.Speakers.FACEBOOK)),
+                    cur.getString(cur.getColumnIndex(DbContract.Speakers.GITHUB)),
+                    cur.getString(cur.getColumnIndex(DbContract.Speakers.LINKEDIN)),
+                    cur.getString(cur.getColumnIndex(DbContract.Speakers.ORGANISATION)),
+                    cur.getString(cur.getColumnIndex(DbContract.Speakers.POSITION)),
+                    cur.getString(cur.getColumnIndex(DbContract.Speakers.COUNTRY))
+                    );
+            speakers.add(s);
         }
 
         //TODO: Get data from the database
         return speakers;
     }
 
-    public Speaker getSpeakerById (int id) {
+    public Speaker getSpeakerById(int id) {
         getReadOnlyDatabase();
         return null; //TODO: Write real code here
     }
 
-    public ArrayList<Track> getTrackList () {
+    public ArrayList<Track> getTrackList() {
         getReadOnlyDatabase();
         ArrayList<Track> tracks = new ArrayList<>();
         //TODO: Get data from database
@@ -149,7 +148,6 @@ public class DbSingleton {
         //TODO: Get data from database
         return sponsors;
     }
-
 
 
 }

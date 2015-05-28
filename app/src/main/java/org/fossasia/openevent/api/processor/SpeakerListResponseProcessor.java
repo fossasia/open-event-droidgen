@@ -1,8 +1,5 @@
 package org.fossasia.openevent.api.processor;
 
-import android.nfc.Tag;
-import android.util.Log;
-
 import org.fossasia.openevent.api.protocol.SpeakerResponseList;
 
 import retrofit.Callback;
@@ -18,7 +15,6 @@ public class SpeakerListResponseProcessor implements Callback<SpeakerResponseLis
     @Override
     public void success(SpeakerResponseList speakerResponseList, Response response) {
         // Do something with successful response
-        Log.d(TAG," done");
 
     }
 

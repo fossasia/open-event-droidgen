@@ -6,8 +6,8 @@ package org.fossasia.openevent.data;
 public class Microlocation {
     int id;
     String name;
-    long latitude;
-    long longitude;
+    float latitude;
+    float longitude;
     int floor;
 
     public Microlocation(int id, String name, long latitude,
@@ -36,7 +36,7 @@ public class Microlocation {
         this.name = name;
     }
 
-    public long getLatitude() {
+    public float getLatitude() {
         return latitude;
     }
 
@@ -44,7 +44,7 @@ public class Microlocation {
         this.latitude = latitude;
     }
 
-    public long getLongitude() {
+    public float getLongitude() {
         return longitude;
     }
 

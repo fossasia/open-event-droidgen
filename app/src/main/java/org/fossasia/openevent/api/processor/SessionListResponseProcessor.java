@@ -1,8 +1,6 @@
 package org.fossasia.openevent.api.processor;
 
 import org.fossasia.openevent.api.protocol.SessionResponseList;
-import org.fossasia.openevent.api.protocol.SpeakerResponseList;
-
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;

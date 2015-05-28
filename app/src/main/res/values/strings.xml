@@ -25,4 +25,8 @@
     <string name="about">About</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--Settings-->
+    <string name="settings_mode">Mode</string>
+    <string name="default_mode">Developer</string>
 </resources>

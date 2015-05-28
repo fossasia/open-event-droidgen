@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="mode_strings">
+        <item>User</item>
+        <item>Developer</item>
+    </string-array>
+    <string-array name="mode_values">
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+</resources>

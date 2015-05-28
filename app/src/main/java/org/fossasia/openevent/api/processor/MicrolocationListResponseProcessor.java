@@ -16,7 +16,6 @@ public class MicrolocationListResponseProcessor implements Callback<Microlocatio
 
     @Override
     public void success(MicrolocationResponseList microlocationResponseList, Response response) {
-        Log.d(TAG," Done");
 
 
     }

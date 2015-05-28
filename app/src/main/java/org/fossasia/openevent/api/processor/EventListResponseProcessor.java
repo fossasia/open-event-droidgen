@@ -15,7 +15,6 @@ public class EventListResponseProcessor implements Callback<EventResponseList> {
     private static final String TAG = "Events";
     @Override
     public void success(EventResponseList eventResponseList, Response response) {
-        Log.d(TAG," done");
     }
 
     @Override
