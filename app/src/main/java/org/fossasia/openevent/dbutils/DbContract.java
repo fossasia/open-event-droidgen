@@ -71,11 +71,11 @@ public class DbContract {
 
     }
 
-    public static abstract class Sessions_speakers implements BaseColumns{
-        public static final String TABLE_NAME = "sessions_speakers";
+    public static abstract class Sessionsspeakers implements BaseColumns {
+        public static final String TABLE_NAME = "sessionsspeakers";
 
-        public static final String SPEAKER_ID = "speaker_id";
-        public static final String SESSION_ID = "subtitle";
+        public static final String SPEAKER_ID = "speakerid";
+        public static final String SESSION_ID = "sessionid";
 
 
         public static final String[] FULL_PROJECTION = {
@@ -101,7 +101,7 @@ public class DbContract {
         public static final String SUBTITLE = "subtitle";
         public static final String SUMMARY = "summary";
         public static final String DESCRIPTION = "description";
-        public static final String START_TIME = "start_time";
+        public static final String START_TIME = "starttime";
         public static final String END_TIME = "end_time";
         public static final String TYPE = "type";
         public static final String TRACK = "track";

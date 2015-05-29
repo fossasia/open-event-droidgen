@@ -1,7 +1,6 @@
 package org.fossasia.openevent.data;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Created by MananWason on 27-05-2015.
@@ -14,10 +13,10 @@ public class Event {
     SimpleDateFormat end;
     float latitude;
     float longitude;
-    String location_name;
+    String locationname;
 
     public Event(int id, String name, String logo, SimpleDateFormat start,
-                 SimpleDateFormat end, float latitude, float longitude, String location_name) {
+                 SimpleDateFormat end, float latitude, float longitude, String locationname) {
         this.id = id;
         this.name = name;
         this.logo = logo;
@@ -25,7 +24,7 @@ public class Event {
         this.end = end;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.location_name = location_name;
+        this.locationname = locationname;
     }
 
     public int getId() {
@@ -84,11 +83,11 @@ public class Event {
         this.longitude = longitude;
     }
 
-    public String getLocation_name() {
-        return location_name;
+    public String getLocationname() {
+        return locationname;
     }
 
-    public void setLocation_name(String location_name) {
-        this.location_name = location_name;
+    public void setLocationname(String locationname) {
+        this.locationname = locationname;
     }
 }

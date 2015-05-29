@@ -10,8 +10,8 @@ public class Microlocation {
     float longitude;
     int floor;
 
-    public Microlocation(int id, String name, long latitude,
-                         long longitude, int floor) {
+    public Microlocation(int id, String name, float latitude,
+                         float longitude, int floor) {
         this.id = id;
         this.name = name;
         this.latitude = latitude;
@@ -40,7 +40,7 @@ public class Microlocation {
         return latitude;
     }
 
-    public void setLatitude(long latitude) {
+    public void setLatitude(float latitude) {
         this.latitude = latitude;
     }
 
@@ -48,7 +48,7 @@ public class Microlocation {
         return longitude;
     }
 
-    public void setLongitude(long longitude) {
+    public void setLongitude(float longitude) {
         this.longitude = longitude;
     }
 
