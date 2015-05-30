@@ -6,12 +6,12 @@
     <PreferenceCategory android:title="@string/settings_mode">
 
         <ListPreference
-            android:key="mode"
-            android:title="@string/settings_mode"
+            android:defaultValue="@string/default_mode"
             android:dialogTitle="@string/settings_mode"
             android:entries="@array/mode_strings"
             android:entryValues="@array/mode_values"
-            android:defaultValue="@string/default_mode"/>
+            android:key="serverurlmode"
+            android:title="@string/settings_mode" />
     </PreferenceCategory>
 
 </PreferenceScreen>
