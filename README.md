@@ -11,3 +11,6 @@ This app uses the json api provided by a server maintained [here](https://github
 - If there is a valid internet connection, the data download starts from the server.
 - Also there is a check on the version of data already there in the app's database. If data is stale then only it is downloaded.
 - If database is empty then firstly json file in assets is accessed but if internet is available , latest data is downloaded.
+
+##License
+This project is currently licensed under the GNU General Public License v3. A copy of LICENSE.md should be present along with the source code. To obtain the software under a different license, please contact FOSSASIA.
