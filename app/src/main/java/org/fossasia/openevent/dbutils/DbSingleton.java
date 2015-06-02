@@ -3,7 +3,6 @@ package org.fossasia.openevent.dbutils;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
@@ -17,24 +16,29 @@ import java.util.ArrayList;
  * Created by championswimmer on 17/5/15.
  */
 public class DbSingleton {
+    private static final String ASCENDING = " ASC";
+    private static final String DESCENDING = " DESC";
+    private static final String SELECT_ALL = "SELECT * FROM ";
+    private static final String WHERE = " WHERE ";
+    private static final String EQUAL = " == ";
     private static DbSingleton mInstance;
     private static Context mContext;
+    private static DbHelper mDbHelper;
     private SQLiteDatabase mDb;
-    private static SQLiteOpenHelper mDbHelper;
 
     private DbSingleton(Context context) {
-        mContext = context;
-        if (mDbHelper != null) {
-            mDbHelper = new DbHelper(mContext);
+        this.mContext = context;
+        mDbHelper = new DbHelper(mContext);
+
+    }
+
+    public static void init(Context context) {
+        if (mInstance == null) {
+            mInstance = new DbSingleton(context);
         }
     }
 
-    public static synchronized DbSingleton getInstance(Context context) {
-        if (mInstance == null) {
-            /* NOTE: Important to use getApplicationContext so as not to
-             leak someone's Activity context if they pass you one */
-            mInstance = new DbSingleton(context.getApplicationContext());
-        }
+    public static DbSingleton getInstance() {
         return mInstance;
     }
 
@@ -47,7 +51,7 @@ public class DbSingleton {
     public ArrayList<Session> getSessionList() throws ParseException {
         getReadOnlyDatabase();
 
-        String sortOrder = DbContract.Sessions.ID + " ASC";
+        String sortOrder = DbContract.Sessions.ID + ASCENDING;
         Cursor cur = mDb.query(
                 DbContract.Sessions.TABLE_NAME,
                 DbContract.Sessions.FULL_PROJECTION,
@@ -79,19 +83,47 @@ public class DbSingleton {
             );
             sessions.add(s);
         }
-        //TODO: Get data from the database
         return sessions;
     }
 
-    public Session getSessionById(int id) {
+    public Session getSessionById(int id) throws ParseException {
         getReadOnlyDatabase();
-        return null; //TODO: Write real code here
+        String selection = SELECT_ALL + DbContract.Sessions.TABLE_NAME +
+                WHERE + DbContract.Sessions.ID + EQUAL + id;
+        Cursor cursor = mDb.query(
+                DbContract.Sessions.TABLE_NAME,
+                DbContract.Sessions.FULL_PROJECTION,
+                selection,
+                null,
+                null,
+                null,
+                null
+        );
+        Session session;
+        cursor.moveToFirst();
+        //Should return only one due to UNIQUE constraint
+        session = new Session(
+                cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.ID)),
+                cursor.getString(cursor.getColumnIndex(DbContract.Sessions.TITLE)),
+                cursor.getString(cursor.getColumnIndex(DbContract.Sessions.SUBTITLE)),
+                cursor.getString(cursor.getColumnIndex(DbContract.Sessions.SUMMARY)),
+                cursor.getString(cursor.getColumnIndex(DbContract.Sessions.DESCRIPTION)),
+                cursor.getString(cursor.getColumnIndex(DbContract.Sessions.START_TIME)),
+                cursor.getString(cursor.getColumnIndex(DbContract.Sessions.END_TIME)),
+                cursor.getString(cursor.getColumnIndex(DbContract.Sessions.TYPE)),
+                cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.TRACK)),
+                cursor.getString(cursor.getColumnIndex(DbContract.Sessions.SPEAKERS)),
+                cursor.getString(cursor.getColumnIndex(DbContract.Sessions.LEVEL)),
+                cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.MICROLOCATION))
+        );
+
+        return session;
     }
 
     public ArrayList<Speaker> getSpeakerList() {
         getReadOnlyDatabase();
 
-        String sortOrder = DbContract.Speakers.ID + " ASC";
+        String sortOrder = DbContract.Speakers.ID + ASCENDING;
         Cursor cur = mDb.query(
                 DbContract.Speakers.TABLE_NAME,
                 DbContract.Speakers.FULL_PROJECTION,
@@ -122,32 +154,135 @@ public class DbSingleton {
                     cur.getString(cur.getColumnIndex(DbContract.Speakers.ORGANISATION)),
                     cur.getString(cur.getColumnIndex(DbContract.Speakers.POSITION)),
                     cur.getString(cur.getColumnIndex(DbContract.Speakers.COUNTRY))
-                    );
+
+            );
             speakers.add(s);
         }
 
-        //TODO: Get data from the database
         return speakers;
     }
 
     public Speaker getSpeakerById(int id) {
         getReadOnlyDatabase();
-        return null; //TODO: Write real code here
+        String selection = SELECT_ALL + DbContract.Sessions.TABLE_NAME +
+                WHERE + DbContract.Speakers.ID + EQUAL + id;
+        Cursor cursor = mDb.query(
+                DbContract.Sessions.TABLE_NAME,
+                DbContract.Sessions.FULL_PROJECTION,
+                selection,
+                null,
+                null,
+                null,
+                null
+        );
+        Speaker speaker;
+        cursor.moveToFirst();
+
+        //Should return only one due to UNIQUE constraint
+        speaker = new Speaker(
+                cursor.getInt(cursor.getColumnIndex(DbContract.Speakers.ID)),
+                cursor.getString(cursor.getColumnIndex(DbContract.Speakers.NAME)),
+                cursor.getString(cursor.getColumnIndex(DbContract.Speakers.PHOTO)),
+                cursor.getString(cursor.getColumnIndex(DbContract.Speakers.BIO)),
+                cursor.getString(cursor.getColumnIndex(DbContract.Speakers.EMAIL)),
+                cursor.getString(cursor.getColumnIndex(DbContract.Speakers.WEB)),
+                cursor.getString(cursor.getColumnIndex(DbContract.Speakers.TWITTER)),
+                cursor.getString(cursor.getColumnIndex(DbContract.Speakers.FACEBOOK)),
+                cursor.getString(cursor.getColumnIndex(DbContract.Speakers.GITHUB)),
+                cursor.getString(cursor.getColumnIndex(DbContract.Speakers.LINKEDIN)),
+                cursor.getString(cursor.getColumnIndex(DbContract.Speakers.ORGANISATION)),
+                cursor.getString(cursor.getColumnIndex(DbContract.Speakers.POSITION)),
+                cursor.getString(cursor.getColumnIndex(DbContract.Speakers.COUNTRY))
+
+        );
+
+        return speaker;
     }
 
     public ArrayList<Track> getTrackList() {
         getReadOnlyDatabase();
+        String sortOrder = DbContract.Tracks.ID + ASCENDING;
+        Cursor cursor = mDb.query(
+                DbContract.Tracks.TABLE_NAME,
+                DbContract.Tracks.FULL_PROJECTION,
+                null,
+                null,
+                null,
+                null,
+                sortOrder
+        );
         ArrayList<Track> tracks = new ArrayList<>();
-        //TODO: Get data from database
+        Track track;
+
+        cursor.moveToFirst();
+        while (cursor.moveToNext()) {
+            track = new Track(
+                    cursor.getInt(cursor.getColumnIndex(DbContract.Tracks.ID)),
+                    cursor.getString(cursor.getColumnIndex(DbContract.Tracks.NAME)),
+                    cursor.getString(cursor.getColumnIndex(DbContract.Tracks.DESCRIPTION))
+            );
+            tracks.add(track);
+        }
+
         return tracks;
     }
 
+
     public ArrayList<Sponsor> getSponsorList() {
         getReadOnlyDatabase();
+        String sortOrder = DbContract.Sponsors.NAME + ASCENDING;
+        Cursor cursor = mDb.query(
+                DbContract.Sponsors.TABLE_NAME,
+                DbContract.Sponsors.FULL_PROJECTION,
+                null,
+                null,
+                null,
+                null,
+                sortOrder
+        );
+
         ArrayList<Sponsor> sponsors = new ArrayList<>();
-        //TODO: Get data from database
+        Sponsor sponsor;
+
+        cursor.moveToFirst();
+        while (cursor.moveToNext()) {
+            sponsor = new Sponsor(
+                    cursor.getInt(cursor.getColumnIndex(DbContract.Sponsors.ID)),
+                    cursor.getString(cursor.getColumnIndex(DbContract.Sponsors.NAME)),
+                    cursor.getString(cursor.getColumnIndex(DbContract.Sponsors.URL)),
+                    cursor.getString(cursor.getColumnIndex(DbContract.Sponsors.LOGO_URL))
+            );
+            sponsors.add(sponsor);
+        }
         return sponsors;
     }
 
+    public void insertQueries(ArrayList<String> queries) {
+
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        db.beginTransaction();
+        for (String query : queries) {
+            db.execSQL(query);
+        }
+        db.setTransactionSuccessful();
+        db.endTransaction();
+    }
+
+
+    public void clearDatabase(String table) {
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        db.beginTransaction();
+        try {
+
+            db.delete(table, null, null);
+
+            db.setTransactionSuccessful();
+
+        } finally {
+            db.endTransaction();
+
+
+        }
+    }
 
 }

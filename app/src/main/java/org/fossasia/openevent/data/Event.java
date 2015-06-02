@@ -1,34 +1,62 @@
 package org.fossasia.openevent.data;
 
-import java.text.SimpleDateFormat;
+import com.google.gson.annotations.SerializedName;
+
+import org.fossasia.openevent.dbutils.DbContract;
 
 /**
  * Created by MananWason on 27-05-2015.
  */
 public class Event {
+
+
     int id;
     String name;
+    String email;
+    String color;
     String logo;
-    SimpleDateFormat start;
-    SimpleDateFormat end;
+    @SerializedName("start_time")
+    String start;
+    @SerializedName("end_time")
+    String end;
     float latitude;
     float longitude;
-    String locationname;
+    @SerializedName("location_name")
+    String locationName;
 
-    public Event(int id, String name, String logo, SimpleDateFormat start,
-                 SimpleDateFormat end, float latitude, float longitude, String locationname) {
+    public Event(int id, String name, String email, String color, String logo, String start,
+                 String end, float latitude, float longitude, String locationName) {
         this.id = id;
         this.name = name;
+        this.email = email;
+        this.color = color;
         this.logo = logo;
         this.start = start;
         this.end = end;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.locationname = locationname;
+        this.locationName = locationName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 
     public int getId() {
         return id;
+
     }
 
     public void setId(int id) {
@@ -51,19 +79,19 @@ public class Event {
         this.logo = logo;
     }
 
-    public SimpleDateFormat getStart() {
+    public String getStart() {
         return start;
     }
 
-    public void setStart(SimpleDateFormat start) {
+    public void setStart(String start) {
         this.start = start;
     }
 
-    public SimpleDateFormat getEnd() {
+    public String getEnd() {
         return end;
     }
 
-    public void setEnd(SimpleDateFormat end) {
+    public void setEnd(String end) {
         this.end = end;
     }
 
@@ -79,15 +107,25 @@ public class Event {
         return longitude;
     }
 
-    public void setLongitude(float longitude) {
-        this.longitude = longitude;
+
+    public String getLocationName() {
+        return locationName;
     }
 
-    public String getLocationname() {
-        return locationname;
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
     }
 
-    public void setLocationname(String locationname) {
-        this.locationname = locationname;
+    public String generateSql() {
+        String query_normal = "INSERT INTO %s VALUES ('%d', '%s', '%s','%s', '%s', '%s', '%s', '%f', '%f', '%s');";
+        String query = String.format(query_normal, DbContract.Event.TABLE_NAME, id, name, email, color, logo, start, end, latitude, longitude, locationName);
+        return query;
     }
+
+
+    public String[] splitDateTime(String DateTime) {
+        String splitDateTime[] = DateTime.split("T");
+        return splitDateTime;
+    }
+
 }

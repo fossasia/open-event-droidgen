@@ -19,7 +19,9 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(DbContract.Sponsors.CREATE_TABLE);
         db.execSQL(DbContract.Sessions.CREATE_TABLE);
         db.execSQL(DbContract.Tracks.CREATE_TABLE);
-        db.execSQL(DbContract.Sessions_speakers.CREATE_TABLE);
+        db.execSQL(DbContract.Sessionsspeakers.CREATE_TABLE);
+        db.execSQL(DbContract.Event.CREATE_TABLE);
+        db.execSQL(DbContract.Microlocation.CREATE_TABLE);
     }
 
     @Override
@@ -28,7 +30,9 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(DbContract.Sessions.DELETE_TABLE);
         db.execSQL(DbContract.Tracks.DELETE_TABLE);
         db.execSQL(DbContract.Speakers.DELETE_TABLE);
-        db.execSQL(DbContract.Sessions_speakers.DELETE_TABLE);
+        db.execSQL(DbContract.Sessionsspeakers.DELETE_TABLE);
+        db.execSQL(DbContract.Event.DELETE_TABLE);
+        db.execSQL(DbContract.Microlocation.DELETE_TABLE);
         onCreate(db);
     }
 }
