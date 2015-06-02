@@ -12,6 +12,7 @@ public class DbContract {
     private static final String INT_TYPE = " INTEGER";
     private static final String REAL_TYPE = " REAL";
     private static final String COMMA_SEP = ",";
+    private static final String PRIMARY_KEY = " PRIMARY KEY";
 
     public DbContract() {
         //Empty constructor to prevent object creation.
@@ -52,8 +53,8 @@ public class DbContract {
         public static final String CREATE_TABLE =
                 "CREATE TABLE " + TABLE_NAME
                         + " ("
-                        + _ID + " INTEGER PRIMARY KEY,"
-                        + ID + INT_TYPE + COMMA_SEP
+
+                        + ID + INT_TYPE + PRIMARY_KEY + COMMA_SEP
                         + NAME + TEXT_TYPE + COMMA_SEP
                         + PHOTO + TEXT_TYPE + COMMA_SEP
                         + BIO + TEXT_TYPE + COMMA_SEP
@@ -65,8 +66,8 @@ public class DbContract {
                         + LINKEDIN + TEXT_TYPE + COMMA_SEP
                         + ORGANISATION + TEXT_TYPE + COMMA_SEP
                         + POSITION + TEXT_TYPE + COMMA_SEP
-                        + COUNTRY + TEXT_TYPE + COMMA_SEP
-                        + " )";
+                        + COUNTRY + TEXT_TYPE
+                        + " );";
         public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
 
     }
@@ -88,8 +89,8 @@ public class DbContract {
                         + " ("
                         + _ID + " INTEGER PRIMARY KEY,"
                         + SESSION_ID + INT_TYPE + COMMA_SEP
-                        +SPEAKER_ID + INT_TYPE +COMMA_SEP
-                        + " )";
+                        + SPEAKER_ID + INT_TYPE
+                        + " );";
         public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
     }
 
@@ -127,8 +128,7 @@ public class DbContract {
         public static final String CREATE_TABLE =
                 "CREATE TABLE " + TABLE_NAME
                         + " ("
-                        + _ID + " INTEGER PRIMARY KEY,"
-                        + ID + INT_TYPE + COMMA_SEP
+                        + ID + INT_TYPE + PRIMARY_KEY + COMMA_SEP
                         + TITLE + TEXT_TYPE + COMMA_SEP
                         + SUBTITLE + TEXT_TYPE + COMMA_SEP
                         + SUMMARY + TEXT_TYPE + COMMA_SEP
@@ -139,9 +139,10 @@ public class DbContract {
                         + TRACK + INT_TYPE + COMMA_SEP
                         + SPEAKERS + TEXT_TYPE + COMMA_SEP
                         + LEVEL + TEXT_TYPE + COMMA_SEP
-                        + MICROLOCATION + INT_TYPE + COMMA_SEP
-                        + " )";
+                        + MICROLOCATION + INT_TYPE
+                        + " );";
         public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
+
 
     }
 
@@ -161,11 +162,10 @@ public class DbContract {
         public static final String CREATE_TABLE =
                 "CREATE TABLE " + TABLE_NAME
                         + " ("
-                        + _ID + " INTEGER PRIMARY KEY,"
-                        + ID + " INTEGER,"
-                        + NAME + " TEXT,"
-                        + DESCRIPTION + " TEXT,"
-                        + " )";
+                        + ID + INT_TYPE + PRIMARY_KEY + COMMA_SEP
+                        + NAME + TEXT_TYPE + COMMA_SEP
+                        + DESCRIPTION + TEXT_TYPE
+                        + " );";
         public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
 
     }
@@ -187,16 +187,15 @@ public class DbContract {
         public static final String CREATE_TABLE =
                 "CREATE TABLE " + TABLE_NAME
                         + " ("
-                        + _ID + " INTEGER PRIMARY KEY,"
-                        + ID + INT_TYPE + COMMA_SEP
+                        + ID + INT_TYPE + PRIMARY_KEY + COMMA_SEP
                         + NAME + TEXT_TYPE + COMMA_SEP
                         + URL + TEXT_TYPE + COMMA_SEP
-                        + LOGO_URL + TEXT_TYPE + COMMA_SEP
-                        + " )";
+                        + LOGO_URL + TEXT_TYPE
+                        + " );";
         public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
 
-
     }
+
 
     public static abstract class Microlocation implements BaseColumns {
         public static final String TABLE_NAME = "microlocation";
@@ -218,15 +217,60 @@ public class DbContract {
         public static final String CREATE_TABLE =
                 "CREATE TABLE " + TABLE_NAME
                         + " ("
-                        + _ID + " INTEGER PRIMARY KEY,"
-                        + ID + INT_TYPE + COMMA_SEP
+                        + ID + INT_TYPE + PRIMARY_KEY + COMMA_SEP
                         + NAME + TEXT_TYPE + COMMA_SEP
                         + LATITUDE + REAL_TYPE + COMMA_SEP
                         + LONGITUDE + REAL_TYPE + COMMA_SEP
-                        + FLOOR + INT_TYPE + COMMA_SEP
-                        + " )";
+                        + FLOOR + INT_TYPE
+                        + " );";
         public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
 
 
     }
+
+
+    public static abstract class Event implements BaseColumns {
+        public static final String TABLE_NAME = "events";
+        public static final String ID = "id";
+        public static final String NAME = "name";
+        public static final String EMAIL = "event";
+        public static final String COLOR = "color";
+        public static final String LOGO_URL = "logo_url";
+        public static final String START = "start";
+        public static final String END = "end";
+        public static final String LATITUDE = "latitude";
+        public static final String LONGITUDE = "longitude";
+        public static final String LOCATION_NAME = "location_name";
+
+
+        public static final String[] FULL_PROJECTION = {
+                ID,
+                NAME,
+                EMAIL,
+                COLOR,
+                LOGO_URL,
+                START,
+                END,
+                LATITUDE,
+                LONGITUDE,
+                LOCATION_NAME
+        };
+
+        public static final String CREATE_TABLE =
+                "CREATE TABLE " + TABLE_NAME
+                        + " ("
+                        + ID + INT_TYPE + PRIMARY_KEY + COMMA_SEP
+                        + NAME + TEXT_TYPE + COMMA_SEP
+                        + EMAIL + TEXT_TYPE + COMMA_SEP
+                        + COLOR + TEXT_TYPE + COMMA_SEP
+                        + LOGO_URL + TEXT_TYPE + COMMA_SEP
+                        + START + TEXT_TYPE + COMMA_SEP
+                        + END + TEXT_TYPE + COMMA_SEP
+                        + LATITUDE + REAL_TYPE + COMMA_SEP
+                        + LONGITUDE + REAL_TYPE + COMMA_SEP
+                        + LOCATION_NAME + TEXT_TYPE
+                        + " );";
+        public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
+    }
+
 }

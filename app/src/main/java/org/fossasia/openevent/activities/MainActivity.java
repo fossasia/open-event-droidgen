@@ -3,7 +3,6 @@ package org.fossasia.openevent.activities;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -11,7 +10,6 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
@@ -24,7 +22,6 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -39,12 +36,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.fossasia.openevent.R;
-import org.fossasia.openevent.api.APIClient;
+import org.fossasia.openevent.dbutils.DataDownload;
 import org.fossasia.openevent.fragments.MapFragment;
 import org.fossasia.openevent.fragments.SpeakerFragment;
 import org.fossasia.openevent.fragments.SponsorsFragment;
@@ -84,6 +79,19 @@ public class MainActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+
+        /**CALLING EVENTS HERE**/
+
+        //TODO:VERSIONING
+
+        DataDownload download = new DataDownload();
+        download.downloadEvents();
+        download.downloadSpeakers();
+        download.downloadTracks();
+        download.downloadMicrolocations();
+        download.downloadSession();
+        download.downloadSponsors();
+
 
         // Setup drawer layout
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

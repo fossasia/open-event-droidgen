@@ -12,5 +12,5 @@ import java.util.List;
  */
 public class EventResponseList {
     @SerializedName("events")
-    public List<Event> events;
+    public Event event;
 }

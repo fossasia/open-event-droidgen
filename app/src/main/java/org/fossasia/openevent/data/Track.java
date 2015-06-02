@@ -1,6 +1,6 @@
 package org.fossasia.openevent.data;
 
-import java.util.ArrayList;
+import org.fossasia.openevent.dbutils.DbContract;
 
 /**
  * Created by championswimmer on 16/5/15.
@@ -29,4 +29,11 @@ public class Track {
         return description;
     }
 
+
+    public String generateSql() {
+        String query_normal = "INSERT INTO %s VALUES ('%d', '%s', '%s');";
+        String query = String.format(query_normal, DbContract.Tracks.TABLE_NAME, id, name, description);
+        return query;
+
+    }
 }

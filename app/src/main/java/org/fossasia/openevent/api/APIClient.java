@@ -1,7 +1,5 @@
 package org.fossasia.openevent.api;
 
-import android.util.Log;
-
 import com.google.gson.Gson;
 import com.squareup.okhttp.OkHttpClient;
 
@@ -41,7 +39,6 @@ public final class APIClient {
                 .setLogLevel(RestAdapter.LogLevel.FULL)
                 .build();
         openEventAPI = adapter.create(OpenEventAPI.class);
-        Log.d("APICLIENT" , openEventAPI.toString());
     }
 
     public OpenEventAPI getOpenEventAPI() {

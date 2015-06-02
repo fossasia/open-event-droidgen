@@ -1,5 +1,9 @@
 package org.fossasia.openevent.data;
 
+
+import org.fossasia.openevent.dbutils.DbContract;
+
+
 /**
  * Created by MananWason on 26-05-2015.
  */
@@ -58,5 +62,12 @@ public class Microlocation {
 
     public void setFloor(int floor) {
         this.floor = floor;
+    }
+
+
+    public String generateSql() {
+        String query_normal = "INSERT INTO %s VALUES ('%d', '%s', '%f', '%f', '%d');";
+        String query = String.format(query_normal, DbContract.Microlocation.TABLE_NAME, id, name, latitude, longitude, floor);
+        return query;
     }
 }
