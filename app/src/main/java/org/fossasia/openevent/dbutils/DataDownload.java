@@ -17,7 +17,8 @@ public class DataDownload {
 
 
     public void downloadEvents() {
-        client.getOpenEventAPI().getEvents(Urls.EVENT_ID,new EventListResponseProcessor());
+        //TODO: Fix This
+       // client.getOpenEventAPI().getEvents(Urls.EVENT_ID,new EventListResponseProcessor());
     }
 
     public void downloadSpeakers() {
