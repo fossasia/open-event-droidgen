@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,36 +25,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-            <LinearLayout
-                android:id="@+id/main_menu"
-                android:layout_width="200dp"
+            <android.support.design.widget.NavigationView
+                android:id="@+id/nav_view"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_gravity="left"
-                android:background="@color/main_menu_background"
-                android:orientation="vertical">
-
-                <ListView
-                    android:id="@+id/main_menu_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:cacheColorHint="@android:color/transparent"
-                    android:divider="@null"
-                    android:dividerHeight="0dp"
-                    tools:listheader="@layout/header_main_menu"
-                    tools:listitem="@layout/item_main_menu" />
-
-                <TextView
-                    android:id="@+id/last_update"
-                    style="@style/TextAppearance.AppCompat.Caption"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#10000000"
-                    android:gravity="center"
-                    android:padding="4dp"
-                    tools:text="DB last updated: 1 jan. 2015 13:37:00" />
-
-            </LinearLayout>
+                android:layout_gravity="start"
+                android:fitsSystemWindows="true"
+                app:headerLayout="@layout/nav_header"
+                app:menu="@menu/drawer"/>
         </android.support.v4.widget.DrawerLayout>
     </LinearLayout>
 </FrameLayout>
