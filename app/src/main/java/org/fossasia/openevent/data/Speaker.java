@@ -1,5 +1,7 @@
 package org.fossasia.openevent.data;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.fossasia.openevent.dbutils.DbContract;
 
 /**
@@ -10,6 +12,7 @@ public class Speaker {
     int id;
     String name;
     String photo;
+    @SerializedName("biography")
     String bio;
     String email;
     String web;
@@ -19,14 +22,15 @@ public class Speaker {
     String linkedin;
     String organisation;
     String position;
+    @SerializedName("sessions")
+    int[] session;
     String country;
-
 
     public Speaker(int id, String name, String photo,
                    String bio, String email, String web,
                    String twitter, String facebook, String github,
                    String linkedin, String organisation,
-                   String position, String country) {
+                   String position, int[] session, String country) {
         this.id = id;
         this.name = name;
         this.photo = photo;
@@ -39,6 +43,7 @@ public class Speaker {
         this.linkedin = linkedin;
         this.organisation = organisation;
         this.position = position;
+        this.session = session;
         this.country = country;
     }
 
@@ -48,6 +53,14 @@ public class Speaker {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int[] getSession() {
+        return session;
+    }
+
+    public void setSession(int[] session) {
+        this.session = session;
     }
 
     public String getPhoto() {
@@ -147,7 +160,7 @@ public class Speaker {
     }
 
     public String generateSql() {
-        String query_normal = "INSERT INTO %s VALUES ('%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');";
+        String query_normal = "INSERT INTO %s VALUES ('%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s','%s');";
         String query = String.format(query_normal, DbContract.Speakers.TABLE_NAME, id, name, photo, bio, email, web, facebook, twitter, github, linkedin, organisation, position, country);
         return query;
     }

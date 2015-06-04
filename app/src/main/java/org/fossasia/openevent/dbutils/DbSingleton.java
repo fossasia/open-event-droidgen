@@ -27,7 +27,7 @@ public class DbSingleton {
     private SQLiteDatabase mDb;
 
     private DbSingleton(Context context) {
-        this.mContext = context;
+        mContext = context;
         mDbHelper = new DbHelper(mContext);
 
     }
@@ -77,8 +77,8 @@ public class DbSingleton {
                     cur.getString(cur.getColumnIndex(DbContract.Sessions.END_TIME)),
                     cur.getString(cur.getColumnIndex(DbContract.Sessions.TYPE)),
                     cur.getInt(cur.getColumnIndex(DbContract.Sessions.TRACK)),
-                    cur.getString(cur.getColumnIndex(DbContract.Sessions.SPEAKERS)),
                     cur.getString(cur.getColumnIndex(DbContract.Sessions.LEVEL)),
+                    null,
                     cur.getInt(cur.getColumnIndex(DbContract.Sessions.MICROLOCATION))
             );
             sessions.add(s);
@@ -112,8 +112,8 @@ public class DbSingleton {
                 cursor.getString(cursor.getColumnIndex(DbContract.Sessions.END_TIME)),
                 cursor.getString(cursor.getColumnIndex(DbContract.Sessions.TYPE)),
                 cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.TRACK)),
-                cursor.getString(cursor.getColumnIndex(DbContract.Sessions.SPEAKERS)),
                 cursor.getString(cursor.getColumnIndex(DbContract.Sessions.LEVEL)),
+                null,
                 cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.MICROLOCATION))
         );
 
@@ -153,6 +153,7 @@ public class DbSingleton {
                     cur.getString(cur.getColumnIndex(DbContract.Speakers.LINKEDIN)),
                     cur.getString(cur.getColumnIndex(DbContract.Speakers.ORGANISATION)),
                     cur.getString(cur.getColumnIndex(DbContract.Speakers.POSITION)),
+                    null,
                     cur.getString(cur.getColumnIndex(DbContract.Speakers.COUNTRY))
 
             );
@@ -192,6 +193,7 @@ public class DbSingleton {
                 cursor.getString(cursor.getColumnIndex(DbContract.Speakers.LINKEDIN)),
                 cursor.getString(cursor.getColumnIndex(DbContract.Speakers.ORGANISATION)),
                 cursor.getString(cursor.getColumnIndex(DbContract.Speakers.POSITION)),
+                null,
                 cursor.getString(cursor.getColumnIndex(DbContract.Speakers.COUNTRY))
 
         );
