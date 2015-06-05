@@ -123,9 +123,4 @@ public class Event {
     }
 
 
-    public String[] splitDateTime(String DateTime) {
-        String splitDateTime[] = DateTime.split("T");
-        return splitDateTime;
-    }
-
 }

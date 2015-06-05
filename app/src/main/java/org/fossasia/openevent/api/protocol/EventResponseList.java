@@ -3,7 +3,6 @@ package org.fossasia.openevent.api.protocol;
 import com.google.gson.annotations.SerializedName;
 
 import org.fossasia.openevent.data.Event;
-import org.fossasia.openevent.data.Speaker;
 
 import java.util.List;
 
@@ -12,5 +11,5 @@ import java.util.List;
  */
 public class EventResponseList {
     @SerializedName("events")
-    public Event event;
+    public List<Event> event;
 }

@@ -1,10 +1,10 @@
 package org.fossasia.openevent.data;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.fossasia.openevent.dbutils.DbContract;
-import org.fossasia.openevent.utils.ISO8601Date;
 
 import java.text.ParseException;
-import java.util.Calendar;
 
 
 /**
@@ -15,21 +15,25 @@ public class Session {
     int id;
     String title;
     String subtitle;
+    @SerializedName("abstract")
     String summary;
     String description;
+    @SerializedName("start_time")
     String startTime;
+    @SerializedName("end_time")
     String endTime;
     String type;
     int track;
-    String speakers;
     String level;
-    int microlocation;
+    int[] speakers;
+    @SerializedName("microlocation")
+    int microlocations;
 
     public Session(int id, String title, String subtitle,
                    String summary, String description,
                    String startTime, String endTime, String type,
-                   int track, String speakers, String level,
-                   int microlocation) throws ParseException {
+                   int track, String level, int[] speakers, int microlocations
+    ) throws ParseException {
         this.id = id;
         this.title = title;
         this.subtitle = subtitle;
@@ -39,11 +43,18 @@ public class Session {
         this.endTime = endTime;
         this.type = type;
         this.track = track;
-        this.speakers = speakers;
         this.level = level;
-        this.microlocation = microlocation;
+        this.speakers = speakers;
+        this.microlocations = microlocations;
     }
 
+    public int getMicrolocations() {
+        return microlocations;
+    }
+
+    public void setMicrolocations(int microlocations) {
+        this.microlocations = microlocations;
+    }
 
     public int getId() {
         return id;
@@ -54,9 +65,16 @@ public class Session {
         this.id = id;
     }
 
+    public int[] getSpeakers() {
+        return speakers;
+    }
+
+    public void setSpeakers(int[] speakers) {
+        this.speakers = speakers;
+    }
 
     public String getTitle() {
-        return title;
+        return escapeChar(title);
     }
 
     public void setTitle(String title) {
@@ -65,7 +83,7 @@ public class Session {
 
 
     public String getSubtitle() {
-        return subtitle;
+        return escapeChar(subtitle);
     }
 
 
@@ -75,7 +93,7 @@ public class Session {
 
 
     public String getSummary() {
-        return summary;
+        return escapeChar(summary);
     }
 
     public void setSummary(String summary) {
@@ -84,7 +102,7 @@ public class Session {
 
 
     public String getDescription() {
-        return description;
+        return escapeChar(description);
     }
 
 
@@ -93,13 +111,8 @@ public class Session {
     }
 
 
-    public Calendar getStartTimeAsCalendar() throws ParseException {
-        return ISO8601Date.toCalendar(startTime);
-    }
-
-
     public String getStartTime() {
-        return (startTime);
+        return escapeChar(startTime);
     }
 
 
@@ -108,13 +121,9 @@ public class Session {
     }
 
 
-    public Calendar getEndTimeAsCalendar() throws ParseException {
-        return ISO8601Date.toCalendar(endTime);
-    }
-
 
     public String getEndTime() {
-        return (endTime);
+        return escapeChar(endTime);
     }
 
 
@@ -124,7 +133,7 @@ public class Session {
 
 
     public String getType() {
-        return type;
+        return escapeChar(type);
     }
 
 
@@ -142,41 +151,24 @@ public class Session {
         this.track = track;
     }
 
-    public String getSpeakers() {
-        return speakers;
-    }
-
-    public void setSpeakers(String speakers) {
-        this.speakers = speakers;
-    }
-
-
-    public int[] getSpeakersAsIntArray() {
-        return new int[]{1, 2, 3};
-        //TODO: Parse and deserialise properly
-    }
-
 
     public String getLevel() {
-        return level;
+        return escapeChar(level);
     }
 
     public void setLevel(String level) {
         this.level = level;
     }
 
-    public int getMicrolocation() {
-        return microlocation;
-    }
-
-    public void setMicrolocation(int microlocation) {
-        this.microlocation = microlocation;
-    }
 
     public String generateSql() {
-        String query_normal = "INSERT INTO %s VALUES ('%d', '%s', '%s','%s', '%s', '%s', '%s', '%s', '%d', '%s', '%s', '%d');";
-        String query = String.format(query_normal, DbContract.Sessions.TABLE_NAME, id, title, subtitle, summary, description, startTime, endTime, type, track, speakers, level, microlocation);
+        String query_normal = "INSERT INTO %s VALUES ('%d', '%s', '%s','%s', '%s', '%s', '%s', '%s', '%d', '%s', '%d');";
+        String query = String.format(query_normal, DbContract.Sessions.TABLE_NAME, id, title, subtitle, summary, description, startTime, endTime, type, track, level, microlocations);
         return query;
+    }
+
+    public String escapeChar(String string) {
+        return string.replaceAll("'", "''");
     }
 
 

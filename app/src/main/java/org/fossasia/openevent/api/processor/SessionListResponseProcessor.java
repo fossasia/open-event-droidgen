@@ -23,7 +23,6 @@ public class SessionListResponseProcessor implements Callback<SessionResponseLis
     public void success(SessionResponseList sessionResponseList, Response response) {
 
         ArrayList<String> queries = new ArrayList<String>();
-
         for (Session session : sessionResponseList.sessions) {
             String query = session.generateSql();
             queries.add(query);

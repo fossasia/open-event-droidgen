@@ -47,7 +47,7 @@ public class DbContract {
                 LINKEDIN,
                 ORGANISATION,
                 POSITION,
-                COUNTRY,
+                COUNTRY
         };
 
         public static final String CREATE_TABLE =
@@ -106,7 +106,6 @@ public class DbContract {
         public static final String END_TIME = "end_time";
         public static final String TYPE = "type";
         public static final String TRACK = "track";
-        public static final String SPEAKERS = "speakers";
         public static final String LEVEL = "level";
         public static final String MICROLOCATION = "microlocation";
 
@@ -120,7 +119,6 @@ public class DbContract {
                 END_TIME,
                 TYPE,
                 TRACK,
-                SPEAKERS,
                 LEVEL,
                 MICROLOCATION
         };
@@ -137,7 +135,6 @@ public class DbContract {
                         + END_TIME + TEXT_TYPE + COMMA_SEP
                         + TYPE + TEXT_TYPE + COMMA_SEP
                         + TRACK + INT_TYPE + COMMA_SEP
-                        + SPEAKERS + TEXT_TYPE + COMMA_SEP
                         + LEVEL + TEXT_TYPE + COMMA_SEP
                         + MICROLOCATION + INT_TYPE
                         + " );";
