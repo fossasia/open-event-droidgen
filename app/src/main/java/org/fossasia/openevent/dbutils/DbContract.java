@@ -18,6 +18,42 @@ public class DbContract {
         //Empty constructor to prevent object creation.
     }
 
+    public static abstract class Versions implements BaseColumns {
+        public static final String TABLE_NAME = "versions";
+        public static final String VER_EVENT = "verevent";
+        public static final String EVENT_ID = "verevent";
+        public static final String VER_ID = "verid";
+        public static final String VER_MICROLOCATIONS = "vermicrolocations";
+        public static final String VER_SESSIONS = "versessions";
+        public static final String VER_SPEAKERS = "verspeakers";
+        public static final String VER_SPONSORS = "versponsors";
+        public static final String VER_TRACKS = "vertracks";
+        public static final String[] FULL_PROJECTION = {
+                EVENT_ID,
+                VER_EVENT,
+                VER_ID,
+                VER_MICROLOCATIONS,
+                VER_SESSIONS,
+                VER_SPEAKERS,
+                VER_SPONSORS,
+                VER_TRACKS
+        };
+        public static final String CREATE_TABLE =
+                "CREATE TABLE " + TABLE_NAME
+                        + " ("
+                        + _ID + INT_TYPE + PRIMARY_KEY + COMMA_SEP
+                        + EVENT_ID + INT_TYPE + COMMA_SEP
+                        + VER_EVENT + INT_TYPE + COMMA_SEP
+                        + VER_ID + INT_TYPE + COMMA_SEP
+                        + VER_MICROLOCATIONS + INT_TYPE + COMMA_SEP
+                        + VER_SESSIONS + INT_TYPE + COMMA_SEP
+                        + VER_SPEAKERS + INT_TYPE + COMMA_SEP
+                        + VER_SPONSORS + INT_TYPE + COMMA_SEP
+                        + VER_TRACKS + INT_TYPE
+                        + " );";
+
+    }
+
     public static abstract class Speakers implements BaseColumns {
         public static final String TABLE_NAME = "speakers";
         public static final String ID = "id";
@@ -53,7 +89,6 @@ public class DbContract {
         public static final String CREATE_TABLE =
                 "CREATE TABLE " + TABLE_NAME
                         + " ("
-
                         + ID + INT_TYPE + PRIMARY_KEY + COMMA_SEP
                         + NAME + TEXT_TYPE + COMMA_SEP
                         + PHOTO + TEXT_TYPE + COMMA_SEP
@@ -146,7 +181,8 @@ public class DbContract {
     public static abstract class Tracks implements BaseColumns {
         public static final String TABLE_NAME = "tracks";
 
-        public static final String ID = "id";
+        public static final String _ID = "_id";
+        public static final String ID= "id";
         public static final String NAME = "name";
         public static final String DESCRIPTION = "description";
 
@@ -159,7 +195,7 @@ public class DbContract {
         public static final String CREATE_TABLE =
                 "CREATE TABLE " + TABLE_NAME
                         + " ("
-                        + ID + INT_TYPE + PRIMARY_KEY + COMMA_SEP
+                        + ID + INT_TYPE + PRIMARY_KEY+ COMMA_SEP
                         + NAME + TEXT_TYPE + COMMA_SEP
                         + DESCRIPTION + TEXT_TYPE
                         + " );";

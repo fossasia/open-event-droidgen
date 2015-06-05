@@ -167,7 +167,7 @@ public class Session {
         return query;
     }
 
-    public String escapeChar(String string) {
+    private String escapeChar(String string) {
         return string.replaceAll("'", "''");
     }
 
