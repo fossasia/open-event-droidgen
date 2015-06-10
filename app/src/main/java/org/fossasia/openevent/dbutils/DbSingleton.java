@@ -11,6 +11,7 @@ import org.fossasia.openevent.data.Track;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by championswimmer on 17/5/15.
@@ -201,7 +202,7 @@ public class DbSingleton {
         return speaker;
     }
 
-    public ArrayList<Track> getTrackList() {
+    public List<Track> getTrackList() {
         getReadOnlyDatabase();
         String sortOrder = DbContract.Tracks.ID + ASCENDING;
         Cursor cursor = mDb.query(
@@ -213,7 +214,7 @@ public class DbSingleton {
                 null,
                 sortOrder
         );
-        ArrayList<Track> tracks = new ArrayList<>();
+        List<Track> tracks = new ArrayList<>();
         Track track;
 
         cursor.moveToFirst();
@@ -227,6 +228,14 @@ public class DbSingleton {
         }
 
         return tracks;
+    }
+
+    public Cursor getTracksCursor() {
+        getReadOnlyDatabase();
+        Cursor cursor = mDb.rawQuery(
+                "SELECT * FROM " + DbContract.Tracks.TABLE_NAME, null);
+
+        return cursor;
     }
 
 
