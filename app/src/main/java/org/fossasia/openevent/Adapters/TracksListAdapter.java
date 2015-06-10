@@ -6,12 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.data.Track;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -19,19 +17,17 @@ import java.util.List;
  */
 public class TracksListAdapter extends RecyclerView.Adapter<TracksListAdapter.Viewholder> {
 
-    List<Track> tracks ;
+    List<Track> tracks;
     private Context context;
-    private LayoutInflater layoutInflater;
 
     public TracksListAdapter(Context context, List<Track> tracks) {
         this.context = context;
-        layoutInflater = LayoutInflater.from(context);
         this.tracks = tracks;
     }
 
     @Override
     public TracksListAdapter.Viewholder onCreateViewHolder(ViewGroup parent, int viewType) {
-
+        LayoutInflater layoutInflater = LayoutInflater.from(context);
         View view = layoutInflater.inflate(R.layout.tracks_item, parent, false);
         Viewholder viewholder = new Viewholder(view);
         return viewholder;
@@ -64,7 +60,6 @@ public class TracksListAdapter extends RecyclerView.Adapter<TracksListAdapter.Vi
 
         @Override
         public void onClick(View view) {
-            Toast.makeText(context, "Items   :" + getItemCount(), Toast.LENGTH_SHORT).show();
         }
     }
 }
