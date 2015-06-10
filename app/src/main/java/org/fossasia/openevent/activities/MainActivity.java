@@ -14,6 +14,7 @@ import android.view.View;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.dbutils.DataDownload;
+import org.fossasia.openevent.fragments.SponsorsFragment;
 import org.fossasia.openevent.fragments.TracksFragment;
 
 
@@ -131,13 +132,15 @@ public class MainActivity extends AppCompatActivity {
                         switch (id) {
                             case R.id.nav_tracks:
                                 fragmentManager.beginTransaction()
-                                        .replace(R.id.content_frame, ((Fragment) new TracksFragment())).commit();
+                                        .replace(R.id.content_frame, new TracksFragment()).commit();
                                 break;
                             case R.id.nav_bookmarks:
                                 break;
                             case R.id.nav_speakers:
                                 break;
                             case R.id.nav_sponsors:
+                                fragmentManager.beginTransaction()
+                                        .replace(R.id.content_frame, new SponsorsFragment()).commit();
                                 break;
                             case R.id.nav_map:
                                 break;
