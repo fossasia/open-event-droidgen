@@ -7,6 +7,7 @@ import org.fossasia.openevent.data.SessionSpeakersMapping;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.utils.Progress;
 
 import java.util.ArrayList;
 
@@ -39,6 +40,10 @@ public class SpeakerListResponseProcessor implements Callback<SpeakerResponseLis
         dbSingleton.clearDatabase(DbContract.Speakers.TABLE_NAME);
         dbSingleton.insertQueries(queries);
 
+        Progress progress1 = new Progress();
+        Log.d(TAG, progress1.progress + " BEF");
+        progress1.increaseProgress();
+        Log.d(TAG, progress1.progress + " AF");
     }
 
     @Override

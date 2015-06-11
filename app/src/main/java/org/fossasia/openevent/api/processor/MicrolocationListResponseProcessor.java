@@ -6,6 +6,7 @@ import org.fossasia.openevent.api.protocol.MicrolocationResponseList;
 import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.utils.Progress;
 
 import java.util.ArrayList;
 
@@ -33,6 +34,10 @@ public class MicrolocationListResponseProcessor implements Callback<Microlocatio
 
         dbSingleton.clearDatabase(DbContract.Microlocation.TABLE_NAME);
         dbSingleton.insertQueries(queries);
+        Progress progress1 = new Progress();
+        Log.d(TAG, progress1.progress + " BEF");
+        progress1.increaseProgress();
+        Log.d(TAG, progress1.progress + " AF");
     }
 
     @Override

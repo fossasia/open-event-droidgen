@@ -121,7 +121,7 @@ public class DbSingleton {
         return session;
     }
 
-    public ArrayList<Speaker> getSpeakerList() {
+    public List<Speaker> getSpeakerList() {
         getReadOnlyDatabase();
 
         String sortOrder = DbContract.Speakers.ID + ASCENDING;
@@ -136,7 +136,7 @@ public class DbSingleton {
         );
 
 
-        ArrayList<Speaker> speakers = new ArrayList<>();
+        List<Speaker> speakers = new ArrayList<>();
         Speaker s;
 
         cur.moveToFirst();

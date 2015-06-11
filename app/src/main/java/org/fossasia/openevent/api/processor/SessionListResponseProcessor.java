@@ -6,6 +6,7 @@ import org.fossasia.openevent.api.protocol.SessionResponseList;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.utils.Progress;
 
 import java.util.ArrayList;
 
@@ -33,6 +34,10 @@ public class SessionListResponseProcessor implements Callback<SessionResponseLis
         DbSingleton dbSingleton = DbSingleton.getInstance();
         dbSingleton.clearDatabase(DbContract.Sessions.TABLE_NAME);
         dbSingleton.insertQueries(queries);
+        Progress progress1 = new Progress();
+        Log.d(TAG, progress1.progress + " BEF");
+        progress1.increaseProgress();
+        Log.d(TAG, progress1.progress + " AF");
     }
 
     @Override
