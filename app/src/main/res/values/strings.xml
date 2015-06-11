@@ -31,4 +31,5 @@
     <!--Settings-->
     <string name="settings_mode">Mode</string>
     <string name="default_mode">Developer</string>
+    <string name="title_activity_mapsragment">Map</string>
 </resources>
