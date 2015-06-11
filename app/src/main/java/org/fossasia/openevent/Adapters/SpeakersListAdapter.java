@@ -20,39 +20,35 @@ import java.util.List;
 /**
  * Created by MananWason on 11-06-2015.
  */
-public class SpeakersListAdapter extends RecyclerView.Adapter<SpeakersListAdapter.Viewholder> {
-
+public class SpeakersListAdapter extends RecyclerView.Adapter<SpeakersListAdapter.ViewHolder> {
     List<Speaker> speakers;
     private Context context;
 
     public SpeakersListAdapter(Context context, List<Speaker> speakers) {
-        this.context = context;
         this.speakers = speakers;
+        this.context = context;
     }
 
     @Override
-    public SpeakersListAdapter.Viewholder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Log.d("SPEAKERADAP","");
-        LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.speakers_item, parent, false);
-        Viewholder viewholder = new Viewholder(view);
-        return viewholder;
+    public SpeakersListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        View view = layoutInflater.inflate(R.layout.speakers_item, parent, false);
+        ViewHolder viewHolder = new ViewHolder(view);
+
+        return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(SpeakersListAdapter.Viewholder holder, int position) {
+    public void onBindViewHolder(SpeakersListAdapter.ViewHolder holder, int position) {
         Speaker current = speakers.get(position);
-        //Image
+
         Uri uri = Uri.parse(current.getPhoto());
-        //Picasso.with(context).load(uri).into(holder.speaker_image);
+        Picasso.with(context).load(uri).into(holder.speaker_image);
 
-        //Texts
-        //holder.speaker_name.setText(current.getName());
-
-        String full_position = current.getOrganisation() + ", " + current.getPosition();
-        //holder.speaker_position.setText(full_position);
-
-        holder.speaker_bio.setText(current.getBio());
+        holder.designation.setText(current.getPosition());
+        holder.name.setText(current.getName());
+        holder.bio.setText(current.getBio());
+        Log.d("LIST SIZE", speakers.size() + "");
     }
 
     @Override
@@ -60,22 +56,23 @@ public class SpeakersListAdapter extends RecyclerView.Adapter<SpeakersListAdapte
         return speakers.size();
     }
 
-    public class Viewholder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-       // ImageView speaker_image;
-       TextView speaker_name;
-//        TextView speaker_position;
-        TextView speaker_bio;
+        ImageView speaker_image;
+        TextView name;
+        TextView designation;
+        TextView bio;
 
-        public Viewholder(View itemView) {
+        public ViewHolder(View itemView) {
             super(itemView);
             itemView.setClickable(true);
             itemView.setOnClickListener(this);
 
-           // speaker_image = (ImageView) itemView.findViewById(R.id.speaker_image);
-          speaker_name = (TextView) itemView.findViewById(R.id.speaker_name);
-//            speaker_position = (TextView) itemView.findViewById(R.id.speaker_position);
-            speaker_bio = (TextView) itemView.findViewById(R.id.speaker_biog);
+            speaker_image = (ImageView) itemView.findViewById(R.id.speaker_image);
+
+            name = (TextView) itemView.findViewById(R.id.speaker_name);
+            bio = (TextView) itemView.findViewById(R.id.speaker_bio);
+            designation = (TextView) itemView.findViewById(R.id.speaker_designation);
         }
 
         @Override

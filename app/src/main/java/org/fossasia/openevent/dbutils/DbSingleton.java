@@ -3,6 +3,7 @@ package org.fossasia.openevent.dbutils;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
@@ -67,7 +68,7 @@ public class DbSingleton {
         Session s;
 
         cur.moveToFirst();
-        while (cur.moveToNext()) {
+        while (cur.isAfterLast() == false) {
             s = new Session(
                     cur.getInt(cur.getColumnIndex(DbContract.Sessions.ID)),
                     cur.getString(cur.getColumnIndex(DbContract.Sessions.TITLE)),
@@ -83,6 +84,7 @@ public class DbSingleton {
                     cur.getInt(cur.getColumnIndex(DbContract.Sessions.MICROLOCATION))
             );
             sessions.add(s);
+            cur.moveToNext();
         }
         return sessions;
     }
@@ -140,7 +142,7 @@ public class DbSingleton {
         Speaker s;
 
         cur.moveToFirst();
-        while (cur.moveToNext()) {
+        while (cur.isAfterLast() == false) {
             s = new Speaker(
                     cur.getInt(cur.getColumnIndex(DbContract.Speakers.ID)),
                     cur.getString(cur.getColumnIndex(DbContract.Speakers.NAME)),
@@ -159,6 +161,8 @@ public class DbSingleton {
 
             );
             speakers.add(s);
+            cur.moveToNext();
+            Log.d("singl", s.getName());
         }
 
         return speakers;
@@ -218,13 +222,14 @@ public class DbSingleton {
         Track track;
 
         cursor.moveToFirst();
-        while (cursor.moveToNext()) {
+        while (cursor.isAfterLast() == false) {
             track = new Track(
                     cursor.getInt(cursor.getColumnIndex(DbContract.Tracks.ID)),
                     cursor.getString(cursor.getColumnIndex(DbContract.Tracks.NAME)),
                     cursor.getString(cursor.getColumnIndex(DbContract.Tracks.DESCRIPTION))
             );
             tracks.add(track);
+            cursor.moveToNext();
         }
 
         return tracks;
@@ -256,7 +261,7 @@ public class DbSingleton {
         Sponsor sponsor;
 
         cursor.moveToFirst();
-        while (cursor.moveToNext()) {
+        while (cursor.isAfterLast() == false) {
             sponsor = new Sponsor(
                     cursor.getInt(cursor.getColumnIndex(DbContract.Sponsors.ID)),
                     cursor.getString(cursor.getColumnIndex(DbContract.Sponsors.NAME)),
@@ -264,6 +269,7 @@ public class DbSingleton {
                     cursor.getString(cursor.getColumnIndex(DbContract.Sponsors.LOGO_URL))
             );
             sponsors.add(sponsor);
+            cursor.moveToNext();
         }
         return sponsors;
     }

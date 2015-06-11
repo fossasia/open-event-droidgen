@@ -182,7 +182,7 @@ public class DbContract {
         public static final String TABLE_NAME = "tracks";
 
         public static final String _ID = "_id";
-        public static final String ID= "id";
+        public static final String ID = "id";
         public static final String NAME = "name";
         public static final String DESCRIPTION = "description";
 
@@ -195,7 +195,7 @@ public class DbContract {
         public static final String CREATE_TABLE =
                 "CREATE TABLE " + TABLE_NAME
                         + " ("
-                        + ID + INT_TYPE + PRIMARY_KEY+ COMMA_SEP
+                        + ID + INT_TYPE + PRIMARY_KEY + COMMA_SEP
                         + NAME + TEXT_TYPE + COMMA_SEP
                         + DESCRIPTION + TEXT_TYPE
                         + " );";

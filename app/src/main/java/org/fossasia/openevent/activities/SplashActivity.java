@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.Window;
 
 import org.fossasia.openevent.R;
-import org.fossasia.openevent.dbutils.DataDownload;
 import org.fossasia.openevent.utils.Progress;
 
 /**
@@ -23,8 +22,7 @@ public class SplashActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.splash);
         Progress progress = new Progress();
-        Log.d("SPLASH", progress.progress + "");
-
+        Log.d("SPLASH", Progress.progress + "");
 
 
         try {

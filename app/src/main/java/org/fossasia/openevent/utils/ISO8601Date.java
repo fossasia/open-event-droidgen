@@ -7,14 +7,15 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
-
  * Helper class for handling a most common subset of ISO 8601 strings
  * (in the following format: "2008-03-01T13:00:00+01:00"). It supports
  * parsing the "Z" timezone, but many other less-used features are
  * missing.
  */
 public final class ISO8601Date {
-    /** Transform Calendar to ISO 8601 string. */
+    /**
+     * Transform Calendar to ISO 8601 string.
+     */
     public static String fromCalendar(final Calendar calendar) {
         Date date = calendar.getTime();
         String formatted = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
@@ -23,12 +24,16 @@ public final class ISO8601Date {
         return formatted.substring(0, 22) + ":" + formatted.substring(22);
     }
 
-    /** Get current date and time formatted as ISO 8601 string. */
+    /**
+     * Get current date and time formatted as ISO 8601 string.
+     */
     public static String now() {
         return fromCalendar(GregorianCalendar.getInstance());
     }
 
-    /** Transform ISO 8601 string to Calendar. */
+    /**
+     * Transform ISO 8601 string to Calendar.
+     */
     public static Calendar toCalendar(final String iso8601string)
             throws ParseException {
         Calendar calendar = GregorianCalendar.getInstance();

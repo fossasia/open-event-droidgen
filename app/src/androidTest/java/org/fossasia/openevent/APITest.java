@@ -9,7 +9,6 @@ import org.fossasia.openevent.api.protocol.SessionResponseList;
 import org.fossasia.openevent.api.protocol.SpeakerResponseList;
 import org.fossasia.openevent.api.protocol.SponsorResponseList;
 import org.fossasia.openevent.api.protocol.TrackResponseList;
-import org.fossasia.openevent.data.Sponsor;
 
 import java.util.concurrent.CountDownLatch;
 
@@ -67,7 +66,7 @@ public class APITest extends AndroidTestCase {
     public void testEventAPIResponse() throws Exception {
         APIClient client = new APIClient();
         final CountDownLatch latch = new CountDownLatch(1);
-        client.getOpenEventAPI().getEvents(new Callback<EventResponseList>(){
+        client.getOpenEventAPI().getEvents(new Callback<EventResponseList>() {
             @Override
             public void success(EventResponseList eventResponseList, Response response) {
                 assertNotNull(eventResponseList.events);
@@ -83,10 +82,11 @@ public class APITest extends AndroidTestCase {
         });
         latch.await();
     }
+
     public void testSessionAPIResponse() throws Exception {
         APIClient client = new APIClient();
         final CountDownLatch latch = new CountDownLatch(1);
-        client.getOpenEventAPI().getSessions(new Callback<SessionResponseList> () {
+        client.getOpenEventAPI().getSessions(new Callback<SessionResponseList>() {
             @Override
             public void success(SessionResponseList sessionResponseList, Response response) {
                 assertNotNull(sessionResponseList.sessions);
@@ -102,6 +102,7 @@ public class APITest extends AndroidTestCase {
         });
         latch.await();
     }
+
     public void testTrackAPIResponse() throws Exception {
         APIClient client = new APIClient();
         final CountDownLatch latch = new CountDownLatch(1);
@@ -121,6 +122,7 @@ public class APITest extends AndroidTestCase {
         });
         latch.await();
     }
+
     public void testMicrolocationAPIResponse() throws Exception {
         APIClient client = new APIClient();
         final CountDownLatch latch = new CountDownLatch(1);

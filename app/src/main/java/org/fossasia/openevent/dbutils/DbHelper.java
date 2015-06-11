@@ -22,7 +22,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(DbContract.Sessionsspeakers.CREATE_TABLE);
         db.execSQL(DbContract.Event.CREATE_TABLE);
         db.execSQL(DbContract.Microlocation.CREATE_TABLE);
-     //   db.execSQL(DbContract.Versions.CREATE_TABLE);
+        //   db.execSQL(DbContract.Versions.CREATE_TABLE);
     }
 
     @Override

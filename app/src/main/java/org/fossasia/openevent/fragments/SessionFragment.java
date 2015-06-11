@@ -21,6 +21,10 @@ public class SessionFragment extends Fragment {
     private int mSessionId;
 
 
+    public SessionFragment() {
+        // Required empty public constructor
+    }
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -34,10 +38,6 @@ public class SessionFragment extends Fragment {
         args.putInt(SESSION_ID, sessionId);
         fragment.setArguments(args);
         return fragment;
-    }
-
-    public SessionFragment() {
-        // Required empty public constructor
     }
 
     @Override

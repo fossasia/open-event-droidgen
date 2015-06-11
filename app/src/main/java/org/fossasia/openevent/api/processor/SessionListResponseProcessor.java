@@ -27,7 +27,7 @@ public class SessionListResponseProcessor implements Callback<SessionResponseLis
         for (Session session : sessionResponseList.sessions) {
             String query = session.generateSql();
             queries.add(query);
-            Log.d(TAG,query);
+            Log.d(TAG, query);
         }
 
 
@@ -35,9 +35,9 @@ public class SessionListResponseProcessor implements Callback<SessionResponseLis
         dbSingleton.clearDatabase(DbContract.Sessions.TABLE_NAME);
         dbSingleton.insertQueries(queries);
         Progress progress1 = new Progress();
-        Log.d(TAG, progress1.progress + " BEF");
+        Log.d(TAG, Progress.progress + " BEF");
         progress1.increaseProgress();
-        Log.d(TAG, progress1.progress + " AF");
+        Log.d(TAG, Progress.progress + " AF");
     }
 
     @Override

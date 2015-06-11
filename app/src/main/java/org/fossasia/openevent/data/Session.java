@@ -121,7 +121,6 @@ public class Session {
     }
 
 
-
     public String getEndTime() {
         return escapeChar(endTime);
     }
