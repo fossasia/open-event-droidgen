@@ -1,4 +1,5 @@
 # open-event-android
+[![Build Status](https://travis-ci.org/fossasia/open-event-android.svg)](https://travis-ci.org/fossasia/open-event-android)
 The Open Event Android Client
 
 The Android client is a generic app that has two parts:
