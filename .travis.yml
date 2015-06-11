@@ -37,3 +37,12 @@ before_script:
   - adb shell input keyevent 82 &
 
 script: ./gradlew :app:connectedAndroidTest
+
+# Gitter Integration via Webhook (https://gitter.im/fossasia/open-event-android)
+notifications:
+  webhooks:
+    urls:
+      - https://webhooks.gitter.im/e/bbf7c28d708af7ae5ac6
+    on_success: always  # options: [always|never|change] default: always
+    on_failure: always  # options: [always|never|change] default: always
+    on_start: false     # default: false
