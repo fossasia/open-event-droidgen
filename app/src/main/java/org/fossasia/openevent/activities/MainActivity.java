@@ -14,6 +14,7 @@ import android.view.View;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.dbutils.DataDownload;
+import org.fossasia.openevent.fragments.MapsFragment;
 import org.fossasia.openevent.fragments.SponsorsFragment;
 import org.fossasia.openevent.fragments.TracksFragment;
 
@@ -143,6 +144,8 @@ public class MainActivity extends AppCompatActivity {
                                         .replace(R.id.content_frame, new SponsorsFragment()).commit();
                                 break;
                             case R.id.nav_map:
+                                fragmentManager.beginTransaction()
+                                        .replace(R.id.content_frame, new MapsFragment()).commit();
                                 break;
 
                         }
