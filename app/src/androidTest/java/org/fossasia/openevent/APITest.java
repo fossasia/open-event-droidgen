@@ -3,13 +3,8 @@ package org.fossasia.openevent;
 import android.test.AndroidTestCase;
 
 import org.fossasia.openevent.api.APIClient;
-import org.fossasia.openevent.api.protocol.EventResponseList;
-import org.fossasia.openevent.api.protocol.MicrolocationResponseList;
-import org.fossasia.openevent.api.protocol.SessionResponseList;
-import org.fossasia.openevent.api.protocol.SpeakerResponseList;
-import org.fossasia.openevent.api.protocol.SponsorResponseList;
-import org.fossasia.openevent.api.protocol.TrackResponseList;
-import org.fossasia.openevent.data.Sponsor;
+import org.fossasia.openevent.api.Urls;
+import org.fossasia.openevent.api.protocol.*;
 
 import java.util.concurrent.CountDownLatch;
 
@@ -25,7 +20,7 @@ public class APITest extends AndroidTestCase {
     public void testSpeakerAPIResponse() throws Exception {
         APIClient client = new APIClient();
         final CountDownLatch latch = new CountDownLatch(1);
-        client.getOpenEventAPI().getSpeakers(new Callback<SpeakerResponseList>() {
+        client.getOpenEventAPI().getSpeakers(Urls.EVENT_ID, new Callback<SpeakerResponseList>() {
             @Override
             public void success(SpeakerResponseList speakerResponseList, Response response) {
                 assertNotNull(speakerResponseList.speakers);
@@ -46,7 +41,7 @@ public class APITest extends AndroidTestCase {
     public void testSponsorAPIResponse() throws Exception {
         APIClient client = new APIClient();
         final CountDownLatch latch = new CountDownLatch(1);
-        client.getOpenEventAPI().getSponsors(new Callback<SponsorResponseList>() {
+        client.getOpenEventAPI().getSponsors(Urls.EVENT_ID, new Callback<SponsorResponseList>() {
             @Override
             public void success(SponsorResponseList sponsorResponseList, Response response) {
                 assertNotNull(sponsorResponseList.sponsors);
@@ -67,11 +62,11 @@ public class APITest extends AndroidTestCase {
     public void testEventAPIResponse() throws Exception {
         APIClient client = new APIClient();
         final CountDownLatch latch = new CountDownLatch(1);
-        client.getOpenEventAPI().getEvents(new Callback<EventResponseList>(){
+        client.getOpenEventAPI().getEvents(Urls.EVENT_ID, new Callback<EventResponseList>() {
             @Override
             public void success(EventResponseList eventResponseList, Response response) {
-                assertNotNull(eventResponseList.events);
-                assertTrue(eventResponseList.events.size() > 0);
+                assertNotNull(eventResponseList.event);
+                assertTrue(eventResponseList.event.size() > 0);
                 latch.countDown();
             }
 
@@ -83,10 +78,11 @@ public class APITest extends AndroidTestCase {
         });
         latch.await();
     }
+
     public void testSessionAPIResponse() throws Exception {
         APIClient client = new APIClient();
         final CountDownLatch latch = new CountDownLatch(1);
-        client.getOpenEventAPI().getSessions(new Callback<SessionResponseList> () {
+        client.getOpenEventAPI().getSessions(Urls.EVENT_ID, new Callback<SessionResponseList>() {
             @Override
             public void success(SessionResponseList sessionResponseList, Response response) {
                 assertNotNull(sessionResponseList.sessions);
@@ -102,10 +98,11 @@ public class APITest extends AndroidTestCase {
         });
         latch.await();
     }
+
     public void testTrackAPIResponse() throws Exception {
         APIClient client = new APIClient();
         final CountDownLatch latch = new CountDownLatch(1);
-        client.getOpenEventAPI().getTracks(new Callback<TrackResponseList>() {
+        client.getOpenEventAPI().getTracks(Urls.EVENT_ID, new Callback<TrackResponseList>() {
             @Override
             public void success(TrackResponseList trackResponseList, Response response) {
                 assertNotNull(trackResponseList.tracks);
@@ -121,10 +118,11 @@ public class APITest extends AndroidTestCase {
         });
         latch.await();
     }
+
     public void testMicrolocationAPIResponse() throws Exception {
         APIClient client = new APIClient();
         final CountDownLatch latch = new CountDownLatch(1);
-        client.getOpenEventAPI().getMicrolocations(new Callback<MicrolocationResponseList>() {
+        client.getOpenEventAPI().getMicrolocations(Urls.EVENT_ID, new Callback<MicrolocationResponseList>() {
             @Override
             public void success(MicrolocationResponseList microlocationResponseList, Response response) {
                 assertNotNull(microlocationResponseList.microlocations);
