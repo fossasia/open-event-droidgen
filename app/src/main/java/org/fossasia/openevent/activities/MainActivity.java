@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.dbutils.DataDownload;
 import org.fossasia.openevent.fragments.SponsorsFragment;
@@ -21,6 +22,7 @@ import org.fossasia.openevent.fragments.TracksFragment;
 public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
+
     private Toolbar mToolbar;
 
 
@@ -143,6 +145,12 @@ public class MainActivity extends AppCompatActivity {
                                         .replace(R.id.content_frame, new SponsorsFragment()).commit();
                                 break;
                             case R.id.nav_map:
+                                fragmentManager.beginTransaction()
+                                        .replace(R.id.content_frame,
+                                                ((OpenEventApp) getApplication())
+                                                        .getMapModuleFactory()
+                                                        .provideMapModule()
+                                                        .provideMapFragment()).commit();
                                 break;
 
                         }
