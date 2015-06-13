@@ -32,6 +32,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    productFlavors {
+        fdroid {
+        }
+        googleplay {
+        }
+    }
 }
 
 dependencies {
@@ -46,4 +53,9 @@ dependencies {
     compile 'com.android.support:design:22.2.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
 
+    googleplayCompile 'com.google.android.gms:play-services-maps:7.5.0'
+
+    fdroidCompile 'org.osmdroid:osmdroid-android:4.3'
+    fdroidCompile 'org.apache.directory.studio:org.slf4j.api:1.7.2'
+    fdroidCompile 'org.slf4j:slf4j-simple:1.7.12'
 }
