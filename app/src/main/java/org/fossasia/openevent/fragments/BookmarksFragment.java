@@ -1,4 +1,4 @@
-package org.fossasia.openevent.activities;
+package org.fossasia.openevent.fragments;
 
 import android.support.v4.app.Fragment;
 

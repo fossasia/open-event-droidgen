@@ -42,14 +42,8 @@ public class MainActivity extends AppCompatActivity {
 
         /**CALLING EVENTS HERE**/
 
-        //TODO:VERSIONING
         DataDownload download = new DataDownload();
-        download.downloadEvents();
-        download.downloadSpeakers();
-        download.downloadTracks();
-        download.downloadMicrolocations();
-        download.downloadSession();
-        download.downloadSponsors();
+        download.downloadVersions();
 
 
     }
@@ -109,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
     private void setUpNavDrawer() {
         if (mToolbar != null) {
             final android.support.v7.app.ActionBar ab = getSupportActionBar();
+            assert ab != null;
             ab.setHomeAsUpIndicator(R.drawable.ic_menu);
             ab.setDisplayHomeAsUpEnabled(true);
             mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
