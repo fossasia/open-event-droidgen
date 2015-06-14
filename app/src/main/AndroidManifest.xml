@@ -14,7 +14,7 @@
         android:theme="@style/Base.AppTheme">
         <activity
             android:name=".activities.SplashActivity"
-            android:label="Splash"></activity>
+            android:label="Splash"/>
 
         <activity
             android:name=".activities.MainActivity"
@@ -28,6 +28,9 @@
         <activity
             android:name=".activities.SettingsActivity"
             android:label="@string/action_settings"/>
+        <activity
+            android:name=".activities.TracksActivity"
+            android:label="@string/title_section_tracks"/>
     </application>
 
 </manifest>
