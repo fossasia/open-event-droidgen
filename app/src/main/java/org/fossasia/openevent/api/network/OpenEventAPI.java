@@ -6,6 +6,7 @@ import org.fossasia.openevent.api.protocol.SessionResponseList;
 import org.fossasia.openevent.api.protocol.SpeakerResponseList;
 import org.fossasia.openevent.api.protocol.SponsorResponseList;
 import org.fossasia.openevent.api.protocol.TrackResponseList;
+import org.fossasia.openevent.api.protocol.VersionResponseList;
 
 import retrofit.Callback;
 import retrofit.http.GET;
@@ -36,4 +37,7 @@ public interface OpenEventAPI {
 
     @GET("/event/{id}/tracks")
     void getTracks(@Path("id") int id, Callback<TrackResponseList> trackResponseListCallback);
+
+    @GET("/event/{id}/version")
+    void getVersion(@Path("id") int id, Callback<VersionResponseList> versionResponseListCallback);
 }
