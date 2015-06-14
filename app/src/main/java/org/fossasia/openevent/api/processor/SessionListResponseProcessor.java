@@ -26,7 +26,7 @@ public class SessionListResponseProcessor implements Callback<SessionResponseLis
         for (Session session : sessionResponseList.sessions) {
             String query = session.generateSql();
             queries.add(query);
-            Log.d(TAG,query);
+            Log.d(TAG, query);
         }
 
 

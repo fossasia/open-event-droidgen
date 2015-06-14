@@ -15,6 +15,7 @@ import android.view.View;
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.dbutils.DataDownload;
+import org.fossasia.openevent.fragments.SpeakerFragment;
 import org.fossasia.openevent.fragments.SponsorsFragment;
 import org.fossasia.openevent.fragments.TracksFragment;
 
@@ -42,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
         /**CALLING EVENTS HERE**/
 
         //TODO:VERSIONING
-
         DataDownload download = new DataDownload();
         download.downloadEvents();
         download.downloadSpeakers();
@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         download.downloadMicrolocations();
         download.downloadSession();
         download.downloadSponsors();
+
 
     }
 
@@ -139,6 +140,8 @@ public class MainActivity extends AppCompatActivity {
                             case R.id.nav_bookmarks:
                                 break;
                             case R.id.nav_speakers:
+                                fragmentManager.beginTransaction()
+                                        .replace(R.id.content_frame, new SpeakerFragment()).commit();
                                 break;
                             case R.id.nav_sponsors:
                                 fragmentManager.beginTransaction()

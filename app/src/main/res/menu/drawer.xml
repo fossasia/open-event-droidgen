@@ -26,9 +26,9 @@
     <item android:title="">
         <menu>
             <item
-                android:title="Settings" />
+                android:title="Settings"/>
             <item
-                android:title="About us" />
+                android:title="About us"/>
         </menu>
     </item>
 

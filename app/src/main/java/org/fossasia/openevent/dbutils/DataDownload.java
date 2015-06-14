@@ -21,23 +21,23 @@ public class DataDownload {
     }
 
     public void downloadSpeakers() {
-        client.getOpenEventAPI().getSpeakers(Urls.EVENT_ID,new SpeakerListResponseProcessor());
+        client.getOpenEventAPI().getSpeakers(Urls.EVENT_ID, new SpeakerListResponseProcessor());
     }
 
     public void downloadSponsors() {
-        client.getOpenEventAPI().getSponsors(Urls.EVENT_ID,new SponsorListResponseProcessor());
+        client.getOpenEventAPI().getSponsors(Urls.EVENT_ID, new SponsorListResponseProcessor());
     }
 
     public void downloadSession() {
-        client.getOpenEventAPI().getSessions(Urls.EVENT_ID,new SessionListResponseProcessor());
+        client.getOpenEventAPI().getSessions(Urls.EVENT_ID, new SessionListResponseProcessor());
     }
 
     public void downloadTracks() {
-        client.getOpenEventAPI().getTracks(Urls.EVENT_ID,new TrackListResponseProcessor());
+        client.getOpenEventAPI().getTracks(Urls.EVENT_ID, new TrackListResponseProcessor());
     }
 
     public void downloadMicrolocations() {
-        client.getOpenEventAPI().getMicrolocations(Urls.EVENT_ID,new MicrolocationListResponseProcessor());
+        client.getOpenEventAPI().getMicrolocations(Urls.EVENT_ID, new MicrolocationListResponseProcessor());
     }
 
 

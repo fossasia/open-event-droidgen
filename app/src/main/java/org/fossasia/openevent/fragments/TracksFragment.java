@@ -25,7 +25,7 @@ public class TracksFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.list_tracks, container, false);
         tracksRecyclerView = (RecyclerView) view.findViewById(R.id.list_tracks);
-        tracksListAdapter = new TracksListAdapter(getActivity(), dbSingleton.getTrackList());
+        tracksListAdapter = new TracksListAdapter(dbSingleton.getTrackList());
         tracksRecyclerView.setAdapter(tracksListAdapter);
         tracksRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         return view;

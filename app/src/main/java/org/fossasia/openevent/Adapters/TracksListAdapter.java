@@ -1,6 +1,5 @@
 package org.fossasia.openevent.Adapters;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,16 +17,14 @@ import java.util.List;
 public class TracksListAdapter extends RecyclerView.Adapter<TracksListAdapter.Viewholder> {
 
     List<Track> tracks;
-    private Context context;
 
-    public TracksListAdapter(Context context, List<Track> tracks) {
-        this.context = context;
+    public TracksListAdapter(List<Track> tracks) {
         this.tracks = tracks;
     }
 
     @Override
     public TracksListAdapter.Viewholder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.tracks_item, parent, false);
         Viewholder viewholder = new Viewholder(view);
         return viewholder;
