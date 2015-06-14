@@ -42,21 +42,16 @@ public class TracksListAdapter extends RecyclerView.Adapter<TracksListAdapter.Vi
         return tracks.size();
     }
 
-    class Viewholder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class Viewholder extends RecyclerView.ViewHolder {
         TextView title;
         TextView desc;
 
         public Viewholder(View itemView) {
             super(itemView);
             itemView.setClickable(true);
-            itemView.setOnClickListener(this);
             title = (TextView) itemView.findViewById(R.id.track_title);
             desc = (TextView) itemView.findViewById(R.id.track_description);
         }
 
-
-        @Override
-        public void onClick(View view) {
-        }
     }
 }

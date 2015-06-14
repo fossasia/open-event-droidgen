@@ -334,4 +334,9 @@ public class DbSingleton {
         }
     }
 
+    public Session getSessionbyTracksname(String trackName) {
+        return null;
+
+    }
+
 }
