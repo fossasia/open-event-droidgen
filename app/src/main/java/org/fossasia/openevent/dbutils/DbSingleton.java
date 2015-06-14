@@ -3,6 +3,7 @@ package org.fossasia.openevent.dbutils;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
@@ -67,7 +68,7 @@ public class DbSingleton {
         Session s;
 
         cur.moveToFirst();
-        while (cur.moveToNext()) {
+        while (cur.isAfterLast() == false) {
             s = new Session(
                     cur.getInt(cur.getColumnIndex(DbContract.Sessions.ID)),
                     cur.getString(cur.getColumnIndex(DbContract.Sessions.TITLE)),
@@ -83,7 +84,9 @@ public class DbSingleton {
                     cur.getInt(cur.getColumnIndex(DbContract.Sessions.MICROLOCATION))
             );
             sessions.add(s);
+            cur.moveToNext();
         }
+        cur.close();
         return sessions;
     }
 
@@ -117,11 +120,12 @@ public class DbSingleton {
                 null,
                 cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.MICROLOCATION))
         );
+        cursor.close();
 
         return session;
     }
 
-    public ArrayList<Speaker> getSpeakerList() {
+    public List<Speaker> getSpeakerList() {
         getReadOnlyDatabase();
 
         String sortOrder = DbContract.Speakers.ID + ASCENDING;
@@ -136,11 +140,11 @@ public class DbSingleton {
         );
 
 
-        ArrayList<Speaker> speakers = new ArrayList<>();
+        List<Speaker> speakers = new ArrayList<>();
         Speaker s;
 
         cur.moveToFirst();
-        while (cur.moveToNext()) {
+        while (cur.isAfterLast() == false) {
             s = new Speaker(
                     cur.getInt(cur.getColumnIndex(DbContract.Speakers.ID)),
                     cur.getString(cur.getColumnIndex(DbContract.Speakers.NAME)),
@@ -159,8 +163,10 @@ public class DbSingleton {
 
             );
             speakers.add(s);
+            cur.moveToNext();
+            Log.d("singl", s.getName());
         }
-
+        cur.close();
         return speakers;
     }
 
@@ -198,7 +204,7 @@ public class DbSingleton {
                 cursor.getString(cursor.getColumnIndex(DbContract.Speakers.COUNTRY))
 
         );
-
+        cursor.close();
         return speaker;
     }
 
@@ -218,24 +224,17 @@ public class DbSingleton {
         Track track;
 
         cursor.moveToFirst();
-        while (cursor.moveToNext()) {
+        while (cursor.isAfterLast() == false) {
             track = new Track(
                     cursor.getInt(cursor.getColumnIndex(DbContract.Tracks.ID)),
                     cursor.getString(cursor.getColumnIndex(DbContract.Tracks.NAME)),
                     cursor.getString(cursor.getColumnIndex(DbContract.Tracks.DESCRIPTION))
             );
             tracks.add(track);
+            cursor.moveToNext();
         }
-
+        cursor.close();
         return tracks;
-    }
-
-    public Cursor getTracksCursor() {
-        getReadOnlyDatabase();
-        Cursor cursor = mDb.rawQuery(
-                "SELECT * FROM " + DbContract.Tracks.TABLE_NAME, null);
-
-        return cursor;
     }
 
 
@@ -256,7 +255,7 @@ public class DbSingleton {
         Sponsor sponsor;
 
         cursor.moveToFirst();
-        while (cursor.moveToNext()) {
+        while (cursor.isAfterLast() == false) {
             sponsor = new Sponsor(
                     cursor.getInt(cursor.getColumnIndex(DbContract.Sponsors.ID)),
                     cursor.getString(cursor.getColumnIndex(DbContract.Sponsors.NAME)),
@@ -264,7 +263,9 @@ public class DbSingleton {
                     cursor.getString(cursor.getColumnIndex(DbContract.Sponsors.LOGO_URL))
             );
             sponsors.add(sponsor);
+            cursor.moveToNext();
         }
+        cursor.close();
         return sponsors;
     }
 

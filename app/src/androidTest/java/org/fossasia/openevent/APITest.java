@@ -4,7 +4,12 @@ import android.test.AndroidTestCase;
 
 import org.fossasia.openevent.api.APIClient;
 import org.fossasia.openevent.api.Urls;
-import org.fossasia.openevent.api.protocol.*;
+import org.fossasia.openevent.api.protocol.EventResponseList;
+import org.fossasia.openevent.api.protocol.MicrolocationResponseList;
+import org.fossasia.openevent.api.protocol.SessionResponseList;
+import org.fossasia.openevent.api.protocol.SpeakerResponseList;
+import org.fossasia.openevent.api.protocol.SponsorResponseList;
+import org.fossasia.openevent.api.protocol.TrackResponseList;
 
 import java.util.concurrent.CountDownLatch;
 

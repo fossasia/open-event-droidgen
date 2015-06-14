@@ -33,6 +33,7 @@ public class TrackListResponseProcessor implements Callback<TrackResponseList> {
         DbSingleton dbSingleton = DbSingleton.getInstance();
         dbSingleton.clearDatabase(DbContract.Tracks.TABLE_NAME);
         dbSingleton.insertQueries(queries);
+
     }
 
     @Override

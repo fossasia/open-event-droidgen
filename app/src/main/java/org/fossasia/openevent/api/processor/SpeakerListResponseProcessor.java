@@ -39,6 +39,7 @@ public class SpeakerListResponseProcessor implements Callback<SpeakerResponseLis
         dbSingleton.clearDatabase(DbContract.Speakers.TABLE_NAME);
         dbSingleton.insertQueries(queries);
 
+
     }
 
     @Override
