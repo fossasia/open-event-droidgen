@@ -9,6 +9,7 @@ import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Sponsor;
 import org.fossasia.openevent.data.Track;
+import org.fossasia.openevent.data.Version;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -68,7 +69,7 @@ public class DbSingleton {
         Session s;
 
         cur.moveToFirst();
-        while (cur.isAfterLast() == false) {
+        while (!cur.isAfterLast()) {
             s = new Session(
                     cur.getInt(cur.getColumnIndex(DbContract.Sessions.ID)),
                     cur.getString(cur.getColumnIndex(DbContract.Sessions.TITLE)),
@@ -144,7 +145,7 @@ public class DbSingleton {
         Speaker s;
 
         cur.moveToFirst();
-        while (cur.isAfterLast() == false) {
+        while (!cur.isAfterLast()) {
             s = new Speaker(
                     cur.getInt(cur.getColumnIndex(DbContract.Speakers.ID)),
                     cur.getString(cur.getColumnIndex(DbContract.Speakers.NAME)),
@@ -168,6 +169,42 @@ public class DbSingleton {
         }
         cur.close();
         return speakers;
+    }
+
+    public Version getVersionIds() {
+        getReadOnlyDatabase();
+
+        Cursor cursor = mDb.query(
+                DbContract.Versions.TABLE_NAME,
+                DbContract.Versions.FULL_PROJECTION,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+
+        Version currentVersion;
+        if (cursor != null && cursor.getCount() > 0) {
+            cursor.moveToFirst();
+
+            currentVersion = new Version(
+                    cursor.getInt(cursor.getColumnIndex(DbContract.Versions.VER_ID)),
+                    cursor.getInt(cursor.getColumnIndex(DbContract.Versions.VER_EVENT)),
+                    cursor.getInt(cursor.getColumnIndex(DbContract.Versions.VER_TRACKS)),
+                    cursor.getInt(cursor.getColumnIndex(DbContract.Versions.VER_SESSIONS)),
+                    cursor.getInt(cursor.getColumnIndex(DbContract.Versions.VER_SPONSORS)),
+                    cursor.getInt(cursor.getColumnIndex(DbContract.Versions.VER_SPEAKERS)),
+                    cursor.getInt(cursor.getColumnIndex(DbContract.Versions.VER_MICROLOCATIONS))
+            );
+            cursor.close();
+            return currentVersion;
+
+        } else {
+            return null;
+        }
+
+
     }
 
     public Speaker getSpeakerById(int id) {
@@ -224,7 +261,7 @@ public class DbSingleton {
         Track track;
 
         cursor.moveToFirst();
-        while (cursor.isAfterLast() == false) {
+        while (!cursor.isAfterLast()) {
             track = new Track(
                     cursor.getInt(cursor.getColumnIndex(DbContract.Tracks.ID)),
                     cursor.getString(cursor.getColumnIndex(DbContract.Tracks.NAME)),
@@ -255,7 +292,7 @@ public class DbSingleton {
         Sponsor sponsor;
 
         cursor.moveToFirst();
-        while (cursor.isAfterLast() == false) {
+        while (!cursor.isAfterLast()) {
             sponsor = new Sponsor(
                     cursor.getInt(cursor.getColumnIndex(DbContract.Sponsors.ID)),
                     cursor.getString(cursor.getColumnIndex(DbContract.Sponsors.NAME)),

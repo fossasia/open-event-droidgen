@@ -21,7 +21,7 @@ public class DbContract {
     public static abstract class Versions implements BaseColumns {
         public static final String TABLE_NAME = "versions";
         public static final String VER_EVENT = "verevent";
-        public static final String EVENT_ID = "verevent";
+        public static final String EVENT_ID = "event_id";
         public static final String VER_ID = "verid";
         public static final String VER_MICROLOCATIONS = "vermicrolocations";
         public static final String VER_SESSIONS = "versessions";
@@ -29,7 +29,7 @@ public class DbContract {
         public static final String VER_SPONSORS = "versponsors";
         public static final String VER_TRACKS = "vertracks";
         public static final String[] FULL_PROJECTION = {
-                EVENT_ID,
+                //EVENT_ID,
                 VER_EVENT,
                 VER_ID,
                 VER_MICROLOCATIONS,
@@ -41,15 +41,14 @@ public class DbContract {
         public static final String CREATE_TABLE =
                 "CREATE TABLE " + TABLE_NAME
                         + " ("
-                        + _ID + INT_TYPE + PRIMARY_KEY + COMMA_SEP
-                        + EVENT_ID + INT_TYPE + COMMA_SEP
+                        + VER_ID + INT_TYPE + PRIMARY_KEY + COMMA_SEP
+                        //+ EVENT_ID + INT_TYPE + COMMA_SEP
                         + VER_EVENT + INT_TYPE + COMMA_SEP
-                        + VER_ID + INT_TYPE + COMMA_SEP
-                        + VER_MICROLOCATIONS + INT_TYPE + COMMA_SEP
+                        + VER_TRACKS + INT_TYPE + COMMA_SEP
                         + VER_SESSIONS + INT_TYPE + COMMA_SEP
-                        + VER_SPEAKERS + INT_TYPE + COMMA_SEP
                         + VER_SPONSORS + INT_TYPE + COMMA_SEP
-                        + VER_TRACKS + INT_TYPE
+                        + VER_SPEAKERS + INT_TYPE + COMMA_SEP
+                        + VER_MICROLOCATIONS + INT_TYPE
                         + " );";
 
     }

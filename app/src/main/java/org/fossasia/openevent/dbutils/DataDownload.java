@@ -8,6 +8,7 @@ import org.fossasia.openevent.api.processor.SessionListResponseProcessor;
 import org.fossasia.openevent.api.processor.SpeakerListResponseProcessor;
 import org.fossasia.openevent.api.processor.SponsorListResponseProcessor;
 import org.fossasia.openevent.api.processor.TrackListResponseProcessor;
+import org.fossasia.openevent.api.processor.VersionApiProcessor;
 
 /**
  * Created by MananWason on 31-05-2015.
@@ -38,6 +39,10 @@ public class DataDownload {
 
     public void downloadMicrolocations() {
         client.getOpenEventAPI().getMicrolocations(Urls.EVENT_ID, new MicrolocationListResponseProcessor());
+    }
+
+    public void downloadVersions() {
+        client.getOpenEventAPI().getVersion(Urls.EVENT_ID, new VersionApiProcessor());
     }
 
 
