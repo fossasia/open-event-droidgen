@@ -7,7 +7,7 @@
         android:id="@+id/list_tracks"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="7dp"
+        android:background="?android:attr/selectableItemBackground"
         android:scrollbars="vertical">
     </android.support.v7.widget.RecyclerView>
 
