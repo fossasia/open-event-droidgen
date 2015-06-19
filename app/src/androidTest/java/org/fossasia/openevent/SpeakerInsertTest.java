@@ -65,6 +65,28 @@ public class SpeakerInsertTest extends AndroidTestCase {
         assertTrue(speakerAssignId != -1);
     }
 
+    public void TestDataCorrectness() {
+        DbHelper dbHelper = new DbHelper(mContext);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        Cursor cursor = db.query(DbContract.Speakers.TABLE_NAME, null, null, null, null, null, null);
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DbContract.Speakers.NAME, name);
+        contentValues.put(DbContract.Speakers.PHOTO, photo);
+        contentValues.put(DbContract.Speakers.BIO, bio);
+        contentValues.put(DbContract.Speakers.EMAIL, email);
+        contentValues.put(DbContract.Speakers.WEB, web);
+        contentValues.put(DbContract.Speakers.TWITTER, twitter);
+        contentValues.put(DbContract.Speakers.FACEBOOK, facebook);
+        contentValues.put(DbContract.Speakers.GITHUB, github);
+        contentValues.put(DbContract.Speakers.LINKEDIN, linkedin);
+        contentValues.put(DbContract.Speakers.ORGANISATION, organisation);
+        contentValues.put(DbContract.Speakers.POSITION, position);
+        contentValues.put(DbContract.Speakers.COUNTRY, country);
+
+        speakerAssignId = db.insert(DbContract.Speakers.TABLE_NAME, null, contentValues);
+        assertTrue(speakerAssignId != -1);
+    }
+
     public void testDataCorrectness() {
         DbHelper dbHelper = new DbHelper(mContext);
         SQLiteDatabase db = dbHelper.getWritableDatabase();

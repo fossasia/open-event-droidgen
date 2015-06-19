@@ -36,6 +36,7 @@ public class DatabaseTest extends AndroidTestCase {
         assertTrue(dbSingleton.getSessionList().size() > 0);
     }
 
+
     public void testTracksList() throws Exception {
         DbSingleton dbSingleton = DbSingleton.getInstance();
 
