@@ -3,6 +3,7 @@ package org.fossasia.openevent.data;
 import com.google.gson.annotations.SerializedName;
 
 import org.fossasia.openevent.dbutils.DbContract;
+import org.fossasia.openevent.utils.SqlEscapeString;
 
 /**
  * Created by championswimmer on 16/5/15.
@@ -160,8 +161,9 @@ public class Speaker {
     }
 
     public String generateSql() {
-        String query_normal = "INSERT INTO %s VALUES ('%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s','%s');";
-        String query = String.format(query_normal, DbContract.Speakers.TABLE_NAME, id, name, photo, bio, email, web, facebook, twitter, github, linkedin, organisation, position, country);
+        SqlEscapeString escapeString = new SqlEscapeString();
+        String query_normal = "INSERT INTO %s VALUES ('%d', %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s);";
+        String query = String.format(query_normal, DbContract.Speakers.TABLE_NAME, id, escapeString.sqlString(name), escapeString.sqlString(photo), escapeString.sqlString(bio), escapeString.sqlString(email), escapeString.sqlString(web), escapeString.sqlString(facebook), escapeString.sqlString(twitter), escapeString.sqlString(github), escapeString.sqlString(linkedin), escapeString.sqlString(organisation), escapeString.sqlString(position), escapeString.sqlString(country));
         return query;
     }
 }

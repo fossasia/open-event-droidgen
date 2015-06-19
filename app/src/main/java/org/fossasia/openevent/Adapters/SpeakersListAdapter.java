@@ -13,6 +13,7 @@ import com.squareup.picasso.Picasso;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.data.Speaker;
+import org.fossasia.openevent.utils.CircleTransform;
 
 import java.util.List;
 
@@ -40,7 +41,7 @@ public class SpeakersListAdapter extends RecyclerView.Adapter<SpeakersListAdapte
         Speaker current = speakers.get(position);
 
         Uri uri = Uri.parse(current.getPhoto());
-        Picasso.with(holder.speaker_image.getContext()).load(uri).into(holder.speaker_image);
+        Picasso.with(holder.speaker_image.getContext()).load(uri).transform(new CircleTransform()).into(holder.speaker_image);
 
         holder.designation.setText(current.getPosition());
         holder.name.setText(current.getName());
