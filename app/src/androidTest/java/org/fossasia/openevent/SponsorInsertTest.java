@@ -36,7 +36,8 @@ public class SponsorInsertTest extends AndroidTestCase {
         assertTrue(sponsorsAssignId != -1);
     }
 
-    public void TestDataCorrectness() {
+
+    public void testDataCorrectness() {
         DbHelper dbHelper = new DbHelper(mContext);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         Cursor cursor = db.query(DbContract.Sponsors.TABLE_NAME, null, null, null, null, null, null);

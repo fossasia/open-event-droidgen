@@ -11,7 +11,7 @@ import org.fossasia.openevent.dbutils.DbHelper;
 /**
  * Created by MananWason on 17-06-2015.
  */
-public class SpeakerInsertTest extends AndroidTestCase{
+public class SpeakerInsertTest extends AndroidTestCase {
     private static int id;
     private static String name;
     private static String photo;
@@ -27,6 +27,7 @@ public class SpeakerInsertTest extends AndroidTestCase{
     private static int[] session;
     private static String country;
     private static long speakerAssignId;
+
     private void insertValuesTest() {
         DbHelper dbHelper = new DbHelper(mContext);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -46,27 +47,50 @@ public class SpeakerInsertTest extends AndroidTestCase{
         session = null;
         country = "india";
 
-        ContentValues contentValues =  new ContentValues();
-        contentValues.put(DbContract.Speakers.NAME,name);
-        contentValues.put(DbContract.Speakers.PHOTO,photo);
-        contentValues.put(DbContract.Speakers.BIO,bio);
-        contentValues.put(DbContract.Speakers.EMAIL,email);
-        contentValues.put(DbContract.Speakers.WEB,web);
-        contentValues.put(DbContract.Speakers.TWITTER,twitter);
-        contentValues.put(DbContract.Speakers.FACEBOOK,facebook);
-        contentValues.put(DbContract.Speakers.GITHUB,github);
-        contentValues.put(DbContract.Speakers.LINKEDIN,linkedin);
-        contentValues.put(DbContract.Speakers.ORGANISATION,organisation);
-        contentValues.put(DbContract.Speakers.POSITION,position);
-        contentValues.put(DbContract.Speakers.COUNTRY,country);
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DbContract.Speakers.NAME, name);
+        contentValues.put(DbContract.Speakers.PHOTO, photo);
+        contentValues.put(DbContract.Speakers.BIO, bio);
+        contentValues.put(DbContract.Speakers.EMAIL, email);
+        contentValues.put(DbContract.Speakers.WEB, web);
+        contentValues.put(DbContract.Speakers.TWITTER, twitter);
+        contentValues.put(DbContract.Speakers.FACEBOOK, facebook);
+        contentValues.put(DbContract.Speakers.GITHUB, github);
+        contentValues.put(DbContract.Speakers.LINKEDIN, linkedin);
+        contentValues.put(DbContract.Speakers.ORGANISATION, organisation);
+        contentValues.put(DbContract.Speakers.POSITION, position);
+        contentValues.put(DbContract.Speakers.COUNTRY, country);
 
-        speakerAssignId=db.insert(DbContract.Speakers.TABLE_NAME,null,contentValues);
+        speakerAssignId = db.insert(DbContract.Speakers.TABLE_NAME, null, contentValues);
         assertTrue(speakerAssignId != -1);
     }
-    public void TestDataCorrectness(){
+
+    public void TestDataCorrectness() {
         DbHelper dbHelper = new DbHelper(mContext);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        Cursor cursor = db.query(DbContract.Speakers.TABLE_NAME,null,null,null,null,null,null);
+        Cursor cursor = db.query(DbContract.Speakers.TABLE_NAME, null, null, null, null, null, null);
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DbContract.Speakers.NAME, name);
+        contentValues.put(DbContract.Speakers.PHOTO, photo);
+        contentValues.put(DbContract.Speakers.BIO, bio);
+        contentValues.put(DbContract.Speakers.EMAIL, email);
+        contentValues.put(DbContract.Speakers.WEB, web);
+        contentValues.put(DbContract.Speakers.TWITTER, twitter);
+        contentValues.put(DbContract.Speakers.FACEBOOK, facebook);
+        contentValues.put(DbContract.Speakers.GITHUB, github);
+        contentValues.put(DbContract.Speakers.LINKEDIN, linkedin);
+        contentValues.put(DbContract.Speakers.ORGANISATION, organisation);
+        contentValues.put(DbContract.Speakers.POSITION, position);
+        contentValues.put(DbContract.Speakers.COUNTRY, country);
+
+        speakerAssignId = db.insert(DbContract.Speakers.TABLE_NAME, null, contentValues);
+        assertTrue(speakerAssignId != -1);
+    }
+
+    public void testDataCorrectness() {
+        DbHelper dbHelper = new DbHelper(mContext);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        Cursor cursor = db.query(DbContract.Speakers.TABLE_NAME, null, null, null, null, null, null);
         assertTrue(cursor.moveToFirst());
 
         int idColumnIndex = cursor.getColumnIndex(DbContract.Speakers.ID);
@@ -108,19 +132,19 @@ public class SpeakerInsertTest extends AndroidTestCase{
         int countryColumnIndex = cursor.getColumnIndex(DbContract.Speakers.COUNTRY);
         String dbCountry = cursor.getString(countryColumnIndex);
 
-        assertEquals(id,dbId);
-        assertEquals(name,dbName);
-        assertEquals(photo,dbPhoto);
-        assertEquals(bio,dbBio);
-        assertEquals(email,dbEmail);
-        assertEquals(web,dbWeb);
-        assertEquals(twitter,dbTwitter);
-        assertEquals(facebook,dbFacebook);
-        assertEquals(github,dbGithub);
-        assertEquals(linkedin,dbLinkedin);
-        assertEquals(organisation,dbOrganisation);
-        assertEquals(position,dbPosition);
-        assertEquals(country,dbCountry);
+        assertEquals(id, dbId);
+        assertEquals(name, dbName);
+        assertEquals(photo, dbPhoto);
+        assertEquals(bio, dbBio);
+        assertEquals(email, dbEmail);
+        assertEquals(web, dbWeb);
+        assertEquals(twitter, dbTwitter);
+        assertEquals(facebook, dbFacebook);
+        assertEquals(github, dbGithub);
+        assertEquals(linkedin, dbLinkedin);
+        assertEquals(organisation, dbOrganisation);
+        assertEquals(position, dbPosition);
+        assertEquals(country, dbCountry);
 
     }
 

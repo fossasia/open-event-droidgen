@@ -15,41 +15,42 @@ public class DatabaseTest extends AndroidTestCase {
         assertTrue(mContext.deleteDatabase(DbContract.DATABASE_NAME));
     }
 
-    public void TestCreateDB() {
+    public void testCreateDB() {
         DbHelper dbHelper = new DbHelper(mContext);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         assertTrue(db.isOpen());
         db.close();
     }
 
-    public void TestSpeakersList() throws Exception {
+    public void testSpeakersList() throws Exception {
         DbSingleton dbSingleton = DbSingleton.getInstance();
 
         assertNotNull(dbSingleton.getSpeakerList());
         assertTrue(dbSingleton.getSpeakerList().size() > 0);
     }
 
-    public void TestSessionsList() throws Exception {
+    public void testSessionsList() throws Exception {
         DbSingleton dbSingleton = DbSingleton.getInstance();
 
         assertNotNull(dbSingleton.getSessionList());
         assertTrue(dbSingleton.getSessionList().size() > 0);
     }
 
-    public void TestTracksList() throws Exception {
+
+    public void testTracksList() throws Exception {
         DbSingleton dbSingleton = DbSingleton.getInstance();
 
         assertNotNull(dbSingleton.getTrackList());
         assertTrue(dbSingleton.getTrackList().size() > 0);
     }
 
-    public void TestVersionList() throws Exception {
+    public void testVersionList() throws Exception {
         DbSingleton dbSingleton = DbSingleton.getInstance();
 
         assertNotNull(dbSingleton.getVersionIds());
     }
 
-    public void TestSponsorsList() throws Exception {
+    public void testSponsorsList() throws Exception {
         DbSingleton dbSingleton = DbSingleton.getInstance();
 
         assertNotNull(dbSingleton.getSponsorList());

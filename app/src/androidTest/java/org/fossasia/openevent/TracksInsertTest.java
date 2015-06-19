@@ -33,7 +33,7 @@ public class TracksInsertTest extends AndroidTestCase {
         assertTrue(tracksAssignId != -1);
     }
 
-    public void TestDataCorrectness() {
+    public void testDataCorrectness() {
         DbHelper dbHelper = new DbHelper(mContext);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         Cursor cursor = db.query(DbContract.Tracks.TABLE_NAME, null, null, null, null, null, null);
