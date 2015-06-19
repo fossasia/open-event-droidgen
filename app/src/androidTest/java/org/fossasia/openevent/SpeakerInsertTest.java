@@ -1,0 +1,129 @@
+package org.fossasia.openevent;
+
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.test.AndroidTestCase;
+
+import org.fossasia.openevent.dbutils.DbContract;
+import org.fossasia.openevent.dbutils.DbHelper;
+
+/**
+ * Created by MananWason on 17-06-2015.
+ */
+public class SpeakerInsertTest extends AndroidTestCase {
+    private static int id;
+    private static String name;
+    private static String photo;
+    private static String bio;
+    private static String email;
+    private static String web;
+    private static String twitter;
+    private static String facebook;
+    private static String github;
+    private static String linkedin;
+    private static String organisation;
+    private static String position;
+    private static int[] session;
+    private static String country;
+    private static long speakerAssignId;
+
+    private void insertValuesTest() {
+        DbHelper dbHelper = new DbHelper(mContext);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        id = 1;
+        name = "Manan";
+        photo = "https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/8/005/05f/03a/3f2a7fd.jpg";
+        bio = "event android app";
+        email = "manan.wason@gmail.com";
+        web = "mananwason.wordpress.com";
+        twitter = "twitter.com/mananwason9";
+        facebook = "facebook.com/manan";
+        github = "github.com/mananwason";
+        linkedin = "";
+        organisation = "fossasia";
+        position = "student";
+        session = null;
+        country = "india";
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DbContract.Speakers.NAME, name);
+        contentValues.put(DbContract.Speakers.PHOTO, photo);
+        contentValues.put(DbContract.Speakers.BIO, bio);
+        contentValues.put(DbContract.Speakers.EMAIL, email);
+        contentValues.put(DbContract.Speakers.WEB, web);
+        contentValues.put(DbContract.Speakers.TWITTER, twitter);
+        contentValues.put(DbContract.Speakers.FACEBOOK, facebook);
+        contentValues.put(DbContract.Speakers.GITHUB, github);
+        contentValues.put(DbContract.Speakers.LINKEDIN, linkedin);
+        contentValues.put(DbContract.Speakers.ORGANISATION, organisation);
+        contentValues.put(DbContract.Speakers.POSITION, position);
+        contentValues.put(DbContract.Speakers.COUNTRY, country);
+
+        speakerAssignId = db.insert(DbContract.Speakers.TABLE_NAME, null, contentValues);
+        assertTrue(speakerAssignId != -1);
+    }
+
+    public void testDataCorrectness() {
+        DbHelper dbHelper = new DbHelper(mContext);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        Cursor cursor = db.query(DbContract.Speakers.TABLE_NAME, null, null, null, null, null, null);
+        assertTrue(cursor.moveToFirst());
+
+        int idColumnIndex = cursor.getColumnIndex(DbContract.Speakers.ID);
+        int dbId = cursor.getInt(idColumnIndex);
+
+        int nameColumnIndex = cursor.getColumnIndex(DbContract.Speakers.NAME);
+        String dbName = cursor.getString(nameColumnIndex);
+
+        int photoColumnIndex = cursor.getColumnIndex(DbContract.Speakers.PHOTO);
+        String dbPhoto = cursor.getString(photoColumnIndex);
+
+        int bioColumnIndex = cursor.getColumnIndex(DbContract.Speakers.BIO);
+        String dbBio = cursor.getString(bioColumnIndex);
+
+        int emailColumnIndex = cursor.getColumnIndex(DbContract.Speakers.EMAIL);
+        String dbEmail = cursor.getString(emailColumnIndex);
+
+        int webColumnIndex = cursor.getColumnIndex(DbContract.Speakers.WEB);
+        String dbWeb = cursor.getString(webColumnIndex);
+
+        int twitterColumnIndex = cursor.getColumnIndex(DbContract.Speakers.TWITTER);
+        String dbTwitter = cursor.getString(twitterColumnIndex);
+
+        int facebookColumnIndex = cursor.getColumnIndex(DbContract.Speakers.FACEBOOK);
+        String dbFacebook = cursor.getString(facebookColumnIndex);
+
+        int githubColumnIndex = cursor.getColumnIndex(DbContract.Speakers.GITHUB);
+        String dbGithub = cursor.getString(githubColumnIndex);
+
+        int linkedinColumnIndex = cursor.getColumnIndex(DbContract.Speakers.LINKEDIN);
+        String dbLinkedin = cursor.getString(linkedinColumnIndex);
+
+        int organisationColumnIndex = cursor.getColumnIndex(DbContract.Speakers.ORGANISATION);
+        String dbOrganisation = cursor.getString(organisationColumnIndex);
+
+        int positionColumnIndex = cursor.getColumnIndex(DbContract.Speakers.POSITION);
+        String dbPosition = cursor.getString(positionColumnIndex);
+
+        int countryColumnIndex = cursor.getColumnIndex(DbContract.Speakers.COUNTRY);
+        String dbCountry = cursor.getString(countryColumnIndex);
+
+        assertEquals(id, dbId);
+        assertEquals(name, dbName);
+        assertEquals(photo, dbPhoto);
+        assertEquals(bio, dbBio);
+        assertEquals(email, dbEmail);
+        assertEquals(web, dbWeb);
+        assertEquals(twitter, dbTwitter);
+        assertEquals(facebook, dbFacebook);
+        assertEquals(github, dbGithub);
+        assertEquals(linkedin, dbLinkedin);
+        assertEquals(organisation, dbOrganisation);
+        assertEquals(position, dbPosition);
+        assertEquals(country, dbCountry);
+
+    }
+
+}
