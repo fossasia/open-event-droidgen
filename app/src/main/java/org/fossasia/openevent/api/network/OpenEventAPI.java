@@ -19,7 +19,6 @@ import retrofit.http.Path;
 public interface OpenEventAPI {
 
 
-    //TODO: Fix Hardcoding here
     @GET("/event/{id}/speakers")
     void getSpeakers(@Path("id") int id, Callback<SpeakerResponseList> speakerResponseListCallback);
 

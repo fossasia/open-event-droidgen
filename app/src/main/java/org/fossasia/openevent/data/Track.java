@@ -34,7 +34,12 @@ public class Track {
 
     public String generateSql() {
         String query_normal = "INSERT INTO %s VALUES ('%d', %s, %s);";
-        String query = String.format(query_normal, DbContract.Tracks.TABLE_NAME, id, DatabaseUtils.sqlEscapeString(name), DatabaseUtils.sqlEscapeString(description));
+        String query = String.format(
+                query_normal,
+                DbContract.Tracks.TABLE_NAME,
+                id,
+                DatabaseUtils.sqlEscapeString(name),
+                DatabaseUtils.sqlEscapeString(description));
         return query;
 
     }

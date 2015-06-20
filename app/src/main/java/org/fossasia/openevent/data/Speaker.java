@@ -163,7 +163,22 @@ public class Speaker {
     public String generateSql() {
         SqlEscapeString escapeString = new SqlEscapeString();
         String query_normal = "INSERT INTO %s VALUES ('%d', %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s);";
-        String query = String.format(query_normal, DbContract.Speakers.TABLE_NAME, id, escapeString.sqlString(name), escapeString.sqlString(photo), escapeString.sqlString(bio), escapeString.sqlString(email), escapeString.sqlString(web), escapeString.sqlString(facebook), escapeString.sqlString(twitter), escapeString.sqlString(github), escapeString.sqlString(linkedin), escapeString.sqlString(organisation), escapeString.sqlString(position), escapeString.sqlString(country));
+        String query = String.format(
+                query_normal,
+                DbContract.Speakers.TABLE_NAME,
+                id,
+                escapeString.sqlString(name),
+                escapeString.sqlString(photo),
+                escapeString.sqlString(bio),
+                escapeString.sqlString(email),
+                escapeString.sqlString(web),
+                escapeString.sqlString(facebook),
+                escapeString.sqlString(twitter),
+                escapeString.sqlString(github),
+                escapeString.sqlString(linkedin),
+                escapeString.sqlString(organisation),
+                escapeString.sqlString(position),
+                escapeString.sqlString(country));
         return query;
     }
 }
