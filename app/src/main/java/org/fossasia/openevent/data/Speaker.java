@@ -1,9 +1,10 @@
 package org.fossasia.openevent.data;
 
+import android.database.DatabaseUtils;
+
 import com.google.gson.annotations.SerializedName;
 
 import org.fossasia.openevent.dbutils.DbContract;
-import org.fossasia.openevent.utils.SqlEscapeString;
 
 /**
  * Created by championswimmer on 16/5/15.
@@ -11,20 +12,33 @@ import org.fossasia.openevent.utils.SqlEscapeString;
 public class Speaker {
 
     int id;
+
     String name;
+
     String photo;
+
     @SerializedName("biography")
     String bio;
+
     String email;
+
     String web;
+
     String twitter;
+
     String facebook;
+
     String github;
+
     String linkedin;
+
     String organisation;
+
     String position;
+
     @SerializedName("sessions")
     int[] session;
+
     String country;
 
     public Speaker(int id, String name, String photo,
@@ -161,24 +175,23 @@ public class Speaker {
     }
 
     public String generateSql() {
-        SqlEscapeString escapeString = new SqlEscapeString();
-        String query_normal = "INSERT INTO %s VALUES ('%d', %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s);";
+        String query_normal = "INSERT INTO %s VALUES ('%d', %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);";
         String query = String.format(
                 query_normal,
                 DbContract.Speakers.TABLE_NAME,
                 id,
-                escapeString.sqlString(name),
-                escapeString.sqlString(photo),
-                escapeString.sqlString(bio),
-                escapeString.sqlString(email),
-                escapeString.sqlString(web),
-                escapeString.sqlString(facebook),
-                escapeString.sqlString(twitter),
-                escapeString.sqlString(github),
-                escapeString.sqlString(linkedin),
-                escapeString.sqlString(organisation),
-                escapeString.sqlString(position),
-                escapeString.sqlString(country));
+                DatabaseUtils.sqlEscapeString(name),
+                DatabaseUtils.sqlEscapeString(photo),
+                DatabaseUtils.sqlEscapeString(bio),
+                DatabaseUtils.sqlEscapeString(email),
+                DatabaseUtils.sqlEscapeString(web),
+                DatabaseUtils.sqlEscapeString(facebook),
+                DatabaseUtils.sqlEscapeString(twitter),
+                DatabaseUtils.sqlEscapeString(github),
+                DatabaseUtils.sqlEscapeString(linkedin),
+                DatabaseUtils.sqlEscapeString(organisation),
+                DatabaseUtils.sqlEscapeString(position),
+                DatabaseUtils.sqlEscapeString(country));
         return query;
     }
 }

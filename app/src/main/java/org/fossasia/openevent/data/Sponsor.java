@@ -1,5 +1,7 @@
 package org.fossasia.openevent.data;
 
+import android.database.DatabaseUtils;
+
 import org.fossasia.openevent.dbutils.DbContract;
 
 /**
@@ -8,8 +10,11 @@ import org.fossasia.openevent.dbutils.DbContract;
 public class Sponsor {
 
     int id;
+
     String name;
+
     String url;
+
     String logo;
 
     public Sponsor(int id, String name, String url, String logo) {
@@ -37,8 +42,14 @@ public class Sponsor {
 
 
     public String generateSql() {
-        String query_normal = "INSERT INTO %s VALUES ('%d', '%s', '%s', '%s');";
-        String query = String.format(query_normal, DbContract.Sponsors.TABLE_NAME, id, name, url, logo);
+        String query_normal = "INSERT INTO %s VALUES ('%d', %s, %s, %s);";
+        String query = String.format(
+                query_normal,
+                DbContract.Sponsors.TABLE_NAME,
+                id,
+                DatabaseUtils.sqlEscapeString(name),
+                DatabaseUtils.sqlEscapeString(url),
+                DatabaseUtils.sqlEscapeString(logo));
         return query;
     }
 }

@@ -10,7 +10,9 @@ import org.fossasia.openevent.dbutils.DbContract;
 public class Track {
 
     int id;
+
     String name;
+
     String description;
 
     public Track(int id, String name, String description) {

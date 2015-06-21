@@ -17,10 +17,15 @@ public class SponsorInsertTest extends AndroidTestCase {
     private static String url;
     private static String logo;
     private static long sponsorsAssignId;
+    private DbHelper db;
 
-    private void insertValuesTest() {
-        DbHelper dbHelper = new DbHelper(mContext);
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+
+        db = new DbHelper(mContext);
+        SQLiteDatabase database = db.getWritableDatabase();
+
 
         id = 1;
         name = "Android";
@@ -32,7 +37,7 @@ public class SponsorInsertTest extends AndroidTestCase {
         contentValues.put(DbContract.Sponsors.URL, url);
         contentValues.put(DbContract.Sponsors.LOGO_URL, logo);
 
-        sponsorsAssignId = db.insert(DbContract.Sponsors.TABLE_NAME, null, contentValues);
+        sponsorsAssignId = database.insert(DbContract.Sponsors.TABLE_NAME, null, contentValues);
         assertTrue(sponsorsAssignId != -1);
     }
 
@@ -53,11 +58,18 @@ public class SponsorInsertTest extends AndroidTestCase {
 
         int logoColumnIndex = cursor.getColumnIndex(DbContract.Sponsors.LOGO_URL);
         String dbLogo = cursor.getString(logoColumnIndex);
-
+        cursor.close();
         assertEquals(id, dbId);
         assertEquals(name, dbName);
         assertEquals(logo, dbLogo);
         assertEquals(url, dbUrl);
 
+    }
+
+    @Override
+    protected void tearDown() throws Exception {
+        getContext().deleteDatabase(DbContract.DATABASE_NAME);
+        db.close();
+        super.tearDown();
     }
 }

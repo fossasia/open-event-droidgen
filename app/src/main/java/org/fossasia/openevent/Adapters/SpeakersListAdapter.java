@@ -57,8 +57,11 @@ public class SpeakersListAdapter extends RecyclerView.Adapter<SpeakersListAdapte
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         ImageView speaker_image;
+
         TextView name;
+
         TextView designation;
+
         TextView bio;
 
         public ViewHolder(View itemView) {

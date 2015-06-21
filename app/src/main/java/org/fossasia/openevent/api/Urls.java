@@ -6,6 +6,7 @@ package org.fossasia.openevent.api;
 public abstract class Urls {
 
     public static final String API_VERSION = "v1";
+
     /**
      * Change Event Id Here *
      */
