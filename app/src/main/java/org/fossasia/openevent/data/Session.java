@@ -1,5 +1,7 @@
 package org.fossasia.openevent.data;
 
+import android.database.DatabaseUtils;
+
 import com.google.gson.annotations.SerializedName;
 
 import org.fossasia.openevent.dbutils.DbContract;
@@ -13,19 +15,30 @@ import java.text.ParseException;
 public class Session {
 
     int id;
+
     String title;
+
     String subtitle;
+
     @SerializedName("abstract")
     String summary;
+
     String description;
+
     @SerializedName("start_time")
     String startTime;
+
     @SerializedName("end_time")
     String endTime;
+
     String type;
+
     int track;
+
     String level;
+
     int[] speakers;
+
     @SerializedName("microlocation")
     int microlocations;
 
@@ -161,8 +174,21 @@ public class Session {
 
 
     public String generateSql() {
-        String query_normal = "INSERT INTO %s VALUES ('%d', '%s', '%s','%s', '%s', '%s', '%s', '%s', '%d', '%s', '%d');";
-        String query = String.format(query_normal, DbContract.Sessions.TABLE_NAME, id, title, subtitle, summary, description, startTime, endTime, type, track, level, microlocations);
+        String query_normal = "INSERT INTO %s VALUES ('%d', %s, %s, %s, %s, %s, %s, %s, '%d', %s, '%d');";
+        String query = String.format(
+                query_normal,
+                DbContract.Sessions.TABLE_NAME,
+                id,
+                DatabaseUtils.sqlEscapeString(title),
+                DatabaseUtils.sqlEscapeString(subtitle),
+                DatabaseUtils.sqlEscapeString(summary),
+                DatabaseUtils.sqlEscapeString(description),
+                DatabaseUtils.sqlEscapeString(startTime),
+                DatabaseUtils.sqlEscapeString(endTime),
+                DatabaseUtils.sqlEscapeString(type),
+                track,
+                DatabaseUtils.sqlEscapeString(level),
+                microlocations);
         return query;
     }
 

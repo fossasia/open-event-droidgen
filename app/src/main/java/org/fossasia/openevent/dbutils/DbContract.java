@@ -273,7 +273,8 @@ public class DbContract {
         public static final String LATITUDE = "latitude";
         public static final String LONGITUDE = "longitude";
         public static final String LOCATION_NAME = "location_name";
-
+        public static final String EVENT_URL = "event_url";
+        public static final String EVENT_SLOGAN = "slogan";
 
         public static final String[] FULL_PROJECTION = {
                 ID,
@@ -285,7 +286,9 @@ public class DbContract {
                 END,
                 LATITUDE,
                 LONGITUDE,
-                LOCATION_NAME
+                LOCATION_NAME,
+                EVENT_URL,
+                EVENT_SLOGAN
         };
 
         public static final String CREATE_TABLE =
@@ -300,7 +303,9 @@ public class DbContract {
                         + END + TEXT_TYPE + COMMA_SEP
                         + LATITUDE + REAL_TYPE + COMMA_SEP
                         + LONGITUDE + REAL_TYPE + COMMA_SEP
-                        + LOCATION_NAME + TEXT_TYPE
+                        + LOCATION_NAME + TEXT_TYPE + COMMA_SEP
+                        + EVENT_URL + TEXT_TYPE + COMMA_SEP
+                        + EVENT_SLOGAN + TEXT_TYPE
                         + " );";
         public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
     }

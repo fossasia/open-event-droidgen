@@ -13,6 +13,10 @@ public class DbHelper extends SQLiteOpenHelper {
         super(context, DbContract.DATABASE_NAME, null, DbContract.DATABASE_VERSION);
     }
 
+    public DbHelper(Context context, String dbName) {
+        super(context, dbName, null, DbContract.DATABASE_VERSION);
+    }
+
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(DbContract.Speakers.CREATE_TABLE);

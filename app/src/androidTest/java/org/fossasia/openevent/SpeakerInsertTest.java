@@ -13,24 +13,43 @@ import org.fossasia.openevent.dbutils.DbHelper;
  */
 public class SpeakerInsertTest extends AndroidTestCase {
     private static int id;
+
     private static String name;
+
     private static String photo;
+
     private static String bio;
+
     private static String email;
+
     private static String web;
+
     private static String twitter;
+
     private static String facebook;
+
     private static String github;
+
     private static String linkedin;
+
     private static String organisation;
+
     private static String position;
+
     private static int[] session;
+
     private static String country;
+
     private static long speakerAssignId;
 
-    private void insertValuesTest() {
-        DbHelper dbHelper = new DbHelper(mContext);
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
+    private DbHelper db;
+
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+
+        db = new DbHelper(mContext);
+        SQLiteDatabase database = db.getWritableDatabase();
 
         id = 1;
         name = "Manan";
@@ -61,7 +80,7 @@ public class SpeakerInsertTest extends AndroidTestCase {
         contentValues.put(DbContract.Speakers.POSITION, position);
         contentValues.put(DbContract.Speakers.COUNTRY, country);
 
-        speakerAssignId = db.insert(DbContract.Speakers.TABLE_NAME, null, contentValues);
+        speakerAssignId = database.insert(DbContract.Speakers.TABLE_NAME, null, contentValues);
         assertTrue(speakerAssignId != -1);
     }
 
@@ -109,7 +128,7 @@ public class SpeakerInsertTest extends AndroidTestCase {
 
         int countryColumnIndex = cursor.getColumnIndex(DbContract.Speakers.COUNTRY);
         String dbCountry = cursor.getString(countryColumnIndex);
-
+        cursor.close();
         assertEquals(id, dbId);
         assertEquals(name, dbName);
         assertEquals(photo, dbPhoto);
@@ -126,4 +145,10 @@ public class SpeakerInsertTest extends AndroidTestCase {
 
     }
 
+    @Override
+    protected void tearDown() throws Exception {
+        getContext().deleteDatabase(DbContract.DATABASE_NAME);
+        db.close();
+        super.tearDown();
+    }
 }

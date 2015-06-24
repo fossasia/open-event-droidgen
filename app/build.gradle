@@ -23,6 +23,7 @@ android {
         versionCode 1
         versionName "0.1"
 
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "GIT_SHA", "\"${gitSha}\""
         buildConfigField "String", "BUILD_TIME", "\"${buildTime}\""
     }
@@ -38,6 +39,9 @@ android {
         }
         googleplay {
         }
+    }
+    packagingOptions {
+        exclude 'LICENSE.txt'
     }
 }
 
@@ -58,4 +62,8 @@ dependencies {
     fdroidCompile 'org.osmdroid:osmdroid-android:4.3'
     fdroidCompile 'org.apache.directory.studio:org.slf4j.api:1.7.2'
     fdroidCompile 'org.slf4j:slf4j-simple:1.7.12'
+    testCompile 'junit:junit:4.12'
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2'
+    androidTestCompile 'com.android.support.test:runner:0.3'
+    androidTestCompile 'com.android.support.test.espresso:espresso-contrib:2.2'
 }

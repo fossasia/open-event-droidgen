@@ -1,5 +1,7 @@
 package org.fossasia.openevent.data;
 
+import android.database.DatabaseUtils;
+
 import com.google.gson.annotations.SerializedName;
 
 import org.fossasia.openevent.dbutils.DbContract;
@@ -10,20 +12,33 @@ import org.fossasia.openevent.dbutils.DbContract;
 public class Speaker {
 
     int id;
+
     String name;
+
     String photo;
+
     @SerializedName("biography")
     String bio;
+
     String email;
+
     String web;
+
     String twitter;
+
     String facebook;
+
     String github;
+
     String linkedin;
+
     String organisation;
+
     String position;
+
     @SerializedName("sessions")
     int[] session;
+
     String country;
 
     public Speaker(int id, String name, String photo,
@@ -160,8 +175,23 @@ public class Speaker {
     }
 
     public String generateSql() {
-        String query_normal = "INSERT INTO %s VALUES ('%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s','%s');";
-        String query = String.format(query_normal, DbContract.Speakers.TABLE_NAME, id, name, photo, bio, email, web, facebook, twitter, github, linkedin, organisation, position, country);
+        String query_normal = "INSERT INTO %s VALUES ('%d', %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);";
+        String query = String.format(
+                query_normal,
+                DbContract.Speakers.TABLE_NAME,
+                id,
+                DatabaseUtils.sqlEscapeString(name),
+                DatabaseUtils.sqlEscapeString(photo),
+                DatabaseUtils.sqlEscapeString(bio),
+                DatabaseUtils.sqlEscapeString(email),
+                DatabaseUtils.sqlEscapeString(web),
+                DatabaseUtils.sqlEscapeString(facebook),
+                DatabaseUtils.sqlEscapeString(twitter),
+                DatabaseUtils.sqlEscapeString(github),
+                DatabaseUtils.sqlEscapeString(linkedin),
+                DatabaseUtils.sqlEscapeString(organisation),
+                DatabaseUtils.sqlEscapeString(position),
+                DatabaseUtils.sqlEscapeString(country));
         return query;
     }
 }

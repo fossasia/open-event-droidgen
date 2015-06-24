@@ -16,10 +16,13 @@ public class TracksInsertTest extends AndroidTestCase {
     private static String name;
     private static String description;
     private static long tracksAssignId;
+    private DbHelper db;
 
-    private void insertValuesTest() {
-        DbHelper dbHelper = new DbHelper(mContext);
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        db = new DbHelper(mContext);
+        SQLiteDatabase database = db.getWritableDatabase();
 
         id = 1;
         name = "Android";
@@ -29,8 +32,9 @@ public class TracksInsertTest extends AndroidTestCase {
         contentValues.put(DbContract.Tracks.NAME, name);
         contentValues.put(DbContract.Tracks.DESCRIPTION, description);
 
-        tracksAssignId = db.insert(DbContract.Tracks.TABLE_NAME, null, contentValues);
+        tracksAssignId = database.insert(DbContract.Tracks.TABLE_NAME, null, contentValues);
         assertTrue(tracksAssignId != -1);
+
     }
 
     public void testDataCorrectness() {
@@ -47,9 +51,16 @@ public class TracksInsertTest extends AndroidTestCase {
 
         int descriptionColumnIndex = cursor.getColumnIndex(DbContract.Tracks.DESCRIPTION);
         String dbDescription = cursor.getString(descriptionColumnIndex);
-
+        cursor.close();
         assertEquals(id, dbId);
         assertEquals(name, dbName);
         assertEquals(description, dbDescription);
+    }
+
+    @Override
+    protected void tearDown() throws Exception {
+        getContext().deleteDatabase(DbContract.DATABASE_NAME);
+        db.close();
+        super.tearDown();
     }
 }

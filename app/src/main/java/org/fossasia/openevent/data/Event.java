@@ -11,21 +11,34 @@ public class Event {
 
 
     int id;
+
     String name;
+
     String email;
+
     String color;
+
     String logo;
+
     @SerializedName("start_time")
     String start;
+
     @SerializedName("end_time")
     String end;
+
     float latitude;
+
     float longitude;
+
     @SerializedName("location_name")
     String locationName;
 
+    String url;
+
+    String slogan;
+
     public Event(int id, String name, String email, String color, String logo, String start,
-                 String end, float latitude, float longitude, String locationName) {
+                 String end, float latitude, float longitude, String locationName, String url, String slogan) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -36,6 +49,8 @@ public class Event {
         this.latitude = latitude;
         this.longitude = longitude;
         this.locationName = locationName;
+        this.url = url;
+        this.slogan = slogan;
     }
 
     public String getEmail() {
@@ -54,7 +69,24 @@ public class Event {
         this.color = color;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getSlogan() {
+        return slogan;
+    }
+
+    public void setSlogan(String slogan) {
+        this.slogan = slogan;
+    }
+
     public int getId() {
+
         return id;
 
     }
@@ -107,6 +139,9 @@ public class Event {
         return longitude;
     }
 
+    public void setLongitude(float longitude) {
+        this.longitude = longitude;
+    }
 
     public String getLocationName() {
         return locationName;
@@ -117,8 +152,22 @@ public class Event {
     }
 
     public String generateSql() {
-        String query_normal = "INSERT INTO %s VALUES ('%d', '%s', '%s','%s', '%s', '%s', '%s', '%f', '%f', '%s');";
-        String query = String.format(query_normal, DbContract.Event.TABLE_NAME, id, name, email, color, logo, start, end, latitude, longitude, locationName);
+        String query_normal = "INSERT INTO %s VALUES ('%d', '%s', '%s','%s', '%s', '%s', '%s', '%f', '%f', '%s', '%s', '%s');";
+        String query = String.format(
+                query_normal,
+                DbContract.Event.TABLE_NAME,
+                id,
+                name,
+                email,
+                color,
+                logo,
+                start,
+                end,
+                latitude,
+                longitude,
+                locationName,
+                url,
+                slogan);
         return query;
     }
 
