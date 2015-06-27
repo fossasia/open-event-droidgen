@@ -1,6 +1,7 @@
 package org.fossasia.openevent.dbutils;
 
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
@@ -144,7 +145,6 @@ public class DatabaseOperations {
             Log.d("singl", s.getName());
         }
         cur.close();
-        mDb.close();
         return speakers;
     }
 
@@ -282,9 +282,66 @@ public class DatabaseOperations {
 
 
 
-    public Session getSessionbyTracksname(String trackName) {
-        return null;
+    public ArrayList<Session> getSessionbyTracksname(String trackName, SQLiteDatabase mDb) throws ParseException {
+        String tracksColumnSelection = DbContract.Tracks.NAME + EQUAL + DatabaseUtils.sqlEscapeString(trackName);
+        String[] columns = {DbContract.Tracks.ID, DbContract.Tracks.NAME};
+        Cursor tracksCursor = mDb.query(
+                DbContract.Tracks.TABLE_NAME,
+                columns,
+                tracksColumnSelection,
+                null,
+                null,
+                null,
+                null
+        );
+        int trackSelected;
+        tracksCursor.moveToFirst();
+        trackSelected = tracksCursor.getInt(tracksCursor.getColumnIndex(DbContract.Tracks.ID));
 
+        //tracksCursor.close();
+
+        //Select columns having track id same as that obtained previously
+        String sessionColumnSelection = DbContract.Sessions.TRACK + EQUAL + trackSelected;
+
+        //Order
+        String sortOrder = DbContract.Sessions.ID + ASCENDING;
+
+        Cursor sessionCursor = mDb.query(
+                DbContract.Sessions.TABLE_NAME,
+                DbContract.Sessions.FULL_PROJECTION,
+                sessionColumnSelection,
+                null,
+                null,
+                null,
+                null
+        );
+
+        ArrayList<Session> sessions = new ArrayList<>();
+        Session session;
+        sessionCursor.moveToFirst();
+        //Should return only one due to UNIQUE constraint
+        while (!sessionCursor.isAfterLast()) {
+            session = new Session(
+                    sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.ID)),
+                    sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.TITLE)),
+                    sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.SUBTITLE)),
+                    sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.SUMMARY)),
+                    sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.DESCRIPTION)),
+                    sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.START_TIME)),
+                    sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.END_TIME)),
+                    sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.TYPE)),
+                    sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.TRACK)),
+                    sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.LEVEL)),
+                    null,
+                    sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.MICROLOCATION))
+            );
+            sessions.add(session);
+            sessionCursor.moveToNext();
+        }
+
+        sessionCursor.close();
+        Log.d("SessionbyTrack", sessions.size() + "");
+        return sessions;
     }
 
     public void insertQueries(ArrayList<String> queries,DbHelper mDbHelper) {

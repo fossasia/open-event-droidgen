@@ -22,7 +22,6 @@ import org.fossasia.openevent.fragments.TracksFragment;
 public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
-
     private Toolbar mToolbar;
     private ActionBarDrawerToggle mActionBarDrawerToggle;
 

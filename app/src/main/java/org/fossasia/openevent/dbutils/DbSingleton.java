@@ -17,7 +17,7 @@ import java.util.List;
  * Created by championswimmer on 17/5/15.
  */
 public class DbSingleton {
-    
+
     private static DbSingleton mInstance;
 
     private static Context mContext;
@@ -98,13 +98,11 @@ public class DbSingleton {
     public ArrayList<Sponsor> getSponsorList() {
         getReadOnlyDatabase();
         return databaseOperations.getSponsorList(mDb);
-
     }
 
 
-    public Session getSessionbyTracksname(String trackName) {
-        return null;
-
+    public ArrayList<Session> getSessionbyTracksname(String trackName) throws ParseException {
+        return databaseOperations.getSessionbyTracksname(trackName, mDb);
     }
 
     public void insertQueries(ArrayList<String> queries) {
