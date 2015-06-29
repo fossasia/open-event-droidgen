@@ -71,7 +71,7 @@ public class DatabaseTest extends AndroidTestCase {
         String versionQuery = version.generateSql();
         Log.d("VErsion", versionQuery);
         queries.add(versionQuery);
-        Track track = new Track(6, "android", "open source mobile os by google");
+        Track track = new Track(6, "android", "open source mobile os by google", "https://farm8.staticflickr.com/7575/15355329014_3cb3eb0c74_b.jpg");
         String trackQuery = track.generateSql();
         Log.d("track", trackQuery);
         queries.add(trackQuery);

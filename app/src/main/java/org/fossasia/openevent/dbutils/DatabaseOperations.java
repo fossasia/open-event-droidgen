@@ -239,7 +239,8 @@ public class DatabaseOperations {
             track = new Track(
                     cursor.getInt(cursor.getColumnIndex(DbContract.Tracks.ID)),
                     cursor.getString(cursor.getColumnIndex(DbContract.Tracks.NAME)),
-                    cursor.getString(cursor.getColumnIndex(DbContract.Tracks.DESCRIPTION))
+                    cursor.getString(cursor.getColumnIndex(DbContract.Tracks.DESCRIPTION)),
+                    cursor.getString(cursor.getColumnIndex(DbContract.Tracks.IMAGE))
             );
             tracks.add(track);
             cursor.moveToNext();
@@ -279,7 +280,6 @@ public class DatabaseOperations {
         cursor.close();
         return sponsors;
     }
-
 
 
     public ArrayList<Session> getSessionbyTracksname(String trackName, SQLiteDatabase mDb) throws ParseException {
@@ -344,7 +344,33 @@ public class DatabaseOperations {
         return sessions;
     }
 
-    public void insertQueries(ArrayList<String> queries,DbHelper mDbHelper) {
+    public Track getTracksbyTracksname(String trackName, SQLiteDatabase mDb) throws ParseException {
+        String tracksColumnSelection = DbContract.Tracks.NAME + EQUAL + DatabaseUtils.sqlEscapeString(trackName);
+
+        Cursor tracksCursor = mDb.query(
+                DbContract.Tracks.TABLE_NAME,
+                DbContract.Tracks.FULL_PROJECTION,
+                tracksColumnSelection,
+                null,
+                null,
+                null,
+                null
+        );
+
+        tracksCursor.moveToFirst();
+
+        Track selected = new Track(
+                tracksCursor.getInt(tracksCursor.getColumnIndex(DbContract.Tracks.ID)),
+                tracksCursor.getString(tracksCursor.getColumnIndex(DbContract.Tracks.NAME)),
+                tracksCursor.getString(tracksCursor.getColumnIndex(DbContract.Tracks.DESCRIPTION)),
+                tracksCursor.getString(tracksCursor.getColumnIndex(DbContract.Tracks.IMAGE))
+        );
+        tracksCursor.close();
+        return selected;
+
+    }
+
+    public void insertQueries(ArrayList<String> queries, DbHelper mDbHelper) {
 
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         db.beginTransaction();
