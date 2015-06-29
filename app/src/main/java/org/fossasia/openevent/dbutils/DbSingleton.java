@@ -108,8 +108,9 @@ public class DbSingleton {
     public void insertQueries(ArrayList<String> queries) {
         databaseOperations.insertQueries(queries, mDbHelper);
     }
+
     public Track getTrackbyName(String trackName) throws ParseException {
-        return databaseOperations.getTracksbyTracksname(trackName,mDb);
+        return databaseOperations.getTracksbyTracksname(trackName, mDb);
     }
 
 

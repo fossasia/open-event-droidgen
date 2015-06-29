@@ -1,10 +1,16 @@
 <android.support.v7.widget.CardView
     android:id="@+id/card_tracks"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="180dp"
+    android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:layout_margin="16dp">
+    android:layout_margin="10dp"
+    android:clickable="true"
+    card_view:cardBackgroundColor="#d3d3d3"
+    card_view:cardCornerRadius="4dp"
+    card_view:cardElevation="8dp"
+    card_view:cardUseCompatPadding="true">
 
     <LinearLayout
         android:layout_width="match_parent"

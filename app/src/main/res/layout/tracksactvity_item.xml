@@ -11,6 +11,7 @@
         android:textColor="#000000"
         android:textSize="@dimen/heading_text_size"
         android:textStyle="bold"/>
+
     <TextView
         android:id="@+id/session_abstract"
         android:layout_width="match_parent"

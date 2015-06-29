@@ -1,6 +1,7 @@
 package org.fossasia.openevent.fragments;
 
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import org.fossasia.openevent.Adapters.SpeakersListAdapter;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.utils.RecyclerItemClickListener;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,6 +23,7 @@ import org.fossasia.openevent.dbutils.DbSingleton;
  */
 public class SpeakerFragment extends Fragment {
 
+    private static final String SPEAKER = "SPEAKER";
     RecyclerView speakersRecyclerView;
     SpeakersListAdapter speakersListAdapter;
     DbSingleton dbSingleton = DbSingleton.getInstance();
@@ -33,6 +36,20 @@ public class SpeakerFragment extends Fragment {
         speakersListAdapter = new SpeakersListAdapter(dbSingleton.getSpeakerList());
         speakersRecyclerView.setAdapter(speakersListAdapter);
         speakersRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        speakersRecyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(view.getContext(),
+                        new RecyclerItemClickListener.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(View view, int position) {
+//                                String speaker_name = ((TextView) view.findViewById(R.id.speaker_name)).getText().toString();
+//                                Intent intent = new Intent(view.getContext(), SpeakersActivity.class);
+//                                intent.putExtra(SPEAKER,speaker_name);
+//                                startActivity(intent);
+                                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+                                    view.setTranslationZ(8.0f);
+                                }
+                            }
+                        }));
         return view;
     }
 }

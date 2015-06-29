@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
@@ -58,21 +59,8 @@ public class TracksActivity extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-            case R.id.map:
-                break;
-
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     private void loadImage() {
-        //TODO: Add method to parse image and add it to the view
         Track current = null;
         try {
             current = dbSingleton.getTrackbyName(track);
@@ -83,6 +71,24 @@ public class TracksActivity extends AppCompatActivity {
         ImageView backdrop1 = (ImageView) findViewById(R.id.backdrop);
         if (current.getImage().length() != 0) {
             Picasso.with(getApplicationContext()).load(current.getImage()).into(backdrop1);
+
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.sample_actions, menu);
+        return true;
     }
 }

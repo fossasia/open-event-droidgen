@@ -31,6 +31,9 @@
         <activity
             android:name=".activities.TracksActivity"
             android:label="@string/title_section_tracks"/>
+        <activity
+            android:name=".activities.SpeakersActivity"
+            android:label="@string/title_section_speakerlist"/>
     </application>
 
 </manifest>

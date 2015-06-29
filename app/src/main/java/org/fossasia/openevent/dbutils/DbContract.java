@@ -199,7 +199,7 @@ public class DbContract {
                         + ID + INT_TYPE + PRIMARY_KEY + COMMA_SEP
                         + NAME + TEXT_TYPE + COMMA_SEP
                         + DESCRIPTION + TEXT_TYPE + COMMA_SEP
-                        +IMAGE + TEXT_TYPE
+                        + IMAGE + TEXT_TYPE
                         + " );";
         public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
 

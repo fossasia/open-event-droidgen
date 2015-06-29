@@ -8,8 +8,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clipToPadding="false"
-        android:elevation="7dp"
-        android:scrollbars="vertical">
+        android:elevation="5dp"
+        android:scrollbars="vertical"
+        android:stateListAnimator="@anim/raise">
     </android.support.v7.widget.RecyclerView>
 
 </RelativeLayout>
