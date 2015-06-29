@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/ll_tracks"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              android:background="@drawable/ripple"
+              android:layout_marginTop="5dp"
+              android:layout_marginBottom="5dp"
               android:orientation="vertical">
 
     <TextView
-        android:id="@+id/session_title"
+        android:id="@+id/track_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="#000000"
-        android:textSize="@dimen/heading_text_size"
         android:textStyle="bold"/>
-    <TextView
-        android:id="@+id/session_abstract"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="#000000"
-        />
 
+    <TextView
+        android:id="@+id/track_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

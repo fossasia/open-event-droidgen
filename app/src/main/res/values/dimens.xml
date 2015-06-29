@@ -15,6 +15,7 @@
     <dimen name="schedule_column_width">360dp</dimen>
     <dimen name="detail_card_view_elevation">6dp</dimen>
     <dimen name="detail_backdrop_height">256dp</dimen>
+    <dimen name="heading_text_size">18sp</dimen>
 
     <!-- Per the design guidelines, navigation drawers should be between 240dp and 320dp:
          https://developer.android.com/design/patterns/navigation-drawer.html -->

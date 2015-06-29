@@ -15,6 +15,7 @@ import org.fossasia.openevent.R;
 import org.fossasia.openevent.activities.TracksActivity;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.RecyclerItemClickListener;
+import org.fossasia.openevent.utils.SimpleDividerItemDecoration;
 
 /**
  * Created by MananWason on 05-06-2015.
@@ -29,9 +30,10 @@ public class TracksFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.list_tracks, container, false);
         tracksRecyclerView = (RecyclerView) view.findViewById(R.id.list_tracks);
+        tracksRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(getResources()));
         tracksListAdapter = new TracksListAdapter(dbSingleton.getTrackList());
         tracksRecyclerView.setAdapter(tracksListAdapter);
-        tracksRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        tracksRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         tracksRecyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(view.getContext(), new RecyclerItemClickListener.OnItemClickListener() {
                     @Override

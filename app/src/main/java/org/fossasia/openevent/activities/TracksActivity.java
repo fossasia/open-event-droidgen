@@ -7,14 +7,20 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
+import android.widget.ImageView;
+
+import com.squareup.picasso.Picasso;
 
 import org.fossasia.openevent.Adapters.SessionsAdapter;
 import org.fossasia.openevent.R;
+import org.fossasia.openevent.data.Session;
+import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DbSingleton;
 
 import java.text.ParseException;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by MananWason on 14-06-2015.
@@ -39,9 +45,11 @@ public class TracksActivity extends AppCompatActivity {
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbar.setTitle(track);
 
+
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         try {
-            sessionsAdapter = new SessionsAdapter(dbSingleton.getSessionbyTracksname(track));
+            List<Session> sessionList = dbSingleton.getSessionbyTracksname(track);
+            sessionsAdapter = new SessionsAdapter(sessionList);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -56,11 +64,25 @@ public class TracksActivity extends AppCompatActivity {
             case android.R.id.home:
                 finish();
                 return true;
+            case R.id.map:
+                break;
+
         }
         return super.onOptionsItemSelected(item);
     }
 
     private void loadImage() {
         //TODO: Add method to parse image and add it to the view
+        Track current = null;
+        try {
+            current = dbSingleton.getTrackbyName(track);
+            Log.d("trying", "picasso");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        ImageView backdrop1 = (ImageView) findViewById(R.id.backdrop);
+        if (current.getImage().length() != 0) {
+            Picasso.with(getApplicationContext()).load(current.getImage()).into(backdrop1);
+        }
     }
 }
