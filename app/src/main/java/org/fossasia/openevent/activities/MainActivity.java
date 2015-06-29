@@ -22,7 +22,6 @@ import org.fossasia.openevent.fragments.TracksFragment;
 public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
-
     private Toolbar mToolbar;
     private ActionBarDrawerToggle mActionBarDrawerToggle;
 
@@ -43,9 +42,9 @@ public class MainActivity extends AppCompatActivity {
             setupDrawerContent(navigationView);
         }
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.content_frame, new TracksFragment()).commit();
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        fragmentManager.beginTransaction()
+//                .replace(R.id.content_frame, new TracksFragment()).commit();
 
     }
 
