@@ -1,5 +1,6 @@
 package org.fossasia.openevent.activities;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -40,6 +41,11 @@ public class MainActivity extends AppCompatActivity {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView != null) {
             setupDrawerContent(navigationView);
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.color_primary));
+            getWindow().setNavigationBarColor(getResources().getColor(R.color.color_primary));
         }
 
 //        FragmentManager fragmentManager = getSupportFragmentManager();
