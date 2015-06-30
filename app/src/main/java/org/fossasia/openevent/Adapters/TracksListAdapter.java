@@ -57,6 +57,7 @@ public class TracksListAdapter extends RecyclerView.Adapter<TracksListAdapter.Vi
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             // If the bound view wasn't previously displayed on screen, it's animated
             if (position > lastPosition) {
+
                 Animation animation = AnimationUtils.loadAnimation(context, android.R.anim.slide_in_left);
                 viewToAnimate.startAnimation(animation);
                 lastPosition = position;

@@ -46,7 +46,7 @@ public class SpeakerFragment extends Fragment {
 //                                intent.putExtra(SPEAKER,speaker_name);
 //                                startActivity(intent);
                                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-                                    view.setTranslationZ(8.0f);
+                                    view.setTranslationZ(16.0f);
                                 }
                             }
                         }));

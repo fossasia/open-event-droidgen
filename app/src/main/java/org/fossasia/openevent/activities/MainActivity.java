@@ -1,5 +1,6 @@
 package org.fossasia.openevent.activities;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
             setupDrawerContent(navigationView);
         }
 
+        this.findViewById(android.R.id.content).setBackgroundColor(Color.LTGRAY);
 //        FragmentManager fragmentManager = getSupportFragmentManager();
 //        fragmentManager.beginTransaction()
 //                .replace(R.id.content_frame, new TracksFragment()).commit();
