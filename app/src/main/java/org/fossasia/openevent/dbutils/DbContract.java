@@ -109,6 +109,7 @@ public class DbContract {
     public static abstract class Sessionsspeakers implements BaseColumns {
         public static final String TABLE_NAME = "sessionsspeakers";
 
+        public static final String _ID = "_id";
         public static final String SPEAKER_ID = "speakerid";
         public static final String SESSION_ID = "sessionid";
 
@@ -119,9 +120,9 @@ public class DbContract {
         };
 
         public static final String CREATE_TABLE =
-                "CREATE TABLE " + TABLE_NAME
-                        + " ("
-                        + _ID + " INTEGER PRIMARY KEY,"
+                "CREATE TABLE IF NOT EXISTS " + TABLE_NAME
+                        + " (_id INTEGER PRIMARY KEY,"
+                        // + "_id INTEGER PRIMARY KEY" + COMMA_SEP
                         + SESSION_ID + INT_TYPE + COMMA_SEP
                         + SPEAKER_ID + INT_TYPE
                         + " );";

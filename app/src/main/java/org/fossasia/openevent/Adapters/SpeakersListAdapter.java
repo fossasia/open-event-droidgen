@@ -6,6 +6,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,8 +24,6 @@ import java.util.List;
  */
 public class SpeakersListAdapter extends RecyclerView.Adapter<SpeakersListAdapter.ViewHolder> {
     List<Speaker> speakers;
-    Context context;
-    private int lastPosition = -1;
 
     public SpeakersListAdapter(List<Speaker> speakers) {
         this.speakers = speakers;
@@ -47,7 +47,6 @@ public class SpeakersListAdapter extends RecyclerView.Adapter<SpeakersListAdapte
 
         holder.designation.setText(current.getPosition());
         holder.name.setText(current.getName());
-        holder.bio.setText(current.getBio());
 
     }
 
@@ -56,13 +55,11 @@ public class SpeakersListAdapter extends RecyclerView.Adapter<SpeakersListAdapte
         return speakers.size();
     }
 
-
     class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView speaker_image;
         TextView name;
         TextView designation;
-        TextView bio;
 
 
         public ViewHolder(View itemView) {
@@ -70,8 +67,8 @@ public class SpeakersListAdapter extends RecyclerView.Adapter<SpeakersListAdapte
             itemView.setClickable(true);
             speaker_image = (ImageView) itemView.findViewById(R.id.speaker_image);
             name = (TextView) itemView.findViewById(R.id.speaker_name);
-            bio = (TextView) itemView.findViewById(R.id.speaker_bio);
             designation = (TextView) itemView.findViewById(R.id.speaker_designation);
         }
     }
 }
+

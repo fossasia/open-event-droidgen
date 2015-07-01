@@ -175,7 +175,6 @@ public class DatabaseOperations {
                     cursor.getInt(cursor.getColumnIndex(DbContract.Versions.VER_MICROLOCATIONS))
             );
             cursor.close();
-            mDb.close();
             return currentVersion;
 
         } else {
@@ -296,9 +295,7 @@ public class DatabaseOperations {
         );
         int trackSelected;
         tracksCursor.moveToFirst();
-        trackSelected = tracksCursor.getInt(tracksCursor.getColumnIndex(DbContract.Tracks.ID));
-
-        //tracksCursor.close();
+        trackSelected = tracksCursor.getInt(tracksCursor.getColumnIndex(DbContract.Speakers.ID));
 
         //Select columns having track id same as that obtained previously
         String sessionColumnSelection = DbContract.Sessions.TRACK + EQUAL + trackSelected;
@@ -313,7 +310,7 @@ public class DatabaseOperations {
                 null,
                 null,
                 null,
-                null
+                sortOrder
         );
 
         ArrayList<Session> sessions = new ArrayList<>();
@@ -397,4 +394,121 @@ public class DatabaseOperations {
 
         }
     }
+
+    public ArrayList<Session> getSessionbySpeakersname(String speakerName, SQLiteDatabase mDb) throws ParseException {
+        String speakerColumnSelection = DbContract.Speakers.NAME + EQUAL + DatabaseUtils.sqlEscapeString(speakerName);
+        String[] columns = {DbContract.Speakers.ID, DbContract.Speakers.NAME};
+        Cursor speakersCursor = mDb.query(
+                DbContract.Speakers.TABLE_NAME,
+                columns,
+                speakerColumnSelection,
+                null,
+                null,
+                null,
+                null
+        );
+        int speakerSelected;
+        speakersCursor.moveToFirst();
+        speakerSelected = speakersCursor.getInt(speakersCursor.getColumnIndex(DbContract.Speakers.ID));
+
+        speakersCursor.close();
+
+        //Select columns having speaker id same as that obtained previously
+        String sessionColumnSelection = DbContract.Sessionsspeakers.SPEAKER_ID + EQUAL + speakerSelected;
+
+        //Order
+        String[] columns1 = {DbContract.Sessionsspeakers.SESSION_ID};
+
+        Cursor sessionCursor = mDb.query(
+                DbContract.Sessionsspeakers.TABLE_NAME,
+                columns1,
+                sessionColumnSelection,
+                null,
+                null,
+                null,
+                null
+        );
+
+        ArrayList<Integer> sessionIds = new ArrayList<>();
+        sessionCursor.moveToFirst();
+        //Should return only one due to UNIQUE constraint
+        while (!sessionCursor.isAfterLast()) {
+            sessionIds.add(sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessionsspeakers.SESSION_ID)));
+            sessionCursor.moveToNext();
+        }
+
+        sessionCursor.close();
+
+        ArrayList<Session> sessions = new ArrayList<>();
+
+        for (int i = 0; i < sessionIds.size(); i++) {
+            String sessionTableColumnSelection = DbContract.Sessions.ID + EQUAL + sessionIds.get(i);
+            Cursor sessionTableCursor = mDb.query(
+                    DbContract.Sessions.TABLE_NAME,
+                    DbContract.Sessions.FULL_PROJECTION,
+                    sessionTableColumnSelection,
+                    null,
+                    null,
+                    null,
+                    null
+            );
+
+            Session session;
+            sessionTableCursor.moveToFirst();
+            session = new Session(
+                    sessionTableCursor.getInt(sessionTableCursor.getColumnIndex(DbContract.Sessions.ID)),
+                    sessionTableCursor.getString(sessionTableCursor.getColumnIndex(DbContract.Sessions.TITLE)),
+                    sessionTableCursor.getString(sessionTableCursor.getColumnIndex(DbContract.Sessions.SUBTITLE)),
+                    sessionTableCursor.getString(sessionTableCursor.getColumnIndex(DbContract.Sessions.SUMMARY)),
+                    sessionTableCursor.getString(sessionTableCursor.getColumnIndex(DbContract.Sessions.DESCRIPTION)),
+                    sessionTableCursor.getString(sessionTableCursor.getColumnIndex(DbContract.Sessions.START_TIME)),
+                    sessionTableCursor.getString(sessionTableCursor.getColumnIndex(DbContract.Sessions.END_TIME)),
+                    sessionTableCursor.getString(sessionTableCursor.getColumnIndex(DbContract.Sessions.TYPE)),
+                    sessionTableCursor.getInt(sessionTableCursor.getColumnIndex(DbContract.Sessions.TRACK)),
+                    sessionTableCursor.getString(sessionTableCursor.getColumnIndex(DbContract.Sessions.LEVEL)),
+                    null,
+                    sessionTableCursor.getInt(sessionTableCursor.getColumnIndex(DbContract.Sessions.MICROLOCATION))
+            );
+            sessions.add(session);
+            sessionTableCursor.moveToNext();
+        }
+
+        return sessions;
+    }
+
+    public Speaker getSpeakerbySpeakersname(String speakerName, SQLiteDatabase mDb) throws ParseException {
+        String speakerColumnSelection = DbContract.Speakers.NAME + EQUAL + DatabaseUtils.sqlEscapeString(speakerName);
+        Cursor speakersCursor = mDb.query(
+                DbContract.Speakers.TABLE_NAME,
+                DbContract.Speakers.FULL_PROJECTION,
+                speakerColumnSelection,
+                null,
+                null,
+                null,
+                null
+        );
+        Speaker speaker;
+        speakersCursor.moveToFirst();
+        speaker = new Speaker(
+                speakersCursor.getInt(speakersCursor.getColumnIndex(DbContract.Speakers.ID)),
+                speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.NAME)),
+                speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.PHOTO)),
+                speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.BIO)),
+                speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.EMAIL)),
+                speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.WEB)),
+                speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.TWITTER)),
+                speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.FACEBOOK)),
+                speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.GITHUB)),
+                speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.LINKEDIN)),
+                speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.ORGANISATION)),
+                speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.POSITION)),
+                null,
+                speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.COUNTRY))
+
+        );
+
+        speakersCursor.close();
+        return speaker;
+    }
+
 }

@@ -105,12 +105,20 @@ public class DbSingleton {
         return databaseOperations.getSessionbyTracksname(trackName, mDb);
     }
 
+    public ArrayList<Session> getSessionbySpeakersName(String speakerName) throws ParseException {
+        return databaseOperations.getSessionbySpeakersname(speakerName, mDb);
+    }
+
     public void insertQueries(ArrayList<String> queries) {
         databaseOperations.insertQueries(queries, mDbHelper);
     }
 
     public Track getTrackbyName(String trackName) throws ParseException {
         return databaseOperations.getTracksbyTracksname(trackName, mDb);
+    }
+
+    public Speaker getSpeakerbySpeakersname(String speakerName) throws ParseException {
+        return databaseOperations.getSpeakerbySpeakersname(speakerName, mDb);
     }
 
 

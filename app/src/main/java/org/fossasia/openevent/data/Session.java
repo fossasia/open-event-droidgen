@@ -61,21 +61,84 @@ public class Session {
         this.microlocations = microlocations;
     }
 
-    public int getMicrolocations() {
-        return microlocations;
-    }
-
-    public void setMicrolocations(int microlocations) {
-        this.microlocations = microlocations;
-    }
-
     public int getId() {
         return id;
     }
 
-
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getSubtitle() {
+        return subtitle;
+    }
+
+    public void setSubtitle(String subtitle) {
+        this.subtitle = subtitle;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public int getTrack() {
+        return track;
+    }
+
+    public void setTrack(int track) {
+        this.track = track;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
     }
 
     public int[] getSpeakers() {
@@ -86,92 +149,13 @@ public class Session {
         this.speakers = speakers;
     }
 
-    public String getTitle() {
-        return escapeChar(title);
+    public int getMicrolocations() {
+        return microlocations;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setMicrolocations(int microlocations) {
+        this.microlocations = microlocations;
     }
-
-
-    public String getSubtitle() {
-        return escapeChar(subtitle);
-    }
-
-
-    public void setSubtitle(String subtitle) {
-        this.subtitle = subtitle;
-    }
-
-
-    public String getSummary() {
-        return escapeChar(summary);
-    }
-
-    public void setSummary(String summary) {
-        this.summary = summary;
-    }
-
-
-    public String getDescription() {
-        return escapeChar(description);
-    }
-
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-
-    public String getStartTime() {
-        return escapeChar(startTime);
-    }
-
-
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
-    }
-
-
-    public String getEndTime() {
-        return escapeChar(endTime);
-    }
-
-
-    public void setEndTime(String endTime) {
-        this.endTime = endTime;
-    }
-
-
-    public String getType() {
-        return escapeChar(type);
-    }
-
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-
-    public int getTrack() {
-        return track;
-    }
-
-
-    public void setTrack(int track) {
-        this.track = track;
-    }
-
-
-    public String getLevel() {
-        return escapeChar(level);
-    }
-
-    public void setLevel(String level) {
-        this.level = level;
-    }
-
 
     public String generateSql() {
         String query_normal = "INSERT INTO %s VALUES ('%d', %s, %s, %s, %s, %s, %s, %s, '%d', %s, '%d');";
@@ -190,10 +174,6 @@ public class Session {
                 DatabaseUtils.sqlEscapeString(level),
                 microlocations);
         return query;
-    }
-
-    private String escapeChar(String string) {
-        return string.replaceAll("'", "''");
     }
 
 

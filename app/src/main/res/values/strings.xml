@@ -36,4 +36,10 @@
     <!--Settings-->
     <string name="settings_mode">Mode</string>
     <string name="default_mode">Developer</string>
+
+    <!--Social-->
+    <string name="linkedin">linkedin</string>
+    <string name="twitter">twitter</string>
+    <string name="fb">fb</string>
+    <string name="github">github</string>
 </resources>

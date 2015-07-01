@@ -4,8 +4,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="5dp"
-    android:layout_marginTop="5dp"
+    android:layout_marginBottom="2dp"
+    android:layout_marginTop="2dp"
     android:background="@drawable/ripple"
     android:orientation="vertical">
 
@@ -16,7 +16,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="5dp"
+        android:layout_margin="2dp"
+        android:background="@drawable/ripple"
         card_view:cardBackgroundColor="#FFFFFF"
         card_view:cardCornerRadius="4dp"
         card_view:cardElevation="8dp"

@@ -24,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
     private Toolbar mToolbar;
-    private ActionBarDrawerToggle mActionBarDrawerToggle;
 
 
     @Override
@@ -44,9 +43,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         this.findViewById(android.R.id.content).setBackgroundColor(Color.LTGRAY);
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        fragmentManager.beginTransaction()
-//                .replace(R.id.content_frame, new TracksFragment()).commit();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_frame, new TracksFragment()).commit();
 
     }
 
@@ -107,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
             final android.support.v7.app.ActionBar ab = getSupportActionBar();
             assert ab != null;
             mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-            mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+            ActionBarDrawerToggle mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 
             mDrawerLayout.setDrawerListener(mActionBarDrawerToggle);
             ab.setHomeAsUpIndicator(R.drawable.ic_menu);

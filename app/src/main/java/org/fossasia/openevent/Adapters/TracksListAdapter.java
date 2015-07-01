@@ -22,9 +22,6 @@ import java.util.List;
 public class TracksListAdapter extends RecyclerView.Adapter<TracksListAdapter.Viewholder> {
 
     List<Track> tracks;
-    Context context;
-    private int lastPosition = -1;
-
 
     public TracksListAdapter(List<Track> tracks) {
         this.tracks = tracks;
@@ -32,7 +29,6 @@ public class TracksListAdapter extends RecyclerView.Adapter<TracksListAdapter.Vi
 
     @Override
     public TracksListAdapter.Viewholder onCreateViewHolder(ViewGroup parent, int viewType) {
-        context = parent.getContext();
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.tracks_item, parent, false);
         Viewholder viewholder = new Viewholder(view);
@@ -44,7 +40,6 @@ public class TracksListAdapter extends RecyclerView.Adapter<TracksListAdapter.Vi
         Track current = tracks.get(position);
         holder.title.setText(current.getName());
         holder.desc.setText(current.getDescription());
-        setAnimation(holder.container, position);
 
     }
 
@@ -53,17 +48,6 @@ public class TracksListAdapter extends RecyclerView.Adapter<TracksListAdapter.Vi
         return tracks.size();
     }
 
-    private void setAnimation(View viewToAnimate, int position) {
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            // If the bound view wasn't previously displayed on screen, it's animated
-            if (position > lastPosition) {
-
-                Animation animation = AnimationUtils.loadAnimation(context, android.R.anim.slide_in_left);
-                viewToAnimate.startAnimation(animation);
-                lastPosition = position;
-            }
-        }
-    }
 
     class Viewholder extends RecyclerView.ViewHolder {
         TextView title;
@@ -74,7 +58,7 @@ public class TracksListAdapter extends RecyclerView.Adapter<TracksListAdapter.Vi
         public Viewholder(View itemView) {
             super(itemView);
             itemView.setClickable(true);
-            container = (LinearLayout) itemView.findViewById(R.id.ll_tracks);
+
             title = (TextView) itemView.findViewById(R.id.track_title);
             desc = (TextView) itemView.findViewById(R.id.track_description);
 

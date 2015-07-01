@@ -27,10 +27,8 @@ import java.util.List;
  * Created by MananWason on 14-06-2015.
  */
 public class TracksActivity extends AppCompatActivity {
-    RecyclerView sessionRecyclerView;
     SessionsAdapter sessionsAdapter;
     DbSingleton dbSingleton = DbSingleton.getInstance();
-    CollapsingToolbarLayout collapsingToolbar;
     private String track;
 
     @Override

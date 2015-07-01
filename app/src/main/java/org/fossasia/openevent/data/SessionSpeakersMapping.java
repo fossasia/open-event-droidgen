@@ -17,6 +17,7 @@ public class SessionSpeakersMapping {
         this.speakerId = speakerId;
     }
 
+
     public int getSessionId() {
         return sessionId;
     }
@@ -34,7 +35,7 @@ public class SessionSpeakersMapping {
     }
 
     public String generateSql() {
-        String query_normal = "INSERT INTO %s VALUES ('%d', '%d');";
+        String query_normal = "INSERT INTO %s(sessionid ,speakerid) VALUES ('%d', '%d');";
         String query = String.format(query_normal, DbContract.Sessionsspeakers.TABLE_NAME, sessionId, speakerId);
         Log.d(TAG, query);
 

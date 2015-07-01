@@ -1,6 +1,7 @@
 package org.fossasia.openevent.fragments;
 
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,9 +11,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import org.fossasia.openevent.Adapters.SpeakersListAdapter;
 import org.fossasia.openevent.R;
+import org.fossasia.openevent.activities.SpeakersActivity;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.RecyclerItemClickListener;
 
@@ -23,7 +26,6 @@ import org.fossasia.openevent.utils.RecyclerItemClickListener;
  */
 public class SpeakerFragment extends Fragment {
 
-    private static final String SPEAKER = "SPEAKER";
     RecyclerView speakersRecyclerView;
     SpeakersListAdapter speakersListAdapter;
     DbSingleton dbSingleton = DbSingleton.getInstance();
@@ -41,13 +43,10 @@ public class SpeakerFragment extends Fragment {
                         new RecyclerItemClickListener.OnItemClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
-//                                String speaker_name = ((TextView) view.findViewById(R.id.speaker_name)).getText().toString();
-//                                Intent intent = new Intent(view.getContext(), SpeakersActivity.class);
-//                                intent.putExtra(SPEAKER,speaker_name);
-//                                startActivity(intent);
-                                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-                                    view.setTranslationZ(16.0f);
-                                }
+                                String speaker_name = ((TextView) view.findViewById(R.id.speaker_name)).getText().toString();
+                                Intent intent = new Intent(view.getContext(), SpeakersActivity.class);
+                                intent.putExtra("SPEAKER",speaker_name);
+                                startActivity(intent);
                             }
                         }));
         return view;
