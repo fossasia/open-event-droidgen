@@ -128,16 +128,20 @@ public class MainActivity extends AppCompatActivity {
                             case R.id.nav_tracks:
                                 fragmentManager.beginTransaction()
                                         .replace(R.id.content_frame, new TracksFragment()).commit();
+                                getSupportActionBar().setTitle(R.string.menu_tracks);
                                 break;
                             case R.id.nav_bookmarks:
+                                getSupportActionBar().setTitle(R.string.menu_bookmarks);
                                 break;
                             case R.id.nav_speakers:
                                 fragmentManager.beginTransaction()
                                         .replace(R.id.content_frame, new SpeakerFragment()).commit();
+                                getSupportActionBar().setTitle(R.string.menu_speakers);
                                 break;
                             case R.id.nav_sponsors:
                                 fragmentManager.beginTransaction()
                                         .replace(R.id.content_frame, new SponsorsFragment()).commit();
+                                getSupportActionBar().setTitle(R.string.menu_sponsor);
                                 break;
                             case R.id.nav_map:
                                 fragmentManager.beginTransaction()
@@ -146,6 +150,8 @@ public class MainActivity extends AppCompatActivity {
                                                         .getMapModuleFactory()
                                                         .provideMapModule()
                                                         .provideMapFragment()).commit();
+                                getSupportActionBar().setTitle(R.string.menu_map);
+
                                 break;
 
                         }
@@ -155,6 +161,4 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
     }
-
-
 }
