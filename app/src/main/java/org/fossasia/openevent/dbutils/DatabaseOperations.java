@@ -5,6 +5,7 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import org.fossasia.openevent.data.Event;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Sponsor;
@@ -511,4 +512,33 @@ public class DatabaseOperations {
         return speaker;
     }
 
+    public Event getEventDetails(SQLiteDatabase mDb) {
+        Cursor cursor = mDb.query(
+                DbContract.Event.TABLE_NAME,
+                DbContract.Event.FULL_PROJECTION,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+
+        cursor.moveToFirst();
+        Event event = new Event(
+                cursor.getInt(cursor.getColumnIndex(DbContract.Event.ID)),
+                cursor.getString(cursor.getColumnIndex(DbContract.Event.NAME)),
+                cursor.getString(cursor.getColumnIndex(DbContract.Event.EMAIL)),
+                cursor.getString(cursor.getColumnIndex(DbContract.Event.COLOR)),
+                cursor.getString(cursor.getColumnIndex(DbContract.Event.LOGO_URL)),
+                cursor.getString(cursor.getColumnIndex(DbContract.Event.START)),
+                cursor.getString(cursor.getColumnIndex(DbContract.Event.END)),
+                cursor.getFloat(cursor.getColumnIndex(DbContract.Event.LATITUDE)),
+                cursor.getFloat(cursor.getColumnIndex(DbContract.Event.LONGITUDE)),
+                cursor.getString(cursor.getColumnIndex(DbContract.Event.LOCATION_NAME)),
+                cursor.getString(cursor.getColumnIndex(DbContract.Event.EVENT_URL)),
+                cursor.getString(cursor.getColumnIndex(DbContract.Event.EVENT_SLOGAN))
+        );
+        return event;
+
+    }
 }

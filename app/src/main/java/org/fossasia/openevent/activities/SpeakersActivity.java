@@ -1,5 +1,6 @@
 package org.fossasia.openevent.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -27,7 +28,7 @@ import java.util.List;
 public class SpeakersActivity extends AppCompatActivity {
     SessionsAdapter sessionsAdapter;
     private String speaker;
-    private Speaker clicked;
+    private Speaker selectedSpeaker;
 
 
     @Override
@@ -35,13 +36,13 @@ public class SpeakersActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_speakers);
         DbSingleton dbSingleton = DbSingleton.getInstance();
-        speaker = getIntent().getStringExtra("SPEAKER");
+        speaker = getIntent().getStringExtra(Speaker.SPEAKER);
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_speakers);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         try {
-            clicked = dbSingleton.getSpeakerbySpeakersname(speaker);
+            selectedSpeaker = dbSingleton.getSpeakerbySpeakersname(speaker);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -52,13 +53,13 @@ public class SpeakersActivity extends AppCompatActivity {
         ImageView github = (ImageView) findViewById(R.id.imageView_github);
         ImageView fb = (ImageView) findViewById(R.id.imageView_fb);
 
-        biography.setText(clicked.getBio());
-        final SpeakerIntent speakerIntent = new SpeakerIntent(clicked, getApplicationContext());
+        biography.setText(selectedSpeaker.getBio());
+        final SpeakerIntent speakerIntent = new SpeakerIntent(selectedSpeaker);
 
-        speakerIntent.mIntent(github);
-        speakerIntent.mIntent(linkedin);
-        speakerIntent.mIntent(fb);
-        speakerIntent.mIntent(twitter);
+        speakerIntent.clickedImage(github);
+        speakerIntent.clickedImage(linkedin);
+        speakerIntent.clickedImage(fb);
+        speakerIntent.clickedImage(twitter);
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView_speakers);
         try {
@@ -79,6 +80,11 @@ public class SpeakersActivity extends AppCompatActivity {
             case android.R.id.home:
                 finish();
                 return true;
+            case R.id.share_speakers:
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.putExtra(Intent.EXTRA_TEXT, selectedSpeaker.getGithub());
+                intent.setType("text/html");
+                startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -86,7 +92,7 @@ public class SpeakersActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.sample_actions, menu);
+        getMenuInflater().inflate(R.menu.menu_speakers, menu);
         return true;
     }
 }

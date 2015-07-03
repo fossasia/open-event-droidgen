@@ -121,8 +121,8 @@ public class DbContract {
 
         public static final String CREATE_TABLE =
                 "CREATE TABLE IF NOT EXISTS " + TABLE_NAME
-                        + " (_id INTEGER PRIMARY KEY,"
-                        // + "_id INTEGER PRIMARY KEY" + COMMA_SEP
+                        + " ("
+                        + _ID + INT_TYPE + PRIMARY_KEY + COMMA_SEP
                         + SESSION_ID + INT_TYPE + COMMA_SEP
                         + SPEAKER_ID + INT_TYPE
                         + " );";
