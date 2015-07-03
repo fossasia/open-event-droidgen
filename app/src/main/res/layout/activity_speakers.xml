@@ -9,6 +9,7 @@
         android:id="@+id/toolbar_speakers"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:background="@color/color_primary"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
     <LinearLayout
@@ -23,7 +24,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="2dp"
             card_view:cardBackgroundColor="#FFFFFF"
             card_view:cardCornerRadius="4dp"
             card_view:cardElevation="4dp"
@@ -41,7 +41,7 @@
                     android:id="@+id/speaker_bio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="BIOGRAPhy"
+                    android:text="Biography"
                     android:textColor="#000000"
                     android:textStyle="bold"/>
 

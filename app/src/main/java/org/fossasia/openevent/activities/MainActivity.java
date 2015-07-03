@@ -1,5 +1,7 @@
 package org.fossasia.openevent.activities;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -8,13 +10,19 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+
+import com.squareup.picasso.Picasso;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.dbutils.DataDownload;
+import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.fragments.SpeakerFragment;
 import org.fossasia.openevent.fragments.SponsorsFragment;
 import org.fossasia.openevent.fragments.TracksFragment;
@@ -66,6 +74,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
+        SearchManager searchManager =
+                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView =
+                (SearchView) menu.findItem(R.id.action_search).getActionView();
+        searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(getComponentName()));
         return true;
     }
 
@@ -73,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Will close the drawer if the home button is pressed
-// Handle action bar item clicks here. The action bar will
+        // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
@@ -107,6 +121,11 @@ public class MainActivity extends AppCompatActivity {
             assert ab != null;
             mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
             ActionBarDrawerToggle mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+
+            ImageView header_drawer = (ImageView) findViewById(R.id.headerDrawer);
+            DbSingleton dbSingleton = DbSingleton.getInstance();
+            Log.d("PICASSO", dbSingleton.getEventDetails().getLogo());
+            Picasso.with(getApplicationContext()).load(dbSingleton.getEventDetails().getLogo()).into(header_drawer);
 
             mDrawerLayout.setDrawerListener(mActionBarDrawerToggle);
             ab.setHomeAsUpIndicator(R.drawable.ic_menu);

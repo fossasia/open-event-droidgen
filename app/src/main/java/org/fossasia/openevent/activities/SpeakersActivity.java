@@ -1,5 +1,6 @@
 package org.fossasia.openevent.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -79,6 +80,11 @@ public class SpeakersActivity extends AppCompatActivity {
             case android.R.id.home:
                 finish();
                 return true;
+            case R.id.share_speakers:
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.putExtra(Intent.EXTRA_TEXT,clicked.getGithub());
+                intent.setType("text/html");
+                startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -86,7 +92,7 @@ public class SpeakersActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.sample_actions, menu);
+        getMenuInflater().inflate(R.menu.menu_speakers, menu);
         return true;
     }
 }

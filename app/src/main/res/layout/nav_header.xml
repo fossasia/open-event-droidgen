@@ -18,13 +18,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="192dp"
-              android:background="?attr/colorPrimaryDark"
+              android:background="@color/color_accent"
               android:gravity="bottom"
               android:orientation="vertical"
               android:padding="16dp"
               android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
+        android:id="@+id/headerDrawer"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:src="@drawable/twitter"/>

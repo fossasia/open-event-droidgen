@@ -42,4 +42,12 @@
     <string name="twitter">twitter</string>
     <string name="fb">fb</string>
     <string name="github">github</string>
+
+    <!--Menu Titles-->
+    <string name="search">Search</string>
+    <string name="share">Share</string>
+
+
+    <!--Search Titles-->
+    <string name="search_hint_tracks"> Search Tracks</string>
 </resources>

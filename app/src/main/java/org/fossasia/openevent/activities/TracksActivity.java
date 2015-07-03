@@ -1,5 +1,6 @@
 package org.fossasia.openevent.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -28,13 +29,14 @@ import java.util.List;
  */
 public class TracksActivity extends AppCompatActivity {
     SessionsAdapter sessionsAdapter;
-    DbSingleton dbSingleton = DbSingleton.getInstance();
     private String track;
+    private Track current;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tracks);
+        DbSingleton dbSingleton = DbSingleton.getInstance();
         track = getIntent().getStringExtra("TRACK");
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -59,8 +61,8 @@ public class TracksActivity extends AppCompatActivity {
 
 
     private void loadImage() {
-        Track current = null;
         try {
+            DbSingleton dbSingleton = DbSingleton.getInstance();
             current = dbSingleton.getTrackbyName(track);
             Log.d("trying", "picasso");
         } catch (ParseException e) {
@@ -79,6 +81,13 @@ public class TracksActivity extends AppCompatActivity {
             case android.R.id.home:
                 finish();
                 return true;
+            case R.id.share_tracks:
+                //TODO: Add the real webapp links here
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_SEND);
+                intent.putExtra(Intent.EXTRA_TEXT, current.getName() + current.getId());
+                intent.setType("text/plain");
+                startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -86,7 +95,7 @@ public class TracksActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.sample_actions, menu);
+        getMenuInflater().inflate(R.menu.menu_tracks, menu);
         return true;
     }
 }
