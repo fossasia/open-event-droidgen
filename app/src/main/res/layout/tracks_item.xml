@@ -11,34 +11,41 @@
 
     <android.support.v7.widget.CardView
         android:id="@+id/card_tracks"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="5dp"
-        card_view:cardBackgroundColor="#FFFFFF"
-        card_view:cardCornerRadius="4dp"
-        card_view:cardElevation="8dp"
-        card_view:cardUseCompatPadding="true">
+        android:layout_marginLeft="@dimen/card_margin"
+        android:layout_marginRight="@dimen/card_margin">
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                      android:layout_width="match_parent"
-                      android:layout_height="match_parent"
-                      android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/ll"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/ripple"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/track_title"
+            <LinearLayout
+                style="@style/Widget.CardContent"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#000000"
-                android:textStyle="bold"/>
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/track_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/track_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Friends"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    android:textStyle="bold"/>
 
+                <TextView
+                    android:id="@+id/track_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="abc"/>
+
+            </LinearLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>
 </LinearLayout>

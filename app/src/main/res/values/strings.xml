@@ -14,6 +14,7 @@
     <string name="menu_speakers">Speakers</string>
     <string name="menu_sponsor">Sponsors</string>
     <string name="menu_map">Map</string>
+    <string name="session">Session detail</string>
 
     <!--Navigation Drawer-->
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -25,8 +26,6 @@
     <string name="splash">Splash</string>
 
     <string name="about">About</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!-- Speaker Fragment-->
     <string name="placeholder_speaker_designation">holder_speaker_designation</string>

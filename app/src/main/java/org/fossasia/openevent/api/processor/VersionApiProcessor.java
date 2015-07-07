@@ -23,6 +23,7 @@ public class VersionApiProcessor implements Callback<VersionResponseList> {
     public void success(VersionResponseList versionResponseList, Response response) {
         ArrayList<String> queries = new ArrayList<>();
         DbSingleton dbSingleton = DbSingleton.getInstance();
+        Log.d("!","3");
         for (Version version : versionResponseList.versions) {
 
             if ((dbSingleton.getVersionIds() == null)) {

@@ -50,6 +50,9 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable"/>
         </activity>
+        <activity
+            android:name=".activities.SessionDetailActivity"
+            android:label="@string/session"/>
     </application>
 
 </manifest>

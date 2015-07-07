@@ -39,12 +39,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        setUpToolbar();
-        setUpNavDrawer();
 
         DataDownload download = new DataDownload();
         download.downloadVersions();
 
+        setUpToolbar();
+        setUpNavDrawer();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView != null) {
             setupDrawerContent(navigationView);
@@ -124,7 +124,6 @@ public class MainActivity extends AppCompatActivity {
 
             ImageView header_drawer = (ImageView) findViewById(R.id.headerDrawer);
             DbSingleton dbSingleton = DbSingleton.getInstance();
-            Log.d("PICASSO", dbSingleton.getEventDetails().getLogo());
             Picasso.with(getApplicationContext()).load(dbSingleton.getEventDetails().getLogo()).into(header_drawer);
 
             mDrawerLayout.setDrawerListener(mActionBarDrawerToggle);

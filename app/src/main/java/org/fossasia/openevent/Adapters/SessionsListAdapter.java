@@ -14,15 +14,15 @@ import java.util.List;
 /**
  * Created by MananWason on 26-06-2015.
  */
-public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Viewholder> {
+public class SessionsListAdapter extends RecyclerView.Adapter<SessionsListAdapter.Viewholder> {
     List<Session> sessions;
 
-    public SessionsAdapter(List<Session> sessions) {
+    public SessionsListAdapter(List<Session> sessions) {
         this.sessions = sessions;
     }
 
     @Override
-    public SessionsAdapter.Viewholder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public SessionsListAdapter.Viewholder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.tracksactvity_item, parent, false);
         Viewholder viewholder = new Viewholder(view);
