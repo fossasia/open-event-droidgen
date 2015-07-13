@@ -92,7 +92,7 @@ public class SpeakersActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_speakers, menu);
+        getMenuInflater().inflate(R.menu.menu_speakers_activity, menu);
         return true;
     }
 }

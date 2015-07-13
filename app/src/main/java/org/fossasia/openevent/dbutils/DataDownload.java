@@ -37,6 +37,7 @@ public class DataDownload {
 
     public void downloadTracks() {
         client.getOpenEventAPI().getTracks(Urls.EVENT_ID, new TrackListResponseProcessor());
+        Log.d("TRACKS","download");
     }
 
     public void downloadMicrolocations() {

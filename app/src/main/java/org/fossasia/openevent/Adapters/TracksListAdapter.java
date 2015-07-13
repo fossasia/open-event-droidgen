@@ -3,6 +3,7 @@ package org.fossasia.openevent.Adapters;
 import android.content.Context;
 import android.os.Build;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,5 +65,13 @@ public class TracksListAdapter extends RecyclerView.Adapter<TracksListAdapter.Vi
 
         }
 
+    }
+    public void deleteItems(){
+        Log.d("delete","tracks");
+        for(int i=0;i<=getItemCount();i++){
+            Log.d("i"+i,tracks.get(i).getName());
+            tracks.remove(i);
+            notifyItemRemoved(i);
+        }
     }
 }

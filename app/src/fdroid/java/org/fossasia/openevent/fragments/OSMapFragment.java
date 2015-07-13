@@ -80,7 +80,7 @@ public class OSMapFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        /*inflater.inflate(R.menu.map, menu);*/
+        /*inflater.inflate(R.menu.menu_map, menu);*/
     }
 
     @Override
