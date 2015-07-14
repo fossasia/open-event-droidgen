@@ -14,8 +14,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
-import com.squareup.picasso.Picasso;
-
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.dbutils.DataDownload;
@@ -113,9 +111,9 @@ public class MainActivity extends AppCompatActivity {
             ImageView header_drawer = (ImageView) findViewById(R.id.headerDrawer);
             DbSingleton dbSingleton = DbSingleton.getInstance();
 
-            if (dbSingleton.getEventDetails() != null) {
-                Picasso.with(getApplicationContext()).load(dbSingleton.getEventDetails().getLogo()).into(header_drawer);
-            }
+//            if (dbSingleton.getEventDetails() != null) {
+//                Picasso.with(getApplicationContext()).load(dbSingleton.getEventDetails().getLogo()).into(header_drawer);
+//            }
             mDrawerLayout.setDrawerListener(mActionBarDrawerToggle);
             ab.setHomeAsUpIndicator(R.drawable.ic_menu);
             ab.setDisplayHomeAsUpEnabled(true);

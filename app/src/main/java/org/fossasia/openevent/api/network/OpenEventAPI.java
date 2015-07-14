@@ -28,7 +28,8 @@ public interface OpenEventAPI {
     @GET("/event/{id}/sessions")
     void getSessions(@Path("id") int id, Callback<SessionResponseList> sessionResponseListCallback);
 
-    @GET("/event/{id}")
+    //TODO:Correct event api url to server's
+    @GET("/event/event")
     void getEvents(@Path("id") int id, Callback<EventResponseList> eventResponseListCallback);
 
     @GET("/event/{id}/microlocations")
