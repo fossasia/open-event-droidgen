@@ -35,7 +35,7 @@ public final class APIClient {
 
         RestAdapter adapter = new RestAdapter.Builder()
                 .setConverter(new GsonConverter(gson))
-                .setEndpoint(Urls.BASE_GET_URL)
+                .setEndpoint(Urls.BASE_GET_URL_ALT)
                 .setLogLevel(RestAdapter.LogLevel.FULL)
                 .build();
         openEventAPI = adapter.create(OpenEventAPI.class);
