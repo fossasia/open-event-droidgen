@@ -1,6 +1,5 @@
 package org.fossasia.openevent.activities;
 
-import android.support.v4.app.FragmentTransaction;
 import android.app.SearchManager;
 import android.content.Context;
 import android.graphics.Color;
@@ -8,19 +7,16 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
-
-import com.google.android.gms.maps.model.LatLng;
-import com.squareup.picasso.Picasso;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
@@ -128,8 +124,8 @@ public class MainActivity extends AppCompatActivity {
 
             ImageView header_drawer = (ImageView) findViewById(R.id.headerDrawer);
             DbSingleton dbSingleton = DbSingleton.getInstance();
-            Log.d("PICASSO", dbSingleton.getEventDetails().getLogo());
-            Picasso.with(getApplicationContext()).load(dbSingleton.getEventDetails().getLogo()).into(header_drawer);
+//            Log.d("PICASSO", dbSingleton.getEventDetails().getLogo());
+//            Picasso.with(getApplicationContext()).load(dbSingleton.getEventDetails().getLogo()).into(header_drawer);
 
             mDrawerLayout.setDrawerListener(mActionBarDrawerToggle);
             ab.setHomeAsUpIndicator(R.drawable.ic_menu);
@@ -169,10 +165,13 @@ public class MainActivity extends AppCompatActivity {
                             case R.id.nav_map:
                                 Bundle latlng = new Bundle();
                                 DbSingleton dbSingleton = DbSingleton.getInstance();
-                                LatLng location = new LatLng(
-                                        dbSingleton.getEventDetails().getLatitude(),
-                                        dbSingleton.getEventDetails().getLongitude());
-                                latlng.putParcelable(Event.LOCATION,location);
+                                float latitude = dbSingleton.getEventDetails().getLatitude();
+                                float longitude = dbSingleton.getEventDetails().getLongitude();
+
+                                String location_name = dbSingleton.getEventDetails().getLocationName();
+                                latlng.putFloat(Event.LATITUDE, latitude);
+                                latlng.putFloat(Event.LONGITUDE, longitude);
+                                latlng.putString(Event.LOCATION, location_name);
 
                                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 

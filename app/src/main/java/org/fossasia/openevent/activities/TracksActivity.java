@@ -1,6 +1,5 @@
 package org.fossasia.openevent.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -81,13 +80,13 @@ public class TracksActivity extends AppCompatActivity {
             case android.R.id.home:
                 finish();
                 return true;
-            case R.id.share_tracks:
-                //TODO: Add the real webapp links here
-                Intent intent = new Intent();
-                intent.setAction(Intent.ACTION_SEND);
-                intent.putExtra(Intent.EXTRA_TEXT, current.getName() + current.getId());
-                intent.setType("text/plain");
-                startActivity(intent);
+//            case R.id.share_tracks:
+//                //TODO: Add the real webapp links here
+//                Intent intent = new Intent();
+//                intent.setAction(Intent.ACTION_SEND);
+//                intent.putExtra(Intent.EXTRA_TEXT, current.getName() + current.getId());
+//                intent.setType("text/plain");
+//                startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }

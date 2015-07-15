@@ -10,11 +10,11 @@ public abstract class Urls {
     /**
      * Change Event Id Here *
      */
-    public static final int EVENT_ID = 2;
+    public static final int EVENT_ID = 4;
 
     public static final String BASE_URL = "http://open-event.herokuapp.com";
 
-    public static final String BASE_GET_URL = BASE_URL + "/get/api/" + API_VERSION;
+    public static final String BASE_GET_URL = BASE_URL + "/api/" + API_VERSION;
 
 
 }

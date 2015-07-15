@@ -9,6 +9,8 @@ import org.fossasia.openevent.dbutils.DbContract;
  */
 public class Event {
 
+    public static final String LATITUDE = "latitude";
+    public static final String LONGITUDE = "longitude";
     public static final String LOCATION = "location";
 
     int id;

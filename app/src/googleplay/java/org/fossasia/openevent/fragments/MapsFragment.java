@@ -4,6 +4,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,29 +19,24 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.fossasia.openevent.data.Event;
-import org.fossasia.openevent.dbutils.DbSingleton;
 
 public class MapsFragment extends SupportMapFragment implements LocationListener {
     private GoogleMap mMap;
     private LatLng location;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
-
-    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        DbSingleton dbSingleton = DbSingleton.getInstance();
-
 
         Bundle latlng = getArguments();
         if (latlng != null && latlng.containsKey(Event.LOCATION)) {
-            location = latlng.getParcelable(Event.LOCATION);
+            location = new LatLng(
+                    latlng.getFloat(Event.LATITUDE, 0.0f),
+                    latlng.getFloat(Event.LONGITUDE, 0.0f));
+            Log.d("ABC", latlng.getFloat(Event.LATITUDE, 0.0f) + " " +
+                    latlng.getFloat(Event.LONGITUDE, 0.0f) + "");
 
-            String location_title = dbSingleton.getEventDetails().getLocationName();
+            String location_title = latlng.getString(Event.LOCATION);
             mMap = getMap();
             if (mMap != null) {
                 mMap.addMarker(new MarkerOptions()
