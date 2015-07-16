@@ -20,12 +20,12 @@ import android.widget.ImageView;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
-import org.fossasia.openevent.data.Event;
 import org.fossasia.openevent.dbutils.DataDownload;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.fragments.SpeakerFragment;
 import org.fossasia.openevent.fragments.SponsorsFragment;
 import org.fossasia.openevent.fragments.TracksFragment;
+import org.fossasia.openevent.utils.IntentStrings;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -169,9 +169,9 @@ public class MainActivity extends AppCompatActivity {
                                 float longitude = dbSingleton.getEventDetails().getLongitude();
 
                                 String location_name = dbSingleton.getEventDetails().getLocationName();
-                                latlng.putFloat(Event.LATITUDE, latitude);
-                                latlng.putFloat(Event.LONGITUDE, longitude);
-                                latlng.putString(Event.LOCATION, location_name);
+                                latlng.putFloat(IntentStrings.LATITUDE, latitude);
+                                latlng.putFloat(IntentStrings.LONGITUDE, longitude);
+                                latlng.putString(IntentStrings.LOCATION, location_name);
 
                                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 

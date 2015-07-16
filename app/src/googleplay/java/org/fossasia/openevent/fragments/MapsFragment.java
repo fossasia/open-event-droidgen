@@ -19,6 +19,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.fossasia.openevent.data.Event;
+import org.fossasia.openevent.utils.IntentStrings;
 
 public class MapsFragment extends SupportMapFragment implements LocationListener {
     private GoogleMap mMap;
@@ -29,14 +30,14 @@ public class MapsFragment extends SupportMapFragment implements LocationListener
         super.onViewCreated(view, savedInstanceState);
 
         Bundle latlng = getArguments();
-        if (latlng != null && latlng.containsKey(Event.LOCATION)) {
+        if (latlng != null && latlng.containsKey(IntentStrings.LOCATION)) {
             location = new LatLng(
-                    latlng.getFloat(Event.LATITUDE, 0.0f),
-                    latlng.getFloat(Event.LONGITUDE, 0.0f));
-            Log.d("ABC", latlng.getFloat(Event.LATITUDE, 0.0f) + " " +
-                    latlng.getFloat(Event.LONGITUDE, 0.0f) + "");
+                    latlng.getFloat(IntentStrings.LATITUDE, 0.0f),
+                    latlng.getFloat(IntentStrings.LONGITUDE, 0.0f));
+            Log.d("ABC", latlng.getFloat(IntentStrings.LATITUDE, 0.0f) + " " +
+                    latlng.getFloat(IntentStrings.LONGITUDE, 0.0f) + "");
 
-            String location_title = latlng.getString(Event.LOCATION);
+            String location_title = latlng.getString(IntentStrings.LOCATION);
             mMap = getMap();
             if (mMap != null) {
                 mMap.addMarker(new MarkerOptions()

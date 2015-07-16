@@ -30,7 +30,7 @@ public interface OpenEventAPI {
 
     //TODO:Correct event api url to server's
     @GET("/event/event")
-    void getEvents(@Path("id") int id, Callback<EventResponseList> eventResponseListCallback);
+    void getEvents(Callback<EventResponseList> eventResponseListCallback);
 
     @GET("/event/{id}/microlocations")
     void getMicrolocations(@Path("id") int id, Callback<MicrolocationResponseList> microlocationResponseListCallback);
