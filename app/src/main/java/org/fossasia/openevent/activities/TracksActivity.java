@@ -7,29 +7,35 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+
+import com.squareup.picasso.Picasso;
 
 import org.fossasia.openevent.Adapters.SessionsAdapter;
 import org.fossasia.openevent.R;
+import org.fossasia.openevent.data.Session;
+import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DbSingleton;
 
 import java.text.ParseException;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by MananWason on 14-06-2015.
  */
 public class TracksActivity extends AppCompatActivity {
-    RecyclerView sessionRecyclerView;
     SessionsAdapter sessionsAdapter;
-    DbSingleton dbSingleton = DbSingleton.getInstance();
-    CollapsingToolbarLayout collapsingToolbar;
     private String track;
+    private Track current;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tracks);
+        DbSingleton dbSingleton = DbSingleton.getInstance();
         track = getIntent().getStringExtra("TRACK");
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -39,9 +45,11 @@ public class TracksActivity extends AppCompatActivity {
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbar.setTitle(track);
 
+
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         try {
-            sessionsAdapter = new SessionsAdapter(dbSingleton.getSessionbyTracksname(track));
+            List<Session> sessionList = dbSingleton.getSessionbyTracksname(track);
+            sessionsAdapter = new SessionsAdapter(sessionList);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -50,17 +58,43 @@ public class TracksActivity extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 
+
+    private void loadImage() {
+        try {
+            DbSingleton dbSingleton = DbSingleton.getInstance();
+            current = dbSingleton.getTrackbyName(track);
+            Log.d("trying", "picasso");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        ImageView backdrop1 = (ImageView) findViewById(R.id.backdrop);
+        if (current.getImage().length() != 0) {
+            Picasso.with(getApplicationContext()).load(current.getImage()).into(backdrop1);
+
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
                 return true;
+//            case R.id.share_tracks:
+//                //TODO: Add the real webapp links here
+//                Intent intent = new Intent();
+//                intent.setAction(Intent.ACTION_SEND);
+//                intent.putExtra(Intent.EXTRA_TEXT, current.getName() + current.getId());
+//                intent.setType("text/plain");
+//                startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void loadImage() {
-        //TODO: Add method to parse image and add it to the view
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_tracks, menu);
+        return true;
     }
 }

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_search_speakers"
+        android:icon="@android:drawable/ic_menu_search"
+        android:title="@string/search"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/refresh_speakers"
+        android:icon="@drawable/ic_sync_white_24dp"
+        android:menuCategory="secondary"
+        android:title="Refresh"
+        app:showAsAction="ifRoom"/>
+</menu>

@@ -2,7 +2,6 @@ package org.fossasia.openevent.Adapters;
 
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,8 +44,7 @@ public class SpeakersListAdapter extends RecyclerView.Adapter<SpeakersListAdapte
 
         holder.designation.setText(current.getPosition());
         holder.name.setText(current.getName());
-        holder.bio.setText(current.getBio());
-        Log.d("LIST SIZE", speakers.size() + "");
+
     }
 
     @Override
@@ -54,31 +52,20 @@ public class SpeakersListAdapter extends RecyclerView.Adapter<SpeakersListAdapte
         return speakers.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView speaker_image;
-
         TextView name;
-
         TextView designation;
 
-        TextView bio;
 
         public ViewHolder(View itemView) {
             super(itemView);
             itemView.setClickable(true);
-            itemView.setOnClickListener(this);
-
             speaker_image = (ImageView) itemView.findViewById(R.id.speaker_image);
-
             name = (TextView) itemView.findViewById(R.id.speaker_name);
-            bio = (TextView) itemView.findViewById(R.id.speaker_bio);
             designation = (TextView) itemView.findViewById(R.id.speaker_designation);
-        }
-
-        @Override
-        public void onClick(View view) {
-
         }
     }
 }
+

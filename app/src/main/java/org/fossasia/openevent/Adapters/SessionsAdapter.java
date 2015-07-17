@@ -24,7 +24,7 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Viewho
     @Override
     public SessionsAdapter.Viewholder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.tracksactvity_item, parent,false);
+        View view = layoutInflater.inflate(R.layout.tracksactvity_item, parent, false);
         Viewholder viewholder = new Viewholder(view);
         return viewholder;
     }
@@ -33,7 +33,9 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Viewho
     public void onBindViewHolder(Viewholder holder, int position) {
         Session current = sessions.get(position);
         String title = current.getTitle();
+        String summary = current.getSummary();
         holder.sessionName.setText(title);
+        holder.sessionSummary.setText(summary);
     }
 
     @Override
@@ -43,12 +45,15 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Viewho
 
     class Viewholder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView sessionName;
+        TextView sessionSummary;
 
         public Viewholder(View itemView) {
             super(itemView);
             itemView.setClickable(true);
             itemView.setOnClickListener(this);
             sessionName = (TextView) itemView.findViewById(R.id.session_title);
+            sessionSummary = (TextView) itemView.findViewById(R.id.session_abstract);
+
         }
 
         @Override

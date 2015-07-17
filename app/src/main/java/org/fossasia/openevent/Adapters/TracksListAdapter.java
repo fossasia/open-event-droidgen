@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.fossasia.openevent.R;
@@ -35,6 +36,7 @@ public class TracksListAdapter extends RecyclerView.Adapter<TracksListAdapter.Vi
         Track current = tracks.get(position);
         holder.title.setText(current.getName());
         holder.desc.setText(current.getDescription());
+
     }
 
     @Override
@@ -42,15 +44,20 @@ public class TracksListAdapter extends RecyclerView.Adapter<TracksListAdapter.Vi
         return tracks.size();
     }
 
+
     class Viewholder extends RecyclerView.ViewHolder {
         TextView title;
         TextView desc;
+        LinearLayout container;
+
 
         public Viewholder(View itemView) {
             super(itemView);
             itemView.setClickable(true);
+
             title = (TextView) itemView.findViewById(R.id.track_title);
             desc = (TextView) itemView.findViewById(R.id.track_description);
+
         }
 
     }

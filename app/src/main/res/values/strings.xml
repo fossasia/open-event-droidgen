@@ -8,7 +8,7 @@
     <string name="title_section_sponsors">Sponsors</string>
     <string name="title_section_map">Map</string>
 
-    <!-- Main menu -->
+    <!-- Main menu_speakers -->
     <string name="menu_tracks">Tracks</string>
     <string name="menu_bookmarks">Bookmarks</string>
     <string name="menu_speakers">Speakers</string>
@@ -36,4 +36,18 @@
     <!--Settings-->
     <string name="settings_mode">Mode</string>
     <string name="default_mode">Developer</string>
+
+    <!--Social-->
+    <string name="linkedin">linkedin</string>
+    <string name="twitter">twitter</string>
+    <string name="fb">fb</string>
+    <string name="github">github</string>
+
+    <!--Menu Titles-->
+    <string name="search">Search</string>
+    <string name="share">Share</string>
+
+
+    <!--Search Titles-->
+    <string name="search_hint_tracks"> Search Tracks</string>
 </resources>

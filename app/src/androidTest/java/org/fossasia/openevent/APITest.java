@@ -67,7 +67,7 @@ public class APITest extends AndroidTestCase {
     public void testEventAPIResponse() throws Exception {
         APIClient client = new APIClient();
         final CountDownLatch latch = new CountDownLatch(1);
-        client.getOpenEventAPI().getEvents(Urls.EVENT_ID, new Callback<EventResponseList>() {
+        client.getOpenEventAPI().getEvents(new Callback<EventResponseList>() {
             @Override
             public void success(EventResponseList eventResponseList, Response response) {
                 assertNotNull(eventResponseList.event);

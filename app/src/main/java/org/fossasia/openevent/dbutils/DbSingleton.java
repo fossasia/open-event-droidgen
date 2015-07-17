@@ -3,6 +3,7 @@ package org.fossasia.openevent.dbutils;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
+import org.fossasia.openevent.data.Event;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Sponsor;
@@ -68,6 +69,11 @@ public class DbSingleton {
 
     }
 
+    public Event getEventDetails() {
+        getReadOnlyDatabase();
+        return databaseOperations.getEventDetails(mDb);
+    }
+
     public Session getSessionById(int id) throws ParseException {
         getReadOnlyDatabase();
         return databaseOperations.getSessionById(id, mDb);
@@ -105,8 +111,20 @@ public class DbSingleton {
         return databaseOperations.getSessionbyTracksname(trackName, mDb);
     }
 
+    public ArrayList<Session> getSessionbySpeakersName(String speakerName) throws ParseException {
+        return databaseOperations.getSessionbySpeakersname(speakerName, mDb);
+    }
+
     public void insertQueries(ArrayList<String> queries) {
         databaseOperations.insertQueries(queries, mDbHelper);
+    }
+
+    public Track getTrackbyName(String trackName) throws ParseException {
+        return databaseOperations.getTracksbyTracksname(trackName, mDb);
+    }
+
+    public Speaker getSpeakerbySpeakersname(String speakerName) throws ParseException {
+        return databaseOperations.getSpeakerbySpeakersname(speakerName, mDb);
     }
 
 

@@ -109,6 +109,7 @@ public class DbContract {
     public static abstract class Sessionsspeakers implements BaseColumns {
         public static final String TABLE_NAME = "sessionsspeakers";
 
+        public static final String _ID = "_id";
         public static final String SPEAKER_ID = "speakerid";
         public static final String SESSION_ID = "sessionid";
 
@@ -119,9 +120,9 @@ public class DbContract {
         };
 
         public static final String CREATE_TABLE =
-                "CREATE TABLE " + TABLE_NAME
+                "CREATE TABLE IF NOT EXISTS " + TABLE_NAME
                         + " ("
-                        + _ID + " INTEGER PRIMARY KEY,"
+                        + _ID + INT_TYPE + PRIMARY_KEY + COMMA_SEP
                         + SESSION_ID + INT_TYPE + COMMA_SEP
                         + SPEAKER_ID + INT_TYPE
                         + " );";
@@ -184,11 +185,13 @@ public class DbContract {
         public static final String ID = "id";
         public static final String NAME = "name";
         public static final String DESCRIPTION = "description";
+        public static final String IMAGE = "image";
 
         public static final String[] FULL_PROJECTION = {
                 ID,
                 NAME,
-                DESCRIPTION
+                DESCRIPTION,
+                IMAGE
         };
 
         public static final String CREATE_TABLE =
@@ -196,7 +199,8 @@ public class DbContract {
                         + " ("
                         + ID + INT_TYPE + PRIMARY_KEY + COMMA_SEP
                         + NAME + TEXT_TYPE + COMMA_SEP
-                        + DESCRIPTION + TEXT_TYPE
+                        + DESCRIPTION + TEXT_TYPE + COMMA_SEP
+                        + IMAGE + TEXT_TYPE
                         + " );";
         public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
 

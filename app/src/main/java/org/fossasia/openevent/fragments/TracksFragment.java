@@ -31,7 +31,7 @@ public class TracksFragment extends Fragment {
         tracksRecyclerView = (RecyclerView) view.findViewById(R.id.list_tracks);
         tracksListAdapter = new TracksListAdapter(dbSingleton.getTrackList());
         tracksRecyclerView.setAdapter(tracksListAdapter);
-        tracksRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        tracksRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         tracksRecyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(view.getContext(), new RecyclerItemClickListener.OnItemClickListener() {
                     @Override

@@ -27,8 +27,11 @@ public class SpeakerListResponseProcessor implements Callback<SpeakerResponseLis
 
         for (Speaker speaker : speakerResponseList.speakers) {
             for (int i = 0; i < speaker.getSession().length; i++) {
+                Log.d("SS LIST", speaker.getSession()[i] + "  " + speaker.getId() + "");
                 SessionSpeakersMapping sessionSpeakersMapping = new SessionSpeakersMapping(speaker.getSession()[i], speaker.getId());
-                sessionSpeakersMapping.generateSql();
+                String query_ss = sessionSpeakersMapping.generateSql();
+                queries.add(query_ss);
+                Log.d("SS LIST", query_ss);
             }
             String query = speaker.generateSql();
             queries.add(query);
