@@ -11,6 +11,8 @@ import org.fossasia.openevent.dbutils.DbContract;
  */
 public class Speaker {
 
+    public static final String SPEAKER = "speaker";
+
     int id;
 
     String name;

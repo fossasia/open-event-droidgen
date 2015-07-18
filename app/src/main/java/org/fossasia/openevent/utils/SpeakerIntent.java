@@ -1,6 +1,5 @@
 package org.fossasia.openevent.utils;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.View;
@@ -15,37 +14,34 @@ import org.fossasia.openevent.data.Speaker;
  */
 public class SpeakerIntent {
     Speaker speaker;
-    //    Intent intent;
-    Context context;
 
-    public SpeakerIntent(Speaker speaker, Context context) {
+    public SpeakerIntent(Speaker speaker) {
         this.speaker = speaker;
-        this.context = context;
     }
 
-    public void mIntent(final ImageView imageView) {
+    public void clickedImage(final ImageView imageView) {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String url;
-                if (imageView.getTag().toString().equals(context.getString(R.string.linkedin))) {
+                if (imageView.getTag().toString().equals(view.getContext().getString(R.string.linkedin))) {
                     url = speaker.getLinkedin();
 
-                } else if (imageView.getTag().toString().equals(context.getString(R.string.twitter))) {
+                } else if (imageView.getTag().toString().equals(view.getContext().getString(R.string.twitter))) {
                     url = speaker.getTwitter();
 
-                } else if (imageView.getTag().toString().equals(context.getString(R.string.fb))) {
+                } else if (imageView.getTag().toString().equals(view.getContext().getString(R.string.fb))) {
                     url = speaker.getFacebook();
 
-                } else if (imageView.getTag().toString().equals(context.getString(R.string.github))) {
+                } else if (imageView.getTag().toString().equals(view.getContext().getString(R.string.github))) {
                     url = speaker.getGithub();
                 } else {
                     url = "";
-                    Toast.makeText(context, "What did you click?? :P", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(view.getContext(), "What did you click?? :P", Toast.LENGTH_SHORT).show();
                 }
 
                 if (url.isEmpty()) {
-                    Toast.makeText(context, "Sorry this speaker doesn't have a profile", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(view.getContext(), "Sorry this speaker doesn't have a profile", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -54,7 +50,7 @@ public class SpeakerIntent {
                 }
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
+                view.getContext().startActivity(intent);
 
 
             }

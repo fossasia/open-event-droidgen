@@ -9,7 +9,6 @@ import org.fossasia.openevent.dbutils.DbContract;
  */
 public class Event {
 
-
     int id;
 
     String name;

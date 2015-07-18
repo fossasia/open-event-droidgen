@@ -2,7 +2,6 @@ package org.fossasia.openevent.fragments;
 
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,6 +15,7 @@ import android.widget.TextView;
 import org.fossasia.openevent.Adapters.SpeakersListAdapter;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.activities.SpeakersActivity;
+import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.RecyclerItemClickListener;
 
@@ -45,7 +45,7 @@ public class SpeakerFragment extends Fragment {
                             public void onItemClick(View view, int position) {
                                 String speaker_name = ((TextView) view.findViewById(R.id.speaker_name)).getText().toString();
                                 Intent intent = new Intent(view.getContext(), SpeakersActivity.class);
-                                intent.putExtra("SPEAKER",speaker_name);
+                                intent.putExtra(Speaker.SPEAKER, speaker_name);
                                 startActivity(intent);
                             }
                         }));

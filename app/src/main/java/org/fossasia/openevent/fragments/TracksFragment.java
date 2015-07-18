@@ -26,13 +26,13 @@ public class TracksFragment extends Fragment {
 
     RecyclerView tracksRecyclerView;
     TracksListAdapter tracksListAdapter;
+    DbSingleton dbSingleton = DbSingleton.getInstance();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.list_tracks, container, false);
         tracksRecyclerView = (RecyclerView) view.findViewById(R.id.list_tracks);
-        DbSingleton dbSingleton = DbSingleton.getInstance();
         tracksListAdapter = new TracksListAdapter(dbSingleton.getTrackList());
         tracksRecyclerView.setAdapter(tracksListAdapter);
         tracksRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
@@ -54,6 +54,7 @@ public class TracksFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.refresh_tracks:
+                Log.d("TRACKS", "refresh");
                 tracksListAdapter.deleteItems();
                 DataDownload download = new DataDownload();
                 download.downloadTracks();

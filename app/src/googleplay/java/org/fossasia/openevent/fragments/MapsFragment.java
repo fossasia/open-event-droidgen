@@ -4,6 +4,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -17,6 +18,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+<<<<<<< HEAD
 import org.fossasia.openevent.dbutils.DbSingleton;
 
 public class MapsFragment extends SupportMapFragment implements LocationListener {
@@ -27,6 +29,14 @@ public class MapsFragment extends SupportMapFragment implements LocationListener
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
     }
+=======
+import org.fossasia.openevent.data.Event;
+import org.fossasia.openevent.utils.IntentStrings;
+
+public class MapsFragment extends SupportMapFragment implements LocationListener {
+    private GoogleMap mMap;
+    private LatLng location;
+>>>>>>> master
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -37,6 +47,7 @@ public class MapsFragment extends SupportMapFragment implements LocationListener
                 dbSingleton.getEventDetails().getLatitude(),
                 dbSingleton.getEventDetails().getLongitude());
 
+<<<<<<< HEAD
         String location_title = dbSingleton.getEventDetails().getLocationName();
         mMap = getMap();
         if (mMap != null) {
@@ -51,6 +62,31 @@ public class MapsFragment extends SupportMapFragment implements LocationListener
                             .tilt(0)
                             .build()));
 
+=======
+        Bundle latlng = getArguments();
+        if (latlng != null && latlng.containsKey(IntentStrings.LOCATION)) {
+            location = new LatLng(
+                    latlng.getFloat(IntentStrings.LATITUDE, 0.0f),
+                    latlng.getFloat(IntentStrings.LONGITUDE, 0.0f));
+            Log.d("ABC", latlng.getFloat(IntentStrings.LATITUDE, 0.0f) + " " +
+                    latlng.getFloat(IntentStrings.LONGITUDE, 0.0f) + "");
+
+            String location_title = latlng.getString(IntentStrings.LOCATION);
+            mMap = getMap();
+            if (mMap != null) {
+                mMap.addMarker(new MarkerOptions()
+                        .position(location)
+                        .title(location_title));
+                mMap.animateCamera(
+                        CameraUpdateFactory.newCameraPosition(CameraPosition.builder()
+                                .target(location)
+                                .zoom(15f)
+                                .bearing(0)
+                                .tilt(0)
+                                .build()));
+
+            }
+>>>>>>> master
         }
     }
 
@@ -74,12 +110,17 @@ public class MapsFragment extends SupportMapFragment implements LocationListener
     }
 
     @Override
+<<<<<<< HEAD
     public void onLocationChanged(Location location) {
         DbSingleton dbSingleton = DbSingleton.getInstance();
         LatLng latLng = new LatLng(
                 dbSingleton.getEventDetails().getLatitude(),
                 dbSingleton.getEventDetails().getLongitude());
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 10);
+=======
+    public void onLocationChanged(Location locations) {
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(location, 10);
+>>>>>>> master
         mMap.animateCamera(cameraUpdate);
     }
 

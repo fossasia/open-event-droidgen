@@ -1,13 +1,18 @@
 package org.fossasia.openevent.activities;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,6 +27,7 @@ import org.fossasia.openevent.fragments.BookmarksFragment;
 import org.fossasia.openevent.fragments.SpeakerFragment;
 import org.fossasia.openevent.fragments.SponsorsFragment;
 import org.fossasia.openevent.fragments.TracksFragment;
+import org.fossasia.openevent.utils.IntentStrings;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -108,10 +114,9 @@ public class MainActivity extends AppCompatActivity {
 
             ImageView header_drawer = (ImageView) findViewById(R.id.headerDrawer);
             DbSingleton dbSingleton = DbSingleton.getInstance();
+//            Log.d("PICASSO", dbSingleton.getEventDetails().getLogo());
+//            Picasso.with(getApplicationContext()).load(dbSingleton.getEventDetails().getLogo()).into(header_drawer);
 
-//            if (dbSingleton.getEventDetails() != null) {
-//                Picasso.with(getApplicationContext()).load(dbSingleton.getEventDetails().getLogo()).into(header_drawer);
-//            }
             mDrawerLayout.setDrawerListener(mActionBarDrawerToggle);
             ab.setHomeAsUpIndicator(R.drawable.ic_menu);
             ab.setDisplayHomeAsUpEnabled(true);
@@ -156,12 +161,25 @@ public class MainActivity extends AppCompatActivity {
                                 inflater.inflate(R.menu.menu_sponsors, menu);
                                 break;
                             case R.id.nav_map:
-                                fragmentManager.beginTransaction()
-                                        .replace(R.id.content_frame,
-                                                ((OpenEventApp) getApplication())
-                                                        .getMapModuleFactory()
-                                                        .provideMapModule()
-                                                        .provideMapFragment()).commit();
+                                Bundle latlng = new Bundle();
+                                DbSingleton dbSingleton = DbSingleton.getInstance();
+                                float latitude = dbSingleton.getEventDetails().getLatitude();
+                                float longitude = dbSingleton.getEventDetails().getLongitude();
+
+                                String location_name = dbSingleton.getEventDetails().getLocationName();
+                                latlng.putFloat(IntentStrings.LATITUDE, latitude);
+                                latlng.putFloat(IntentStrings.LONGITUDE, longitude);
+                                latlng.putString(IntentStrings.LOCATION, location_name);
+
+                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                                Fragment fragment = new Fragment();
+                                fragment.setArguments(latlng);
+                                fragmentTransaction.replace(R.id.content_frame,
+                                        ((OpenEventApp) getApplication())
+                                                .getMapModuleFactory()
+                                                .provideMapModule()
+                                                .provideMapFragment()).commit();
                                 getSupportActionBar().setTitle(R.string.menu_map);
                                 inflater.inflate(R.menu.menu_map, menu);
                                 break;
