@@ -6,6 +6,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -14,6 +15,7 @@ import org.fossasia.openevent.Adapters.SpeakersListAdapter;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
+import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.dbutils.DbSingleton;
 
 import java.text.ParseException;
@@ -25,6 +27,7 @@ import java.util.List;
 public class SessionDetailActivity extends AppCompatActivity {
     RecyclerView speakersRecyclerView;
     SpeakersListAdapter adapter;
+    Session session;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -33,6 +36,7 @@ public class SessionDetailActivity extends AppCompatActivity {
         DbSingleton dbSingleton = DbSingleton.getInstance();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_details);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         String title = getIntent().getStringExtra("SESSION");
         TextView tv_title = (TextView) findViewById(R.id.title_session);
         TextView tv_subtitle = (TextView) findViewById(R.id.subtitle_session);
@@ -43,8 +47,6 @@ public class SessionDetailActivity extends AppCompatActivity {
 
         speakersRecyclerView = (RecyclerView) findViewById(R.id.list_speakerss);
         List<Speaker> speakers = null;
-
-        Session session = null;
 
         try {
             speakers = dbSingleton.getSpeakersbySessionName(title);
@@ -70,12 +72,30 @@ public class SessionDetailActivity extends AppCompatActivity {
             case android.R.id.home:
                 finish();
                 return true;
+            case R.id.add_bookmark:
+
+                Log.d("BOOKMARKS", session.getId() + "");
+                addToDb(session.getId());
+
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_session_detail, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    public void addToDb(int id) {
+        String query_normal = "INSERT INTO %s VALUES ('%d');";
+        String query = String.format(
+                query_normal,
+                DbContract.Bookmarks.TABLE_NAME,
+                id
+        );
+        Log.d("BOOKMARKS", query);
+        DbSingleton dbSingleton = DbSingleton.getInstance();
+        dbSingleton.insertQuery(query);
     }
 }

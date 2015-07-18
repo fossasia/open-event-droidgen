@@ -53,8 +53,6 @@ public class TracksListAdapter extends RecyclerView.Adapter<TracksListAdapter.Vi
     class Viewholder extends RecyclerView.ViewHolder {
         TextView title;
         TextView desc;
-        LinearLayout container;
-
 
         public Viewholder(View itemView) {
             super(itemView);

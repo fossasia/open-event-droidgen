@@ -5,7 +5,7 @@
                 android:padding="7dp">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/list_tracks"
+        android:id="@+id/list_bookmarks"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"

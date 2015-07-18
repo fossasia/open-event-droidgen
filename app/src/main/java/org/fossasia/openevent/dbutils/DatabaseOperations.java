@@ -100,6 +100,7 @@ public class DatabaseOperations {
                 cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.MICROLOCATION))
         );
         cursor.close();
+        Log.d("SESSIONBYID", session.getTitle());
 
         return session;
     }
@@ -658,5 +659,74 @@ public class DatabaseOperations {
 
         cursor.close();
         return session;
+    }
+
+    public Session getSessionbyId(int id, SQLiteDatabase mDb) throws ParseException {
+        String sessionColumnSelection = DbContract.Tracks._ID + EQUAL + id;
+
+        Cursor cursor = mDb.query(
+                DbContract.Sessions.TABLE_NAME,
+                DbContract.Sessions.FULL_PROJECTION,
+                sessionColumnSelection,
+                null,
+                null,
+                null,
+                null
+        );
+        Session session;
+        cursor.moveToFirst();
+        session = new Session(
+                cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.ID)),
+                cursor.getString(cursor.getColumnIndex(DbContract.Sessions.TITLE)),
+                cursor.getString(cursor.getColumnIndex(DbContract.Sessions.SUBTITLE)),
+                cursor.getString(cursor.getColumnIndex(DbContract.Sessions.SUMMARY)),
+                cursor.getString(cursor.getColumnIndex(DbContract.Sessions.DESCRIPTION)),
+                cursor.getString(cursor.getColumnIndex(DbContract.Sessions.START_TIME)),
+                cursor.getString(cursor.getColumnIndex(DbContract.Sessions.END_TIME)),
+                cursor.getString(cursor.getColumnIndex(DbContract.Sessions.TYPE)),
+                cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.TRACK)),
+                cursor.getString(cursor.getColumnIndex(DbContract.Sessions.LEVEL)),
+                null,
+                cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.MICROLOCATION))
+
+        );
+
+        cursor.close();
+        return session;
+
+    }
+
+    public ArrayList<Integer> getBookmarkIds(SQLiteDatabase mDb) {
+        String sortOrder = DbContract.Bookmarks.TRACKS_ID + ASCENDING;
+
+        Cursor cursor = mDb.query(
+                DbContract.Bookmarks.TABLE_NAME,
+                DbContract.Bookmarks.FULL_PROJECTION,
+                null,
+                null,
+                null,
+                null,
+                sortOrder
+        );
+
+        ArrayList<Integer> ids = new ArrayList<>();
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            ids.add(cursor.getInt(cursor.getColumnIndex(DbContract.Bookmarks.TRACKS_ID)));
+            cursor.moveToNext();
+        }
+
+        cursor.close();
+        Log.d("BOOKMARKSIDx", ids.size() + "");
+        return ids;
+    }
+
+    public void insertQuery(String query, DbHelper mDbHelper) {
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        db.beginTransaction();
+        db.execSQL(query);
+
+        db.setTransactionSuccessful();
+        db.endTransaction();
     }
 }

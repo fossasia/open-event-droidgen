@@ -132,8 +132,16 @@ public class DbSingleton {
         return databaseOperations.getSessionbySessionname(sessionName, mDb);
     }
 
+    public ArrayList<Integer> getBookmarkIds() throws ParseException {
+        return databaseOperations.getBookmarkIds(mDb);
+    }
+
     public void insertQueries(ArrayList<String> queries) {
         databaseOperations.insertQueries(queries, mDbHelper);
+    }
+
+    public void insertQuery(String query) {
+        databaseOperations.insertQuery(query, mDbHelper);
     }
 
     public void clearDatabase(String table) {

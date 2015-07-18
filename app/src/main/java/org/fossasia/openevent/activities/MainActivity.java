@@ -18,6 +18,7 @@ import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.dbutils.DataDownload;
 import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.fragments.BookmarksFragment;
 import org.fossasia.openevent.fragments.SpeakerFragment;
 import org.fossasia.openevent.fragments.SponsorsFragment;
 import org.fossasia.openevent.fragments.TracksFragment;
@@ -41,9 +42,6 @@ public class MainActivity extends AppCompatActivity {
         setUpToolbar();
         setUpNavDrawer();
         navigationView = (NavigationView) findViewById(R.id.nav_view);
-//        if (navigationView != null) {
-//            setupDrawerContent(navigationView);
-//        }
 
         this.findViewById(android.R.id.content).setBackgroundColor(Color.LTGRAY);
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -140,6 +138,8 @@ public class MainActivity extends AppCompatActivity {
                                 inflater.inflate(R.menu.menu_tracks, menu);
                                 break;
                             case R.id.nav_bookmarks:
+                                fragmentManager.beginTransaction()
+                                        .replace(R.id.content_frame, new BookmarksFragment()).commit();
                                 getSupportActionBar().setTitle(R.string.menu_bookmarks);
                                 inflater.inflate(R.menu.menu_bookmarks, menu);
                                 break;

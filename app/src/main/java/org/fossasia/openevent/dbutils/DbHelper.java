@@ -27,6 +27,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(DbContract.Event.CREATE_TABLE);
         db.execSQL(DbContract.Microlocation.CREATE_TABLE);
         db.execSQL(DbContract.Versions.CREATE_TABLE);
+        db.execSQL(DbContract.Bookmarks.CREATE_TABLE);
     }
 
     @Override
@@ -38,6 +39,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(DbContract.Sessionsspeakers.DELETE_TABLE);
         db.execSQL(DbContract.Event.DELETE_TABLE);
         db.execSQL(DbContract.Microlocation.DELETE_TABLE);
+        db.execSQL(DbContract.Bookmarks.DELETE_TABLE);
         onCreate(db);
     }
 }

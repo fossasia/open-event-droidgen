@@ -42,7 +42,6 @@ public class DbContract {
                 "CREATE TABLE " + TABLE_NAME
                         + " ("
                         + VER_ID + INT_TYPE + PRIMARY_KEY + COMMA_SEP
-                        //+ EVENT_ID + INT_TYPE + COMMA_SEP
                         + VER_EVENT + INT_TYPE + COMMA_SEP
                         + VER_TRACKS + INT_TYPE + COMMA_SEP
                         + VER_SESSIONS + INT_TYPE + COMMA_SEP
@@ -312,6 +311,24 @@ public class DbContract {
                         + EVENT_SLOGAN + TEXT_TYPE
                         + " );";
         public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
+    }
+
+    public static abstract class Bookmarks implements BaseColumns {
+        public static final String TABLE_NAME = "bookmarks";
+
+        public static final String TRACKS_ID = "tracks_id";
+        public static final String[] FULL_PROJECTION = {
+                TRACKS_ID
+        };
+
+        public static final String CREATE_TABLE =
+                "CREATE TABLE " + TABLE_NAME
+                        + " ("
+                        + TRACKS_ID + INT_TYPE + PRIMARY_KEY
+                        + " );";
+        public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
+
+
     }
 
 }
