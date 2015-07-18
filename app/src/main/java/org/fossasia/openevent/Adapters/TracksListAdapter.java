@@ -47,7 +47,7 @@ public class TracksListAdapter extends RecyclerView.Adapter<TracksListAdapter.Vi
 
     public void deleteItems() {
         Log.d("delete", "tracks");
-        for (int i = 0; i <= getItemCount(); i++) {
+        for (int i = 0; i < getItemCount(); i++) {
             Log.d("i" + i, tracks.get(i).getName());
             tracks.remove(i);
             notifyItemRemoved(i);
