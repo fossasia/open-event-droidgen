@@ -3,4 +3,6 @@
     <color name="color_primary">#FFC107</color>
     <color name="color_primary_dark">#FF8F00</color>
     <color name="color_accent">#FFF8E1</color>
+
+    <color name="translucent_grey">#0c000000</color>
 </resources>

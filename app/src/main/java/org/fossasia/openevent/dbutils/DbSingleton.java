@@ -115,9 +115,10 @@ public class DbSingleton {
         return databaseOperations.getSessionbySpeakersname(speakerName, mDb);
     }
 
-    public void insertQueries(ArrayList<String> queries) {
-        databaseOperations.insertQueries(queries, mDbHelper);
+    public ArrayList<Speaker> getSpeakersbySessionName(String sessionName) throws ParseException {
+        return databaseOperations.getSpeakersbySessionname(sessionName, mDb);
     }
+
 
     public Track getTrackbyName(String trackName) throws ParseException {
         return databaseOperations.getTracksbyTracksname(trackName, mDb);
@@ -127,6 +128,21 @@ public class DbSingleton {
         return databaseOperations.getSpeakerbySpeakersname(speakerName, mDb);
     }
 
+    public Session getSessionbySessionname(String sessionName) throws ParseException {
+        return databaseOperations.getSessionbySessionname(sessionName, mDb);
+    }
+
+    public ArrayList<Integer> getBookmarkIds() throws ParseException {
+        return databaseOperations.getBookmarkIds(mDb);
+    }
+
+    public void insertQueries(ArrayList<String> queries) {
+        databaseOperations.insertQueries(queries, mDbHelper);
+    }
+
+    public void insertQuery(String query) {
+        databaseOperations.insertQuery(query, mDbHelper);
+    }
 
     public void clearDatabase(String table) {
         databaseOperations.clearDatabase(table, mDbHelper);

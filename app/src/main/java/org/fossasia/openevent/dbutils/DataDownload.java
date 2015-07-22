@@ -1,5 +1,7 @@
 package org.fossasia.openevent.dbutils;
 
+import android.util.Log;
+
 import org.fossasia.openevent.api.APIClient;
 import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.api.processor.EventListResponseProcessor;
@@ -35,6 +37,7 @@ public class DataDownload {
 
     public void downloadTracks() {
         client.getOpenEventAPI().getTracks(Urls.EVENT_ID, new TrackListResponseProcessor());
+        Log.d("TRACKS","download");
     }
 
     public void downloadMicrolocations() {
@@ -43,6 +46,7 @@ public class DataDownload {
 
     public void downloadVersions() {
         client.getOpenEventAPI().getVersion(Urls.EVENT_ID, new VersionApiProcessor());
+        Log.d("!","2");
     }
 
 

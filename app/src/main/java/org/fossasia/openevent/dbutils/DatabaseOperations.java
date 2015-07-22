@@ -100,6 +100,7 @@ public class DatabaseOperations {
                 cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.MICROLOCATION))
         );
         cursor.close();
+        Log.d("SESSIONBYID", session.getTitle());
 
         return session;
     }
@@ -472,6 +473,7 @@ public class DatabaseOperations {
             );
             sessions.add(session);
             sessionTableCursor.moveToNext();
+            sessionTableCursor.close();
         }
 
         return sessions;
@@ -538,7 +540,159 @@ public class DatabaseOperations {
                 cursor.getString(cursor.getColumnIndex(DbContract.Event.EVENT_URL)),
                 cursor.getString(cursor.getColumnIndex(DbContract.Event.EVENT_SLOGAN))
         );
+        cursor.close();
         return event;
 
     }
+
+    public ArrayList<Speaker> getSpeakersbySessionname(String sessionName, SQLiteDatabase mDb) throws ParseException {
+        String sessionColumnSelection = DbContract.Sessions.TITLE + EQUAL + DatabaseUtils.sqlEscapeString(sessionName);
+        String[] columns = {DbContract.Sessions.ID, DbContract.Sessions.TITLE};
+        Cursor sessionsCursor = mDb.query(
+                DbContract.Sessions.TABLE_NAME,
+                columns,
+                sessionColumnSelection,
+                null,
+                null,
+                null,
+                null
+        );
+        int sessionSelected;
+        sessionsCursor.moveToFirst();
+        sessionSelected = sessionsCursor.getInt(sessionsCursor.getColumnIndex(DbContract.Sessions.ID));
+
+        sessionsCursor.close();
+
+        //Select columns having speaker id same as that obtained previously
+        String speakersColumnSelection = DbContract.Sessionsspeakers.SESSION_ID + EQUAL + sessionSelected;
+
+        //Order
+        String[] columns1 = {DbContract.Sessionsspeakers.SPEAKER_ID};
+
+        Cursor speakerCursor = mDb.query(
+                DbContract.Sessionsspeakers.TABLE_NAME,
+                columns1,
+                speakersColumnSelection,
+                null,
+                null,
+                null,
+                null
+        );
+
+        ArrayList<Integer> speakersIds = new ArrayList<>();
+        speakerCursor.moveToFirst();
+        //Should return only one due to UNIQUE constraint
+        while (!speakerCursor.isAfterLast()) {
+            speakersIds.add(speakerCursor.getInt(speakerCursor.getColumnIndex(DbContract.Sessionsspeakers.SPEAKER_ID)));
+            speakerCursor.moveToNext();
+        }
+
+        speakerCursor.close();
+
+        ArrayList<Speaker> speakers = new ArrayList<>();
+
+        for (int i = 0; i < speakersIds.size(); i++) {
+            String speakerTableColumnSelection = DbContract.Speakers.ID + EQUAL + speakersIds.get(i);
+            Cursor speakersCursor = mDb.query(
+                    DbContract.Speakers.TABLE_NAME,
+                    DbContract.Speakers.FULL_PROJECTION,
+                    speakerTableColumnSelection,
+                    null,
+                    null,
+                    null,
+                    null
+            );
+
+            Speaker speaker;
+            speakersCursor.moveToFirst();
+            speaker = new Speaker(
+                    speakersCursor.getInt(speakersCursor.getColumnIndex(DbContract.Speakers.ID)),
+                    speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.NAME)),
+                    speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.PHOTO)),
+                    speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.BIO)),
+                    speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.EMAIL)),
+                    speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.WEB)),
+                    speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.TWITTER)),
+                    speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.FACEBOOK)),
+                    speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.GITHUB)),
+                    speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.LINKEDIN)),
+                    speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.ORGANISATION)),
+                    speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.POSITION)),
+                    null,
+                    speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.COUNTRY))
+            );
+            speakers.add(speaker);
+            speakersCursor.moveToNext();
+            speakersCursor.close();
+        }
+        return speakers;
+    }
+
+    public Session getSessionbySessionname(String sessionName, SQLiteDatabase mDb) throws ParseException {
+        String sessionColumnSelection = DbContract.Sessions.TITLE + EQUAL + DatabaseUtils.sqlEscapeString(sessionName);
+        Cursor cursor = mDb.query(
+                DbContract.Sessions.TABLE_NAME,
+                DbContract.Sessions.FULL_PROJECTION,
+                sessionColumnSelection,
+                null,
+                null,
+                null,
+                null
+        );
+        Session session;
+        cursor.moveToFirst();
+        session = new Session(
+                cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.ID)),
+                cursor.getString(cursor.getColumnIndex(DbContract.Sessions.TITLE)),
+                cursor.getString(cursor.getColumnIndex(DbContract.Sessions.SUBTITLE)),
+                cursor.getString(cursor.getColumnIndex(DbContract.Sessions.SUMMARY)),
+                cursor.getString(cursor.getColumnIndex(DbContract.Sessions.DESCRIPTION)),
+                cursor.getString(cursor.getColumnIndex(DbContract.Sessions.START_TIME)),
+                cursor.getString(cursor.getColumnIndex(DbContract.Sessions.END_TIME)),
+                cursor.getString(cursor.getColumnIndex(DbContract.Sessions.TYPE)),
+                cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.TRACK)),
+                cursor.getString(cursor.getColumnIndex(DbContract.Sessions.LEVEL)),
+                null,
+                cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.MICROLOCATION))
+
+        );
+
+        cursor.close();
+        return session;
+    }
+
+
+    public ArrayList<Integer> getBookmarkIds(SQLiteDatabase mDb) {
+        String sortOrder = DbContract.Bookmarks.TRACKS_ID + ASCENDING;
+
+        Cursor cursor = mDb.query(
+                DbContract.Bookmarks.TABLE_NAME,
+                DbContract.Bookmarks.FULL_PROJECTION,
+                null,
+                null,
+                null,
+                null,
+                sortOrder
+        );
+
+        ArrayList<Integer> ids = new ArrayList<>();
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            ids.add(cursor.getInt(cursor.getColumnIndex(DbContract.Bookmarks.TRACKS_ID)));
+            cursor.moveToNext();
+        }
+
+        cursor.close();
+        return ids;
+    }
+
+    public void insertQuery(String query, DbHelper mDbHelper) {
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        db.beginTransaction();
+        db.execSQL(query);
+
+        db.setTransactionSuccessful();
+        db.endTransaction();
+    }
+
 }

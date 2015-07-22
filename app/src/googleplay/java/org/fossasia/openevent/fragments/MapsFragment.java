@@ -4,7 +4,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,12 +17,17 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import org.fossasia.openevent.data.Event;
 import org.fossasia.openevent.utils.IntentStrings;
 
 public class MapsFragment extends SupportMapFragment implements LocationListener {
     private GoogleMap mMap;
     private LatLng location;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -34,8 +38,6 @@ public class MapsFragment extends SupportMapFragment implements LocationListener
             location = new LatLng(
                     latlng.getFloat(IntentStrings.LATITUDE, 0.0f),
                     latlng.getFloat(IntentStrings.LONGITUDE, 0.0f));
-            Log.d("ABC", latlng.getFloat(IntentStrings.LATITUDE, 0.0f) + " " +
-                    latlng.getFloat(IntentStrings.LONGITUDE, 0.0f) + "");
 
             String location_title = latlng.getString(IntentStrings.LOCATION);
             mMap = getMap();
@@ -54,6 +56,7 @@ public class MapsFragment extends SupportMapFragment implements LocationListener
             }
         }
     }
+
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -74,6 +77,7 @@ public class MapsFragment extends SupportMapFragment implements LocationListener
     }
 
     @Override
+
     public void onLocationChanged(Location locations) {
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(location, 10);
         mMap.animateCamera(cameraUpdate);

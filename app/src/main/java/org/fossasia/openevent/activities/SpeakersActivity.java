@@ -12,7 +12,7 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.fossasia.openevent.Adapters.SessionsAdapter;
+import org.fossasia.openevent.Adapters.SessionsListAdapter;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
@@ -26,7 +26,7 @@ import java.util.List;
  * Created by MananWason on 30-06-2015.
  */
 public class SpeakersActivity extends AppCompatActivity {
-    SessionsAdapter sessionsAdapter;
+    SessionsListAdapter sessionsListAdapter;
     private String speaker;
     private Speaker selectedSpeaker;
 
@@ -64,12 +64,12 @@ public class SpeakersActivity extends AppCompatActivity {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView_speakers);
         try {
             List<Session> sessionList = dbSingleton.getSessionbySpeakersName(speaker);
-            sessionsAdapter = new SessionsAdapter(sessionList);
+            sessionsListAdapter = new SessionsListAdapter(sessionList);
         } catch (ParseException e) {
             e.printStackTrace();
         }
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(sessionsAdapter);
+        recyclerView.setAdapter(sessionsListAdapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 
@@ -92,7 +92,7 @@ public class SpeakersActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_speakers, menu);
+        getMenuInflater().inflate(R.menu.menu_speakers_activity, menu);
         return true;
     }
 }
