@@ -49,8 +49,6 @@ public class TracksActivity extends AppCompatActivity {
         CollapsingToolbarLayout collapsingToolbar =
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbar.setTitle(track);
-
-
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         try {
             List<Session> sessionList = dbSingleton.getSessionbyTracksname(track);
