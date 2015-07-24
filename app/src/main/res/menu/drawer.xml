@@ -22,6 +22,10 @@
             android:id="@+id/nav_map"
             android:icon="@drawable/ic_map_grey600_24dp"
             android:title="@string/menu_map"/>
+        <item
+            android:id="@+id/nav_abc"
+            android:icon="@drawable/ic_access_time_grey600_18dp"
+            android:title="@string/menu_map"/>
     </group>
     <item android:title="">
         <menu>
