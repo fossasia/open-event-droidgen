@@ -37,20 +37,20 @@ public class FragmentReplaceTest extends ActivityInstrumentationTestCase2<MainAc
         super.tearDown();
     }
 
-//    public void testClickShowFragmentButtonTestFragmentShown()
-//    {
-//        //get the text which the fragment shows
-//        ViewInteraction fragmentText = onView(withId(R.id.content_frame));
-//
-//        //check the fragment text does not exist on fresh activity start
-//        fragmentText.check(ViewAssertions.doesNotExist());
-//
-//        //click the button to show the fragment
-//        onView((withId(R.id.nav_tracks))).perform(click());
-//
-//        //check the fragments text is now visible in the activity
-//        fragmentText.check(ViewAssertions.matches(isDisplayed()));
-//    }
+    public void testClickShowFragmentButtonTestFragmentShown()
+    {
+        //get the text which the fragment shows
+        ViewInteraction fragmentText = onView(withId(R.id.content_frame));
+
+        //check the fragment text does not exist on fresh activity start
+        fragmentText.check(ViewAssertions.doesNotExist());
+
+        //click the button to show the fragment
+        onView((withId(R.id.nav_tracks))).perform(click());
+
+        //check the fragments text is now visible in the activity
+        fragmentText.check(ViewAssertions.matches(isDisplayed()));
+    }
 
 //    public void testClickShowFragmentButtonTestFragmentShown()
 //    {

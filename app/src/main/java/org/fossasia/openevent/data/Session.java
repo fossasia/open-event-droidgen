@@ -1,10 +1,12 @@
 package org.fossasia.openevent.data;
 
 import android.database.DatabaseUtils;
+import android.util.Log;
 
 import com.google.gson.annotations.SerializedName;
 
 import org.fossasia.openevent.dbutils.DbContract;
+import org.fossasia.openevent.dbutils.DbSingleton;
 
 import java.text.ParseException;
 
@@ -174,6 +176,17 @@ public class Session {
                 DatabaseUtils.sqlEscapeString(level),
                 microlocations);
         return query;
+    }
+    public void bookmark(int id) {
+        String query_normal = "INSERT INTO %s VALUES ('%d');";
+        String query = String.format(
+                query_normal,
+                DbContract.Bookmarks.TABLE_NAME,
+                id
+        );
+        Log.d("BOOKMARKS", query);
+        DbSingleton dbSingleton = DbSingleton.getInstance();
+        dbSingleton.insertQuery(query);
     }
 
 
