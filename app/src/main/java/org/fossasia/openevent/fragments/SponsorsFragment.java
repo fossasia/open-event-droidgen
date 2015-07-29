@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.fossasia.openevent.Adapters.SponsorsListAdapter;
+import org.fossasia.openevent.adapters.SponsorsListAdapter;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.dbutils.DbSingleton;
 
