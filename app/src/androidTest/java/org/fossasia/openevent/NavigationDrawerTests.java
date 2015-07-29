@@ -38,9 +38,10 @@ public class NavigationDrawerTests extends ActivityInstrumentationTestCase2<Main
      */
     @SmallTest
     public void testNavigationDrawerItemClick() {
+
         openDrawer(R.id.drawer);
         Log.d("DCA", "testitemclick");
-        String text = getActivity().getResources().getString(R.string.menu_abc);
+        String text = getActivity().getResources().getString(R.string.menu_tracks);
         Log.d("DCA", text);
         onView(withText(text)).perform(click());
     }
@@ -52,8 +53,6 @@ public class NavigationDrawerTests extends ActivityInstrumentationTestCase2<Main
     @SmallTest
     public void testNavigationDrawerBackButton() {
         openDrawer(R.id.drawer);
-        Log.d("DCA", "pressback");
-
         pressBack();
     }
 

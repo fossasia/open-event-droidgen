@@ -383,6 +383,7 @@ public class DatabaseOperations {
 
     public void clearDatabase(String table, DbHelper mDbHelper) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        Log.d("abc", "Db");
         db.beginTransaction();
         try {
 
