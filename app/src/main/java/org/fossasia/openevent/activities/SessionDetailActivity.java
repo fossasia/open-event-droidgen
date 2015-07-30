@@ -11,7 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import org.fossasia.openevent.Adapters.SpeakersListAdapter;
+import org.fossasia.openevent.adapters.SpeakersListAdapter;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;

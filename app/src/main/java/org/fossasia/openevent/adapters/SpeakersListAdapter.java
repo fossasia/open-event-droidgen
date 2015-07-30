@@ -1,4 +1,4 @@
-package org.fossasia.openevent.Adapters;
+package org.fossasia.openevent.adapters;
 
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
