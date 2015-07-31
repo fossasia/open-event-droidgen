@@ -60,9 +60,9 @@ public class SpeakerInsertTest extends AndroidTestCase {
         twitter = "twitter.com/mananwason9";
         facebook = "facebook.com/manan";
         github = "github.com/mananwason";
-        linkedin = "";
+        linkedin = "linkedin.com/mananwason";
         organisation = "fossasia";
-        position = "student";
+        position = "gsoc student";
         session = null;
         country = "india";
 

@@ -177,6 +177,7 @@ public class Session {
                 microlocations);
         return query;
     }
+
     public void bookmark(int id) {
         String query_normal = "INSERT INTO %s VALUES ('%d');";
         String query = String.format(

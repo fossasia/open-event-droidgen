@@ -28,8 +28,8 @@ public class SponsorInsertTest extends AndroidTestCase {
 
 
         id = 1;
-        name = "Android";
-        url = "www.android.com";
+        name = "Google";
+        url = "www.google.com";
         logo = "http://www.theverge.com/2014/6/25/5842024/googles-android-logo-gets-a-new-look";
 
         ContentValues contentValues = new ContentValues();
