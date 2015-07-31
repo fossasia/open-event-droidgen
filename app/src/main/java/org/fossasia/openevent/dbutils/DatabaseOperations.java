@@ -696,4 +696,9 @@ public class DatabaseOperations {
         db.endTransaction();
     }
 
+    public void deleteAllRecords(String tableName, SQLiteDatabase db) {
+
+        db.execSQL("delete from " + tableName);
+    }
+
 }

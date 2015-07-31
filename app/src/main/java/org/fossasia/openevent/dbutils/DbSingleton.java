@@ -148,4 +148,8 @@ public class DbSingleton {
         databaseOperations.clearDatabase(table, mDbHelper);
     }
 
+    public void deleteAllRecords(String tableName) {
+        databaseOperations.deleteAllRecords(tableName, mDb);
+    }
+
 }
