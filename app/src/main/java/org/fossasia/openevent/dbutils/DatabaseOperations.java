@@ -546,7 +546,7 @@ public class DatabaseOperations {
 
     }
 
-    public ArrayList<Speaker> getSpeakersbySessionname(String sessionName, SQLiteDatabase mDb) throws ParseException {
+    public ArrayList<Speaker> getSpeakersbySessionName(String sessionName, SQLiteDatabase mDb) throws ParseException {
         String sessionColumnSelection = DbContract.Sessions.TITLE + EQUAL + DatabaseUtils.sqlEscapeString(sessionName);
         String[] columns = {DbContract.Sessions.ID, DbContract.Sessions.TITLE};
         Cursor sessionsCursor = mDb.query(
@@ -694,6 +694,18 @@ public class DatabaseOperations {
 
         db.setTransactionSuccessful();
         db.endTransaction();
+    }
+
+    public void addToDb(int id) {
+        String query_normal = "INSERT INTO %s VALUES ('%d');";
+        String query = String.format(
+                query_normal,
+                DbContract.Bookmarks.TABLE_NAME,
+                id
+        );
+        Log.d("BOOKMARKS", query);
+        DbSingleton dbSingleton = DbSingleton.getInstance();
+        dbSingleton.insertQuery(query);
     }
 
     public void deleteAllRecords(String tableName, SQLiteDatabase db) {

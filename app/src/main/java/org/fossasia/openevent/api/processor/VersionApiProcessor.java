@@ -10,6 +10,7 @@ import org.fossasia.openevent.data.Version;
 import org.fossasia.openevent.dbutils.DataDownload;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.DownloadComplete;
+import org.fossasia.openevent.events.FailedDownload;
 import org.fossasia.openevent.utils.CommonTaskLoop;
 
 import java.util.ArrayList;
@@ -45,8 +46,6 @@ public class VersionApiProcessor implements Callback<VersionResponseList> {
                         download.downloadMicrolocations();
                         download.downloadSession();
                         download.downloadSponsors();
-                        counter += 6;
-                        Log.d(TAG, "counter full " + counter);
 
 
                     } else if ((dbSingleton.getVersionIds().getId() != version.getId())) {
@@ -54,36 +53,29 @@ public class VersionApiProcessor implements Callback<VersionResponseList> {
                         if (dbSingleton.getVersionIds().getEventVer() != version.getEventVer()) {
                             download.downloadEvents();
                             Log.d(TAG, "events");
-                            counter += 1;
 
                         }
                         if (dbSingleton.getVersionIds().getSpeakerVer() != version.getSpeakerVer()) {
                             download.downloadSpeakers();
                             Log.d(TAG, "speaker");
-                            counter += 1;
 
                         }
                         if (dbSingleton.getVersionIds().getSponsorVer() != version.getSponsorVer()) {
                             download.downloadSponsors();
-                            counter += 1;
-
                             Log.d(TAG, "sponsor");
                         }
                         if (dbSingleton.getVersionIds().getTracksVer() != version.getTracksVer()) {
                             download.downloadTracks();
-                            counter += 1;
 
                             Log.d(TAG, "tracks");
                         }
                         if (dbSingleton.getVersionIds().getSessionVer() != version.getSessionVer()) {
                             download.downloadSession();
-                            counter += 1;
 
                             Log.d(TAG, "session");
                         }
                         if (dbSingleton.getVersionIds().getMicrolocationsVer() != version.getMicrolocationsVer()) {
                             download.downloadMicrolocations();
-                            counter += 1;
                             Log.d(TAG, "micro");
                         }
                     } else {
@@ -105,7 +97,9 @@ public class VersionApiProcessor implements Callback<VersionResponseList> {
 
     @Override
     public void failure(RetrofitError error) {
-
+        Bus bus = OpenEventApp.getEventBus();
+        bus.post(new FailedDownload());
+        Log.d("DWONLOAD", "POSTED");
     }
 
 
