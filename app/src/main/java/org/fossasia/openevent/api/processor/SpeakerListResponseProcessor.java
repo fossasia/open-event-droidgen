@@ -2,11 +2,15 @@ package org.fossasia.openevent.api.processor;
 
 import android.util.Log;
 
+import com.squareup.otto.Bus;
+
+import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.api.protocol.SpeakerResponseList;
 import org.fossasia.openevent.data.SessionSpeakersMapping;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.events.FailedDownload;
 
 import java.util.ArrayList;
 
@@ -48,6 +52,7 @@ public class SpeakerListResponseProcessor implements Callback<SpeakerResponseLis
     @Override
     public void failure(RetrofitError error) {
         // Do something with failure, raise an event etc.
-
+        Bus bus = OpenEventApp.getEventBus();
+        bus.post(new FailedDownload());
     }
 }

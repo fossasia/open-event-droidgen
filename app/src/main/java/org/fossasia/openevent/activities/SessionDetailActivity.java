@@ -75,7 +75,8 @@ public class SessionDetailActivity extends AppCompatActivity {
             case R.id.add_bookmark:
 
                 Log.d("BOOKMARKS", session.getId() + "");
-                addToDb(session.getId());
+                DbSingleton dbSingleton = DbSingleton.getInstance();
+                dbSingleton.addBookmarks(session.getId());
 
         }
         return super.onOptionsItemSelected(item);
@@ -87,15 +88,4 @@ public class SessionDetailActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    public void addToDb(int id) {
-        String query_normal = "INSERT INTO %s VALUES ('%d');";
-        String query = String.format(
-                query_normal,
-                DbContract.Bookmarks.TABLE_NAME,
-                id
-        );
-        Log.d("BOOKMARKS", query);
-        DbSingleton dbSingleton = DbSingleton.getInstance();
-        dbSingleton.insertQuery(query);
-    }
 }

@@ -2,10 +2,14 @@ package org.fossasia.openevent.api.processor;
 
 import android.util.Log;
 
+import com.squareup.otto.Bus;
+
+import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.api.protocol.SponsorResponseList;
 import org.fossasia.openevent.data.Sponsor;
 import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.events.FailedDownload;
 
 import java.util.ArrayList;
 
@@ -37,6 +41,7 @@ public class SponsorListResponseProcessor implements Callback<SponsorResponseLis
 
     @Override
     public void failure(RetrofitError error) {
-
+        Bus bus = OpenEventApp.getEventBus();
+        bus.post(new FailedDownload());
     }
 }
