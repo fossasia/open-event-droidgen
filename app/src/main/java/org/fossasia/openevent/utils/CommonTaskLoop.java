@@ -15,12 +15,12 @@ public class CommonTaskLoop {
     }
 
     public static CommonTaskLoop getInstance() {
-        Log.d("TASKLOOP","Get instance");
+        Log.d("TASKLOOP", "Get instance");
         return ourInstance;
     }
 
     public void post(Runnable call) {
-        Log.d("TASKLOOP","CALL POSTED");
+        Log.d("TASKLOOP", "CALL POSTED");
         m_loop.post(call);
     }
 
