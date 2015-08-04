@@ -10,7 +10,7 @@
         app:showAsAction="always"/>
     <item
         android:id="@+id/refresh_speakers"
-        android:icon="@drawable/ic_sync_white_24dp"
+        android:icon="@drawable/ic_autorenew_black_24dp"
         android:menuCategory="secondary"
         android:title="Refresh"
         app:showAsAction="ifRoom"/>
