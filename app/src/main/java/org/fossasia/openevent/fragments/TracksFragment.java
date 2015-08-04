@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.fossasia.openevent.adapters.TracksListAdapter;
@@ -28,10 +29,13 @@ public class TracksFragment extends Fragment {
     TracksListAdapter tracksListAdapter;
     DbSingleton dbSingleton = DbSingleton.getInstance();
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.list_tracks, container, false);
+
+
         tracksRecyclerView = (RecyclerView) view.findViewById(R.id.list_tracks);
         tracksListAdapter = new TracksListAdapter(dbSingleton.getTrackList());
         tracksRecyclerView.setAdapter(tracksListAdapter);
