@@ -3,6 +3,7 @@ package org.fossasia.openevent.activities;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -14,12 +15,24 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.dbutils.DataDownload;
 import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.events.DownloadComplete;
+import org.fossasia.openevent.events.EventDownloadEvent;
+import org.fossasia.openevent.events.FailedDownload;
+import org.fossasia.openevent.events.SpeakerDownloadEvent;
+import org.fossasia.openevent.events.SponsorDownloadEvent;
+import org.fossasia.openevent.events.TracksDownloadEvent;
 import org.fossasia.openevent.fragments.BookmarksFragment;
 import org.fossasia.openevent.fragments.SpeakerFragment;
 import org.fossasia.openevent.fragments.SponsorsFragment;
@@ -32,27 +45,47 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private Toolbar mToolbar;
     private NavigationView navigationView;
+    private ProgressBar mProgress;
+    private FrameLayout frameLayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        setUpToolbar();
+        setUpNavDrawer();
+        frameLayout = (FrameLayout) findViewById(R.id.layout_main);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        mProgress = (ProgressBar) findViewById(R.id.progress);
+        mProgress.setVisibility(View.VISIBLE);
+        mProgress.setIndeterminate(true);
+        Bus bus = OpenEventApp.getEventBus();
+        bus.register(this);
         DataDownload download = new DataDownload();
         download.downloadVersions();
 
-        setUpToolbar();
-        setUpNavDrawer();
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
-
         this.findViewById(android.R.id.content).setBackgroundColor(Color.LTGRAY);
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.content_frame, new TracksFragment()).commit();
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Bus bus = OpenEventApp.getEventBus();
+//        bus.register(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Bus bus = OpenEventApp.getEventBus();
+    }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -105,6 +138,58 @@ public class MainActivity extends AppCompatActivity {
         if (mToolbar != null) {
             setSupportActionBar(mToolbar);
         }
+    }
+
+    @Subscribe
+    public void tracksDownloadDone(TracksDownloadEvent event) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_frame, new TracksFragment()).commit();
+
+    }
+
+    @Subscribe
+    public void EventsDownloadDone(EventDownloadEvent event) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_frame, new SponsorsFragment()).commit();
+
+    }
+
+    @Subscribe
+    public void sponsorsDownloadDone(SponsorDownloadEvent event) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_frame, new SponsorsFragment()).commit();
+
+    }
+
+    @Subscribe
+    public void microlocationsDownloadDone(TracksDownloadEvent event) {
+
+    }
+
+    @Subscribe
+    public void DownloadDone(DownloadComplete event) {
+        mProgress.setVisibility(View.GONE);
+        Snackbar.make(frameLayout, "Download Done", Snackbar.LENGTH_SHORT).show();
+
+    }
+
+    @Subscribe
+    public void FailedDownload(FailedDownload event) {
+        mProgress.setVisibility(View.GONE);
+        Snackbar.make(frameLayout, "No Internet Connectivity", Snackbar.LENGTH_LONG).show();
+
+    }
+
+    @Subscribe
+    public void getMessage(SpeakerDownloadEvent event) {
+        mProgress.setVisibility(View.GONE);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_frame, new TracksFragment()).commit();
+
     }
 
     private void setUpNavDrawer() {
