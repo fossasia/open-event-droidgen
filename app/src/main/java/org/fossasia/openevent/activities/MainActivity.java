@@ -12,6 +12,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -27,9 +28,12 @@ import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.dbutils.DataDownload;
 import org.fossasia.openevent.dbutils.DbSingleton;
-import org.fossasia.openevent.events.DownloadComplete;
+import org.fossasia.openevent.events.CounterEvent;
 import org.fossasia.openevent.events.EventDownloadEvent;
-import org.fossasia.openevent.events.FailedDownload;
+import org.fossasia.openevent.events.MicrolocationDownloadEvent;
+import org.fossasia.openevent.events.NoInternetEvent;
+import org.fossasia.openevent.events.RefreshEvent;
+import org.fossasia.openevent.events.SessionDownloadEvent;
 import org.fossasia.openevent.events.SpeakerDownloadEvent;
 import org.fossasia.openevent.events.SponsorDownloadEvent;
 import org.fossasia.openevent.events.TracksDownloadEvent;
@@ -47,13 +51,14 @@ public class MainActivity extends AppCompatActivity {
     private NavigationView navigationView;
     private ProgressBar mProgress;
     private FrameLayout frameLayout;
-
+    private int counter;
+    private int eventsDone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        eventsDone = 0;
         setUpToolbar();
         setUpNavDrawer();
         frameLayout = (FrameLayout) findViewById(R.id.layout_main);
@@ -85,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         Bus bus = OpenEventApp.getEventBus();
+//        bus.unregister(this);
     }
 
     @Override
@@ -92,7 +98,6 @@ public class MainActivity extends AppCompatActivity {
         super.onPostCreate(savedInstanceState);
 
     }
-
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -141,56 +146,98 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Subscribe
-    public void tracksDownloadDone(TracksDownloadEvent event) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.content_frame, new TracksFragment()).commit();
+    public void onCounterReceiver(CounterEvent event) {
+        counter = event.getRequestsCount();
+        Log.d("counter event", counter + "");
+        if (counter == 0) {
+            syncComplete();
+        }
+    }
+
+    @Subscribe
+    public void onTracksDownloadDone(TracksDownloadEvent event) {
+        if (event.isState()) {
+            eventsDone++;
+            Log.d("counter1", eventsDone + " " + counter);
+            if (counter == eventsDone) {
+                syncComplete();
+            }
+        } else {
+            downloadFailed();
+        }
+    }
+
+    @Subscribe
+    public void onSponsorsDownloadDone(SponsorDownloadEvent event) {
+        if (event.isState()) {
+            eventsDone++;
+            Log.d("counter1", eventsDone + " " + counter);
+            if (counter == eventsDone) {
+                syncComplete();
+            }
+        } else {
+            downloadFailed();
+        }
+    }
+
+    @Subscribe
+    public void onSpeakersDownloadDone(SpeakerDownloadEvent event) {
+        if (event.isState()) {
+            eventsDone++;
+            Log.d("counter1", eventsDone + " " + counter);
+            if (counter == eventsDone) {
+                syncComplete();
+            }
+        } else {
+            downloadFailed();
+        }
+    }
+
+    @Subscribe
+    public void onSessionDownloadDone(SessionDownloadEvent event) {
+        if (event.isState()) {
+            eventsDone++;
+            Log.d("counter1", eventsDone + " " + counter);
+            if (counter == eventsDone) {
+                syncComplete();
+            }
+        } else {
+            downloadFailed();
+        }
+    }
+
+    @Subscribe
+    public void onEventsDownloadDone(EventDownloadEvent event) {
+        if (event.isState()) {
+            eventsDone++;
+            Log.d("counter1", eventsDone + " " + counter);
+            if (counter == eventsDone) {
+                syncComplete();
+            }
+        } else {
+            downloadFailed();
+        }
+    }
+
+    @Subscribe
+    public void onMicrolocationsDownloadDone(MicrolocationDownloadEvent event) {
+        if (event.isState()) {
+            eventsDone++;
+            Log.d("counter1", eventsDone + " " + counter);
+            if (counter == eventsDone) {
+                syncComplete();
+            }
+        } else {
+            downloadFailed();
+        }
 
     }
 
     @Subscribe
-    public void EventsDownloadDone(EventDownloadEvent event) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.content_frame, new SponsorsFragment()).commit();
-
+    public void NoInternet(NoInternetEvent event) {
+        downloadFailed();
     }
 
-    @Subscribe
-    public void sponsorsDownloadDone(SponsorDownloadEvent event) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.content_frame, new SponsorsFragment()).commit();
-
-    }
-
-    @Subscribe
-    public void microlocationsDownloadDone(TracksDownloadEvent event) {
-
-    }
-
-    @Subscribe
-    public void DownloadDone(DownloadComplete event) {
-        mProgress.setVisibility(View.GONE);
-        Snackbar.make(frameLayout, "Download Done", Snackbar.LENGTH_SHORT).show();
-
-    }
-
-    @Subscribe
-    public void FailedDownload(FailedDownload event) {
-        mProgress.setVisibility(View.GONE);
-        Snackbar.make(frameLayout, "No Internet Connectivity", Snackbar.LENGTH_LONG).show();
-
-    }
-
-    @Subscribe
-    public void getMessage(SpeakerDownloadEvent event) {
-        mProgress.setVisibility(View.GONE);
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.content_frame, new TracksFragment()).commit();
-
-    }
 
     private void setUpNavDrawer() {
         if (mToolbar != null) {
@@ -210,6 +257,20 @@ public class MainActivity extends AppCompatActivity {
             ab.setDisplayHomeAsUpEnabled(true);
             mActionBarDrawerToggle.syncState();
         }
+    }
+
+    private void syncComplete() {
+        mProgress.setVisibility(View.GONE);
+        Bus bus = OpenEventApp.getEventBus();
+        bus.post(new RefreshEvent());
+        Snackbar.make(frameLayout, "Download Done", Snackbar.LENGTH_SHORT).show();
+
+    }
+
+    private void downloadFailed() {
+        mProgress.setVisibility(View.GONE);
+        Snackbar.make(frameLayout, "Download Failed, Check Internet Connection", Snackbar.LENGTH_LONG).show();
+
     }
 
     private void setupDrawerContent(NavigationView navigationView, final Menu menu) {
