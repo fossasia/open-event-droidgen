@@ -9,7 +9,7 @@ import org.fossasia.openevent.api.protocol.MicrolocationResponseList;
 import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.dbutils.DbSingleton;
-import org.fossasia.openevent.events.FailedDownload;
+import org.fossasia.openevent.events.MicrolocationDownloadEvent;
 
 import java.util.ArrayList;
 
@@ -37,11 +37,14 @@ public class MicrolocationListResponseProcessor implements Callback<Microlocatio
 
         dbSingleton.clearDatabase(DbContract.Microlocation.TABLE_NAME);
         dbSingleton.insertQueries(queries);
+
+        Bus bus = OpenEventApp.getEventBus();
+        bus.post(new MicrolocationDownloadEvent(true));
     }
 
     @Override
     public void failure(RetrofitError error) {
         Bus bus = OpenEventApp.getEventBus();
-        bus.post(new FailedDownload());
+        bus.post(new MicrolocationDownloadEvent(false));
     }
 }

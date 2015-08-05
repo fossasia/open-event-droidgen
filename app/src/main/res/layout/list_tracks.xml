@@ -4,13 +4,20 @@
                 android:layout_height="match_parent"
                 android:padding="7dp">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/list_tracks"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clipToPadding="false"
-        android:paddingBottom="30dp"
-        android:scrollbars="vertical">
-    </android.support.v7.widget.RecyclerView>
+    <android.support.v4.widget.SwipeRefreshLayout android:id="@+id/swipe_refresh_layout"
+                                                  xmlns:android="http://schemas.android.com/apk/res/android"
+                                                  android:layout_width="match_parent"
+                                                  android:layout_height="wrap_content">
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list_tracks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:paddingBottom="30dp"
+            android:scrollbars="vertical">
+        </android.support.v7.widget.RecyclerView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </RelativeLayout>

@@ -10,7 +10,8 @@ import org.fossasia.openevent.data.SessionSpeakersMapping;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.dbutils.DbSingleton;
-import org.fossasia.openevent.events.FailedDownload;
+import org.fossasia.openevent.events.SpeakerDownloadEvent;
+import org.fossasia.openevent.events.SponsorDownloadEvent;
 
 import java.util.ArrayList;
 
@@ -46,6 +47,8 @@ public class SpeakerListResponseProcessor implements Callback<SpeakerResponseLis
         dbSingleton.clearDatabase(DbContract.Speakers.TABLE_NAME);
         dbSingleton.insertQueries(queries);
 
+        Bus bus = OpenEventApp.getEventBus();
+        bus.post(new SpeakerDownloadEvent(true));
 
     }
 
@@ -53,6 +56,6 @@ public class SpeakerListResponseProcessor implements Callback<SpeakerResponseLis
     public void failure(RetrofitError error) {
         // Do something with failure, raise an event etc.
         Bus bus = OpenEventApp.getEventBus();
-        bus.post(new FailedDownload());
+        bus.post(new SponsorDownloadEvent(false));
     }
 }

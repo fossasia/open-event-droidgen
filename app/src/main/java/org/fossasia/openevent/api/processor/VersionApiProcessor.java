@@ -9,8 +9,8 @@ import org.fossasia.openevent.api.protocol.VersionResponseList;
 import org.fossasia.openevent.data.Version;
 import org.fossasia.openevent.dbutils.DataDownload;
 import org.fossasia.openevent.dbutils.DbSingleton;
-import org.fossasia.openevent.events.DownloadComplete;
-import org.fossasia.openevent.events.FailedDownload;
+import org.fossasia.openevent.events.CounterEvent;
+import org.fossasia.openevent.events.NoInternetEvent;
 import org.fossasia.openevent.utils.CommonTaskLoop;
 
 import java.util.ArrayList;
@@ -24,7 +24,8 @@ import retrofit.client.Response;
  */
 public class VersionApiProcessor implements Callback<VersionResponseList> {
     private static final String TAG = "Version";
-    int counter = 0;
+    int counterRequests;
+    Bus bus = OpenEventApp.getEventBus();
 
     @Override
     public void success(final VersionResponseList versionResponseList, Response response) {
@@ -33,8 +34,8 @@ public class VersionApiProcessor implements Callback<VersionResponseList> {
             public void run() {
                 ArrayList<String> queries = new ArrayList<>();
                 DbSingleton dbSingleton = DbSingleton.getInstance();
-                Log.d("!", "3");
                 for (Version version : versionResponseList.versions) {
+                    counterRequests = 0;
 
                     if ((dbSingleton.getVersionIds() == null)) {
                         queries.add(version.generateSql());
@@ -46,61 +47,67 @@ public class VersionApiProcessor implements Callback<VersionResponseList> {
                         download.downloadMicrolocations();
                         download.downloadSession();
                         download.downloadSponsors();
-
+                        counterRequests += 6;
 
                     } else if ((dbSingleton.getVersionIds().getId() != version.getId())) {
                         DataDownload download = new DataDownload();
                         if (dbSingleton.getVersionIds().getEventVer() != version.getEventVer()) {
                             download.downloadEvents();
                             Log.d(TAG, "events");
-
+                            counterRequests++;
                         }
                         if (dbSingleton.getVersionIds().getSpeakerVer() != version.getSpeakerVer()) {
                             download.downloadSpeakers();
                             Log.d(TAG, "speaker");
 
+                            counterRequests++;
+
                         }
                         if (dbSingleton.getVersionIds().getSponsorVer() != version.getSponsorVer()) {
                             download.downloadSponsors();
                             Log.d(TAG, "sponsor");
+
+                            counterRequests++;
+
                         }
                         if (dbSingleton.getVersionIds().getTracksVer() != version.getTracksVer()) {
                             download.downloadTracks();
 
                             Log.d(TAG, "tracks");
+
+                            counterRequests++;
+
                         }
                         if (dbSingleton.getVersionIds().getSessionVer() != version.getSessionVer()) {
                             download.downloadSession();
 
                             Log.d(TAG, "session");
+
+                            counterRequests++;
+
                         }
                         if (dbSingleton.getVersionIds().getMicrolocationsVer() != version.getMicrolocationsVer()) {
                             download.downloadMicrolocations();
                             Log.d(TAG, "micro");
+                            counterRequests++;
+
                         }
                     } else {
                         Log.d(TAG, "data fresh");
-                        return;
                     }
+                    CounterEvent counterEvent = new CounterEvent(counterRequests);
+                    OpenEventApp.postEventOnUIThread(counterEvent);
                 }
 
 
             }
         });
 
-        Bus bus = OpenEventApp.getEventBus();
-        bus.post(new DownloadComplete());
-        Log.d("DWONLOAD", "POSTED");
-
-
     }
 
     @Override
     public void failure(RetrofitError error) {
-        Bus bus = OpenEventApp.getEventBus();
-        bus.post(new FailedDownload());
-        Log.d("DWONLOAD", "POSTED");
+        OpenEventApp.postEventOnUIThread(new NoInternetEvent());
     }
-
 
 }
