@@ -9,7 +9,6 @@ import org.fossasia.openevent.api.protocol.TrackResponseList;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.dbutils.DbSingleton;
-import org.fossasia.openevent.events.FailedDownload;
 import org.fossasia.openevent.events.TracksDownloadEvent;
 
 import java.util.ArrayList;
@@ -39,13 +38,18 @@ public class TrackListResponseProcessor implements Callback<TrackResponseList> {
         dbSingleton.clearDatabase(DbContract.Tracks.TABLE_NAME);
         dbSingleton.insertQueries(queries);
 
+        //Post success on the bus
         Bus bus = OpenEventApp.getEventBus();
-        bus.post(new TracksDownloadEvent());
+        bus.post(new TracksDownloadEvent(true));
+
+
     }
 
     @Override
     public void failure(RetrofitError error) {
+
+        //Post failure on the bus
         Bus bus = OpenEventApp.getEventBus();
-        bus.post(new FailedDownload());
+        bus.post(new TracksDownloadEvent(false));
     }
 }

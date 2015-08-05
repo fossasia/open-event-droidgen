@@ -9,7 +9,7 @@ import org.fossasia.openevent.api.protocol.EventResponseList;
 import org.fossasia.openevent.data.Event;
 import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.dbutils.DbSingleton;
-import org.fossasia.openevent.events.FailedDownload;
+import org.fossasia.openevent.events.EventDownloadEvent;
 
 import java.util.ArrayList;
 
@@ -36,6 +36,8 @@ public class EventListResponseProcessor implements Callback<EventResponseList> {
         DbSingleton dbSingleton = DbSingleton.getInstance();
         dbSingleton.clearDatabase(DbContract.Event.TABLE_NAME);
         dbSingleton.insertQueries(queries);
+        Bus bus = OpenEventApp.getEventBus();
+        bus.post(new EventDownloadEvent(true));
 
     }
 
@@ -43,6 +45,6 @@ public class EventListResponseProcessor implements Callback<EventResponseList> {
     @Override
     public void failure(RetrofitError error) {
         Bus bus = OpenEventApp.getEventBus();
-        bus.post(new FailedDownload());
+        bus.post(new EventDownloadEvent(false));
     }
 }

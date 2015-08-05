@@ -9,7 +9,7 @@ import org.fossasia.openevent.api.protocol.SessionResponseList;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.dbutils.DbSingleton;
-import org.fossasia.openevent.events.FailedDownload;
+import org.fossasia.openevent.events.SessionDownloadEvent;
 
 import java.util.ArrayList;
 
@@ -33,16 +33,17 @@ public class SessionListResponseProcessor implements Callback<SessionResponseLis
             Log.d(TAG, query);
         }
 
-
         DbSingleton dbSingleton = DbSingleton.getInstance();
         dbSingleton.clearDatabase(DbContract.Sessions.TABLE_NAME);
         dbSingleton.insertQueries(queries);
+        Bus bus = OpenEventApp.getEventBus();
+        bus.post(new SessionDownloadEvent(true));
     }
 
     @Override
     public void failure(RetrofitError error) {
         // Do something with failure, raise an event etc.
         Bus bus = OpenEventApp.getEventBus();
-        bus.post(new FailedDownload());
+        bus.post(new SessionDownloadEvent(false));
     }
 }

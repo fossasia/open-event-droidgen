@@ -1,13 +1,12 @@
 package org.fossasia.openevent.events;
 
 /**
- * Created by MananWason on 8/4/2015.
+ * Created by MananWason on 8/5/2015.
  */
-public class SessionDownloadEvent {
+public class VersionDownloadEvent {
     boolean state;
 
-    public SessionDownloadEvent(boolean state) {
-
+    public VersionDownloadEvent(boolean state) {
         this.state = state;
     }
 
