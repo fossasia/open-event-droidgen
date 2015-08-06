@@ -7,15 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.squareup.otto.Bus;
-
-import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.data.Track;
-import org.fossasia.openevent.dbutils.DataDownload;
-import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.dbutils.DbSingleton;
-import org.fossasia.openevent.events.RefreshEvent;
 
 import java.util.List;
 
@@ -51,25 +45,12 @@ public class TracksListAdapter extends RecyclerView.Adapter<TracksListAdapter.Vi
         return tracks.size();
     }
 
-    public void deleteItems() {
-        tracks.clear();
-        DataDownload download = new DataDownload();
-        notifyDataSetChanged();
-        download.downloadTracks();
-        DbSingleton dbSingleton = DbSingleton.getInstance();
-        dbSingleton.deleteAllRecords(DbContract.Tracks.TABLE_NAME);
-        tracks = dbSingleton.getTrackList();
-        notifyDataSetChanged();
-
-    }
-
     public void refresh() {
+
         DbSingleton dbSingleton = DbSingleton.getInstance();
         tracks.clear();
         tracks = dbSingleton.getTrackList();
         notifyDataSetChanged();
-        Bus bus = OpenEventApp.getEventBus();
-        bus.post(new RefreshEvent());
 
     }
 

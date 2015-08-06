@@ -9,8 +9,7 @@
     android:clickable="true"
     card_view:cardBackgroundColor="#d3d3d3"
     card_view:cardCornerRadius="4dp"
-    card_view:cardElevation="8dp"
-    card_view:cardUseCompatPadding="true">
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -41,22 +40,22 @@
 
                 <TextView
                     android:id="@+id/speaker_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="0.5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/card_margin"
+                    android:layout_marginRight="@dimen/card_margin"
                     android:gravity="center_vertical"
-                    android:text="placeholder_speaker_name"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="#000000"
                     android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/speaker_designation"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="0.5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/card_margin"
+                    android:layout_marginRight="@dimen/card_margin"
                     android:gravity="top"
-                    android:text="placeholder_speaker_designation"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="#000000"
                     android:textStyle="bold"/>

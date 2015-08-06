@@ -32,7 +32,7 @@ import org.fossasia.openevent.events.CounterEvent;
 import org.fossasia.openevent.events.EventDownloadEvent;
 import org.fossasia.openevent.events.MicrolocationDownloadEvent;
 import org.fossasia.openevent.events.NoInternetEvent;
-import org.fossasia.openevent.events.RefreshEvent;
+import org.fossasia.openevent.events.RefreshUiEvent;
 import org.fossasia.openevent.events.SessionDownloadEvent;
 import org.fossasia.openevent.events.SpeakerDownloadEvent;
 import org.fossasia.openevent.events.SponsorDownloadEvent;
@@ -163,6 +163,7 @@ public class MainActivity extends AppCompatActivity {
                 syncComplete();
             }
         } else {
+            Log.d("TRACKS", "ELSE");
             downloadFailed();
         }
     }
@@ -176,6 +177,8 @@ public class MainActivity extends AppCompatActivity {
                 syncComplete();
             }
         } else {
+            Log.d("Sponsors", "ELSE");
+
             downloadFailed();
         }
     }
@@ -189,6 +192,8 @@ public class MainActivity extends AppCompatActivity {
                 syncComplete();
             }
         } else {
+            Log.d("Speakers", "ELSE");
+
             downloadFailed();
         }
     }
@@ -202,6 +207,8 @@ public class MainActivity extends AppCompatActivity {
                 syncComplete();
             }
         } else {
+            Log.d("Session", "ELSE");
+
             downloadFailed();
         }
     }
@@ -215,6 +222,8 @@ public class MainActivity extends AppCompatActivity {
                 syncComplete();
             }
         } else {
+            Log.d("Events", "ELSE");
+
             downloadFailed();
         }
     }
@@ -228,6 +237,8 @@ public class MainActivity extends AppCompatActivity {
                 syncComplete();
             }
         } else {
+            Log.d("Micro", "ELSE");
+
             downloadFailed();
         }
 
@@ -236,6 +247,7 @@ public class MainActivity extends AppCompatActivity {
     @Subscribe
     public void NoInternet(NoInternetEvent event) {
         downloadFailed();
+        Log.d("NO INTERNET", "fab");
     }
 
 
@@ -262,9 +274,9 @@ public class MainActivity extends AppCompatActivity {
     private void syncComplete() {
         mProgress.setVisibility(View.GONE);
         Bus bus = OpenEventApp.getEventBus();
-        bus.post(new RefreshEvent());
+        bus.post(new RefreshUiEvent());
         Snackbar.make(frameLayout, "Download Done", Snackbar.LENGTH_SHORT).show();
-
+        Log.d("ABC", "SYNCCOMP");
     }
 
     private void downloadFailed() {

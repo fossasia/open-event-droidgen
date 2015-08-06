@@ -149,7 +149,7 @@ public class DbSingleton {
     }
 
     public void clearDatabase(String table) {
-        databaseOperations.clearDatabase(table, mDbHelper);
+        databaseOperations.clearDatabaseTable(table, mDbHelper);
     }
 
     public void deleteAllRecords(String tableName) {
