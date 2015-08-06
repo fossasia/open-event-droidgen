@@ -25,7 +25,6 @@ import retrofit.client.Response;
 public class VersionApiProcessor implements Callback<VersionResponseList> {
     private static final String TAG = "Version";
     int counterRequests;
-    Bus bus = OpenEventApp.getEventBus();
 
     @Override
     public void success(final VersionResponseList versionResponseList, Response response) {

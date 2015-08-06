@@ -3,12 +3,7 @@
       xmlns:app="http://schemas.android.com/apk/res-auto"
       xmlns:tools="http://schemas.android.com/tools"
       tools:context=".MainActivity">
-    <item
-        android:id="@+id/refresh_tracks"
-        android:icon="@drawable/ic_autorenew_black_24dp"
-        android:menuCategory="secondary"
-        android:title="Refresh"
-        app:showAsAction="ifRoom"/>
+    
     <item
         android:id="@+id/action_search_tracks"
         android:icon="@android:drawable/ic_menu_search"
