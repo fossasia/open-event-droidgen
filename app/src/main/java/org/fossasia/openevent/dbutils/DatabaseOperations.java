@@ -381,7 +381,7 @@ public class DatabaseOperations {
     }
 
 
-    public void clearDatabase(String table, DbHelper mDbHelper) {
+    public void clearDatabaseTable(String table, DbHelper mDbHelper) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         Log.d("abc", "Db");
         db.beginTransaction();
