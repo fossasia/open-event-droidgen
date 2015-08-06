@@ -90,6 +90,10 @@ public class DbSingleton {
         return databaseOperations.getVersionIds(mDb);
     }
 
+    public void addBookmarks(int id) {
+        databaseOperations.addToDb(id);
+    }
+
     public Speaker getSpeakerById(int id) {
         getReadOnlyDatabase();
         return databaseOperations.getSpeakerById(id, mDb);
@@ -116,7 +120,7 @@ public class DbSingleton {
     }
 
     public ArrayList<Speaker> getSpeakersbySessionName(String sessionName) throws ParseException {
-        return databaseOperations.getSpeakersbySessionname(sessionName, mDb);
+        return databaseOperations.getSpeakersbySessionName(sessionName, mDb);
     }
 
 
@@ -145,7 +149,11 @@ public class DbSingleton {
     }
 
     public void clearDatabase(String table) {
-        databaseOperations.clearDatabase(table, mDbHelper);
+        databaseOperations.clearDatabaseTable(table, mDbHelper);
+    }
+
+    public void deleteAllRecords(String tableName) {
+        databaseOperations.deleteAllRecords(tableName, mDb);
     }
 
 }

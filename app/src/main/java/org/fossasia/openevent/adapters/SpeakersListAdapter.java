@@ -12,6 +12,7 @@ import com.squareup.picasso.Picasso;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.data.Speaker;
+import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.CircleTransform;
 
 import java.util.List;
@@ -44,6 +45,14 @@ public class SpeakersListAdapter extends RecyclerView.Adapter<SpeakersListAdapte
 
         holder.designation.setText(current.getPosition());
         holder.name.setText(current.getName());
+
+    }
+
+    public void refresh() {
+        DbSingleton dbSingleton = DbSingleton.getInstance();
+        speakers.clear();
+        speakers = dbSingleton.getSpeakerList();
+        notifyDataSetChanged();
 
     }
 

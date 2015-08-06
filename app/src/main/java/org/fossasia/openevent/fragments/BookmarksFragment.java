@@ -68,6 +68,7 @@ public class BookmarksFragment extends Fragment {
                         startActivity(intent);
                     }
                 })
-        );        return view;
+        );
+        return view;
     }
 }

@@ -29,7 +29,6 @@ public class DbContract {
         public static final String VER_SPONSORS = "versponsors";
         public static final String VER_TRACKS = "vertracks";
         public static final String[] FULL_PROJECTION = {
-                //EVENT_ID,
                 VER_EVENT,
                 VER_ID,
                 VER_MICROLOCATIONS,

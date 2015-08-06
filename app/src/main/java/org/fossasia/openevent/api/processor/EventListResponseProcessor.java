@@ -2,10 +2,14 @@ package org.fossasia.openevent.api.processor;
 
 import android.util.Log;
 
+import com.squareup.otto.Bus;
+
+import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.api.protocol.EventResponseList;
 import org.fossasia.openevent.data.Event;
 import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.events.EventDownloadEvent;
 
 import java.util.ArrayList;
 
@@ -32,12 +36,15 @@ public class EventListResponseProcessor implements Callback<EventResponseList> {
         DbSingleton dbSingleton = DbSingleton.getInstance();
         dbSingleton.clearDatabase(DbContract.Event.TABLE_NAME);
         dbSingleton.insertQueries(queries);
+        Bus bus = OpenEventApp.getEventBus();
+        bus.post(new EventDownloadEvent(true));
 
     }
 
 
     @Override
     public void failure(RetrofitError error) {
-
+        Bus bus = OpenEventApp.getEventBus();
+        bus.post(new EventDownloadEvent(false));
     }
 }
