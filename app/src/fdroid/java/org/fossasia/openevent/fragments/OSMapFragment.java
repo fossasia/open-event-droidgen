@@ -41,7 +41,7 @@ public class OSMapFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_map, container);
+        View rootView = inflater.inflate(R.layout.fragment_map, null);
         mapView = (MapView) rootView.findViewById(R.id.mapview);
         mapView.setBuiltInZoomControls(true);
         mapView.setMultiTouchControls(true);
@@ -68,7 +68,7 @@ public class OSMapFragment extends Fragment {
                 }, new DefaultResourceProxyImpl(getActivity())));
         mapView.invalidate();
 
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return rootView;
     }
 
 
