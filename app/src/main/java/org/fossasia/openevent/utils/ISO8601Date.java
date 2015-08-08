@@ -1,10 +1,13 @@
 package org.fossasia.openevent.utils;
 
+import android.util.Log;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
 /**
  * Helper class for handling a most common subset of ISO 8601 strings
@@ -31,20 +34,37 @@ public final class ISO8601Date {
         return fromCalendar(GregorianCalendar.getInstance());
     }
 
-    /**
-     * Transform ISO 8601 string to Calendar.
-     */
-    public static Calendar toCalendar(final String iso8601string)
-            throws ParseException {
-        Calendar calendar = GregorianCalendar.getInstance();
-        String s = iso8601string.replace("Z", "+00:00");
-        try {
-            s = s.substring(0, 22) + s.substring(23);  // to get rid of the ":"
-        } catch (IndexOutOfBoundsException e) {
-            throw new ParseException("Invalid length", 0);
-        }
-        Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").parse(s);
-        calendar.setTime(date);
-        return calendar;
+
+    public static String getTimeZoneDate(final Date date) throws ParseException {
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EE, dd MMM yyyy, HH:mm, z");
+        dateFormat.setTimeZone(TimeZone.getDefault());
+        String DateToStr = dateFormat.format(date);
+        return DateToStr;
     }
+
+    public static Date getDateObject(final String iso8601String) throws ParseException {
+
+        StringBuilder s = new StringBuilder();
+        s.append(iso8601String).append("Z");
+        String final1 = s.toString();
+        Log.d("time", final1);
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        format.setTimeZone(TimeZone.getTimeZone("GMT"));
+
+        Date date = null;
+        try {
+            date = format.parse(final1);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+
+        return date;
+    }
+
+
 }

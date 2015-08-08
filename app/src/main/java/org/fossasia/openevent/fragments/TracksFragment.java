@@ -77,10 +77,7 @@ public class TracksFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.refresh_tracks:
-                tracksListAdapter.refresh();
-        }
+
         return super.onOptionsItemSelected(item);
     }
 

@@ -17,9 +17,15 @@ import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.utils.ISO8601Date;
 
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  * Created by MananWason on 08-07-2015.
@@ -41,6 +47,7 @@ public class SessionDetailActivity extends AppCompatActivity {
         TextView tv_title = (TextView) findViewById(R.id.title_session);
         TextView tv_subtitle = (TextView) findViewById(R.id.subtitle_session);
         TextView tv_time = (TextView) findViewById(R.id.tv_time);
+        TextView track = (TextView) findViewById(R.id.track);
         TextView tv_room1 = (TextView) findViewById(R.id.tv_location);
         TextView summary = (TextView) findViewById(R.id.tv_abstract_text);
         TextView descrip = (TextView) findViewById(R.id.tv_description);
@@ -57,7 +64,35 @@ public class SessionDetailActivity extends AppCompatActivity {
         tv_room1.setText(String.valueOf(session.getMicrolocations()));
         tv_title.setText(title);
         tv_subtitle.setText(session.getSubtitle());
-        tv_time.setText(session.getStartTime());
+
+        Calendar start = null;
+        String end = null;
+        try {
+            end = ISO8601Date.getTimeZoneDate(ISO8601Date.getDateObject(session.getStartTime()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        tv_time.setText(end);
+//        Log.d("TIME", start.toString() + "ABCD" + session.getStartTime());
+        //            start = ISO8601Date.getDate(session.getStartTime());
+//        int year = start.get(Calendar.YEAR);
+//        int month = start.get(Calendar.DAY_OF_WEEK);
+//
+//        DateFormat format2 = new SimpleDateFormat("EEEE");
+//
+//        String finalDay = format2.format(start.getTime());
+//
+//        try {
+//            Log.d("time", ISO8601Date.getTime(session.getStartTime()));
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//        Calendar calendar = Calendar.getInstance();
+//
+//        tv_time.setText(finalDay);
+
+
         summary.setText(session.getSummary());
         descrip.setText(session.getDescription());
         adapter = new SpeakersListAdapter(speakers);
