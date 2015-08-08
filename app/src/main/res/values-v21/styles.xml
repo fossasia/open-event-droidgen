@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:android="http://schemas.android.com/apk/res/android">
+<resources
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Main theme -->
-
-    <style name="AppTheme" parent="android:Theme.Material.Light.NoActionBar">
-        <item name="android:colorPrimary">@color/primaryColor</item>
-        <item name="android:colorPrimaryDark">@color/color_primary_dark</item>
-        <item name="android:colorAccent">@color/color_accent</item>
-        <item name="selectableItemBackgroundBorderless">@drawable/ripple</item>
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Changes specific to v21 of Android -->
         <item name="android:selectableItemBackgroundBorderless">@drawable/ripple</item>
+        <item name="android:navigationBarColor">@color/color_primary_dark</item>
     </style>
 
 </resources>

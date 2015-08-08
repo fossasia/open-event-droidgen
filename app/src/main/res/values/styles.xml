@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:android="http://schemas.android.com/apk/res/android">
+<resources
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Main theme -->
 
-    <style name="Base.AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Changes specific to pre-v21 versions of Android -->
+    </style>
+
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- Changes to Theme in all Android versions -->
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorPrimaryDark">@color/color_primary_dark</item>
         <item name="colorAccent">@color/color_accent</item>
         <item name="android:textColorLink">?attr/colorAccent</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
-
+        <item name="selectableItemBackgroundBorderless">@drawable/ripple</item>
     </style>
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
