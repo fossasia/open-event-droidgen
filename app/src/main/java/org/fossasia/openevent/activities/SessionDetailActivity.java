@@ -74,24 +74,6 @@ public class SessionDetailActivity extends AppCompatActivity {
         }
 
         tv_time.setText(end);
-//        Log.d("TIME", start.toString() + "ABCD" + session.getStartTime());
-        //            start = ISO8601Date.getDate(session.getStartTime());
-//        int year = start.get(Calendar.YEAR);
-//        int month = start.get(Calendar.DAY_OF_WEEK);
-//
-//        DateFormat format2 = new SimpleDateFormat("EEEE");
-//
-//        String finalDay = format2.format(start.getTime());
-//
-//        try {
-//            Log.d("time", ISO8601Date.getTime(session.getStartTime()));
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
-//        Calendar calendar = Calendar.getInstance();
-//
-//        tv_time.setText(finalDay);
-
 
         summary.setText(session.getSummary());
         descrip.setText(session.getDescription());

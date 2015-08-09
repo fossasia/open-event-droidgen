@@ -163,7 +163,6 @@ public class MainActivity extends AppCompatActivity {
                 syncComplete();
             }
         } else {
-            Log.d("TRACKS", "ELSE");
             downloadFailed();
         }
     }
@@ -177,7 +176,6 @@ public class MainActivity extends AppCompatActivity {
                 syncComplete();
             }
         } else {
-            Log.d("Sponsors", "ELSE");
 
             downloadFailed();
         }
@@ -192,7 +190,6 @@ public class MainActivity extends AppCompatActivity {
                 syncComplete();
             }
         } else {
-            Log.d("Speakers", "ELSE");
 
             downloadFailed();
         }
@@ -207,7 +204,6 @@ public class MainActivity extends AppCompatActivity {
                 syncComplete();
             }
         } else {
-            Log.d("Session", "ELSE");
 
             downloadFailed();
         }
@@ -222,7 +218,6 @@ public class MainActivity extends AppCompatActivity {
                 syncComplete();
             }
         } else {
-            Log.d("Events", "ELSE");
 
             downloadFailed();
         }
@@ -237,7 +232,6 @@ public class MainActivity extends AppCompatActivity {
                 syncComplete();
             }
         } else {
-            Log.d("Micro", "ELSE");
 
             downloadFailed();
         }
@@ -247,7 +241,6 @@ public class MainActivity extends AppCompatActivity {
     @Subscribe
     public void NoInternet(NoInternetEvent event) {
         downloadFailed();
-        Log.d("NO INTERNET", "fab");
     }
 
 
@@ -276,7 +269,6 @@ public class MainActivity extends AppCompatActivity {
         Bus bus = OpenEventApp.getEventBus();
         bus.post(new RefreshUiEvent());
         Snackbar.make(frameLayout, "Download Done", Snackbar.LENGTH_SHORT).show();
-        Log.d("ABC", "SYNCCOMP");
     }
 
     private void downloadFailed() {
