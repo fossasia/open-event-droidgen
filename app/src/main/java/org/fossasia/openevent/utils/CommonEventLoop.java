@@ -64,6 +64,7 @@ public class CommonEventLoop {
             try {
                 runnable.run();
             } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }

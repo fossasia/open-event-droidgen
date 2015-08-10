@@ -26,6 +26,7 @@ import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.RefreshUiEvent;
 import org.fossasia.openevent.events.TracksDownloadEvent;
+import org.fossasia.openevent.utils.IntentStrings;
 import org.fossasia.openevent.utils.RecyclerItemClickListener;
 
 /**
@@ -42,8 +43,7 @@ public class TracksFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.list_tracks, container, false);
-        Bus bus = OpenEventApp.getEventBus();
-        bus.register(this);
+        OpenEventApp.getEventBus().register(this);
         tracksRecyclerView = (RecyclerView) view.findViewById(R.id.list_tracks);
         final DbSingleton dbSingleton = DbSingleton.getInstance();
         tracksListAdapter = new TracksListAdapter(dbSingleton.getTrackList());
@@ -67,7 +67,7 @@ public class TracksFragment extends Fragment {
                     public void onItemClick(View view, int position) {
                         String title = ((TextView) view.findViewById(R.id.track_title)).getText().toString();
                         Intent intent = new Intent(getActivity(), TracksActivity.class);
-                        intent.putExtra("TRACK", title);
+                        intent.putExtra(IntentStrings.TRACK, title);
                         startActivity(intent);
                     }
                 })
@@ -80,6 +80,14 @@ public class TracksFragment extends Fragment {
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        OpenEventApp.getEventBus().unregister(this);
+
+    }
+
 
     @Subscribe
     public void RefreshData(RefreshUiEvent event) {
@@ -96,7 +104,7 @@ public class TracksFragment extends Fragment {
             Log.d("counter", "REfresh done");
 
         } else {
-            Snackbar.make(getView(), "Couldn't Refresh", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(getView(), getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).show();
             Log.d("counter", "REfresh not done");
 
         }

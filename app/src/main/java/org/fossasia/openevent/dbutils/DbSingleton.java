@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import org.fossasia.openevent.data.Event;
+import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Sponsor;
@@ -90,8 +91,8 @@ public class DbSingleton {
         return databaseOperations.getVersionIds(mDb);
     }
 
-    public void addBookmarks(int id) {
-        databaseOperations.addToDb(id);
+    public void addBookmarks(int bookmarkId) {
+        databaseOperations.addToDb(bookmarkId);
     }
 
     public Speaker getSpeakerById(int id) {
@@ -110,6 +111,10 @@ public class DbSingleton {
         return databaseOperations.getSponsorList(mDb);
     }
 
+    public Microlocation getMicrolocationById(int id) throws ParseException {
+        getReadOnlyDatabase();
+        return databaseOperations.getMicroLocationById(id, mDb);
+    }
 
     public ArrayList<Session> getSessionbyTracksname(String trackName) throws ParseException {
         return databaseOperations.getSessionbyTracksname(trackName, mDb);

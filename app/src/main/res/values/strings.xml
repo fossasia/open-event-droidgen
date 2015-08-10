@@ -50,4 +50,8 @@
 
     <!--Search Titles-->
     <string name="search_hint_tracks"> Search Tracks</string>
+    <string name="refresh_failed">Couldn't Refresh</string>
+    <string name="cantDownload">Can\'t Download right now</string>
+    <string name="download_failed">Download Failed, Check Internet Connection</string>
+    <string name="download_complete">Download Done</string>
 </resources>

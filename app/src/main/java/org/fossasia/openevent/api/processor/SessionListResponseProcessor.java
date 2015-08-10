@@ -10,6 +10,7 @@ import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.SessionDownloadEvent;
+import org.fossasia.openevent.utils.CommonTaskLoop;
 
 import java.util.ArrayList;
 
@@ -24,26 +25,33 @@ public class SessionListResponseProcessor implements Callback<SessionResponseLis
     private static final String TAG = "Session";
 
     @Override
-    public void success(SessionResponseList sessionResponseList, Response response) {
+    public void success(final SessionResponseList sessionResponseList, Response response) {
+        CommonTaskLoop.getInstance().post(new Runnable() {
 
-        ArrayList<String> queries = new ArrayList<String>();
-        for (Session session : sessionResponseList.sessions) {
-            String query = session.generateSql();
-            queries.add(query);
-            Log.d(TAG, query);
-        }
+            @Override
+            public void run() {
+                ArrayList<String> queries = new ArrayList<String>();
+                for (Session session : sessionResponseList.sessions) {
+                    String query = session.generateSql();
+                    queries.add(query);
+                    Log.d(TAG, query);
+                }
 
-        DbSingleton dbSingleton = DbSingleton.getInstance();
-        dbSingleton.clearDatabase(DbContract.Sessions.TABLE_NAME);
-        dbSingleton.insertQueries(queries);
-        Bus bus = OpenEventApp.getEventBus();
-        bus.post(new SessionDownloadEvent(true));
+                DbSingleton dbSingleton = DbSingleton.getInstance();
+                dbSingleton.clearDatabase(DbContract.Sessions.TABLE_NAME);
+                dbSingleton.insertQueries(queries);
+                OpenEventApp.postEventOnUIThread(new SessionDownloadEvent(true));
+            }
+
+
+        });
     }
+
 
     @Override
     public void failure(RetrofitError error) {
         // Do something with failure, raise an event etc.
-        Bus bus = OpenEventApp.getEventBus();
-        bus.post(new SessionDownloadEvent(false));
+        OpenEventApp.getEventBus().post(new SessionDownloadEvent(false));
     }
+
 }

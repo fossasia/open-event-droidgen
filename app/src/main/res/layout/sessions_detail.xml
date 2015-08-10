@@ -70,6 +70,7 @@
                         style="@style/Metadata"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@color/translucent_grey"
                         android:drawableLeft="@drawable/ic_access_time_grey600_18dp"
                         tools:text="Day 1 (Saturday), 09:30 - 09:55"/>
 

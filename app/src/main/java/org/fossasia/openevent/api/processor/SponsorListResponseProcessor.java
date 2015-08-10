@@ -10,6 +10,7 @@ import org.fossasia.openevent.data.Sponsor;
 import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.SponsorDownloadEvent;
+import org.fossasia.openevent.utils.CommonTaskLoop;
 
 import java.util.ArrayList;
 
@@ -24,26 +25,30 @@ public class SponsorListResponseProcessor implements Callback<SponsorResponseLis
     private static final String TAG = "Sponsors";
 
     @Override
-    public void success(SponsorResponseList sponsorResponseList, Response response) {
-        ArrayList<String> queries = new ArrayList<String>();
+    public void success(final SponsorResponseList sponsorResponseList, Response response) {
+        CommonTaskLoop.getInstance().post(new Runnable() {
+            @Override
+            public void run() {
+                ArrayList<String> queries = new ArrayList<String>();
 
-        for (Sponsor sponsor : sponsorResponseList.sponsors) {
-            String query = sponsor.generateSql();
-            queries.add(query);
-            Log.d(TAG, query);
-        }
+                for (Sponsor sponsor : sponsorResponseList.sponsors) {
+                    String query = sponsor.generateSql();
+                    queries.add(query);
+                    Log.d(TAG, query);
+                }
 
 
-        DbSingleton dbSingleton = DbSingleton.getInstance();
-        dbSingleton.clearDatabase(DbContract.Sponsors.TABLE_NAME);
-        dbSingleton.insertQueries(queries);
-        Bus bus = OpenEventApp.getEventBus();
-        bus.post(new SponsorDownloadEvent(true));
+                DbSingleton dbSingleton = DbSingleton.getInstance();
+                dbSingleton.clearDatabase(DbContract.Sponsors.TABLE_NAME);
+                dbSingleton.insertQueries(queries);
+                OpenEventApp.postEventOnUIThread(new SponsorDownloadEvent(true));
+            }
+        });
+
     }
 
     @Override
     public void failure(RetrofitError error) {
-        Bus bus = OpenEventApp.getEventBus();
-        bus.post(new SponsorDownloadEvent(false));
+        OpenEventApp.getEventBus().post(new SponsorDownloadEvent(false));
     }
 }

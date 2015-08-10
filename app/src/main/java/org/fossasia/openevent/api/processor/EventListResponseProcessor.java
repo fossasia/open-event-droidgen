@@ -36,15 +36,14 @@ public class EventListResponseProcessor implements Callback<EventResponseList> {
         DbSingleton dbSingleton = DbSingleton.getInstance();
         dbSingleton.clearDatabase(DbContract.Event.TABLE_NAME);
         dbSingleton.insertQueries(queries);
-        Bus bus = OpenEventApp.getEventBus();
-        bus.post(new EventDownloadEvent(true));
+
+        OpenEventApp.postEventOnUIThread(new EventDownloadEvent(true));
 
     }
 
 
     @Override
     public void failure(RetrofitError error) {
-        Bus bus = OpenEventApp.getEventBus();
-        bus.post(new EventDownloadEvent(false));
+        OpenEventApp.getEventBus().post(new EventDownloadEvent(false));
     }
 }
