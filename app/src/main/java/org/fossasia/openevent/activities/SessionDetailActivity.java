@@ -18,6 +18,7 @@ import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.ISO8601Date;
+import org.fossasia.openevent.utils.IntentStrings;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -43,7 +44,8 @@ public class SessionDetailActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_details);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        String title = getIntent().getStringExtra("SESSION");
+        String title = getIntent().getStringExtra(IntentStrings.SESSION);
+        String trackName = getIntent().getStringExtra(IntentStrings.TRACK);
         TextView tv_title = (TextView) findViewById(R.id.title_session);
         TextView tv_subtitle = (TextView) findViewById(R.id.subtitle_session);
         TextView tv_time = (TextView) findViewById(R.id.tv_time);
@@ -61,20 +63,31 @@ public class SessionDetailActivity extends AppCompatActivity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        tv_room1.setText(String.valueOf(session.getMicrolocations()));
+        try {
+            tv_room1.setText((dbSingleton.getMicrolocationById(session.getMicrolocations())).getName());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         tv_title.setText(title);
         tv_subtitle.setText(session.getSubtitle());
+        track.setText(trackName);
 
-        Calendar start = null;
+        String start = null;
         String end = null;
         try {
-            end = ISO8601Date.getTimeZoneDate(ISO8601Date.getDateObject(session.getStartTime()));
+            start = ISO8601Date.getTimeZoneDate(ISO8601Date.getDateObject(session.getStartTime()));
+            end = ISO8601Date.getTimeZoneDate(ISO8601Date.getDateObject(session.getEndTime()));
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-        tv_time.setText(end);
-
+        if((start.equals(null)) && (end.equals(null))) {
+            tv_time.setText("Timings not specified");
+        }
+        else {
+            String timings = start + " - " + end;
+            tv_time.setText(timings);
+        }
         summary.setText(session.getSummary());
         descrip.setText(session.getDescription());
         adapter = new SpeakersListAdapter(speakers);

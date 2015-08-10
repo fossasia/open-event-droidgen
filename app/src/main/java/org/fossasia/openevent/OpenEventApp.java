@@ -20,7 +20,7 @@ public class OpenEventApp extends Application {
 
     public static Bus getEventBus() {
         if (sEventBus == null) {
-            sEventBus = new com.squareup.otto.Bus();
+            sEventBus = new Bus();
         }
         return sEventBus;
     }
@@ -33,6 +33,7 @@ public class OpenEventApp extends Application {
             }
         });
     }
+
     @Override
     public void onCreate() {
         super.onCreate();

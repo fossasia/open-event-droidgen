@@ -58,6 +58,19 @@ public class SponsorsFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        OpenEventApp.getEventBus().unregister(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        OpenEventApp.getEventBus().unregister(this);
+
+    }
+
     @Subscribe
     public void sponsorDownloadDone(SponsorDownloadEvent event) {
 
@@ -67,7 +80,7 @@ public class SponsorsFragment extends Fragment {
             Log.d("countersp", "Refresh done");
 
         } else {
-            Snackbar.make(getView(), "Couldn't Refresh", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(getView(), getActivity().getString(R.string.speaker_refresh_failed), Snackbar.LENGTH_LONG).show();
             Log.d("countersp", "Refresh not done");
 
         }

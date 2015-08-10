@@ -42,7 +42,7 @@ public class Session {
     int[] speakers;
 
     @SerializedName("microlocation")
-    Integer microlocations;
+    int microlocations;
 
     public Session(int id, String title, String subtitle,
                    String summary, String description,
@@ -151,11 +151,11 @@ public class Session {
         this.speakers = speakers;
     }
 
-    public Integer getMicrolocations() {
+    public int getMicrolocations() {
         return microlocations;
     }
 
-    public void setMicrolocations(Integer microlocations) {
+    public void setMicrolocations(int microlocations) {
         this.microlocations = microlocations;
     }
 
