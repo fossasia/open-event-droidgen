@@ -22,6 +22,7 @@ import org.fossasia.openevent.R;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.utils.IntentStrings;
 import org.fossasia.openevent.utils.RecyclerItemClickListener;
 
 import java.text.ParseException;
@@ -41,7 +42,7 @@ public class TracksActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tracks);
         DbSingleton dbSingleton = DbSingleton.getInstance();
-        track = getIntent().getStringExtra("TRACK");
+        track = getIntent().getStringExtra(IntentStrings.TRACK);
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -49,8 +50,6 @@ public class TracksActivity extends AppCompatActivity {
         CollapsingToolbarLayout collapsingToolbar =
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbar.setTitle(track);
-
-
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         try {
             List<Session> sessionList = dbSingleton.getSessionbyTracksname(track);
@@ -67,7 +66,8 @@ public class TracksActivity extends AppCompatActivity {
                     public void onItemClick(View view, int position) {
                         String session_name = ((TextView) findViewById(R.id.session_title)).getText().toString();
                         Intent intent = new Intent(getApplicationContext(), SessionDetailActivity.class);
-                        intent.putExtra("SESSION", session_name);
+                        intent.putExtra(IntentStrings.SESSION, session_name);
+                        intent.putExtra(IntentStrings.TRACK, track);
                         startActivity(intent);
                     }
                 })

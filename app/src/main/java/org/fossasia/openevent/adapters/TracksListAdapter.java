@@ -5,11 +5,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.data.Track;
+import org.fossasia.openevent.dbutils.DbSingleton;
 
 import java.util.List;
 
@@ -45,20 +45,18 @@ public class TracksListAdapter extends RecyclerView.Adapter<TracksListAdapter.Vi
         return tracks.size();
     }
 
-    public void deleteItems() {
-        Log.d("delete", "tracks");
-        for (int i = 0; i < getItemCount(); i++) {
-            Log.d("i" + i, tracks.get(i).getName());
-            tracks.remove(i);
-            notifyItemRemoved(i);
-        }
+    public void refresh() {
+
+        DbSingleton dbSingleton = DbSingleton.getInstance();
+        tracks.clear();
+        tracks = dbSingleton.getTrackList();
+        notifyDataSetChanged();
+
     }
 
     class Viewholder extends RecyclerView.ViewHolder {
         TextView title;
         TextView desc;
-        LinearLayout container;
-
 
         public Viewholder(View itemView) {
             super(itemView);

@@ -1,28 +1,47 @@
 package org.fossasia.openevent.activities;
 
-import android.app.SearchManager;
-import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
+import com.squareup.picasso.Picasso;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.dbutils.DataDownload;
 import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.events.CantDownloadEvent;
+import org.fossasia.openevent.events.CounterEvent;
+import org.fossasia.openevent.events.EventDownloadEvent;
+import org.fossasia.openevent.events.MicrolocationDownloadEvent;
+import org.fossasia.openevent.events.NoInternetEvent;
+import org.fossasia.openevent.events.RefreshUiEvent;
+import org.fossasia.openevent.events.SessionDownloadEvent;
+import org.fossasia.openevent.events.SpeakerDownloadEvent;
+import org.fossasia.openevent.events.SponsorDownloadEvent;
+import org.fossasia.openevent.events.TracksDownloadEvent;
 import org.fossasia.openevent.fragments.BookmarksFragment;
 import org.fossasia.openevent.fragments.SpeakerFragment;
 import org.fossasia.openevent.fragments.SponsorsFragment;
@@ -32,24 +51,33 @@ import org.fossasia.openevent.utils.IntentStrings;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String COUNTER_TAG = "counter";
     private DrawerLayout mDrawerLayout;
     private Toolbar mToolbar;
     private NavigationView navigationView;
+    private ProgressBar downloadProgress;
+    private FrameLayout mainFrame;
+    private int counter;
+    private int eventsDone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        counter = 0;
         setContentView(R.layout.activity_main);
-
-
+        eventsDone = 0;
+        setUpToolbar();
+        setUpNavDrawer();
+        mainFrame = (FrameLayout) findViewById(R.id.layout_main);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        downloadProgress = (ProgressBar) findViewById(R.id.progress);
+        downloadProgress.setVisibility(View.VISIBLE);
+        downloadProgress.setIndeterminate(true);
         DataDownload download = new DataDownload();
         download.downloadVersions();
 
-        setUpToolbar();
-        setUpNavDrawer();
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
-
         this.findViewById(android.R.id.content).setBackgroundColor(Color.LTGRAY);
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.content_frame, new TracksFragment()).commit();
@@ -58,11 +86,21 @@ public class MainActivity extends AppCompatActivity {
 
 
     @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-
+    protected void onPause() {
+        super.onPause();
+        OpenEventApp.getEventBus().unregister(this);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        OpenEventApp.getEventBus().register(this);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -98,6 +136,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        if (mDrawerLayout.isDrawerVisible(navigationView)) {
+            mDrawerLayout.closeDrawers();
+        }
+    }
+
     private void setUpToolbar() {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         if (mToolbar != null) {
@@ -110,12 +155,8 @@ public class MainActivity extends AppCompatActivity {
             final android.support.v7.app.ActionBar ab = getSupportActionBar();
             assert ab != null;
             mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-            ActionBarDrawerToggle mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-
-            ImageView header_drawer = (ImageView) findViewById(R.id.headerDrawer);
-            DbSingleton dbSingleton = DbSingleton.getInstance();
-//            Log.d("PICASSO", dbSingleton.getEventDetails().getLogo());
-//            Picasso.with(getApplicationContext()).load(dbSingleton.getEventDetails().getLogo()).into(header_drawer);
+            ActionBarDrawerToggle mActionBarDrawerToggle = new ActionBarDrawerToggle(this,
+                    mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 
             mDrawerLayout.setDrawerListener(mActionBarDrawerToggle);
             ab.setHomeAsUpIndicator(R.drawable.ic_menu);
@@ -123,6 +164,25 @@ public class MainActivity extends AppCompatActivity {
             ab.setDisplayHomeAsUpEnabled(true);
             mActionBarDrawerToggle.syncState();
         }
+    }
+
+    private void syncComplete() {
+        downloadProgress.setVisibility(View.GONE);
+        Bus bus = OpenEventApp.getEventBus();
+        bus.post(new RefreshUiEvent());
+        ImageView header_drawer = (ImageView) findViewById(R.id.headerDrawer);
+        DbSingleton dbSingleton = DbSingleton.getInstance();
+        if (!(dbSingleton.getEventDetails().getLogo().isEmpty())) {
+            Picasso.with(getApplicationContext()).load(dbSingleton.getEventDetails().getLogo()).into(header_drawer);
+        }
+
+        Snackbar.make(mainFrame, getString(R.string.download_complete), Snackbar.LENGTH_SHORT).show();
+    }
+
+    private void downloadFailed() {
+        downloadProgress.setVisibility(View.GONE);
+        Snackbar.make(mainFrame, getString(R.string.download_failed), Snackbar.LENGTH_LONG).show();
+
     }
 
     private void setupDrawerContent(NavigationView navigationView, final Menu menu) {
@@ -190,5 +250,109 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
+    //Subscribe Events
+    @Subscribe
+    public void onCounterReceiver(CounterEvent event) {
+        counter = event.getRequestsCount();
+        Log.d(COUNTER_TAG, counter + "");
+        if (counter == 0) {
+            syncComplete();
+        }
+    }
+
+    @Subscribe
+    public void onTracksDownloadDone(TracksDownloadEvent event) {
+        if (event.isState()) {
+            eventsDone++;
+            Log.d(COUNTER_TAG, eventsDone + " " + counter);
+            if (counter == eventsDone) {
+                syncComplete();
+            }
+        } else {
+            downloadFailed();
+        }
+    }
+
+    @Subscribe
+    public void onSponsorsDownloadDone(SponsorDownloadEvent event) {
+        if (event.isState()) {
+            eventsDone++;
+            Log.d(COUNTER_TAG, eventsDone + " " + counter);
+            if (counter == eventsDone) {
+                syncComplete();
+            }
+        } else {
+
+            downloadFailed();
+        }
+    }
+
+    @Subscribe
+    public void onSpeakersDownloadDone(SpeakerDownloadEvent event) {
+        if (event.isState()) {
+            eventsDone++;
+            Log.d(COUNTER_TAG, eventsDone + " " + counter);
+            if (counter == eventsDone) {
+                syncComplete();
+            }
+        } else {
+
+            downloadFailed();
+        }
+    }
+
+    @Subscribe
+    public void onSessionDownloadDone(SessionDownloadEvent event) {
+        if (event.isState()) {
+            eventsDone++;
+            Log.d(COUNTER_TAG, eventsDone + " " + counter);
+            if (counter == eventsDone) {
+                syncComplete();
+            }
+        } else {
+
+            downloadFailed();
+        }
+    }
+
+    @Subscribe
+    public void noInternet(NoInternetEvent event) {
+        downloadFailed();
+    }
+
+    @Subscribe
+    public void cantDownload(CantDownloadEvent event) {
+        downloadProgress.setVisibility(View.GONE);
+        Snackbar.make(mainFrame, getString(R.string.cantDownload), Snackbar.LENGTH_LONG).show();
+    }
+
+    @Subscribe
+    public void onEventsDownloadDone(EventDownloadEvent event) {
+        if (event.isState()) {
+            eventsDone++;
+            Log.d(COUNTER_TAG, eventsDone + " " + counter);
+            if (counter == eventsDone) {
+                syncComplete();
+            }
+        } else {
+
+            downloadFailed();
+        }
+    }
+
+    @Subscribe
+    public void onMicrolocationsDownloadDone(MicrolocationDownloadEvent event) {
+        if (event.isState()) {
+            eventsDone++;
+            Log.d(COUNTER_TAG, eventsDone + " " + counter);
+            if (counter == eventsDone) {
+                syncComplete();
+            }
+        } else {
+
+            downloadFailed();
+        }
+
+    }
 
 }

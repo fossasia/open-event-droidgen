@@ -12,6 +12,7 @@ import com.squareup.picasso.Picasso;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.data.Sponsor;
+import org.fossasia.openevent.dbutils.DbSingleton;
 
 import java.util.List;
 
@@ -43,6 +44,14 @@ public class SponsorsListAdapter extends RecyclerView.Adapter<SponsorsListAdapte
 
         Uri uri = Uri.parse(currentSponsor.getLogo());
         Picasso.with(holder.sponsor_image.getContext()).load(uri).resize(width, (height / 6)).centerCrop().into(holder.sponsor_image);
+    }
+
+    public void refresh() {
+        DbSingleton dbSingleton = DbSingleton.getInstance();
+        sponsors.clear();
+        sponsors = dbSingleton.getSponsorList();
+        notifyDataSetChanged();
+
     }
 
     @Override
