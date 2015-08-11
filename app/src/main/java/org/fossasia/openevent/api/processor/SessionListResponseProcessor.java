@@ -2,10 +2,15 @@ package org.fossasia.openevent.api.processor;
 
 import android.util.Log;
 
+import com.squareup.otto.Bus;
+
+import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.api.protocol.SessionResponseList;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.events.SessionDownloadEvent;
+import org.fossasia.openevent.utils.CommonTaskLoop;
 
 import java.util.ArrayList;
 
@@ -20,23 +25,33 @@ public class SessionListResponseProcessor implements Callback<SessionResponseLis
     private static final String TAG = "Session";
 
     @Override
-    public void success(SessionResponseList sessionResponseList, Response response) {
+    public void success(final SessionResponseList sessionResponseList, Response response) {
+        CommonTaskLoop.getInstance().post(new Runnable() {
 
-        ArrayList<String> queries = new ArrayList<String>();
-        for (Session session : sessionResponseList.sessions) {
-            String query = session.generateSql();
-            queries.add(query);
-            Log.d(TAG, query);
-        }
+            @Override
+            public void run() {
+                ArrayList<String> queries = new ArrayList<String>();
+                for (Session session : sessionResponseList.sessions) {
+                    String query = session.generateSql();
+                    queries.add(query);
+                    Log.d(TAG, query);
+                }
+
+                DbSingleton dbSingleton = DbSingleton.getInstance();
+                dbSingleton.clearDatabase(DbContract.Sessions.TABLE_NAME);
+                dbSingleton.insertQueries(queries);
+                OpenEventApp.postEventOnUIThread(new SessionDownloadEvent(true));
+            }
 
 
-        DbSingleton dbSingleton = DbSingleton.getInstance();
-        dbSingleton.clearDatabase(DbContract.Sessions.TABLE_NAME);
-        dbSingleton.insertQueries(queries);
+        });
     }
+
 
     @Override
     public void failure(RetrofitError error) {
         // Do something with failure, raise an event etc.
+        OpenEventApp.getEventBus().post(new SessionDownloadEvent(false));
     }
+
 }

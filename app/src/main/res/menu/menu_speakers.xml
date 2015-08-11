@@ -8,10 +8,5 @@
         android:title="@string/search"
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="always"/>
-    <item
-        android:id="@+id/refresh_speakers"
-        android:icon="@drawable/ic_sync_white_24dp"
-        android:menuCategory="secondary"
-        android:title="Refresh"
-        app:showAsAction="ifRoom"/>
+
 </menu>

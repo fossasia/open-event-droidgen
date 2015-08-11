@@ -14,6 +14,7 @@
     <string name="menu_speakers">Speakers</string>
     <string name="menu_sponsor">Sponsors</string>
     <string name="menu_map">Map</string>
+    <string name="menu_abc">ABC</string>
     <string name="session">Session detail</string>
 
     <!--Navigation Drawer-->
@@ -49,4 +50,8 @@
 
     <!--Search Titles-->
     <string name="search_hint_tracks"> Search Tracks</string>
+    <string name="refresh_failed">Couldn\'t Refresh</string>
+    <string name="cantDownload">Can\'t Download right now</string>
+    <string name="download_failed">Download Failed, Check Internet Connection</string>
+    <string name="download_complete">Download Done</string>
 </resources>

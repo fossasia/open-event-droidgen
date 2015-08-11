@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import org.fossasia.openevent.data.Event;
+import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Sponsor;
@@ -45,7 +46,6 @@ public class DatabaseOperations {
 
         ArrayList<Session> sessions = new ArrayList<>();
         Session s;
-        Log.d("session", "cursor done");
 
         cur.moveToFirst();
         while (!cur.isAfterLast()) {
@@ -67,7 +67,6 @@ public class DatabaseOperations {
             cur.moveToNext();
         }
         cur.close();
-        Log.d("speakerlist ", sessions.size() + "");
         return sessions;
     }
 
@@ -100,9 +99,34 @@ public class DatabaseOperations {
                 cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.MICROLOCATION))
         );
         cursor.close();
-        Log.d("SESSIONBYID", session.getTitle());
 
         return session;
+    }
+
+    public Microlocation getMicroLocationById(int id, SQLiteDatabase mDb) throws ParseException {
+        String selection = DbContract.Microlocation.ID + EQUAL + id;
+        Cursor cursor = mDb.query(
+                DbContract.Microlocation.TABLE_NAME,
+                DbContract.Microlocation.FULL_PROJECTION,
+                selection,
+                null,
+                null,
+                null,
+                null
+        );
+        Microlocation location;
+        cursor.moveToFirst();
+        //Should return only one due to UNIQUE constraint
+        location = new Microlocation(
+                cursor.getInt(cursor.getColumnIndex(DbContract.Microlocation.ID)),
+                cursor.getString(cursor.getColumnIndex(DbContract.Microlocation.NAME)),
+                cursor.getFloat(cursor.getColumnIndex(DbContract.Microlocation.LATITUDE)),
+                cursor.getFloat(cursor.getColumnIndex(DbContract.Microlocation.LONGITUDE)),
+                cursor.getInt(cursor.getColumnIndex(DbContract.Microlocation.FLOOR))
+        );
+        cursor.close();
+
+        return location;
     }
 
     public List<Speaker> getSpeakerList(SQLiteDatabase mDb) {
@@ -144,7 +168,6 @@ public class DatabaseOperations {
             );
             speakers.add(s);
             cur.moveToNext();
-            Log.d("singl", s.getName());
         }
         cur.close();
         return speakers;
@@ -339,7 +362,6 @@ public class DatabaseOperations {
         }
 
         sessionCursor.close();
-        Log.d("SessionbyTrack", sessions.size() + "");
         return sessions;
     }
 
@@ -381,7 +403,7 @@ public class DatabaseOperations {
     }
 
 
-    public void clearDatabase(String table, DbHelper mDbHelper) {
+    public void clearDatabaseTable(String table, DbHelper mDbHelper) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         db.beginTransaction();
         try {
@@ -545,7 +567,7 @@ public class DatabaseOperations {
 
     }
 
-    public ArrayList<Speaker> getSpeakersbySessionname(String sessionName, SQLiteDatabase mDb) throws ParseException {
+    public ArrayList<Speaker> getSpeakersbySessionName(String sessionName, SQLiteDatabase mDb) throws ParseException {
         String sessionColumnSelection = DbContract.Sessions.TITLE + EQUAL + DatabaseUtils.sqlEscapeString(sessionName);
         String[] columns = {DbContract.Sessions.ID, DbContract.Sessions.TITLE};
         Cursor sessionsCursor = mDb.query(
@@ -693,6 +715,22 @@ public class DatabaseOperations {
 
         db.setTransactionSuccessful();
         db.endTransaction();
+    }
+
+    public void addToDb(int id) {
+        String query_normal = "INSERT INTO %s VALUES ('%d');";
+        String query = String.format(
+                query_normal,
+                DbContract.Bookmarks.TABLE_NAME,
+                id
+        );
+        DbSingleton dbSingleton = DbSingleton.getInstance();
+        dbSingleton.insertQuery(query);
+    }
+
+    public void deleteAllRecords(String tableName, SQLiteDatabase db) {
+
+        db.execSQL("delete from " + DatabaseUtils.sqlEscapeString(tableName));
     }
 
 }

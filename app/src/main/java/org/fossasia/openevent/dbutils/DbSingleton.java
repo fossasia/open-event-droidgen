@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import org.fossasia.openevent.data.Event;
+import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Sponsor;
@@ -90,6 +91,10 @@ public class DbSingleton {
         return databaseOperations.getVersionIds(mDb);
     }
 
+    public void addBookmarks(int bookmarkId) {
+        databaseOperations.addToDb(bookmarkId);
+    }
+
     public Speaker getSpeakerById(int id) {
         getReadOnlyDatabase();
         return databaseOperations.getSpeakerById(id, mDb);
@@ -106,6 +111,10 @@ public class DbSingleton {
         return databaseOperations.getSponsorList(mDb);
     }
 
+    public Microlocation getMicrolocationById(int id) throws ParseException {
+        getReadOnlyDatabase();
+        return databaseOperations.getMicroLocationById(id, mDb);
+    }
 
     public ArrayList<Session> getSessionbyTracksname(String trackName) throws ParseException {
         return databaseOperations.getSessionbyTracksname(trackName, mDb);
@@ -116,7 +125,7 @@ public class DbSingleton {
     }
 
     public ArrayList<Speaker> getSpeakersbySessionName(String sessionName) throws ParseException {
-        return databaseOperations.getSpeakersbySessionname(sessionName, mDb);
+        return databaseOperations.getSpeakersbySessionName(sessionName, mDb);
     }
 
 
@@ -145,7 +154,11 @@ public class DbSingleton {
     }
 
     public void clearDatabase(String table) {
-        databaseOperations.clearDatabase(table, mDbHelper);
+        databaseOperations.clearDatabaseTable(table, mDbHelper);
+    }
+
+    public void deleteAllRecords(String tableName) {
+        databaseOperations.deleteAllRecords(tableName, mDb);
     }
 
 }
