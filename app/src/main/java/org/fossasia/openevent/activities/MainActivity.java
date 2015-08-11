@@ -1,5 +1,6 @@
 package org.fossasia.openevent.activities;
 
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -10,9 +11,11 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -60,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        counter = 0;
         setContentView(R.layout.activity_main);
         eventsDone = 0;
         setUpToolbar();
@@ -69,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
         downloadProgress = (ProgressBar) findViewById(R.id.progress);
         downloadProgress.setVisibility(View.VISIBLE);
         downloadProgress.setIndeterminate(true);
-        OpenEventApp.getEventBus().register(this);
         DataDownload download = new DataDownload();
         download.downloadVersions();
 
@@ -81,22 +84,22 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onPause() {
+        super.onPause();
         OpenEventApp.getEventBus().unregister(this);
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
+    protected void onResume() {
+        super.onResume();
         OpenEventApp.getEventBus().register(this);
     }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-
     }
 
     @Override
@@ -135,7 +138,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        mDrawerLayout.closeDrawers();
+        if (mDrawerLayout.isDrawerVisible(navigationView)) {
+            mDrawerLayout.closeDrawers();
+        }
     }
 
     private void setUpToolbar() {
@@ -152,11 +157,7 @@ public class MainActivity extends AppCompatActivity {
             mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
             ActionBarDrawerToggle mActionBarDrawerToggle = new ActionBarDrawerToggle(this,
                     mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-            ImageView header_drawer = (ImageView) findViewById(R.id.headerDrawer);
-            DbSingleton dbSingleton = DbSingleton.getInstance();
-//            if (!(dbSingleton.getEventDetails().getLogo().equals(null))) {
-//                Picasso.with(getApplicationContext()).load(dbSingleton.getEventDetails().getLogo()).into(header_drawer);
-//            }
+
             mDrawerLayout.setDrawerListener(mActionBarDrawerToggle);
             ab.setHomeAsUpIndicator(R.drawable.ic_menu);
             ab.setDisplayHomeAsUpEnabled(true);
@@ -169,6 +170,12 @@ public class MainActivity extends AppCompatActivity {
         downloadProgress.setVisibility(View.GONE);
         Bus bus = OpenEventApp.getEventBus();
         bus.post(new RefreshUiEvent());
+        ImageView header_drawer = (ImageView) findViewById(R.id.headerDrawer);
+        DbSingleton dbSingleton = DbSingleton.getInstance();
+        if (!(dbSingleton.getEventDetails().getLogo().isEmpty())) {
+            Picasso.with(getApplicationContext()).load(dbSingleton.getEventDetails().getLogo()).into(header_drawer);
+        }
+
         Snackbar.make(mainFrame, getString(R.string.download_complete), Snackbar.LENGTH_SHORT).show();
     }
 
@@ -312,11 +319,13 @@ public class MainActivity extends AppCompatActivity {
     public void noInternet(NoInternetEvent event) {
         downloadFailed();
     }
+
     @Subscribe
     public void cantDownload(CantDownloadEvent event) {
         downloadProgress.setVisibility(View.GONE);
         Snackbar.make(mainFrame, getString(R.string.cantDownload), Snackbar.LENGTH_LONG).show();
     }
+
     @Subscribe
     public void onEventsDownloadDone(EventDownloadEvent event) {
         if (event.isState()) {

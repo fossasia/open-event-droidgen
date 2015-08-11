@@ -78,19 +78,6 @@ public class SpeakerFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        OpenEventApp.getEventBus().unregister(this);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        OpenEventApp.getEventBus().unregister(this);
-
-    }
-
 
     @Subscribe
     public void speakerDownloadDone(SpeakerDownloadEvent event) {

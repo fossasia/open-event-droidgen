@@ -720,7 +720,7 @@ public class DatabaseOperations {
     public void addToDb(int id) {
         String query_normal = "INSERT INTO %s VALUES ('%d');";
         String query = String.format(
-                DatabaseUtils.sqlEscapeString(query_normal),
+                query_normal,
                 DbContract.Bookmarks.TABLE_NAME,
                 id
         );
