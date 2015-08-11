@@ -7,8 +7,6 @@
         <item name="android:colorPrimary">@color/primaryColor</item>
         <item name="android:colorPrimaryDark">@color/color_primary_dark</item>
         <item name="android:colorAccent">@color/color_accent</item>
-        <item name="selectableItemBackgroundBorderless">@drawable/ripple</item>
-        <item name="android:selectableItemBackgroundBorderless">@drawable/ripple</item>
     </style>
 
 </resources>

@@ -81,13 +81,6 @@ public class TracksFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        OpenEventApp.getEventBus().unregister(this);
-
-    }
-
 
     @Subscribe
     public void RefreshData(RefreshUiEvent event) {
