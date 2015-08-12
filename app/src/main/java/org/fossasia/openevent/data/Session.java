@@ -16,38 +16,37 @@ import java.text.ParseException;
  */
 public class Session {
 
-    int id;
-
-    String title;
-
-    String subtitle;
-
     @SerializedName("abstract")
     String summary;
 
     String description;
 
-    @SerializedName("start_time")
+    @SerializedName("begin")
     String startTime;
 
-    @SerializedName("end_time")
+    @SerializedName("end")
     String endTime;
 
-    String type;
-
-    int track;
+    int id;
 
     String level;
-
-    int[] speakers;
 
     @SerializedName("microlocation")
     int microlocations;
 
+    String title;
+
+    String subtitle;
+
+    @SerializedName("format")
+    String type;
+
+    int track;
+
     public Session(int id, String title, String subtitle,
                    String summary, String description,
                    String startTime, String endTime, String type,
-                   int track, String level, int[] speakers, int microlocations
+                   int track, String level, int microlocations
     ) throws ParseException {
         this.id = id;
         this.title = title;
@@ -59,7 +58,6 @@ public class Session {
         this.type = type;
         this.track = track;
         this.level = level;
-        this.speakers = speakers;
         this.microlocations = microlocations;
     }
 
@@ -143,14 +141,6 @@ public class Session {
         this.level = level;
     }
 
-    public int[] getSpeakers() {
-        return speakers;
-    }
-
-    public void setSpeakers(int[] speakers) {
-        this.speakers = speakers;
-    }
-
     public int getMicrolocations() {
         return microlocations;
     }
@@ -165,15 +155,15 @@ public class Session {
                 query_normal,
                 DbContract.Sessions.TABLE_NAME,
                 id,
-                DatabaseUtils.sqlEscapeString(title),
-                DatabaseUtils.sqlEscapeString(subtitle),
-                DatabaseUtils.sqlEscapeString(summary),
-                DatabaseUtils.sqlEscapeString(description),
-                DatabaseUtils.sqlEscapeString(startTime),
-                DatabaseUtils.sqlEscapeString(endTime),
-                DatabaseUtils.sqlEscapeString(type),
+                DatabaseUtils.sqlEscapeString(title + ""),
+                DatabaseUtils.sqlEscapeString(subtitle + ""),
+                DatabaseUtils.sqlEscapeString(summary + ""),
+                DatabaseUtils.sqlEscapeString(description + ""),
+                DatabaseUtils.sqlEscapeString(startTime + ""),
+                DatabaseUtils.sqlEscapeString(endTime + ""),
+                DatabaseUtils.sqlEscapeString(type + ""),
                 track,
-                DatabaseUtils.sqlEscapeString(level),
+                DatabaseUtils.sqlEscapeString(level + ""),
                 microlocations);
         return query;
     }

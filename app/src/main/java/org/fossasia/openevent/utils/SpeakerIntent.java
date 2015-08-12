@@ -2,6 +2,7 @@ package org.fossasia.openevent.utils;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -40,9 +41,10 @@ public class SpeakerIntent {
                     Toast.makeText(view.getContext(), "What did you click?? :P", Toast.LENGTH_SHORT).show();
                 }
 
-                if (url.isEmpty()) {
-                    Toast.makeText(view.getContext(), "Sorry this speaker doesn't have a profile", Toast.LENGTH_SHORT).show();
-                    return;
+                if (url.equals(null)) {
+                    Log.d("url null", "ABC");
+                    view.setVisibility(View.GONE);
+                    return ;
                 }
 
                 if ((!url.startsWith("https://") && !url.startsWith("http://")) && (!url.isEmpty())) {
@@ -55,6 +57,5 @@ public class SpeakerIntent {
 
             }
         });
-        return;
     }
 }

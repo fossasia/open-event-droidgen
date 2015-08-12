@@ -182,18 +182,18 @@ public class Speaker {
                 query_normal,
                 DbContract.Speakers.TABLE_NAME,
                 id,
-                DatabaseUtils.sqlEscapeString(name),
+                DatabaseUtils.sqlEscapeString(name+""),
                 DatabaseUtils.sqlEscapeString(photo),
-                DatabaseUtils.sqlEscapeString(bio),
-                DatabaseUtils.sqlEscapeString(email),
-                DatabaseUtils.sqlEscapeString(web),
-                DatabaseUtils.sqlEscapeString(facebook),
-                DatabaseUtils.sqlEscapeString(twitter),
-                DatabaseUtils.sqlEscapeString(github),
-                DatabaseUtils.sqlEscapeString(linkedin),
-                DatabaseUtils.sqlEscapeString(organisation),
-                DatabaseUtils.sqlEscapeString(position),
-                DatabaseUtils.sqlEscapeString(country));
+                DatabaseUtils.sqlEscapeString(bio+""),
+                DatabaseUtils.sqlEscapeString(email+""),
+                DatabaseUtils.sqlEscapeString(web+""),
+                DatabaseUtils.sqlEscapeString(facebook+""),
+                DatabaseUtils.sqlEscapeString(twitter+""),
+                DatabaseUtils.sqlEscapeString(github+""),
+                DatabaseUtils.sqlEscapeString(linkedin+""),
+                DatabaseUtils.sqlEscapeString(organisation+""),
+                DatabaseUtils.sqlEscapeString(position+""),
+                DatabaseUtils.sqlEscapeString(country+""));
         return query;
     }
 }
