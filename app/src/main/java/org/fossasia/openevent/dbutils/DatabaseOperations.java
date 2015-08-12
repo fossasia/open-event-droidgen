@@ -60,7 +60,6 @@ public class DatabaseOperations {
                     cur.getString(cur.getColumnIndex(DbContract.Sessions.TYPE)),
                     cur.getInt(cur.getColumnIndex(DbContract.Sessions.TRACK)),
                     cur.getString(cur.getColumnIndex(DbContract.Sessions.LEVEL)),
-                    null,
                     cur.getInt(cur.getColumnIndex(DbContract.Sessions.MICROLOCATION))
             );
             sessions.add(s);
@@ -95,7 +94,6 @@ public class DatabaseOperations {
                 cursor.getString(cursor.getColumnIndex(DbContract.Sessions.TYPE)),
                 cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.TRACK)),
                 cursor.getString(cursor.getColumnIndex(DbContract.Sessions.LEVEL)),
-                null,
                 cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.MICROLOCATION))
         );
         cursor.close();
@@ -354,7 +352,6 @@ public class DatabaseOperations {
                     sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.TYPE)),
                     sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.TRACK)),
                     sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.LEVEL)),
-                    null,
                     sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.MICROLOCATION))
             );
             sessions.add(session);
@@ -490,7 +487,6 @@ public class DatabaseOperations {
                     sessionTableCursor.getString(sessionTableCursor.getColumnIndex(DbContract.Sessions.TYPE)),
                     sessionTableCursor.getInt(sessionTableCursor.getColumnIndex(DbContract.Sessions.TRACK)),
                     sessionTableCursor.getString(sessionTableCursor.getColumnIndex(DbContract.Sessions.LEVEL)),
-                    null,
                     sessionTableCursor.getInt(sessionTableCursor.getColumnIndex(DbContract.Sessions.MICROLOCATION))
             );
             sessions.add(session);
@@ -674,7 +670,6 @@ public class DatabaseOperations {
                 cursor.getString(cursor.getColumnIndex(DbContract.Sessions.TYPE)),
                 cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.TRACK)),
                 cursor.getString(cursor.getColumnIndex(DbContract.Sessions.LEVEL)),
-                null,
                 cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.MICROLOCATION))
 
         );
