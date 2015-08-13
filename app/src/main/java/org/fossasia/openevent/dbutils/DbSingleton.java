@@ -92,7 +92,11 @@ public class DbSingleton {
     }
 
     public void addBookmarks(int bookmarkId) {
-        databaseOperations.addToDb(bookmarkId);
+        databaseOperations.addBookmarksToDb(bookmarkId);
+    }
+
+    public void deleteBookmarks(int bookmarkId) {
+        databaseOperations.deleteBookmarks(bookmarkId, mDb);
     }
 
     public Speaker getSpeakerById(int id) {
@@ -139,6 +143,10 @@ public class DbSingleton {
 
     public Session getSessionbySessionname(String sessionName) throws ParseException {
         return databaseOperations.getSessionbySessionname(sessionName, mDb);
+    }
+
+    public boolean isBookmarked(int sessionId) {
+        return databaseOperations.isBookmarked(sessionId, mDb);
     }
 
     public ArrayList<Integer> getBookmarkIds() throws ParseException {

@@ -650,6 +650,26 @@ public class DatabaseOperations {
         return speakers;
     }
 
+    public boolean isBookmarked(int sessionId, SQLiteDatabase db) {
+        boolean number = false;
+        Cursor c = null;
+        try {
+            c = db.rawQuery("select " + DbContract.Bookmarks.SESSION_ID + " from " + DbContract.Bookmarks.TABLE_NAME
+                    + " where session_id = ?", new String[]{String.valueOf(sessionId)});
+
+            if (c.getCount() == 1) {
+                number = true;
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (c != null) c.close();
+        }
+        return number;
+    }
+
     public Session getSessionbySessionname(String sessionName, SQLiteDatabase mDb) throws ParseException {
         String sessionColumnSelection = DbContract.Sessions.TITLE + EQUAL + DatabaseUtils.sqlEscapeString(sessionName);
         Cursor cursor = mDb.query(
@@ -685,7 +705,7 @@ public class DatabaseOperations {
 
 
     public ArrayList<Integer> getBookmarkIds(SQLiteDatabase mDb) {
-        String sortOrder = DbContract.Bookmarks.TRACKS_ID + ASCENDING;
+        String sortOrder = DbContract.Bookmarks.SESSION_ID + ASCENDING;
 
         Cursor cursor = mDb.query(
                 DbContract.Bookmarks.TABLE_NAME,
@@ -700,7 +720,7 @@ public class DatabaseOperations {
         ArrayList<Integer> ids = new ArrayList<>();
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            ids.add(cursor.getInt(cursor.getColumnIndex(DbContract.Bookmarks.TRACKS_ID)));
+            ids.add(cursor.getInt(cursor.getColumnIndex(DbContract.Bookmarks.SESSION_ID)));
             cursor.moveToNext();
         }
 
@@ -717,7 +737,7 @@ public class DatabaseOperations {
         db.endTransaction();
     }
 
-    public void addToDb(int id) {
+    public void addBookmarksToDb(int id) {
         String query_normal = "INSERT INTO %s VALUES ('%d');";
         String query = String.format(
                 query_normal,
@@ -726,6 +746,11 @@ public class DatabaseOperations {
         );
         DbSingleton dbSingleton = DbSingleton.getInstance();
         dbSingleton.insertQuery(query);
+    }
+
+    public void deleteBookmarks(int id, SQLiteDatabase db) {
+        db.delete(DbContract.Bookmarks.TABLE_NAME, DbContract.Bookmarks.SESSION_ID + "=" + id, null);
+
     }
 
     public void deleteAllRecords(String tableName, SQLiteDatabase db) {
