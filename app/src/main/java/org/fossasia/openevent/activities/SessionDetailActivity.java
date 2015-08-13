@@ -15,23 +15,18 @@ import org.fossasia.openevent.adapters.SpeakersListAdapter;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
-import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.ISO8601Date;
 import org.fossasia.openevent.utils.IntentStrings;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
 
 /**
  * Created by MananWason on 08-07-2015.
  */
 public class SessionDetailActivity extends AppCompatActivity {
+    private static final String TAG = "Session Detail";
     RecyclerView speakersRecyclerView;
     SpeakersListAdapter adapter;
     Session session;
@@ -81,10 +76,9 @@ public class SessionDetailActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        if((start.equals(null)) && (end.equals(null))) {
+        if ((start.equals(null)) && (end.equals(null))) {
             tv_time.setText("Timings not specified");
-        }
-        else {
+        } else {
             String timings = start + " - " + end;
             tv_time.setText(timings);
         }
@@ -102,12 +96,17 @@ public class SessionDetailActivity extends AppCompatActivity {
             case android.R.id.home:
                 finish();
                 return true;
-            case R.id.add_bookmark:
-
-                Log.d("BOOKMARKS", session.getId() + "");
+            case R.id.bookmark_status:
                 DbSingleton dbSingleton = DbSingleton.getInstance();
-                dbSingleton.addBookmarks(session.getId());
-
+                if (dbSingleton.isBookmarked(session.getId())) {
+                    Log.d(TAG, "Bookmark Removed");
+                    dbSingleton.deleteBookmarks(session.getId());
+                    item.setIcon(R.drawable.ic_star_border_bookmark);
+                } else {
+                    Log.d(TAG, "Bookmarked");
+                    dbSingleton.addBookmarks(session.getId());
+                    item.setIcon(R.drawable.ic_star_bookmark);
+                }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -115,6 +114,15 @@ public class SessionDetailActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_session_detail, menu);
+        DbSingleton dbSingleton = DbSingleton.getInstance();
+        MenuItem item = menu.findItem(R.id.bookmark_status);
+        if (dbSingleton.isBookmarked(session.getId())) {
+            Log.d(TAG, "Bookmarked");
+            item.setIcon(R.drawable.ic_star_bookmark);
+        } else {
+            Log.d(TAG, "Bookmark Removed");
+            item.setIcon(R.drawable.ic_star_border_bookmark);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
