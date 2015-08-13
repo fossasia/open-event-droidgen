@@ -315,15 +315,15 @@ public class DbContract {
     public static abstract class Bookmarks implements BaseColumns {
         public static final String TABLE_NAME = "bookmarks";
 
-        public static final String TRACKS_ID = "tracks_id";
+        public static final String SESSION_ID = "session_id";
         public static final String[] FULL_PROJECTION = {
-                TRACKS_ID
+                SESSION_ID
         };
 
         public static final String CREATE_TABLE =
                 "CREATE TABLE " + TABLE_NAME
                         + " ("
-                        + TRACKS_ID + INT_TYPE + PRIMARY_KEY
+                        + SESSION_ID + INT_TYPE + PRIMARY_KEY
                         + " );";
         public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
 
