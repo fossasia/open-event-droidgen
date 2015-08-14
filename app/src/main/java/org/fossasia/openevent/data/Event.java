@@ -19,10 +19,10 @@ public class Event {
 
     String logo;
 
-    @SerializedName("start_time")
+    @SerializedName("begin")
     String start;
 
-    @SerializedName("end_time")
+    @SerializedName("end")
     String end;
 
     float latitude;

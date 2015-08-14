@@ -31,6 +31,7 @@ public class TrackListResponseProcessor implements Callback<TrackResponseList> {
             public void run() {
                 ArrayList<String> queries = new ArrayList<>();
 
+                Log.d(TAG, "run" + tracksResponseList.tracks.size());
                 for (Track track : tracksResponseList.tracks) {
                     String query = track.generateSql();
                     queries.add(query);

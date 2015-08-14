@@ -47,9 +47,9 @@ public class Sponsor {
                 query_normal,
                 DbContract.Sponsors.TABLE_NAME,
                 id,
-                DatabaseUtils.sqlEscapeString(name),
-                DatabaseUtils.sqlEscapeString(url),
-                DatabaseUtils.sqlEscapeString(logo));
+                DatabaseUtils.sqlEscapeString(name+""),
+                DatabaseUtils.sqlEscapeString(url+""),
+                DatabaseUtils.sqlEscapeString(logo+""));
         return query;
     }
 }

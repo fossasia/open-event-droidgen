@@ -27,7 +27,6 @@ import java.util.List;
  */
 public class SpeakersActivity extends AppCompatActivity {
     SessionsListAdapter sessionsListAdapter;
-    private String speaker;
     private Speaker selectedSpeaker;
 
 
@@ -36,7 +35,7 @@ public class SpeakersActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_speakers);
         DbSingleton dbSingleton = DbSingleton.getInstance();
-        speaker = getIntent().getStringExtra(Speaker.SPEAKER);
+        String speaker = getIntent().getStringExtra(Speaker.SPEAKER);
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_speakers);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
