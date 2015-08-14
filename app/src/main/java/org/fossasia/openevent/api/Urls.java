@@ -10,9 +10,9 @@ public abstract class Urls {
     /**
      * Change Event Id Here *
      */
-    public static final int EVENT_ID = 3;
+    public static final int EVENT_ID = 1;
 
-    public static final String BASE_URL = "http://open-event.herokuapp.com";
+    public static final String BASE_URL = "http://springboard.championswimmer.in";
 
     public static final String BASE_GET_URL = BASE_URL + "/api/" + API_VERSION;
 
