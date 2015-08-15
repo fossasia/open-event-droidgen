@@ -50,18 +50,17 @@ public class DatabaseTest extends AndroidTestCase {
                 "mananwason.me", "twitter.com/mananwason", "facebook.com/mananwason",
                 "github.com/mananwason", "linkedin.com/mananwason", "fossasia", "gsoc student", null, "india");
         String speakerQuery = speaker.generateSql();
-        Log.d("speaekr", speakerQuery);
+        Log.d("speaker", speakerQuery);
         queries.add(speakerQuery);
 
         Microlocation microlocation = new Microlocation(4, "moscone centre", 35.6f, 112.5f, 2);
         String microlocationQuery = microlocation.generateSql();
         Log.d("micro", microlocationQuery);
-        int[] speakers_array = {1};
         queries.add(microlocationQuery);
 
         Session session = new Session(5, "abcd", "abc", "abcdefgh", "sdfjs dsjfnjs",
                 "2015-06-05T00:00:00", "2015-06-06T00:00:00", "abcde", 1,
-                "3", speakers_array, 2);
+                "3", 2);
 
         String sessionQuery = session.generateSql();
         Log.d("session", sessionQuery);
