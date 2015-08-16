@@ -36,21 +36,6 @@
             android:label="@string/title_section_speakerlist"/>
 
         <activity
-            android:name=".activities.SearchResultsActivity"
-            android:label="@string/app_name"
-            android:launchMode="singleTop">
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH"/>
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-            </intent-filter>
-
-            <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/searchable"/>
-        </activity>
-        <activity
             android:name=".activities.SessionDetailActivity"
             android:label="@string/session"/>
     </application>

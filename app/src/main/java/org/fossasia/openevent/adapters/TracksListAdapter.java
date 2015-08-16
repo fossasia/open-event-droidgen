@@ -53,6 +53,56 @@ public class TracksListAdapter extends RecyclerView.Adapter<TracksListAdapter.Vi
         notifyDataSetChanged();
 
     }
+    public void animateTo(List<Track> models) {
+        applyAndAnimateRemovals(models);
+        applyAndAnimateAdditions(models);
+        applyAndAnimateMovedItems(models);
+    }
+
+    private void applyAndAnimateRemovals(List<Track> newModels) {
+        for (int i = tracks.size() - 1; i >= 0; i--) {
+            final Track model = tracks.get(i);
+            Log.d("SEARCH", model.getName());
+            if (!newModels.contains(model)) {
+                removeItem(i);
+            }
+        }
+    }
+
+    private void applyAndAnimateAdditions(List<Track> newTracks) {
+        for (int i = 0, count = newTracks.size(); i < count; i++) {
+            final Track model = newTracks.get(i);
+            if (!tracks.contains(model)) {
+                addItem(i, model);
+            }
+        }
+    }
+
+    private void applyAndAnimateMovedItems(List<Track> newModels) {
+        for (int toPosition = newModels.size() - 1; toPosition >= 0; toPosition--) {
+            final Track model = newModels.get(toPosition);
+            final int fromPosition = tracks.indexOf(model);
+            if (fromPosition >= 0 && fromPosition != toPosition) {
+                moveItem(fromPosition, toPosition);
+            }
+        }
+    }
+
+    public Track removeItem(int position) {
+        final Track model = tracks.remove(position);
+        notifyItemRemoved(position);
+        return model;
+    }
+
+    public void addItem(int position, Track model) {
+        tracks.add(position, model);
+        notifyItemInserted(position);
+    }
+    public void moveItem(int fromPosition, int toPosition) {
+        final Track model = tracks.remove(fromPosition);
+        tracks.add(toPosition, model);
+        notifyItemMoved(fromPosition, toPosition);
+    }
 
     class Viewholder extends RecyclerView.ViewHolder {
         TextView title;
