@@ -4,11 +4,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +26,7 @@ import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.adapters.TracksListAdapter;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.activities.TracksActivity;
+import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DataDownload;
 import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.dbutils.DbSingleton;
@@ -29,14 +35,19 @@ import org.fossasia.openevent.events.TracksDownloadEvent;
 import org.fossasia.openevent.utils.IntentStrings;
 import org.fossasia.openevent.utils.RecyclerItemClickListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by MananWason on 05-06-2015.
  */
-public class TracksFragment extends Fragment {
+public class TracksFragment extends Fragment implements SearchView.OnQueryTextListener{
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView tracksRecyclerView;
     private TracksListAdapter tracksListAdapter;
+    private List<Track> mTracks;
+    private SearchView searchView;
 
 
     @Override
@@ -46,7 +57,8 @@ public class TracksFragment extends Fragment {
         OpenEventApp.getEventBus().register(this);
         tracksRecyclerView = (RecyclerView) view.findViewById(R.id.list_tracks);
         final DbSingleton dbSingleton = DbSingleton.getInstance();
-        tracksListAdapter = new TracksListAdapter(dbSingleton.getTrackList());
+        mTracks = dbSingleton.getTrackList();
+        tracksListAdapter = new TracksListAdapter(mTracks);
         tracksRecyclerView.setAdapter(tracksListAdapter);
 
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.tracks_swipe_refresh);
@@ -81,6 +93,46 @@ public class TracksFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
+        inflater.inflate(R.menu.menu_tracks,menu);
+        final MenuItem item = menu.findItem(R.id.action_search_tracks);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+        searchView.setOnQueryTextListener(this);
+    }
+
+    @Override
+    public boolean onQueryTextChange(String query) {
+        DbSingleton dbSingleton = DbSingleton.getInstance();
+        if (!TextUtils.isEmpty(query)) {
+            mTracks.clear();
+            mTracks = dbSingleton.getTrackList();
+            filter(mTracks,query);
+        }
+        final List<Track> filteredModelList = filter(mTracks, query);
+        tracksListAdapter.animateTo(filteredModelList);
+        tracksRecyclerView.scrollToPosition(0);
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    private List<Track> filter(List<Track> tracks, String query) {
+        query = query.toLowerCase();
+
+        final List<Track> filteredTracksList = new ArrayList<>();
+        for (Track track : tracks) {
+            final String text = track.getName().toLowerCase();
+            if (text.contains(query)) {
+                filteredTracksList.add(track);
+            }
+        }
+        return filteredTracksList;
+    }
 
     @Subscribe
     public void RefreshData(RefreshUiEvent event) {

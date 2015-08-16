@@ -183,7 +183,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupDrawerContent(NavigationView navigationView, final Menu menu) {
-        final MenuInflater inflater = getMenuInflater();
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -197,25 +196,21 @@ public class MainActivity extends AppCompatActivity {
                                 fragmentManager.beginTransaction()
                                         .replace(R.id.content_frame, new TracksFragment()).commit();
                                 getSupportActionBar().setTitle(R.string.menu_tracks);
-                                inflater.inflate(R.menu.menu_tracks, menu);
                                 break;
                             case R.id.nav_bookmarks:
                                 fragmentManager.beginTransaction()
                                         .replace(R.id.content_frame, new BookmarksFragment()).commit();
                                 getSupportActionBar().setTitle(R.string.menu_bookmarks);
-                                inflater.inflate(R.menu.menu_bookmarks, menu);
                                 break;
                             case R.id.nav_speakers:
                                 fragmentManager.beginTransaction()
                                         .replace(R.id.content_frame, new SpeakerFragment()).commit();
                                 getSupportActionBar().setTitle(R.string.menu_speakers);
-                                inflater.inflate(R.menu.menu_speakers, menu);
                                 break;
                             case R.id.nav_sponsors:
                                 fragmentManager.beginTransaction()
                                         .replace(R.id.content_frame, new SponsorsFragment()).commit();
                                 getSupportActionBar().setTitle(R.string.menu_sponsor);
-                                inflater.inflate(R.menu.menu_sponsors, menu);
                                 break;
                             case R.id.nav_map:
                                 Bundle latlng = new Bundle();
@@ -238,7 +233,6 @@ public class MainActivity extends AppCompatActivity {
                                                 .provideMapModule()
                                                 .provideMapFragment()).commit();
                                 getSupportActionBar().setTitle(R.string.menu_map);
-                                inflater.inflate(R.menu.menu_map, menu);
                                 break;
                         }
                         mDrawerLayout.closeDrawers();
