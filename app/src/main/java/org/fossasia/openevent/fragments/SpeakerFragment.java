@@ -11,7 +11,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,20 +20,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
 import org.fossasia.openevent.OpenEventApp;
-import org.fossasia.openevent.adapters.SpeakersListAdapter;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.activities.SpeakersActivity;
+import org.fossasia.openevent.adapters.SpeakersListAdapter;
 import org.fossasia.openevent.data.Speaker;
-import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DataDownload;
 import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.SpeakerDownloadEvent;
-import org.fossasia.openevent.events.TracksDownloadEvent;
 import org.fossasia.openevent.utils.RecyclerItemClickListener;
 
 import java.util.ArrayList;

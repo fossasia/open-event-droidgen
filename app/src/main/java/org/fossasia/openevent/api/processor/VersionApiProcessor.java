@@ -2,8 +2,6 @@ package org.fossasia.openevent.api.processor;
 
 import android.util.Log;
 
-import com.squareup.otto.Bus;
-
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.api.protocol.VersionResponseList;
 import org.fossasia.openevent.data.Version;
@@ -11,7 +9,6 @@ import org.fossasia.openevent.dbutils.DataDownload;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.CantDownloadEvent;
 import org.fossasia.openevent.events.CounterEvent;
-import org.fossasia.openevent.events.NoInternetEvent;
 import org.fossasia.openevent.utils.CommonTaskLoop;
 
 import java.util.ArrayList;

@@ -1,7 +1,6 @@
 package org.fossasia.openevent.adapters;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +52,7 @@ public class TracksListAdapter extends RecyclerView.Adapter<TracksListAdapter.Vi
         notifyDataSetChanged();
 
     }
+
     public void animateTo(List<Track> tracks) {
         applyAndAnimateRemovals(tracks);
         applyAndAnimateAdditions(tracks);
@@ -97,6 +97,7 @@ public class TracksListAdapter extends RecyclerView.Adapter<TracksListAdapter.Vi
         tracks.add(position, track);
         notifyItemInserted(position);
     }
+
     public void moveItem(int fromPosition, int toPosition) {
         final Track track = tracks.remove(fromPosition);
         tracks.add(toPosition, track);

@@ -9,8 +9,8 @@ public class DownloadCounter {
     public int counter = 0;
 
     public void incrementValue() {
-        counter ++;
-        Log.d("Counter increment val", counter+"");
+        counter++;
+        Log.d("Counter increment val", counter + "");
 
     }
 }
