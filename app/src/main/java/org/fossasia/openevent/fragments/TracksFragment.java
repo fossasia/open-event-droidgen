@@ -41,13 +41,12 @@ import java.util.List;
 /**
  * Created by MananWason on 05-06-2015.
  */
-public class TracksFragment extends Fragment implements SearchView.OnQueryTextListener{
+public class TracksFragment extends Fragment implements SearchView.OnQueryTextListener {
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView tracksRecyclerView;
     private TracksListAdapter tracksListAdapter;
     private List<Track> mTracks;
-    private SearchView searchView;
 
 
     @Override
@@ -89,14 +88,13 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear();
-        inflater.inflate(R.menu.menu_tracks,menu);
+        inflater.inflate(R.menu.menu_tracks, menu);
         final MenuItem item = menu.findItem(R.id.action_search_tracks);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
         searchView.setOnQueryTextListener(this);
@@ -105,12 +103,11 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
     @Override
     public boolean onQueryTextChange(String query) {
         DbSingleton dbSingleton = DbSingleton.getInstance();
-        if (!TextUtils.isEmpty(query)) {
-            mTracks.clear();
-            mTracks = dbSingleton.getTrackList();
-            filter(mTracks,query);
-        }
+
+        mTracks = dbSingleton.getTrackList();
         final List<Track> filteredModelList = filter(mTracks, query);
+        Log.d("xyz", mTracks.size() + " " + filteredModelList.size());
+
         tracksListAdapter.animateTo(filteredModelList);
         tracksRecyclerView.scrollToPosition(0);
         return true;

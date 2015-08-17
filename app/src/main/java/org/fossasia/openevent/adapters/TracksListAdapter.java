@@ -53,17 +53,16 @@ public class TracksListAdapter extends RecyclerView.Adapter<TracksListAdapter.Vi
         notifyDataSetChanged();
 
     }
-    public void animateTo(List<Track> models) {
-        applyAndAnimateRemovals(models);
-        applyAndAnimateAdditions(models);
-        applyAndAnimateMovedItems(models);
+    public void animateTo(List<Track> tracks) {
+        applyAndAnimateRemovals(tracks);
+        applyAndAnimateAdditions(tracks);
+        applyAndAnimateMovedItems(tracks);
     }
 
-    private void applyAndAnimateRemovals(List<Track> newModels) {
+    private void applyAndAnimateRemovals(List<Track> newTracks) {
         for (int i = tracks.size() - 1; i >= 0; i--) {
-            final Track model = tracks.get(i);
-            Log.d("SEARCH", model.getName());
-            if (!newModels.contains(model)) {
+            final Track track = tracks.get(i);
+            if (!newTracks.contains(track)) {
                 removeItem(i);
             }
         }
@@ -71,17 +70,17 @@ public class TracksListAdapter extends RecyclerView.Adapter<TracksListAdapter.Vi
 
     private void applyAndAnimateAdditions(List<Track> newTracks) {
         for (int i = 0, count = newTracks.size(); i < count; i++) {
-            final Track model = newTracks.get(i);
-            if (!tracks.contains(model)) {
-                addItem(i, model);
+            final Track track = newTracks.get(i);
+            if (!tracks.contains(track)) {
+                addItem(i, track);
             }
         }
     }
 
     private void applyAndAnimateMovedItems(List<Track> newModels) {
         for (int toPosition = newModels.size() - 1; toPosition >= 0; toPosition--) {
-            final Track model = newModels.get(toPosition);
-            final int fromPosition = tracks.indexOf(model);
+            final Track track = newModels.get(toPosition);
+            final int fromPosition = tracks.indexOf(track);
             if (fromPosition >= 0 && fromPosition != toPosition) {
                 moveItem(fromPosition, toPosition);
             }
@@ -89,18 +88,18 @@ public class TracksListAdapter extends RecyclerView.Adapter<TracksListAdapter.Vi
     }
 
     public Track removeItem(int position) {
-        final Track model = tracks.remove(position);
+        final Track track = tracks.remove(position);
         notifyItemRemoved(position);
-        return model;
+        return track;
     }
 
-    public void addItem(int position, Track model) {
-        tracks.add(position, model);
+    public void addItem(int position, Track track) {
+        tracks.add(position, track);
         notifyItemInserted(position);
     }
     public void moveItem(int fromPosition, int toPosition) {
-        final Track model = tracks.remove(fromPosition);
-        tracks.add(toPosition, model);
+        final Track track = tracks.remove(fromPosition);
+        tracks.add(toPosition, track);
         notifyItemMoved(fromPosition, toPosition);
     }
 
