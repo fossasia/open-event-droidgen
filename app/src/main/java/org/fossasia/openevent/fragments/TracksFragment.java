@@ -9,7 +9,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,13 +18,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
 import org.fossasia.openevent.OpenEventApp;
-import org.fossasia.openevent.adapters.TracksListAdapter;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.activities.TracksActivity;
+import org.fossasia.openevent.adapters.TracksListAdapter;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DataDownload;
 import org.fossasia.openevent.dbutils.DbContract;
@@ -134,7 +132,6 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
     @Subscribe
     public void RefreshData(RefreshUiEvent event) {
         tracksListAdapter.refresh();
-        Log.d("counter", "REfresh");
     }
 
     @Subscribe
@@ -143,11 +140,9 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
         swipeRefreshLayout.setRefreshing(false);
         if (event.isState()) {
             tracksListAdapter.refresh();
-            Log.d("counter", "REfresh done");
 
         } else {
             Snackbar.make(getView(), getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).show();
-            Log.d("counter", "REfresh not done");
 
         }
     }

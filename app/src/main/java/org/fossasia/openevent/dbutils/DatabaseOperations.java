@@ -3,7 +3,6 @@ package org.fossasia.openevent.dbutils;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import org.fossasia.openevent.data.Event;
 import org.fossasia.openevent.data.Microlocation;

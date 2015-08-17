@@ -17,8 +17,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import org.fossasia.openevent.adapters.SessionsListAdapter;
 import org.fossasia.openevent.R;
+import org.fossasia.openevent.adapters.SessionsListAdapter;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DbSingleton;
