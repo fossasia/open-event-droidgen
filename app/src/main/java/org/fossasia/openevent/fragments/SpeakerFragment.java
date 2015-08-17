@@ -6,11 +6,17 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -23,6 +29,7 @@ import org.fossasia.openevent.adapters.SpeakersListAdapter;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.activities.SpeakersActivity;
 import org.fossasia.openevent.data.Speaker;
+import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DataDownload;
 import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.dbutils.DbSingleton;
@@ -30,29 +37,33 @@ import org.fossasia.openevent.events.SpeakerDownloadEvent;
 import org.fossasia.openevent.events.TracksDownloadEvent;
 import org.fossasia.openevent.utils.RecyclerItemClickListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the factory method to
  * create an instance of this fragment.
  */
-public class SpeakerFragment extends Fragment {
-    private SwipeRefreshLayout swipeRefreshLayout;
+public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextListener {
 
+    private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView speakersRecyclerView;
     private SpeakersListAdapter speakersListAdapter;
+    private List<Speaker> mSpeakers;
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Bus bus = OpenEventApp.getEventBus();
-        bus.register(this);
-
+        setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.list_speakers, container, false);
+        OpenEventApp.getEventBus().register(this);
         speakersRecyclerView = (RecyclerView) view.findViewById(R.id.rv_speakers);
         final DbSingleton dbSingleton = DbSingleton.getInstance();
-        speakersListAdapter = new SpeakersListAdapter(dbSingleton.getSpeakerList());
+        mSpeakers = dbSingleton.getSpeakerList();
+        speakersListAdapter = new SpeakersListAdapter(mSpeakers);
         speakersRecyclerView.setAdapter(speakersListAdapter);
-        speakersRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.speaker_swipe_refresh);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -64,6 +75,8 @@ public class SpeakerFragment extends Fragment {
 
             }
         });
+
+        speakersRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         speakersRecyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(view.getContext(),
                         new RecyclerItemClickListener.OnItemClickListener() {
@@ -75,9 +88,23 @@ public class SpeakerFragment extends Fragment {
                                 startActivity(intent);
                             }
                         }));
+
         return view;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
+        inflater.inflate(R.menu.menu_speakers, menu);
+        final MenuItem item = menu.findItem(R.id.action_search_speakers);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+        searchView.setOnQueryTextListener(this);
+    }
 
     @Subscribe
     public void speakerDownloadDone(SpeakerDownloadEvent event) {
@@ -92,5 +119,38 @@ public class SpeakerFragment extends Fragment {
             Log.d("countersp", "Refresh not done");
 
         }
+    }
+
+    private List<Speaker> filter(List<Speaker> speakers, String query) {
+        query = query.toLowerCase();
+
+        final List<Speaker> filteredSpeakersList = new ArrayList<>();
+        for (Speaker speaker : speakers) {
+            final String text = speaker.getName().toLowerCase();
+            Log.d("XYZ speaker", text);
+            if (text.contains(query)) {
+                filteredSpeakersList.add(speaker);
+            }
+        }
+        return filteredSpeakersList;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String query) {
+        DbSingleton dbSingleton = DbSingleton.getInstance();
+
+        mSpeakers = dbSingleton.getSpeakerList();
+        final List<Speaker> filteredSpeakersList = filter(mSpeakers, query);
+        Log.d("XYZ speaker", mSpeakers.size() + " " + filteredSpeakersList.size());
+
+        speakersListAdapter.animateTo(filteredSpeakersList);
+        speakersRecyclerView.scrollToPosition(0);
+        return true;
     }
 }
