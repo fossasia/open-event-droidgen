@@ -126,7 +126,6 @@ public class TracksActivity extends AppCompatActivity implements SearchView.OnQu
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_sessions_activity, menu);
 
-
         SearchView searchView =
                 (SearchView) menu.findItem(R.id.action_search_sessions).getActionView();
         searchView.setOnQueryTextListener(this);

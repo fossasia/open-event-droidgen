@@ -124,7 +124,7 @@ public class DbSingleton {
         return databaseOperations.getSessionbyTracksname(trackName, mDb);
     }
 
-    public ArrayList<Session> getSessionbySpeakersName(String speakerName) throws ParseException {
+    public ArrayList<Session> getSessionbySpeakersName(String speakerName)  {
         return databaseOperations.getSessionbySpeakersname(speakerName, mDb);
     }
 
