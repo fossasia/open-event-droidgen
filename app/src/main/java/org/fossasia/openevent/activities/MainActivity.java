@@ -39,6 +39,7 @@ import org.fossasia.openevent.events.SpeakerDownloadEvent;
 import org.fossasia.openevent.events.SponsorDownloadEvent;
 import org.fossasia.openevent.events.TracksDownloadEvent;
 import org.fossasia.openevent.fragments.BookmarksFragment;
+import org.fossasia.openevent.fragments.LocationsFragment;
 import org.fossasia.openevent.fragments.SpeakerFragment;
 import org.fossasia.openevent.fragments.SponsorsFragment;
 import org.fossasia.openevent.fragments.TracksFragment;
@@ -210,6 +211,11 @@ public class MainActivity extends AppCompatActivity {
                                 fragmentManager.beginTransaction()
                                         .replace(R.id.content_frame, new SponsorsFragment()).commit();
                                 getSupportActionBar().setTitle(R.string.menu_sponsor);
+                                break;
+                            case R.id.nav_locations:
+                                fragmentManager.beginTransaction()
+                                        .replace(R.id.content_frame, new LocationsFragment()).commit();
+                                getSupportActionBar().setTitle(R.string.menu_locations);
                                 break;
                             case R.id.nav_map:
                                 Bundle latlng = new Bundle();

@@ -32,6 +32,9 @@
             android:name=".activities.TracksActivity"
             android:label="@string/title_section_tracks"/>
         <activity
+            android:name=".activities.LocationActivtiy"
+            android:label="@string/title_section_location"/>
+        <activity
             android:name=".activities.SpeakersActivity"
             android:label="@string/title_section_speakerlist"/>
 
