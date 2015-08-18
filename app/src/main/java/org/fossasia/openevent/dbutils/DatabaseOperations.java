@@ -303,7 +303,38 @@ public class DatabaseOperations {
     }
 
 
-    public ArrayList<Session> getSessionbyTracksname(String trackName, SQLiteDatabase mDb){
+    public ArrayList<Microlocation> getMicrolocationsList(SQLiteDatabase mDb) {
+        String sortOrder = DbContract.Microlocation.NAME + ASCENDING;
+        Cursor cursor = mDb.query(
+                DbContract.Microlocation.TABLE_NAME,
+                DbContract.Microlocation.FULL_PROJECTION,
+                null,
+                null,
+                null,
+                null,
+                sortOrder
+        );
+
+        ArrayList<Microlocation> microlocations = new ArrayList<>();
+        Microlocation microlocation;
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            microlocation = new Microlocation(
+                    cursor.getInt(cursor.getColumnIndex(DbContract.Microlocation.ID)),
+                    cursor.getString(cursor.getColumnIndex(DbContract.Microlocation.NAME)),
+                    cursor.getFloat(cursor.getColumnIndex(DbContract.Microlocation.LATITUDE)),
+                    cursor.getFloat(cursor.getColumnIndex(DbContract.Microlocation.LONGITUDE)),
+                    cursor.getInt(cursor.getColumnIndex(DbContract.Microlocation.FLOOR))
+            );
+            microlocations.add(microlocation);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return microlocations;
+    }
+
+    public ArrayList<Session> getSessionbyTracksname(String trackName, SQLiteDatabase mDb) {
         String tracksColumnSelection = DbContract.Tracks.NAME + EQUAL + DatabaseUtils.sqlEscapeString(trackName);
         String[] columns = {DbContract.Tracks.ID, DbContract.Tracks.NAME};
         Cursor tracksCursor = mDb.query(
@@ -568,6 +599,96 @@ public class DatabaseOperations {
         cursor.close();
         return event;
 
+    }
+
+    public Microlocation getLocationByName(String speakerName, SQLiteDatabase mDb) throws ParseException {
+        String locationColumnSelection = DbContract.Microlocation.NAME + EQUAL + DatabaseUtils.sqlEscapeString(speakerName);
+        Cursor locationCursor = mDb.query(
+                DbContract.Microlocation.TABLE_NAME,
+                DbContract.Microlocation.FULL_PROJECTION,
+                locationColumnSelection,
+                null,
+                null,
+                null,
+                null
+        );
+        Microlocation location;
+        locationCursor.moveToFirst();
+        location = new Microlocation(
+                locationCursor.getInt(locationCursor.getColumnIndex(DbContract.Microlocation.ID)),
+                locationCursor.getString(locationCursor.getColumnIndex(DbContract.Microlocation.NAME)),
+                locationCursor.getFloat(locationCursor.getColumnIndex(DbContract.Microlocation.LATITUDE)),
+                locationCursor.getFloat(locationCursor.getColumnIndex(DbContract.Microlocation.LONGITUDE)),
+                locationCursor.getInt(locationCursor.getColumnIndex(DbContract.Microlocation.FLOOR))
+        );
+
+        locationCursor.close();
+        return location;
+    }
+
+    public ArrayList<Session> getSessionbyLocationname(String locationName, SQLiteDatabase mDb) {
+        String locationColumnSelection = DbContract.Microlocation.NAME + EQUAL + DatabaseUtils.sqlEscapeString(locationName);
+        String[] columns = {DbContract.Microlocation.ID, DbContract.Speakers.NAME};
+        Cursor cursor = mDb.query(
+                DbContract.Microlocation.TABLE_NAME,
+                columns,
+                locationColumnSelection,
+                null,
+                null,
+                null,
+                null
+        );
+        int locationSelected;
+        cursor.moveToFirst();
+        locationSelected = cursor.getInt(cursor.getColumnIndex(DbContract.Microlocation.ID));
+
+        cursor.close();
+
+        //Select rows having location id same as that obtained previously
+        String sessionColumnSelection = DbContract.Sessions.MICROLOCATION + EQUAL + locationSelected;
+
+
+        Cursor sessionCursor = mDb.query(
+                DbContract.Sessions.TABLE_NAME,
+                DbContract.Sessions.FULL_PROJECTION,
+                sessionColumnSelection,
+                null,
+                null,
+                null,
+                null
+        );
+
+        ArrayList<Session> sessions = new ArrayList<>();
+        Session s;
+        sessionCursor.moveToFirst();
+        if (cursor.getCount() > 0) {
+            while (!sessionCursor.isAfterLast()) {
+                try {
+                    s = new Session(
+                            sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.ID)),
+                            sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.TITLE)),
+                            sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.SUBTITLE)),
+                            sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.SUMMARY)),
+                            sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.DESCRIPTION)),
+                            sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.START_TIME)),
+                            sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.END_TIME)),
+                            sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.TYPE)),
+                            sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.TRACK)),
+                            sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.LEVEL)),
+                            sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.MICROLOCATION))
+                    );
+                    sessions.add(s);
+
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                sessionCursor.moveToNext();
+            }
+        } else {
+            return sessions;
+        }
+        sessionCursor.close();
+        return sessions;
     }
 
     public ArrayList<Speaker> getSpeakersbySessionName(String sessionName, SQLiteDatabase mDb) throws ParseException {
