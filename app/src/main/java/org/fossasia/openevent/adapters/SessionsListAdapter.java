@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.data.Session;
+import org.fossasia.openevent.data.Speaker;
 
 import java.util.List;
 
@@ -42,7 +43,56 @@ public class SessionsListAdapter extends RecyclerView.Adapter<SessionsListAdapte
     public int getItemCount() {
         return sessions.size();
     }
+    public void animateTo(List<Session> sessions) {
+        applyAndAnimateRemovals(sessions);
+        applyAndAnimateAdditions(sessions);
+        applyAndAnimateMovedItems(sessions);
+    }
 
+    private void applyAndAnimateRemovals(List<Session> newSessions) {
+        for (int i = sessions.size() - 1; i >= 0; i--) {
+            final Session speaker = sessions.get(i);
+            if (!newSessions.contains(speaker)) {
+                removeItem(i);
+            }
+        }
+    }
+
+    private void applyAndAnimateAdditions(List<Session> newSessions) {
+        for (int i = 0, count = newSessions.size(); i < count; i++) {
+            final Session speaker = newSessions.get(i);
+            if (!sessions.contains(speaker)) {
+                addItem(i, speaker);
+            }
+        }
+    }
+
+    private void applyAndAnimateMovedItems(List<Session> newSessions) {
+        for (int toPosition = newSessions.size() - 1; toPosition >= 0; toPosition--) {
+            final Session speaker = newSessions.get(toPosition);
+            final int fromPosition = sessions.indexOf(speaker);
+            if (fromPosition >= 0 && fromPosition != toPosition) {
+                moveItem(fromPosition, toPosition);
+            }
+        }
+    }
+
+    public Session removeItem(int position) {
+        final Session speaker = sessions.remove(position);
+        notifyItemRemoved(position);
+        return speaker;
+    }
+
+    public void addItem(int position, Session speaker) {
+        sessions.add(position, speaker);
+        notifyItemInserted(position);
+    }
+
+    public void moveItem(int fromPosition, int toPosition) {
+        final Session speaker = sessions.remove(fromPosition);
+        sessions.add(toPosition, speaker);
+        notifyItemMoved(fromPosition, toPosition);
+    }
     class Viewholder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView sessionName;
         TextView sessionSummary;

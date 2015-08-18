@@ -37,7 +37,12 @@
 
         <activity
             android:name=".activities.SessionDetailActivity"
-            android:label="@string/session"/>
+            android:label="@string/session">
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable"/>
+
+        </activity>
     </application>
 
 </manifest>
