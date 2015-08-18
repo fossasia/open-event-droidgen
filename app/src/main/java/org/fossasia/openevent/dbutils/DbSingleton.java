@@ -120,7 +120,7 @@ public class DbSingleton {
         return databaseOperations.getMicroLocationById(id, mDb);
     }
 
-    public ArrayList<Session> getSessionbyTracksname(String trackName) throws ParseException {
+    public ArrayList<Session> getSessionbyTracksname(String trackName) {
         return databaseOperations.getSessionbyTracksname(trackName, mDb);
     }
 

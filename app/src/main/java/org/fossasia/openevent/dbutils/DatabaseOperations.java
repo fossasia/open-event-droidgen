@@ -303,7 +303,7 @@ public class DatabaseOperations {
     }
 
 
-    public ArrayList<Session> getSessionbyTracksname(String trackName, SQLiteDatabase mDb) throws ParseException {
+    public ArrayList<Session> getSessionbyTracksname(String trackName, SQLiteDatabase mDb){
         String tracksColumnSelection = DbContract.Tracks.NAME + EQUAL + DatabaseUtils.sqlEscapeString(trackName);
         String[] columns = {DbContract.Tracks.ID, DbContract.Tracks.NAME};
         Cursor tracksCursor = mDb.query(
@@ -340,20 +340,24 @@ public class DatabaseOperations {
         sessionCursor.moveToFirst();
         //Should return only one due to UNIQUE constraint
         while (!sessionCursor.isAfterLast()) {
-            session = new Session(
-                    sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.ID)),
-                    sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.TITLE)),
-                    sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.SUBTITLE)),
-                    sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.SUMMARY)),
-                    sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.DESCRIPTION)),
-                    sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.START_TIME)),
-                    sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.END_TIME)),
-                    sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.TYPE)),
-                    sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.TRACK)),
-                    sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.LEVEL)),
-                    sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.MICROLOCATION))
-            );
-            sessions.add(session);
+            try {
+                session = new Session(
+                        sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.ID)),
+                        sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.TITLE)),
+                        sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.SUBTITLE)),
+                        sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.SUMMARY)),
+                        sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.DESCRIPTION)),
+                        sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.START_TIME)),
+                        sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.END_TIME)),
+                        sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.TYPE)),
+                        sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.TRACK)),
+                        sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.LEVEL)),
+                        sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.MICROLOCATION))
+                );
+                sessions.add(session);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             sessionCursor.moveToNext();
         }
 
