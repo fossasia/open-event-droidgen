@@ -16,12 +16,11 @@ import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
 import org.fossasia.openevent.OpenEventApp;
-import org.fossasia.openevent.adapters.SponsorsListAdapter;
 import org.fossasia.openevent.R;
+import org.fossasia.openevent.adapters.SponsorsListAdapter;
 import org.fossasia.openevent.dbutils.DataDownload;
 import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.dbutils.DbSingleton;
-import org.fossasia.openevent.events.SpeakerDownloadEvent;
 import org.fossasia.openevent.events.SponsorDownloadEvent;
 
 /**

@@ -44,7 +44,7 @@ public class SpeakerIntent {
                 if (url.equals(null)) {
                     Log.d("url null", "ABC");
                     view.setVisibility(View.GONE);
-                    return ;
+                    return;
                 }
 
                 if ((!url.startsWith("https://") && !url.startsWith("http://")) && (!url.isEmpty())) {

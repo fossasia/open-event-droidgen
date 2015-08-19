@@ -64,9 +64,9 @@ public class Track {
                 query_normal,
                 DbContract.Tracks.TABLE_NAME,
                 id,
-                DatabaseUtils.sqlEscapeString(name+""),
-                DatabaseUtils.sqlEscapeString(description+""),
-                DatabaseUtils.sqlEscapeString(image+""));
+                DatabaseUtils.sqlEscapeString(name + ""),
+                DatabaseUtils.sqlEscapeString(description + ""),
+                DatabaseUtils.sqlEscapeString(image + ""));
         Log.d("tracks", query);
         return query;
 

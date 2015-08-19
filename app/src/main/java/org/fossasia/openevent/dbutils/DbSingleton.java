@@ -115,17 +115,26 @@ public class DbSingleton {
         return databaseOperations.getSponsorList(mDb);
     }
 
+    public ArrayList<Microlocation> getMicrolocationsList() {
+        getReadOnlyDatabase();
+        return databaseOperations.getMicrolocationsList(mDb);
+    }
+
     public Microlocation getMicrolocationById(int id) throws ParseException {
         getReadOnlyDatabase();
         return databaseOperations.getMicroLocationById(id, mDb);
     }
 
-    public ArrayList<Session> getSessionbyTracksname(String trackName) throws ParseException {
+    public ArrayList<Session> getSessionbyTracksname(String trackName) {
         return databaseOperations.getSessionbyTracksname(trackName, mDb);
     }
 
-    public ArrayList<Session> getSessionbySpeakersName(String speakerName) throws ParseException {
+    public ArrayList<Session> getSessionbySpeakersName(String speakerName)  {
         return databaseOperations.getSessionbySpeakersname(speakerName, mDb);
+    }
+
+    public ArrayList<Session> getSessionbyLocationName(String locationName)  {
+        return databaseOperations.getSessionbyLocationname(locationName, mDb);
     }
 
     public ArrayList<Speaker> getSpeakersbySessionName(String sessionName) throws ParseException {
@@ -151,6 +160,10 @@ public class DbSingleton {
 
     public ArrayList<Integer> getBookmarkIds() throws ParseException {
         return databaseOperations.getBookmarkIds(mDb);
+    }
+
+    public Microlocation getLocationByLocationname(String LocationName) throws ParseException {
+        return databaseOperations.getLocationByName(LocationName, mDb);
     }
 
     public void insertQueries(ArrayList<String> queries) {

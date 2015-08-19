@@ -22,14 +22,15 @@ import com.squareup.otto.Subscribe;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
+import org.fossasia.openevent.activities.LocationActivtiy;
 import org.fossasia.openevent.activities.TracksActivity;
-import org.fossasia.openevent.adapters.TracksListAdapter;
-import org.fossasia.openevent.data.Track;
+import org.fossasia.openevent.adapters.LocationsListAdapter;
+import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.dbutils.DataDownload;
 import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.events.MicrolocationDownloadEvent;
 import org.fossasia.openevent.events.RefreshUiEvent;
-import org.fossasia.openevent.events.TracksDownloadEvent;
 import org.fossasia.openevent.utils.IntentStrings;
 import org.fossasia.openevent.utils.RecyclerItemClickListener;
 
@@ -37,46 +38,44 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by MananWason on 05-06-2015.
+ * Created by MananWason on 8/18/2015.
  */
-public class TracksFragment extends Fragment implements SearchView.OnQueryTextListener {
-
-    private SwipeRefreshLayout swipeRefreshLayout;
-    private RecyclerView tracksRecyclerView;
-    private TracksListAdapter tracksListAdapter;
-    private List<Track> mTracks;
+public class LocationsFragment extends Fragment implements SearchView.OnQueryTextListener{private SwipeRefreshLayout swipeRefreshLayout;
+    private RecyclerView locationsRecyclerView;
+    private LocationsListAdapter locationsListAdapter;
+    private List<Microlocation> mLocations;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        View view = inflater.inflate(R.layout.list_tracks, container, false);
+        View view = inflater.inflate(R.layout.list_locations, container, false);
         OpenEventApp.getEventBus().register(this);
-        tracksRecyclerView = (RecyclerView) view.findViewById(R.id.list_tracks);
+        locationsRecyclerView = (RecyclerView) view.findViewById(R.id.list_locations);
         final DbSingleton dbSingleton = DbSingleton.getInstance();
-        mTracks = dbSingleton.getTrackList();
-        tracksListAdapter = new TracksListAdapter(mTracks);
-        tracksRecyclerView.setAdapter(tracksListAdapter);
+        mLocations = dbSingleton.getMicrolocationsList();
+        locationsListAdapter = new LocationsListAdapter(mLocations);
+        locationsRecyclerView.setAdapter(locationsListAdapter);
 
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.tracks_swipe_refresh);
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.locations_swipe_refresh);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 DataDownload download = new DataDownload();
-                dbSingleton.clearDatabase(DbContract.Tracks.TABLE_NAME);
-                download.downloadTracks();
+                dbSingleton.clearDatabase(DbContract.Microlocation.TABLE_NAME);
+                download.downloadMicrolocations();
 
             }
         });
 
-        tracksRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        tracksRecyclerView.addOnItemTouchListener(
+        locationsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        locationsRecyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(view.getContext(), new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        String title = ((TextView) view.findViewById(R.id.track_title)).getText().toString();
-                        Intent intent = new Intent(getActivity(), TracksActivity.class);
-                        intent.putExtra(IntentStrings.TRACK, title);
+                        String title = ((TextView) view.findViewById(R.id.location_name)).getText().toString();
+                        Intent intent = new Intent(getActivity(), LocationActivtiy.class);
+                        intent.putExtra(IntentStrings.MICROLOCATIONS, title);
                         startActivity(intent);
                     }
                 })
@@ -102,12 +101,12 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
     public boolean onQueryTextChange(String query) {
         DbSingleton dbSingleton = DbSingleton.getInstance();
 
-        mTracks = dbSingleton.getTrackList();
-        final List<Track> filteredModelList = filter(mTracks, query);
-        Log.d("xyz", mTracks.size() + " " + filteredModelList.size());
+        mLocations = dbSingleton.getMicrolocationsList();
+        final List<Microlocation> filteredModelList = filter(mLocations, query);
+        Log.d("xyz", mLocations.size() + " " + filteredModelList.size());
 
-        tracksListAdapter.animateTo(filteredModelList);
-        tracksRecyclerView.scrollToPosition(0);
+        locationsListAdapter.animateTo(filteredModelList);
+        locationsRecyclerView.scrollToPosition(0);
         return true;
     }
 
@@ -116,30 +115,30 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
         return false;
     }
 
-    private List<Track> filter(List<Track> tracks, String query) {
+    private List<Microlocation> filter(List<Microlocation> locations, String query) {
         query = query.toLowerCase();
 
-        final List<Track> filteredTracksList = new ArrayList<>();
-        for (Track track : tracks) {
-            final String text = track.getName().toLowerCase();
+        final List<Microlocation> filteredLocationsList = new ArrayList<>();
+        for (Microlocation microlocation : locations) {
+            final String text = microlocation.getName().toLowerCase();
             if (text.contains(query)) {
-                filteredTracksList.add(track);
+                filteredLocationsList.add(microlocation);
             }
         }
-        return filteredTracksList;
+        return filteredLocationsList;
     }
 
     @Subscribe
     public void RefreshData(RefreshUiEvent event) {
-        tracksListAdapter.refresh();
+        locationsListAdapter.refresh();
     }
 
     @Subscribe
-    public void TrackDownloadDone(TracksDownloadEvent event) {
+    public void LocationsDownloadDone(MicrolocationDownloadEvent event) {
 
         swipeRefreshLayout.setRefreshing(false);
         if (event.isState()) {
-            tracksListAdapter.refresh();
+            locationsListAdapter.refresh();
 
         } else {
             Snackbar.make(getView(), getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).show();

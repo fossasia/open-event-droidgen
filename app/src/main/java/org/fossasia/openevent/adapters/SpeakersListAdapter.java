@@ -21,6 +21,7 @@ import java.util.List;
  * Created by MananWason on 11-06-2015.
  */
 public class SpeakersListAdapter extends RecyclerView.Adapter<SpeakersListAdapter.ViewHolder> {
+
     List<Speaker> speakers;
 
     public SpeakersListAdapter(List<Speaker> speakers) {
@@ -32,7 +33,6 @@ public class SpeakersListAdapter extends RecyclerView.Adapter<SpeakersListAdapte
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.speakers_item, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
-
         return viewHolder;
     }
 
@@ -59,6 +59,57 @@ public class SpeakersListAdapter extends RecyclerView.Adapter<SpeakersListAdapte
     @Override
     public int getItemCount() {
         return speakers.size();
+    }
+
+    public void animateTo(List<Speaker> speakers) {
+        applyAndAnimateRemovals(speakers);
+        applyAndAnimateAdditions(speakers);
+        applyAndAnimateMovedItems(speakers);
+    }
+
+    private void applyAndAnimateRemovals(List<Speaker> newSpeakers) {
+        for (int i = speakers.size() - 1; i >= 0; i--) {
+            final Speaker speaker = speakers.get(i);
+            if (!newSpeakers.contains(speaker)) {
+                removeItem(i);
+            }
+        }
+    }
+
+    private void applyAndAnimateAdditions(List<Speaker> newSpeakers) {
+        for (int i = 0, count = newSpeakers.size(); i < count; i++) {
+            final Speaker speaker = newSpeakers.get(i);
+            if (!speakers.contains(speaker)) {
+                addItem(i, speaker);
+            }
+        }
+    }
+
+    private void applyAndAnimateMovedItems(List<Speaker> newSpeakers) {
+        for (int toPosition = newSpeakers.size() - 1; toPosition >= 0; toPosition--) {
+            final Speaker speaker = newSpeakers.get(toPosition);
+            final int fromPosition = speakers.indexOf(speaker);
+            if (fromPosition >= 0 && fromPosition != toPosition) {
+                moveItem(fromPosition, toPosition);
+            }
+        }
+    }
+
+    public Speaker removeItem(int position) {
+        final Speaker speaker = speakers.remove(position);
+        notifyItemRemoved(position);
+        return speaker;
+    }
+
+    public void addItem(int position, Speaker speaker) {
+        speakers.add(position, speaker);
+        notifyItemInserted(position);
+    }
+
+    public void moveItem(int fromPosition, int toPosition) {
+        final Speaker speaker = speakers.remove(fromPosition);
+        speakers.add(toPosition, speaker);
+        notifyItemMoved(fromPosition, toPosition);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
