@@ -1,7 +1,6 @@
 package org.fossasia.openevent.adapters;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,6 +51,57 @@ public class TracksListAdapter extends RecyclerView.Adapter<TracksListAdapter.Vi
         tracks = dbSingleton.getTrackList();
         notifyDataSetChanged();
 
+    }
+
+    public void animateTo(List<Track> tracks) {
+        applyAndAnimateRemovals(tracks);
+        applyAndAnimateAdditions(tracks);
+        applyAndAnimateMovedItems(tracks);
+    }
+
+    private void applyAndAnimateRemovals(List<Track> newTracks) {
+        for (int i = tracks.size() - 1; i >= 0; i--) {
+            final Track track = tracks.get(i);
+            if (!newTracks.contains(track)) {
+                removeItem(i);
+            }
+        }
+    }
+
+    private void applyAndAnimateAdditions(List<Track> newTracks) {
+        for (int i = 0, count = newTracks.size(); i < count; i++) {
+            final Track track = newTracks.get(i);
+            if (!tracks.contains(track)) {
+                addItem(i, track);
+            }
+        }
+    }
+
+    private void applyAndAnimateMovedItems(List<Track> newModels) {
+        for (int toPosition = newModels.size() - 1; toPosition >= 0; toPosition--) {
+            final Track track = newModels.get(toPosition);
+            final int fromPosition = tracks.indexOf(track);
+            if (fromPosition >= 0 && fromPosition != toPosition) {
+                moveItem(fromPosition, toPosition);
+            }
+        }
+    }
+
+    public Track removeItem(int position) {
+        final Track track = tracks.remove(position);
+        notifyItemRemoved(position);
+        return track;
+    }
+
+    public void addItem(int position, Track track) {
+        tracks.add(position, track);
+        notifyItemInserted(position);
+    }
+
+    public void moveItem(int fromPosition, int toPosition) {
+        final Track track = tracks.remove(fromPosition);
+        tracks.add(toPosition, track);
+        notifyItemMoved(fromPosition, toPosition);
     }
 
     class Viewholder extends RecyclerView.ViewHolder {

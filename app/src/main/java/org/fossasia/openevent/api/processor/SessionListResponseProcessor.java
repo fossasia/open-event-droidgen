@@ -2,8 +2,6 @@ package org.fossasia.openevent.api.processor;
 
 import android.util.Log;
 
-import com.squareup.otto.Bus;
-
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.api.protocol.SessionResponseList;
 import org.fossasia.openevent.data.Session;
