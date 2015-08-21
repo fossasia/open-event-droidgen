@@ -5,14 +5,10 @@
     tools:context=".MainActivity">
 
     <item
-        android:id="@+id/action_search_tracks"
+        android:id="@+id/action_search_locations"
         android:icon="@android:drawable/ic_menu_search"
         android:title="@string/search"
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="always" />
-    <item
-        android:id="@+id/share_tracks_url"
-        android:icon="@drawable/ic_share_white_24dp"
-        android:title="@string/share"
-        app:showAsAction="collapseActionView|ifRoom" />
+
 </menu>

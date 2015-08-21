@@ -1,6 +1,5 @@
 package org.fossasia.openevent.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -8,7 +7,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -76,11 +74,6 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
             case android.R.id.home:
                 finish();
                 return true;
-            case R.id.share_speakers:
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.putExtra(Intent.EXTRA_TEXT, selectedSpeaker.getGithub());
-                intent.setType("text/html");
-                startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -106,7 +99,6 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
 
         mSessions = dbSingleton.getSessionbySpeakersName(speaker);
         final List<Session> filteredModelList = filter(mSessions, query);
-        Log.d("xyz", mSessions.size() + " " + filteredModelList.size());
 
         sessionsListAdapter.animateTo(filteredModelList);
         sessionRecyclerView.scrollToPosition(0);

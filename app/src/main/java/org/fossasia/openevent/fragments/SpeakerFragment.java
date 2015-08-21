@@ -26,6 +26,7 @@ import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.activities.SpeakersActivity;
 import org.fossasia.openevent.adapters.SpeakersListAdapter;
+import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.dbutils.DataDownload;
 import org.fossasia.openevent.dbutils.DbContract;
@@ -90,8 +91,15 @@ public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextL
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
-    }
+        switch (item.getItemId()) {
+            case R.id.share_speakers_url:
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.putExtra(Intent.EXTRA_TEXT, Urls.WEB_APP_URL_BASIC + Urls.SPEAKERS);
+                intent.putExtra(Intent.EXTRA_SUBJECT, "Sharing URL");
+                intent.setType("text/plain");
+                startActivity(Intent.createChooser(intent, "Share URL"));
+        }
+        return super.onOptionsItemSelected(item);    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

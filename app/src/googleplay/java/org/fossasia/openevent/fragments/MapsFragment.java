@@ -1,10 +1,10 @@
 package org.fossasia.openevent.fragments;
 
+import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,6 +18,8 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.fossasia.openevent.R;
+import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.dbutils.DbSingleton;
 
 public class MapsFragment extends SupportMapFragment implements LocationListener {
@@ -33,14 +35,12 @@ public class MapsFragment extends SupportMapFragment implements LocationListener
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.d("MAP", "sd");
         DbSingleton dbSingleton = DbSingleton.getInstance();
         float latitude = dbSingleton.getEventDetails().getLatitude();
         float longitude = dbSingleton.getEventDetails().getLongitude();
         String location_title = dbSingleton.getEventDetails().getName();
 
         location = new LatLng(latitude, longitude);
-        Log.d("MAP", location.latitude + location.longitude + "");
 
         mMap = getMap();
         if (mMap != null) {
@@ -61,11 +61,21 @@ public class MapsFragment extends SupportMapFragment implements LocationListener
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
+        inflater.inflate(R.menu.menu_map, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return false;
+        switch (item.getItemId()) {
+            case R.id.share_map_url:
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.putExtra(Intent.EXTRA_TEXT, Urls.WEB_APP_URL_BASIC + Urls.MAP);
+                intent.putExtra(Intent.EXTRA_SUBJECT, "Sharing URL");
+                intent.setType("text/plain");
+                startActivity(Intent.createChooser(intent, "Share URL"));
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void launchDirections() {

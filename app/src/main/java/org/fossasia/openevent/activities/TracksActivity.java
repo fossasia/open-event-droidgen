@@ -80,7 +80,7 @@ public class TracksActivity extends AppCompatActivity implements SearchView.OnQu
             public void onClick(View view) {
                 Intent intent = new Intent();
                 intent.setAction(Intent.ACTION_SEND);
-                intent.putExtra(Intent.EXTRA_TEXT, Urls.WEB_APP_URL);
+                intent.putExtra(Intent.EXTRA_TEXT, Urls.WEB_APP_URL_BASIC + Urls.SESSIONS);
                 intent.setType("text/plain");
                 startActivity(Intent.createChooser(intent, "Share link to track"));
             }
