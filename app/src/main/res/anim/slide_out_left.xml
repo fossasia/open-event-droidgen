@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shareInterpolator="false">
+    <translate
+        android:duration="5000"
+        android:fromXDelta="0%"
+        android:toXDelta="-100%" />
+    <alpha
+        android:duration="5000"
+        android:fromAlpha="1.0"
+        android:toAlpha="0.0" />
+</set>

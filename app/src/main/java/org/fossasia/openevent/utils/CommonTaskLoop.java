@@ -1,7 +1,5 @@
 package org.fossasia.openevent.utils;
 
-import android.util.Log;
-
 /**
  * Created by MananWason on 8/3/2015.
  */
@@ -15,12 +13,10 @@ public class CommonTaskLoop {
     }
 
     public static CommonTaskLoop getInstance() {
-        Log.d("TASKLOOP", "Get instance");
         return ourInstance;
     }
 
     public void post(Runnable call) {
-        Log.d("TASKLOOP", "CALL POSTED");
         m_loop.post(call);
     }
 
