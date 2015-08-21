@@ -218,20 +218,8 @@ public class MainActivity extends AppCompatActivity {
                                 getSupportActionBar().setTitle(R.string.menu_locations);
                                 break;
                             case R.id.nav_map:
-                                Bundle latlng = new Bundle();
-                                DbSingleton dbSingleton = DbSingleton.getInstance();
-                                float latitude = dbSingleton.getEventDetails().getLatitude();
-                                float longitude = dbSingleton.getEventDetails().getLongitude();
-
-                                String location_name = dbSingleton.getEventDetails().getLocationName();
-                                latlng.putFloat(IntentStrings.LATITUDE, latitude);
-                                latlng.putFloat(IntentStrings.LONGITUDE, longitude);
-                                latlng.putString(IntentStrings.LOCATION, location_name);
-
                                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-                                Fragment fragment = new Fragment();
-                                fragment.setArguments(latlng);
                                 fragmentTransaction.replace(R.id.content_frame,
                                         ((OpenEventApp) getApplication())
                                                 .getMapModuleFactory()
