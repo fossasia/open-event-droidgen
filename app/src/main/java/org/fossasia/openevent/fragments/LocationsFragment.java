@@ -23,7 +23,6 @@ import com.squareup.otto.Subscribe;
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.activities.LocationActivtiy;
-import org.fossasia.openevent.activities.TracksActivity;
 import org.fossasia.openevent.adapters.LocationsListAdapter;
 import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.dbutils.DataDownload;
@@ -40,7 +39,8 @@ import java.util.List;
 /**
  * Created by MananWason on 8/18/2015.
  */
-public class LocationsFragment extends Fragment implements SearchView.OnQueryTextListener{private SwipeRefreshLayout swipeRefreshLayout;
+public class LocationsFragment extends Fragment implements SearchView.OnQueryTextListener {
+    private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView locationsRecyclerView;
     private LocationsListAdapter locationsListAdapter;
     private List<Microlocation> mLocations;

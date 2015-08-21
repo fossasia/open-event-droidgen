@@ -1,17 +1,22 @@
 package org.fossasia.openevent.activities;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 import org.fossasia.openevent.R;
+import org.fossasia.openevent.Receivers.NotificationReceiver;
 import org.fossasia.openevent.adapters.SpeakersListAdapter;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
@@ -19,7 +24,7 @@ import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.ISO8601Date;
 import org.fossasia.openevent.utils.IntentStrings;
 
-import java.text.ParseException;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -27,9 +32,9 @@ import java.util.List;
  */
 public class SessionDetailActivity extends AppCompatActivity {
     private static final String TAG = "Session Detail";
-    RecyclerView speakersRecyclerView;
-    SpeakersListAdapter adapter;
-    Session session;
+    private RecyclerView speakersRecyclerView;
+    private SpeakersListAdapter adapter;
+    private Session session;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,31 +57,20 @@ public class SessionDetailActivity extends AppCompatActivity {
         speakersRecyclerView = (RecyclerView) findViewById(R.id.list_speakerss);
         List<Speaker> speakers = null;
 
-        try {
-            speakers = dbSingleton.getSpeakersbySessionName(title);
-            session = dbSingleton.getSessionbySessionname(title);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        try {
-            tv_room1.setText((dbSingleton.getMicrolocationById(session.getMicrolocations())).getName());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        speakers = dbSingleton.getSpeakersbySessionName(title);
+        session = dbSingleton.getSessionbySessionname(title);
+
+        tv_room1.setText((dbSingleton.getMicrolocationById(session.getMicrolocations())).getName());
+
         tv_title.setText(title);
         tv_subtitle.setText(session.getSubtitle());
         track.setText(trackName);
 
-        String start = null;
-        String end = null;
-        try {
-            start = ISO8601Date.getTimeZoneDate(ISO8601Date.getDateObject(session.getStartTime()));
-            end = ISO8601Date.getTimeZoneDate(ISO8601Date.getDateObject(session.getEndTime()));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        String start = ISO8601Date.getTimeZoneDate(ISO8601Date.getDateObject(session.getStartTime())).toString();
+        String end = ISO8601Date.getTimeZoneDate(ISO8601Date.getDateObject(session.getEndTime())).toString();
 
-        if ((start.equals(null)) && (end.equals(null))) {
+
+        if (TextUtils.isEmpty(start) && TextUtils.isEmpty(end)) {
             tv_time.setText("Timings not specified");
         } else {
             String timings = start + " - " + end;
@@ -106,6 +100,8 @@ public class SessionDetailActivity extends AppCompatActivity {
                     Log.d(TAG, "Bookmarked");
                     dbSingleton.addBookmarks(session.getId());
                     item.setIcon(R.drawable.ic_star_bookmark);
+                    createNotification();
+
                 }
         }
         return super.onOptionsItemSelected(item);
@@ -124,6 +120,19 @@ public class SessionDetailActivity extends AppCompatActivity {
             item.setIcon(R.drawable.ic_star_border_bookmark);
         }
         return super.onCreateOptionsMenu(menu);
+    }
+
+    public void createNotification() {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(ISO8601Date.getTimeZoneDate(ISO8601Date.getDateObject(session.getStartTime())));
+        calendar.add(Calendar.MINUTE, -10);
+        Intent myIntent = new Intent(this, NotificationReceiver.class);
+        myIntent.putExtra(IntentStrings.SESSION, session.getId());
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, myIntent, 0);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC, calendar.getTimeInMillis(), pendingIntent);
     }
 
 }

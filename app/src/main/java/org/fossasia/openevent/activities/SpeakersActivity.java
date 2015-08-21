@@ -21,34 +21,31 @@ import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.SpeakerIntent;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by MananWason on 30-06-2015.
  */
-public class SpeakersActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
+public class SpeakersActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
     SessionsListAdapter sessionsListAdapter;
     private Speaker selectedSpeaker;
     private List<Session> mSessions;
     private RecyclerView sessionRecyclerView;
     private String speaker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_speakers);
         DbSingleton dbSingleton = DbSingleton.getInstance();
-         speaker = getIntent().getStringExtra(Speaker.SPEAKER);
+        speaker = getIntent().getStringExtra(Speaker.SPEAKER);
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_speakers);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        try {
-            selectedSpeaker = dbSingleton.getSpeakerbySpeakersname(speaker);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        selectedSpeaker = dbSingleton.getSpeakerbySpeakersname(speaker);
+
 
         TextView biography = (TextView) findViewById(R.id.speaker_bio);
         ImageView linkedin = (ImageView) findViewById(R.id.imageView_linkedin);
@@ -115,6 +112,7 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
         sessionRecyclerView.scrollToPosition(0);
         return false;
     }
+
     private List<Session> filter(List<Session> sessions, String query) {
         query = query.toLowerCase();
 

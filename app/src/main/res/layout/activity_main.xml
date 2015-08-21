@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
-    android:id="@+id/layout_main"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -16,7 +16,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/color_primary"/>
+            android:background="@color/color_primary" />
 
         <ProgressBar
             android:id="@+id/progress"
@@ -26,7 +26,7 @@
             android:layout_gravity="top"
             android:layout_marginTop="-7dp"
             android:max="100"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <android.support.v4.widget.DrawerLayout
             android:id="@+id/drawer"
@@ -37,7 +37,7 @@
             <FrameLayout
                 android:id="@+id/content_frame"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent" />
 
             <android.support.design.widget.NavigationView
                 android:id="@+id/nav_view"
@@ -46,7 +46,7 @@
                 android:layout_gravity="start"
                 android:fitsSystemWindows="true"
                 app:headerLayout="@layout/nav_header"
-                app:menu="@menu/drawer"/>
+                app:menu="@menu/drawer" />
         </android.support.v4.widget.DrawerLayout>
     </LinearLayout>
 </FrameLayout>

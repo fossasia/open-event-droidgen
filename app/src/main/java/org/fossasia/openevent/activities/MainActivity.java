@@ -4,7 +4,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -43,7 +42,6 @@ import org.fossasia.openevent.fragments.LocationsFragment;
 import org.fossasia.openevent.fragments.SpeakerFragment;
 import org.fossasia.openevent.fragments.SponsorsFragment;
 import org.fossasia.openevent.fragments.TracksFragment;
-import org.fossasia.openevent.utils.IntentStrings;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -135,8 +133,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (mDrawerLayout.isDrawerVisible(navigationView)) {
-            mDrawerLayout.closeDrawers();
+        if (mDrawerLayout.isDrawerOpen(navigationView)) {
+            mDrawerLayout.closeDrawer(navigationView);
+        } else {
+            super.onBackPressed();
         }
     }
 

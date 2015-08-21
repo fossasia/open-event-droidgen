@@ -19,7 +19,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.fossasia.openevent.dbutils.DbSingleton;
-import org.fossasia.openevent.utils.IntentStrings;
 
 public class MapsFragment extends SupportMapFragment implements LocationListener {
     private GoogleMap mMap;
@@ -40,23 +39,23 @@ public class MapsFragment extends SupportMapFragment implements LocationListener
         float longitude = dbSingleton.getEventDetails().getLongitude();
         String location_title = dbSingleton.getEventDetails().getName();
 
-            location = new LatLng(latitude,longitude);
-            Log.d("MAP", location.latitude + location.longitude + "");
+        location = new LatLng(latitude, longitude);
+        Log.d("MAP", location.latitude + location.longitude + "");
 
-            mMap = getMap();
-            if (mMap != null) {
-                mMap.addMarker(new MarkerOptions()
-                        .position(location)
-                        .title(location_title));
-                mMap.animateCamera(
-                        CameraUpdateFactory.newCameraPosition(CameraPosition.builder()
-                                .target(location)
-                                .zoom(15f)
-                                .bearing(0)
-                                .tilt(0)
-                                .build()));
+        mMap = getMap();
+        if (mMap != null) {
+            mMap.addMarker(new MarkerOptions()
+                    .position(location)
+                    .title(location_title));
+            mMap.animateCamera(
+                    CameraUpdateFactory.newCameraPosition(CameraPosition.builder()
+                            .target(location)
+                            .zoom(15f)
+                            .bearing(0)
+                            .tilt(0)
+                            .build()));
 
-            }
+        }
     }
 
 
