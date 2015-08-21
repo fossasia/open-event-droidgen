@@ -9,7 +9,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -91,8 +90,8 @@ public class LocationsFragment extends Fragment implements SearchView.OnQueryTex
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear();
-        inflater.inflate(R.menu.menu_tracks, menu);
-        final MenuItem item = menu.findItem(R.id.action_search_tracks);
+        inflater.inflate(R.menu.menu_locations_fragment, menu);
+        final MenuItem item = menu.findItem(R.id.action_search_locations);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
         searchView.setOnQueryTextListener(this);
     }
@@ -103,7 +102,6 @@ public class LocationsFragment extends Fragment implements SearchView.OnQueryTex
 
         mLocations = dbSingleton.getMicrolocationsList();
         final List<Microlocation> filteredModelList = filter(mLocations, query);
-        Log.d("xyz", mLocations.size() + " " + filteredModelList.size());
 
         locationsListAdapter.animateTo(filteredModelList);
         locationsRecyclerView.scrollToPosition(0);

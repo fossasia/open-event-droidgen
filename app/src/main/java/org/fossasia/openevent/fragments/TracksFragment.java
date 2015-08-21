@@ -9,7 +9,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,6 +23,7 @@ import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.activities.TracksActivity;
 import org.fossasia.openevent.adapters.TracksListAdapter;
+import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DataDownload;
 import org.fossasia.openevent.dbutils.DbContract;
@@ -86,6 +86,14 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.share_tracks_url:
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.putExtra(Intent.EXTRA_TEXT, Urls.WEB_APP_URL_BASIC + Urls.TRACKS);
+                intent.putExtra(Intent.EXTRA_SUBJECT, "Sharing URL");
+                intent.setType("text/plain");
+                startActivity(Intent.createChooser(intent, "Share URL"));
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -104,7 +112,6 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
 
         mTracks = dbSingleton.getTrackList();
         final List<Track> filteredModelList = filter(mTracks, query);
-        Log.d("xyz", mTracks.size() + " " + filteredModelList.size());
 
         tracksListAdapter.animateTo(filteredModelList);
         tracksRecyclerView.scrollToPosition(0);
