@@ -29,7 +29,9 @@
     </group>
     <item android:title="">
         <menu>
-            <item android:title="Settings" />
+            <item
+                android:id="@+id/nav_settings"
+                android:title="Settings" />
             <item android:title="About us" />
         </menu>
     </item>

@@ -77,7 +77,6 @@ public class TracksActivity extends AppCompatActivity implements SearchView.OnQu
         shareFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO: Add the real webapp links here
                 Intent intent = new Intent();
                 intent.setAction(Intent.ACTION_SEND);
                 intent.putExtra(Intent.EXTRA_TEXT, current.getName() + current.getId());
