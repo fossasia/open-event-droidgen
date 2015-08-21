@@ -1,5 +1,6 @@
 package org.fossasia.openevent.activities;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -227,6 +228,13 @@ public class MainActivity extends AppCompatActivity {
                                                 .provideMapFragment()).commit();
                                 getSupportActionBar().setTitle(R.string.menu_map);
                                 break;
+                            case R.id.nav_settings:
+                                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                                mDrawerLayout.closeDrawers();
+                                startActivity(intent);
+
+                                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+
                         }
                         mDrawerLayout.closeDrawers();
                         return true;

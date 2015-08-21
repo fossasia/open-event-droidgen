@@ -3,7 +3,9 @@ package org.fossasia.openevent.activities;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -126,7 +128,16 @@ public class SessionDetailActivity extends AppCompatActivity {
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(ISO8601Date.getTimeZoneDate(ISO8601Date.getDateObject(session.getStartTime())));
-        calendar.add(Calendar.MINUTE, -10);
+
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        Integer pref_result = Integer.parseInt(sharedPrefs.getString("notification", "10"));
+        if (pref_result.equals(1)) {
+            calendar.add(Calendar.HOUR, -1);
+        } else if (pref_result.equals(12)) {
+            calendar.add(Calendar.HOUR, -12);
+        } else {
+            calendar.add(Calendar.MINUTE, -10);
+        }
         Intent myIntent = new Intent(this, NotificationReceiver.class);
         myIntent.putExtra(IntentStrings.SESSION, session.getId());
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, myIntent, 0);
