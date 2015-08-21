@@ -21,6 +21,7 @@ import com.squareup.picasso.Picasso;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.SessionsListAdapter;
+import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DbSingleton;
@@ -77,12 +78,11 @@ public class TracksActivity extends AppCompatActivity implements SearchView.OnQu
         shareFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO: Add the real webapp links here
                 Intent intent = new Intent();
                 intent.setAction(Intent.ACTION_SEND);
-                intent.putExtra(Intent.EXTRA_TEXT, current.getName() + current.getId());
+                intent.putExtra(Intent.EXTRA_TEXT, Urls.WEB_APP_URL);
                 intent.setType("text/plain");
-                startActivity(intent);
+                startActivity(Intent.createChooser(intent, "Share link to track"));
             }
         });
     }
