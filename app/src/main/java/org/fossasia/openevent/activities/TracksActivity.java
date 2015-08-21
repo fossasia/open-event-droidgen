@@ -27,7 +27,6 @@ import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.IntentStrings;
 import org.fossasia.openevent.utils.RecyclerItemClickListener;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,12 +88,9 @@ public class TracksActivity extends AppCompatActivity implements SearchView.OnQu
     }
 
     private void loadImage() {
-        try {
-            DbSingleton dbSingleton = DbSingleton.getInstance();
-            current = dbSingleton.getTrackbyName(track);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        DbSingleton dbSingleton = DbSingleton.getInstance();
+        current = dbSingleton.getTrackbyName(track);
+
         ImageView backdrop1 = (ImageView) findViewById(R.id.backdrop);
         if (current.getImage().length() != 0) {
             Picasso.with(getApplicationContext()).load(current.getImage()).into(backdrop1);
@@ -151,6 +147,7 @@ public class TracksActivity extends AppCompatActivity implements SearchView.OnQu
         sessionsRecyclerView.scrollToPosition(0);
         return false;
     }
+
     private List<Session> filter(List<Session> sessions, String query) {
         query = query.toLowerCase();
 

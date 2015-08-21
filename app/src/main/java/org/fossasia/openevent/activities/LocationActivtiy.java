@@ -18,7 +18,6 @@ import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.IntentStrings;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,11 +41,8 @@ public class LocationActivtiy extends AppCompatActivity implements SearchView.On
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        try {
-            selectedLocation = dbSingleton.getLocationByLocationname(location);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        selectedLocation = dbSingleton.getLocationByLocationname(location);
+
 
         sessionRecyclerView = (RecyclerView) findViewById(R.id.recyclerView_locations);
         mSessions = dbSingleton.getSessionbyLocationName(location);
