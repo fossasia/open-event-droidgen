@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    android:id="@+id/ll_tracks"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_tracks"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="6dp"
@@ -16,11 +16,12 @@
         android:layout_marginRight="@dimen/card_margin"
         android:layout_marginTop="@dimen/card_margin_vertical">
 
-        <LinearLayout style="@style/Widget.CardContent"
-                      xmlns:android="http://schemas.android.com/apk/res/android"
-                      android:layout_width="match_parent"
-                      android:layout_height="match_parent"
-                      android:orientation="vertical">
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            style="@style/Widget.CardContent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/session_title"
@@ -28,14 +29,13 @@
                 android:layout_height="wrap_content"
                 android:textColor="#000000"
                 android:textSize="@dimen/heading_text_size"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/session_abstract"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#000000"
-                />
+                android:textColor="#000000" />
 
 
         </LinearLayout>

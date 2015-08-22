@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    android:id="@+id/ll_tracks"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_tracks"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginBottom="@dimen/card_margin_vertical"
@@ -16,8 +16,8 @@
         android:layout_marginRight="@dimen/card_margin">
 
         <LinearLayout
-            android:id="@+id/ll"
             xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/ll"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="5dp"
@@ -35,13 +35,13 @@
                     android:layout_height="wrap_content"
                     android:text="Friends"
                     android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/track_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="abc"/>
+                    android:text="abc" />
 
             </LinearLayout>
         </LinearLayout>

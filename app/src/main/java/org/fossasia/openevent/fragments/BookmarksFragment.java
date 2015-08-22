@@ -46,13 +46,8 @@ public class BookmarksFragment extends Fragment {
             e.printStackTrace();
         }
         for (Integer id : bookmarkedIds) {
-            try {
-                Session session = dbSingleton.getSessionById(id);
-                bookmarkedSessions.add(session);
-
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            Session session = dbSingleton.getSessionById(id);
+            bookmarkedSessions.add(session);
         }
 
         sessionsListAdapter = new SessionsListAdapter(bookmarkedSessions);

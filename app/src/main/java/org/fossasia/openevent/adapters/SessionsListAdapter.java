@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.data.Session;
-import org.fossasia.openevent.data.Speaker;
 
 import java.util.List;
 
@@ -43,6 +42,7 @@ public class SessionsListAdapter extends RecyclerView.Adapter<SessionsListAdapte
     public int getItemCount() {
         return sessions.size();
     }
+
     public void animateTo(List<Session> sessions) {
         applyAndAnimateRemovals(sessions);
         applyAndAnimateAdditions(sessions);
@@ -93,6 +93,7 @@ public class SessionsListAdapter extends RecyclerView.Adapter<SessionsListAdapte
         sessions.add(toPosition, speaker);
         notifyItemMoved(fromPosition, toPosition);
     }
+
     class Viewholder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView sessionName;
         TextView sessionSummary;

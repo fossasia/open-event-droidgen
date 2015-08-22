@@ -1,10 +1,10 @@
 package org.fossasia.openevent.activities;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -43,7 +43,6 @@ import org.fossasia.openevent.fragments.LocationsFragment;
 import org.fossasia.openevent.fragments.SpeakerFragment;
 import org.fossasia.openevent.fragments.SponsorsFragment;
 import org.fossasia.openevent.fragments.TracksFragment;
-import org.fossasia.openevent.utils.IntentStrings;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -135,8 +134,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (mDrawerLayout.isDrawerVisible(navigationView)) {
-            mDrawerLayout.closeDrawers();
+        if (mDrawerLayout.isDrawerOpen(navigationView)) {
+            mDrawerLayout.closeDrawer(navigationView);
+        } else {
+            super.onBackPressed();
         }
     }
 
@@ -218,20 +219,8 @@ public class MainActivity extends AppCompatActivity {
                                 getSupportActionBar().setTitle(R.string.menu_locations);
                                 break;
                             case R.id.nav_map:
-                                Bundle latlng = new Bundle();
-                                DbSingleton dbSingleton = DbSingleton.getInstance();
-                                float latitude = dbSingleton.getEventDetails().getLatitude();
-                                float longitude = dbSingleton.getEventDetails().getLongitude();
-
-                                String location_name = dbSingleton.getEventDetails().getLocationName();
-                                latlng.putFloat(IntentStrings.LATITUDE, latitude);
-                                latlng.putFloat(IntentStrings.LONGITUDE, longitude);
-                                latlng.putString(IntentStrings.LOCATION, location_name);
-
                                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-                                Fragment fragment = new Fragment();
-                                fragment.setArguments(latlng);
                                 fragmentTransaction.replace(R.id.content_frame,
                                         ((OpenEventApp) getApplication())
                                                 .getMapModuleFactory()
@@ -239,6 +228,13 @@ public class MainActivity extends AppCompatActivity {
                                                 .provideMapFragment()).commit();
                                 getSupportActionBar().setTitle(R.string.menu_map);
                                 break;
+                            case R.id.nav_settings:
+                                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                                mDrawerLayout.closeDrawers();
+                                startActivity(intent);
+
+                                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+
                         }
                         mDrawerLayout.closeDrawers();
                         return true;
