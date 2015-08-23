@@ -35,14 +35,23 @@ public final class ISO8601Date {
     }
 
 
+    public static String getTimeZoneDateString(final Date date) {
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EE, dd MMM yyyy, HH:mm, z");
+        dateFormat.setTimeZone(TimeZone.getDefault());
+        String DateToStr = dateFormat.format(date);
+        Log.d("counter",DateToStr);
+        return DateToStr;
+    }
+
     public static Date getTimeZoneDate(final Date date) {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("EE, dd MMM yyyy, HH:mm, z");
         dateFormat.setTimeZone(TimeZone.getDefault());
         String DateToStr = dateFormat.format(date);
+        Log.d("counter",DateToStr);
         return date;
     }
-
     public static Date getDateObject(final String iso8601String) {
 
         StringBuilder s = new StringBuilder();

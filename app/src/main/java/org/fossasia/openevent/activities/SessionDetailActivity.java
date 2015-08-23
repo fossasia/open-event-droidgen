@@ -18,7 +18,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import org.fossasia.openevent.R;
-import org.fossasia.openevent.Receivers.NotificationReceiver;
+import org.fossasia.openevent.Receivers.NotificationAlarmReceiver;
 import org.fossasia.openevent.adapters.SpeakersListAdapter;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
@@ -37,6 +37,7 @@ public class SessionDetailActivity extends AppCompatActivity {
     private RecyclerView speakersRecyclerView;
     private SpeakersListAdapter adapter;
     private Session session;
+    private String timings;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,35 +49,35 @@ public class SessionDetailActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         String title = getIntent().getStringExtra(IntentStrings.SESSION);
         String trackName = getIntent().getStringExtra(IntentStrings.TRACK);
-        TextView tv_title = (TextView) findViewById(R.id.title_session);
-        TextView tv_subtitle = (TextView) findViewById(R.id.subtitle_session);
-        TextView tv_time = (TextView) findViewById(R.id.tv_time);
-        TextView track = (TextView) findViewById(R.id.track);
-        TextView tv_room1 = (TextView) findViewById(R.id.tv_location);
+        Log.d(TAG, title);
+        TextView text_title = (TextView) findViewById(R.id.title_session);
+        TextView text_subtitle = (TextView) findViewById(R.id.subtitle_session);
+        TextView text_time = (TextView) findViewById(R.id.tv_time);
+        TextView text_track = (TextView) findViewById(R.id.track);
+        TextView text_room1 = (TextView) findViewById(R.id.tv_location);
         TextView summary = (TextView) findViewById(R.id.tv_abstract_text);
         TextView descrip = (TextView) findViewById(R.id.tv_description);
 
         speakersRecyclerView = (RecyclerView) findViewById(R.id.list_speakerss);
-        List<Speaker> speakers = null;
 
-        speakers = dbSingleton.getSpeakersbySessionName(title);
+        List<Speaker> speakers = dbSingleton.getSpeakersbySessionName(title);
         session = dbSingleton.getSessionbySessionname(title);
 
-        tv_room1.setText((dbSingleton.getMicrolocationById(session.getMicrolocations())).getName());
+        text_room1.setText((dbSingleton.getMicrolocationById(session.getMicrolocations())).getName());
 
-        tv_title.setText(title);
-        tv_subtitle.setText(session.getSubtitle());
-        track.setText(trackName);
+        text_title.setText(title);
+        text_subtitle.setText(session.getSubtitle());
+        text_track.setText(trackName);
 
-        String start = ISO8601Date.getTimeZoneDate(ISO8601Date.getDateObject(session.getStartTime())).toString();
-        String end = ISO8601Date.getTimeZoneDate(ISO8601Date.getDateObject(session.getEndTime())).toString();
+        String start = ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(session.getStartTime()));
+        String end = ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(session.getEndTime()));
 
 
         if (TextUtils.isEmpty(start) && TextUtils.isEmpty(end)) {
-            tv_time.setText("Timings not specified");
+            text_time.setText(R.string.time_not_specified);
         } else {
-            String timings = start + " - " + end;
-            tv_time.setText(timings);
+            timings = start + " - " + end;
+            text_time.setText(timings);
         }
         summary.setText(session.getSummary());
         descrip.setText(session.getDescription());
@@ -138,8 +139,9 @@ public class SessionDetailActivity extends AppCompatActivity {
         } else {
             calendar.add(Calendar.MINUTE, -10);
         }
-        Intent myIntent = new Intent(this, NotificationReceiver.class);
+        Intent myIntent = new Intent(this, NotificationAlarmReceiver.class);
         myIntent.putExtra(IntentStrings.SESSION, session.getId());
+        myIntent.putExtra(IntentStrings.SESSION_TIMING, timings);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, myIntent, 0);
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
