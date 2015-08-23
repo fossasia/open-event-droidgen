@@ -95,9 +95,9 @@ public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextL
             case R.id.share_speakers_url:
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.putExtra(Intent.EXTRA_TEXT, Urls.WEB_APP_URL_BASIC + Urls.SPEAKERS);
-                intent.putExtra(Intent.EXTRA_SUBJECT, "Sharing URL");
+                intent.putExtra(Intent.EXTRA_SUBJECT, R.string.share_links);
                 intent.setType("text/plain");
-                startActivity(Intent.createChooser(intent, "Share URL"));
+                startActivity(Intent.createChooser(intent, getResources().getString(R.string.share_links)));
         }
         return super.onOptionsItemSelected(item);    }
 

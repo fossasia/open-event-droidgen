@@ -61,4 +61,6 @@
     <string name="cantDownload">Can\'t Download right now</string>
     <string name="download_failed">Download Failed, Check Internet Connection</string>
     <string name="download_complete">Download Done</string>
+    <string name="share_links">Sharing URL</string>
+    <string name="time_not_specified">Timings not specified</string>
 </resources>

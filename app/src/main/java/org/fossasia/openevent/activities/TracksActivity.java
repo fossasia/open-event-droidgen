@@ -36,9 +36,9 @@ import java.util.List;
  */
 public class TracksActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
+    private static final String TAG = "TracksActivity";
     SessionsListAdapter sessionsListAdapter;
     private String track;
-    private Track current;
     private List<Session> mSessions;
     private RecyclerView sessionsRecyclerView;
 
@@ -67,6 +67,7 @@ public class TracksActivity extends AppCompatActivity implements SearchView.OnQu
                     @Override
                     public void onItemClick(View view, int position) {
                         String session_name = ((TextView) findViewById(R.id.session_title)).getText().toString();
+                        Log.d(TAG,session_name+" "+track);
                         Intent intent = new Intent(getApplicationContext(), SessionDetailActivity.class);
                         intent.putExtra(IntentStrings.SESSION, session_name);
                         intent.putExtra(IntentStrings.TRACK, track);
@@ -82,14 +83,14 @@ public class TracksActivity extends AppCompatActivity implements SearchView.OnQu
                 intent.setAction(Intent.ACTION_SEND);
                 intent.putExtra(Intent.EXTRA_TEXT, Urls.WEB_APP_URL_BASIC + Urls.SESSIONS);
                 intent.setType("text/plain");
-                startActivity(Intent.createChooser(intent, "Share link to track"));
+                startActivity(Intent.createChooser(intent, getString(R.string.share_links)));
             }
         });
     }
 
     private void loadImage() {
         DbSingleton dbSingleton = DbSingleton.getInstance();
-        current = dbSingleton.getTrackbyName(track);
+        Track current = dbSingleton.getTrackbyName(track);
 
         ImageView backdrop1 = (ImageView) findViewById(R.id.backdrop);
         if (current.getImage().length() != 0) {
@@ -105,14 +106,7 @@ public class TracksActivity extends AppCompatActivity implements SearchView.OnQu
                 finish();
                 return true;
             case R.id.action_search_sessions:
-
-//            case R.id.share_tracks:
-//                //TODO: Add the real webapp links here
-//                Intent intent = new Intent();
-//                intent.setAction(Intent.ACTION_SEND);
-//                intent.putExtra(Intent.EXTRA_TEXT, current.getName() + current.getId());
-//                intent.setType("text/plain");
-//                startActivity(intent);
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -141,7 +135,6 @@ public class TracksActivity extends AppCompatActivity implements SearchView.OnQu
 
         mSessions = dbSingleton.getSessionbyTracksname(track);
         final List<Session> filteredModelList = filter(mSessions, query);
-        Log.d("xyz", mSessions.size() + " " + filteredModelList.size());
 
         sessionsListAdapter.animateTo(filteredModelList);
         sessionsRecyclerView.scrollToPosition(0);

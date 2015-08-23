@@ -1,8 +1,8 @@
 package org.fossasia.openevent.Services;
 
+import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.Service;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.os.IBinder;
@@ -17,13 +17,20 @@ import org.fossasia.openevent.utils.IntentStrings;
 /**
  * Created by Manan Wason on 21/08/15.
  */
-public class BookmarkAlarmService extends Service {
+public class BookmarkAlarmService extends IntentService {
 
-    private NotificationManager mManager;
+    public BookmarkAlarmService(String name) {
+        super(name);
+    }
 
     @Override
     public IBinder onBind(Intent arg0) {
         return null;
+    }
+
+    @Override
+    protected void onHandleIntent(Intent intent) {
+
     }
 
     @Override
@@ -45,8 +52,9 @@ public class BookmarkAlarmService extends Service {
     }
 
     void handleStart(Intent intent, int startId) {
-        mManager = (NotificationManager) this.getApplicationContext().getSystemService(this.getApplicationContext().NOTIFICATION_SERVICE);
+        NotificationManager mManager = (NotificationManager) this.getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
         int id = intent.getIntExtra(IntentStrings.SESSION, 0);
+        String session_timings = intent.getStringExtra(IntentStrings.SESSION_TIMING);
         DbSingleton dbSingleton = DbSingleton.getInstance();
         Session session = dbSingleton.getSessionById(id);
         Intent intent1 = new Intent(this.getApplicationContext(), SessionDetailActivity.class);
@@ -55,9 +63,10 @@ public class BookmarkAlarmService extends Service {
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("session about to start")
-                .setContentText(session.getTitle())
+                .setContentTitle(session.getTitle())
+                .setContentText(session_timings)
                 .setAutoCancel(true)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(session_timings))
                 .setContentIntent(pendingNotificationIntent);
         intent1.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
