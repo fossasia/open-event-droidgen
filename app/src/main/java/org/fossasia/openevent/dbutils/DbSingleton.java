@@ -64,7 +64,7 @@ public class DbSingleton {
         }
     }
 
-    public ArrayList<Session> getSessionList() throws ParseException {
+    public ArrayList<Session> getSessionList() {
         getReadOnlyDatabase();
         return databaseOperations.getSessionList(mDb);
 
@@ -75,7 +75,7 @@ public class DbSingleton {
         return databaseOperations.getEventDetails(mDb);
     }
 
-    public Session getSessionById(int id) throws ParseException {
+    public Session getSessionById(int id) {
         getReadOnlyDatabase();
         return databaseOperations.getSessionById(id, mDb);
     }
@@ -120,7 +120,7 @@ public class DbSingleton {
         return databaseOperations.getMicrolocationsList(mDb);
     }
 
-    public Microlocation getMicrolocationById(int id) throws ParseException {
+    public Microlocation getMicrolocationById(int id) {
         getReadOnlyDatabase();
         return databaseOperations.getMicroLocationById(id, mDb);
     }
@@ -129,28 +129,28 @@ public class DbSingleton {
         return databaseOperations.getSessionbyTracksname(trackName, mDb);
     }
 
-    public ArrayList<Session> getSessionbySpeakersName(String speakerName)  {
+    public ArrayList<Session> getSessionbySpeakersName(String speakerName) {
         return databaseOperations.getSessionbySpeakersname(speakerName, mDb);
     }
 
-    public ArrayList<Session> getSessionbyLocationName(String locationName)  {
+    public ArrayList<Session> getSessionbyLocationName(String locationName) {
         return databaseOperations.getSessionbyLocationname(locationName, mDb);
     }
 
-    public ArrayList<Speaker> getSpeakersbySessionName(String sessionName) throws ParseException {
+    public ArrayList<Speaker> getSpeakersbySessionName(String sessionName) {
         return databaseOperations.getSpeakersbySessionName(sessionName, mDb);
     }
 
 
-    public Track getTrackbyName(String trackName) throws ParseException {
+    public Track getTrackbyName(String trackName) {
         return databaseOperations.getTracksbyTracksname(trackName, mDb);
     }
 
-    public Speaker getSpeakerbySpeakersname(String speakerName) throws ParseException {
+    public Speaker getSpeakerbySpeakersname(String speakerName) {
         return databaseOperations.getSpeakerbySpeakersname(speakerName, mDb);
     }
 
-    public Session getSessionbySessionname(String sessionName) throws ParseException {
+    public Session getSessionbySessionname(String sessionName) {
         return databaseOperations.getSessionbySessionname(sessionName, mDb);
     }
 
@@ -162,7 +162,7 @@ public class DbSingleton {
         return databaseOperations.getBookmarkIds(mDb);
     }
 
-    public Microlocation getLocationByLocationname(String LocationName) throws ParseException {
+    public Microlocation getLocationByLocationname(String LocationName) {
         return databaseOperations.getLocationByName(LocationName, mDb);
     }
 

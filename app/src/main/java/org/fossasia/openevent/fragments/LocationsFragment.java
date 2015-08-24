@@ -9,7 +9,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,7 +22,6 @@ import com.squareup.otto.Subscribe;
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.activities.LocationActivtiy;
-import org.fossasia.openevent.activities.TracksActivity;
 import org.fossasia.openevent.adapters.LocationsListAdapter;
 import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.dbutils.DataDownload;
@@ -40,7 +38,8 @@ import java.util.List;
 /**
  * Created by MananWason on 8/18/2015.
  */
-public class LocationsFragment extends Fragment implements SearchView.OnQueryTextListener{private SwipeRefreshLayout swipeRefreshLayout;
+public class LocationsFragment extends Fragment implements SearchView.OnQueryTextListener {
+    private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView locationsRecyclerView;
     private LocationsListAdapter locationsListAdapter;
     private List<Microlocation> mLocations;
@@ -91,8 +90,8 @@ public class LocationsFragment extends Fragment implements SearchView.OnQueryTex
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear();
-        inflater.inflate(R.menu.menu_tracks, menu);
-        final MenuItem item = menu.findItem(R.id.action_search_tracks);
+        inflater.inflate(R.menu.menu_locations_fragment, menu);
+        final MenuItem item = menu.findItem(R.id.action_search_locations);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
         searchView.setOnQueryTextListener(this);
     }
@@ -103,7 +102,6 @@ public class LocationsFragment extends Fragment implements SearchView.OnQueryTex
 
         mLocations = dbSingleton.getMicrolocationsList();
         final List<Microlocation> filteredModelList = filter(mLocations, query);
-        Log.d("xyz", mLocations.size() + " " + filteredModelList.size());
 
         locationsListAdapter.animateTo(filteredModelList);
         locationsRecyclerView.scrollToPosition(0);

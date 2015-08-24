@@ -21,13 +21,13 @@ import com.squareup.picasso.Picasso;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.SessionsListAdapter;
+import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.IntentStrings;
 import org.fossasia.openevent.utils.RecyclerItemClickListener;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,9 +36,9 @@ import java.util.List;
  */
 public class TracksActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
+    private static final String TAG = "TracksActivity";
     SessionsListAdapter sessionsListAdapter;
     private String track;
-    private Track current;
     private List<Session> mSessions;
     private RecyclerView sessionsRecyclerView;
 
@@ -67,6 +67,7 @@ public class TracksActivity extends AppCompatActivity implements SearchView.OnQu
                     @Override
                     public void onItemClick(View view, int position) {
                         String session_name = ((TextView) findViewById(R.id.session_title)).getText().toString();
+                        Log.d(TAG,session_name+" "+track);
                         Intent intent = new Intent(getApplicationContext(), SessionDetailActivity.class);
                         intent.putExtra(IntentStrings.SESSION, session_name);
                         intent.putExtra(IntentStrings.TRACK, track);
@@ -78,23 +79,19 @@ public class TracksActivity extends AppCompatActivity implements SearchView.OnQu
         shareFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO: Add the real webapp links here
                 Intent intent = new Intent();
                 intent.setAction(Intent.ACTION_SEND);
-                intent.putExtra(Intent.EXTRA_TEXT, current.getName() + current.getId());
+                intent.putExtra(Intent.EXTRA_TEXT, Urls.WEB_APP_URL_BASIC + Urls.SESSIONS);
                 intent.setType("text/plain");
-                startActivity(intent);
+                startActivity(Intent.createChooser(intent, getString(R.string.share_links)));
             }
         });
     }
 
     private void loadImage() {
-        try {
-            DbSingleton dbSingleton = DbSingleton.getInstance();
-            current = dbSingleton.getTrackbyName(track);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        DbSingleton dbSingleton = DbSingleton.getInstance();
+        Track current = dbSingleton.getTrackbyName(track);
+
         ImageView backdrop1 = (ImageView) findViewById(R.id.backdrop);
         if (current.getImage().length() != 0) {
             Picasso.with(getApplicationContext()).load(current.getImage()).into(backdrop1);
@@ -109,14 +106,7 @@ public class TracksActivity extends AppCompatActivity implements SearchView.OnQu
                 finish();
                 return true;
             case R.id.action_search_sessions:
-
-//            case R.id.share_tracks:
-//                //TODO: Add the real webapp links here
-//                Intent intent = new Intent();
-//                intent.setAction(Intent.ACTION_SEND);
-//                intent.putExtra(Intent.EXTRA_TEXT, current.getName() + current.getId());
-//                intent.setType("text/plain");
-//                startActivity(intent);
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -145,12 +135,12 @@ public class TracksActivity extends AppCompatActivity implements SearchView.OnQu
 
         mSessions = dbSingleton.getSessionbyTracksname(track);
         final List<Session> filteredModelList = filter(mSessions, query);
-        Log.d("xyz", mSessions.size() + " " + filteredModelList.size());
 
         sessionsListAdapter.animateTo(filteredModelList);
         sessionsRecyclerView.scrollToPosition(0);
         return false;
     }
+
     private List<Session> filter(List<Session> sessions, String query) {
         query = query.toLowerCase();
 
