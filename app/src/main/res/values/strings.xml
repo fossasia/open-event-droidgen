@@ -35,8 +35,14 @@
     <string name="placeholder_speaker_bio">holder_speaker_bio</string>
 
     <!--Settings-->
-    <string name="settings_mode">Mode</string>
-    <string name="default_mode">Developer</string>
+    <string name="settings_mode_api"> API Mode</string>
+    <string name="default_mode_api">Developer</string>
+
+    <string name="settings_mode_notification"> Notification Mode</string>
+    <string name="default_mode_notification">10 mins before</string>
+    <string name="hour_before">1 hour </string>
+    <string name="twelve_hours_before">12 hours </string>
+
 
     <!--Social-->
     <string name="linkedin">linkedin</string>
@@ -55,4 +61,6 @@
     <string name="cantDownload">Can\'t Download right now</string>
     <string name="download_failed">Download Failed, Check Internet Connection</string>
     <string name="download_complete">Download Done</string>
+    <string name="share_links">Sharing URL</string>
+    <string name="time_not_specified">Timings not specified</string>
 </resources>

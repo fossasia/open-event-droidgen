@@ -5,7 +5,17 @@
         <item>Developer</item>
     </string-array>
     <string-array name="mode_values">
-        <item>1</item>
+        <item>1 </item>
         <item>2</item>
+    </string-array>
+    <string-array name="notification_mode_strings">
+        <item>10 mins</item>
+        <item>1 Hour</item>
+        <item>12 Hour</item>
+    </string-array>
+    <string-array name="notification_mode_values">
+        <item>10 </item>
+        <item>1</item>
+        <item>12</item>
     </string-array>
 </resources>

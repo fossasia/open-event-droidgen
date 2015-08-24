@@ -1,5 +1,6 @@
 package org.fossasia.openevent.fragments;
 
+import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
@@ -17,7 +18,9 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import org.fossasia.openevent.utils.IntentStrings;
+import org.fossasia.openevent.R;
+import org.fossasia.openevent.api.Urls;
+import org.fossasia.openevent.dbutils.DbSingleton;
 
 public class MapsFragment extends SupportMapFragment implements LocationListener {
     private GoogleMap mMap;
@@ -32,39 +35,47 @@ public class MapsFragment extends SupportMapFragment implements LocationListener
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        DbSingleton dbSingleton = DbSingleton.getInstance();
+        float latitude = dbSingleton.getEventDetails().getLatitude();
+        float longitude = dbSingleton.getEventDetails().getLongitude();
+        String location_title = dbSingleton.getEventDetails().getName();
 
-        Bundle latlng = getArguments();
-        if (latlng != null && latlng.containsKey(IntentStrings.LOCATION)) {
-            location = new LatLng(
-                    latlng.getFloat(IntentStrings.LATITUDE, 0.0f),
-                    latlng.getFloat(IntentStrings.LONGITUDE, 0.0f));
+        location = new LatLng(latitude, longitude);
 
-            String location_title = latlng.getString(IntentStrings.LOCATION);
-            mMap = getMap();
-            if (mMap != null) {
-                mMap.addMarker(new MarkerOptions()
-                        .position(location)
-                        .title(location_title));
-                mMap.animateCamera(
-                        CameraUpdateFactory.newCameraPosition(CameraPosition.builder()
-                                .target(location)
-                                .zoom(15f)
-                                .bearing(0)
-                                .tilt(0)
-                                .build()));
+        mMap = getMap();
+        if (mMap != null) {
+            mMap.addMarker(new MarkerOptions()
+                    .position(location)
+                    .title(location_title));
+            mMap.animateCamera(
+                    CameraUpdateFactory.newCameraPosition(CameraPosition.builder()
+                            .target(location)
+                            .zoom(15f)
+                            .bearing(0)
+                            .tilt(0)
+                            .build()));
 
-            }
         }
     }
 
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
+        inflater.inflate(R.menu.menu_map, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return false;
+        switch (item.getItemId()) {
+            case R.id.share_map_url:
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.putExtra(Intent.EXTRA_TEXT, Urls.WEB_APP_URL_BASIC + Urls.MAP);
+                intent.putExtra(Intent.EXTRA_SUBJECT, "Sharing URL");
+                intent.setType("text/plain");
+                startActivity(Intent.createChooser(intent, "Share URL"));
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void launchDirections() {
