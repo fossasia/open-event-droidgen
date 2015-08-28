@@ -9,8 +9,7 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar_details"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/color_primary" />
+        android:layout_height="?attr/actionBarSize" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -70,13 +69,12 @@
                         style="@style/Metadata"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/translucent_grey"
                         android:drawableLeft="@drawable/ic_access_time_grey600_18dp"
                         tools:text="Day 1 (Saturday), 09:30 - 09:55" />
 
                     <TextView
                         android:id="@+id/tv_location"
-                        style="@style/Metadata.Selectable"
+                        style="@style/Metadata"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawableLeft="@drawable/ic_place_grey600_18dp"
@@ -89,18 +87,16 @@
                     style="@style/TextAppearance.AppCompat.Body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/translucent_grey"
                     android:padding="@dimen/content_margin"
                     android:textIsSelectable="true"
                     tools:text="Open Event" />
 
                 <TextView
                     android:id="@+id/tv_description"
-                    style="@style/TextAppearance.AppCompat.Body1"
+                    style="@style/Custom.Text.SessionDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/content_margin"
-                    android:textIsSelectable="true"
                     tools:text="Open Event!" />
             </LinearLayout>
 
@@ -110,7 +106,7 @@
             style="@style/TextAppearance.AppCompat.Headline"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Speakers"
+            android:text="@string/speakers"
             android:textIsSelectable="true" />
     </LinearLayout>
 
@@ -120,5 +116,5 @@
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:paddingBottom="10dp"
-        android:paddingTop="10dp"></android.support.v7.widget.RecyclerView>
+        android:paddingTop="10dp" />
 </LinearLayout>

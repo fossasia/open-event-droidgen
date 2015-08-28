@@ -19,7 +19,7 @@ android {
     defaultConfig {
         applicationId "org.fossasia.openevent"
         minSdkVersion 15
-        targetSdkVersion 21
+        targetSdkVersion 22
         versionCode 1
         versionName "0.1"
 

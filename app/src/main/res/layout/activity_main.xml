@@ -2,6 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/layout_main"
+    style="@style/FrameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -15,11 +16,12 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/color_primary" />
+            style="@style/ToolbarTheme"
+            android:title="@string/abc_search_hint" />
 
         <ProgressBar
             android:id="@+id/progress"
-            style="?android:attr/progressBarStyleHorizontal"
+            style="@style/CustomProgressBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="top"
@@ -30,8 +32,7 @@
         <android.support.v4.widget.DrawerLayout
             android:id="@+id/drawer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:elevation="7dp">
+            android:layout_height="match_parent">
 
             <FrameLayout
                 android:id="@+id/content_frame"
