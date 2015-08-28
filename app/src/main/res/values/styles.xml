@@ -6,15 +6,31 @@
     <style name="Base.AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorPrimaryDark">@color/color_primary_dark</item>
+        <!--Changes FAB Color, Hamburger color, Navigation header color -->
         <item name="colorAccent">@color/color_accent</item>
+        <!-- HyperLink Text color-->
         <item name="android:textColorLink">?attr/colorAccent</item>
-        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
 
+        <item name="android:textColor">@color/color_text_dark</item>
+
+        <!--Change Drawer Background and other activities background-->
+        <item name="android:windowBackground">@color/color_window_background</item>
+        <!--Hamburger Style-->
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+        <item name="android:textSize">@dimen/list_item_small_text_size</item>
+        <!--Changes Label Color-->
+        <item name="android:textColorPrimary">@color/color_text</item>
+        <!-- Changes Search icon (Or Menu Overflow) color) -->
+        <item name="android:textColorSecondary">@color/color_text_dark</item>
     </style>
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>
-        <item name="color">@android:color/white</item>
+        <item name="color">@color/color_accent</item>
+    </style>
+
+    <style name="MainActivityFrame">
+        <item name="android:background">@color/color_window_background</item>
     </style>
 
     <style name="SeparatorLine">
@@ -23,6 +39,13 @@
         <item name="android:background">#e5e5e5</item>
     </style>
 
+    <style name="SeparatorLineBlack">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/color_black</item>
+    </style>
+
+    <!-- Change session_detail activity text colors (track, time, location) -->
     <style name="Metadata" parent="TextAppearance.AppCompat.Subhead">
         <item name="android:textColor">@color/color_primary_dark</item>
         <item name="android:gravity">center_vertical</item>
@@ -33,20 +56,66 @@
         <item name="android:background">?attr/selectableItemBackground</item>
     </style>
 
+    <style name="CustomTextHeadLine" parent="TextAppearance.AppCompat.Headline">
+        <item name="android:textColor">@color/color_text</item>
+    </style>
+
     <style name="Header">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:paddingBottom">8dp</item>
         <item name="android:textSize">20sp</item>
-        <item name="android:textColor">@color/color_primary</item>
+        <item name="android:textColor">@color/color_text</item>
     </style>
 
-    <style name="Widget.CardContent" parent="android:Widget">
+    <style name="CustomActionBarTitleText" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/color_text</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="CardView.CardContent" parent="CardView">
+        <item name="cardBackgroundColor">@color/card_background</item>
+        <item name="android:textColor">@color/color_text_dark</item>
         <item name="android:paddingLeft">16dp</item>
         <item name="android:paddingRight">16dp</item>
         <item name="android:paddingTop">24dp</item>
         <item name="android:paddingBottom">24dp</item>
         <item name="android:orientation">vertical</item>
+
     </style>
+
+    <style name="CardView.SpeakerCardContent" parent="CardView">
+        <item name="android:background">@color/card_background</item>
+        <item name="android:textColor">@color/color_text_dark</item>
+    </style>
+
+    <style name="ToolbarTheme" parent="Widget.AppCompat.Toolbar">
+        <item name="android:background">@color/color_primary</item>
+        <item name="android:textColorPrimary">@color/color_text_dark</item>
+
+    </style>
+
+    <style name="TextAppearance.AppCompat.Medium.Custom" >
+        <item name="android:textColor">@color/color_text_dark</item>
+    </style>
+
+    <style name="TextAppearance.AppCompat.Body1.Custom" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textColor">@color/color_text_dark</item>
+    </style>
+
+    <!-- Change Session Description (SessionDetailActivity) style -->
+    <style name="TextSessionDescriptionCustom" parent="Metadata">
+        <item name="android:textIsSelectable">true</item>
+        <!--<item name="android:background">@color/color_textview_grey</item>-->
+
+    </style>
+
+    <style name="CustomProgressBar" parent="android:Widget.DeviceDefault.ProgressBar.Horizontal">
+        <item name="android:color">@color/color_check</item>
+    </style>
+
+    <style name="Fab" parent="Widget.Design.FloatingActionButton">
+    </style>
+
 
 </resources>

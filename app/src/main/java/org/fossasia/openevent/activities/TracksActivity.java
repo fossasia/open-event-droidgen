@@ -107,6 +107,7 @@ public class TracksActivity extends AppCompatActivity implements SearchView.OnQu
                 return true;
             case R.id.action_search_sessions:
                 return true;
+
         }
         return super.onOptionsItemSelected(item);
     }

@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="color_primary">#FFC107</color>
+    <color name="color_accent">#0B0080</color>
+    <color name="color_window_background">#d3d3d3</color>
+    <!--<color name="color_textview_grey">#d3d3d3</color>-->
+    <color name="color_card_background">#FFF8E1</color>
+    <color name="color_accent_dark">#FFF8E1</color>
+    <color name="color_check">#FF4FB8</color>
+    <color name="color_text_dark">#000000</color>
+    <color name="color_text">#FFFFFF</color>
     <color name="color_primary_dark">#FF8F00</color>
-    <color name="color_accent">#FFF8E1</color>
+    <!--<color name="color_text_secondary">#BDBDBD</color>-->
 
-    <color name="translucent_grey">#0c000000</color>
+    <color name="card_background">#EEEEEE</color>
+
+    <color name="color_black">#000000</color>
+
+    <color name="color_hyperlink">#0B0080</color>
 </resources>

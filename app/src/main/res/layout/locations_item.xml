@@ -9,6 +9,7 @@
 
     <android.support.v7.widget.CardView
         android:id="@+id/card_locations"
+        style="@style/CardView.CardContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/card_margin"
@@ -16,7 +17,7 @@
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/ll"
-            style="@style/Widget.CardContent"
+            style="@style/CardView.CardContent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="5dp"
