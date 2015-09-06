@@ -67,7 +67,7 @@ public class TracksActivity extends AppCompatActivity implements SearchView.OnQu
                     @Override
                     public void onItemClick(View view, int position) {
                         String session_name = ((TextView) findViewById(R.id.session_title)).getText().toString();
-                        Log.d(TAG,session_name+" "+track);
+                        Log.d(TAG, session_name + " " + track);
                         Intent intent = new Intent(getApplicationContext(), SessionDetailActivity.class);
                         intent.putExtra(IntentStrings.SESSION, session_name);
                         intent.putExtra(IntentStrings.TRACK, track);

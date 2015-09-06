@@ -1,6 +1,9 @@
 package org.fossasia.openevent.fragments;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -62,10 +65,13 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                DataDownload download = new DataDownload();
-                dbSingleton.clearDatabase(DbContract.Tracks.TABLE_NAME);
-                download.downloadTracks();
-
+                if (haveNetworkConnection()) {
+                    DataDownload download = new DataDownload();
+                    dbSingleton.clearDatabase(DbContract.Tracks.TABLE_NAME);
+                    download.downloadTracks();
+                } else {
+                    OpenEventApp.getEventBus().post(new TracksDownloadEvent(false));
+                }
             }
         });
 
@@ -152,5 +158,22 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
             Snackbar.make(getView(), getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).show();
 
         }
+    }
+
+    private boolean haveNetworkConnection() {
+        boolean haveConnectedWifi = false;
+        boolean haveConnectedMobile = false;
+
+        ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo[] netInfo = cm.getAllNetworkInfo();
+        for (NetworkInfo ni : netInfo) {
+            if (ni.getTypeName().equalsIgnoreCase("WIFI"))
+                if (ni.isConnected())
+                    haveConnectedWifi = true;
+            if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
+                if (ni.isConnected())
+                    haveConnectedMobile = true;
+        }
+        return haveConnectedWifi || haveConnectedMobile;
     }
 }
