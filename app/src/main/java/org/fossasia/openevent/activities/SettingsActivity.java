@@ -22,8 +22,8 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
 
     private static final String API_PREF_MODE = "serverurlmode";
     private static final String NOTIFICATION_PREF_MODE = "notification";
-    private AppCompatDelegate mDelegate;
     ListPreference listPreference;
+    private AppCompatDelegate mDelegate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

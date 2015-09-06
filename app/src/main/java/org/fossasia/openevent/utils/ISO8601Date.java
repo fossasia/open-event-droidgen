@@ -40,7 +40,7 @@ public final class ISO8601Date {
         SimpleDateFormat dateFormat = new SimpleDateFormat("EE, dd MMM yyyy, HH:mm, z");
         dateFormat.setTimeZone(TimeZone.getDefault());
         String DateToStr = dateFormat.format(date);
-        Log.d("counter",DateToStr);
+        Log.d("counter", DateToStr);
         return DateToStr;
     }
 
@@ -49,9 +49,10 @@ public final class ISO8601Date {
         SimpleDateFormat dateFormat = new SimpleDateFormat("EE, dd MMM yyyy, HH:mm, z");
         dateFormat.setTimeZone(TimeZone.getDefault());
         String DateToStr = dateFormat.format(date);
-        Log.d("counter",DateToStr);
+        Log.d("counter", DateToStr);
         return date;
     }
+
     public static Date getDateObject(final String iso8601String) {
 
         StringBuilder s = new StringBuilder();
