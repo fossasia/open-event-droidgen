@@ -4,5 +4,24 @@
     <color name="color_primary_dark">#FF8F00</color>
     <color name="color_accent">#FFF8E1</color>
 
+    <color name="green_dark">#388e3c</color>
+    <color name="green_light">#4caf50</color>
+    <color name="green_accent">#8bc34a</color>
+
+
+    <color name="purple_dark">#7b1fa2</color>
+    <color name="purple_light">#9c27b0</color>
+    <color name="purple_accent">#e040fb</color>
+
+
+    <color name="red_dark">#d32f2f</color>
+    <color name="red_light">#f44336</color>
+    <color name="red_accent">#ff5722</color>
+
+    <color name="blue_dark">#1976d2</color>
+    <color name="blue_light">#2196f3</color>
+    <color name="blue_accent">#03a9f4</color>
+
+
     <color name="translucent_grey">#0c000000</color>
 </resources>
