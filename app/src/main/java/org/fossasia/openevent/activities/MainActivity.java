@@ -55,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
     private FrameLayout mainFrame;
     private int counter;
     private int eventsDone;
+    private int currentMenuItemId;
+    private final static String STATE_FRAGMENT = "stateFragment";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,9 +76,13 @@ public class MainActivity extends AppCompatActivity {
 
         this.findViewById(android.R.id.content).setBackgroundColor(Color.LTGRAY);
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.content_frame, new TracksFragment()).commit();
+        if(savedInstanceState == null){
+            currentMenuItemId = R.id.nav_tracks;
+        } else {
+            currentMenuItemId = savedInstanceState.getInt(STATE_FRAGMENT);
+        }
+
+        doMenuAction(currentMenuItemId);
 
     }
 
@@ -100,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt(STATE_FRAGMENT, currentMenuItemId);
         super.onSaveInstanceState(outState);
     }
 
@@ -188,58 +195,63 @@ public class MainActivity extends AppCompatActivity {
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        FragmentManager fragmentManager = getSupportFragmentManager();
-                        menuItem.setChecked(true);
                         int id = menuItem.getItemId();
+                        menuItem.setChecked(true);
                         menu.clear();
-                        switch (id) {
-                            case R.id.nav_tracks:
-                                fragmentManager.beginTransaction()
-                                        .replace(R.id.content_frame, new TracksFragment()).commit();
-                                getSupportActionBar().setTitle(R.string.menu_tracks);
-                                break;
-                            case R.id.nav_bookmarks:
-                                fragmentManager.beginTransaction()
-                                        .replace(R.id.content_frame, new BookmarksFragment()).commit();
-                                getSupportActionBar().setTitle(R.string.menu_bookmarks);
-                                break;
-                            case R.id.nav_speakers:
-                                fragmentManager.beginTransaction()
-                                        .replace(R.id.content_frame, new SpeakerFragment()).commit();
-                                getSupportActionBar().setTitle(R.string.menu_speakers);
-                                break;
-                            case R.id.nav_sponsors:
-                                fragmentManager.beginTransaction()
-                                        .replace(R.id.content_frame, new SponsorsFragment()).commit();
-                                getSupportActionBar().setTitle(R.string.menu_sponsor);
-                                break;
-                            case R.id.nav_locations:
-                                fragmentManager.beginTransaction()
-                                        .replace(R.id.content_frame, new LocationsFragment()).commit();
-                                getSupportActionBar().setTitle(R.string.menu_locations);
-                                break;
-                            case R.id.nav_map:
-                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-                                fragmentTransaction.replace(R.id.content_frame,
-                                        ((OpenEventApp) getApplication())
-                                                .getMapModuleFactory()
-                                                .provideMapModule()
-                                                .provideMapFragment()).commit();
-                                getSupportActionBar().setTitle(R.string.menu_map);
-                                break;
-                            case R.id.nav_settings:
-                                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-                                mDrawerLayout.closeDrawers();
-                                startActivity(intent);
-
-                                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
-
-                        }
-                        mDrawerLayout.closeDrawers();
+                        doMenuAction(id);
                         return true;
                     }
                 });
+    }
+
+    private void doMenuAction(int menuItemId){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        switch (menuItemId) {
+            case R.id.nav_tracks:
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_frame, new TracksFragment()).commit();
+                getSupportActionBar().setTitle(R.string.menu_tracks);
+                break;
+            case R.id.nav_bookmarks:
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_frame, new BookmarksFragment()).commit();
+                getSupportActionBar().setTitle(R.string.menu_bookmarks);
+                break;
+            case R.id.nav_speakers:
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_frame, new SpeakerFragment()).commit();
+                getSupportActionBar().setTitle(R.string.menu_speakers);
+                break;
+            case R.id.nav_sponsors:
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_frame, new SponsorsFragment()).commit();
+                getSupportActionBar().setTitle(R.string.menu_sponsor);
+                break;
+            case R.id.nav_locations:
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_frame, new LocationsFragment()).commit();
+                getSupportActionBar().setTitle(R.string.menu_locations);
+                break;
+            case R.id.nav_map:
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                fragmentTransaction.replace(R.id.content_frame,
+                        ((OpenEventApp) getApplication())
+                                .getMapModuleFactory()
+                                .provideMapModule()
+                                .provideMapFragment()).commit();
+                getSupportActionBar().setTitle(R.string.menu_map);
+                break;
+            case R.id.nav_settings:
+                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                mDrawerLayout.closeDrawers();
+                startActivity(intent);
+
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+
+        }
+        currentMenuItemId = menuItemId;
+        mDrawerLayout.closeDrawers();
     }
 
     //Subscribe Events
