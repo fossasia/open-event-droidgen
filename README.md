@@ -7,7 +7,7 @@ a) A standard configuration file, that sets the details of the app (e.g. color s
 b) The Android app itself
 This app uses the json api provided by a server maintained [here](https://github.com/fossasia/open-event-orga-server). 
 
-## Development Installation
+## Development Setup
 Before you begin, you should already have the Android Studio SDK downloaded and set up correctly. You can find a guide on how to do this here: [Setting up Android Studio](http://developer.android.com/sdk/installing/index.html?pkg=studio)
 
 1. Download the *open-event-android* project source. You can do this either by forking and cloning the repository (recommended if you plan on pushing changes) or by downloading it as a ZIP file and extracting it.
