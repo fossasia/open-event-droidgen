@@ -10,6 +10,7 @@ This app uses the json api provided by a server maintained [here](https://github
 ## Development Setup
 Before you begin, you should already have the Android Studio SDK downloaded and set up correctly. You can find a guide on how to do this here: [Setting up Android Studio](http://developer.android.com/sdk/installing/index.html?pkg=studio)
 
+### Setting up the Android Project
 1. Download the *open-event-android* project source. You can do this either by forking and cloning the repository (recommended if you plan on pushing changes) or by downloading it as a ZIP file and extracting it.
 
 2. Open Android Studio, you will see a **Welcome to Android** window. Under Quick Start, select *Import Project (Eclipse ADT, Gradle, etc.)*
@@ -25,6 +26,33 @@ Before you begin, you should already have the Android Studio SDK downloaded and 
 6. To Build the app, go to *Build>Make Project* (or alternatively press the Make Project icon in the toolbar).
 
 7. If the app was built succesfully, you can test it by running it on either a real device or an emulated one by going to *Run>Run 'app'* or presing the Run icon in the toolbar.
+
+### Configuring the app
+
+**Configuring Server and Web-App Urls**
+- Browse the project directories and open (with Android Studio): *app/src/main/java/org/fossasia/openevent/api/Urls.java*
+- In this file you will see several constant variables that allow you to set useful properties of the app, these include:
+	* API_VERSION: Server API version. (Example: "v1")
+	* EVENT_ID: ID of the event to load from server. (Example: 1)
+	* BASE_URL: The base URL of the server. (Example: "http://springboard.championswimmer.in")
+	* BASE_GET_URL_ALT: An alternative server base URL for testing. (Example: "https://raw.githubusercontent.com/fossasia/open-event/master/testapi")
+	* WEB_APP_URL_BASIC: The full URL of the web app. (Example: "http://fossasia.github.io/open-event-webapp/#/"
+	* SPEAKERS: The file-name of the speakers page of the web app. Added to the end of WEB_APP_URL_BASIC to form full link. (Example: "speakers")
+	* TRACKS: The file-name of the tracks page of the web app. Added to the end of WEB_APP_URL_BASIC to form full link. (Example: "tracks")
+	* SESSIONS: The file-name of the sessions page of the web app. Added to the end of WEB_APP_URL_BASIC to form full link. (Example: "sessions")
+	* MAP: The file-name of the map page of the web app. Added to the end of WEB_APP_URL_BASIC to form full link. (Example: "map")
+
+**Configuring App Colors / Theme**
+- Using *Theme Editor*:
+	* You can configure the colors / theme of the app easily using Android Studio's *Theme Editor* tool. 
+	* Go to *Tools>Android>Theme Editor* to open the Theme Editor.
+	* From there you can configure the colors and styles of in-app elements using a neat UI.
+
+- Editing Manually:
+	* You can find the configuration files for the app's appearance for manual editing at these locations:
+	* */app/src/main/res/values/color.xml*: App colors configuration.
+	* */app/src/main/res/values/config.xml*: App background colors configuration.
+	* */app/src/main/res/values-v21/styles.xml*: App main theme configuration.
 
 ## Data retrieval
 - The orga-server provides the data which is stored in its backend database in a json format.
