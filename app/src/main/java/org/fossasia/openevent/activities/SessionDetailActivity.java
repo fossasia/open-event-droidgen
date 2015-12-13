@@ -42,7 +42,7 @@ public class SessionDetailActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.sessions_detail);
+        setContentView(R.layout.activity_sessions_detail);
         DbSingleton dbSingleton = DbSingleton.getInstance();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_details);
         setSupportActionBar(toolbar);
