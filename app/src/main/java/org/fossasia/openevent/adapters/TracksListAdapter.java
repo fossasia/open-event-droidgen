@@ -26,7 +26,7 @@ public class TracksListAdapter extends RecyclerView.Adapter<TracksListAdapter.Vi
     @Override
     public TracksListAdapter.Viewholder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.tracks_item, parent, false);
+        View view = layoutInflater.inflate(R.layout.item_track, parent, false);
         Viewholder viewholder = new Viewholder(view);
         return viewholder;
     }
