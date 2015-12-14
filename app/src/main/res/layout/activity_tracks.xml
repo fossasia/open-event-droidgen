@@ -2,8 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_content"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/translucent_grey">
+    android:layout_height="match_parent">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
@@ -26,6 +25,7 @@
                 android:id="@+id/backdrop"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:contentDescription="@string/track_Image_Description"
                 android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
                 android:src="@color/color_primary"
@@ -53,12 +53,12 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/share_fab"
+        style="@style/Fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
         android:clickable="true"
         android:src="@drawable/ic_share_white_24dp"
-        app:backgroundTint="@color/color_primary"
         app:layout_anchor="@id/appbar"
         app:layout_anchorGravity="bottom|right|end" />
 
