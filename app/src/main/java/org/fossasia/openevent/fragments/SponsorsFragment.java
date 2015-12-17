@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -33,6 +34,7 @@ public class SponsorsFragment extends Fragment {
     private RecyclerView sponsorsRecyclerView;
     private SponsorsListAdapter sponsorsListAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
+    RecyclerView.LayoutManager mLayoutManager;
 
     @Nullable
     @Override
@@ -59,7 +61,9 @@ public class SponsorsFragment extends Fragment {
         });
         sponsorsListAdapter = new SponsorsListAdapter(dbSingleton.getSponsorList());
         sponsorsRecyclerView.setAdapter(sponsorsListAdapter);
-        sponsorsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        //2 grids
+        mLayoutManager = new GridLayoutManager(getActivity(),2,GridLayoutManager.VERTICAL,false);
+        sponsorsRecyclerView.setLayoutManager(mLayoutManager);
         return view;
     }
 
