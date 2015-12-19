@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">OpenEvent</string>
+    <string name="app_name" translatable="false">OpenEvent</string>
 
     <string name="main_menu">Main menu</string>
     <string name="close_menu">Close menu</string>
@@ -45,10 +45,10 @@
 
 
     <!--Social-->
-    <string name="linkedin">linkedin</string>
-    <string name="twitter">twitter</string>
-    <string name="fb">fb</string>
-    <string name="github">github</string>
+    <string name="linkedin" translatable="false">linkedin</string>
+    <string name="twitter" translatable="false">twitter</string>
+    <string name="fb" translatable="false">fb</string>
+    <string name="github" translatable="false">github</string>
 
     <!--Menu Titles-->
     <string name="search">Search</string>
