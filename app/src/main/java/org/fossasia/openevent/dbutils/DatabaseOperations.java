@@ -121,18 +121,18 @@ public class DatabaseOperations {
                 null,
                 null
         );
-        Microlocation location;
-        cursor.moveToFirst();
-        //Should return only one due to UNIQUE constraint
-        location = new Microlocation(
-                cursor.getInt(cursor.getColumnIndex(DbContract.Microlocation.ID)),
-                cursor.getString(cursor.getColumnIndex(DbContract.Microlocation.NAME)),
-                cursor.getFloat(cursor.getColumnIndex(DbContract.Microlocation.LATITUDE)),
-                cursor.getFloat(cursor.getColumnIndex(DbContract.Microlocation.LONGITUDE)),
-                cursor.getInt(cursor.getColumnIndex(DbContract.Microlocation.FLOOR))
-        );
-        cursor.close();
-
+        Microlocation location = null;
+        if (cursor != null && cursor.moveToFirst()) {
+            //Should return only one due to UNIQUE constraint
+            location = new Microlocation(
+                    cursor.getInt(cursor.getColumnIndex(DbContract.Microlocation.ID)),
+                    cursor.getString(cursor.getColumnIndex(DbContract.Microlocation.NAME)),
+                    cursor.getFloat(cursor.getColumnIndex(DbContract.Microlocation.LATITUDE)),
+                    cursor.getFloat(cursor.getColumnIndex(DbContract.Microlocation.LONGITUDE)),
+                    cursor.getInt(cursor.getColumnIndex(DbContract.Microlocation.FLOOR))
+            );
+            cursor.close();
+        }
         return location;
     }
 
@@ -196,7 +196,6 @@ public class DatabaseOperations {
         Version currentVersion;
         if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
-
             currentVersion = new Version(
                     cursor.getInt(cursor.getColumnIndex(DbContract.Versions.VER_ID)),
                     cursor.getInt(cursor.getColumnIndex(DbContract.Versions.VER_EVENT)),
