@@ -1,6 +1,7 @@
 # open-event-android
 [![Build Status](https://travis-ci.org/fossasia/open-event-android.svg)](https://travis-ci.org/fossasia/open-event-android)
 The Open Event Android Client
+[![Coverage Status](https://coveralls.io/repos/fossasia/open-event-android/badge.svg?branch=master&service=github)](https://coveralls.io/github/fossasia/open-event-android?branch=master)
 
 The Android client is a generic app that has two parts:
 a) A standard configuration file, that sets the details of the app (e.g. color scheme, logo of event, link to JSON app data)
