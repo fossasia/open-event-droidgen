@@ -1,14 +1,15 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.github.kt3k.coveralls'
 
 def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
 def buildTime = new Date().format("yyyy-MM-dd'T'HH:mm'Z'", TimeZone.getTimeZone("UTC"))
 
 def isTravis = "true".equals(System.getenv("TRAVIS"))
 def preDexEnabled = "true".equals(System.getProperty("pre-dex", "true"))
-
+def SUPPORT_LIB_VERSION = "23.1.1"
 
 android {
-    compileSdkVersion 21
+    compileSdkVersion 23
     buildToolsVersion "22.0.1"
 
     dexOptions {
@@ -19,7 +20,7 @@ android {
     defaultConfig {
         applicationId "org.fossasia.openevent"
         minSdkVersion 15
-        targetSdkVersion 21
+        targetSdkVersion 23
         versionCode 1
         versionName "0.1"
 
@@ -28,6 +29,9 @@ android {
         buildConfigField "String", "BUILD_TIME", "\"${buildTime}\""
     }
     buildTypes {
+        debug {
+            testCoverageEnabled true
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -45,20 +49,31 @@ android {
     }
 }
 
+// Coverall
+// See http://jeroenmols.github.io/blog/2015/11/13/traviscoveralls/
+coveralls {
+    jacocoReportPath = "${buildDir}/reports/coverage/debug/report.xml"
+}
+
+tasks.coveralls {
+    dependsOn 'connectedAndroidTest'
+    onlyIf { System.env.'CI' }
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:22.2.0'
-    compile 'com.android.support:support-v4:22.2.0'
-    compile 'com.android.support:cardview-v7:22.2.0'
-    compile 'com.android.support:recyclerview-v7:22.2.0'
-    compile 'com.google.code.gson:gson:2.3.1'
+    compile "com.android.support:appcompat-v7:${SUPPORT_LIB_VERSION}"
+    compile "com.android.support:support-v4:${SUPPORT_LIB_VERSION}"
+    compile "com.android.support:cardview-v7:${SUPPORT_LIB_VERSION}"
+    compile "com.android.support:recyclerview-v7:${SUPPORT_LIB_VERSION}"
+    compile 'com.google.code.gson:gson:2.4'
     compile 'com.squareup.okhttp:okhttp:2.0.0'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
-    compile 'com.android.support:design:22.2.0'
+    compile "com.android.support:design:${SUPPORT_LIB_VERSION}"
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.squareup:otto:1.3.8'
 
-    googleplayCompile 'com.google.android.gms:play-services-maps:7.5.0'
+    googleplayCompile 'com.google.android.gms:play-services-maps:8.3.0'
 
     fdroidCompile 'org.osmdroid:osmdroid-android:4.3'
     fdroidCompile 'org.apache.directory.studio:org.slf4j.api:1.7.2'
@@ -66,6 +81,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2'
     androidTestCompile 'com.android.support.test:runner:0.3'
+    androidTestCompile "com.android.support:support-annotations:${SUPPORT_LIB_VERSION}"
     androidTestCompile('com.android.support.test.espresso:espresso-contrib:2.2') {
         exclude group: 'com.android.support', module: 'appcompat'
         exclude group: 'com.android.support', module: 'support-v4'
