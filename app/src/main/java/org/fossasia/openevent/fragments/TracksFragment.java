@@ -109,17 +109,8 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
         inflater.inflate(R.menu.menu_tracks, menu);
         final MenuItem item = menu.findItem(R.id.action_search_tracks);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
-        //onCreateInputConnection(searchView);
         searchView.setOnQueryTextListener(this);
     }
-
-    /*public InputConnection onCreateInputConnection(EditorInfo outAttrs) {
-
-        outAttrs.imeOptions = EditorInfo.IME_FLAG_NO_EXTRACT_UI;
-
-        // etc.
-    }*/
-
 
     @Override
     public boolean onQueryTextChange(String query) {
