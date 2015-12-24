@@ -30,6 +30,8 @@ public class DatabaseOperations {
 
     private static final String EQUAL = " == ";
 
+    Event event;
+
     public ArrayList<Session> getSessionList(SQLiteDatabase mDb) {
 
         String sortOrder = DbContract.Sessions.ID + ASCENDING;
@@ -517,27 +519,28 @@ public class DatabaseOperations {
             );
 
             Session session;
-            sessionTableCursor.moveToFirst();
-            try {
-                session = new Session(
-                        sessionTableCursor.getInt(sessionTableCursor.getColumnIndex(DbContract.Sessions.ID)),
-                        sessionTableCursor.getString(sessionTableCursor.getColumnIndex(DbContract.Sessions.TITLE)),
-                        sessionTableCursor.getString(sessionTableCursor.getColumnIndex(DbContract.Sessions.SUBTITLE)),
-                        sessionTableCursor.getString(sessionTableCursor.getColumnIndex(DbContract.Sessions.SUMMARY)),
-                        sessionTableCursor.getString(sessionTableCursor.getColumnIndex(DbContract.Sessions.DESCRIPTION)),
-                        sessionTableCursor.getString(sessionTableCursor.getColumnIndex(DbContract.Sessions.START_TIME)),
-                        sessionTableCursor.getString(sessionTableCursor.getColumnIndex(DbContract.Sessions.END_TIME)),
-                        sessionTableCursor.getString(sessionTableCursor.getColumnIndex(DbContract.Sessions.TYPE)),
-                        sessionTableCursor.getInt(sessionTableCursor.getColumnIndex(DbContract.Sessions.TRACK)),
-                        sessionTableCursor.getString(sessionTableCursor.getColumnIndex(DbContract.Sessions.LEVEL)),
-                        sessionTableCursor.getInt(sessionTableCursor.getColumnIndex(DbContract.Sessions.MICROLOCATION))
-                );
-                sessions.add(session);
-            } catch (ParseException e) {
-                e.printStackTrace();
+            if (sessionTableCursor != null && sessionTableCursor.moveToFirst()) {
+                try {
+                    session = new Session(
+                            sessionTableCursor.getInt(sessionTableCursor.getColumnIndex(DbContract.Sessions.ID)),
+                            sessionTableCursor.getString(sessionTableCursor.getColumnIndex(DbContract.Sessions.TITLE)),
+                            sessionTableCursor.getString(sessionTableCursor.getColumnIndex(DbContract.Sessions.SUBTITLE)),
+                            sessionTableCursor.getString(sessionTableCursor.getColumnIndex(DbContract.Sessions.SUMMARY)),
+                            sessionTableCursor.getString(sessionTableCursor.getColumnIndex(DbContract.Sessions.DESCRIPTION)),
+                            sessionTableCursor.getString(sessionTableCursor.getColumnIndex(DbContract.Sessions.START_TIME)),
+                            sessionTableCursor.getString(sessionTableCursor.getColumnIndex(DbContract.Sessions.END_TIME)),
+                            sessionTableCursor.getString(sessionTableCursor.getColumnIndex(DbContract.Sessions.TYPE)),
+                            sessionTableCursor.getInt(sessionTableCursor.getColumnIndex(DbContract.Sessions.TRACK)),
+                            sessionTableCursor.getString(sessionTableCursor.getColumnIndex(DbContract.Sessions.LEVEL)),
+                            sessionTableCursor.getInt(sessionTableCursor.getColumnIndex(DbContract.Sessions.MICROLOCATION))
+                    );
+                    sessions.add(session);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                sessionTableCursor.moveToNext();
+                sessionTableCursor.close();
             }
-            sessionTableCursor.moveToNext();
-            sessionTableCursor.close();
         }
 
         return sessions;
@@ -589,25 +592,27 @@ public class DatabaseOperations {
                 null
         );
 
-        cursor.moveToFirst();
-        Event event = new Event(
-                cursor.getInt(cursor.getColumnIndex(DbContract.Event.ID)),
-                cursor.getString(cursor.getColumnIndex(DbContract.Event.NAME)),
-                cursor.getString(cursor.getColumnIndex(DbContract.Event.EMAIL)),
-                cursor.getString(cursor.getColumnIndex(DbContract.Event.COLOR)),
-                cursor.getString(cursor.getColumnIndex(DbContract.Event.LOGO_URL)),
-                cursor.getString(cursor.getColumnIndex(DbContract.Event.START)),
-                cursor.getString(cursor.getColumnIndex(DbContract.Event.END)),
-                cursor.getFloat(cursor.getColumnIndex(DbContract.Event.LATITUDE)),
-                cursor.getFloat(cursor.getColumnIndex(DbContract.Event.LONGITUDE)),
-                cursor.getString(cursor.getColumnIndex(DbContract.Event.LOCATION_NAME)),
-                cursor.getString(cursor.getColumnIndex(DbContract.Event.EVENT_URL)),
-                cursor.getString(cursor.getColumnIndex(DbContract.Event.EVENT_SLOGAN))
-        );
-        cursor.close();
+        if (cursor != null && cursor.moveToFirst()) {
+            event = new Event(
+                    cursor.getInt(cursor.getColumnIndex(DbContract.Event.ID)),
+                    cursor.getString(cursor.getColumnIndex(DbContract.Event.NAME)),
+                    cursor.getString(cursor.getColumnIndex(DbContract.Event.EMAIL)),
+                    cursor.getString(cursor.getColumnIndex(DbContract.Event.COLOR)),
+                    cursor.getString(cursor.getColumnIndex(DbContract.Event.LOGO_URL)),
+                    cursor.getString(cursor.getColumnIndex(DbContract.Event.START)),
+                    cursor.getString(cursor.getColumnIndex(DbContract.Event.END)),
+                    cursor.getFloat(cursor.getColumnIndex(DbContract.Event.LATITUDE)),
+                    cursor.getFloat(cursor.getColumnIndex(DbContract.Event.LONGITUDE)),
+                    cursor.getString(cursor.getColumnIndex(DbContract.Event.LOCATION_NAME)),
+                    cursor.getString(cursor.getColumnIndex(DbContract.Event.EVENT_URL)),
+                    cursor.getString(cursor.getColumnIndex(DbContract.Event.EVENT_SLOGAN))
+            );
+            cursor.close();
+        }
         return event;
 
     }
+
 
     public Microlocation getLocationByName(String speakerName, SQLiteDatabase mDb) {
         String locationColumnSelection = DbContract.Microlocation.NAME + EQUAL + DatabaseUtils.sqlEscapeString(speakerName);
