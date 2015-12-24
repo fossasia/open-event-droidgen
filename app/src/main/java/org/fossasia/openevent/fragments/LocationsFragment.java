@@ -25,7 +25,6 @@ import org.fossasia.openevent.activities.LocationActivtiy;
 import org.fossasia.openevent.adapters.LocationsListAdapter;
 import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.dbutils.DataDownload;
-import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.MicrolocationDownloadEvent;
 import org.fossasia.openevent.events.RefreshUiEvent;
@@ -44,7 +43,6 @@ public class LocationsFragment extends Fragment implements SearchView.OnQueryTex
     private LocationsListAdapter locationsListAdapter;
     private List<Microlocation> mLocations;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
@@ -61,9 +59,7 @@ public class LocationsFragment extends Fragment implements SearchView.OnQueryTex
             @Override
             public void onRefresh() {
                 DataDownload download = new DataDownload();
-                dbSingleton.clearDatabase(DbContract.Microlocation.TABLE_NAME);
                 download.downloadMicrolocations();
-
             }
         });
 
@@ -139,8 +135,9 @@ public class LocationsFragment extends Fragment implements SearchView.OnQueryTex
             locationsListAdapter.refresh();
 
         } else {
-            Snackbar.make(getView(), getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).show();
-
+            if(getActivity()!=null) {
+                Snackbar.make(getView(), getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).show();
+            }
         }
     }
 }

@@ -67,7 +67,6 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
             public void onRefresh() {
                 if (haveNetworkConnection()) {
                     DataDownload download = new DataDownload();
-                    dbSingleton.clearDatabase(DbContract.Tracks.TABLE_NAME);
                     download.downloadTracks();
                 } else {
                     OpenEventApp.getEventBus().post(new TracksDownloadEvent(false));
@@ -155,8 +154,9 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
             tracksListAdapter.refresh();
 
         } else {
-            Snackbar.make(getView(), getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).show();
-
+            if (getActivity()!=null){
+                Snackbar.make(getView(), getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).show();
+            }
         }
     }
 
