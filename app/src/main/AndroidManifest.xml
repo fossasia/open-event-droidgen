@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+
     <application
         android:name=".OpenEventApp"
         android:allowBackup="true"
@@ -34,7 +35,9 @@
             android:label="@string/title_section_location" />
         <activity
             android:name=".activities.SpeakersActivity"
-            android:label="@string/title_section_speakerlist" />
+            android:label="@string/title_section_speakerlist"
+
+            />
 
         <activity
             android:name=".activities.SessionDetailActivity"

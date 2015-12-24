@@ -48,6 +48,6 @@ public class MicrolocationListResponseProcessor implements Callback<Microlocatio
 
     @Override
     public void failure(RetrofitError error) {
-        OpenEventApp.getEventBus().post(new MicrolocationDownloadEvent(false));
+        OpenEventApp.getEventBus().post(new MicrolocationDownloadEvent(true));
     }
 }
