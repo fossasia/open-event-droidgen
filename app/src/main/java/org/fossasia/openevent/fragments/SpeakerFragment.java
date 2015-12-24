@@ -71,7 +71,6 @@ public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextL
             public void onRefresh() {
                 if (haveNetworkConnection()) {
                     DataDownload download = new DataDownload();
-                    dbSingleton.clearDatabase(DbContract.Speakers.TABLE_NAME);
                     download.downloadSpeakers();
                 } else {
                     OpenEventApp.getEventBus().post(new SpeakerDownloadEvent(false));
@@ -126,7 +125,9 @@ public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextL
             Log.d("countersp", "Refresh done");
 
         } else {
-            Snackbar.make(getView(), getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).show();
+            if (getActivity()!=null){
+                Snackbar.make(getView(), getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).show();
+            }
             Log.d("countersp", "Refresh not done");
 
         }
