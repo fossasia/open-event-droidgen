@@ -1,0 +1,66 @@
+<resources>
+    <string name="app_name">OpenEvent</string>
+
+    <string name="main_menu">Zamknij menu</string>
+    <string name="close_menu">Otwórz menu</string>
+    <string name="title_section_tracks">Ścieżki</string>
+    <string name="title_section_speakerlist">Wykładowcy</string>
+    <string name="title_section_sponsors">Sponsorzy</string>
+    <string name="title_section_map">Mapa</string>
+    <string name="title_section_location">Lokalizacje</string>
+
+    <!-- Main menu_speakers -->
+    <string name="menu_tracks">Ścieżki</string>
+    <string name="menu_bookmarks">Zakładki</string>
+    <string name="menu_speakers">Wykładowcy</string>
+    <string name="menu_sponsor">Sponsorzy</string>
+    <string name="menu_map">Mapa</string>
+    <string name="menu_locations">Lokalizacje</string>
+    <string name="session">Szczegóły sesji</string>
+
+    <!--Navigation Drawer-->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_example">Przykładowa akcja</string>
+
+    <string name="action_settings">Ustawienia</string>
+    <string name="splash">Splash</string>
+
+    <string name="about">O nas</string>
+
+    <!-- Speaker Fragment-->
+    <string name="placeholder_speaker_designation">holder_speaker_designation</string>
+    <string name="placeholder_speaker_name">holder_speaker_name</string>
+    <string name="placeholder_speaker_bio">holder_speaker_bio</string>
+
+    <!--Settings-->
+    <string name="settings_mode_api"> Tryb API</string>
+    <string name="default_mode_api">Developer</string>
+
+    <string name="settings_mode_notification"> Tryb Notyfikacji</string>
+    <string name="default_mode_notification">10 min. przed</string>
+    <string name="hour_before">1 godzina </string>
+    <string name="twelve_hours_before">12 godzin </string>
+
+
+    <!--Social-->
+    <string name="linkedin">linkedin</string>
+    <string name="twitter">twitter</string>
+    <string name="fb">fb</string>
+    <string name="github">github</string>
+
+    <!--Menu Titles-->
+    <string name="search">Szukaj</string>
+    <string name="share">Udostępnij</string>
+
+
+    <!--Search Titles-->
+    <string name="search_hint_tracks"> Szukaj Ścieżek</string>
+    <string name="refresh_failed">Nie można było odświeżyć.</string>
+    <string name="cantDownload">Nie można było pobrać.</string>
+    <string name="download_failed">Pobieranie nieudane. Sprawdź połączenie.</string>
+    <string name="download_complete">Pobieranie ukończone.</string>
+    <string name="share_links">Udostępnianie URL</string>
+    <string name="time_not_specified">Czas nie jest ustalony</string>
+</resources>
