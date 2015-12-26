@@ -6,7 +6,6 @@ import com.squareup.okhttp.OkHttpClient;
 import org.fossasia.openevent.api.network.OpenEventAPI;
 
 import java.util.concurrent.TimeUnit;
-
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
 
