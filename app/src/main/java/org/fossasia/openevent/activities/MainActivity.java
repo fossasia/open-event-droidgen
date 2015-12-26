@@ -1,18 +1,29 @@
 package org.fossasia.openevent.activities;
 
+import android.Manifest;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.provider.Settings;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -44,6 +55,8 @@ import org.fossasia.openevent.fragments.SpeakerFragment;
 import org.fossasia.openevent.fragments.SponsorsFragment;
 import org.fossasia.openevent.fragments.TracksFragment;
 
+import java.util.Arrays;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -57,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
     private int eventsDone;
     private int currentMenuItemId;
     private final static String STATE_FRAGMENT = "stateFragment";
+    //private final int ChangeNetStatePerm = 123;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -187,7 +201,7 @@ public class MainActivity extends AppCompatActivity {
     private void downloadFailed() {
         downloadProgress.setVisibility(View.GONE);
         Snackbar.make(mainFrame, getString(R.string.download_failed), Snackbar.LENGTH_LONG).show();
-
+        cantDownload(new CantDownloadEvent());
     }
 
     private void setupDrawerContent(NavigationView navigationView, final Menu menu) {
@@ -327,8 +341,62 @@ public class MainActivity extends AppCompatActivity {
     @Subscribe
     public void cantDownload(CantDownloadEvent event) {
         downloadProgress.setVisibility(View.GONE);
-        Snackbar.make(mainFrame, getString(R.string.cantDownload), Snackbar.LENGTH_LONG).show();
+        //Snackbar.make(mainFrame, getString(R.string.cantDownload), Snackbar.LENGTH_LONG).show();
+        /* int networkstateperm = ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET);
+        if(networkstateperm != PackageManager.PERMISSION_GRANTED){
+            if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.INTERNET))
+            {
+                Log.d("Perm", "shouldshowreqpermrat");
+            }
+            else{
+                Log.d("Perm", "Permission will be requested");
+                ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.INTERNET}, ChangeNetStatePerm);
+            }
+        }
+        else {
+            Log.d("Perm", "Permission has been granted already");
+        }
+        */
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Network not available")
+                .setMessage("Turn on WiFi or Mobile data in Settings")
+                .setPositiveButton("Settings", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent setNetworkIntent = new Intent(Settings.ACTION_SETTINGS);
+                        startActivity(setNetworkIntent);
+                        MainActivity.this.finish();
+                    }
+                })
+                .setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .create();
+        builder.show();
+
     }
+
+    /*
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        Log.d("Perms", "onRequestPermissionsResult has been called");
+        Log.d("grantResults", Arrays.toString(grantResults));
+        if(requestCode==ChangeNetStatePerm){
+            if(grantResults.length==0){
+                Log.d("Perms", "returning back");
+                return;
+            }
+            if(grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                Snackbar.make(mainFrame, "Granted", Snackbar.LENGTH_LONG);
+                Log.d("Perms", "Permission was granted");
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+    */
 
     @Subscribe
     public void onEventsDownloadDone(EventDownloadEvent event) {
