@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.CalendarContract;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +16,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import org.fossasia.openevent.R;
@@ -27,6 +29,7 @@ import org.fossasia.openevent.utils.ISO8601Date;
 import org.fossasia.openevent.utils.IntentStrings;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -47,7 +50,7 @@ public class SessionDetailActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_details);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        String title = getIntent().getStringExtra(IntentStrings.SESSION);
+        final String title = getIntent().getStringExtra(IntentStrings.SESSION);
         String trackName = getIntent().getStringExtra(IntentStrings.TRACK);
         Log.d(TAG, title);
         TextView text_title = (TextView) findViewById(R.id.title_session);
@@ -78,6 +81,20 @@ public class SessionDetailActivity extends AppCompatActivity {
         } else {
             timings = start + " - " + end;
             text_time.setText(timings);
+            text_time.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Intent.ACTION_INSERT);
+                    intent.setType("vnd.android.cursor.item/event");
+                    intent.putExtra(CalendarContract.Events.TITLE, title);
+                    intent.putExtra(CalendarContract.Events.DESCRIPTION, session.getDescription());
+                    intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME,ISO8601Date.getDateObject(session.getStartTime()).getTime());
+                    intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME,
+                            ISO8601Date.getDateObject(session.getEndTime()).getTime());
+                    startActivity(intent);
+
+                }
+            });
         }
         summary.setText(session.getSummary());
         descrip.setText(session.getDescription());
