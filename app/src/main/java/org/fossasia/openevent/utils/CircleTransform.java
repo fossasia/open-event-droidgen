@@ -24,7 +24,7 @@ public class CircleTransform implements Transformation {
             source.recycle();
         }
 
-        final Bitmap bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
+        final Bitmap bitmap = Bitmap.createBitmap(size, size, source.getConfig());
 
         Canvas canvas = new Canvas(bitmap);
         Paint paint = new Paint();
