@@ -70,7 +70,7 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
                     dbSingleton.clearDatabase(DbContract.Tracks.TABLE_NAME);
                     download.downloadTracks();
                 } else {
-                    OpenEventApp.getEventBus().post(new TracksDownloadEvent(false));
+                    OpenEventApp.getEventBus().post(new TracksDownloadEvent(true));
                 }
             }
         });

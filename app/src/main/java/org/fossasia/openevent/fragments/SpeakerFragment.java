@@ -74,7 +74,7 @@ public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextL
                     dbSingleton.clearDatabase(DbContract.Speakers.TABLE_NAME);
                     download.downloadSpeakers();
                 } else {
-                    OpenEventApp.getEventBus().post(new SpeakerDownloadEvent(false));
+                    OpenEventApp.getEventBus().post(new SpeakerDownloadEvent(true));
                 }
             }
         });
