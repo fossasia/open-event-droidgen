@@ -1,0 +1,66 @@
+<resources>
+    <string name="app_name" translatable="false">OpenEvent</string>
+
+    <string name="main_menu">Main menu</string>
+    <string name="close_menu">Close menu</string>
+    <string name="title_section_tracks">Tracks</string>
+    <string name="title_section_speakerlist">Speakers</string>
+    <string name="title_section_sponsors">Sponsors</string>
+    <string name="title_section_map">Map</string>
+    <string name="title_section_location">Locations</string>
+
+    <!-- Main menu_speakers -->
+    <string name="menu_tracks">Tracks</string>
+    <string name="menu_bookmarks">Bookmarks</string>
+    <string name="menu_speakers">Speakers</string>
+    <string name="menu_sponsor">Sponsors</string>
+    <string name="menu_map">Map</string>
+    <string name="menu_locations">Locations</string>
+    <string name="session">Session detail</string>
+
+    <!--Navigation Drawer-->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_example">Example action</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="splash">Splash</string>
+
+    <string name="about">About</string>
+
+    <!-- Speaker Fragment-->
+    <string name="placeholder_speaker_designation">holder_speaker_designation</string>
+    <string name="placeholder_speaker_name">holder_speaker_name</string>
+    <string name="placeholder_speaker_bio">holder_speaker_bio</string>
+
+    <!--Settings-->
+    <string name="settings_mode_api"> API Mode</string>
+    <string name="default_mode_api">Developer</string>
+
+    <string name="settings_mode_notification"> Notification Mode</string>
+    <string name="default_mode_notification">10 mins before</string>
+    <string name="hour_before">1 hour </string>
+    <string name="twelve_hours_before">12 hours </string>
+
+
+    <!--Social-->
+    <string name="linkedin" translatable="false">linkedin</string>
+    <string name="twitter" translatable="false">twitter</string>
+    <string name="fb" translatable="false">fb</string>
+    <string name="github" translatable="false">github</string>
+
+    <!--Menu Titles-->
+    <string name="search">Search</string>
+    <string name="share">Share</string>
+
+
+    <!--Search Titles-->
+    <string name="search_hint_tracks"> Search Tracks</string>
+    <string name="refresh_failed">Couldn\'t Refresh</string>
+    <string name="cantDownload">Can\'t Download right now</string>
+    <string name="download_failed">Download Failed, Check Internet Connection</string>
+    <string name="download_complete">Download Done</string>
+    <string name="share_links">Sharing URL</string>
+    <string name="time_not_specified">Timings not specified</string>
+</resources>

@@ -1,0 +1,47 @@
+language: android
+sudo: false
+jdk: oraclejdk7
+env:
+  matrix:
+    - ADB_INSTALL_TIMEOUT=8 ANDROID_BUILD_TOOLS_VERSION=22.0.1 ANDROID_TARGET=android-22 ANDROID_ABI=armeabi-v7a
+
+cache:
+  directories:
+    - ${TRAVIS_BUILD_DIR}/gradle/caches/
+    - ${TRAVIS_BUILD_DIR}/gradle/wrapper/dists/
+
+android:
+  components:
+    - platform-tools
+    - tools
+    - build-tools-$ANDROID_BUILD_TOOLS_VERSION
+    - $ANDROID_TARGET
+    # Need 22 for compilation
+    - android-23
+    # Google Play Services
+    - extra-google-google_play_services
+    # Support library
+    - extra-android-support
+    # Latest artifacts in local repository
+    - extra-google-m2repository
+    - extra-android-m2repository
+    # Specify at least one system image,
+    - sys-img-armeabi-v7a-$ANDROID_TARGET
+
+before_script:
+  # Create and start emulator
+  - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
+  - emulator -avd test -no-skin -no-audio -no-window &
+  - android-wait-for-emulator
+  - adb shell input keyevent 82 &
+
+script: ./gradlew :app:connectedAndroidTest :app:coveralls
+
+# Gitter Integration via Webhook (https://gitter.im/fossasia/open-event-android)
+notifications:
+  webhooks:
+    urls:
+      - https://webhooks.gitter.im/e/bbf7c28d708af7ae5ac6
+    on_success: always  # options: [always|never|change] default: always
+    on_failure: always  # options: [always|never|change] default: always
+    on_start: false     # default: false
