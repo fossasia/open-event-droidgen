@@ -1,9 +1,9 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
-
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar_speakers"
@@ -12,103 +12,127 @@
         android:background="@color/color_primary"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-    <LinearLayout
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_marginTop="?attr/actionBarSize"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-        <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:card_view="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/card_speaker"
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            card_view:cardBackgroundColor="#FFFFFF"
-            card_view:cardCornerRadius="4dp"
-            card_view:cardElevation="4dp"
-            card_view:cardUseCompatPadding="true">
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:expandedTitleMarginEnd="64dp"
+            app:expandedTitleMarginStart="48dp"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+            <android.support.v7.widget.CardView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/card_speaker"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="2dp"
-                android:layout_marginTop="2dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/speaker_bio"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Biography"
-                    android:textColor="#000000"
-                    android:textStyle="bold" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                card_view:cardBackgroundColor="@android:color/white"
+                card_view:cardCornerRadius="4dp"
+                card_view:cardElevation="4dp"
+                card_view:cardUseCompatPadding="true">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="end|center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingRight="10dp">
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginTop="2dp"
+                    android:orientation="vertical">
 
-                    <ImageView
-                        android:id="@+id/imageView_linkedin"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_margin="5dp"
-                        android:adjustViewBounds="true"
-                        android:clickable="true"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/linkedin"
-                        android:tag="@string/linkedin" />
+                    <TextView
+                        android:id="@+id/speaker_bio"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Biography"
+                        android:textColor="#000000"
+                        android:textStyle="bold" />
 
-                    <ImageView
-                        android:id="@+id/imageView_twitter"
+                    <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_margin="5dp"
-                        android:adjustViewBounds="true"
-                        android:clickable="true"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/twitter"
-                        android:tag="@string/twitter" />
+                        android:layout_height="match_parent"
+                        android:gravity="end|center_vertical"
+                        android:layout_gravity="center_horizontal"
+                        android:orientation="horizontal"
+                        android:paddingRight="10dp">
 
-                    <ImageView
-                        android:id="@+id/imageView_fb"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_margin="5dp"
-                        android:adjustViewBounds="true"
-                        android:clickable="true"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/facebook"
-                        android:tag="@string/fb" />
+                        <ImageView
+                            android:id="@+id/imageView_linkedin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:layout_margin="5dp"
+                            android:adjustViewBounds="true"
+                            android:clickable="true"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/linkedin"
+                            android:tag="@string/linkedin" />
 
-                    <ImageView
-                        android:id="@+id/imageView_github"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_margin="5dp"
-                        android:adjustViewBounds="true"
-                        android:clickable="true"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/github"
-                        android:tag="@string/github" />
+                        <ImageView
+                            android:id="@+id/imageView_twitter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:layout_margin="5dp"
+                            android:adjustViewBounds="true"
+                            android:clickable="true"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/twitter"
+                            android:tag="@string/twitter" />
+
+                        <ImageView
+                            android:id="@+id/imageView_fb"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:layout_margin="5dp"
+                            android:adjustViewBounds="true"
+                            android:clickable="true"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/facebook"
+                            android:tag="@string/fb" />
+
+                        <ImageView
+                            android:id="@+id/imageView_github"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:layout_margin="5dp"
+                            android:adjustViewBounds="true"
+                            android:clickable="true"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/github"
+                            android:tag="@string/github" />
+                    </LinearLayout>
+
                 </LinearLayout>
 
-            </LinearLayout>
+
+            </android.support.v7.widget.CardView>
 
 
-        </android.support.v7.widget.CardView>
+        </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
 
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/black" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerView_speakers"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </LinearLayout>
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/black" />
 
-</LinearLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView_speakers"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+
+</android.support.design.widget.CoordinatorLayout>
