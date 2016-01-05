@@ -57,6 +57,6 @@ public class SpeakerListResponseProcessor implements Callback<SpeakerResponseLis
     @Override
     public void failure(RetrofitError error) {
         // Do something with failure, raise an event etc.
-        OpenEventApp.getEventBus().post(new SponsorDownloadEvent(false));
+        OpenEventApp.getEventBus().post(new SpeakerDownloadEvent(false));
     }
 }
