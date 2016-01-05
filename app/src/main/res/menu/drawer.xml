@@ -31,8 +31,8 @@
         <menu>
             <item
                 android:id="@+id/nav_settings"
-                android:title="Settings" />
-            <item android:title="About us" />
+                android:title="@string/menu_settings" />
+            <item android:title="@string/menu_about" />
         </menu>
     </item>
 

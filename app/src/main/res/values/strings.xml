@@ -16,6 +16,8 @@
     <string name="menu_sponsor">Sponsors</string>
     <string name="menu_map">Map</string>
     <string name="menu_locations">Locations</string>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_about">About us</string>
     <string name="session">Session detail</string>
 
     <!--Navigation Drawer-->

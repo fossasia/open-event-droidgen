@@ -1,0 +1,65 @@
+<resources>
+    <string name="main_menu">Meniul principal</string>
+    <string name="close_menu">Inchide meniul</string>
+    <string name="title_section_tracks">Trasee</string>
+    <string name="title_section_speakerlist">Vorbitori</string>
+    <string name="title_section_sponsors">Sponsori</string>
+    <string name="title_section_map">Harta</string>
+    <string name="title_section_location">Locatii</string>
+
+    <!-- Main menu_speakers -->
+    <string name="menu_tracks">Trasee</string>
+    <string name="menu_bookmarks">Marcaje</string>
+    <string name="menu_speakers">Vorbitori</string>
+    <string name="menu_sponsor">Sponsori</string>
+    <string name="menu_map">Harta</string>
+    <string name="menu_locations">Locatii</string>
+    <string name="menu_settings">Setari</string>
+    <string name="menu_about">Despre noi</string>
+    <string name="session">Detalii sesiune</string>
+
+    <!--Navigation Drawer-->
+    <string name="navigation_drawer_open">Deschide meniul de navigatie</string>
+    <string name="navigation_drawer_close">Inchide meniul de navigatie</string>
+
+    <string name="action_example">Actiune demonstrativa</string>
+
+    <string name="action_settings">Setari</string>
+    <string name="splash">Initializare</string>
+
+    <string name="about">Despre</string>
+
+    <!-- Speaker Fragment-->
+    <string name="placeholder_speaker_designation">holder_speaker_designation</string>
+    <string name="placeholder_speaker_name">holder_speaker_name</string>
+    <string name="placeholder_speaker_bio">holder_speaker_bio</string>
+
+    <!--Settings-->
+    <string name="settings_mode_api"> Modul API</string>
+    <string name="default_mode_api">Dezvoltator</string>
+
+    <string name="settings_mode_notification"> Modul de Notificare</string>
+    <string name="default_mode_notification">10 minute inainte</string>
+    <string name="hour_before">O ora </string>
+    <string name="twelve_hours_before">12 ore </string>
+
+    <!--Menu Titles-->
+    <string name="search">Cauta</string>
+    <string name="share">Distribuie</string>
+
+    <!--Search Titles-->
+    <string name="search_hint_tracks">Cauta trasee</string>
+    <string name="refresh_failed">Nu s-a putut reincarca</string>
+    <string name="cantDownload">Nu se poate descarca momentan</string>
+    <string name="download_failed">Descarcare Esuata, Verifica Conexiunea la Internet</string>
+    <string name="download_complete">Descarcare finalizata</string>
+    <string name="share_links">URL Distribuire</string>
+    <string name="time_not_specified">Timul nu a fost specificat</string>
+
+    <!--Error Titles-->
+    <string name="net_unavailable">Retea indisponibila</string>
+    <string name="turn_on">Porneste WIFI-ul sau datele din setari</string>
+    <string name="cancel">Inchide</string>
+    <string name="error">Erore</string>
+    <string name="ok">OK</string>
+</resources>
