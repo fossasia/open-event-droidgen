@@ -49,6 +49,7 @@
             android:enabled="true" />
 
         <receiver android:name=".Receivers.NotificationAlarmReceiver" />
+
     </application>
 
 </manifest>

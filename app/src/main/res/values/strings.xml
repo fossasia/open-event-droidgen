@@ -58,9 +58,16 @@
     <!--Search Titles-->
     <string name="search_hint_tracks"> Search Tracks</string>
     <string name="refresh_failed">Couldn\'t Refresh</string>
-    <string name="cantDownload">Can\'t Download right now</string>
-    <string name="download_failed">Download Failed, Check Internet Connection</string>
+    <string name="download_failed">Download Failed</string>
     <string name="download_complete">Download Done</string>
     <string name="share_links">Sharing URL</string>
     <string name="time_not_specified">Timings not specified</string>
+
+    <!--Error Titles-->
+    <string name="net_unavailable">Network not available</string>
+    <string name="turn_on">Turn on WiFi or Mobile data in Settings</string>
+    <string name="cancel">Cancel</string>
+    <string name="error">Error</string>
+    <string name="ok">OK</string>
+
 </resources>

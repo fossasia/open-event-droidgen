@@ -7,7 +7,6 @@ import org.fossasia.openevent.api.protocol.VersionResponseList;
 import org.fossasia.openevent.data.Version;
 import org.fossasia.openevent.dbutils.DataDownload;
 import org.fossasia.openevent.dbutils.DbSingleton;
-import org.fossasia.openevent.events.CantDownloadEvent;
 import org.fossasia.openevent.events.CounterEvent;
 import org.fossasia.openevent.utils.CommonTaskLoop;
 
@@ -104,7 +103,9 @@ public class VersionApiProcessor implements Callback<VersionResponseList> {
 
     @Override
     public void failure(RetrofitError error) {
-        OpenEventApp.getEventBus().post(new CantDownloadEvent());
+        Log.d("Ret", "RetrofitError");
+        OpenEventApp.postEventOnUIThread(error);
+        Log.d("ErrorDescription", String.valueOf(error.getCause()));
     }
 
 }

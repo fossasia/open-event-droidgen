@@ -1,8 +1,13 @@
 package org.fossasia.openevent.activities;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
@@ -10,6 +15,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -28,13 +34,15 @@ import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.dbutils.DataDownload;
 import org.fossasia.openevent.dbutils.DbSingleton;
-import org.fossasia.openevent.events.CantDownloadEvent;
+import org.fossasia.openevent.events.ConnectionCheckEvent;
 import org.fossasia.openevent.events.CounterEvent;
+import org.fossasia.openevent.events.DataDownloadEvent;
 import org.fossasia.openevent.events.EventDownloadEvent;
 import org.fossasia.openevent.events.MicrolocationDownloadEvent;
 import org.fossasia.openevent.events.NoInternetEvent;
 import org.fossasia.openevent.events.RefreshUiEvent;
 import org.fossasia.openevent.events.SessionDownloadEvent;
+import org.fossasia.openevent.events.ShowNetworkDialogEvent;
 import org.fossasia.openevent.events.SpeakerDownloadEvent;
 import org.fossasia.openevent.events.SponsorDownloadEvent;
 import org.fossasia.openevent.events.TracksDownloadEvent;
@@ -44,6 +52,7 @@ import org.fossasia.openevent.fragments.SpeakerFragment;
 import org.fossasia.openevent.fragments.SponsorsFragment;
 import org.fossasia.openevent.fragments.TracksFragment;
 
+import retrofit.RetrofitError;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -57,6 +66,10 @@ public class MainActivity extends AppCompatActivity {
     private int eventsDone;
     private int currentMenuItemId;
     private final static String STATE_FRAGMENT = "stateFragment";
+    public String errorType;
+    public String errorDesc;
+    public static final String TYPE = "RetrofitError Type";
+    public static final String ERROR_CODE = "Error Code";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,11 +84,8 @@ public class MainActivity extends AppCompatActivity {
         downloadProgress = (ProgressBar) findViewById(R.id.progress);
         downloadProgress.setVisibility(View.VISIBLE);
         downloadProgress.setIndeterminate(true);
-        DataDownload download = new DataDownload();
-        download.downloadVersions();
-
         this.findViewById(android.R.id.content).setBackgroundColor(Color.LTGRAY);
-
+        OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
         if(savedInstanceState == null){
             currentMenuItemId = R.id.nav_tracks;
         } else {
@@ -182,6 +192,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         Snackbar.make(mainFrame, getString(R.string.download_complete), Snackbar.LENGTH_SHORT).show();
+        Log.d("DownNotif", "Download done");
     }
 
     private void downloadFailed() {
@@ -254,6 +265,16 @@ public class MainActivity extends AppCompatActivity {
         mDrawerLayout.closeDrawers();
     }
 
+    public void showErrorDialog(String errorType, String errorDesc){
+        downloadProgress.setVisibility(View.GONE);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.error)
+                .setMessage(errorType + ": " + errorDesc)
+                .setNeutralButton(R.string.ok, null)
+                .create();
+        builder.show();
+    }
+
     //Subscribe Events
     @Subscribe
     public void onCounterReceiver(CounterEvent event) {
@@ -324,11 +345,6 @@ public class MainActivity extends AppCompatActivity {
         downloadFailed();
     }
 
-    @Subscribe
-    public void cantDownload(CantDownloadEvent event) {
-        downloadProgress.setVisibility(View.GONE);
-        Snackbar.make(mainFrame, getString(R.string.cantDownload), Snackbar.LENGTH_LONG).show();
-    }
 
     @Subscribe
     public void onEventsDownloadDone(EventDownloadEvent event) {
@@ -359,4 +375,91 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+    @Subscribe
+    public void showNetworkDialog(ShowNetworkDialogEvent event){
+        downloadProgress.setVisibility(View.GONE);
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle(getString(R.string.net_unavailable))
+                .setMessage(getString(R.string.turn_on))
+                .setPositiveButton(R.string.action_settings, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent setNetworkIntent = new Intent(Settings.ACTION_SETTINGS);
+                        startActivity(setNetworkIntent);
+                    }
+                })
+                .setNeutralButton(R.string.cancel, null)
+                .create();
+        builder.show();
+    }
+
+    @Subscribe
+    public void downloadData(DataDownloadEvent event){
+        DataDownload download = new DataDownload();
+        download.downloadVersions();
+        downloadProgress.setVisibility(View.VISIBLE);
+        Log.d("DataNotif", "Download has started");
+    }
+
+    @Subscribe
+    public void ErrorHandlerEvent(RetrofitError cause) {
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netinfo = connMgr.getActiveNetworkInfo();
+        if(!(netinfo!=null && netinfo.isConnected())){
+            OpenEventApp.postEventOnUIThread(new ShowNetworkDialogEvent());
+        }
+        else
+        {
+            switch(cause.getKind()){
+                case CONVERSION: {
+                    Log.d(TYPE, "ConversionError");
+                    errorType="Conversion Error";
+                    errorDesc=String.valueOf(cause.getCause());
+                    break;
+                }
+                case HTTP: {
+                    Log.d(TYPE, "HTTPError");
+                    errorType="HTTP Error";
+                    errorDesc=String.valueOf(cause.getResponse().getStatus());
+                    Log.d(ERROR_CODE, String.valueOf(cause.getResponse().getStatus()));
+                    break;
+                }
+                case UNEXPECTED: {
+                    Log.d(TYPE, "UnexpectedError");
+                    errorType="Unexpected Error";
+                    errorDesc=String.valueOf(cause.getCause());
+                    break;
+                }
+                case NETWORK: {
+                    Log.d(TYPE, "NetworkError");
+                    errorType="Network Error";
+                    errorDesc=String.valueOf(cause.getCause());
+                    break;
+                }
+                default: {
+                    Log.d(TYPE, "Other Error");
+                    errorType="Other Error";
+                    errorDesc=String.valueOf(cause.getCause());
+                }
+            }
+            showErrorDialog(errorType, errorDesc);
+        }
+    }
+
+    @Subscribe
+
+    public void onConnectionChangeReact(ConnectionCheckEvent event)
+    {
+        if(event.connState())
+        {
+            OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
+            Log.d("NetNotif", "Connected to Internet");
+        }
+        else
+        {
+            Log.d("NetNotif", "Not connected to Internet");
+            OpenEventApp.postEventOnUIThread(new ShowNetworkDialogEvent());
+        }
+    }
 }
