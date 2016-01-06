@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_details"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/color_primary" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/card_margin"
+                android:layout_marginLeft="@dimen/card_margin"
+                android:layout_marginRight="@dimen/card_margin"
+                android:layout_marginTop="24dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="@dimen/content_margin">
+
+                        <TextView
+                            android:id="@+id/title_session"
+                            style="@style/TextAppearance.AppCompat.Headline"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textIsSelectable="true"
+                            tools:text="Welcome to Event" />
+
+                        <TextView
+                            android:id="@+id/subtitle_session"
+                            style="@style/TextAppearance.AppCompat.Medium"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textIsSelectable="true"
+                            tools:text="Welcome to Event" />
+
+                        <View
+                            style="@style/SeparatorLine"
+                            android:layout_marginTop="8dp" />
+
+                        <TextView
+                            android:id="@+id/track"
+                            style="@style/Metadata"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:drawableLeft="@drawable/ic_local_offer_grey600_18dp"
+                            tools:text="Keynotes" />
+
+                        <TextView
+                            android:id="@+id/tv_time"
+                            style="@style/Metadata"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/translucent_grey"
+                            android:drawableLeft="@drawable/ic_access_time_grey600_18dp"
+                            tools:text="Day 1 (Saturday), 09:30 - 09:55" />
+
+                        <TextView
+                            android:id="@+id/tv_location"
+                            style="@style/Metadata.Selectable"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/ic_place_grey600_18dp"
+                            android:text="NA" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tv_abstract_text"
+                        style="@style/TextAppearance.AppCompat.Body1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/translucent_grey"
+                        android:padding="@dimen/content_margin"
+                        android:textIsSelectable="true"
+                        tools:text="Open Event" />
+
+                    <TextView
+                        android:id="@+id/tv_description"
+                        style="@style/TextAppearance.AppCompat.Body1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/content_margin"
+                        android:textIsSelectable="true"
+                        tools:text="Open Event!" />
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <TextView
+                style="@style/TextAppearance.AppCompat.Headline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Speakers"
+                android:textIsSelectable="true" />
+        </LinearLayout>
+    </ScrollView>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list_speakerss"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"></android.support.v7.widget.RecyclerView>
+</LinearLayout>
