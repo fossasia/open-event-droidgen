@@ -32,7 +32,8 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
     }
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() throws Exception 
+    {
         super.setUp();
         injectInstrumentation(InstrumentationRegistry.getInstrumentation());
         mActivity = getActivity();
