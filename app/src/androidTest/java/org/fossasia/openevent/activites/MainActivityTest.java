@@ -4,12 +4,9 @@ import android.support.design.widget.NavigationView;
 import android.support.test.InstrumentationRegistry;
 import android.support.v7.widget.Toolbar;
 import android.test.ActivityInstrumentationTestCase2;
-import android.test.ViewAsserts;
 import android.test.suitebuilder.annotation.MediumTest;
-import android.test.suitebuilder.annotation.SmallTest;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
@@ -23,7 +20,6 @@ import org.junit.Before;
 public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActivity> {
     Toolbar toolbar;
     NavigationView navigationView;
-    View decorView;
 
     private MainActivity mActivity;
 
@@ -41,13 +37,10 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         //Assign variables
         toolbar = (Toolbar) mActivity.findViewById(R.id.toolbar);
         navigationView = (NavigationView) mActivity.findViewById(R.id.nav_view);
-        decorView = mActivity.getWindow().getDecorView();
     }
 
     @MediumTest
     public void testToolbar_layout() {
-        ViewAsserts.assertOnScreen(decorView, toolbar);
-
         final ViewGroup.LayoutParams layoutParams = toolbar.getLayoutParams();
         assertNotNull(layoutParams);
         assertEquals(layoutParams.width, WindowManager.LayoutParams.MATCH_PARENT);
@@ -55,8 +48,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 
     @MediumTest
     public void testNavigationView_layout() {
-        ViewAsserts.assertOnScreen(decorView, navigationView);
-
         final ViewGroup.LayoutParams layoutParams = navigationView.getLayoutParams();
         assertNotNull(layoutParams);
         assertEquals(layoutParams.width, WindowManager.LayoutParams.WRAP_CONTENT);
