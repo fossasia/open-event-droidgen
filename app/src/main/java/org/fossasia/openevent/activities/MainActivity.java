@@ -70,6 +70,9 @@ public class MainActivity extends AppCompatActivity {
     public String errorDesc;
     public static final String TYPE = "RetrofitError Type";
     public static final String ERROR_CODE = "Error Code";
+    private static final String NAV_ITEM = "navItem";
+    private static final String BOOKMARK = "bookmarks";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +93,13 @@ public class MainActivity extends AppCompatActivity {
             currentMenuItemId = R.id.nav_tracks;
         } else {
             currentMenuItemId = savedInstanceState.getInt(STATE_FRAGMENT);
+        }
+
+
+        if (getIntent().hasExtra(NAV_ITEM)) {
+            if (getIntent().getStringExtra(NAV_ITEM).equalsIgnoreCase(BOOKMARK)) {
+                currentMenuItemId = R.id.nav_bookmarks;
+            }
         }
 
         doMenuAction(currentMenuItemId);
@@ -462,4 +472,11 @@ public class MainActivity extends AppCompatActivity {
             OpenEventApp.postEventOnUIThread(new ShowNetworkDialogEvent());
         }
     }
+
+    public static Intent createLaunchFragmentIntent(Context context) {
+        return new Intent(context, MainActivity.class)
+                .putExtra(NAV_ITEM, BOOKMARK);
+    }
+
 }
+

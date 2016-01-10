@@ -19,8 +19,13 @@
     <dimen name="card_margin">16dp</dimen>
     <dimen name="card_margin_vertical">4dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="widget_margin">8dp</dimen>
 
     <!-- Per the design guidelines, navigation drawers should be between 240dp and 320dp:
          https://developer.android.com/design/patterns/navigation-drawer.html -->
     <dimen name="navigation_drawer_width">240dp</dimen>
+    <dimen name="widget_default_height">180dp</dimen>
+    <dimen name="widget_min_resize_width">220dp</dimen>
+    <dimen name="list_icon">40dp</dimen>
+    <dimen name="widget_text_size">24dp</dimen>
 </resources>
