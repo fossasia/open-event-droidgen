@@ -24,7 +24,11 @@ public class CircleTransform implements Transformation {
             source.recycle();
         }
 
-        Bitmap bitmap = Bitmap.createBitmap(size, size, source.getConfig());
+       /* checking weather on scroll we are getting null(gif image if null will be there) and respond accordingly to avoid crashing
+        of application on long scroll
+*/
+        Bitmap.Config config = source.getConfig() != null ? source.getConfig() : Bitmap.Config.ARGB_8888;
+        Bitmap bitmap = Bitmap.createBitmap(size, size, config);
 
         Canvas canvas = new Canvas(bitmap);
         Paint paint = new Paint();
