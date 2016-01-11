@@ -43,6 +43,10 @@ public class LocationsFragment extends Fragment implements SearchView.OnQueryTex
     private LocationsListAdapter locationsListAdapter;
     private List<Microlocation> mLocations;
 
+    private String searchText = "";
+    private SearchView searchView;
+    final private String SEARCH = "searchText";
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
@@ -75,8 +79,22 @@ public class LocationsFragment extends Fragment implements SearchView.OnQueryTex
                     }
                 })
         );
+        if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
+            searchText = savedInstanceState.getString(SEARCH);
+        }
         return view;
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle bundle) {
+        if (isAdded()) {
+            if (searchView != null) {
+                bundle.putString(SEARCH, searchText);
+            }
+        }
+        super.onSaveInstanceState(bundle);
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -85,11 +103,14 @@ public class LocationsFragment extends Fragment implements SearchView.OnQueryTex
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
         inflater.inflate(R.menu.menu_locations_fragment, menu);
-        final MenuItem item = menu.findItem(R.id.action_search_locations);
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+        MenuItem item = menu.findItem(R.id.action_search_locations);
+        searchView = (SearchView) MenuItemCompat.getActionView(item);
         searchView.setOnQueryTextListener(this);
+        searchView.setQuery(searchText, false);
+
     }
 
     @Override
@@ -101,6 +122,8 @@ public class LocationsFragment extends Fragment implements SearchView.OnQueryTex
 
         locationsListAdapter.animateTo(filteredModelList);
         locationsRecyclerView.scrollToPosition(0);
+
+        searchText = query;
         return true;
     }
 
@@ -124,7 +147,11 @@ public class LocationsFragment extends Fragment implements SearchView.OnQueryTex
 
     @Subscribe
     public void RefreshData(RefreshUiEvent event) {
-        locationsListAdapter.refresh();
+
+        if (searchText.length() == 0) {
+            locationsListAdapter.refresh();
+        }
+
     }
 
     @Subscribe
@@ -135,7 +162,7 @@ public class LocationsFragment extends Fragment implements SearchView.OnQueryTex
             locationsListAdapter.refresh();
 
         } else {
-            if(getActivity()!=null) {
+            if (getActivity() != null) {
                 Snackbar.make(getView(), getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).show();
             }
         }

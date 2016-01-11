@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String ERROR_CODE = "Error Code";
     private static final String NAV_ITEM = "navItem";
     private static final String BOOKMARK = "bookmarks";
-
+    private final String FRAGMENT_TAG = "FTAG";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,14 +96,15 @@ public class MainActivity extends AppCompatActivity {
             currentMenuItemId = savedInstanceState.getInt(STATE_FRAGMENT);
         }
 
-
         if (getIntent().hasExtra(NAV_ITEM)) {
             if (getIntent().getStringExtra(NAV_ITEM).equalsIgnoreCase(BOOKMARK)) {
                 currentMenuItemId = R.id.nav_bookmarks;
             }
         }
 
-        doMenuAction(currentMenuItemId);
+        if (getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG) == null) {
+            doMenuAction(currentMenuItemId);
+        }
 
     }
 
@@ -231,27 +232,27 @@ public class MainActivity extends AppCompatActivity {
         switch (menuItemId) {
             case R.id.nav_tracks:
                 fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, new TracksFragment()).commit();
+                        .replace(R.id.content_frame, new TracksFragment(),FRAGMENT_TAG).commit();
                 getSupportActionBar().setTitle(R.string.menu_tracks);
                 break;
             case R.id.nav_bookmarks:
                 fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, new BookmarksFragment()).commit();
+                        .replace(R.id.content_frame, new BookmarksFragment(),FRAGMENT_TAG).commit();
                 getSupportActionBar().setTitle(R.string.menu_bookmarks);
                 break;
             case R.id.nav_speakers:
                 fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, new SpeakerFragment()).commit();
+                        .replace(R.id.content_frame, new SpeakerFragment(),FRAGMENT_TAG).commit();
                 getSupportActionBar().setTitle(R.string.menu_speakers);
                 break;
             case R.id.nav_sponsors:
                 fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, new SponsorsFragment()).commit();
+                        .replace(R.id.content_frame, new SponsorsFragment(),FRAGMENT_TAG).commit();
                 getSupportActionBar().setTitle(R.string.menu_sponsor);
                 break;
             case R.id.nav_locations:
                 fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, new LocationsFragment()).commit();
+                        .replace(R.id.content_frame, new LocationsFragment(),FRAGMENT_TAG).commit();
                 getSupportActionBar().setTitle(R.string.menu_locations);
                 break;
             case R.id.nav_map:
@@ -261,7 +262,7 @@ public class MainActivity extends AppCompatActivity {
                         ((OpenEventApp) getApplication())
                                 .getMapModuleFactory()
                                 .provideMapModule()
-                                .provideMapFragment()).commit();
+                                .provideMapFragment(),FRAGMENT_TAG).commit();
                 getSupportActionBar().setTitle(R.string.menu_map);
                 break;
             case R.id.nav_settings:

@@ -20,6 +20,8 @@ public abstract class Urls {
 
     public static final String SESSIONS = "sessions";
 
+    public static final String BOOKMARKS = "bookmarks";
+
     public static final String MAP = "map";
 
     public static final String BASE_URL = "http://springboard.championswimmer.in";

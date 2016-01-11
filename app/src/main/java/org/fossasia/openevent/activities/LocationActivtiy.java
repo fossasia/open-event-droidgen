@@ -25,11 +25,14 @@ import java.util.List;
  * Created by MananWason on 8/18/2015.
  */
 public class LocationActivtiy extends AppCompatActivity implements SearchView.OnQueryTextListener {
+    final private String SEARCH = "searchText";
     SessionsListAdapter sessionsListAdapter;
     private Microlocation selectedLocation;
     private List<Session> mSessions;
     private RecyclerView sessionRecyclerView;
     private String location;
+    private String searchText = "";
+    private SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +53,18 @@ public class LocationActivtiy extends AppCompatActivity implements SearchView.On
         sessionRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         sessionRecyclerView.setAdapter(sessionsListAdapter);
         sessionRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
+            searchText = savedInstanceState.getString(SEARCH);
+        }
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle bundle) {
+        if (searchView != null) {
+            bundle.putString(SEARCH, searchText);
+        }
+        super.onSaveInstanceState(bundle);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -67,10 +80,12 @@ public class LocationActivtiy extends AppCompatActivity implements SearchView.On
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_speakers_activity, menu);
-        SearchView searchView =
-                (SearchView) menu.findItem(R.id.search_sessions).getActionView();
+        searchView = (SearchView) menu.findItem(R.id.search_sessions).getActionView();
         searchView.setOnQueryTextListener(this);
+        searchView.setOnQueryTextListener(this);
+        searchView.setQuery(searchText, false);
         return true;
     }
 
@@ -89,6 +104,8 @@ public class LocationActivtiy extends AppCompatActivity implements SearchView.On
 
         sessionsListAdapter.animateTo(filteredModelList);
         sessionRecyclerView.scrollToPosition(0);
+
+        searchText = query;
         return false;
     }
 

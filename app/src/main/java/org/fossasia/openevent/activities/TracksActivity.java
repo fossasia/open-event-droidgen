@@ -37,10 +37,13 @@ import java.util.List;
 public class TracksActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
     private static final String TAG = "TracksActivity";
+    final private String SEARCH = "searchText";
     SessionsListAdapter sessionsListAdapter;
     private String track;
     private List<Session> mSessions;
     private RecyclerView sessionsRecyclerView;
+    private String searchText = "";
+    private SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +89,17 @@ public class TracksActivity extends AppCompatActivity implements SearchView.OnQu
                 startActivity(Intent.createChooser(intent, getString(R.string.share_links)));
             }
         });
+        if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
+            searchText = savedInstanceState.getString(SEARCH);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle bundle) {
+        if (searchView != null) {
+            bundle.putString(SEARCH, searchText);
+        }
+        super.onSaveInstanceState(bundle);
     }
 
     private void loadImage() {
@@ -114,18 +128,18 @@ public class TracksActivity extends AppCompatActivity implements SearchView.OnQu
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_sessions_activity, menu);
-
-        SearchView searchView =
-                (SearchView) menu.findItem(R.id.action_search_sessions).getActionView();
+        searchView = (SearchView) menu.findItem(R.id.action_search_sessions).getActionView();
         searchView.setOnQueryTextListener(this);
-
+        if (searchText != null) {
+            searchView.setQuery(searchText, false);
+        }
         return true;
     }
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-
         return false;
     }
 
@@ -138,6 +152,8 @@ public class TracksActivity extends AppCompatActivity implements SearchView.OnQu
 
         sessionsListAdapter.animateTo(filteredModelList);
         sessionsRecyclerView.scrollToPosition(0);
+
+        searchText = query;
         return false;
     }
 
