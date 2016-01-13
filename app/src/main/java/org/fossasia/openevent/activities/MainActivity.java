@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.Settings;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -52,7 +54,18 @@ import org.fossasia.openevent.fragments.SpeakerFragment;
 import org.fossasia.openevent.fragments.SponsorsFragment;
 import org.fossasia.openevent.fragments.TracksFragment;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 import retrofit.RetrofitError;
+import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -70,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
     public String errorDesc;
     public static final String TYPE = "RetrofitError Type";
     public static final String ERROR_CODE = "Error Code";
+    private static final String format = "yyyy-MM-dd HH:mm:ss.SSS";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,9 +107,65 @@ public class MainActivity extends AppCompatActivity {
         }
 
         doMenuAction(currentMenuItemId);
-
+        File logfile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/OpenEventAppErrors.txt");
+        if(logfile.isFile() && logfile.exists()){
+            try{
+                BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(logfile, false));
+                bufferedWriter.close();
+                Timber.d("Log file cleared");
+            } catch(IOException e){
+                e.printStackTrace();
+            }
+        }
+        Timber.plant(new Timber.DebugTree());
+        Timber.plant(new ErrorsTree());
     }
 
+    private class ErrorsTree extends Timber.Tree{
+
+        @Override
+        protected void log(int priority, String tag, String message, Throwable t) {
+            if(errorLogHandler(priority)){
+                Timber.d("Sending message to log file");
+                appendToLogFile(message);
+            }
+        }
+
+        public boolean errorLogHandler(int priority){
+            return(!(priority == Log.VERBOSE || priority == Log.DEBUG || priority == Log.INFO));
+        }
+    }
+
+    public void appendToLogFile(String text){
+        File logfile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/OpenEventAppErrors.txt");
+        if(!logfile.exists()){
+            try{
+                logfile.createNewFile();
+            } catch (IOException e){
+                Timber.d("Cannot create file");
+            }
+        }
+        try {
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(logfile, true));
+            bufferedWriter.append(getTimeStampString().concat("--"));
+            bufferedWriter.append(text);
+            bufferedWriter.newLine();
+            bufferedWriter.close();
+            Timber.d("Written to file");
+        } catch(IOException e){
+            Timber.d("Cannot write");
+        }
+    }
+
+    private static String calendarProcess(Calendar date, String format){
+        DateFormat dateFormat = new SimpleDateFormat(format, Locale.US);
+        return dateFormat.format(date.getTime());
+    }
+
+    private static String getTimeStampString() {
+        Calendar calendar = Calendar.getInstance();
+        return calendarProcess(calendar, format);
+    }
 
     @Override
     protected void onPause() {
@@ -269,10 +339,37 @@ public class MainActivity extends AppCompatActivity {
         downloadProgress.setVisibility(View.GONE);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.error)
-                .setMessage(errorType + ": " + errorDesc)
-                .setNeutralButton(R.string.ok, null)
+                .setMessage(errorType + ": " + errorDesc + "\n" + "Send error report?")
+                .setNeutralButton(R.string.cancel, null)
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        sendEmail(); //to make code cleaner
+                        Timber.d("Email intent sent");
+                    }
+                })
                 .create();
         builder.show();
+    }
+
+    public void sendEmail() {
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+        emailIntent.setType("jpeg/image");
+        emailIntent.setData(Uri.parse("mailto:shiven.exun97@gmail.com"));
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "OpenEventApp Error Report");
+        File logfile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/OpenEventAppErrors.txt");
+        if(logfile.exists() && logfile.canRead()){
+            Timber.d("File existent");
+            emailIntent.putExtra(Intent.EXTRA_TEXT, "Error Report attached");
+            Uri uri = Uri.fromFile(logfile);
+            emailIntent.putExtra(Intent.EXTRA_STREAM, uri);
+        }
+        else {
+            Timber.d("No error logs");
+        }
+        Timber.d("File sending...");
+        this.startActivity(Intent.createChooser(emailIntent, null));
+
     }
 
     //Subscribe Events
@@ -413,32 +510,32 @@ public class MainActivity extends AppCompatActivity {
         {
             switch(cause.getKind()){
                 case CONVERSION: {
-                    Log.d(TYPE, "ConversionError");
+                    Timber.e("ConversionError");
                     errorType="Conversion Error";
                     errorDesc=String.valueOf(cause.getCause());
                     break;
                 }
                 case HTTP: {
-                    Log.d(TYPE, "HTTPError");
+                    Timber.e("HTTPError");
                     errorType="HTTP Error";
                     errorDesc=String.valueOf(cause.getResponse().getStatus());
-                    Log.d(ERROR_CODE, String.valueOf(cause.getResponse().getStatus()));
+                    Timber.e(String.valueOf(cause.getResponse().getStatus()));
                     break;
                 }
                 case UNEXPECTED: {
-                    Log.d(TYPE, "UnexpectedError");
+                    Timber.e("UnexpectedError");
                     errorType="Unexpected Error";
                     errorDesc=String.valueOf(cause.getCause());
                     break;
                 }
                 case NETWORK: {
-                    Log.d(TYPE, "NetworkError");
+                    Timber.e("NetworkError");
                     errorType="Network Error";
                     errorDesc=String.valueOf(cause.getCause());
                     break;
                 }
                 default: {
-                    Log.d(TYPE, "Other Error");
+                    Timber.e("Other Error");
                     errorType="Other Error";
                     errorDesc=String.valueOf(cause.getCause());
                 }
