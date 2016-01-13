@@ -1,15 +1,22 @@
 package org.fossasia.openevent.activities;
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.Settings;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -30,6 +37,7 @@ import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
+import org.fossasia.openevent.BuildConfig;
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.dbutils.DataDownload;
@@ -37,6 +45,7 @@ import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.ConnectionCheckEvent;
 import org.fossasia.openevent.events.CounterEvent;
 import org.fossasia.openevent.events.DataDownloadEvent;
+import org.fossasia.openevent.events.ErrorLogProcessEvent;
 import org.fossasia.openevent.events.EventDownloadEvent;
 import org.fossasia.openevent.events.MicrolocationDownloadEvent;
 import org.fossasia.openevent.events.NoInternetEvent;
@@ -52,7 +61,18 @@ import org.fossasia.openevent.fragments.SpeakerFragment;
 import org.fossasia.openevent.fragments.SponsorsFragment;
 import org.fossasia.openevent.fragments.TracksFragment;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 import retrofit.RetrofitError;
+import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -68,15 +88,22 @@ public class MainActivity extends AppCompatActivity {
     private final static String STATE_FRAGMENT = "stateFragment";
     public String errorType;
     public String errorDesc;
-    public static final String TYPE = "RetrofitError Type";
-    public static final String ERROR_CODE = "Error Code";
+    private static final String format = "yyyy-MM-dd HH:mm:ss.SSS";
+    private final int request_code = 123;
+    public File logfile;
+    public int permission;
+    public String errorLog;
+    public boolean isCleared;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         counter = 0;
+        errorLog = "";
         setContentView(R.layout.activity_main);
         eventsDone = 0;
+        isCleared = false;
         setUpToolbar();
         setUpNavDrawer();
         mainFrame = (FrameLayout) findViewById(R.id.layout_main);
@@ -85,17 +112,100 @@ public class MainActivity extends AppCompatActivity {
         downloadProgress.setVisibility(View.VISIBLE);
         downloadProgress.setIndeterminate(true);
         this.findViewById(android.R.id.content).setBackgroundColor(Color.LTGRAY);
-        OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
-        if(savedInstanceState == null){
+        if (savedInstanceState == null) {
             currentMenuItemId = R.id.nav_tracks;
         } else {
             currentMenuItemId = savedInstanceState.getInt(STATE_FRAGMENT);
         }
-
         doMenuAction(currentMenuItemId);
-
+        permission = ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case request_code: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    writeLogsToFile(errorLog);
+                } else {
+                    Timber.d("Not Granted");
+                }
+            }
+        }
+    }
+
+    public boolean handleErrorLogs(int priority) {
+        return (!(priority == Log.VERBOSE || priority == Log.DEBUG || priority == Log.INFO));
+    }
+
+    public void writeLogsToFile(String text) {
+        permission = ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (permission == PackageManager.PERMISSION_GRANTED) {
+            logfile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/OpenEventAppErrors.txt");
+            Timber.d("Value of isCleared is: ".concat(String.valueOf(isCleared)));
+            if (logfile.isFile() && logfile.exists() && !isCleared) {
+                try {
+                    BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(logfile, false));
+                    bufferedWriter.close();
+                    Timber.d("Log file cleared");
+                    isCleared = true;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Timber.d("File is not empty");
+            }
+
+            if (!logfile.exists()) {
+                try {
+                    logfile.createNewFile();
+                    Timber.d("Created new file");
+                } catch (IOException e) {
+                    Timber.d("Error. Cannot create file: " + String.valueOf(e.getCause()));
+                }
+            }
+            if (logfile.length() == 0 && logfile.exists()) {
+                try {
+                    BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(logfile, true));
+                    bufferedWriter.append("App version: ".concat(BuildConfig.VERSION_NAME));
+                    bufferedWriter.newLine();
+                    bufferedWriter.append("Android Version: ".concat(Build.VERSION.RELEASE));
+                    bufferedWriter.newLine();
+                    bufferedWriter.append("SDK level: ".concat(String.valueOf(Build.VERSION.SDK_INT)));
+                    bufferedWriter.newLine();
+                    bufferedWriter.newLine();
+                    bufferedWriter.close();
+                    Timber.d("Added version details");
+                } catch (IOException e) {
+                    Timber.d("Cannot add version: ".concat(String.valueOf(e.getCause())));
+                }
+            }
+            try {
+                BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(logfile, true));
+                bufferedWriter.append(getTimeStampString().concat("--"));
+                bufferedWriter.append(text);
+                bufferedWriter.newLine();
+                bufferedWriter.close();
+                Timber.d("Written logs to file");
+            } catch (IOException e) {
+                Timber.d("Cannot append logs: " + String.valueOf(e.getCause()));
+            }
+        } else {
+            Timber.d("writeLogsToFile permission not granted");
+        }
+    }
+
+    private static String calendarProcess(Calendar date, String format) {
+        DateFormat dateFormat = new SimpleDateFormat(format, Locale.US);
+        return dateFormat.format(date.getTime());
+    }
+
+    private static String getTimeStampString() {
+        Calendar calendar = Calendar.getInstance();
+        return calendarProcess(calendar, format);
+    }
 
     @Override
     protected void onPause() {
@@ -215,7 +325,7 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    private void doMenuAction(int menuItemId){
+    private void doMenuAction(int menuItemId) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         switch (menuItemId) {
             case R.id.nav_tracks:
@@ -265,14 +375,45 @@ public class MainActivity extends AppCompatActivity {
         mDrawerLayout.closeDrawers();
     }
 
-    public void showErrorDialog(String errorType, String errorDesc){
+    public void showErrorDialog(String errorType, String errorDesc) {
+        Timber.d("ShowErrorDialog called");
         downloadProgress.setVisibility(View.GONE);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.error)
-                .setMessage(errorType + ": " + errorDesc)
-                .setNeutralButton(R.string.ok, null)
+                .setMessage(errorType + ": " + errorDesc + "\n" + "Send error report?")
+                .setNeutralButton(R.string.cancel, null)
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Timber.d("Email intent sent");
+                        sendEmail();
+                    }
+                })
                 .create();
         builder.show();
+    }
+
+    public void sendEmail() {
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+        emailIntent.setType("jpeg/image");
+        emailIntent.setData(Uri.parse("mailto:shiven.exun97@gmail.com"));
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "OpenEventApp Error Report");
+        if (permission == PackageManager.PERMISSION_GRANTED) {
+            logfile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/OpenEventAppErrors.txt");
+            if (logfile.exists() && logfile.canRead()) {
+                Timber.d("File existent");
+                emailIntent.putExtra(Intent.EXTRA_TEXT, "Error Report attached");
+                Uri uri = Uri.fromFile(logfile);
+                emailIntent.putExtra(Intent.EXTRA_STREAM, uri);
+                Timber.d("File sending...");
+                this.startActivity(Intent.createChooser(emailIntent, null));
+            } else {
+                Timber.d("No error logs to mail");
+            }
+        } else {
+            Timber.d("sendEmail won't work");
+        }
+
     }
 
     //Subscribe Events
@@ -377,7 +518,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     @Subscribe
-    public void showNetworkDialog(ShowNetworkDialogEvent event){
+    public void showNetworkDialog(ShowNetworkDialogEvent event) {
         downloadProgress.setVisibility(View.GONE);
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle(getString(R.string.net_unavailable))
@@ -395,7 +536,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Subscribe
-    public void downloadData(DataDownloadEvent event){
+    public void downloadData(DataDownloadEvent event) {
         DataDownload download = new DataDownload();
         download.downloadVersions();
         downloadProgress.setVisibility(View.VISIBLE);
@@ -403,63 +544,83 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Subscribe
-    public void ErrorHandlerEvent(RetrofitError cause) {
+    public void errorHandlerEvent(RetrofitError cause) {
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netinfo = connMgr.getActiveNetworkInfo();
-        if(!(netinfo!=null && netinfo.isConnected())){
+        if (!(netinfo != null && netinfo.isConnected())) {
             OpenEventApp.postEventOnUIThread(new ShowNetworkDialogEvent());
-        }
-        else
-        {
-            switch(cause.getKind()){
+        } else {
+            switch (cause.getKind()) {
                 case CONVERSION: {
-                    Log.d(TYPE, "ConversionError");
-                    errorType="Conversion Error";
-                    errorDesc=String.valueOf(cause.getCause());
+                    errorType = "Conversion Error";
+                    errorDesc = String.valueOf(cause.getCause());
                     break;
                 }
                 case HTTP: {
-                    Log.d(TYPE, "HTTPError");
-                    errorType="HTTP Error";
-                    errorDesc=String.valueOf(cause.getResponse().getStatus());
-                    Log.d(ERROR_CODE, String.valueOf(cause.getResponse().getStatus()));
+                    errorType = "HTTP Error";
+                    errorDesc = String.valueOf(cause.getResponse().getStatus());
                     break;
                 }
                 case UNEXPECTED: {
-                    Log.d(TYPE, "UnexpectedError");
-                    errorType="Unexpected Error";
-                    errorDesc=String.valueOf(cause.getCause());
+                    errorType = "Unexpected Error";
+                    errorDesc = String.valueOf(cause.getCause());
                     break;
                 }
                 case NETWORK: {
-                    Log.d(TYPE, "NetworkError");
-                    errorType="Network Error";
-                    errorDesc=String.valueOf(cause.getCause());
+                    errorType = "Network Error";
+                    errorDesc = String.valueOf(cause.getCause());
                     break;
                 }
                 default: {
-                    Log.d(TYPE, "Other Error");
-                    errorType="Other Error";
-                    errorDesc=String.valueOf(cause.getCause());
+                    errorType = "Other Error";
+                    errorDesc = String.valueOf(cause.getCause());
                 }
             }
+            Timber.e(errorType);
+            Timber.e(errorDesc);
             showErrorDialog(errorType, errorDesc);
         }
     }
 
     @Subscribe
 
-    public void onConnectionChangeReact(ConnectionCheckEvent event)
-    {
-        if(event.connState())
-        {
+    public void onConnectionChangeReact(ConnectionCheckEvent event) {
+        if (event.connState()) {
             OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
             Log.d("NetNotif", "Connected to Internet");
-        }
-        else
-        {
+        } else {
             Log.d("NetNotif", "Not connected to Internet");
             OpenEventApp.postEventOnUIThread(new ShowNetworkDialogEvent());
+        }
+    }
+
+    @Subscribe
+    public void processErrorLog(ErrorLogProcessEvent event) {
+        if (handleErrorLogs(event.priority)) {
+            errorLog = event.message;
+            Timber.d("Sending message to log file");
+            Timber.d(errorLog);
+            permission = ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            if (permission != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setTitle("Error")
+                            .setMessage("You need to allow access to External Storage")
+                            .setPositiveButton("Allow", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, request_code);
+                                }
+                            })
+                            .setNeutralButton("Cancel", null)
+                            .create();
+                    builder.show();
+                } else {
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, request_code);
+                }
+            } else {
+                writeLogsToFile(errorLog);
+            }
         }
     }
 }
