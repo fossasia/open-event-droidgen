@@ -1,8 +1,8 @@
 package org.fossasia.openevent;
 
 import android.app.Application;
-import android.content.Context;
 import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -42,7 +42,7 @@ public class OpenEventApp extends Application {
         super.onCreate();
         DbSingleton.init(this);
         mapModuleFactory = new MapModuleFactory();
-        registerReceiver(new NetworkConnectivityChangeReceiver(), new IntentFilter(Context.CONNECTIVITY_SERVICE));
+        registerReceiver(new NetworkConnectivityChangeReceiver(), new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
     }
 
     public MapModuleFactory getMapModuleFactory() {
