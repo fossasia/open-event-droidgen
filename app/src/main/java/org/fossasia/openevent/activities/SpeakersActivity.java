@@ -2,6 +2,7 @@ package org.fossasia.openevent.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,7 +12,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -52,7 +52,7 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
         ImageView twitter = (ImageView) findViewById(R.id.imageView_twitter);
         ImageView github = (ImageView) findViewById(R.id.imageView_github);
         ImageView fb = (ImageView) findViewById(R.id.imageView_fb);
-        Button shareButton=(Button) findViewById(R.id.share_speaker_button);
+        FloatingActionButton shareButton=(FloatingActionButton) findViewById(R.id.share_speaker_button);
 
         biography.setText(selectedSpeaker.getBio());
         final SpeakerIntent speakerIntent = new SpeakerIntent(selectedSpeaker);
