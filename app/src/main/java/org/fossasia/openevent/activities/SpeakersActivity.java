@@ -1,5 +1,6 @@
 package org.fossasia.openevent.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -9,6 +10,8 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -44,12 +47,12 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
 
         selectedSpeaker = dbSingleton.getSpeakerbySpeakersname(speaker);
 
-
         TextView biography = (TextView) findViewById(R.id.speaker_bio);
         ImageView linkedin = (ImageView) findViewById(R.id.imageView_linkedin);
         ImageView twitter = (ImageView) findViewById(R.id.imageView_twitter);
         ImageView github = (ImageView) findViewById(R.id.imageView_github);
         ImageView fb = (ImageView) findViewById(R.id.imageView_fb);
+        Button shareButton=(Button) findViewById(R.id.share_speaker_button);
 
         biography.setText(selectedSpeaker.getBio());
         final SpeakerIntent speakerIntent = new SpeakerIntent(selectedSpeaker);
@@ -65,7 +68,20 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
         sessionRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         sessionRecyclerView.setAdapter(sessionsListAdapter);
         sessionRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        shareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String speakerInfo = ("Speaker is: ".concat(speaker).concat("\n").concat("Speaker's email is: ").concat(selectedSpeaker.getEmail()));
+                Intent sendSpeakerInfoIntent = new Intent();
+                sendSpeakerInfoIntent.setAction(Intent.ACTION_SEND);
+                sendSpeakerInfoIntent.putExtra(Intent.EXTRA_TEXT, speakerInfo);
+                sendSpeakerInfoIntent.setType("text/plain");
+                startActivity(sendSpeakerInfoIntent);
+            }
+        });
     }
+
 
 
     @Override
