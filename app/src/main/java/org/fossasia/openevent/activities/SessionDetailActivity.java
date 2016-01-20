@@ -27,6 +27,7 @@ import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.ISO8601Date;
 import org.fossasia.openevent.utils.IntentStrings;
+import org.fossasia.openevent.widget.BookmarkWidgetProvider;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -121,8 +122,8 @@ public class SessionDetailActivity extends AppCompatActivity {
                     dbSingleton.addBookmarks(session.getId());
                     item.setIcon(R.drawable.ic_star_bookmark);
                     createNotification();
-
                 }
+                sendBroadcast(new Intent(BookmarkWidgetProvider.ACTION_UPDATE));
         }
         return super.onOptionsItemSelected(item);
     }
