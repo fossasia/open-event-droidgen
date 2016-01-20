@@ -19,8 +19,8 @@ import org.fossasia.openevent.utils.IntentStrings;
  */
 public class BookmarkAlarmService extends IntentService {
 
-    public BookmarkAlarmService(String name) {
-        super(name);
+    public BookmarkAlarmService() {
+        super("bookmark alarm service");
     }
 
     @Override
