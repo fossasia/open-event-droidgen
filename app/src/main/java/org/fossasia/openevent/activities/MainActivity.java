@@ -257,7 +257,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
                 mDrawerLayout.closeDrawers();
                 startActivity(intent);
-
+				finish();
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
 
         }
