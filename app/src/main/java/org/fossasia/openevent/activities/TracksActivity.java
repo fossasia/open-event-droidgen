@@ -4,24 +4,26 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.widget.*;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.SessionsListAdapter;
 import org.fossasia.openevent.api.Urls;
+import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.IntentStrings;
-import org.fossasia.openevent.utils.RecyclerItemClickListener;
 
 /**
  * User: MananWason
@@ -61,20 +63,19 @@ public class TracksActivity extends BaseActivity implements SearchView.OnQueryTe
 
         sessionsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         sessionsRecyclerView.setAdapter(sessionsListAdapter);
+        sessionsListAdapter.setOnClickListener(new SessionsListAdapter.SetOnClickListener() {
+            @Override
+            public void onItemClick(int position, View view) {
+                Session model = (Session) sessionsListAdapter.getItem(position);
+                String sessionName = model.getTitle();
+                Intent intent = new Intent(getApplicationContext(), SessionDetailActivity.class);
+                intent.putExtra(IntentStrings.SESSION, sessionName);
+                intent.putExtra(IntentStrings.TRACK, track);
+                startActivity(intent);
+            }
+        });
         sessionsRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        sessionsRecyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(getApplicationContext(), new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
-                        String session_name = ((TextView) findViewById(R.id.session_title)).getText().toString();
-                        Log.d(TAG, session_name + " " + track);
-                        Intent intent = new Intent(getApplicationContext(), SessionDetailActivity.class);
-                        intent.putExtra(IntentStrings.SESSION, session_name);
-                        intent.putExtra(IntentStrings.TRACK, track);
-                        startActivity(intent);
-                    }
-                })
-        );
+
         FloatingActionButton shareFab = (FloatingActionButton) findViewById(R.id.share_fab);
         shareFab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,6 +87,7 @@ public class TracksActivity extends BaseActivity implements SearchView.OnQueryTe
                 startActivity(Intent.createChooser(intent, getString(R.string.share_links)));
             }
         });
+
         if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
             searchText = savedInstanceState.getString(SEARCH);
         }

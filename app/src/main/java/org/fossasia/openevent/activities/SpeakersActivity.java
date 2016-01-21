@@ -20,6 +20,7 @@ import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.utils.IntentStrings;
 import org.fossasia.openevent.utils.SpeakerIntent;
 
 import java.util.ArrayList;
@@ -98,6 +99,17 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
         sessionsListAdapter = new SessionsListAdapter(mSessions);
         sessionRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         sessionRecyclerView.setAdapter(sessionsListAdapter);
+        sessionsListAdapter.setOnClickListener(new SessionsListAdapter.SetOnClickListener() {
+            @Override
+            public void onItemClick(int position, View view) {
+
+                Session model = (Session) sessionsListAdapter.getItem(position);
+                String sessionName = model.getTitle();
+                Intent intent = new Intent(getApplicationContext(), SessionDetailActivity.class);
+                intent.putExtra(IntentStrings.SESSION, sessionName);
+                startActivity(intent);
+            }
+        });
         sessionRecyclerView.setItemAnimator(new DefaultItemAnimator());
         if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
             searchText = savedInstanceState.getString(SEARCH);
