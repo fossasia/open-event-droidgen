@@ -1,7 +1,3 @@
-package org.fossasia.openevent.activities;
-
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,19 +26,21 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
     private Speaker selectedSpeaker;
     private List<Session> mSessions;
     private RecyclerView sessionRecyclerView;
-    private String speaker;
+    private String speakerName;
+    private String speakerEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_speakers);
         DbSingleton dbSingleton = DbSingleton.getInstance();
-        speaker = getIntent().getStringExtra(Speaker.SPEAKER);
+        speakerName = getIntent().getStringExtra(Speaker.SPEAKERNAME);
+        speakerEmail = getIntent().getStringExtra(Speaker.SPEAKEREMAIL);
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_speakers);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        selectedSpeaker = dbSingleton.getSpeakerbySpeakersname(speaker);
+        selectedSpeaker = dbSingleton.getSpeakerbySpeakersname(speakerName);
 
 
         TextView biography = (TextView) findViewById(R.id.speaker_bio);
@@ -60,7 +58,7 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
         speakerIntent.clickedImage(twitter);
 
         sessionRecyclerView = (RecyclerView) findViewById(R.id.recyclerView_speakers);
-        mSessions = dbSingleton.getSessionbySpeakersName(speaker);
+        mSessions = dbSingleton.getSessionbySpeakersName(speakerName);
         sessionsListAdapter = new SessionsListAdapter(mSessions);
         sessionRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         sessionRecyclerView.setAdapter(sessionsListAdapter);
@@ -97,7 +95,7 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
     public boolean onQueryTextChange(String query) {
         DbSingleton dbSingleton = DbSingleton.getInstance();
 
-        mSessions = dbSingleton.getSessionbySpeakersName(speaker);
+        mSessions = dbSingleton.getSessionbySpeakersName(speakerName);
         final List<Session> filteredModelList = filter(mSessions, query);
 
         sessionsListAdapter.animateTo(filteredModelList);
