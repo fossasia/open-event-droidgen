@@ -32,7 +32,6 @@ import org.fossasia.openevent.adapters.SpeakersListAdapter;
 import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.dbutils.DataDownload;
-import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.SpeakerDownloadEvent;
 import org.fossasia.openevent.utils.RecyclerItemClickListener;
