@@ -2,8 +2,11 @@ package org.fossasia.openevent.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -41,6 +44,12 @@ public class TracksActivity extends AppCompatActivity implements SearchView.OnQu
     private String track;
     private List<Session> mSessions;
     private RecyclerView sessionsRecyclerView;
+    CollapsingToolbarLayout collapsingToolbar;
+    private AppBarLayout appBarLayout;
+    private CoordinatorLayout coordinatorLayout;
+    private AppBarLayout.Behavior AppBarLayoutbehavior;
+    private CoordinatorLayout.LayoutParams params;
+    private int currentOffset;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +61,12 @@ public class TracksActivity extends AppCompatActivity implements SearchView.OnQu
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         loadImage();
-        CollapsingToolbarLayout collapsingToolbar =
+        collapsingToolbar =
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.main_content);
+        appBarLayout = (AppBarLayout) findViewById(R.id.appbar);
+
         collapsingToolbar.setTitle(track);
         sessionsRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         mSessions = dbSingleton.getSessionbyTracksname(track);
@@ -86,6 +99,10 @@ public class TracksActivity extends AppCompatActivity implements SearchView.OnQu
                 startActivity(Intent.createChooser(intent, getString(R.string.share_links)));
             }
         });
+        ((CoordinatorLayout.LayoutParams) appBarLayout.getLayoutParams()).setBehavior(new AppBarLayout.Behavior() {
+        });
+        params = (CoordinatorLayout.LayoutParams) appBarLayout.getLayoutParams();
+
     }
 
     private void loadImage() {
@@ -99,6 +116,7 @@ public class TracksActivity extends AppCompatActivity implements SearchView.OnQu
         }
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -111,17 +129,52 @@ public class TracksActivity extends AppCompatActivity implements SearchView.OnQu
         return super.onOptionsItemSelected(item);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_sessions_activity, menu);
+        MenuItem searchMenuItem = menu.findItem(R.id.action_search_sessions);
 
-        SearchView searchView =
-                (SearchView) menu.findItem(R.id.action_search_sessions).getActionView();
+
+        MenuItemCompat.setOnActionExpandListener(searchMenuItem, new MenuItemCompat.OnActionExpandListener() {
+
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                AppBarLayoutbehavior = (AppBarLayout.Behavior) params.getBehavior();
+                currentOffset = AppBarLayoutbehavior.getTopAndBottomOffset(); //For saving the current Offset and return to this offset when again expainded
+
+
+                if (AppBarLayoutbehavior != null)
+                    AppBarLayoutbehavior = (AppBarLayout.Behavior) params.getBehavior();
+                AppBarLayoutbehavior.onNestedPreScroll(coordinatorLayout, appBarLayout, null, 0, 1000, new int[2]); //For Collapsing the toolbar
+
+                setCollapsingToolbarLayoutTitle("");
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                if (AppBarLayoutbehavior != null) {
+                    AppBarLayoutbehavior = (AppBarLayout.Behavior) params.getBehavior();
+                }
+                AppBarLayoutbehavior.setTopAndBottomOffset(currentOffset); //For expanding the toolbar
+
+                setCollapsingToolbarLayoutTitle(track);
+                return true;
+            }
+        });
+        SearchView searchView = (SearchView) searchMenuItem.getActionView();
         searchView.setOnQueryTextListener(this);
-
         return true;
     }
+
+    private void setCollapsingToolbarLayoutTitle(String title) {
+        collapsingToolbar.setTitle(title);
+        collapsingToolbar.setExpandedTitleTextAppearance(R.style.ExpandedAppBarPlus1);
+        collapsingToolbar.setCollapsedTitleTextAppearance(R.style.CollapsedAppBarPlus1);
+        collapsingToolbar.setExpandedTitleTextAppearance(R.style.ExpandedAppBar);
+        collapsingToolbar.setCollapsedTitleTextAppearance(R.style.CollapsedAppBar);
+    }
+
 
     @Override
     public boolean onQueryTextSubmit(String query) {
