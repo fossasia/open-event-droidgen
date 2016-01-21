@@ -36,6 +36,18 @@ public class SpeakerIntent {
 
                 } else if (imageView.getTag().toString().equals(view.getContext().getString(R.string.github))) {
                     url = speaker.getGithub();
+                } else if (imageView.getTag().toString().equals(view.getContext().getString(R.string.share))) {
+                    if(speaker.getEmail()==null || speaker.getEmail().isEmpty()){
+                        url = "";
+                        Toast.makeText(view.getContext(), "Sorry, speaker's Email ID is not available.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }else{
+                    Intent sendIntent = new Intent();
+                    sendIntent.setAction(Intent.ACTION_SEND);
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, "Speaker's Name: " + speaker.getName() + "\nSpeaker's Email ID: " + speaker.getEmail());
+                    sendIntent.setType("text/plain");
+                    view.getContext().startActivity(Intent.createChooser(sendIntent, speaker.getEmail()));
+                    return;}
                 } else {
                     url = "";
                     Toast.makeText(view.getContext(), "What did you click?? :P", Toast.LENGTH_SHORT).show();

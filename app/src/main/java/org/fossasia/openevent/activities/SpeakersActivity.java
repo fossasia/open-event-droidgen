@@ -50,6 +50,7 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
         ImageView twitter = (ImageView) findViewById(R.id.imageView_twitter);
         ImageView github = (ImageView) findViewById(R.id.imageView_github);
         ImageView fb = (ImageView) findViewById(R.id.imageView_fb);
+        ImageView share = (ImageView) findViewById(R.id.imageView_share);
 
         biography.setText(selectedSpeaker.getBio());
         final SpeakerIntent speakerIntent = new SpeakerIntent(selectedSpeaker);
@@ -58,6 +59,7 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
         speakerIntent.clickedImage(linkedin);
         speakerIntent.clickedImage(fb);
         speakerIntent.clickedImage(twitter);
+        speakerIntent.clickedImage(share);
 
         sessionRecyclerView = (RecyclerView) findViewById(R.id.recyclerView_speakers);
         mSessions = dbSingleton.getSessionbySpeakersName(speaker);
