@@ -255,9 +255,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.nav_settings:
                 Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 mDrawerLayout.closeDrawers();
                 startActivity(intent);
-
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
 
         }
