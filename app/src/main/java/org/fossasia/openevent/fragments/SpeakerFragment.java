@@ -21,7 +21,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
 
@@ -83,9 +82,11 @@ public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextL
                         new RecyclerItemClickListener.OnItemClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
-                                String speaker_name = ((TextView) view.findViewById(R.id.speaker_name)).getText().toString();
+                                String speaker_name = mSpeakers.get(position).getName().toString();
+                                String speaker_email = mSpeakers.get(position).getEmail().toString();
                                 Intent intent = new Intent(view.getContext(), SpeakersActivity.class);
-                                intent.putExtra(Speaker.SPEAKER, speaker_name);
+                                intent.putExtra(Speaker.SPEAKERNAME, speaker_name);
+                                intent.putExtra(Speaker.SPEAKEREMAIL,speaker_email);
                                 startActivity(intent);
                             }
                         }));
