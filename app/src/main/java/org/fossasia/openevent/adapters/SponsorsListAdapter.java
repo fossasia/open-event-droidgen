@@ -1,7 +1,6 @@
 package org.fossasia.openevent.adapters;
 
 import android.net.Uri;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +11,7 @@ import com.squareup.picasso.Picasso;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.data.Sponsor;
 import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.utils.ViewHolder;
 
 import java.util.List;
 
@@ -19,25 +19,33 @@ import java.util.List;
  * User: MananWason
  * Date: 09-06-2015
  */
-public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, SponsorsListAdapter.Viewholder> {
+public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, ViewHolder.Viewholder> {
+
+    private ViewHolder.SetOnClickListener listener;
 
     public SponsorsListAdapter(List<Sponsor> sponsors) {
         super(sponsors);
     }
 
-    @Override
-    public SponsorsListAdapter.Viewholder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.item_sponsor, parent, false);
-        return new Viewholder(view);
+    public void setOnClickListener(ViewHolder.SetOnClickListener clickListener) {
+        this.listener = clickListener;
     }
 
     @Override
-    public void onBindViewHolder(SponsorsListAdapter.Viewholder holder, int position) {
-        Sponsor currentSponsor = getItem(position);
+    public ViewHolder.Viewholder onCreateViewHolder(ViewGroup parent, int viewType) {
+        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+        View view = layoutInflater.inflate(R.layout.item_sponsor, parent, false);
+        ViewHolder.Viewholder viewholder = new ViewHolder.Viewholder(view);
+        viewholder.setImgView1((ImageView) view.findViewById(R.id.sponsor_image));
 
+        return viewholder;
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder.Viewholder holder, int position) {
+        Sponsor currentSponsor = getItem(position);
         Uri uri = Uri.parse(currentSponsor.getLogo());
-        Picasso.with(holder.sponsorImage.getContext()).load(uri).into(holder.sponsorImage);
+        Picasso.with(holder.getImgView1().getContext()).load(uri).into(holder.getImgView1());
     }
 
     public void refresh() {
@@ -46,14 +54,11 @@ public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, SponsorsListAdap
         animateTo(dbSingleton.getSponsorList());
     }
 
-    public class Viewholder extends RecyclerView.ViewHolder {
-        ImageView sponsorImage;
-
-        public Viewholder(View itemView) {
-            super(itemView);
-            itemView.setClickable(true);
-            sponsorImage = (ImageView) itemView.findViewById(R.id.sponsor_image);
-        }
+    /**
+     * to handle click listener
+     */
+    public interface SetOnClickListener extends ViewHolder.SetOnClickListener {
+        void onItemClick(int position, View itemView);
 
     }
 }

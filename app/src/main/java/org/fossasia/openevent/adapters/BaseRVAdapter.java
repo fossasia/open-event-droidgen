@@ -27,7 +27,7 @@ public abstract class BaseRVAdapter<T, V extends RecyclerView.ViewHolder> extend
         return null;
     }
 
-    protected T getItem(int position) {
+    public T getItem(int position) {
         return dataList.get(position);
     }
 
