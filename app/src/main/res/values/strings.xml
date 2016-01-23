@@ -76,4 +76,9 @@
     <string name="bullet">"•"</string>
     <string name="bookmarks">Bookmarks</string>
 
+    <!--Speaker-->
+    <string name="subject">Speaker profile</string>
+    <string name="message_1"> is speaking at </string>
+    <string name="message_2"> on the topics: </string>
+    <string name="message_3"> For more information checkout this app on google play store: </string>
 </resources>

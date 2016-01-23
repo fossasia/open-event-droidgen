@@ -11,6 +11,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.content.Intent;
+import android.support.v4.view.MenuItemCompat;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.SessionsListAdapter;
@@ -18,6 +20,7 @@ import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.SpeakerIntent;
+import org.fossasia.openevent.api.Urls;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,6 +90,28 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
             case android.R.id.home:
                 finish();
                 return true;
+            case R.id.share_speakers_url:
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_SUBJECT, getResources().getString(R.string.subject));
+                StringBuilder message = new StringBuilder();
+                message.append(String.format("%s %s %s %s\n\n",
+                        selectedSpeaker.getName(),
+                        getResources().getString(R.string.message_1),
+                        getResources().getString(R.string.app_name),
+                        getResources().getString(R.string.message_2)));
+                for (Session m : mSessions) {
+                    message.append(m.getTitle())
+                            .append(",");
+                }
+                message.append(String.format("\n\n%s (%s)\n%s",
+                        getResources().getString(R.string.message_3),
+                        Urls.APP_LINK,
+                        selectedSpeaker.getPhoto()));
+                sendIntent.putExtra(Intent.EXTRA_TEXT, message.toString());
+                sendIntent.setType("text/plain");
+                startActivity(Intent.createChooser(sendIntent, selectedSpeaker.getEmail()));
+
         }
         return super.onOptionsItemSelected(item);
     }
