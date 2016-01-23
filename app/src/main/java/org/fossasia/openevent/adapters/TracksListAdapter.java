@@ -27,8 +27,7 @@ public class TracksListAdapter extends RecyclerView.Adapter<TracksListAdapter.Vi
     public TracksListAdapter.Viewholder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.item_track, parent, false);
-        Viewholder viewholder = new Viewholder(view);
-        return viewholder;
+        return new Viewholder(view);
     }
 
     @Override
@@ -36,6 +35,18 @@ public class TracksListAdapter extends RecyclerView.Adapter<TracksListAdapter.Vi
         Track current = tracks.get(position);
         holder.title.setText(current.getName());
         holder.desc.setText(current.getDescription());
+
+        if (position == 0) {
+            holder.topLine.setVisibility(View.INVISIBLE);
+        } else {
+            holder.topLine.setVisibility(View.VISIBLE);
+        }
+
+        if (position == getItemCount() - 1) {
+            holder.bottomLine.setVisibility(View.INVISIBLE);
+        } else {
+            holder.bottomLine.setVisibility(View.VISIBLE);
+        }
 
     }
 
@@ -107,6 +118,8 @@ public class TracksListAdapter extends RecyclerView.Adapter<TracksListAdapter.Vi
     class Viewholder extends RecyclerView.ViewHolder {
         TextView title;
         TextView desc;
+        View topLine;
+        View bottomLine;
 
         public Viewholder(View itemView) {
             super(itemView);
@@ -114,6 +127,8 @@ public class TracksListAdapter extends RecyclerView.Adapter<TracksListAdapter.Vi
 
             title = (TextView) itemView.findViewById(R.id.track_title);
             desc = (TextView) itemView.findViewById(R.id.track_description);
+            topLine = itemView.findViewById(R.id.track_top);
+            bottomLine = itemView.findViewById(R.id.track_bottom);
 
         }
 

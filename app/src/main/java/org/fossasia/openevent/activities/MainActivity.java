@@ -8,6 +8,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar mToolbar;
     private NavigationView navigationView;
     private ProgressBar downloadProgress;
-    private FrameLayout mainFrame;
+    private CoordinatorLayout mainFrame;
     private int counter;
     private int eventsDone;
     private int currentMenuItemId;
@@ -82,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         eventsDone = 0;
         setUpToolbar();
         setUpNavDrawer();
-        mainFrame = (FrameLayout) findViewById(R.id.layout_main);
+        mainFrame = (CoordinatorLayout) findViewById(R.id.layout_main);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         downloadProgress = (ProgressBar) findViewById(R.id.progress);
         downloadProgress.setVisibility(View.VISIBLE);
@@ -267,7 +268,6 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
                 mDrawerLayout.closeDrawers();
                 startActivity(intent);
-
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
 
         }

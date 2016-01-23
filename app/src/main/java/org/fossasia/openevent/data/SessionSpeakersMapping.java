@@ -1,7 +1,5 @@
 package org.fossasia.openevent.data;
 
-import android.util.Log;
-
 import org.fossasia.openevent.dbutils.DbContract;
 
 /**
@@ -37,8 +35,6 @@ public class SessionSpeakersMapping {
     public String generateSql() {
         String query_normal = "INSERT INTO %s(sessionid ,speakerid) VALUES ('%d', '%d');";
         String query = String.format(query_normal, DbContract.Sessionsspeakers.TABLE_NAME, sessionId, speakerId);
-        Log.d(TAG, query);
-
         return query;
     }
 
