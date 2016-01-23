@@ -1,74 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.fossasia.openevent">
+<manifest
+    package="org.fossasia.openevent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:name=".OpenEventApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/Base.AppTheme">
+        android:theme="@style/AppTheme">
         <activity
             android:name=".activities.SplashActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
         <activity
             android:name=".activities.MainActivity"
-            android:label="@string/app_name" />
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".activities.SettingsActivity"
-            android:label="@string/action_settings" />
+            android:label="@string/action_settings"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".activities.TracksActivity"
-            android:label="@string/title_section_tracks" />
+            android:label="@string/title_section_tracks"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".activities.LocationActivtiy"
-            android:label="@string/title_section_location" />
+            android:label="@string/title_section_location"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".activities.SpeakersActivity"
-            android:label="@string/title_section_speakerlist" />
+            android:label="@string/title_section_speakerlist"
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity
             android:name=".activities.SessionDetailActivity"
-            android:label="@string/session">
+            android:label="@string/session"
+            android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
+                android:resource="@xml/searchable"/>
         </activity>
 
         <service
             android:name=".Services.BookmarkAlarmService"
-            android:enabled="true" />
+            android:enabled="true"/>
 
-        <receiver android:name=".Receivers.NotificationAlarmReceiver" />
+        <receiver android:name=".Receivers.NotificationAlarmReceiver"/>
 
         <receiver
             android:name=".widget.BookmarkWidgetProvider"
             android:enabled="true"
             android:label="Bookmarks">
             <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="${applicationId}.ACTION_DATA_UPDATED" />
-                <action android:name="${applicationId}.UPDATE_MY_WIDGET" />
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="${applicationId}.ACTION_DATA_UPDATED"/>
+                <action android:name="${applicationId}.UPDATE_MY_WIDGET"/>
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/widget_info" />
+                android:resource="@xml/widget_info"/>
         </receiver>
 
         <service
             android:name=".widget.BookmarkWidgetRemoteViewsService"
             android:enabled="true"
             android:exported="false"
-            android:permission="android.permission.BIND_REMOTEVIEWS" />
+            android:permission="android.permission.BIND_REMOTEVIEWS"/>
     </application>
 
 </manifest>
