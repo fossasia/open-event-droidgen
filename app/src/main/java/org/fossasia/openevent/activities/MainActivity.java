@@ -1,15 +1,19 @@
 package org.fossasia.openevent.activities;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -18,6 +22,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,7 +30,10 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.afollestad.materialdialogs.Theme;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
@@ -257,8 +265,18 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
                 mDrawerLayout.closeDrawers();
                 startActivity(intent);
-
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+            case R.id.nav_about:
+                new MaterialDialog.Builder(this)
+                        .iconRes(R.drawable.ic_launcher)
+                        .limitIconToDefaultSize()
+                        .title(String.format("%1$s", getString(R.string.app_name)))
+                        .content(getResources().getText(R.string.about_text))
+                        .positiveText(android.R.string.ok)
+                        .linkColorAttr(R.attr.colorPrimary)
+                        .positiveColorRes(R.color.primaryDarkColor)
+                        .show();
+                break;
 
         }
         currentMenuItemId = menuItemId;
@@ -462,4 +480,5 @@ public class MainActivity extends AppCompatActivity {
             OpenEventApp.postEventOnUIThread(new ShowNetworkDialogEvent());
         }
     }
+
 }

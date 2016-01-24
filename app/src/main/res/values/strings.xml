@@ -72,4 +72,14 @@
     <string name="error">Error</string>
     <string name="ok">OK</string>
 
+    <!--About us text-->
+
+    <string name="about_text">Programmed by <a href="https://github.com/fossasia/open-event-android/graphs/contributors">FOSSASIA contributors</a>.
+\n
+\nLicensed under the GNU General Public License v3. Source available on <a href="https://github.com/fossasia/open-event-android">GitHub</a>.
+\n
+\nPlease report all the issues in <a href="https://github.com/fossasia/open-event-android/issues/new">Github Repository Issue Tracker</a>.
+\n
+    </string>
+
 </resources>
