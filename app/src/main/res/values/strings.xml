@@ -72,6 +72,7 @@
     <string name="error">Error</string>
     <string name="ok">OK</string>
 
+
     <string name="empty_list">No Bookmarks Available</string>
     <string name="bullet">"•"</string>
     <string name="bookmarks">Bookmarks</string>
@@ -82,4 +83,13 @@
     <string name="message_2"> on the topics: </string>
     <string name="message_3"> For more information checkout this app on google play store: </string>
     <string name="fmt_floor">"Floor : "</string>
+
+    <!--About us text-->
+    <string name="about_text">Programmed by <a href="https://github.com/fossasia/open-event-android/graphs/contributors">FOSSASIA contributors</a>.
+\n
+\nLicensed under the GNU General Public License v3. Source available on <a href="https://github.com/fossasia/open-event-android">GitHub</a>.
+\n
+\nPlease report all the issues in <a href="https://github.com/fossasia/open-event-android/issues/new">Github Repository Issue Tracker</a>.
+\n
+    </string>
 </resources>
