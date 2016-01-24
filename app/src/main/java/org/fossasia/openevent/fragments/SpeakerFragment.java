@@ -51,6 +51,9 @@ public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextL
     private SpeakersListAdapter speakersListAdapter;
     private List<Speaker> mSpeakers;
 
+    private String searchText = "";
+    private SearchView searchView;
+    final private String SEARCH = "searchText";
 
     @Nullable
     @Override
@@ -90,7 +93,20 @@ public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextL
                             }
                         }));
 
+        if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
+            searchText = savedInstanceState.getString(SEARCH);
+        }
         return view;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle bundle) {
+        if (isAdded()) {
+            if (searchView != null) {
+                bundle.putString(SEARCH, searchText);
+            }
+        }
+        super.onSaveInstanceState(bundle);
     }
 
     @Override
@@ -108,11 +124,13 @@ public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextL
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
         inflater.inflate(R.menu.menu_speakers, menu);
-        final MenuItem item = menu.findItem(R.id.action_search_speakers);
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+        MenuItem item = menu.findItem(R.id.action_search_speakers);
+        searchView = (SearchView) MenuItemCompat.getActionView(item);
         searchView.setOnQueryTextListener(this);
+        searchView.setQuery(searchText, false);
     }
 
     @Subscribe
@@ -124,7 +142,7 @@ public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextL
             Log.d("countersp", "Refresh done");
 
         } else {
-            if (getActivity()!=null){
+            if (getActivity() != null) {
                 Snackbar.make(getView(), getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).show();
             }
             Log.d("countersp", "Refresh not done");
@@ -162,6 +180,8 @@ public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextL
 
         speakersListAdapter.animateTo(filteredSpeakersList);
         speakersRecyclerView.scrollToPosition(0);
+
+        searchText = query;
         return true;
     }
 

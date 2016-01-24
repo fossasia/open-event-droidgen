@@ -7,6 +7,9 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -14,6 +17,7 @@ import android.widget.TextView;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.activities.SessionDetailActivity;
 import org.fossasia.openevent.adapters.SessionsListAdapter;
+import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.RecyclerItemClickListener;
@@ -65,5 +69,25 @@ public class BookmarksFragment extends Fragment {
                 })
         );
         return view;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.share_bookmarks_url:
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.putExtra(Intent.EXTRA_TEXT, Urls.WEB_APP_URL_BASIC + Urls.BOOKMARKS);
+                intent.putExtra(Intent.EXTRA_SUBJECT, R.string.share_links);
+                intent.setType("text/plain");
+                startActivity(Intent.createChooser(intent, getResources().getString(R.string.share_links)));
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
+        inflater.inflate(R.menu.menu_bookmarks, menu);
     }
 }
