@@ -67,4 +67,13 @@
     <string name="message_3"> For more information checkout this app on google play store: </string>
     <string name="fmt_floor">"Floor : "</string>
     <string name="noBookmark">No bookmarked session yet !!</string>
+
+    <!--About us text-->
+    <string name="about_text">Programmed by <a href="https://github.com/fossasia/open-event-android/graphs/contributors">FOSSASIA contributors</a>.
+\n
+\nLicensed under the GNU General Public License v3. Source available on <a href="https://github.com/fossasia/open-event-android">GitHub</a>.
+\n
+\nPlease report all the issues in <a href="https://github.com/fossasia/open-event-android/issues/new">Github Repository Issue Tracker</a>.
+\n
+    </string>
 </resources>
