@@ -1,5 +1,6 @@
 package org.fossasia.openevent.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -67,12 +68,24 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
         sessionRecyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 
+    private void shareSpeakerInfo () {
+        String speakerInfo = getString(R.string.share_speaker_name) + speaker + "\n" + getString(R.string.share_speaker_email) + selectedSpeaker.getEmail();
+        Intent sendSpeakerInfoIntent = new Intent();
+        sendSpeakerInfoIntent.setAction(Intent.ACTION_SEND);
+        sendSpeakerInfoIntent.putExtra(Intent.EXTRA_TEXT, speakerInfo);
+        sendSpeakerInfoIntent.setType("text/plain");
+        startActivity(sendSpeakerInfoIntent);
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
+                return true;
+            case R.id.share_speaker_info:
+                shareSpeakerInfo();
                 return true;
         }
         return super.onOptionsItemSelected(item);

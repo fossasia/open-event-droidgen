@@ -76,4 +76,7 @@
     <string name="bullet">"•"</string>
     <string name="bookmarks">Bookmarks</string>
 
+    <!--Share speaker info text-->
+    <string name="share_speaker_name">"Speaker\'s name is: "</string>
+    <string name="share_speaker_email">"Speaker\'s email is: "</string>
 </resources>
