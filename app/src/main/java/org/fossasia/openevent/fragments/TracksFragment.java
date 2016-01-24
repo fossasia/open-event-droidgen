@@ -49,6 +49,9 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
     private TracksListAdapter tracksListAdapter;
     private List<Track> mTracks;
 
+    private String searchText = "";
+    private SearchView searchView;
+    final private String SEARCH = "searchText";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -86,7 +89,20 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
                     }
                 })
         );
+        if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
+            searchText = savedInstanceState.getString(SEARCH);
+        }
         return view;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle bundle) {
+        if (isAdded()) {
+            if (searchView != null) {
+                bundle.putString(SEARCH, searchText);
+            }
+        }
+        super.onSaveInstanceState(bundle);
     }
 
     @Override
@@ -106,9 +122,13 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear();
         inflater.inflate(R.menu.menu_tracks, menu);
-        final MenuItem item = menu.findItem(R.id.action_search_tracks);
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+        MenuItem item = menu.findItem(R.id.action_search_tracks);
+        searchView = (SearchView) MenuItemCompat.getActionView(item);
         searchView.setOnQueryTextListener(this);
+        if (searchText != null) {
+            searchView.setQuery(searchText, false);
+        }
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
@@ -120,6 +140,8 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
 
         tracksListAdapter.animateTo(filteredModelList);
         tracksRecyclerView.scrollToPosition(0);
+
+        searchText = query;
         return true;
     }
 
@@ -143,7 +165,10 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
 
     @Subscribe
     public void RefreshData(RefreshUiEvent event) {
-        tracksListAdapter.refresh();
+
+        if (searchText.length() == 0) {
+            tracksListAdapter.refresh();
+        }
     }
 
     @Subscribe
@@ -154,7 +179,7 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
             tracksListAdapter.refresh();
 
         } else {
-            if (getActivity()!=null){
+            if (getActivity() != null) {
                 Snackbar.make(getView(), getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).show();
             }
         }
