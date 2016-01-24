@@ -53,6 +53,14 @@ public final class ISO8601Date {
         return date;
     }
 
+    public static String getTime(final Date date) {
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm ");
+        String timeToStr = dateFormat.format(date);
+
+        return timeToStr;
+    }
+
     public static Date getDateObject(final String iso8601String) {
 
         StringBuilder s = new StringBuilder();

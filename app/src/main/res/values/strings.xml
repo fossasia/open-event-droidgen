@@ -72,4 +72,8 @@
     <string name="error">Error</string>
     <string name="ok">OK</string>
 
+    <string name="empty_list">No Bookmarks Available</string>
+    <string name="bullet">"•"</string>
+    <string name="bookmarks">Bookmarks</string>
+
 </resources>

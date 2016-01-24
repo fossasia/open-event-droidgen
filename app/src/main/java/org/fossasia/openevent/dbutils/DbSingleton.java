@@ -138,6 +138,7 @@ public class DbSingleton {
     }
 
     public ArrayList<Speaker> getSpeakersbySessionName(String sessionName) {
+        getReadOnlyDatabase();
         return databaseOperations.getSpeakersbySessionName(sessionName, mDb);
     }
 
@@ -159,6 +160,8 @@ public class DbSingleton {
     }
 
     public ArrayList<Integer> getBookmarkIds() throws ParseException {
+
+        getReadOnlyDatabase();
         return databaseOperations.getBookmarkIds(mDb);
     }
 

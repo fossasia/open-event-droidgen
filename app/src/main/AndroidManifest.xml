@@ -50,6 +50,25 @@
 
         <receiver android:name=".Receivers.NotificationAlarmReceiver" />
 
+        <receiver
+            android:name=".widget.BookmarkWidgetProvider"
+            android:enabled="true"
+            android:label="Bookmarks">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="${applicationId}.ACTION_DATA_UPDATED" />
+                <action android:name="${applicationId}.UPDATE_MY_WIDGET" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info" />
+        </receiver>
+
+        <service
+            android:name=".widget.BookmarkWidgetRemoteViewsService"
+            android:enabled="true"
+            android:exported="false"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
     </application>
 
 </manifest>
