@@ -1,7 +1,6 @@
 package org.fossasia.openevent.data;
 
 import android.database.DatabaseUtils;
-import android.util.Log;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -67,7 +66,6 @@ public class Track {
                 DatabaseUtils.sqlEscapeString(name + ""),
                 DatabaseUtils.sqlEscapeString(description + ""),
                 DatabaseUtils.sqlEscapeString(image + ""));
-        Log.d("tracks", query);
         return query;
 
     }
