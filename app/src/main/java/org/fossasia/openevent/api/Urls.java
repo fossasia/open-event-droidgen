@@ -28,4 +28,5 @@ public abstract class Urls {
 
     public static final String BASE_GET_URL_ALT = "https://raw.githubusercontent.com/fossasia/open-event/master/testapi";
 
+    public static final String APP_LINK = "https://app_link_goes_here.com";
 }
