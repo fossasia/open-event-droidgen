@@ -36,10 +36,10 @@ import java.util.List;
 /**
  * Created by MananWason on 08-07-2015.
  */
-public class SessionDetailActivity extends AppCompatActivity {
+public class SessionDetailActivity extends AppCompatActivity  {
     private static final String TAG = "Session Detail";
     private RecyclerView speakersRecyclerView;
-    private SpeakersListAdapter adapter;
+     private SpeakersListAdapter adapter;
     private Session session;
     private String timings;
 
@@ -48,7 +48,7 @@ public class SessionDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sessions_detail);
         DbSingleton dbSingleton = DbSingleton.getInstance();
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_details);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         final String title = getIntent().getStringExtra(IntentStrings.SESSION);
@@ -116,11 +116,11 @@ public class SessionDetailActivity extends AppCompatActivity {
                 if (dbSingleton.isBookmarked(session.getId())) {
                     Log.d(TAG, "Bookmark Removed");
                     dbSingleton.deleteBookmarks(session.getId());
-                    item.setIcon(R.drawable.ic_star_border_bookmark);
+                    item.setIcon(R.drawable.ic_bookmark_outline_white_24dp);
                 } else {
                     Log.d(TAG, "Bookmarked");
                     dbSingleton.addBookmarks(session.getId());
-                    item.setIcon(R.drawable.ic_star_bookmark);
+                    item.setIcon(R.drawable.ic_bookmark_white_24dp);
                     createNotification();
                 }
                 sendBroadcast(new Intent(BookmarkWidgetProvider.ACTION_UPDATE));
@@ -135,10 +135,10 @@ public class SessionDetailActivity extends AppCompatActivity {
         MenuItem item = menu.findItem(R.id.bookmark_status);
         if (dbSingleton.isBookmarked(session.getId())) {
             Log.d(TAG, "Bookmarked");
-            item.setIcon(R.drawable.ic_star_bookmark);
+            item.setIcon(R.drawable.ic_bookmark_white_24dp);
         } else {
             Log.d(TAG, "Bookmark Removed");
-            item.setIcon(R.drawable.ic_star_border_bookmark);
+            item.setIcon(R.drawable.ic_bookmark_outline_white_24dp);
         }
         return super.onCreateOptionsMenu(menu);
     }

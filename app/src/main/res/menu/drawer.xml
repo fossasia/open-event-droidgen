@@ -4,36 +4,33 @@
             android:id="@+id/nav_tracks"
             android:checked="true"
             android:icon="@drawable/ic_event_grey600_24dp"
-            android:title="@string/menu_tracks" />
+            android:title="@string/menu_tracks"/>
 
         <item
             android:id="@+id/nav_bookmarks"
             android:icon="@drawable/ic_bookmark_grey600_24dp"
-            android:title="@string/menu_bookmarks" />
+            android:title="@string/menu_bookmarks"/>
         <item
             android:id="@+id/nav_speakers"
             android:icon="@drawable/ic_people_grey600_24dp"
-            android:title="@string/menu_speakers" />
+            android:title="@string/menu_speakers"/>
         <item
             android:id="@+id/nav_sponsors"
-            android:icon="@drawable/ic_sponsor_drawer"
-            android:title="@string/menu_sponsor" />
+            android:icon="@drawable/ic_sponsors"
+            android:title="@string/menu_sponsor"/>
         <item
             android:id="@+id/nav_map"
             android:icon="@drawable/ic_map_grey600_24dp"
-            android:title="@string/menu_map" />
+            android:title="@string/menu_map"/>
         <item
             android:id="@+id/nav_locations"
             android:icon="@drawable/ic_location_on_black_24dp"
-            android:title="@string/menu_locations" />
+            android:title="@string/menu_locations"/>
     </group>
-    <item android:title="">
-        <menu>
-            <item
-                android:id="@+id/nav_settings"
-                android:title="@string/menu_settings" />
-            <item android:title="@string/menu_about" />
-        </menu>
-    </item>
+
+    <item
+        android:id="@+id/nav_settings"
+        android:title="@string/menu_settings"/>
+    <item android:title="@string/menu_about"/>
 
 </menu>
