@@ -3,7 +3,7 @@ sudo: false
 jdk: oraclejdk7
 env:
   matrix:
-    - ADB_INSTALL_TIMEOUT=8 ANDROID_BUILD_TOOLS_VERSION=22.0.1 ANDROID_TARGET=android-22 ANDROID_ABI=armeabi-v7a
+    - ADB_INSTALL_TIMEOUT=12 ANDROID_BUILD_TOOLS_VERSION=23.0.2 ANDROID_TARGET=android-22 ANDROID_ABI=armeabi-v7a
 
 cache:
   directories:
