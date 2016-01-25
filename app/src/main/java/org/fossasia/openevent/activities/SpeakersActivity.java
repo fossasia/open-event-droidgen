@@ -37,6 +37,7 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
     private List<Session> mSessions;
     private RecyclerView sessionRecyclerView;
     private String speaker;
+    private String speakerEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,7 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
         setContentView(R.layout.activity_speakers);
         DbSingleton dbSingleton = DbSingleton.getInstance();
         speaker = getIntent().getStringExtra(Speaker.SPEAKER);
+        speakerEmail = getIntent().getStringExtra(Speaker.SPEAKEREMAIL);
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_speakers);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
