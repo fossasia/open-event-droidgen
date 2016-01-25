@@ -7,6 +7,7 @@ import android.text.TextUtils;
  * Date: 25/1/16
  */
 public final class StringUtils {
+
     private StringUtils() {
     }
 

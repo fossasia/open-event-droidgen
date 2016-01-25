@@ -4,13 +4,16 @@ jdk: oraclejdk7
 env:
   global:
     - GRADLE_OPTS="-Xmx512m -XX:MaxPermSize=512m"
+    - secure: xPm0pTXry57NozK0z0pDYWiewQaqQaq8EmhWyNBG/CgXPtoy2NSnwyrXiANXpSZRXxYg4JilWqVvkPvSe33F7ELtpNZY0qOHgI8mpWARw/iGvEOSnRhn64tuDkRq8V9OiioFT6cIlyZKLQEC93xoNqZXptUWBfWD9Sd61mQLxVoajfpcHoOchld0V65ICE+FJWdzeA+/8H45dnlwK9tWoJu6v+Wei7Va/TadlJ/hAoLCU7RybvBr1QWK7jMJR+3WDELXpepNXXIFJe2VR/50i2zIiFyBtjk1elMydKq8UuhpCqhZzoF9dnsozlkstHNNuEQuBspY242CH9AtARr3dI0Fg3JYlgRzH7IrhSaNvH9qFY8Cm98fXwEVWT5CchFWlElyJYWi4jsWL77FCB0vAd+/ru/sq8wEu3JPSLOY4aohp48IKUjUWaftYF6bfvzHn0uY4k44dffBbCVBBkNblo6pHtaKQ92N5GWSf2afwL2V1ez2rJNPTqBrKL84+ZwRd00FzzCEbn50cArz7XA7i+aSJgUTlduIIZKG2a3GoNa8NxYKBwugQQ/J8XuiUd3PY3UcfPU3m4AfcRzVaHy30jeLxFnheSgb+Ba94yTD05SfsI9yqjwjwF92KUBVr1Wwc2Sw4a0ZfdcHGOS0mriGno2ZEtOMtYtXHNXDAVB9twQ=
   matrix:
-    - ADB_INSTALL_TIMEOUT=12 ANDROID_BUILD_TOOLS_VERSION=23.0.2 ANDROID_TARGET=android-22 ANDROID_ABI=armeabi-v7a
+    - ADB_INSTALL_TIMEOUT=15 ANDROID_BUILD_TOOLS_VERSION=23.0.2 ANDROID_TARGET=android-22 ANDROID_ABI=armeabi-v7a
 
 cache:
   directories:
     - ${TRAVIS_BUILD_DIR}/gradle/caches/
     - ${TRAVIS_BUILD_DIR}/gradle/wrapper/dists/
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
 
 android:
   components:
@@ -37,7 +40,12 @@ before_script:
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
 
-script: ./gradlew clean coveralls
+script:
+  - ./gradlew clean coveralls
+  # Just in case if there is any issue
+  - chmod a+x codestyle.sh
+  - ./codestyle.sh
+
 
 # Gitter Integration via Webhook (https://gitter.im/fossasia/open-event-android)
 notifications:
