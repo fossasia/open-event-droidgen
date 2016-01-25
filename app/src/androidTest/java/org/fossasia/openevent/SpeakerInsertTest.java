@@ -1,11 +1,11 @@
 package org.fossasia.openevent;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.test.InstrumentationRegistry;
 import android.test.AndroidTestCase;
-import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -52,6 +52,8 @@ public class SpeakerInsertTest extends AndroidTestCase {
     private static String country;
 
     private static long speakerAssignId;
+
+    private final Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
     private DbHelper db;
 
@@ -161,12 +163,11 @@ public class SpeakerInsertTest extends AndroidTestCase {
      */
     public void testDataInsertionIsCorrect() {
         Gson gson = new Gson();
+        // For reading resource we need this
         String jsonStr = IOUtils.readRaw(org.fossasia.openevent.test.R.raw.speaker_v1, InstrumentationRegistry.getContext());
-        Log.d(TAG, jsonStr);
         Speaker speaker = gson.fromJson(jsonStr, Speaker.class);
         String query = speaker.generateSql();
-        DbSingleton.init(InstrumentationRegistry.getContext());
-        DbSingleton instance = DbSingleton.getInstance();
+        DbSingleton instance = new DbSingleton(context);
         instance.clearDatabase(DbContract.Speakers.TABLE_NAME);
         instance.insertQuery(query);
 

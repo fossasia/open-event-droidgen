@@ -1,8 +1,8 @@
 package org.fossasia.openevent;
 
+import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.test.AndroidTestCase;
-import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -19,16 +19,17 @@ import org.junit.Test;
 public class EventInsertTest extends AndroidTestCase {
     private static final String TAG = SpeakerInsertTest.class.getSimpleName();
 
+    private final Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
+
     @Test
     public void testEventInsertion() {
         Gson gson = new Gson();
+        // For reading resources we need this
         String jsonStr = IOUtils.readRaw(org.fossasia.openevent.test.R.raw.event_v1, InstrumentationRegistry.getContext());
-        Log.d(TAG, jsonStr);
         Event event = gson.fromJson(jsonStr, Event.class);
         String query = event.generateSql();
 
-        DbSingleton.init(InstrumentationRegistry.getContext());
-        DbSingleton instance = DbSingleton.getInstance();
+        DbSingleton instance = new DbSingleton(context);
         instance.clearDatabase(DbContract.Event.TABLE_NAME);
         instance.insertQuery(query);
 
