@@ -5,6 +5,9 @@ import android.database.DatabaseUtils;
 import com.google.gson.annotations.SerializedName;
 
 import org.fossasia.openevent.dbutils.DbContract;
+import org.fossasia.openevent.utils.StringUtils;
+
+import java.util.Locale;
 
 /**
  * Created by championswimmer on 16/5/15.
@@ -12,8 +15,11 @@ import org.fossasia.openevent.dbutils.DbContract;
 public class Track {
 
     int id;
+
     String name;
+
     String description;
+
     @SerializedName("track_image_url")
     String image;
 
@@ -58,16 +64,14 @@ public class Track {
     }
 
     public String generateSql() {
-        String query_normal = "INSERT INTO %s VALUES ('%d', %s, %s , %s);";
-        String query = String.format(
-                query_normal,
+        String insertQuery = "INSERT INTO %s VALUES ('%d', %s, %s , %s);";
+        return String.format(Locale.ENGLISH,
+                insertQuery,
                 DbContract.Tracks.TABLE_NAME,
                 id,
-                DatabaseUtils.sqlEscapeString(name + ""),
-                DatabaseUtils.sqlEscapeString(description + ""),
-                DatabaseUtils.sqlEscapeString(image + ""));
-        return query;
-
+                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(name)),
+                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(description)),
+                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(image)));
     }
 
 

@@ -174,7 +174,14 @@ public class SpeakerInsertTest extends AndroidTestCase {
         assertTrue(speakerList != null);
         assertTrue(speakerList.size() == 1);
         Speaker speaker2 = speakerList.get(0);
+        // NULL String must be transformed into an empty string upon insertion
+        assertEquals(null, speaker.getPosition());
+
+        // Must be empty string
         assertEquals("", speaker2.getPosition());
+
+        // NULL must be converted to empty string
+        assertEquals("", speaker2.getGithub());
     }
 
     @Override

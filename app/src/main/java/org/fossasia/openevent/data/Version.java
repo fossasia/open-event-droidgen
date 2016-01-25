@@ -4,23 +4,33 @@ import com.google.gson.annotations.SerializedName;
 
 import org.fossasia.openevent.dbutils.DbContract;
 
+import java.util.Locale;
+
 /**
- * Created by MananWason on 05-06-2015.
+ * User: MananWason
+ * Date: 05-06-2015
  */
 public class Version {
     @SerializedName("event_id")
     int eventId;
+
     @SerializedName("event_ver")
     int eventVer;
+
     int id;
+
     @SerializedName("microlcations_ver")
     int microlocationsVer;
+
     @SerializedName("session_ver")
     int sessionVer;
+
     @SerializedName("sponsors_ver")
     int sponsorVer;
+
     @SerializedName("speakers_ver")
     int speakerVer;
+
     @SerializedName("tracks_ver")
     int tracksVer;
 
@@ -92,7 +102,9 @@ public class Version {
 
     public String generateSql() {
         String query_normal = "INSERT INTO %s VALUES ('%d', '%d', '%d', '%d', '%d', '%d', '%d');";
-        String query = String.format(query_normal, DbContract.Versions.TABLE_NAME, id, eventVer, tracksVer, sessionVer, sponsorVer, speakerVer, microlocationsVer);
-        return query;
+        return String.format(Locale.ENGLISH,
+                query_normal,
+                DbContract.Versions.TABLE_NAME,
+                id, eventVer, tracksVer, sessionVer, sponsorVer, speakerVer, microlocationsVer);
     }
 }
