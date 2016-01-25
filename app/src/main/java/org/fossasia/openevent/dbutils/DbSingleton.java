@@ -3,20 +3,15 @@ package org.fossasia.openevent.dbutils;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-import org.fossasia.openevent.data.Event;
-import org.fossasia.openevent.data.Microlocation;
-import org.fossasia.openevent.data.Session;
-import org.fossasia.openevent.data.Speaker;
-import org.fossasia.openevent.data.Sponsor;
-import org.fossasia.openevent.data.Track;
-import org.fossasia.openevent.data.Version;
+import org.fossasia.openevent.data.*;
 
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by championswimmer on 17/5/15.
+ * User: championswimmer
+ * Date: 17/5/15
  */
 public class DbSingleton {
 
