@@ -2,6 +2,8 @@ language: android
 sudo: false
 jdk: oraclejdk7
 env:
+  global:
+    - GRADLE_OPTS="-Xmx512m -XX:MaxPermSize=512m"
   matrix:
     - ADB_INSTALL_TIMEOUT=12 ANDROID_BUILD_TOOLS_VERSION=23.0.2 ANDROID_TARGET=android-22 ANDROID_ABI=armeabi-v7a
 
@@ -35,7 +37,7 @@ before_script:
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
 
-script: ./gradlew :app:connectedAndroidTest coveralls
+script: ./gradlew clean coveralls
 
 # Gitter Integration via Webhook (https://gitter.im/fossasia/open-event-android)
 notifications:
