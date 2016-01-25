@@ -15,7 +15,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -23,7 +23,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
@@ -35,45 +34,54 @@ import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.dbutils.DataDownload;
 import org.fossasia.openevent.dbutils.DbSingleton;
-import org.fossasia.openevent.events.ConnectionCheckEvent;
-import org.fossasia.openevent.events.CounterEvent;
-import org.fossasia.openevent.events.DataDownloadEvent;
-import org.fossasia.openevent.events.EventDownloadEvent;
-import org.fossasia.openevent.events.MicrolocationDownloadEvent;
-import org.fossasia.openevent.events.NoInternetEvent;
-import org.fossasia.openevent.events.RefreshUiEvent;
-import org.fossasia.openevent.events.SessionDownloadEvent;
-import org.fossasia.openevent.events.ShowNetworkDialogEvent;
-import org.fossasia.openevent.events.SpeakerDownloadEvent;
-import org.fossasia.openevent.events.SponsorDownloadEvent;
-import org.fossasia.openevent.events.TracksDownloadEvent;
-import org.fossasia.openevent.fragments.BookmarksFragment;
-import org.fossasia.openevent.fragments.LocationsFragment;
-import org.fossasia.openevent.fragments.SpeakerFragment;
-import org.fossasia.openevent.fragments.SponsorsFragment;
-import org.fossasia.openevent.fragments.TracksFragment;
+import org.fossasia.openevent.events.*;
+import org.fossasia.openevent.fragments.*;
+import org.fossasia.openevent.utils.SmoothActionBarDrawerToggle;
 
 import retrofit.RetrofitError;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String COUNTER_TAG = "Donecounter";
-    private DrawerLayout mDrawerLayout;
-    private Toolbar mToolbar;
-    private NavigationView navigationView;
-    private ProgressBar downloadProgress;
-    private CoordinatorLayout mainFrame;
-    private int counter;
-    private int eventsDone;
-    private int currentMenuItemId;
-    private final static String STATE_FRAGMENT = "stateFragment";
-    public String errorType;
-    public String errorDesc;
     public static final String TYPE = "RetrofitError Type";
+
     public static final String ERROR_CODE = "Error Code";
+
+    private static final String COUNTER_TAG = "Donecounter";
+
+    private final static String STATE_FRAGMENT = "stateFragment";
+
     private static final String NAV_ITEM = "navItem";
+
     private static final String BOOKMARK = "bookmarks";
+
     private final String FRAGMENT_TAG = "FTAG";
+
+    public String errorType;
+
+    public String errorDesc;
+
+    private DrawerLayout mDrawerLayout;
+
+    private Toolbar mToolbar;
+
+    private NavigationView navigationView;
+
+    private ProgressBar downloadProgress;
+
+    private CoordinatorLayout mainFrame;
+
+    private int counter;
+
+    private int eventsDone;
+
+    private int currentMenuItemId;
+
+    private SmoothActionBarDrawerToggle smoothActionBarToggle;
+
+    public static Intent createLaunchFragmentIntent(Context context) {
+        return new Intent(context, MainActivity.class)
+                .putExtra(NAV_ITEM, BOOKMARK);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         downloadProgress.setIndeterminate(true);
         this.findViewById(android.R.id.content).setBackgroundColor(Color.LTGRAY);
         OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
-        if(savedInstanceState == null){
+        if (savedInstanceState == null) {
             currentMenuItemId = R.id.nav_tracks;
         } else {
             currentMenuItemId = savedInstanceState.getInt(STATE_FRAGMENT);
@@ -107,7 +115,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
 
     @Override
     protected void onPause() {
@@ -144,7 +151,6 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Will close the drawer if the home button is pressed
@@ -179,17 +185,17 @@ public class MainActivity extends AppCompatActivity {
 
     private void setUpNavDrawer() {
         if (mToolbar != null) {
-            final android.support.v7.app.ActionBar ab = getSupportActionBar();
+            final ActionBar ab = getSupportActionBar();
             assert ab != null;
             mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-            ActionBarDrawerToggle mActionBarDrawerToggle = new ActionBarDrawerToggle(this,
+            smoothActionBarToggle = new SmoothActionBarDrawerToggle(this,
                     mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 
-            mDrawerLayout.setDrawerListener(mActionBarDrawerToggle);
+            mDrawerLayout.setDrawerListener(smoothActionBarToggle);
             ab.setHomeAsUpIndicator(R.drawable.ic_menu);
             ab.setDisplayHomeAsUpEnabled(true);
             ab.setDisplayHomeAsUpEnabled(true);
-            mActionBarDrawerToggle.syncState();
+            smoothActionBarToggle.syncState();
         }
     }
 
@@ -227,32 +233,32 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    private void doMenuAction(int menuItemId){
+    private void doMenuAction(int menuItemId) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         switch (menuItemId) {
             case R.id.nav_tracks:
                 fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, new TracksFragment(),FRAGMENT_TAG).commit();
+                        .replace(R.id.content_frame, new TracksFragment(), FRAGMENT_TAG).commit();
                 getSupportActionBar().setTitle(R.string.menu_tracks);
                 break;
             case R.id.nav_bookmarks:
                 fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, new BookmarksFragment(),FRAGMENT_TAG).commit();
+                        .replace(R.id.content_frame, new BookmarksFragment(), FRAGMENT_TAG).commit();
                 getSupportActionBar().setTitle(R.string.menu_bookmarks);
                 break;
             case R.id.nav_speakers:
                 fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, new SpeakerFragment(),FRAGMENT_TAG).commit();
+                        .replace(R.id.content_frame, new SpeakerFragment(), FRAGMENT_TAG).commit();
                 getSupportActionBar().setTitle(R.string.menu_speakers);
                 break;
             case R.id.nav_sponsors:
                 fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, new SponsorsFragment(),FRAGMENT_TAG).commit();
+                        .replace(R.id.content_frame, new SponsorsFragment(), FRAGMENT_TAG).commit();
                 getSupportActionBar().setTitle(R.string.menu_sponsor);
                 break;
             case R.id.nav_locations:
                 fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, new LocationsFragment(),FRAGMENT_TAG).commit();
+                        .replace(R.id.content_frame, new LocationsFragment(), FRAGMENT_TAG).commit();
                 getSupportActionBar().setTitle(R.string.menu_locations);
                 break;
             case R.id.nav_map:
@@ -262,21 +268,25 @@ public class MainActivity extends AppCompatActivity {
                         ((OpenEventApp) getApplication())
                                 .getMapModuleFactory()
                                 .provideMapModule()
-                                .provideMapFragment(),FRAGMENT_TAG).commit();
+                                .provideMapFragment(), FRAGMENT_TAG).commit();
                 getSupportActionBar().setTitle(R.string.menu_map);
                 break;
             case R.id.nav_settings:
-                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                final Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                smoothActionBarToggle.runWhenIdle(new Runnable() {
+                    @Override
+                    public void run() {
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+                    }
+                });
                 mDrawerLayout.closeDrawers();
-                startActivity(intent);
-                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
-
         }
         currentMenuItemId = menuItemId;
         mDrawerLayout.closeDrawers();
     }
 
-    public void showErrorDialog(String errorType, String errorDesc){
+    public void showErrorDialog(String errorType, String errorDesc) {
         downloadProgress.setVisibility(View.GONE);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.error)
@@ -356,7 +366,6 @@ public class MainActivity extends AppCompatActivity {
         downloadFailed();
     }
 
-
     @Subscribe
     public void onEventsDownloadDone(EventDownloadEvent event) {
         if (event.isState()) {
@@ -386,9 +395,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
     @Subscribe
-    public void showNetworkDialog(ShowNetworkDialogEvent event){
+    public void showNetworkDialog(ShowNetworkDialogEvent event) {
         downloadProgress.setVisibility(View.GONE);
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle(getString(R.string.net_unavailable))
@@ -406,7 +414,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Subscribe
-    public void downloadData(DataDownloadEvent event){
+    public void downloadData(DataDownloadEvent event) {
         DataDownload download = new DataDownload();
         download.downloadVersions();
         downloadProgress.setVisibility(View.VISIBLE);
@@ -417,41 +425,39 @@ public class MainActivity extends AppCompatActivity {
     public void ErrorHandlerEvent(RetrofitError cause) {
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netinfo = connMgr.getActiveNetworkInfo();
-        if(!(netinfo!=null && netinfo.isConnected())){
+        if (!(netinfo != null && netinfo.isConnected())) {
             OpenEventApp.postEventOnUIThread(new ShowNetworkDialogEvent());
-        }
-        else
-        {
-            switch(cause.getKind()){
+        } else {
+            switch (cause.getKind()) {
                 case CONVERSION: {
                     Log.d(TYPE, "ConversionError");
-                    errorType="Conversion Error";
-                    errorDesc=String.valueOf(cause.getCause());
+                    errorType = "Conversion Error";
+                    errorDesc = String.valueOf(cause.getCause());
                     break;
                 }
                 case HTTP: {
                     Log.d(TYPE, "HTTPError");
-                    errorType="HTTP Error";
-                    errorDesc=String.valueOf(cause.getResponse().getStatus());
+                    errorType = "HTTP Error";
+                    errorDesc = String.valueOf(cause.getResponse().getStatus());
                     Log.d(ERROR_CODE, String.valueOf(cause.getResponse().getStatus()));
                     break;
                 }
                 case UNEXPECTED: {
                     Log.d(TYPE, "UnexpectedError");
-                    errorType="Unexpected Error";
-                    errorDesc=String.valueOf(cause.getCause());
+                    errorType = "Unexpected Error";
+                    errorDesc = String.valueOf(cause.getCause());
                     break;
                 }
                 case NETWORK: {
                     Log.d(TYPE, "NetworkError");
-                    errorType="Network Error";
-                    errorDesc=String.valueOf(cause.getCause());
+                    errorType = "Network Error";
+                    errorDesc = String.valueOf(cause.getCause());
                     break;
                 }
                 default: {
                     Log.d(TYPE, "Other Error");
-                    errorType="Other Error";
-                    errorDesc=String.valueOf(cause.getCause());
+                    errorType = "Other Error";
+                    errorDesc = String.valueOf(cause.getCause());
                 }
             }
             showErrorDialog(errorType, errorDesc);
@@ -460,23 +466,14 @@ public class MainActivity extends AppCompatActivity {
 
     @Subscribe
 
-    public void onConnectionChangeReact(ConnectionCheckEvent event)
-    {
-        if(event.connState())
-        {
+    public void onConnectionChangeReact(ConnectionCheckEvent event) {
+        if (event.connState()) {
             OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
             Log.d("NetNotif", "Connected to Internet");
-        }
-        else
-        {
+        } else {
             Log.d("NetNotif", "Not connected to Internet");
             OpenEventApp.postEventOnUIThread(new ShowNetworkDialogEvent());
         }
-    }
-
-    public static Intent createLaunchFragmentIntent(Context context) {
-        return new Intent(context, MainActivity.class)
-                .putExtra(NAV_ITEM, BOOKMARK);
     }
 
 }
