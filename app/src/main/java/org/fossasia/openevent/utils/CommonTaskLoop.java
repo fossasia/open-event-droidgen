@@ -1,15 +1,16 @@
 package org.fossasia.openevent.utils;
 
 /**
- * Created by MananWason on 8/3/2015.
+ * User: MananWason
+ * Date: 8/3/2015
  */
 public class CommonTaskLoop {
     private static CommonTaskLoop ourInstance = new CommonTaskLoop();
 
-    private CommonEventLoop m_loop;
+    private CommonEventLoop commonEventLoop;
 
     private CommonTaskLoop() {
-        m_loop = new CommonEventLoop();
+        commonEventLoop = new CommonEventLoop();
     }
 
     public static CommonTaskLoop getInstance() {
@@ -17,14 +18,14 @@ public class CommonTaskLoop {
     }
 
     public void post(Runnable call) {
-        m_loop.post(call);
+        commonEventLoop.post(call);
     }
 
     public void delayPost(Runnable call, int nMillSec) {
-        m_loop.delayPost(call, nMillSec);
+        commonEventLoop.delayPost(call, nMillSec);
     }
 
     public void shutdown() {
-        m_loop.shutdown();
+        commonEventLoop.shutdown();
     }
 }

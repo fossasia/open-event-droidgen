@@ -17,7 +17,8 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
- * Created by MananWason on 27-05-2015.
+ * User: MananWason
+ * Date: 27-05-2015
  */
 public class EventListResponseProcessor implements Callback<EventResponseList> {
     private static final String TAG = "Events";

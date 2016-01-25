@@ -4,17 +4,12 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 
-import org.fossasia.openevent.data.Event;
-import org.fossasia.openevent.data.Microlocation;
-import org.fossasia.openevent.data.Session;
-import org.fossasia.openevent.data.Speaker;
-import org.fossasia.openevent.data.Sponsor;
-import org.fossasia.openevent.data.Track;
-import org.fossasia.openevent.data.Version;
+import org.fossasia.openevent.data.*;
 
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by MananWason on 24-06-2015.
@@ -434,13 +429,17 @@ public class DatabaseOperations {
 
     public void insertQueries(ArrayList<String> queries, DbHelper mDbHelper) {
 
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
-        db.beginTransaction();
-        for (String query : queries) {
-            db.execSQL(query);
+        try {
+            SQLiteDatabase db = mDbHelper.getWritableDatabase();
+            db.beginTransaction();
+            for (String query : queries) {
+                db.execSQL(query);
+            }
+            db.setTransactionSuccessful();
+            db.endTransaction();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        db.setTransactionSuccessful();
-        db.endTransaction();
     }
 
 
@@ -878,9 +877,9 @@ public class DatabaseOperations {
     }
 
     public void addBookmarksToDb(int id) {
-        String query_normal = "INSERT INTO %s VALUES ('%d');";
-        String query = String.format(
-                query_normal,
+        String insertQuery = "INSERT INTO %s VALUES ('%d');";
+        String query = String.format(Locale.ENGLISH,
+                insertQuery,
                 DbContract.Bookmarks.TABLE_NAME,
                 id
         );

@@ -10,7 +10,8 @@ import org.fossasia.openevent.utils.StringUtils;
 import java.util.Locale;
 
 /**
- * Created by championswimmer on 16/5/15.
+ * User: championswimmer
+ * Date: 16/5/15
  */
 public class Track {
 

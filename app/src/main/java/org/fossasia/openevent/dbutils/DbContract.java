@@ -7,11 +7,17 @@ import android.provider.BaseColumns;
  */
 public class DbContract {
     public static final int DATABASE_VERSION = 1;
+
     public static final String DATABASE_NAME = "OpenEvent.db";
+
     private static final String TEXT_TYPE = " TEXT";
+
     private static final String INT_TYPE = " INTEGER";
+
     private static final String REAL_TYPE = " REAL";
+
     private static final String COMMA_SEP = ",";
+
     private static final String PRIMARY_KEY = " PRIMARY KEY";
 
     public DbContract() {
@@ -20,14 +26,23 @@ public class DbContract {
 
     public static abstract class Versions implements BaseColumns {
         public static final String TABLE_NAME = "versions";
+
         public static final String VER_EVENT = "verevent";
+
         public static final String EVENT_ID = "event_id";
+
         public static final String VER_ID = "verid";
+
         public static final String VER_MICROLOCATIONS = "vermicrolocations";
+
         public static final String VER_SESSIONS = "versessions";
+
         public static final String VER_SPEAKERS = "verspeakers";
+
         public static final String VER_SPONSORS = "versponsors";
+
         public static final String VER_TRACKS = "vertracks";
+
         public static final String[] FULL_PROJECTION = {
                 VER_EVENT,
                 VER_ID,
@@ -37,6 +52,7 @@ public class DbContract {
                 VER_SPONSORS,
                 VER_TRACKS
         };
+
         public static final String CREATE_TABLE =
                 "CREATE TABLE " + TABLE_NAME
                         + " ("
@@ -53,18 +69,31 @@ public class DbContract {
 
     public static abstract class Speakers implements BaseColumns {
         public static final String TABLE_NAME = "speakers";
+
         public static final String ID = "id";
+
         public static final String NAME = "name";
+
         public static final String PHOTO = "photo";
+
         public static final String BIO = "bio";
+
         public static final String EMAIL = "email";
+
         public static final String WEB = "web";
+
         public static final String FACEBOOK = "facebook";
+
         public static final String TWITTER = "twitter";
+
         public static final String GITHUB = "github";
+
         public static final String LINKEDIN = "linkedin";
+
         public static final String ORGANISATION = "organisation";
+
         public static final String POSITION = "position";
+
         public static final String COUNTRY = "country";
 
         public static final String[] FULL_PROJECTION = {
@@ -100,6 +129,7 @@ public class DbContract {
                         + POSITION + TEXT_TYPE + COMMA_SEP
                         + COUNTRY + TEXT_TYPE
                         + " );";
+
         public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
 
     }
@@ -108,7 +138,9 @@ public class DbContract {
         public static final String TABLE_NAME = "sessionsspeakers";
 
         public static final String _ID = "_id";
+
         public static final String SPEAKER_ID = "speakerid";
+
         public static final String SESSION_ID = "sessionid";
 
 
@@ -124,6 +156,7 @@ public class DbContract {
                         + SESSION_ID + INT_TYPE + COMMA_SEP
                         + SPEAKER_ID + INT_TYPE
                         + " );";
+
         public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
     }
 
@@ -131,15 +164,25 @@ public class DbContract {
         public static final String TABLE_NAME = "sessions";
 
         public static final String ID = "id";
+
         public static final String TITLE = "title";
+
         public static final String SUBTITLE = "subtitle";
+
         public static final String SUMMARY = "summary";
+
         public static final String DESCRIPTION = "description";
+
         public static final String START_TIME = "starttime";
+
         public static final String END_TIME = "end_time";
+
         public static final String TYPE = "type";
+
         public static final String TRACK = "track";
+
         public static final String LEVEL = "level";
+
         public static final String MICROLOCATION = "microlocation";
 
         public static final String[] FULL_PROJECTION = {
@@ -171,6 +214,7 @@ public class DbContract {
                         + LEVEL + TEXT_TYPE + COMMA_SEP
                         + MICROLOCATION + INT_TYPE
                         + " );";
+
         public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
 
 
@@ -180,9 +224,13 @@ public class DbContract {
         public static final String TABLE_NAME = "tracks";
 
         public static final String _ID = "_id";
+
         public static final String ID = "id";
+
         public static final String NAME = "name";
+
         public static final String DESCRIPTION = "description";
+
         public static final String IMAGE = "image";
 
         public static final String[] FULL_PROJECTION = {
@@ -200,6 +248,7 @@ public class DbContract {
                         + DESCRIPTION + TEXT_TYPE + COMMA_SEP
                         + IMAGE + TEXT_TYPE
                         + " );";
+
         public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
 
     }
@@ -208,9 +257,13 @@ public class DbContract {
         public static final String TABLE_NAME = "sponsors";
 
         public static final String ID = "id";
+
         public static final String NAME = "name";
+
         public static final String URL = "url";
+
         public static final String LOGO_URL = "logo_url";
+
         public static final String[] FULL_PROJECTION = {
                 ID,
                 NAME,
@@ -226,6 +279,7 @@ public class DbContract {
                         + URL + TEXT_TYPE + COMMA_SEP
                         + LOGO_URL + TEXT_TYPE
                         + " );";
+
         public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
 
     }
@@ -235,10 +289,15 @@ public class DbContract {
         public static final String TABLE_NAME = "microlocation";
 
         public static final String ID = "id";
+
         public static final String NAME = "name";
+
         public static final String LATITUDE = "latitude";
+
         public static final String LONGITUDE = "longitude";
+
         public static final String FLOOR = "floor";
+
         public static final String[] FULL_PROJECTION = {
                 ID,
                 NAME,
@@ -257,6 +316,7 @@ public class DbContract {
                         + LONGITUDE + REAL_TYPE + COMMA_SEP
                         + FLOOR + INT_TYPE
                         + " );";
+
         public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
 
 
@@ -265,17 +325,29 @@ public class DbContract {
 
     public static abstract class Event implements BaseColumns {
         public static final String TABLE_NAME = "events";
+
         public static final String ID = "id";
+
         public static final String NAME = "name";
+
         public static final String EMAIL = "event";
+
         public static final String COLOR = "color";
+
         public static final String LOGO_URL = "logo_url";
+
         public static final String START = "start";
+
         public static final String END = "end";
+
         public static final String LATITUDE = "latitude";
+
         public static final String LONGITUDE = "longitude";
+
         public static final String LOCATION_NAME = "location_name";
+
         public static final String EVENT_URL = "event_url";
+
         public static final String EVENT_SLOGAN = "slogan";
 
         public static final String[] FULL_PROJECTION = {
@@ -309,6 +381,7 @@ public class DbContract {
                         + EVENT_URL + TEXT_TYPE + COMMA_SEP
                         + EVENT_SLOGAN + TEXT_TYPE
                         + " );";
+
         public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
     }
 
@@ -316,6 +389,7 @@ public class DbContract {
         public static final String TABLE_NAME = "bookmarks";
 
         public static final String SESSION_ID = "session_id";
+
         public static final String[] FULL_PROJECTION = {
                 SESSION_ID
         };
@@ -325,9 +399,7 @@ public class DbContract {
                         + " ("
                         + SESSION_ID + INT_TYPE + PRIMARY_KEY
                         + " );";
+
         public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
-
-
     }
-
 }
