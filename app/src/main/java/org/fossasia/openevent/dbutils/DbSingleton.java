@@ -22,9 +22,11 @@ public class DbSingleton {
     private static DbHelper mDbHelper;
 
     private SQLiteDatabase mDb;
+
     private DatabaseOperations databaseOperations = new DatabaseOperations();
 
-    private DbSingleton(Context context) {
+    // visible for testing
+    public DbSingleton(Context context) {
         mContext = context;
         mDbHelper = new DbHelper(mContext);
 
