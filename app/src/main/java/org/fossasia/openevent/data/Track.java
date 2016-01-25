@@ -73,6 +73,4 @@ public class Track {
                 DatabaseUtils.sqlEscapeString(StringUtils.optionalString(description)),
                 DatabaseUtils.sqlEscapeString(StringUtils.optionalString(image)));
     }
-
-
 }
