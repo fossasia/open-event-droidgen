@@ -1,26 +1,21 @@
 package org.fossasia.openevent.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.*;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.content.Intent;
-import android.support.v4.view.MenuItemCompat;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.SessionsListAdapter;
+import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.SpeakerIntent;
-import org.fossasia.openevent.api.Urls;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,12 +25,19 @@ import java.util.List;
  */
 public class SpeakersActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
     final private String SEARCH = "searchText";
+
     SessionsListAdapter sessionsListAdapter;
+
     private String searchText = "";
+
     private SearchView searchView;
+
     private Speaker selectedSpeaker;
+
     private List<Session> mSessions;
+
     private RecyclerView sessionRecyclerView;
+
     private String speaker;
 
     @Override

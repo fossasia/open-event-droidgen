@@ -16,13 +16,17 @@ import android.view.MenuItem;
 import org.fossasia.openevent.R;
 
 /**
- * Created by manan on 21-05-2015.
+ * User: manan
+ * Date: 21-05-2015
  */
 public class SettingsActivity extends PreferenceActivity implements Preference.OnPreferenceChangeListener {
 
     private static final String API_PREF_MODE = "serverurlmode";
+
     private static final String NOTIFICATION_PREF_MODE = "notification";
+
     ListPreference listPreference;
+
     private AppCompatDelegate mDelegate;
 
     @Override
@@ -60,7 +64,7 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            onBackPressed();
+            finish();
             return true;
         }
 
