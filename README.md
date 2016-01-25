@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/fossasia/open-event-android.svg)](https://travis-ci.org/fossasia/open-event-android)
-[![Coverage Status](https://coveralls.io/repos/github/fossasia/open-event-android/badge.svg?branch=master)](https://coveralls.io/github/fossasia/open-event-android?branch=master)`
+[![Coverage Status](https://coveralls.io/repos/github/fossasia/open-event-android/badge.svg?branch=master)](https://coveralls.io/github/fossasia/open-event-android?branch=master)
 
 ## The Open Event Android Client
 
