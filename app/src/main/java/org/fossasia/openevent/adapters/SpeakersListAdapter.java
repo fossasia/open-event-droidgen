@@ -2,6 +2,7 @@ package org.fossasia.openevent.adapters;
 
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +19,8 @@ import org.fossasia.openevent.utils.CircleTransform;
 import java.util.List;
 
 /**
- * Created by MananWason on 11-06-2015.
+ * User: MananWason
+ * Date: 11-06-2015
  */
 public class SpeakersListAdapter extends RecyclerView.Adapter<SpeakersListAdapter.ViewHolder> {
 
@@ -32,8 +34,7 @@ public class SpeakersListAdapter extends RecyclerView.Adapter<SpeakersListAdapte
     public SpeakersListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.item_speaker, parent, false);
-        ViewHolder viewHolder = new ViewHolder(view);
-        return viewHolder;
+        return new ViewHolder(view);
     }
 
     @Override
@@ -44,7 +45,7 @@ public class SpeakersListAdapter extends RecyclerView.Adapter<SpeakersListAdapte
         Picasso.with(holder.speaker_image.getContext()).load(uri).transform(new CircleTransform()).into(holder.speaker_image);
 
         holder.designation.setText(current.getPosition());
-        holder.name.setText(current.getName());
+        holder.name.setText(TextUtils.isEmpty(current.getName()) ? "" : current.getName());
 
     }
 
@@ -115,7 +116,9 @@ public class SpeakersListAdapter extends RecyclerView.Adapter<SpeakersListAdapte
     class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView speaker_image;
+
         TextView name;
+
         TextView designation;
 
 

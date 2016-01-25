@@ -6,6 +6,7 @@ import com.squareup.okhttp.OkHttpClient;
 import org.fossasia.openevent.api.network.OpenEventAPI;
 
 import java.util.concurrent.TimeUnit;
+
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
 
@@ -35,7 +36,7 @@ public final class APIClient {
         RestAdapter adapter = new RestAdapter.Builder()
                 .setConverter(new GsonConverter(gson))
                 .setEndpoint(Urls.BASE_GET_URL_ALT)
-                .setLogLevel(RestAdapter.LogLevel.FULL)
+                .setLogLevel(RestAdapter.LogLevel.BASIC)
                 .build();
         openEventAPI = adapter.create(OpenEventAPI.class);
     }

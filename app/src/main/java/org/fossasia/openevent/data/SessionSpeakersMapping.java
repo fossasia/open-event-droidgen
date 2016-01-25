@@ -2,19 +2,23 @@ package org.fossasia.openevent.data;
 
 import org.fossasia.openevent.dbutils.DbContract;
 
+import java.util.Locale;
+
 /**
- * Created by MananWason on 04-06-2015.
+ * User: MananWason
+ * Date: 04-06-2015
  */
 public class SessionSpeakersMapping {
     private static final String TAG = "SessionSpeaker";
+
     int sessionId;
+
     int speakerId;
 
     public SessionSpeakersMapping(int sessionId, int speakerId) {
         this.sessionId = sessionId;
         this.speakerId = speakerId;
     }
-
 
     public int getSessionId() {
         return sessionId;
@@ -34,8 +38,6 @@ public class SessionSpeakersMapping {
 
     public String generateSql() {
         String query_normal = "INSERT INTO %s(sessionid ,speakerid) VALUES ('%d', '%d');";
-        String query = String.format(query_normal, DbContract.Sessionsspeakers.TABLE_NAME, sessionId, speakerId);
-        return query;
+        return String.format(Locale.ENGLISH, query_normal, DbContract.Sessionsspeakers.TABLE_NAME, sessionId, speakerId);
     }
-
 }
