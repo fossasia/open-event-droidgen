@@ -17,10 +17,12 @@ It generates a HTML report in `build/reports/checkstyle/checkstyle-result.html`.
 
 Try to remove as much warnings as possible, It's not completely possible to remove all the warnings, but over a period of time, we should try to make it as complete as possible.
 
-Some DONT's
+Some **DONT's**
 
 * Don't use Hungarian Notation like `mContext` `mCount` etc
 * Don't use underscores in variable names
 * All constants should be CAPS. e.g `MINIMUM_TIMEOUT_ERROR_EXTERNAL`
 * Always use `Locale.ENGLISH` when using `String.format()` unless the format itself is locale dependent e.g. `String query = String.format(Locale.ENGLISH,...`
 * Never concat `null` with `""` (Empty String). It will become `"null"` e.g. `String.equals("" + null, "null") == TRUE` 
+
+Optionally if you want to make life easier, you can download the Styles Settings Jar from [here](https://dl.dropboxusercontent.com/u/10123399/fossasia_codestyle.jar) and use autoformat before submission.
