@@ -24,10 +24,10 @@ public class Event {
 
     String logo;
 
-    @SerializedName("begin")
+    @SerializedName("start_time")
     String start;
 
-    @SerializedName("end")
+    @SerializedName("end_time")
     String end;
 
     float latitude;
@@ -156,7 +156,7 @@ public class Event {
     }
 
     public String generateSql() {
-        String insertQuery = "INSERT INTO %s VALUES ('%d', '%s', '%s','%s', '%s', '%s', '%s', '%f', '%f', '%s', '%s', '%s');";
+        String insertQuery = "INSERT INTO %s VALUES ('%d', %s, %s,%s, %s, %s, %s, '%f', '%f', %s, %s, %s);";
         return String.format(Locale.ENGLISH,
                 insertQuery,
                 DbContract.Event.TABLE_NAME,
@@ -173,6 +173,4 @@ public class Event {
                 DatabaseUtils.sqlEscapeString(StringUtils.optionalString(url)),
                 DatabaseUtils.sqlEscapeString(StringUtils.optionalString(slogan)));
     }
-
-
 }
