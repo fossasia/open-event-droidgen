@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.github.kt3k.coveralls'
+apply from: "https://raw.githubusercontent.com/monstar-lab/gradle-android-ci-check/1.2.0/ci.gradle"
 
 def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
 def buildTime = new Date().format("yyyy-MM-dd'T'HH:mm'Z'", TimeZone.getTimeZone("UTC"))
@@ -46,6 +47,9 @@ android {
     }
     packagingOptions {
         exclude 'LICENSE.txt'
+    }
+    lintOptions {
+        abortOnError false
     }
 }
 
