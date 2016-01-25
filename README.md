@@ -72,5 +72,8 @@ Before you begin, you should already have the Android Studio SDK downloaded and 
 - Also there is a check on the version of data already there in the app's database. If data is stale then only it is downloaded.
 - If database is empty then firstly json file in assets is accessed but if internet is available , latest data is downloaded.
 
+## A note about Codestyle
+Please read our [CODESTYLE](CODESTYLE.md) carefully. Pull requests that do not match the style will be rejected. 
+
 ##License
 This project is currently licensed under the GNU General Public License v3. A copy of LICENSE.md should be present along with the source code. To obtain the software under a different license, please contact FOSSASIA.
