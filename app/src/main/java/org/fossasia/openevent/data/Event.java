@@ -1,8 +1,13 @@
 package org.fossasia.openevent.data;
 
+import android.database.DatabaseUtils;
+
 import com.google.gson.annotations.SerializedName;
 
 import org.fossasia.openevent.dbutils.DbContract;
+import org.fossasia.openevent.utils.StringUtils;
+
+import java.util.Locale;
 
 /**
  * Created by MananWason on 27-05-2015.
@@ -151,23 +156,22 @@ public class Event {
     }
 
     public String generateSql() {
-        String query_normal = "INSERT INTO %s VALUES ('%d', '%s', '%s','%s', '%s', '%s', '%s', '%f', '%f', '%s', '%s', '%s');";
-        String query = String.format(
-                query_normal,
+        String insertQuery = "INSERT INTO %s VALUES ('%d', '%s', '%s','%s', '%s', '%s', '%s', '%f', '%f', '%s', '%s', '%s');";
+        return String.format(Locale.ENGLISH,
+                insertQuery,
                 DbContract.Event.TABLE_NAME,
                 id,
-                name,
-                email,
-                color,
-                logo,
-                start,
-                end,
+                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(name)),
+                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(email)),
+                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(color)),
+                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(logo)),
+                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(start)),
+                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(end)),
                 latitude,
                 longitude,
-                locationName,
-                url,
-                slogan);
-        return query;
+                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(locationName)),
+                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(url)),
+                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(slogan)));
     }
 
 

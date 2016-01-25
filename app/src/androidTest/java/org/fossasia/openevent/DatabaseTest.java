@@ -6,13 +6,7 @@ import android.support.test.InstrumentationRegistry;
 import android.test.AndroidTestCase;
 import android.util.Log;
 
-import org.fossasia.openevent.data.Event;
-import org.fossasia.openevent.data.Microlocation;
-import org.fossasia.openevent.data.Session;
-import org.fossasia.openevent.data.Speaker;
-import org.fossasia.openevent.data.Sponsor;
-import org.fossasia.openevent.data.Track;
-import org.fossasia.openevent.data.Version;
+import org.fossasia.openevent.data.*;
 import org.fossasia.openevent.dbutils.DatabaseOperations;
 import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.dbutils.DbHelper;
@@ -21,7 +15,8 @@ import org.fossasia.openevent.dbutils.DbSingleton;
 import java.util.ArrayList;
 
 /**
- * Created by MananWason on 17-06-2015.
+ * User: MananWason
+ * Date: 17-06-2015
  */
 public class DatabaseTest extends AndroidTestCase {
     private final Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();

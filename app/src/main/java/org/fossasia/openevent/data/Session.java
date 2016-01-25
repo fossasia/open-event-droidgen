@@ -7,8 +7,10 @@ import com.google.gson.annotations.SerializedName;
 
 import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.utils.StringUtils;
 
 import java.text.ParseException;
+import java.util.Locale;
 
 
 /**
@@ -150,27 +152,26 @@ public class Session {
     }
 
     public String generateSql() {
-        String query_normal = "INSERT INTO %s VALUES ('%d', %s, %s, %s, %s, %s, %s, %s, '%d', %s, '%d');";
-        String query = String.format(
-                query_normal,
+        String insertQueryFmt = "INSERT INTO %s VALUES ('%d', %s, %s, %s, %s, %s, %s, %s, '%d', %s, '%d');";
+        return String.format(Locale.ENGLISH,
+                insertQueryFmt,
                 DbContract.Sessions.TABLE_NAME,
                 id,
-                DatabaseUtils.sqlEscapeString(title + ""),
-                DatabaseUtils.sqlEscapeString(subtitle + ""),
-                DatabaseUtils.sqlEscapeString(summary + ""),
-                DatabaseUtils.sqlEscapeString(description + ""),
-                DatabaseUtils.sqlEscapeString(startTime + ""),
-                DatabaseUtils.sqlEscapeString(endTime + ""),
-                DatabaseUtils.sqlEscapeString(type + ""),
+                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(title)),
+                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(subtitle)),
+                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(summary)),
+                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(description)),
+                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(startTime)),
+                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(endTime)),
+                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(type)),
                 track,
-                DatabaseUtils.sqlEscapeString(level + ""),
+                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(level)),
                 microlocations);
-        return query;
     }
 
     public void bookmark(int id) {
         String query_normal = "INSERT INTO %s VALUES ('%d');";
-        String query = String.format(
+        String query = String.format(Locale.ENGLISH,
                 query_normal,
                 DbContract.Bookmarks.TABLE_NAME,
                 id
@@ -179,6 +180,4 @@ public class Session {
         DbSingleton dbSingleton = DbSingleton.getInstance();
         dbSingleton.insertQuery(query);
     }
-
-
 }

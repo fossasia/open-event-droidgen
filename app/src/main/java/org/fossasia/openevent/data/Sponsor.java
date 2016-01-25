@@ -3,9 +3,13 @@ package org.fossasia.openevent.data;
 import android.database.DatabaseUtils;
 
 import org.fossasia.openevent.dbutils.DbContract;
+import org.fossasia.openevent.utils.StringUtils;
+
+import java.util.Locale;
 
 /**
- * Created by championswimmer on 16/5/15.
+ * User: championswimmer
+ * Date: 16/5/15
  */
 public class Sponsor {
 
@@ -43,13 +47,12 @@ public class Sponsor {
 
     public String generateSql() {
         String query_normal = "INSERT INTO %s VALUES ('%d', %s, %s, %s);";
-        String query = String.format(
+        return String.format(Locale.ENGLISH,
                 query_normal,
                 DbContract.Sponsors.TABLE_NAME,
                 id,
-                DatabaseUtils.sqlEscapeString(name + ""),
-                DatabaseUtils.sqlEscapeString(url + ""),
-                DatabaseUtils.sqlEscapeString(logo + ""));
-        return query;
+                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(name)),
+                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(url)),
+                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(logo)));
     }
 }
