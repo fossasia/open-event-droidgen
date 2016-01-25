@@ -5,6 +5,9 @@ import android.database.DatabaseUtils;
 import com.google.gson.annotations.SerializedName;
 
 import org.fossasia.openevent.dbutils.DbContract;
+import org.fossasia.openevent.utils.StringUtils;
+
+import java.util.Locale;
 
 /**
  * Created by championswimmer on 16/5/15.
@@ -178,22 +181,21 @@ public class Speaker {
 
     public String generateSql() {
         String query_normal = "INSERT INTO %s VALUES ('%d', %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);";
-        String query = String.format(
+        return String.format(Locale.ENGLISH,
                 query_normal,
                 DbContract.Speakers.TABLE_NAME,
                 id,
-                DatabaseUtils.sqlEscapeString(name + ""),
-                DatabaseUtils.sqlEscapeString(photo),
-                DatabaseUtils.sqlEscapeString(bio + ""),
-                DatabaseUtils.sqlEscapeString(email + ""),
-                DatabaseUtils.sqlEscapeString(web + ""),
-                DatabaseUtils.sqlEscapeString(facebook + ""),
-                DatabaseUtils.sqlEscapeString(twitter + ""),
-                DatabaseUtils.sqlEscapeString(github + ""),
-                DatabaseUtils.sqlEscapeString(linkedin + ""),
-                DatabaseUtils.sqlEscapeString(organisation + ""),
-                DatabaseUtils.sqlEscapeString(position + ""),
-                DatabaseUtils.sqlEscapeString(country + ""));
-        return query;
+                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(name)),
+                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(photo)),
+                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(bio)),
+                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(email)),
+                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(web)),
+                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(facebook)),
+                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(twitter)),
+                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(github)),
+                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(linkedin)),
+                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(organisation)),
+                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(position)),
+                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(country)));
     }
 }

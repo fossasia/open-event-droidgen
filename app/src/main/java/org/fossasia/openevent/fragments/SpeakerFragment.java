@@ -15,12 +15,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
@@ -46,14 +41,19 @@ import java.util.List;
  */
 public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextListener {
 
+    final private String SEARCH = "searchText";
+
     private SwipeRefreshLayout swipeRefreshLayout;
+
     private RecyclerView speakersRecyclerView;
+
     private SpeakersListAdapter speakersListAdapter;
+
     private List<Speaker> mSpeakers;
 
     private String searchText = "";
+
     private SearchView searchView;
-    final private String SEARCH = "searchText";
 
     @Nullable
     @Override
@@ -156,7 +156,6 @@ public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextL
         final List<Speaker> filteredSpeakersList = new ArrayList<>();
         for (Speaker speaker : speakers) {
             final String text = speaker.getName().toLowerCase();
-            Log.d("XYZ speaker", text);
             if (text.contains(query)) {
                 filteredSpeakersList.add(speaker);
             }

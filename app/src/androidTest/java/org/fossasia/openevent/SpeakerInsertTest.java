@@ -3,15 +3,26 @@ package org.fossasia.openevent;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.test.InstrumentationRegistry;
 import android.test.AndroidTestCase;
+import android.util.Log;
 
+import com.google.gson.Gson;
+
+import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.dbutils.DbHelper;
+import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.helper.IOUtils;
+
+import java.util.List;
 
 /**
  * Created by MananWason on 17-06-2015.
  */
 public class SpeakerInsertTest extends AndroidTestCase {
+    private static final String TAG = SpeakerInsertTest.class.getSimpleName();
+
     private static int id;
 
     private static String name;
@@ -62,7 +73,7 @@ public class SpeakerInsertTest extends AndroidTestCase {
         github = "github.com/mananwason";
         linkedin = "linkedin.com/mananwason";
         organisation = "fossasia";
-        position = "gsoc student";
+        position = null;
         session = null;
         country = "india";
 
@@ -142,7 +153,28 @@ public class SpeakerInsertTest extends AndroidTestCase {
         assertEquals(organisation, dbOrganisation);
         assertEquals(position, dbPosition);
         assertEquals(country, dbCountry);
+    }
 
+
+    /**
+     * Checks that null values are correctly coerced into empty strings
+     */
+    public void testDataInsertionIsCorrect() {
+        Gson gson = new Gson();
+        String jsonStr = IOUtils.readRaw(org.fossasia.openevent.test.R.raw.speaker_v1, InstrumentationRegistry.getContext());
+        Log.d(TAG, jsonStr);
+        Speaker speaker = gson.fromJson(jsonStr, Speaker.class);
+        String query = speaker.generateSql();
+        DbSingleton.init(InstrumentationRegistry.getContext());
+        DbSingleton instance = DbSingleton.getInstance();
+        instance.clearDatabase(DbContract.Speakers.TABLE_NAME);
+        instance.insertQuery(query);
+
+        List<Speaker> speakerList = instance.getSpeakerList();
+        assertTrue(speakerList != null);
+        assertTrue(speakerList.size() == 1);
+        Speaker speaker2 = speakerList.get(0);
+        assertEquals("", speaker2.getPosition());
     }
 
     @Override
