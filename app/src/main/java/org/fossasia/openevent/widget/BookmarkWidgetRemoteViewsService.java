@@ -25,16 +25,23 @@ import java.util.ArrayList;
 public class BookmarkWidgetRemoteViewsService extends RemoteViewsService {
 
     static final int INDEX_BOOKMARK_ID = 0;
+
     static final int INDEX_BOOKMARK_TITLE = 1;
+
     static final int INDEX_BOOKMARK_START_TIME = 2;
+
     static final int INDEX_BOOKMARK_END_TIME = 3;
 
     final String ID = "id";
+
     final String TITLE = "title";
+
     final String START_TIME = "startTime";
+
     final String END_TIME = "endTime";
 
     ArrayList<Integer> bookmarkedIds;
+
     private int LESS_DETAIL_SIZE = 300;
 
     @Override
@@ -154,8 +161,7 @@ public class BookmarkWidgetRemoteViewsService extends RemoteViewsService {
             private int getWidgetWidthFromOptions(AppWidgetManager appWidgetManager, int appWidgetId) {
                 Bundle options = appWidgetManager.getAppWidgetOptions(appWidgetId);
                 if (options.containsKey(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH)) {
-                    int minWidthDp = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH);
-                    return (int) minWidthDp;
+                    return options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH);
                 }
                 return getResources().getDimensionPixelSize(R.dimen.widget_min_resize_width);
             }
