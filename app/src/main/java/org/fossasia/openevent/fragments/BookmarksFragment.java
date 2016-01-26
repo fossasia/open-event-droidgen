@@ -43,8 +43,16 @@ public class BookmarksFragment extends Fragment {
         bookmarkedTracks = (RecyclerView) view.findViewById(R.id.list_bookmarks);
         DbSingleton dbSingleton = DbSingleton.getInstance();
 
+        TextView nobookmark = (TextView)view.findViewById(R.id.nobookmark);
+        nobookmark.setVisibility(View.INVISIBLE);
         try {
             bookmarkedIds = dbSingleton.getBookmarkIds();
+            if(bookmarkedIds.isEmpty())
+            {
+                nobookmark.setVisibility(View.VISIBLE);
+                nobookmark.setText(R.string.no_bookmark_present);
+
+            }
 
         } catch (ParseException e) {
             e.printStackTrace();
