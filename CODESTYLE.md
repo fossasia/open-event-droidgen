@@ -13,7 +13,7 @@ You can run a checkstyle with most rules via a gradle command:
 
     $ ./gradlew checkstyle
 
-It generates a HTML report in `build/reports/checkstyle/checkstyle-result.html`.
+It generates a HTML report in `build/reports/checkstyle/checkstyle.html`.
 
 Try to remove as much warnings as possible, It's not completely possible to remove all the warnings, but over a period of time, we should try to make it as complete as possible.
 
