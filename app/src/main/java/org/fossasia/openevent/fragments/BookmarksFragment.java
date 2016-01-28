@@ -34,6 +34,25 @@ public class BookmarksFragment extends Fragment {
     ArrayList<Session> bookmarkedSessions = new ArrayList<>();
     ArrayList<Integer> bookmarkedIds;
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (sessionsListAdapter != null) {
+            try {
+                DbSingleton dbSingleton = DbSingleton.getInstance();
+                bookmarkedIds = dbSingleton.getBookmarkIds();
+                bookmarkedSessions.clear();
+                for (Integer id : bookmarkedIds) {
+                    Session session = dbSingleton.getSessionById(id);
+                    bookmarkedSessions.add(session);
+                }
+                sessionsListAdapter.notifyDataSetChanged();
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     @Nullable
     @Override
