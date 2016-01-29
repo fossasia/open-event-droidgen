@@ -11,7 +11,10 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.provider.Settings;
 
+
 import android.support.design.widget.CoordinatorLayout;
+
+import android.support.annotation.NonNull;
 
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -32,6 +35,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
@@ -289,9 +293,7 @@ public class MainActivity extends AppCompatActivity {
                 mDrawerLayout.closeDrawers();
 
                 startActivity(intent);
-
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
-
             case R.id.nav_about:
                 AlertDialog.Builder builder =
                         new AlertDialog.Builder(this);
@@ -304,13 +306,14 @@ public class MainActivity extends AppCompatActivity {
                 AlertDialog welcomeAlert = builder.create();
                 welcomeAlert.show();
                 // Make the textview clickable. Must be called after show()
-                ((TextView)welcomeAlert.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
+                ((TextView) welcomeAlert.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
                 break;
-
         }
+
         currentMenuItemId = menuItemId;
         mDrawerLayout.closeDrawers();
     }
+
 
     public void showErrorDialog(String errorType, String errorDesc) {
         downloadProgress.setVisibility(View.GONE);
@@ -476,10 +479,8 @@ public class MainActivity extends AppCompatActivity {
                 }
                 case NETWORK: {
                     Log.d(TYPE, "NetworkError");
-
                     errorType = "Network Error";
                     errorDesc = String.valueOf(cause.getCause());
-
                     break;
                 }
                 default: {
@@ -504,7 +505,5 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
 }
-
 
