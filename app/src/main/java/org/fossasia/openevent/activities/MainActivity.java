@@ -1,6 +1,6 @@
 package org.fossasia.openevent.activities;
 
-import android.app.Dialog;
+
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -31,9 +31,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import com.afollestad.materialdialogs.MaterialDialog;
-import com.afollestad.materialdialogs.Theme;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
@@ -267,15 +264,18 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
             case R.id.nav_about:
-                new MaterialDialog.Builder(this)
-                        .iconRes(R.drawable.ic_launcher)
-                        .limitIconToDefaultSize()
-                        .title(String.format("%1$s", getString(R.string.app_name)))
-                        .content(getResources().getText(R.string.about_text))
-                        .positiveText(android.R.string.ok)
-                        .linkColorAttr(R.attr.colorPrimary)
-                        .positiveColorRes(R.color.primaryDarkColor)
-                        .show();
+                AlertDialog.Builder builder =
+                        new AlertDialog.Builder(this);
+                builder.setTitle(String.format("%1$s", getString(R.string.app_name)));
+                builder.setMessage(getResources().getText(R.string.about_text));
+                builder.setPositiveButton("OK", null);
+                builder.setIcon(R.drawable.ic_launcher);
+                builder.show();
+
+                AlertDialog welcomeAlert = builder.create();
+                welcomeAlert.show();
+                // Make the textview clickable. Must be called after show()
+                ((TextView)welcomeAlert.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
                 break;
 
         }
@@ -452,7 +452,7 @@ public class MainActivity extends AppCompatActivity {
                 case NETWORK: {
                     Log.d(TYPE, "NetworkError");
                     errorType="Network Error";
-                    errorDesc=String.valueOf(cause.getCause());
+                    errorDesc = String.valueOf(cause.getCause());
                     break;
                 }
                 default: {
