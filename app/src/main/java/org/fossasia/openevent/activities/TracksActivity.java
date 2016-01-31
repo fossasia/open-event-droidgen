@@ -4,12 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.*;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,17 +27,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by MananWason on 14-06-2015.
+ * User: MananWason
+ * Date: 14-06-2015
  */
-public class TracksActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
+public class TracksActivity extends BaseActivity implements SearchView.OnQueryTextListener {
 
     private static final String TAG = "TracksActivity";
-    final private String SEARCH = "searchText";
+
+    final private String SEARCH = "org.fossasia.openevent.searchText";
+
     SessionsListAdapter sessionsListAdapter;
+
     private String track;
+
     private List<Session> mSessions;
+
     private RecyclerView sessionsRecyclerView;
+
     private String searchText = "";
+
     private SearchView searchView;
 
     @Override

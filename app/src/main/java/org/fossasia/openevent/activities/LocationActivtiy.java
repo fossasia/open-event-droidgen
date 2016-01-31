@@ -1,12 +1,7 @@
 package org.fossasia.openevent.activities;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.*;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,14 +19,21 @@ import java.util.List;
 /**
  * Created by MananWason on 8/18/2015.
  */
-public class LocationActivtiy extends AppCompatActivity implements SearchView.OnQueryTextListener {
+public class LocationActivtiy extends BaseActivity implements SearchView.OnQueryTextListener {
     final private String SEARCH = "searchText";
+
     SessionsListAdapter sessionsListAdapter;
+
     private Microlocation selectedLocation;
+
     private List<Session> mSessions;
+
     private RecyclerView sessionRecyclerView;
+
     private String location;
+
     private String searchText = "";
+
     private SearchView searchView;
 
     @Override
