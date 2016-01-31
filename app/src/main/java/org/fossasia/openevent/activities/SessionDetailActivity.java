@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,17 +29,20 @@ import org.fossasia.openevent.utils.IntentStrings;
 import org.fossasia.openevent.widget.BookmarkWidgetProvider;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /**
  * Created by MananWason on 08-07-2015.
  */
-public class SessionDetailActivity extends AppCompatActivity  {
+public class SessionDetailActivity extends BaseActivity {
     private static final String TAG = "Session Detail";
+
     private RecyclerView speakersRecyclerView;
-     private SpeakersListAdapter adapter;
+
+    private SpeakersListAdapter adapter;
+
     private Session session;
+
     private String timings;
 
     @Override
@@ -89,7 +91,7 @@ public class SessionDetailActivity extends AppCompatActivity  {
                     intent.setType("vnd.android.cursor.item/event");
                     intent.putExtra(CalendarContract.Events.TITLE, title);
                     intent.putExtra(CalendarContract.Events.DESCRIPTION, session.getDescription());
-                    intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME,ISO8601Date.getDateObject(session.getStartTime()).getTime());
+                    intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, ISO8601Date.getDateObject(session.getStartTime()).getTime());
                     intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME,
                             ISO8601Date.getDateObject(session.getEndTime()).getTime());
                     startActivity(intent);
