@@ -1,16 +1,24 @@
 package org.fossasia.openevent.activities;
 
+
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.provider.Settings;
+
+
 import android.support.design.widget.CoordinatorLayout;
+
+import android.support.annotation.NonNull;
+
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -19,12 +27,14 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
@@ -281,10 +291,29 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
                 mDrawerLayout.closeDrawers();
+
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+            case R.id.nav_about:
+                AlertDialog.Builder builder =
+                        new AlertDialog.Builder(this);
+                builder.setTitle(String.format("%1$s", getString(R.string.app_name)));
+                builder.setMessage(getResources().getText(R.string.about_text));
+                builder.setPositiveButton("OK", null);
+                builder.setIcon(R.drawable.ic_launcher);
+                builder.show();
+
+                AlertDialog welcomeAlert = builder.create();
+                welcomeAlert.show();
+                // Make the textview clickable. Must be called after show()
+                ((TextView) welcomeAlert.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
+                break;
         }
+
         currentMenuItemId = menuItemId;
         mDrawerLayout.closeDrawers();
     }
+
 
     public void showErrorDialog(String errorType, String errorDesc) {
         downloadProgress.setVisibility(View.GONE);
