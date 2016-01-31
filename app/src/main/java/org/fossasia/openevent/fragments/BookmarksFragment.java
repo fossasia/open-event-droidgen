@@ -31,8 +31,6 @@ public class BookmarksFragment extends Fragment {
 
     RecyclerView bookmarkedTracks;
 
-    ArrayList<Session> bookmarkedSessions = new ArrayList<>();
-
     ArrayList<Integer> bookmarkedIds;
 
     @Override
@@ -42,10 +40,11 @@ public class BookmarksFragment extends Fragment {
             try {
                 DbSingleton dbSingleton = DbSingleton.getInstance();
                 bookmarkedIds = dbSingleton.getBookmarkIds();
-                bookmarkedSessions.clear();
-                for (Integer id : bookmarkedIds) {
+                sessionsListAdapter.clear();
+                for (int i = 0; i < bookmarkedIds.size(); i++) {
+                    Integer id = bookmarkedIds.get(i);
                     Session session = dbSingleton.getSessionById(id);
-                    bookmarkedSessions.add(session);
+                    sessionsListAdapter.addItem(i, session);
                 }
                 sessionsListAdapter.notifyDataSetChanged();
 
@@ -70,12 +69,13 @@ public class BookmarksFragment extends Fragment {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        for (Integer id : bookmarkedIds) {
+        sessionsListAdapter = new SessionsListAdapter(new ArrayList<Session>());
+        for (int i = 0; i < bookmarkedIds.size(); i++) {
+            Integer id = bookmarkedIds.get(i);
             Session session = dbSingleton.getSessionById(id);
-            bookmarkedSessions.add(session);
+            sessionsListAdapter.addItem(i, session);
         }
 
-        sessionsListAdapter = new SessionsListAdapter(bookmarkedSessions);
         bookmarkedTracks.setAdapter(sessionsListAdapter);
         bookmarkedTracks.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         bookmarkedTracks.addOnItemTouchListener(

@@ -12,7 +12,8 @@ import org.fossasia.openevent.data.Session;
 import java.util.List;
 
 /**
- * Created by MananWason on 26-06-2015.
+ * User: MananWason
+ * Date: 26-06-2015
  */
 public class SessionsListAdapter extends RecyclerView.Adapter<SessionsListAdapter.Viewholder> {
     List<Session> sessions;
@@ -94,8 +95,13 @@ public class SessionsListAdapter extends RecyclerView.Adapter<SessionsListAdapte
         notifyItemMoved(fromPosition, toPosition);
     }
 
+    public void clear() {
+        sessions.clear();
+    }
+
     class Viewholder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView sessionName;
+
         TextView sessionSummary;
 
         public Viewholder(View itemView) {

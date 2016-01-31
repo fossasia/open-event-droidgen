@@ -17,7 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by MananWason on 8/18/2015.
+ * User: MananWason
+ * Date: 8/18/2015
  */
 public class LocationActivtiy extends BaseActivity implements SearchView.OnQueryTextListener {
     final private String SEARCH = "searchText";

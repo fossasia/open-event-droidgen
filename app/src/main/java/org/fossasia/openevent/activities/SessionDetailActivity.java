@@ -32,7 +32,8 @@ import java.util.Calendar;
 import java.util.List;
 
 /**
- * Created by MananWason on 08-07-2015.
+ * User: MananWason
+ * Date: 08-07-2015
  */
 public class SessionDetailActivity extends BaseActivity {
     private static final String TAG = "Session Detail";
