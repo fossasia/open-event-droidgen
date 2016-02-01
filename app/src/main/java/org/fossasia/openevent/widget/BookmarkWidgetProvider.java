@@ -23,7 +23,7 @@ import org.fossasia.openevent.activities.SessionDetailActivity;
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class BookmarkWidgetProvider extends AppWidgetProvider {
 
-    public static final String ACTION_UPDATE = BuildConfig.APPLICATION_ID+".UPDATE_MY_WIDGET";
+    public static final String ACTION_UPDATE = BuildConfig.APPLICATION_ID + ".UPDATE_MY_WIDGET";
 
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         for (int appWidgetId : appWidgetIds) {

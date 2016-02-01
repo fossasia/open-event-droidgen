@@ -11,11 +11,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
@@ -32,7 +28,9 @@ import org.fossasia.openevent.events.SponsorDownloadEvent;
  */
 public class SponsorsFragment extends Fragment {
     private RecyclerView sponsorsRecyclerView;
+
     private SponsorsListAdapter sponsorsListAdapter;
+
     private SwipeRefreshLayout swipeRefreshLayout;
 
     @Nullable
@@ -73,7 +71,7 @@ public class SponsorsFragment extends Fragment {
             Log.d("countersp", "Refresh done");
 
         } else {
-            if(getActivity()!=null){
+            if (getActivity() != null) {
                 Snackbar.make(getView(), getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).show();
             }
             Log.d("countersp", "Refresh not done");
