@@ -79,11 +79,11 @@ public class SessionDetailActivity extends BaseActivity {
         SimpleDateFormat timeSDF = new SimpleDateFormat("hh:mm aa"),
                 humanSDF = new SimpleDateFormat("EEEE, dd MMM, hh:mm aa");
 
-        Date start = ISO8601Date.getDateObject(session.getStartTime());
-        Date end = ISO8601Date.getDateObject(session.getEndTime());
+        Date startDate = ISO8601Date.getDateObject(session.getStartTime());
+        Date endDate = ISO8601Date.getDateObject(session.getEndTime());
 
         try {
-            dateTimeTextView.setText(String.format("%s - %s", humanSDF.format(start), timeSDF.format(end)));
+            dateTimeTextView.setText(String.format("%s - %s", humanSDF.format(startDate), timeSDF.format(endDate)));
         } catch (Exception e) {
             e.printStackTrace();
             //TODO: Print something else
@@ -94,30 +94,30 @@ public class SessionDetailActivity extends BaseActivity {
 
 //        text_track.setText(trackName);
 
-//        String start = ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(session.getStartTime()));
-//        String end = ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(session.getEndTime()));
+        String start = ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(session.getStartTime()));
+        String end = ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(session.getEndTime()));
 
 
-//        if (TextUtils.isEmpty(start) && TextUtils.isEmpty(end)) {
-//            text_time.setText(R.string.time_not_specified);
-//        } else {
-//            timings = start + " - " + end;
-//            text_time.setText(timings);
-//            text_time.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    Intent intent = new Intent(Intent.ACTION_INSERT);
-//                    intent.setType("vnd.android.cursor.item/event");
-//                    intent.putExtra(CalendarContract.Events.TITLE, title);
-//                    intent.putExtra(CalendarContract.Events.DESCRIPTION, session.getDescription());
-//                    intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, ISO8601Date.getDateObject(session.getStartTime()).getTime());
-//                    intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME,
-//                            ISO8601Date.getDateObject(session.getEndTime()).getTime());
-//                    startActivity(intent);
-//
-//                }
-//            });
-//        }
+        if (TextUtils.isEmpty(start) && TextUtils.isEmpty(end)) {
+            addToCalendarTextView.setText(R.string.time_not_specified);
+        } else {
+            timings = start + " - " + end;
+//            addToCalendarTextView.setText(timings);
+            addToCalendarTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Intent.ACTION_INSERT);
+                    intent.setType("vnd.android.cursor.item/event");
+                    intent.putExtra(CalendarContract.Events.TITLE, title);
+                    intent.putExtra(CalendarContract.Events.DESCRIPTION, session.getDescription());
+                    intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, ISO8601Date.getDateObject(session.getStartTime()).getTime());
+                    intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME,
+                            ISO8601Date.getDateObject(session.getEndTime()).getTime());
+                    startActivity(intent);
+
+                }
+            });
+        }
 //        summary.setText(session.getSummary());
         List<Speaker> speakerList = dbSingleton.getSpeakersbySessionName(session.getTitle());
         for (Speaker speaker : speakerList) {
