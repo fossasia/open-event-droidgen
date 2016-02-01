@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import org.fossasia.openevent.adapters.SessionsListAdapter;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.utils.IntentStrings;
 import org.fossasia.openevent.utils.RecyclerItemClickListener;
+import org.fossasia.openevent.utils.SimpleDividerItemDecoration;
 
 import java.util.List;
 
@@ -39,6 +41,8 @@ public class SessionFragment extends Fragment {
         sessionsRecyclerView = (RecyclerView)v.findViewById(R.id.sessionRecyclerView);
         sessionsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         sessionsRecyclerView.setAdapter(new SessionsListAdapter(data));
+        sessionsRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        sessionsRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(getActivity().getResources()));
         sessionsRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
