@@ -21,6 +21,7 @@ import retrofit.client.Response;
  */
 public class MicrolocationListResponseProcessor implements Callback<MicrolocationResponseList> {
     private static final String TAG = "Microprocessor";
+
     ArrayList<String> queries = new ArrayList<String>();
 
     @Override
