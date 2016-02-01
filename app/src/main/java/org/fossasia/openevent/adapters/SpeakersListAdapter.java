@@ -78,7 +78,7 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakersListAdap
         Uri uri = Uri.parse(current.getPhoto());
         Picasso.with(holder.speakerImage.getContext())
                 .load(uri)
-                .placeholder(R.drawable.ic_person_black_24dp)
+                .placeholder(R.drawable.ic_account_circle_grey_24dp)
                 .transform(new CircleTransform())
                 .into(holder.speakerImage);
 
