@@ -5,7 +5,8 @@ import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.api.processor.*;
 
 /**
- * Created by MananWason on 31-05-2015.
+ * User: MananWason
+ * Date: 31-05-2015
  */
 public class DataDownload {
     APIClient client = new APIClient();
@@ -38,6 +39,4 @@ public class DataDownload {
     public void downloadVersions() {
         client.getOpenEventAPI().getVersion(Urls.EVENT_ID, new VersionApiProcessor());
     }
-
-
 }

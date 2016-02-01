@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.*;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,14 +18,10 @@ import com.squareup.picasso.Picasso;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.SessionsListAdapter;
 import org.fossasia.openevent.api.Urls;
-import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.IntentStrings;
 import org.fossasia.openevent.utils.RecyclerItemClickListener;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * User: MananWason
@@ -39,8 +36,6 @@ public class TracksActivity extends BaseActivity implements SearchView.OnQueryTe
     SessionsListAdapter sessionsListAdapter;
 
     private String track;
-
-    private List<Session> mSessions;
 
     private RecyclerView sessionsRecyclerView;
 
@@ -62,8 +57,7 @@ public class TracksActivity extends BaseActivity implements SearchView.OnQueryTe
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbar.setTitle(track);
         sessionsRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        mSessions = dbSingleton.getSessionbyTracksname(track);
-        sessionsListAdapter = new SessionsListAdapter(mSessions);
+        sessionsListAdapter = new SessionsListAdapter(dbSingleton.getSessionbyTracksname(track));
 
         sessionsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         sessionsRecyclerView.setAdapter(sessionsListAdapter);
@@ -143,33 +137,15 @@ public class TracksActivity extends BaseActivity implements SearchView.OnQueryTe
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        return false;
+        return true;
     }
 
     @Override
     public boolean onQueryTextChange(String query) {
-        DbSingleton dbSingleton = DbSingleton.getInstance();
-
-        mSessions = dbSingleton.getSessionbyTracksname(track);
-        final List<Session> filteredModelList = filter(mSessions, query);
-
-        sessionsListAdapter.animateTo(filteredModelList);
-        sessionsRecyclerView.scrollToPosition(0);
-
-        searchText = query;
-        return false;
-    }
-
-    private List<Session> filter(List<Session> sessions, String query) {
-        query = query.toLowerCase();
-
-        final List<Session> filteredTracksList = new ArrayList<>();
-        for (Session session : sessions) {
-            final String text = session.getTitle().toLowerCase();
-            if (text.contains(query)) {
-                filteredTracksList.add(session);
-            }
+        if (!TextUtils.isEmpty(query)) {
+            sessionsListAdapter.getFilter().filter(query);
         }
-        return filteredTracksList;
+        searchText = query;
+        return true;
     }
 }

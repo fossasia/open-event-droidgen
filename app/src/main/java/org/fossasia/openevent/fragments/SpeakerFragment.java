@@ -14,7 +14,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.*;
 import android.widget.TextView;
 
@@ -31,8 +31,9 @@ import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.SpeakerDownloadEvent;
 import org.fossasia.openevent.utils.RecyclerItemClickListener;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import timber.log.Timber;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -135,52 +136,30 @@ public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextL
 
     @Subscribe
     public void speakerDownloadDone(SpeakerDownloadEvent event) {
-
         swipeRefreshLayout.setRefreshing(false);
         if (event.isState()) {
             speakersListAdapter.refresh();
-            Log.d("countersp", "Refresh done");
+            Timber.i("Speaker download completed");
 
         } else {
             if (getActivity() != null) {
                 Snackbar.make(getView(), getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).show();
             }
-            Log.d("countersp", "Refresh not done");
-
+            Timber.i("Speaker download failed.");
         }
-    }
-
-    private List<Speaker> filter(List<Speaker> speakers, String query) {
-        query = query.toLowerCase();
-
-        final List<Speaker> filteredSpeakersList = new ArrayList<>();
-        for (Speaker speaker : speakers) {
-            final String text = speaker.getName().toLowerCase();
-            if (text.contains(query)) {
-                filteredSpeakersList.add(speaker);
-            }
-        }
-        return filteredSpeakersList;
     }
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-
-        return false;
+        return true;
     }
 
     @Override
     public boolean onQueryTextChange(String query) {
-        DbSingleton dbSingleton = DbSingleton.getInstance();
-
-        mSpeakers = dbSingleton.getSpeakerList();
-        final List<Speaker> filteredSpeakersList = filter(mSpeakers, query);
-        Log.d("XYZ speaker", mSpeakers.size() + " " + filteredSpeakersList.size());
-
-        speakersListAdapter.animateTo(filteredSpeakersList);
-        speakersRecyclerView.scrollToPosition(0);
-
         searchText = query;
+        if (!TextUtils.isEmpty(query)) {
+            speakersListAdapter.getFilter().filter(query);
+        }
         return true;
     }
 

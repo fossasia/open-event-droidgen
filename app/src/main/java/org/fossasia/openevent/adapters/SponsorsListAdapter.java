@@ -17,56 +17,47 @@ import org.fossasia.openevent.dbutils.DbSingleton;
 import java.util.List;
 
 /**
- * Created by MananWason on 09-06-2015.
+ * User: MananWason
+ * Date: 09-06-2015
  */
-public class SponsorsListAdapter extends RecyclerView.Adapter<SponsorsListAdapter.Viewholder> {
-
-    List<Sponsor> sponsors;
+public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, SponsorsListAdapter.Viewholder> {
 
     public SponsorsListAdapter(List<Sponsor> sponsors) {
-        this.sponsors = sponsors;
+        super(sponsors);
     }
 
     @Override
     public SponsorsListAdapter.Viewholder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.item_sponsor, parent, false);
-        Viewholder viewholder = new Viewholder(view);
-        return viewholder;
+        return new Viewholder(view);
     }
 
     @Override
     public void onBindViewHolder(SponsorsListAdapter.Viewholder holder, int position) {
-        Sponsor currentSponsor = sponsors.get(position);
-        DisplayMetrics displayMetrics = holder.sponsor_image.getContext().getResources().getDisplayMetrics();
+        Sponsor currentSponsor = getItem(position);
+        DisplayMetrics displayMetrics = holder.sponsorImage.getContext().getResources().getDisplayMetrics();
         int width = displayMetrics.widthPixels;
         int height = displayMetrics.heightPixels;
 
         Uri uri = Uri.parse(currentSponsor.getLogo());
-        Picasso.with(holder.sponsor_image.getContext()).load(uri).resize(width, (height / 6)).centerCrop().into(holder.sponsor_image);
+        Picasso.with(holder.sponsorImage.getContext()).load(uri).resize(width, (height / 6)).centerCrop().into(holder.sponsorImage);
     }
 
     public void refresh() {
         DbSingleton dbSingleton = DbSingleton.getInstance();
-        sponsors.clear();
-        sponsors = dbSingleton.getSponsorList();
-        notifyDataSetChanged();
-
-    }
-
-    @Override
-    public int getItemCount() {
-        return sponsors.size();
+        clear();
+        animateTo(dbSingleton.getSponsorList());
     }
 
     public class Viewholder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        ImageView sponsor_image;
+        ImageView sponsorImage;
 
         public Viewholder(View itemView) {
             super(itemView);
             itemView.setClickable(true);
             itemView.setOnClickListener(this);
-            sponsor_image = (ImageView) itemView.findViewById(R.id.sponsor_image);
+            sponsorImage = (ImageView) itemView.findViewById(R.id.sponsor_image);
         }
 
         @Override

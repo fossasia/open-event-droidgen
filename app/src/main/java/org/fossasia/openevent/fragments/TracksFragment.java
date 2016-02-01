@@ -12,12 +12,8 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
+import android.text.TextUtils;
+import android.view.*;
 import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
@@ -29,29 +25,33 @@ import org.fossasia.openevent.adapters.TracksListAdapter;
 import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DataDownload;
-import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.RefreshUiEvent;
 import org.fossasia.openevent.events.TracksDownloadEvent;
 import org.fossasia.openevent.utils.IntentStrings;
 import org.fossasia.openevent.utils.RecyclerItemClickListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by MananWason on 05-06-2015.
+ * User: MananWason
+ * Date: 05-06-2015
  */
 public class TracksFragment extends Fragment implements SearchView.OnQueryTextListener {
 
+    final private String SEARCH = "searchText";
+
     private SwipeRefreshLayout swipeRefreshLayout;
+
     private RecyclerView tracksRecyclerView;
+
     private TracksListAdapter tracksListAdapter;
+
     private List<Track> mTracks;
 
     private String searchText = "";
+
     private SearchView searchView;
-    final private String SEARCH = "searchText";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -133,34 +133,18 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
 
     @Override
     public boolean onQueryTextChange(String query) {
-        DbSingleton dbSingleton = DbSingleton.getInstance();
-
-        mTracks = dbSingleton.getTrackList();
-        final List<Track> filteredModelList = filter(mTracks, query);
-
-        tracksListAdapter.animateTo(filteredModelList);
-        tracksRecyclerView.scrollToPosition(0);
-
-        searchText = query;
+        if (!TextUtils.isEmpty(query)) {
+            searchText = query;
+            tracksListAdapter.getFilter().filter(searchText);
+        } else {
+            tracksListAdapter.refresh();
+        }
         return true;
     }
 
     @Override
     public boolean onQueryTextSubmit(String query) {
         return false;
-    }
-
-    private List<Track> filter(List<Track> tracks, String query) {
-        query = query.toLowerCase();
-
-        final List<Track> filteredTracksList = new ArrayList<>();
-        for (Track track : tracks) {
-            final String text = track.getName().toLowerCase();
-            if (text.contains(query)) {
-                filteredTracksList.add(track);
-            }
-        }
-        return filteredTracksList;
     }
 
     @Subscribe

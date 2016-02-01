@@ -17,10 +17,12 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
- * Created by MananWason on 12-06-2015.
+ * User: MananWason
+ * Date: 12-06-2015
  */
 public class VersionApiProcessor implements Callback<VersionResponseList> {
     private static final String TAG = "Version";
+
     int counterRequests;
 
     @Override

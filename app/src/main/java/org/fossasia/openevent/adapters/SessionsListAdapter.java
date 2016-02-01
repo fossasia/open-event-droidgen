@@ -4,99 +4,74 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
 import android.widget.TextView;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.data.Session;
+import org.fossasia.openevent.dbutils.DbSingleton;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import timber.log.Timber;
 
 /**
  * User: MananWason
  * Date: 26-06-2015
  */
-public class SessionsListAdapter extends RecyclerView.Adapter<SessionsListAdapter.Viewholder> {
-    List<Session> sessions;
+public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdapter.Viewholder> {
+    @SuppressWarnings("all")
+    Filter filter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            DbSingleton instance = DbSingleton.getInstance();
+            // TODO: Use a query to do this, iterating over an entire set is pretty bad
+            List<Session> sessionList = instance.getSessionList();
+            final ArrayList<Session> filteredSessionList = new ArrayList<>();
+            String query = constraint.toString().toLowerCase();
+            for (Session session : sessionList) {
+                final String text = session.getTitle().toLowerCase();
+                if (text.contains(query)) {
+                    filteredSessionList.add(session);
+                }
+            }
+            FilterResults filterResults = new FilterResults();
+            filterResults.values = filteredSessionList;
+            filterResults.count = filteredSessionList.size();
+            Timber.d("Filtering done total results %d", filterResults.count);
+            return filterResults;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            animateTo((List<Session>) results.values);
+        }
+    };
 
     public SessionsListAdapter(List<Session> sessions) {
-        this.sessions = sessions;
+        super(sessions);
+    }
+
+    @Override
+    public Filter getFilter() {
+        return filter;
     }
 
     @Override
     public SessionsListAdapter.Viewholder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.tracksactvity_item, parent, false);
-        Viewholder viewholder = new Viewholder(view);
-        return viewholder;
+        return new Viewholder(view);
     }
 
     @Override
     public void onBindViewHolder(Viewholder holder, int position) {
-        Session current = sessions.get(position);
+        Session current = getItem(position);
         String title = current.getTitle();
         String summary = current.getSummary();
         holder.sessionName.setText(title);
         holder.sessionSummary.setText(summary);
-    }
-
-    @Override
-    public int getItemCount() {
-        return sessions.size();
-    }
-
-    public void animateTo(List<Session> sessions) {
-        applyAndAnimateRemovals(sessions);
-        applyAndAnimateAdditions(sessions);
-        applyAndAnimateMovedItems(sessions);
-    }
-
-    private void applyAndAnimateRemovals(List<Session> newSessions) {
-        for (int i = sessions.size() - 1; i >= 0; i--) {
-            final Session speaker = sessions.get(i);
-            if (!newSessions.contains(speaker)) {
-                removeItem(i);
-            }
-        }
-    }
-
-    private void applyAndAnimateAdditions(List<Session> newSessions) {
-        for (int i = 0, count = newSessions.size(); i < count; i++) {
-            final Session speaker = newSessions.get(i);
-            if (!sessions.contains(speaker)) {
-                addItem(i, speaker);
-            }
-        }
-    }
-
-    private void applyAndAnimateMovedItems(List<Session> newSessions) {
-        for (int toPosition = newSessions.size() - 1; toPosition >= 0; toPosition--) {
-            final Session speaker = newSessions.get(toPosition);
-            final int fromPosition = sessions.indexOf(speaker);
-            if (fromPosition >= 0 && fromPosition != toPosition) {
-                moveItem(fromPosition, toPosition);
-            }
-        }
-    }
-
-    public Session removeItem(int position) {
-        final Session speaker = sessions.remove(position);
-        notifyItemRemoved(position);
-        return speaker;
-    }
-
-    public void addItem(int position, Session speaker) {
-        sessions.add(position, speaker);
-        notifyItemInserted(position);
-    }
-
-    public void moveItem(int fromPosition, int toPosition) {
-        final Session speaker = sessions.remove(fromPosition);
-        sessions.add(toPosition, speaker);
-        notifyItemMoved(fromPosition, toPosition);
-    }
-
-    public void clear() {
-        sessions.clear();
     }
 
     class Viewholder extends RecyclerView.ViewHolder implements View.OnClickListener {
