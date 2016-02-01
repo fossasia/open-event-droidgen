@@ -9,6 +9,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
+import timber.log.Timber;
+
 /**
  * Helper class for handling a most common subset of ISO 8601 strings
  * (in the following format: "2008-03-01T13:00:00+01:00"). It supports
@@ -75,7 +77,7 @@ public final class ISO8601Date {
         try {
             date = format.parse(final1);
         } catch (ParseException e) {
-            e.printStackTrace();
+            Timber.e("Parsing Error Occurred at ISO8601Date::getDateObject.");
         }
 
         Calendar calendar = Calendar.getInstance();

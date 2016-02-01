@@ -18,8 +18,10 @@ import org.fossasia.openevent.activities.MainActivity;
 import org.fossasia.openevent.activities.SessionDetailActivity;
 
 /**
- * Created by opticod(anupam) on 10/1/16.
+ * User: Opticod(Anupam Das)
+ * Date: 10/1/16
  */
+
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class BookmarkWidgetProvider extends AppWidgetProvider {
 

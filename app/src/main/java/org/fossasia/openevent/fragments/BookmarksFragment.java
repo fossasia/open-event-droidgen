@@ -49,7 +49,7 @@ public class BookmarksFragment extends Fragment {
                 sessionsListAdapter.notifyDataSetChanged();
 
             } catch (ParseException e) {
-                e.printStackTrace();
+                Timber.e("Parsing Error Occurred at BookmarksFragment::onResume.");
             }
         }
     }
@@ -67,7 +67,7 @@ public class BookmarksFragment extends Fragment {
             bookmarkedIds = dbSingleton.getBookmarkIds();
 
         } catch (ParseException e) {
-            e.printStackTrace();
+            Timber.e("Parsing Error Occurred at BookmarksFragment::onCreateView.");
         }
         sessionsListAdapter = new SessionsListAdapter(new ArrayList<Session>());
         for (int i = 0; i < bookmarkedIds.size(); i++) {

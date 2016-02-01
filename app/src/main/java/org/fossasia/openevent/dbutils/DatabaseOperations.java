@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import timber.log.Timber;
+
 /**
  * Created by MananWason on 24-06-2015.
  */
@@ -61,7 +63,7 @@ public class DatabaseOperations {
                 );
                 sessions.add(s);
             } catch (ParseException e) {
-                e.printStackTrace();
+                Timber.e("Parsing Error Occurred at DatabaseOperations::getSessionList.");
             }
             cur.moveToNext();
         }
@@ -98,7 +100,7 @@ public class DatabaseOperations {
                     cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.MICROLOCATION))
             );
         } catch (ParseException e) {
-            e.printStackTrace();
+            Timber.e("Parsing Error Occurred at DatabaseOperations::getSessionById.");
         }
         cursor.close();
 
@@ -392,7 +394,7 @@ public class DatabaseOperations {
                 );
                 sessions.add(session);
             } catch (ParseException e) {
-                e.printStackTrace();
+                Timber.e("Parsing Error Occurred at DatabaseOperations::getSessionbyTracksname.");
             }
             sessionCursor.moveToNext();
         }
@@ -438,7 +440,7 @@ public class DatabaseOperations {
             db.setTransactionSuccessful();
             db.endTransaction();
         } catch (Exception e) {
-            e.printStackTrace();
+            Timber.e("Parsing Error Occurred at DatabaseOperations::insertQueries.");
         }
     }
 
@@ -535,7 +537,7 @@ public class DatabaseOperations {
                     );
                     sessions.add(session);
                 } catch (ParseException e) {
-                    e.printStackTrace();
+                    Timber.e("Parsing Error Occurred at DatabaseOperations::getSessionbySpeakersname.");
                 }
                 sessionTableCursor.moveToNext();
                 sessionTableCursor.close();
@@ -692,7 +694,7 @@ public class DatabaseOperations {
                     sessions.add(s);
 
                 } catch (ParseException e) {
-                    e.printStackTrace();
+                    Timber.e("Parsing Error Occurred at DatabaseOperations::getSessionbyLocationname.");
                 }
                 sessionCursor.moveToNext();
             }
@@ -799,7 +801,7 @@ public class DatabaseOperations {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            Timber.e("Parsing Error Occurred at DatabaseOperations::isBookmarked.");
         } finally {
             if (c != null) c.close();
         }
@@ -835,7 +837,7 @@ public class DatabaseOperations {
 
             );
         } catch (ParseException e) {
-            e.printStackTrace();
+            Timber.e("Parsing Error Occurred at DatabaseOperations::getSessionbySessionname.");
         }
 
         cursor.close();
