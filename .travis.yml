@@ -3,55 +3,42 @@ sudo: false
 jdk: oraclejdk7
 env:
   global:
-    - GRADLE_OPTS="-Xmx512m -XX:MaxPermSize=512m"
-    - secure: xPm0pTXry57NozK0z0pDYWiewQaqQaq8EmhWyNBG/CgXPtoy2NSnwyrXiANXpSZRXxYg4JilWqVvkPvSe33F7ELtpNZY0qOHgI8mpWARw/iGvEOSnRhn64tuDkRq8V9OiioFT6cIlyZKLQEC93xoNqZXptUWBfWD9Sd61mQLxVoajfpcHoOchld0V65ICE+FJWdzeA+/8H45dnlwK9tWoJu6v+Wei7Va/TadlJ/hAoLCU7RybvBr1QWK7jMJR+3WDELXpepNXXIFJe2VR/50i2zIiFyBtjk1elMydKq8UuhpCqhZzoF9dnsozlkstHNNuEQuBspY242CH9AtARr3dI0Fg3JYlgRzH7IrhSaNvH9qFY8Cm98fXwEVWT5CchFWlElyJYWi4jsWL77FCB0vAd+/ru/sq8wEu3JPSLOY4aohp48IKUjUWaftYF6bfvzHn0uY4k44dffBbCVBBkNblo6pHtaKQ92N5GWSf2afwL2V1ez2rJNPTqBrKL84+ZwRd00FzzCEbn50cArz7XA7i+aSJgUTlduIIZKG2a3GoNa8NxYKBwugQQ/J8XuiUd3PY3UcfPU3m4AfcRzVaHy30jeLxFnheSgb+Ba94yTD05SfsI9yqjwjwF92KUBVr1Wwc2Sw4a0ZfdcHGOS0mriGno2ZEtOMtYtXHNXDAVB9twQ=
+  - GRADLE_OPTS="-Xmx512m -XX:MaxPermSize=512m"
+  - secure: Y0xQEf2626cxKjbqLf114ehRypcDxyEWCRgRLbyJ64OB+hfwCPRjerJw4FA8rBJqc9uJ5s76TqK3M9Txr4alwsP6ZJc6WC3rY5Ml9ZgxDLtjljjmSpqZScCIqCwWCz3kb1QyV2xj/YHF8T+PfCEA8iEuyBNCJNQqAU4ehRhmsOerzZBnvAE4avytHIV0AWam6B04JjPKVRtAJo1jYEfoLB54lWmb/ZwKCB44VhFuOVrK+Z+/dgg8T7+IYZTLMTdD79HfE9F4+Q9jL74dpHQ0Vyo3scd2jI5JnHQDDoXS9zLUAeuM6H/BRREtwl64+fo4bVstEXrJwGDpodcZ7MYhlEROy+mhSlFpBM9PSE6t2eO2r+bkEpo1OIU1Eg/yZpP9spo0kW6hv6WSxYuU9WHz/XiQ2FOqKsW9RDrszIKLEgoGAa9UF8JQHF78b+aEvCGsIC/j1YsfNj4/YArpoA4GZLArZ8G0exeBqDEz4iZUMOeOzNnDPWpSzS31484/JeKvGLIHRzTzZOJ3Z0nARMYdpelzgGunZ/AmGS20LiVhx4YQcJfpQn8fruvGUDM3v6Gvb8i81QUe9Lg/FEAB+2ODiPa1BJpYka57l0Jfa+LsWP2u1hmvlAi38j1FCmy4tMysOKYF5/xbIJg+e1hLi+eJbdG8aRo0RFKwQTWANcbvPjA=
   matrix:
-    - ADB_INSTALL_TIMEOUT=15 ANDROID_BUILD_TOOLS_VERSION=23.0.2 ANDROID_TARGET=android-22 ANDROID_ABI=armeabi-v7a
-
+  - ADB_INSTALL_TIMEOUT=15 ANDROID_BUILD_TOOLS_VERSION=23.0.2 ANDROID_TARGET=android-22
+    ANDROID_ABI=armeabi-v7a
 cache:
   directories:
-    - ${TRAVIS_BUILD_DIR}/gradle/caches/
-    - ${TRAVIS_BUILD_DIR}/gradle/wrapper/dists/
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
-
+  - "${TRAVIS_BUILD_DIR}/gradle/caches/"
+  - "${TRAVIS_BUILD_DIR}/gradle/wrapper/dists/"
+  - "$HOME/.gradle/caches/"
+  - "$HOME/.gradle/wrapper/"
 android:
   components:
-    - platform-tools
-    - tools
-    - build-tools-$ANDROID_BUILD_TOOLS_VERSION
-    - $ANDROID_TARGET
-    # Need 22 for compilation
-    - android-23
-    # Google Play Services
-    - extra-google-google_play_services
-    # Support library
-    - extra-android-support
-    # Latest artifacts in local repository
-    - extra-google-m2repository
-    - extra-android-m2repository
-    # Specify at least one system image,
-    - sys-img-armeabi-v7a-$ANDROID_TARGET
-
+  - platform-tools
+  - tools
+  - build-tools-$ANDROID_BUILD_TOOLS_VERSION
+  - "$ANDROID_TARGET"
+  - android-23
+  - extra-google-google_play_services
+  - extra-android-support
+  - extra-google-m2repository
+  - extra-android-m2repository
+  - sys-img-armeabi-v7a-$ANDROID_TARGET
 before_script:
-  # Create and start emulator
-  - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
-  - emulator -avd test -no-skin -no-audio -no-window &
-  - android-wait-for-emulator
-  - adb shell input keyevent 82 &
-
+- echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
+- emulator -avd test -no-skin -no-audio -no-window &
+- android-wait-for-emulator
+- adb shell input keyevent 82 &
 script:
-  - ./gradlew clean coveralls
-  # Just in case if there is any issue
-  - chmod a+x codestyle.sh
-  - ./codestyle.sh
-
-
-# Gitter Integration via Webhook (https://gitter.im/fossasia/open-event-android)
+- "./gradlew clean coveralls"
+- chmod a+x codestyle.sh
+- "./codestyle.sh"
 notifications:
   webhooks:
     urls:
-      - https://webhooks.gitter.im/e/bbf7c28d708af7ae5ac6
-    on_success: always  # options: [always|never|change] default: always
-    on_failure: always  # options: [always|never|change] default: always
-    on_start: false     # default: false
+    - https://webhooks.gitter.im/e/bbf7c28d708af7ae5ac6
+    on_success: always
+    on_failure: always
+    on_start: false
