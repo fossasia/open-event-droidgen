@@ -3,18 +3,23 @@ package org.fossasia.openevent.activities;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.provider.Settings;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ImageSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -75,6 +80,8 @@ public class MainActivity extends BaseActivity {
 //
 //    private CoordinatorLayout mainFrame;
 
+    private TabLayout tabLayout;
+
     private ViewPager viewPager;
 
     private int counter;
@@ -98,6 +105,8 @@ public class MainActivity extends BaseActivity {
         eventsDone = 0;
         viewPager = (ViewPager)findViewById(R.id.viewPager);
         viewPager.setAdapter(new MainActivityViewPagerAdapter(getSupportFragmentManager()));
+        tabLayout = (TabLayout)findViewById(R.id.tabLayout);
+        tabLayout.setupWithViewPager(viewPager);
 //        setUpToolbar();
 //        setUpNavDrawer();
 //        mainFrame = (CoordinatorLayout) findViewById(R.id.layout_main);
@@ -486,7 +495,8 @@ public class MainActivity extends BaseActivity {
     }
 
     private class MainActivityViewPagerAdapter extends FragmentPagerAdapter {
-        private final String[] titleArray = {"Calendar icon here", "Star icon here", "Dots icon here"};
+        private final String[] titleArray = {"Calendar", "Bookmarks", "More"};
+        private final int[] icons = {R.drawable.ic_calendar_white_24dp, R.drawable.ic_bookmark_outline_white_24dp, R.drawable.ic_menu};
 
         public MainActivityViewPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -523,6 +533,12 @@ public class MainActivity extends BaseActivity {
 
         @Override
         public CharSequence getPageTitle(int position) {
+//            Drawable image = ContextCompat.getDrawable(getApplication(), icons[position]);
+//            image.setBounds(0, 0, image.getIntrinsicWidth(), image.getIntrinsicHeight());
+//            SpannableString sb = new SpannableString(" ");
+//            ImageSpan imageSpan = new ImageSpan(image, ImageSpan.ALIGN_BOTTOM);
+//            sb.setSpan(imageSpan, 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//            return sb;
             return titleArray[position];
         }
     }
