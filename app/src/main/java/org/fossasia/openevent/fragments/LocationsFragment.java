@@ -19,16 +19,12 @@ import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.activities.LocationActivtiy;
 import org.fossasia.openevent.adapters.LocationsListAdapter;
-import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.dbutils.DataDownload;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.MicrolocationDownloadEvent;
 import org.fossasia.openevent.events.RefreshUiEvent;
 import org.fossasia.openevent.utils.IntentStrings;
 import org.fossasia.openevent.utils.RecyclerItemClickListener;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * User: MananWason
@@ -128,21 +124,8 @@ public class LocationsFragment extends Fragment implements SearchView.OnQueryTex
         return true;
     }
 
-    private List<Microlocation> filter(List<Microlocation> locations, String query) {
-        query = query.toLowerCase();
-
-        final List<Microlocation> filteredLocationsList = new ArrayList<>();
-        for (Microlocation microlocation : locations) {
-            final String text = microlocation.getName().toLowerCase();
-            if (text.contains(query)) {
-                filteredLocationsList.add(microlocation);
-            }
-        }
-        return filteredLocationsList;
-    }
-
     @Subscribe
-    public void RefreshData(RefreshUiEvent event) {
+    public void onDataRefreshed(RefreshUiEvent event) {
         if (TextUtils.isEmpty(searchText)) {
             locationsListAdapter.refresh();
         }
