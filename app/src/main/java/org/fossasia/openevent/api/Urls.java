@@ -1,7 +1,8 @@
 package org.fossasia.openevent.api;
 
 /**
- * Created by championswimmer on 23/5/15.
+ * User: championswimmer
+ * Date: 23/5/15
  */
 public abstract class Urls {
 
