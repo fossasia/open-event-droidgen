@@ -9,12 +9,8 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
+import android.text.TextUtils;
+import android.view.*;
 import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
@@ -35,17 +31,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by MananWason on 8/18/2015.
+ * User: MananWason
+ * Date: 8/18/2015
  */
 public class LocationsFragment extends Fragment implements SearchView.OnQueryTextListener {
+    final private String SEARCH = "searchText";
+
     private SwipeRefreshLayout swipeRefreshLayout;
+
     private RecyclerView locationsRecyclerView;
+
     private LocationsListAdapter locationsListAdapter;
-    private List<Microlocation> mLocations;
 
     private String searchText = "";
+
     private SearchView searchView;
-    final private String SEARCH = "searchText";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -54,8 +54,7 @@ public class LocationsFragment extends Fragment implements SearchView.OnQueryTex
         OpenEventApp.getEventBus().register(this);
         locationsRecyclerView = (RecyclerView) view.findViewById(R.id.list_locations);
         final DbSingleton dbSingleton = DbSingleton.getInstance();
-        mLocations = dbSingleton.getMicrolocationsList();
-        locationsListAdapter = new LocationsListAdapter(mLocations);
+        locationsListAdapter = new LocationsListAdapter(dbSingleton.getMicrolocationsList());
         locationsRecyclerView.setAdapter(locationsListAdapter);
 
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.locations_swipe_refresh);
@@ -115,21 +114,18 @@ public class LocationsFragment extends Fragment implements SearchView.OnQueryTex
 
     @Override
     public boolean onQueryTextChange(String query) {
-        DbSingleton dbSingleton = DbSingleton.getInstance();
-
-        mLocations = dbSingleton.getMicrolocationsList();
-        final List<Microlocation> filteredModelList = filter(mLocations, query);
-
-        locationsListAdapter.animateTo(filteredModelList);
-        locationsRecyclerView.scrollToPosition(0);
-
+        if (!TextUtils.isEmpty(query)) {
+            locationsListAdapter.getFilter().filter(query);
+        } else {
+            locationsListAdapter.refresh();
+        }
         searchText = query;
         return true;
     }
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        return false;
+        return true;
     }
 
     private List<Microlocation> filter(List<Microlocation> locations, String query) {
@@ -147,11 +143,9 @@ public class LocationsFragment extends Fragment implements SearchView.OnQueryTex
 
     @Subscribe
     public void RefreshData(RefreshUiEvent event) {
-
-        if (searchText.length() == 0) {
+        if (TextUtils.isEmpty(searchText)) {
             locationsListAdapter.refresh();
         }
-
     }
 
     @Subscribe
