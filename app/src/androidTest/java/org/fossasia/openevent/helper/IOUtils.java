@@ -8,6 +8,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import timber.log.Timber;
+
 /**
  * User: mohit
  * Date: 25/1/16
@@ -30,7 +32,7 @@ public final class IOUtils {
             }
             inputStream.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            Timber.e("Parsing Error Occurred at IOUtils::readRaw.");
         }
         return byteArrayOutputStream.toString();
     }
