@@ -1,5 +1,7 @@
 package org.fossasia.openevent.adapters;
 
+import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,9 +12,12 @@ import android.widget.TextView;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.utils.ISO8601Date;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 
 import timber.log.Timber;
 
@@ -61,31 +66,38 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
     @Override
     public SessionsListAdapter.Viewholder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.tracksactvity_item, parent, false);
+        View view = layoutInflater.inflate(R.layout.item_session, parent, false);
         return new Viewholder(view);
     }
 
     @Override
     public void onBindViewHolder(Viewholder holder, int position) {
         Session current = getItem(position);
-        String title = current.getTitle();
-        String summary = current.getSummary();
-        holder.sessionName.setText(title);
-        holder.sessionSummary.setText(summary);
+        SimpleDateFormat formatSDF = new SimpleDateFormat("hh:mm aa");
+        String startTime = formatSDF.format(ISO8601Date.getDateObject(current.getStartTime())),
+                endTime = formatSDF.format(ISO8601Date.getDateObject(current.getEndTime()));
+
+        TypedArray ta = holder.itemView.getContext().getResources().obtainTypedArray(R.array.tracks_colors);
+        holder.trackIndicator.setBackgroundColor(ta.getColor(current.getTrack() - 1, Color.GRAY));
+        ta.recycle();
+
+        holder.sessionTitle.setText(current.getTitle());
+        holder.sessionTime.setText(String.format("%s - %s", startTime, endTime));
+        holder.sessionLocation.setText(DbSingleton.getInstance().getMicrolocationById(current.getMicrolocations()).getName());
     }
 
     class Viewholder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView sessionName;
-
-        TextView sessionSummary;
+        View trackIndicator;
+        TextView sessionTitle, sessionTime, sessionLocation;
 
         public Viewholder(View itemView) {
             super(itemView);
             itemView.setClickable(true);
             itemView.setOnClickListener(this);
-            sessionName = (TextView) itemView.findViewById(R.id.session_title);
-            sessionSummary = (TextView) itemView.findViewById(R.id.session_abstract);
-
+            trackIndicator = itemView.findViewById(R.id.itemSessionTrackIndicator);
+            sessionTitle = (TextView) itemView.findViewById(R.id.session_title);
+            sessionTime = (TextView) itemView.findViewById(R.id.session_time);
+            sessionLocation = (TextView)itemView.findViewById(R.id.session_location);
         }
 
         @Override

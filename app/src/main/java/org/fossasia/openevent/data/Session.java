@@ -1,6 +1,8 @@
 package org.fossasia.openevent.data;
 
 import android.database.DatabaseUtils;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import com.google.gson.annotations.SerializedName;
@@ -16,7 +18,7 @@ import java.util.Locale;
 /**
  * Created by championswimmer on 16/5/15.
  */
-public class Session {
+public class Session implements Parcelable {
 
     @SerializedName("abstract")
     String summary;
@@ -180,4 +182,48 @@ public class Session {
         DbSingleton dbSingleton = DbSingleton.getInstance();
         dbSingleton.insertQuery(query);
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.summary);
+        dest.writeString(this.description);
+        dest.writeString(this.startTime);
+        dest.writeString(this.endTime);
+        dest.writeInt(this.id);
+        dest.writeString(this.level);
+        dest.writeInt(this.microlocations);
+        dest.writeString(this.title);
+        dest.writeString(this.subtitle);
+        dest.writeString(this.type);
+        dest.writeInt(this.track);
+    }
+
+    protected Session(Parcel in) {
+        this.summary = in.readString();
+        this.description = in.readString();
+        this.startTime = in.readString();
+        this.endTime = in.readString();
+        this.id = in.readInt();
+        this.level = in.readString();
+        this.microlocations = in.readInt();
+        this.title = in.readString();
+        this.subtitle = in.readString();
+        this.type = in.readString();
+        this.track = in.readInt();
+    }
+
+    public static final Parcelable.Creator<Session> CREATOR = new Parcelable.Creator<Session>() {
+        public Session createFromParcel(Parcel source) {
+            return new Session(source);
+        }
+
+        public Session[] newArray(int size) {
+            return new Session[size];
+        }
+    };
 }

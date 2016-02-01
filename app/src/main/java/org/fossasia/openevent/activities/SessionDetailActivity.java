@@ -28,8 +28,11 @@ import org.fossasia.openevent.utils.ISO8601Date;
 import org.fossasia.openevent.utils.IntentStrings;
 import org.fossasia.openevent.widget.BookmarkWidgetProvider;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 /**
  * User: MananWason
@@ -57,55 +60,75 @@ public class SessionDetailActivity extends BaseActivity {
         final String title = getIntent().getStringExtra(IntentStrings.SESSION);
         String trackName = getIntent().getStringExtra(IntentStrings.TRACK);
         Log.d(TAG, title);
-        TextView text_title = (TextView) findViewById(R.id.title_session);
-        TextView text_subtitle = (TextView) findViewById(R.id.subtitle_session);
-        TextView text_time = (TextView) findViewById(R.id.tv_time);
-        TextView text_track = (TextView) findViewById(R.id.track);
-        TextView text_room1 = (TextView) findViewById(R.id.tv_location);
-        TextView summary = (TextView) findViewById(R.id.tv_abstract_text);
-        TextView descrip = (TextView) findViewById(R.id.tv_description);
+        TextView titleTextView = (TextView) findViewById(R.id.session_title);
+        TextView dateTimeTextView = (TextView) findViewById(R.id.session_datetime);
+        TextView companyTextView = (TextView) findViewById(R.id.session_company);
+        TextView locationTextView = (TextView) findViewById(R.id.session_location);
+        TextView speakerTextView = (TextView) findViewById(R.id.session_speaker);
+        TextView descriptionTextView = (TextView) findViewById(R.id.session_description);
+        TextView addToCalendarTextView = (TextView)findViewById(R.id.session_addtocalendar);
 
-        speakersRecyclerView = (RecyclerView) findViewById(R.id.list_speakerss);
+//        speakersRecyclerView = (RecyclerView) findViewById(R.id.list_speakerss);
 
         List<Speaker> speakers = dbSingleton.getSpeakersbySessionName(title);
         session = dbSingleton.getSessionbySessionname(title);
 
-        text_room1.setText((dbSingleton.getMicrolocationById(session.getMicrolocations())).getName());
+        locationTextView.setText((dbSingleton.getMicrolocationById(session.getMicrolocations())).getName());
 
-        text_title.setText(title);
-        text_subtitle.setText(session.getSubtitle());
-        text_track.setText(trackName);
+        titleTextView.setText(title);
+        SimpleDateFormat timeSDF = new SimpleDateFormat("hh:mm aa"),
+                humanSDF = new SimpleDateFormat("EEEE, dd MMM, hh:mm aa");
 
-        String start = ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(session.getStartTime()));
-        String end = ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(session.getEndTime()));
+        Date start = ISO8601Date.getDateObject(session.getStartTime());
+        Date end = ISO8601Date.getDateObject(session.getEndTime());
 
-
-        if (TextUtils.isEmpty(start) && TextUtils.isEmpty(end)) {
-            text_time.setText(R.string.time_not_specified);
-        } else {
-            timings = start + " - " + end;
-            text_time.setText(timings);
-            text_time.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(Intent.ACTION_INSERT);
-                    intent.setType("vnd.android.cursor.item/event");
-                    intent.putExtra(CalendarContract.Events.TITLE, title);
-                    intent.putExtra(CalendarContract.Events.DESCRIPTION, session.getDescription());
-                    intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, ISO8601Date.getDateObject(session.getStartTime()).getTime());
-                    intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME,
-                            ISO8601Date.getDateObject(session.getEndTime()).getTime());
-                    startActivity(intent);
-
-                }
-            });
+        try {
+            dateTimeTextView.setText(String.format("%s - %s", humanSDF.format(start), timeSDF.format(end)));
+        } catch (Exception e) {
+            e.printStackTrace();
+            //TODO: Print something else
+            dateTimeTextView.setText(e.getMessage());
         }
-        summary.setText(session.getSummary());
-        descrip.setText(session.getDescription());
-        adapter = new SpeakersListAdapter(speakers);
-        speakersRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        speakersRecyclerView.setAdapter(adapter);
-        speakersRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
+//        text_subtitle.setText(session.getSubtitle());
+
+//        text_track.setText(trackName);
+
+//        String start = ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(session.getStartTime()));
+//        String end = ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(session.getEndTime()));
+
+
+//        if (TextUtils.isEmpty(start) && TextUtils.isEmpty(end)) {
+//            text_time.setText(R.string.time_not_specified);
+//        } else {
+//            timings = start + " - " + end;
+//            text_time.setText(timings);
+//            text_time.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Intent intent = new Intent(Intent.ACTION_INSERT);
+//                    intent.setType("vnd.android.cursor.item/event");
+//                    intent.putExtra(CalendarContract.Events.TITLE, title);
+//                    intent.putExtra(CalendarContract.Events.DESCRIPTION, session.getDescription());
+//                    intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, ISO8601Date.getDateObject(session.getStartTime()).getTime());
+//                    intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME,
+//                            ISO8601Date.getDateObject(session.getEndTime()).getTime());
+//                    startActivity(intent);
+//
+//                }
+//            });
+//        }
+//        summary.setText(session.getSummary());
+        List<Speaker> speakerList = dbSingleton.getSpeakersbySessionName(session.getTitle());
+        for (Speaker speaker : speakerList) {
+            speakerTextView.append(String.format("%s\n", speaker.getName()));
+        }
+
+        descriptionTextView.setText(session.getDescription());
+//        adapter = new SpeakersListAdapter(speakers);
+//        speakersRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        speakersRecyclerView.setAdapter(adapter);
+//        speakersRecyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 
     @Override
