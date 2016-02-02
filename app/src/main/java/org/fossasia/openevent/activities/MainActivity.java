@@ -1,21 +1,16 @@
 package org.fossasia.openevent.activities;
 
-
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.provider.Settings;
-
 import android.support.design.widget.CoordinatorLayout;
-
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -285,12 +280,6 @@ public class MainActivity extends BaseActivity {
                         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
                     }
                 });
-                mDrawerLayout.closeDrawers();
-
-                startActivity(intent);
-
-                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
-
             case R.id.nav_about:
                 AlertDialog.Builder builder =
                         new AlertDialog.Builder(this);
@@ -475,10 +464,8 @@ public class MainActivity extends BaseActivity {
                 }
                 case NETWORK: {
                     Log.d(TYPE, "NetworkError");
-
                     errorType = "Network Error";
                     errorDesc = String.valueOf(cause.getCause());
-
                     break;
                 }
                 default: {
@@ -503,7 +490,4 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-
 }
-
-
