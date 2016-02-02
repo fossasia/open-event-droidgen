@@ -8,4 +8,12 @@
     <color name="secondary_text">#727272</color>
     <color name="translucent_grey">#0c000000</color>
     <color name="grey">#E0E0E0</color>
+    
+    <color name="item_session_name">#3E4049</color>
+    <color name="item_session_time">#5B5E6B</color>
+    <color name="item_session_location">#9B9EA5</color>
+    <color name="item_session_divider">#A3A3A5</color>
+
+    <color name="session_description">#212224</color>
+
 </resources>
