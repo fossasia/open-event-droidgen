@@ -4,12 +4,21 @@
     android:layout_height="match_parent"
     android:padding="7dp">
 
+    <TextView
+        android:id="@+id/nobookmark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="@string/noBookmark"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list_bookmarks"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:paddingBottom="30dp"
-        android:scrollbars="vertical"></android.support.v7.widget.RecyclerView>
+        android:scrollbars="vertical" />
 
 </RelativeLayout>
