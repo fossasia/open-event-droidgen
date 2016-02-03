@@ -3,9 +3,14 @@ package org.fossasia.openevent.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.*;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -59,13 +64,34 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
         ImageView github = (ImageView) findViewById(R.id.imageView_github);
         ImageView fb = (ImageView) findViewById(R.id.imageView_fb);
 
-        biography.setText(selectedSpeaker.getBio());
         final SpeakerIntent speakerIntent = new SpeakerIntent(selectedSpeaker);
 
-        speakerIntent.clickedImage(github);
-        speakerIntent.clickedImage(linkedin);
-        speakerIntent.clickedImage(fb);
-        speakerIntent.clickedImage(twitter);
+        if(selectedSpeaker.getLinkedin() == null || selectedSpeaker.getLinkedin().isEmpty()) {
+            linkedin.setVisibility(View.GONE);
+        }
+        else {
+            speakerIntent.clickedImage(linkedin);
+        }
+        if(selectedSpeaker.getTwitter() == null || selectedSpeaker.getTwitter().isEmpty()) {
+            twitter.setVisibility(View.GONE);
+        }
+        else {
+            speakerIntent.clickedImage(twitter);
+        }
+        if(selectedSpeaker.getGithub() == null || selectedSpeaker.getGithub().isEmpty()) {
+            github.setVisibility(View.GONE);
+        }
+        else {
+            speakerIntent.clickedImage(github);
+        }
+        if(selectedSpeaker.getFacebook() == null || selectedSpeaker.getFacebook().isEmpty()) {
+            fb.setVisibility(View.GONE);
+        }
+        else {
+            speakerIntent.clickedImage(fb);
+        }
+
+        biography.setText(selectedSpeaker.getBio());
 
         sessionRecyclerView = (RecyclerView) findViewById(R.id.recyclerView_speakers);
         mSessions = dbSingleton.getSessionbySpeakersName(speaker);
