@@ -4,6 +4,8 @@ import android.os.Looper;
 
 import java.util.concurrent.*;
 
+import timber.log.Timber;
+
 /**
  * Created by MananWason on 8/3/2015.
  */
@@ -60,7 +62,7 @@ public class CommonEventLoop {
             try {
                 runnable.run();
             } catch (Exception e) {
-                e.printStackTrace();
+                Timber.e("Parsing Error Occurred at CommonEventLoop::run.");
             }
         }
     }

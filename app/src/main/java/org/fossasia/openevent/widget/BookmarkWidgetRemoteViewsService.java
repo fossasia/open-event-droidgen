@@ -18,9 +18,13 @@ import org.fossasia.openevent.utils.ISO8601Date;
 
 import java.util.ArrayList;
 
+import timber.log.Timber;
+
 /**
- * Created by opticod(anupam) on 10/1/16.
+ * User: Opticod(Anupam Das)
+ * Date: 10/1/16
  */
+
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class BookmarkWidgetRemoteViewsService extends RemoteViewsService {
 
@@ -78,7 +82,7 @@ public class BookmarkWidgetRemoteViewsService extends RemoteViewsService {
                         data.addRow(new Object[]{id, session.getTitle(), start, end});
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    Timber.e("Parsing Error Occurred at BookmarkWidgetRemoteViewsService::onDataSetChanged.");
                 }
             }
 

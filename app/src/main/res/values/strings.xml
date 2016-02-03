@@ -1,12 +1,8 @@
 <resources>
     <string name="app_name" translatable="false">OpenEvent</string>
 
-    <string name="main_menu">Main menu</string>
-    <string name="close_menu">Close menu</string>
     <string name="title_section_tracks">Tracks</string>
     <string name="title_section_speakerlist">Speakers</string>
-    <string name="title_section_sponsors">Sponsors</string>
-    <string name="title_section_map">Map</string>
     <string name="title_section_location">Locations</string>
 
     <!-- Main menu_speakers -->
@@ -24,17 +20,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_example">Example action</string>
-
     <string name="action_settings">Settings</string>
-    <string name="splash">Splash</string>
-
-    <string name="about">About</string>
-
-    <!-- Speaker Fragment-->
-    <string name="placeholder_speaker_designation">holder_speaker_designation</string>
-    <string name="placeholder_speaker_name">holder_speaker_name</string>
-    <string name="placeholder_speaker_bio">holder_speaker_bio</string>
 
     <!--Settings-->
     <string name="settings_mode_api"> API Mode</string>
@@ -42,8 +28,6 @@
 
     <string name="settings_mode_notification"> Notification Mode</string>
     <string name="default_mode_notification">10</string>
-    <string name="hour_before">1</string>
-    <string name="twelve_hours_before">12</string>
 
 
     <!--Social-->
