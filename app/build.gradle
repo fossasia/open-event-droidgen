@@ -70,19 +70,19 @@ dependencies {
     compile "com.android.support:support-v4:${SUPPORT_LIB_VERSION}"
     compile "com.android.support:cardview-v7:${SUPPORT_LIB_VERSION}"
     compile "com.android.support:recyclerview-v7:${SUPPORT_LIB_VERSION}"
-    compile 'com.google.code.gson:gson:2.4'
-    compile 'com.squareup.okhttp:okhttp:2.0.0'
+    compile 'com.google.code.gson:gson:2.5'
+    compile 'com.squareup.okhttp:okhttp:2.7.2'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile "com.android.support:design:${SUPPORT_LIB_VERSION}"
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.squareup:otto:1.3.8'
     compile 'com.jakewharton.timber:timber:4.1.0'
 
-    googleplayCompile 'com.google.android.gms:play-services-maps:8.3.0'
+    googleplayCompile 'com.google.android.gms:play-services-maps:8.4.0'
 
-    fdroidCompile 'org.osmdroid:osmdroid-android:4.3'
+    fdroidCompile 'org.osmdroid:osmdroid-android:5.1'
     fdroidCompile 'org.apache.directory.studio:org.slf4j.api:1.7.2'
-    fdroidCompile 'org.slf4j:slf4j-simple:1.7.12'
+    fdroidCompile 'org.slf4j:slf4j-simple:1.7.14'
     testCompile 'junit:junit:4.12'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2'
     androidTestCompile 'com.android.support.test:runner:0.3'
@@ -93,7 +93,7 @@ dependencies {
         exclude module: 'recyclerview-v7'
     }
     androidTestCompile 'com.android.support.test:rules:0.3'
-    androidTestCompile "org.mockito:mockito-core:1.+"
+    androidTestCompile "org.mockito:mockito-core:1.10.19"
 
     // Catch all the leaks
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.3.1' // or 1.4-beta1
