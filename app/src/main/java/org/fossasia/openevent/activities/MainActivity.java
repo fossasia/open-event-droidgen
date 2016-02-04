@@ -26,6 +26,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
@@ -286,13 +287,13 @@ public class MainActivity extends BaseActivity {
                 builder.setTitle(String.format("%1$s", getString(R.string.app_name)));
                 builder.setMessage(getResources().getText(R.string.about_text));
                 builder.setPositiveButton("OK", null);
-                builder.setIcon(R.drawable.ic_launcher);
+                builder.setIcon(R.mipmap.ic_launcher);
                 builder.show();
 
                 AlertDialog welcomeAlert = builder.create();
                 welcomeAlert.show();
                 // Make the textview clickable. Must be called after show()
-                ((TextView)welcomeAlert.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
+                ((TextView) welcomeAlert.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
                 break;
 
         }
