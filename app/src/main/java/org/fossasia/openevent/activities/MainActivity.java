@@ -18,13 +18,14 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-
+import android.widget.TextView;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
@@ -279,7 +280,21 @@ public class MainActivity extends BaseActivity {
                         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
                     }
                 });
-                mDrawerLayout.closeDrawers();
+            case R.id.nav_about:
+                AlertDialog.Builder builder =
+                        new AlertDialog.Builder(this);
+                builder.setTitle(String.format("%1$s", getString(R.string.app_name)));
+                builder.setMessage(getResources().getText(R.string.about_text));
+                builder.setPositiveButton("OK", null);
+                builder.setIcon(R.drawable.ic_launcher);
+                builder.show();
+
+                AlertDialog welcomeAlert = builder.create();
+                welcomeAlert.show();
+                // Make the textview clickable. Must be called after show()
+                ((TextView)welcomeAlert.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
+                break;
+
         }
         currentMenuItemId = menuItemId;
         mDrawerLayout.closeDrawers();
@@ -476,4 +491,3 @@ public class MainActivity extends BaseActivity {
     }
 
 }
-
