@@ -5,7 +5,7 @@
     android:padding="7dp">
 
     <TextView
-        android:id="@+id/nobookmark"
+        android:id="@+id/txt_no_bookmarks"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
