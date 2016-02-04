@@ -288,7 +288,6 @@ public class MainActivity extends BaseActivity {
                 builder.setMessage(getResources().getText(R.string.about_text));
                 builder.setPositiveButton("OK", null);
                 builder.setIcon(R.mipmap.ic_launcher);
-                builder.show();
 
                 AlertDialog welcomeAlert = builder.create();
                 welcomeAlert.show();
