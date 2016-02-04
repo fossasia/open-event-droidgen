@@ -2,10 +2,8 @@ package org.fossasia.openevent.utils;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.data.Speaker;
@@ -24,7 +22,7 @@ public class SpeakerIntent {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String url;
+                String url = "";
                 if (imageView.getTag().toString().equals(view.getContext().getString(R.string.linkedin))) {
                     url = speaker.getLinkedin();
 
@@ -36,18 +34,9 @@ public class SpeakerIntent {
 
                 } else if (imageView.getTag().toString().equals(view.getContext().getString(R.string.github))) {
                     url = speaker.getGithub();
-                } else {
-                    url = "";
-                    Toast.makeText(view.getContext(), "What did you click?? :P", Toast.LENGTH_SHORT).show();
                 }
 
-                if (url.equals(null)) {
-                    Log.d("url null", "ABC");
-                    view.setVisibility(View.GONE);
-                    return;
-                }
-
-                if ((!url.startsWith("https://") && !url.startsWith("http://")) && (!url.isEmpty())) {
+                if ((!url.startsWith("https://") && !url.startsWith("http://"))) {
                     url = "http://" + url;
                 }
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
