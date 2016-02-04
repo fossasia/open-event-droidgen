@@ -6,11 +6,10 @@
 
 The Android client is a generic app that has two parts:
 a) A standard configuration file, that sets the details of the app (e.g. color scheme, logo of event, link to JSON app data)
-b) The Android app itself
-This app uses the json api provided by a server maintained [here](https://github.com/fossasia/open-event-orga-server). 
+b) The Android app itself, this app uses the json api provided by a server maintained [here](https://github.com/fossasia/open-event-orga-server). 
 
 ## Development Setup
-Before you begin, you should already have the Android Studio SDK downloaded and set up correctly. You can find a guide on how to do this here: [Setting up Android Studio](http://developer.android.com/sdk/installing/index.html?pkg=studio)
+Before you begin, you should already have the Android Studio SDK downloaded and set up correctly. You can find a guide on how to do this here: [Setting up Android Studio](http://developer.android.com/sdk/installing/index.html?pkg=studio).
 
 ### Setting up the Android Project
 1. Download the *open-event-android* project source. You can do this either by forking and cloning the repository (recommended if you plan on pushing changes) or by downloading it as a ZIP file and extracting it.
@@ -68,10 +67,10 @@ Before you begin, you should already have the Android Studio SDK downloaded and 
 
 ## Data retrieval
 - The orga-server provides the data which is stored in its backend database in a json format.
-- The app on startup picks up data from a json file in it's assets folder if the version number of data is -1 which happens when there is no internet connection
+- The app on startup picks up data from a json file in it's assets folder if the version number of data is -1 which happens when there is no internet connection.
 - If there is a valid internet connection, the data download starts from the server.
 - Also there is a check on the version of data already there in the app's database. If data is stale then only it is downloaded.
-- If database is empty then firstly json file in assets is accessed but if internet is available , latest data is downloaded.
+- If database is empty then firstly json file in assets is accessed but if internet is available, latest data is downloaded.
 
 ## A note about Codestyle
 Please read our [CODESTYLE](CODESTYLE.md) carefully. Pull requests that do not match the style will be rejected. 
