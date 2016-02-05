@@ -8,10 +8,15 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
@@ -57,7 +62,9 @@ public class SponsorsFragment extends Fragment {
         });
         sponsorsListAdapter = new SponsorsListAdapter(dbSingleton.getSponsorList());
         sponsorsRecyclerView.setAdapter(sponsorsListAdapter);
-        sponsorsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        sponsorsRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        sponsorsRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
         return view;
     }
 

@@ -41,7 +41,7 @@ public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, SponsorsListAdap
         int height = displayMetrics.heightPixels;
 
         Uri uri = Uri.parse(currentSponsor.getLogo());
-        Picasso.with(holder.sponsorImage.getContext()).load(uri).resize(width, (height / 6)).centerCrop().into(holder.sponsorImage);
+        Picasso.with(holder.sponsorImage.getContext()).load(uri).into(holder.sponsorImage);
     }
 
     public void refresh() {
