@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <string msgid="2785372108150982144" name="common_google_play_services_api_unavailable_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> എന്നതിന് നിലവിൽ ലഭ്യമല്ലാത്ത ഒന്നോ അതിൽ കൂടുതലോ Google Play സേവനങ്ങൾ ആവശ്യമാണ്. സഹായത്തിന് ഡെവലപ്പറെ ബന്ധപ്പെടുക."</string>
+    <string msgid="7334167077229901382" name="common_google_play_services_enable_button">"Google Play സേവനങ്ങൾ പ്രവർത്തനക്ഷമമാക്കുക"</string>
+    <string msgid="2016066508617425489" name="common_google_play_services_enable_text">"നിങ്ങൾ Google Play സേവനങ്ങൾ പ്രവർത്തനക്ഷമമാക്കുന്നില്ലെങ്കിൽ <ns1:g id="APP_NAME">%1$s</ns1:g> പ്രവർത്തിക്കില്ല."</string>
+    <string msgid="4763733806837472840" name="common_google_play_services_enable_title">"Google Play സേവനങ്ങൾ പ്രവർത്തനക്ഷമമാക്കുക"</string>
+    <string msgid="5765996826213593005" name="common_google_play_services_install_button">"Google Play സേവനങ്ങൾ സ്വീകരിക്കുക"</string>
+    <string msgid="1545874412485515659" name="common_google_play_services_install_text_phone">"നിങ്ങൾ Google Play സേവനങ്ങൾ പ്രവർത്തനക്ഷമമാക്കുന്നില്ലെങ്കിൽ, <ns1:g id="APP_NAME">%1$s</ns1:g> പ്രവർത്തിക്കില്ല."</string>
+    <string msgid="2742131317258851812" name="common_google_play_services_install_text_tablet">"നിങ്ങളുടെ ടാബ്‌ലെറ്റിൽ നിന്നും വിട്ടുപോയിരിക്കുന്ന Google Play സേവനങ്ങളില്ലാതെ <ns1:g id="APP_NAME">%1$s</ns1:g> പ്രവർത്തിക്കില്ല."</string>
+    <string msgid="2110712637922504348" name="common_google_play_services_install_title">"Google Play സേവനങ്ങൾ നേടുക"</string>
+    <string msgid="8004809446015217370" name="common_google_play_services_invalid_account_text">"വ്യക്തമാക്കിയ അക്കൗണ്ട് ഈ ഉപകരണത്തിൽ നിലവിലില്ല. മറ്റൊരു അക്കൗണ്ട് തിരഞ്ഞെടുക്കുക."</string>
+    <string msgid="9894539456463288" name="common_google_play_services_invalid_account_title">"അക്കൗണ്ട് അസാധുവാണ്"</string>
+    <string msgid="2602915190038884860" name="common_google_play_services_network_error_text">"Google Play സേവനങ്ങളിലേയ്ക്ക് കണക്റ്റുചെയ്യുന്നതിന് ഒരു ഡാറ്റ കണക്ഷൻ ആവശ്യമാണ്."</string>
+    <string msgid="5183831421651758225" name="common_google_play_services_network_error_title">"നെറ്റ്‌വർക്ക് പിശക്"</string>
+    <string msgid="3936796119014022295" name="common_google_play_services_notification_ticker">"Google Play സേവനങ്ങളിലെ പിശക്"</string>
+    <string msgid="6951442375899151085" name="common_google_play_services_restricted_profile_text">"നിയന്ത്രിത പ്രൊഫൈലിൽ നിന്നുള്ള അക്കൗണ്ടുകൾ ആക്സസ് ചെയ്യുന്നതിന് പിന്തുണയില്ല."</string>
+    <string msgid="4958149393843193760" name="common_google_play_services_restricted_profile_title">"നിയന്ത്രിത പ്രൊഫൈൽ"</string>
+    <string msgid="59739986196915578" name="common_google_play_services_sign_in_failed_text">"നിർദ്ദിഷ്‌ട അക്കൗണ്ടിൽ സൈൻ ഇൻ ചെയ്യുന്നതിൽ പിശക്. മറ്റൊരു അക്കൗണ്ട് തിരഞ്ഞെടുക്കുക."</string>
+    <string msgid="8431204498860131150" name="common_google_play_services_sign_in_failed_title">"സൈൻ ഇൻ പരാജയപ്പെട്ടു"</string>
+    <string msgid="7170719956698345984" name="common_google_play_services_unknown_issue">"Google Play സേവനങ്ങളുമായി ബന്ധപ്പെട്ട് <ns1:g id="APP_NAME">%1$s</ns1:g> ബുദ്ധിമുട്ട് നേരിടുന്നു. പ്രശ്നം പരിഹരിക്കപ്പെടുന്നില്ലെങ്കിൽ, സഹായത്തിന് ഡെവലപ്പറെ ബന്ധപ്പെടുക."</string>
+    <string msgid="4291190028362992831" name="common_google_play_services_unsupported_text">"നിങ്ങളുടെ ഉപകരണം പിന്തുണയ്ക്കാത്ത Google Play സേവനങ്ങളെയാണ് <ns1:g id="APP_NAME">%1$s</ns1:g> ആശ്രയിക്കുന്നത്. സഹായത്തിനായി നിർമ്മാതാവിനെ ബന്ധപ്പെടുക."</string>
+    <string msgid="909734065366822541" name="common_google_play_services_unsupported_title">"Google Play സേവനങ്ങൾ"</string>
+    <string msgid="2221302284291941971" name="common_google_play_services_update_button">"അപ്‌ഡേറ്റുചെയ്യുക"</string>
+    <string msgid="6230553430311881723" name="common_google_play_services_update_text">"നിങ്ങൾ Google Play സേവനങ്ങൾ അപ്‌ഡേറ്റുചെയ്‌തില്ലെങ്കിൽ <ns1:g id="APP_NAME">%1$s</ns1:g> പ്രവർത്തിക്കില്ല."</string>
+    <string msgid="2926201203597631481" name="common_google_play_services_update_title">"Google Play സേവനങ്ങൾ അപ്‌ഡേറ്റുചെയ്യുക"</string>
+    <string msgid="1576144479907495032" name="common_google_play_services_updating_text">"നിലവിൽ അപ്‌ഡേറ്റുചെയ്യുന്ന Google Play സേവനങ്ങൾ ഇല്ലാതെ <ns1:g id="APP_NAME">%1$s</ns1:g> പ്രവർത്തിക്കില്ല."</string>
+    <string msgid="1604540693139938838" name="common_google_play_services_updating_title">"Google Play സേവനങ്ങൾ അപ്‌ഡേറ്റുചെയ്യുകയാണ്"</string>
+    <string msgid="8334920661858223093" name="common_google_play_services_wear_update_text">"Google Play സേവനങ്ങളുടെ പുതിയ പതിപ്പ് ആവശ്യമാണ്. താമസിയാതെ ഇത് സ്വയം അപ്‌ഡേറ്റുചെയ്യും."</string>
+    <string msgid="311697239335516384" name="common_open_on_phone">"ഫോണിൽ തുറക്കുക"</string>
+    <string msgid="3156914698180786012" name="common_signin_button_text">"സൈൻ ഇൻ ചെയ്യുക"</string>
+    <string msgid="1483290677806110088" name="common_signin_button_text_long">"Google ഉപയോഗിച്ച് സൈൻ ഇൻ ചെയ്യുക"</string>
+</resources>

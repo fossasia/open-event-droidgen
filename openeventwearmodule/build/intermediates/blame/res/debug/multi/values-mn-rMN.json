@@ -1,0 +1,558 @@
+[
+    {
+        "outputFile": "/Users/shivenmian/open-event-android/openeventwearmodule/build/intermediates/res/merged/debug/values-mn-rMN/values-mn-rMN.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 105,
+                    "endColumn": 284,
+                    "endOffset": 385
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearmodule/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values-mn-rMN/base_strings.xml",
+                    "position": {
+                        "startLine": 24,
+                        "startColumn": 4,
+                        "startOffset": 3527,
+                        "endColumn": 288,
+                        "endOffset": 3811
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 3,
+                    "startColumn": 4,
+                    "startOffset": 390,
+                    "endColumn": 134,
+                    "endOffset": 520
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearmodule/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values-mn-rMN/base_strings.xml",
+                    "position": {
+                        "startLine": 10,
+                        "startColumn": 4,
+                        "startOffset": 1313,
+                        "endColumn": 134,
+                        "endOffset": 1443
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 4,
+                    "startColumn": 4,
+                    "startOffset": 525,
+                    "endColumn": 188,
+                    "endOffset": 709
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearmodule/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values-mn-rMN/base_strings.xml",
+                    "position": {
+                        "startLine": 9,
+                        "startColumn": 4,
+                        "startOffset": 1120,
+                        "endColumn": 192,
+                        "endOffset": 1308
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 5,
+                    "startColumn": 4,
+                    "startOffset": 714,
+                    "endColumn": 133,
+                    "endOffset": 843
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearmodule/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values-mn-rMN/base_strings.xml",
+                    "position": {
+                        "startLine": 8,
+                        "startColumn": 4,
+                        "startOffset": 986,
+                        "endColumn": 133,
+                        "endOffset": 1115
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 6,
+                    "startColumn": 4,
+                    "startOffset": 848,
+                    "endColumn": 128,
+                    "endOffset": 972
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearmodule/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values-mn-rMN/base_strings.xml",
+                    "position": {
+                        "startLine": 7,
+                        "startColumn": 4,
+                        "startOffset": 857,
+                        "endColumn": 128,
+                        "endOffset": 981
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 7,
+                    "startColumn": 4,
+                    "startOffset": 977,
+                    "endColumn": 207,
+                    "endOffset": 1180
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearmodule/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values-mn-rMN/base_strings.xml",
+                    "position": {
+                        "startLine": 5,
+                        "startColumn": 4,
+                        "startOffset": 433,
+                        "endColumn": 211,
+                        "endOffset": 640
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 8,
+                    "startColumn": 4,
+                    "startOffset": 1185,
+                    "endColumn": 207,
+                    "endOffset": 1388
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearmodule/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values-mn-rMN/base_strings.xml",
+                    "position": {
+                        "startLine": 6,
+                        "startColumn": 4,
+                        "startOffset": 645,
+                        "endColumn": 211,
+                        "endOffset": 852
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 9,
+                    "startColumn": 4,
+                    "startOffset": 1393,
+                    "endColumn": 127,
+                    "endOffset": 1516
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearmodule/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values-mn-rMN/base_strings.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 305,
+                        "endColumn": 127,
+                        "endOffset": 428
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 10,
+                    "startColumn": 4,
+                    "startOffset": 1521,
+                    "endColumn": 185,
+                    "endOffset": 1702
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearmodule/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values-mn-rMN/base_strings.xml",
+                    "position": {
+                        "startLine": 19,
+                        "startColumn": 4,
+                        "startOffset": 2733,
+                        "endColumn": 185,
+                        "endOffset": 2914
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 11,
+                    "startColumn": 4,
+                    "startOffset": 1707,
+                    "endColumn": 121,
+                    "endOffset": 1824
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearmodule/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values-mn-rMN/base_strings.xml",
+                    "position": {
+                        "startLine": 18,
+                        "startColumn": 4,
+                        "startOffset": 2611,
+                        "endColumn": 121,
+                        "endOffset": 2728
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 12,
+                    "startColumn": 4,
+                    "startOffset": 1829,
+                    "endColumn": 172,
+                    "endOffset": 1997
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearmodule/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values-mn-rMN/base_strings.xml",
+                    "position": {
+                        "startLine": 17,
+                        "startColumn": 4,
+                        "startOffset": 2438,
+                        "endColumn": 172,
+                        "endOffset": 2606
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 13,
+                    "startColumn": 4,
+                    "startOffset": 2002,
+                    "endColumn": 121,
+                    "endOffset": 2119
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearmodule/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values-mn-rMN/base_strings.xml",
+                    "position": {
+                        "startLine": 16,
+                        "startColumn": 4,
+                        "startOffset": 2316,
+                        "endColumn": 121,
+                        "endOffset": 2433
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 14,
+                    "startColumn": 4,
+                    "startOffset": 2124,
+                    "endColumn": 134,
+                    "endOffset": 2254
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearmodule/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values-mn-rMN/base_strings.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 170,
+                        "endColumn": 134,
+                        "endOffset": 300
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 15,
+                    "startColumn": 4,
+                    "startOffset": 2259,
+                    "endColumn": 162,
+                    "endOffset": 2417
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearmodule/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values-mn-rMN/base_strings.xml",
+                    "position": {
+                        "startLine": 28,
+                        "startColumn": 4,
+                        "startOffset": 4247,
+                        "endColumn": 162,
+                        "endOffset": 4405
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 16,
+                    "startColumn": 4,
+                    "startOffset": 2422,
+                    "endColumn": 133,
+                    "endOffset": 2551
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearmodule/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values-mn-rMN/base_strings.xml",
+                    "position": {
+                        "startLine": 27,
+                        "startColumn": 4,
+                        "startOffset": 4113,
+                        "endColumn": 133,
+                        "endOffset": 4242
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 17,
+                    "startColumn": 4,
+                    "startOffset": 2556,
+                    "endColumn": 170,
+                    "endOffset": 2722
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearmodule/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values-mn-rMN/base_strings.xml",
+                    "position": {
+                        "startLine": 26,
+                        "startColumn": 4,
+                        "startOffset": 3942,
+                        "endColumn": 170,
+                        "endOffset": 4108
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 18,
+                    "startColumn": 4,
+                    "startOffset": 2727,
+                    "endColumn": 125,
+                    "endOffset": 2848
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearmodule/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values-mn-rMN/base_strings.xml",
+                    "position": {
+                        "startLine": 25,
+                        "startColumn": 4,
+                        "startOffset": 3816,
+                        "endColumn": 125,
+                        "endOffset": 3937
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 19,
+                    "startColumn": 4,
+                    "startOffset": 2853,
+                    "endColumn": 255,
+                    "endOffset": 3104
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearmodule/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.4.0/res/values-mn-rMN/common_strings.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 170,
+                        "endColumn": 259,
+                        "endOffset": 425
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 20,
+                    "startColumn": 4,
+                    "startOffset": 3109,
+                    "endColumn": 279,
+                    "endOffset": 3384
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearmodule/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values-mn-rMN/base_strings.xml",
+                    "position": {
+                        "startLine": 21,
+                        "startColumn": 4,
+                        "startOffset": 3044,
+                        "endColumn": 283,
+                        "endOffset": 3323
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 21,
+                    "startColumn": 4,
+                    "startOffset": 3389,
+                    "endColumn": 124,
+                    "endOffset": 3509
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearmodule/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values-mn-rMN/base_strings.xml",
+                    "position": {
+                        "startLine": 20,
+                        "startColumn": 4,
+                        "startOffset": 2919,
+                        "endColumn": 124,
+                        "endOffset": 3039
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 22,
+                    "startColumn": 4,
+                    "startOffset": 3514,
+                    "endColumn": 108,
+                    "endOffset": 3618
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearmodule/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values-mn-rMN/base_strings.xml",
+                    "position": {
+                        "startLine": 22,
+                        "startColumn": 4,
+                        "startOffset": 3328,
+                        "endColumn": 108,
+                        "endOffset": 3432
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 23,
+                    "startColumn": 4,
+                    "startOffset": 3623,
+                    "endColumn": 191,
+                    "endOffset": 3810
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearmodule/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values-mn-rMN/base_strings.xml",
+                    "position": {
+                        "startLine": 12,
+                        "startColumn": 4,
+                        "startOffset": 1579,
+                        "endColumn": 195,
+                        "endOffset": 1770
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 24,
+                    "startColumn": 4,
+                    "startOffset": 3815,
+                    "endColumn": 130,
+                    "endOffset": 3941
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearmodule/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values-mn-rMN/base_strings.xml",
+                    "position": {
+                        "startLine": 11,
+                        "startColumn": 4,
+                        "startOffset": 1448,
+                        "endColumn": 130,
+                        "endOffset": 1574
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 25,
+                    "startColumn": 4,
+                    "startOffset": 3946,
+                    "endColumn": 199,
+                    "endOffset": 4141
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearmodule/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values-mn-rMN/base_strings.xml",
+                    "position": {
+                        "startLine": 15,
+                        "startColumn": 4,
+                        "startOffset": 2112,
+                        "endColumn": 203,
+                        "endOffset": 2311
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 26,
+                    "startColumn": 4,
+                    "startOffset": 4146,
+                    "endColumn": 138,
+                    "endOffset": 4280
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearmodule/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values-mn-rMN/base_strings.xml",
+                    "position": {
+                        "startLine": 14,
+                        "startColumn": 4,
+                        "startOffset": 1973,
+                        "endColumn": 138,
+                        "endOffset": 2107
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 27,
+                    "startColumn": 4,
+                    "startOffset": 4285,
+                    "endColumn": 197,
+                    "endOffset": 4478
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearmodule/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values-mn-rMN/base_strings.xml",
+                    "position": {
+                        "startLine": 13,
+                        "startColumn": 4,
+                        "startOffset": 1775,
+                        "endColumn": 197,
+                        "endOffset": 1968
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 28,
+                    "startColumn": 4,
+                    "startOffset": 4483,
+                    "endColumn": 89,
+                    "endOffset": 4568
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearmodule/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values-mn-rMN/base_strings.xml",
+                    "position": {
+                        "startLine": 23,
+                        "startColumn": 4,
+                        "startOffset": 3437,
+                        "endColumn": 89,
+                        "endOffset": 3522
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 29,
+                    "startColumn": 4,
+                    "startOffset": 4573,
+                    "endColumn": 91,
+                    "endOffset": 4660
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearmodule/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values-mn-rMN/base_strings.xml",
+                    "position": {
+                        "startLine": 29,
+                        "startColumn": 4,
+                        "startOffset": 4410,
+                        "endColumn": 91,
+                        "endOffset": 4497
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 30,
+                    "startColumn": 4,
+                    "startOffset": 4665,
+                    "endColumn": 106,
+                    "endOffset": 4767
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearmodule/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values-mn-rMN/base_strings.xml",
+                    "position": {
+                        "startLine": 30,
+                        "startColumn": 4,
+                        "startOffset": 4502,
+                        "endColumn": 106,
+                        "endOffset": 4604
+                    }
+                }
+            }
+        ]
+    }
+]

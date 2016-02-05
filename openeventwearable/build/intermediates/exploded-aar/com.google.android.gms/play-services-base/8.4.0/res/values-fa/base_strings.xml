@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="common_google_play_services_notification_ticker" msgid="3936796119014022295">"‏خطا در سرویس Google Play"</string>
+    <string name="common_google_play_services_install_title" msgid="2110712637922504348">"‏دریافت سرویس‌های Google Play"</string>
+    <string name="common_google_play_services_install_text_phone" msgid="1545874412485515659">"‏<xliff:g id="APP_NAME">%1$s</xliff:g> بدون سرویس‌های Google Play که در تلفن شما وجود ندارد، اجرا نمی‌شود."</string>
+    <string name="common_google_play_services_install_text_tablet" msgid="2742131317258851812">"‏<xliff:g id="APP_NAME">%1$s</xliff:g> بدون سرویس‌های Google Play که در رایانه لوحی شما وجود ندارد، اجرا نمی‌شود."</string>
+    <string name="common_google_play_services_install_button" msgid="5765996826213593005">"‏دریافت سرویس‌های Google Play"</string>
+    <string name="common_google_play_services_enable_title" msgid="4763733806837472840">"‏‫فعال کردن سرویس‌های Google Play"</string>
+    <string name="common_google_play_services_enable_text" msgid="2016066508617425489">"‏تا وقتی سرویس‌های Google Play را فعال نکنید، <xliff:g id="APP_NAME">%1$s</xliff:g> کار نمی‌کند."</string>
+    <string name="common_google_play_services_enable_button" msgid="7334167077229901382">"‏‫فعال کردن سرویس‌های Google Play"</string>
+    <string name="common_google_play_services_update_title" msgid="2926201203597631481">"‏‫به‌روزرسانی سرویس‌های Google Play"</string>
+    <string name="common_google_play_services_update_text" msgid="6230553430311881723">"‏تا وقتی سرویس‌های Google Play را به‌روزرسانی نکنید، <xliff:g id="APP_NAME">%1$s</xliff:g> اجرا نمی‌شود."</string>
+    <string name="common_google_play_services_wear_update_text" msgid="8334920661858223093">"‏نسخه جدید سرویس‌های Google Play نیاز است. به‌زودی به‌طور خودکار به‌روزرسانی می‌شود."</string>
+    <string name="common_google_play_services_updating_title" msgid="1604540693139938838">"‏سرویس‌‌های Google Play درحال به‌روزرسانی"</string>
+    <string name="common_google_play_services_updating_text" msgid="1576144479907495032">"‏<xliff:g id="APP_NAME">%1$s</xliff:g> بدون سرویس‌های Google Play که درحال حاضر درحال به‌روزرسانی هستند، کار نمی‌کند."</string>
+    <string name="common_google_play_services_network_error_title" msgid="5183831421651758225">"خطای شبکه"</string>
+    <string name="common_google_play_services_network_error_text" msgid="2602915190038884860">"‏برای اتصال به سرویس‌های Google Play اتصال داده‌ لازم است."</string>
+    <string name="common_google_play_services_invalid_account_title" msgid="9894539456463288">"حساب نامعتبر است"</string>
+    <string name="common_google_play_services_invalid_account_text" msgid="8004809446015217370">"حسابی که تعیین کردید در این دستگاه وجود ندارد. لطفاً حساب دیگری را انتخاب کنید."</string>
+    <string name="common_google_play_services_unsupported_title" msgid="909734065366822541">"‏سرویس‌های Google Play"</string>
+    <string name="common_google_play_services_unsupported_text" msgid="4291190028362992831">"‏<xliff:g id="APP_NAME">%1$s</xliff:g> بر سرویس‌های Google Play متکی است که توسط دستگاهتان پشتیبانی نمی‌شود. برای دریافت کمک با سازنده تماس بگیرید."</string>
+    <string name="common_google_play_services_update_button" msgid="2221302284291941971">"به‌روزرسانی"</string>
+    <string name="common_open_on_phone" msgid="311697239335516384">"باز کردن در تلفن"</string>
+    <string name="common_google_play_services_api_unavailable_text" msgid="2785372108150982144">"‏<xliff:g id="APP_NAME">%1$s</xliff:g> به یک یا چند سرویس Google Play نیاز دارد که درحال حاضر در دسترس نیستند. لطفاً برای دریافت کمک با برنامه‌نویس تماس بگیرید."</string>
+    <string name="common_google_play_services_sign_in_failed_title" msgid="8431204498860131150">"وارد سیستم نشد"</string>
+    <string name="common_google_play_services_sign_in_failed_text" msgid="59739986196915578">"هنگام وارد شدن به سیستم حساب مشخص‌شده خطایی روی داد. لطفاً یک حساب دیگر انتخاب کنید."</string>
+    <string name="common_google_play_services_restricted_profile_title" msgid="4958149393843193760">"نمایه محدودشده"</string>
+    <string name="common_google_play_services_restricted_profile_text" msgid="6951442375899151085">"دسترسی به حساب‌ها از یک نمایه محدودشده پشتیبانی ‌نمی‌شود."</string>
+    <string name="common_signin_button_text" msgid="3156914698180786012">"ورود به سیستم"</string>
+    <string name="common_signin_button_text_long" msgid="1483290677806110088">"‏ورود به سیستم با Google‎"</string>
+</resources>

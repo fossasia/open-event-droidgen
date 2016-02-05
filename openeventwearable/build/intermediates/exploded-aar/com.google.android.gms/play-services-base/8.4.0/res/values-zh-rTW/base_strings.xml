@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="common_google_play_services_notification_ticker" msgid="3936796119014022295">"Google Play 服務錯誤"</string>
+    <string name="common_google_play_services_install_title" msgid="2110712637922504348">"取得 Google Play 服務"</string>
+    <string name="common_google_play_services_install_text_phone" msgid="1545874412485515659">"您的手機並未安裝 Google Play 服務，因此無法執行「<xliff:g id="APP_NAME">%1$s</xliff:g>」。"</string>
+    <string name="common_google_play_services_install_text_tablet" msgid="2742131317258851812">"您的平板電腦並未安裝 Google Play 服務，因此無法執行「<xliff:g id="APP_NAME">%1$s</xliff:g>」。"</string>
+    <string name="common_google_play_services_install_button" msgid="5765996826213593005">"取得 Google Play 服務"</string>
+    <string name="common_google_play_services_enable_title" msgid="4763733806837472840">"啟用 Google Play 服務"</string>
+    <string name="common_google_play_services_enable_text" msgid="2016066508617425489">"您必須啟用 Google Play 服務，才能執行「<xliff:g id="APP_NAME">%1$s</xliff:g>」。"</string>
+    <string name="common_google_play_services_enable_button" msgid="7334167077229901382">"啟用 Google Play 服務"</string>
+    <string name="common_google_play_services_update_title" msgid="2926201203597631481">"更新 Google Play 服務"</string>
+    <string name="common_google_play_services_update_text" msgid="6230553430311881723">"您必須更新 Google Play 服務，才能執行「<xliff:g id="APP_NAME">%1$s</xliff:g>」。"</string>
+    <string name="common_google_play_services_wear_update_text" msgid="8334920661858223093">"必須使用新版 Google Play 服務。該服務稍後就會自動更新。"</string>
+    <string name="common_google_play_services_updating_title" msgid="1604540693139938838">"Google Play 服務更新中"</string>
+    <string name="common_google_play_services_updating_text" msgid="1576144479907495032">"執行「<xliff:g id="APP_NAME">%1$s</xliff:g>」所需的 Google Play 服務正在更新。"</string>
+    <string name="common_google_play_services_network_error_title" msgid="5183831421651758225">"網路錯誤"</string>
+    <string name="common_google_play_services_network_error_text" msgid="2602915190038884860">"需要數據連線才能連上 Google Play 服務。"</string>
+    <string name="common_google_play_services_invalid_account_title" msgid="9894539456463288">"帳戶無效"</string>
+    <string name="common_google_play_services_invalid_account_text" msgid="8004809446015217370">"這個裝置上沒有您所指定的帳戶，請選擇其他帳戶。"</string>
+    <string name="common_google_play_services_unsupported_title" msgid="909734065366822541">"Google Play 服務"</string>
+    <string name="common_google_play_services_unsupported_text" msgid="4291190028362992831">"「<xliff:g id="APP_NAME">%1$s</xliff:g>」需要搭配 Google Play 服務才能運作，但您的裝置並不支援相關服務。請與您的裝置製造商聯絡以尋求協助。"</string>
+    <string name="common_google_play_services_update_button" msgid="2221302284291941971">"更新"</string>
+    <string name="common_open_on_phone" msgid="311697239335516384">"在手機上開啟"</string>
+    <string name="common_google_play_services_api_unavailable_text" msgid="2785372108150982144">"「<xliff:g id="APP_NAME">%1$s</xliff:g>」需要用到一或多項 Google Play 服務，但目前無法存取相關服務。請與開發人員聯絡以尋求協助。"</string>
+    <string name="common_google_play_services_sign_in_failed_title" msgid="8431204498860131150">"登入失敗"</string>
+    <string name="common_google_play_services_sign_in_failed_text" msgid="59739986196915578">"登入指定帳戶時發生錯誤，請選擇其他帳戶。"</string>
+    <string name="common_google_play_services_restricted_profile_title" msgid="4958149393843193760">"設有限制的個人資料"</string>
+    <string name="common_google_play_services_restricted_profile_text" msgid="6951442375899151085">"不支援透過設有限制的個人資料存取帳戶。"</string>
+    <string name="common_signin_button_text" msgid="3156914698180786012">"登入"</string>
+    <string name="common_signin_button_text_long" msgid="1483290677806110088">"使用 Google 帳戶登入"</string>
+</resources>

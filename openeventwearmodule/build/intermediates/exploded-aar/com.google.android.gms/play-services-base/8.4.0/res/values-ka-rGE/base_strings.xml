@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="common_google_play_services_notification_ticker" msgid="3936796119014022295">"Google Play Services-ის შეცდომა"</string>
+    <string name="common_google_play_services_install_title" msgid="2110712637922504348">"Google Play Services-ის ჩამოტვირთვა"</string>
+    <string name="common_google_play_services_install_text_phone" msgid="1545874412485515659">"<xliff:g id="APP_NAME">%1$s</xliff:g> ვერ გაეშვება Google Play Services-ის გარეშე, რომელიც აკლია თქვენს ტელეფონს."</string>
+    <string name="common_google_play_services_install_text_tablet" msgid="2742131317258851812">"<xliff:g id="APP_NAME">%1$s</xliff:g> ვერ გაეშვება Google Play Services-ის გარეშე, რომელიც აკლია თქვენს ტაბლეტს."</string>
+    <string name="common_google_play_services_install_button" msgid="5765996826213593005">"Google Play Services-ის ჩამოტვირთვა"</string>
+    <string name="common_google_play_services_enable_title" msgid="4763733806837472840">"Google Play Services-ის ჩართვა"</string>
+    <string name="common_google_play_services_enable_text" msgid="2016066508617425489">"<xliff:g id="APP_NAME">%1$s</xliff:g> ვერ იმუშავებს Google Play Services-ის ჩართვამდე."</string>
+    <string name="common_google_play_services_enable_button" msgid="7334167077229901382">"Google Play Services-ის ჩართვა"</string>
+    <string name="common_google_play_services_update_title" msgid="2926201203597631481">"განაახლეთ Google Play Services"</string>
+    <string name="common_google_play_services_update_text" msgid="6230553430311881723">"<xliff:g id="APP_NAME">%1$s</xliff:g> ვერ გაეშვება, თუ Google Play Services-ს არ განაახლებთ."</string>
+    <string name="common_google_play_services_wear_update_text" msgid="8334920661858223093">"საჭიროა Google Play Services-ის ახალი ვერსია. ის მალე განახლდება."</string>
+    <string name="common_google_play_services_updating_title" msgid="1604540693139938838">"Google Play Services-ის განახლება…"</string>
+    <string name="common_google_play_services_updating_text" msgid="1576144479907495032">"<xliff:g id="APP_NAME">%1$s</xliff:g> ვერ გაეშვება Google Play Services-ის გარეშე, რომელთა განახლებაც ამჟამად მიმდინარეობს."</string>
+    <string name="common_google_play_services_network_error_title" msgid="5183831421651758225">"ქსელის შეცდომა"</string>
+    <string name="common_google_play_services_network_error_text" msgid="2602915190038884860">"Google Play Services-თან დასაკავშირებლად საჭიროა მონაცემთა კავშირი."</string>
+    <string name="common_google_play_services_invalid_account_title" msgid="9894539456463288">"ანგარიში არასწორია"</string>
+    <string name="common_google_play_services_invalid_account_text" msgid="8004809446015217370">"მითითებული ანგარიში ამ მოწყობილობაზე არ არსებობს. გთხოვთ, აირჩიოთ სხვა ანგარიში."</string>
+    <string name="common_google_play_services_unsupported_title" msgid="909734065366822541">"Google Play Services"</string>
+    <string name="common_google_play_services_unsupported_text" msgid="4291190028362992831">"<xliff:g id="APP_NAME">%1$s</xliff:g> დამოკიდებულია Google Play Services-ზე, რომელიც თქვენი მოწყობილობის მიერ არ არის მხარდაჭერილი. გთხოვთ, დახმარებისთვის დაუკავშირდეთ მწარმოებელს."</string>
+    <string name="common_google_play_services_update_button" msgid="2221302284291941971">"განახლება"</string>
+    <string name="common_open_on_phone" msgid="311697239335516384">"ტელეფონში გახსნა"</string>
+    <string name="common_google_play_services_api_unavailable_text" msgid="2785372108150982144">"<xliff:g id="APP_NAME">%1$s</xliff:g> საჭიროებს Google Play Services-ის ერთ ან მეტ ფუნქციას, რომელიც ამჟამად მიუწვდომელია. გთხოვთ, დახმარებისთვის დაუკავშირდეთ დეველოპერს."</string>
+    <string name="common_google_play_services_sign_in_failed_title" msgid="8431204498860131150">"შესვლა ვერ მოხერხდა"</string>
+    <string name="common_google_play_services_sign_in_failed_text" msgid="59739986196915578">"შეცდომა მითითებულ ანგარიშზე შესვლისას. გთხოვთ, აირჩიოთ სხვა ანგარიში."</string>
+    <string name="common_google_play_services_restricted_profile_title" msgid="4958149393843193760">"შეზღუდული პროფილი"</string>
+    <string name="common_google_play_services_restricted_profile_text" msgid="6951442375899151085">"შეზღუდული პროფილიდან ანგარიშებზე წვდომა არ არის მხარდაჭერილი."</string>
+    <string name="common_signin_button_text" msgid="3156914698180786012">"შესვლა"</string>
+    <string name="common_signin_button_text_long" msgid="1483290677806110088">"Google-ით შესვლა"</string>
+</resources>

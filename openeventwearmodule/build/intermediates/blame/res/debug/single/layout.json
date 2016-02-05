@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "/Users/shivenmian/open-event-android/openeventwearmodule/build/intermediates/res/merged/debug/layout/alert_dialog_wearable.xml",
+        "source": "/Users/shivenmian/open-event-android/openeventwearmodule/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/res/layout/alert_dialog_wearable.xml"
+    },
+    {
+        "merged": "/Users/shivenmian/open-event-android/openeventwearmodule/build/intermediates/res/merged/debug/layout/error_layout.xml",
+        "source": "/Users/shivenmian/open-event-android/openeventwearmodule/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/res/layout/error_layout.xml"
+    }
+]

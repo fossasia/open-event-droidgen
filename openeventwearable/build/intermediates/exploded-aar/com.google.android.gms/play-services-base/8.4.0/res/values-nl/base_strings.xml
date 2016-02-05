@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="common_google_play_services_notification_ticker" msgid="3936796119014022295">"Fout met Google Play-services"</string>
+    <string name="common_google_play_services_install_title" msgid="2110712637922504348">"Google Play-services ophalen"</string>
+    <string name="common_google_play_services_install_text_phone" msgid="1545874412485515659">"<xliff:g id="APP_NAME">%1$s</xliff:g> kan niet worden uitgevoerd zonder Google Play-services, die ontbreken op je telefoon."</string>
+    <string name="common_google_play_services_install_text_tablet" msgid="2742131317258851812">"<xliff:g id="APP_NAME">%1$s</xliff:g> kan niet worden uitgevoerd zonder Google Play-services, die ontbreken op je tablet."</string>
+    <string name="common_google_play_services_install_button" msgid="5765996826213593005">"Google Play-services ophalen"</string>
+    <string name="common_google_play_services_enable_title" msgid="4763733806837472840">"Google Play-services inschakelen"</string>
+    <string name="common_google_play_services_enable_text" msgid="2016066508617425489">"<xliff:g id="APP_NAME">%1$s</xliff:g> werkt niet, tenzij je Google Play-services inschakelt."</string>
+    <string name="common_google_play_services_enable_button" msgid="7334167077229901382">"Google Play-services inschakelen"</string>
+    <string name="common_google_play_services_update_title" msgid="2926201203597631481">"Google Play-services updaten"</string>
+    <string name="common_google_play_services_update_text" msgid="6230553430311881723">"<xliff:g id="APP_NAME">%1$s</xliff:g> kan niet worden uitgevoerd, tenzij je Google Play-services updatet."</string>
+    <string name="common_google_play_services_wear_update_text" msgid="8334920661858223093">"Er is een nieuwe versie van Google Play-services vereist. De update wordt binnenkort automatisch uitgevoerd."</string>
+    <string name="common_google_play_services_updating_title" msgid="1604540693139938838">"Google Play-services worden geüpdatet"</string>
+    <string name="common_google_play_services_updating_text" msgid="1576144479907495032">"<xliff:g id="APP_NAME">%1$s</xliff:g> kan niet worden uitgevoerd zonder Google Play-services, die momenteel worden geüpdatet."</string>
+    <string name="common_google_play_services_network_error_title" msgid="5183831421651758225">"Netwerkfout"</string>
+    <string name="common_google_play_services_network_error_text" msgid="2602915190038884860">"Er is een gegevensverbinding nodig om verbinding te maken met Google Play-services."</string>
+    <string name="common_google_play_services_invalid_account_title" msgid="9894539456463288">"Ongeldig account"</string>
+    <string name="common_google_play_services_invalid_account_text" msgid="8004809446015217370">"Het opgegeven account bestaat niet op dit apparaat. Kies een ander account."</string>
+    <string name="common_google_play_services_unsupported_title" msgid="909734065366822541">"Google Play-services"</string>
+    <string name="common_google_play_services_unsupported_text" msgid="4291190028362992831">"<xliff:g id="APP_NAME">%1$s</xliff:g> werkt met Google Play-services. Dit wordt niet ondersteund door je apparaat. Neem contact op met de fabrikant voor ondersteuning."</string>
+    <string name="common_google_play_services_update_button" msgid="2221302284291941971">"Updaten"</string>
+    <string name="common_open_on_phone" msgid="311697239335516384">"Openen op telefoon"</string>
+    <string name="common_google_play_services_api_unavailable_text" msgid="2785372108150982144">"<xliff:g id="APP_NAME">%1$s</xliff:g> vereist een of meer Google Play-services die momenteel niet beschikbaar zijn. Neem contact op met de ontwikkelaar voor ondersteuning."</string>
+    <string name="common_google_play_services_sign_in_failed_title" msgid="8431204498860131150">"Inloggen mislukt"</string>
+    <string name="common_google_play_services_sign_in_failed_text" msgid="59739986196915578">"Fout bij inloggen op het opgegeven account. Kies een ander account."</string>
+    <string name="common_google_play_services_restricted_profile_title" msgid="4958149393843193760">"Beperkt profiel"</string>
+    <string name="common_google_play_services_restricted_profile_text" msgid="6951442375899151085">"Toegang tot accounts uit een beperkt profiel wordt niet ondersteund."</string>
+    <string name="common_signin_button_text" msgid="3156914698180786012">"Inloggen"</string>
+    <string name="common_signin_button_text_long" msgid="1483290677806110088">"Inloggen met Google"</string>
+</resources>

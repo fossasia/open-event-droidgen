@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="common_google_play_services_notification_ticker" msgid="3936796119014022295">"Google Play Palveluiden virhe"</string>
+    <string name="common_google_play_services_install_title" msgid="2110712637922504348">"Asenna Google Play Palvelut"</string>
+    <string name="common_google_play_services_install_text_phone" msgid="1545874412485515659">"<xliff:g id="APP_NAME">%1$s</xliff:g> ei toimi ilman Google Play Palveluita, jotka puuttuvat puhelimestasi."</string>
+    <string name="common_google_play_services_install_text_tablet" msgid="2742131317258851812">"<xliff:g id="APP_NAME">%1$s</xliff:g> ei toimi ilman Google Play Palveluita, jotka puuttuvat tabletistasi."</string>
+    <string name="common_google_play_services_install_button" msgid="5765996826213593005">"Asenna Google Play Palvelut"</string>
+    <string name="common_google_play_services_enable_title" msgid="4763733806837472840">"Ota Google Play Palvelut käyttöön"</string>
+    <string name="common_google_play_services_enable_text" msgid="2016066508617425489">"<xliff:g id="APP_NAME">%1$s</xliff:g> ei toimi, ellet ota Google Play Palveluita käyttöön."</string>
+    <string name="common_google_play_services_enable_button" msgid="7334167077229901382">"Ota Google Play Palvelut käyttöön"</string>
+    <string name="common_google_play_services_update_title" msgid="2926201203597631481">"Päivitä Google Play Palvelut"</string>
+    <string name="common_google_play_services_update_text" msgid="6230553430311881723">"<xliff:g id="APP_NAME">%1$s</xliff:g> ei toimi, ellet päivitä Google Play Palveluita."</string>
+    <string name="common_google_play_services_wear_update_text" msgid="8334920661858223093">"Uusi Google Play Palveluiden versio tarvitaan. Se päivittyy pian."</string>
+    <string name="common_google_play_services_updating_title" msgid="1604540693139938838">"Google Play Palveluita päivitetään"</string>
+    <string name="common_google_play_services_updating_text" msgid="1576144479907495032">"<xliff:g id="APP_NAME">%1$s</xliff:g> ei toimi ilman Google Play Palveluita, joita päivitetään tällä hetkellä."</string>
+    <string name="common_google_play_services_network_error_title" msgid="5183831421651758225">"Verkkovirhe"</string>
+    <string name="common_google_play_services_network_error_text" msgid="2602915190038884860">"Google Play Palveluiden käyttöön tarvitaan verkkoyhteys."</string>
+    <string name="common_google_play_services_invalid_account_title" msgid="9894539456463288">"Tili on virheellinen"</string>
+    <string name="common_google_play_services_invalid_account_text" msgid="8004809446015217370">"Määritettyä tiliä ei ole tällä laitteella. Valitse toinen tili."</string>
+    <string name="common_google_play_services_unsupported_title" msgid="909734065366822541">"Google Play Palvelut"</string>
+    <string name="common_google_play_services_unsupported_text" msgid="4291190028362992831">"<xliff:g id="APP_NAME">%1$s</xliff:g> käyttää Google Play Palveluita, joita laitteesi ei tue. Ota yhteyttä laitteen valmistajaan."</string>
+    <string name="common_google_play_services_update_button" msgid="2221302284291941971">"Päivitä"</string>
+    <string name="common_open_on_phone" msgid="311697239335516384">"Avaa puhelimessa"</string>
+    <string name="common_google_play_services_api_unavailable_text" msgid="2785372108150982144">"<xliff:g id="APP_NAME">%1$s</xliff:g> tarvitsee yhtä tai useampaa Google Play Palvelua, jotka eivät ole tällä hetkellä käytettävissä. Ota yhteyttä kehittäjään."</string>
+    <string name="common_google_play_services_sign_in_failed_title" msgid="8431204498860131150">"Kirjautuminen epäonnistui."</string>
+    <string name="common_google_play_services_sign_in_failed_text" msgid="59739986196915578">"Määritetylle tilille kirjauduttaessa tapahtui virhe. Valitse toinen tili."</string>
+    <string name="common_google_play_services_restricted_profile_title" msgid="4958149393843193760">"Rajoitettu profiili"</string>
+    <string name="common_google_play_services_restricted_profile_text" msgid="6951442375899151085">"Tilien käyttöä rajoitetulla profiililla ei tueta."</string>
+    <string name="common_signin_button_text" msgid="3156914698180786012">"Kirjaudu sisään"</string>
+    <string name="common_signin_button_text_long" msgid="1483290677806110088">"Kirjaudu Google-tilille"</string>
+</resources>

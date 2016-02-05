@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <string msgid="2785372108150982144" name="common_google_play_services_api_unavailable_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> erabiltzeko, unean erabilgarri ez dagoen beste Google Play zerbitzu bat edo gehiago behar dira. Laguntza lortzeko, jarri garatzailearekin harremanetan."</string>
+    <string msgid="7334167077229901382" name="common_google_play_services_enable_button">"Gaitu Google Play zerbitzuak"</string>
+    <string msgid="2016066508617425489" name="common_google_play_services_enable_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> aplikazioak ez du funtzionatuko Google Play zerbitzuak gaitzen ez badituzu."</string>
+    <string msgid="4763733806837472840" name="common_google_play_services_enable_title">"Gaitu Google Play zerbitzuak"</string>
+    <string msgid="5765996826213593005" name="common_google_play_services_install_button">"Lortu Google Play zerbitzuak"</string>
+    <string msgid="1545874412485515659" name="common_google_play_services_install_text_phone">"<ns1:g id="APP_NAME">%1$s</ns1:g> ez da exekutatuko Google Play zerbitzurik gabe, baina ez dituzu telefonoan."</string>
+    <string msgid="2742131317258851812" name="common_google_play_services_install_text_tablet">"<ns1:g id="APP_NAME">%1$s</ns1:g> ez da exekutatuko Google Play zerbitzurik gabe, baina ez dituzu tabletan."</string>
+    <string msgid="2110712637922504348" name="common_google_play_services_install_title">"Lortu Google Play zerbitzuak"</string>
+    <string msgid="8004809446015217370" name="common_google_play_services_invalid_account_text">"Zehaztutako kontua ez dago gailuan. Aukeratu beste kontu bat."</string>
+    <string msgid="9894539456463288" name="common_google_play_services_invalid_account_title">"Kontuak ez du balio"</string>
+    <string msgid="2602915190038884860" name="common_google_play_services_network_error_text">"Datu-konexioa behar da Google Play zerbitzuetara konektatzeko."</string>
+    <string msgid="5183831421651758225" name="common_google_play_services_network_error_title">"Sareko errorea"</string>
+    <string msgid="3936796119014022295" name="common_google_play_services_notification_ticker">"Google Play zerbitzuen errorea"</string>
+    <string msgid="6951442375899151085" name="common_google_play_services_restricted_profile_text">"Ez da onartzen profil murriztuetatik kontuetan sartzea."</string>
+    <string msgid="4958149393843193760" name="common_google_play_services_restricted_profile_title">"Profil murriztua"</string>
+    <string msgid="59739986196915578" name="common_google_play_services_sign_in_failed_text">"Errore bat gertatu da zehaztutako kontuan saioa hastean. Aukeratu beste kontu bat."</string>
+    <string msgid="8431204498860131150" name="common_google_play_services_sign_in_failed_title">"Ezin izan da hasi saioa"</string>
+    <string msgid="7170719956698345984" name="common_google_play_services_unknown_issue">"<ns1:g id="APP_NAME">%1$s</ns1:g> aplikazioak arazoak ditu Google Play zerbitzuekin. Arazoek badiraute, laguntza lortzeko, jarri garatzailearekin harremanetan."</string>
+    <string msgid="4291190028362992831" name="common_google_play_services_unsupported_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> Google Play zerbitzuetan dago oinarrituta, baina zure gailuak ez ditu onartzen. Laguntza lortzeko, jarri fabrikatzailearekin harremanetan."</string>
+    <string msgid="909734065366822541" name="common_google_play_services_unsupported_title">"Google Play zerbitzuak"</string>
+    <string msgid="2221302284291941971" name="common_google_play_services_update_button">"Eguneratu"</string>
+    <string msgid="6230553430311881723" name="common_google_play_services_update_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> ez da exekutatuko Google Play zerbitzuak eguneratzen ez badituzu."</string>
+    <string msgid="2926201203597631481" name="common_google_play_services_update_title">"Eguneratu Google Play zerbitzuak"</string>
+    <string msgid="1576144479907495032" name="common_google_play_services_updating_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> ez da exekutatuko Google Play zerbitzurik gabe; une honetan eguneratzen ari dira zerbitzuok."</string>
+    <string msgid="1604540693139938838" name="common_google_play_services_updating_title">"Google Play zerbitzuak eguneratzen"</string>
+    <string msgid="8334920661858223093" name="common_google_play_services_wear_update_text">"Google Play zerbitzuen bertsio berria behar da. Berehala eguneratuko da automatikoki."</string>
+    <string msgid="311697239335516384" name="common_open_on_phone">"Ireki telefonoan"</string>
+    <string msgid="3156914698180786012" name="common_signin_button_text">"Hasi saioa"</string>
+    <string msgid="1483290677806110088" name="common_signin_button_text_long">"Hasi saioa Google-n"</string>
+</resources>

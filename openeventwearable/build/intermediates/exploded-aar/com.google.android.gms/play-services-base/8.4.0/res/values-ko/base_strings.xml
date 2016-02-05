@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="common_google_play_services_notification_ticker" msgid="3936796119014022295">"Google Play 서비스 오류"</string>
+    <string name="common_google_play_services_install_title" msgid="2110712637922504348">"Google Play 서비스 설치"</string>
+    <string name="common_google_play_services_install_text_phone" msgid="1545874412485515659">"스마트폰에 Google Play 서비스가 설치되어 있어야 <xliff:g id="APP_NAME">%1$s</xliff:g>이(가) 실행됩니다."</string>
+    <string name="common_google_play_services_install_text_tablet" msgid="2742131317258851812">"태블릿에 Google Play 서비스가 설치되어 있어야 <xliff:g id="APP_NAME">%1$s</xliff:g>이(가) 실행됩니다."</string>
+    <string name="common_google_play_services_install_button" msgid="5765996826213593005">"Google Play 서비스 설치"</string>
+    <string name="common_google_play_services_enable_title" msgid="4763733806837472840">"Google Play 서비스 사용"</string>
+    <string name="common_google_play_services_enable_text" msgid="2016066508617425489">"Google Play 서비스를 사용하도록 설정해야 <xliff:g id="APP_NAME">%1$s</xliff:g>이(가) 작동합니다."</string>
+    <string name="common_google_play_services_enable_button" msgid="7334167077229901382">"Google Play 서비스 사용"</string>
+    <string name="common_google_play_services_update_title" msgid="2926201203597631481">"Google Play 서비스 업데이트"</string>
+    <string name="common_google_play_services_update_text" msgid="6230553430311881723">"Google Play 서비스를 업데이트해야 <xliff:g id="APP_NAME">%1$s</xliff:g>이(가) 실행됩니다."</string>
+    <string name="common_google_play_services_wear_update_text" msgid="8334920661858223093">"새 버전의 Google Play 서비스가 필요합니다. 곧 자동으로 업데이트됩니다."</string>
+    <string name="common_google_play_services_updating_title" msgid="1604540693139938838">"Google Play 서비스 업데이트 중"</string>
+    <string name="common_google_play_services_updating_text" msgid="1576144479907495032">"현재 업데이트 중인 Google Play 서비스가 있어야 <xliff:g id="APP_NAME">%1$s</xliff:g>이(가) 실행됩니다."</string>
+    <string name="common_google_play_services_network_error_title" msgid="5183831421651758225">"네트워크 오류"</string>
+    <string name="common_google_play_services_network_error_text" msgid="2602915190038884860">"Google Play 서비스에 연결하려면 데이터 연결이 필요합니다."</string>
+    <string name="common_google_play_services_invalid_account_title" msgid="9894539456463288">"계정 오류"</string>
+    <string name="common_google_play_services_invalid_account_text" msgid="8004809446015217370">"지정한 계정이 이 기기에 존재하지 않습니다. 다른 계정을 선택하세요."</string>
+    <string name="common_google_play_services_unsupported_title" msgid="909734065366822541">"Google Play 서비스"</string>
+    <string name="common_google_play_services_unsupported_text" msgid="4291190028362992831">"<xliff:g id="APP_NAME">%1$s</xliff:g>에 필요한 Google Play 서비스가 사용자 기기에서 지원되지 않습니다. 기기 제조업체에 문의하시기 바랍니다."</string>
+    <string name="common_google_play_services_update_button" msgid="2221302284291941971">"업데이트"</string>
+    <string name="common_open_on_phone" msgid="311697239335516384">"스마트폰에서 열기"</string>
+    <string name="common_google_play_services_api_unavailable_text" msgid="2785372108150982144">"현재 <xliff:g id="APP_NAME">%1$s</xliff:g>에 필요한 하나 이상의 Google Play 서비스를 사용할 수 없습니다. 개발자에게 문의하여 도움을 받으시기 바랍니다."</string>
+    <string name="common_google_play_services_sign_in_failed_title" msgid="8431204498860131150">"로그인 실패"</string>
+    <string name="common_google_play_services_sign_in_failed_text" msgid="59739986196915578">"지정한 계정에 로그인하는 중에 오류가 발생했습니다. 다른 계정을 선택해 주세요."</string>
+    <string name="common_google_play_services_restricted_profile_title" msgid="4958149393843193760">"제한된 프로필"</string>
+    <string name="common_google_play_services_restricted_profile_text" msgid="6951442375899151085">"제한된 프로필에서 계정에 액세스할 수 없습니다."</string>
+    <string name="common_signin_button_text" msgid="3156914698180786012">"로그인"</string>
+    <string name="common_signin_button_text_long" msgid="1483290677806110088">"Google 계정으로 로그인"</string>
+</resources>

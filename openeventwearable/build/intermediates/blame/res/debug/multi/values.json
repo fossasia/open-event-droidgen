@@ -1,0 +1,1871 @@
+[
+    {
+        "outputFile": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/res/merged/debug/values/values.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 105,
+                    "endLine": 7,
+                    "endColumn": 12,
+                    "endOffset": 282
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/res/values/values.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 324,
+                        "endLine": 9,
+                        "endColumn": 12,
+                        "endOffset": 501
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 8,
+                    "startColumn": 4,
+                    "startOffset": 287,
+                    "endColumn": 60,
+                    "endOffset": 343
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/res/values/values.xml",
+                    "position": {
+                        "startLine": 10,
+                        "startColumn": 4,
+                        "startOffset": 506,
+                        "endColumn": 60,
+                        "endOffset": 562
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 9,
+                    "startColumn": 4,
+                    "startOffset": 348,
+                    "endColumn": 39,
+                    "endOffset": 383
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/res/values/values.xml",
+                    "position": {
+                        "startLine": 11,
+                        "startColumn": 4,
+                        "startOffset": 567,
+                        "endColumn": 39,
+                        "endOffset": 602
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 10,
+                    "startColumn": 4,
+                    "startOffset": 388,
+                    "endColumn": 45,
+                    "endOffset": 429
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/res/values/values.xml",
+                    "position": {
+                        "startLine": 12,
+                        "startColumn": 4,
+                        "startOffset": 607,
+                        "endColumn": 45,
+                        "endOffset": 648
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 11,
+                    "startColumn": 4,
+                    "startOffset": 434,
+                    "endColumn": 45,
+                    "endOffset": 475
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/res/values/values.xml",
+                    "position": {
+                        "startLine": 13,
+                        "startColumn": 4,
+                        "startOffset": 653,
+                        "endColumn": 45,
+                        "endOffset": 694
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 12,
+                    "startColumn": 4,
+                    "startOffset": 480,
+                    "endColumn": 38,
+                    "endOffset": 514
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/res/values/values.xml",
+                    "position": {
+                        "startLine": 14,
+                        "startColumn": 4,
+                        "startOffset": 699,
+                        "endColumn": 38,
+                        "endOffset": 733
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 13,
+                    "startColumn": 4,
+                    "startOffset": 519,
+                    "endColumn": 57,
+                    "endOffset": 572
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/res/values/values.xml",
+                    "position": {
+                        "startLine": 15,
+                        "startColumn": 4,
+                        "startOffset": 738,
+                        "endColumn": 57,
+                        "endOffset": 791
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 14,
+                    "startColumn": 4,
+                    "startOffset": 577,
+                    "endColumn": 62,
+                    "endOffset": 635
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/res/values/values.xml",
+                    "position": {
+                        "startLine": 16,
+                        "startColumn": 4,
+                        "startOffset": 796,
+                        "endColumn": 62,
+                        "endOffset": 854
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 15,
+                    "startColumn": 4,
+                    "startOffset": 640,
+                    "endColumn": 56,
+                    "endOffset": 692
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/res/values/values.xml",
+                    "position": {
+                        "startLine": 17,
+                        "startColumn": 4,
+                        "startOffset": 859,
+                        "endColumn": 56,
+                        "endOffset": 911
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 16,
+                    "startColumn": 4,
+                    "startOffset": 697,
+                    "endColumn": 57,
+                    "endOffset": 750
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/res/values/values.xml",
+                    "position": {
+                        "startLine": 18,
+                        "startColumn": 4,
+                        "startOffset": 916,
+                        "endColumn": 57,
+                        "endOffset": 969
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 17,
+                    "startColumn": 4,
+                    "startOffset": 755,
+                    "endColumn": 60,
+                    "endOffset": 811
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values/base_colors.xml",
+                    "position": {
+                        "startLine": 11,
+                        "startColumn": 4,
+                        "startOffset": 757,
+                        "endColumn": 60,
+                        "endOffset": 813
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 18,
+                    "startColumn": 4,
+                    "startOffset": 816,
+                    "endColumn": 89,
+                    "endOffset": 901
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values/base_colors.xml",
+                    "position": {
+                        "startLine": 14,
+                        "startColumn": 4,
+                        "startOffset": 861,
+                        "endColumn": 89,
+                        "endOffset": 946
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 19,
+                    "startColumn": 4,
+                    "startOffset": 906,
+                    "endColumn": 79,
+                    "endOffset": 981
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values/base_colors.xml",
+                    "position": {
+                        "startLine": 16,
+                        "startColumn": 4,
+                        "startOffset": 1041,
+                        "endColumn": 79,
+                        "endOffset": 1116
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 20,
+                    "startColumn": 4,
+                    "startOffset": 986,
+                    "endColumn": 89,
+                    "endOffset": 1071
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values/base_colors.xml",
+                    "position": {
+                        "startLine": 17,
+                        "startColumn": 4,
+                        "startOffset": 1121,
+                        "endColumn": 89,
+                        "endOffset": 1206
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 21,
+                    "startColumn": 4,
+                    "startOffset": 1076,
+                    "endColumn": 89,
+                    "endOffset": 1161
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values/base_colors.xml",
+                    "position": {
+                        "startLine": 15,
+                        "startColumn": 4,
+                        "startOffset": 951,
+                        "endColumn": 89,
+                        "endOffset": 1036
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 22,
+                    "startColumn": 4,
+                    "startOffset": 1166,
+                    "endColumn": 79,
+                    "endOffset": 1241
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values/base_colors.xml",
+                    "position": {
+                        "startLine": 18,
+                        "startColumn": 4,
+                        "startOffset": 1211,
+                        "endColumn": 79,
+                        "endOffset": 1286
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 23,
+                    "startColumn": 4,
+                    "startOffset": 1246,
+                    "endColumn": 80,
+                    "endOffset": 1322
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values/base_colors.xml",
+                    "position": {
+                        "startLine": 20,
+                        "startColumn": 4,
+                        "startOffset": 1371,
+                        "endColumn": 80,
+                        "endOffset": 1447
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 24,
+                    "startColumn": 4,
+                    "startOffset": 1327,
+                    "endColumn": 79,
+                    "endOffset": 1402
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values/base_colors.xml",
+                    "position": {
+                        "startLine": 21,
+                        "startColumn": 4,
+                        "startOffset": 1452,
+                        "endColumn": 79,
+                        "endOffset": 1527
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 25,
+                    "startColumn": 4,
+                    "startOffset": 1407,
+                    "endColumn": 79,
+                    "endOffset": 1482
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values/base_colors.xml",
+                    "position": {
+                        "startLine": 19,
+                        "startColumn": 4,
+                        "startOffset": 1291,
+                        "endColumn": 79,
+                        "endOffset": 1366
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 26,
+                    "startColumn": 4,
+                    "startOffset": 1487,
+                    "endColumn": 87,
+                    "endOffset": 1570
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values/base_colors.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 102,
+                        "endColumn": 87,
+                        "endOffset": 185
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 27,
+                    "startColumn": 4,
+                    "startOffset": 1575,
+                    "endColumn": 77,
+                    "endOffset": 1648
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values/base_colors.xml",
+                    "position": {
+                        "startLine": 5,
+                        "startColumn": 4,
+                        "startOffset": 278,
+                        "endColumn": 77,
+                        "endOffset": 351
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 28,
+                    "startColumn": 4,
+                    "startOffset": 1653,
+                    "endColumn": 87,
+                    "endOffset": 1736
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values/base_colors.xml",
+                    "position": {
+                        "startLine": 6,
+                        "startColumn": 4,
+                        "startOffset": 356,
+                        "endColumn": 87,
+                        "endOffset": 439
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 29,
+                    "startColumn": 4,
+                    "startOffset": 1741,
+                    "endColumn": 87,
+                    "endOffset": 1824
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values/base_colors.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 190,
+                        "endColumn": 87,
+                        "endOffset": 273
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 30,
+                    "startColumn": 4,
+                    "startOffset": 1829,
+                    "endColumn": 77,
+                    "endOffset": 1902
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values/base_colors.xml",
+                    "position": {
+                        "startLine": 7,
+                        "startColumn": 4,
+                        "startOffset": 444,
+                        "endColumn": 77,
+                        "endOffset": 517
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 31,
+                    "startColumn": 4,
+                    "startOffset": 1907,
+                    "endColumn": 78,
+                    "endOffset": 1981
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values/base_colors.xml",
+                    "position": {
+                        "startLine": 9,
+                        "startColumn": 4,
+                        "startOffset": 600,
+                        "endColumn": 78,
+                        "endOffset": 674
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 32,
+                    "startColumn": 4,
+                    "startOffset": 1986,
+                    "endColumn": 77,
+                    "endOffset": 2059
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values/base_colors.xml",
+                    "position": {
+                        "startLine": 10,
+                        "startColumn": 4,
+                        "startOffset": 679,
+                        "endColumn": 77,
+                        "endOffset": 752
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 33,
+                    "startColumn": 4,
+                    "startOffset": 2064,
+                    "endColumn": 77,
+                    "endOffset": 2137
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values/base_colors.xml",
+                    "position": {
+                        "startLine": 8,
+                        "startColumn": 4,
+                        "startOffset": 522,
+                        "endColumn": 77,
+                        "endOffset": 595
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 34,
+                    "startColumn": 4,
+                    "startOffset": 2142,
+                    "endColumn": 43,
+                    "endOffset": 2181
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/res/values/values.xml",
+                    "position": {
+                        "startLine": 19,
+                        "startColumn": 4,
+                        "startOffset": 974,
+                        "endColumn": 43,
+                        "endOffset": 1013
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 35,
+                    "startColumn": 4,
+                    "startOffset": 2186,
+                    "endColumn": 43,
+                    "endOffset": 2225
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/res/values/values.xml",
+                    "position": {
+                        "startLine": 20,
+                        "startColumn": 4,
+                        "startOffset": 1018,
+                        "endColumn": 43,
+                        "endOffset": 1057
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 36,
+                    "startColumn": 4,
+                    "startOffset": 2230,
+                    "endColumn": 42,
+                    "endOffset": 2268
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/res/values/values.xml",
+                    "position": {
+                        "startLine": 21,
+                        "startColumn": 4,
+                        "startOffset": 1062,
+                        "endColumn": 42,
+                        "endOffset": 1100
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 37,
+                    "startColumn": 4,
+                    "startOffset": 2273,
+                    "endColumn": 51,
+                    "endOffset": 2320
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/res/values/values.xml",
+                    "position": {
+                        "startLine": 22,
+                        "startColumn": 4,
+                        "startOffset": 1105,
+                        "endColumn": 51,
+                        "endOffset": 1152
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 38,
+                    "startColumn": 4,
+                    "startOffset": 2325,
+                    "endColumn": 57,
+                    "endOffset": 2378
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/res/values/values.xml",
+                    "position": {
+                        "startLine": 23,
+                        "startColumn": 4,
+                        "startOffset": 1157,
+                        "endColumn": 57,
+                        "endOffset": 1210
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 39,
+                    "startColumn": 4,
+                    "startOffset": 2383,
+                    "endColumn": 53,
+                    "endOffset": 2432
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/res/values/values.xml",
+                    "position": {
+                        "startLine": 24,
+                        "startColumn": 4,
+                        "startOffset": 1215,
+                        "endColumn": 53,
+                        "endOffset": 1264
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 40,
+                    "startColumn": 4,
+                    "startOffset": 2437,
+                    "endColumn": 47,
+                    "endOffset": 2480
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/res/values/values.xml",
+                    "position": {
+                        "startLine": 25,
+                        "startColumn": 4,
+                        "startOffset": 1269,
+                        "endColumn": 47,
+                        "endOffset": 1312
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 41,
+                    "startColumn": 4,
+                    "startOffset": 2485,
+                    "endColumn": 55,
+                    "endOffset": 2536
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/res/values/values.xml",
+                    "position": {
+                        "startLine": 26,
+                        "startColumn": 4,
+                        "startOffset": 1317,
+                        "endColumn": 55,
+                        "endOffset": 1368
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 42,
+                    "startColumn": 4,
+                    "startOffset": 2541,
+                    "endColumn": 54,
+                    "endOffset": 2591
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/res/values/values.xml",
+                    "position": {
+                        "startLine": 27,
+                        "startColumn": 4,
+                        "startOffset": 1373,
+                        "endColumn": 54,
+                        "endOffset": 1423
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 43,
+                    "startColumn": 4,
+                    "startOffset": 2596,
+                    "endColumn": 39,
+                    "endOffset": 2631
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/res/values/values.xml",
+                    "position": {
+                        "startLine": 28,
+                        "startColumn": 4,
+                        "startOffset": 1428,
+                        "endColumn": 39,
+                        "endOffset": 1463
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 44,
+                    "startColumn": 4,
+                    "startOffset": 2636,
+                    "endColumn": 38,
+                    "endOffset": 2670
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/res/values/values.xml",
+                    "position": {
+                        "startLine": 29,
+                        "startColumn": 4,
+                        "startOffset": 1468,
+                        "endColumn": 38,
+                        "endOffset": 1502
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 45,
+                    "startColumn": 4,
+                    "startOffset": 2675,
+                    "endColumn": 44,
+                    "endOffset": 2715
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/res/values/values.xml",
+                    "position": {
+                        "startLine": 30,
+                        "startColumn": 4,
+                        "startOffset": 1507,
+                        "endColumn": 44,
+                        "endOffset": 1547
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 46,
+                    "startColumn": 4,
+                    "startOffset": 2720,
+                    "endColumn": 40,
+                    "endOffset": 2756
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/res/values/values.xml",
+                    "position": {
+                        "startLine": 31,
+                        "startColumn": 4,
+                        "startOffset": 1552,
+                        "endColumn": 40,
+                        "endOffset": 1588
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 47,
+                    "startColumn": 4,
+                    "startOffset": 2761,
+                    "endColumn": 56,
+                    "endOffset": 2813
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/res/values/values.xml",
+                    "position": {
+                        "startLine": 32,
+                        "startColumn": 4,
+                        "startOffset": 1593,
+                        "endColumn": 56,
+                        "endOffset": 1645
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 48,
+                    "startColumn": 4,
+                    "startOffset": 2818,
+                    "endColumn": 61,
+                    "endOffset": 2875
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/res/values/values.xml",
+                    "position": {
+                        "startLine": 33,
+                        "startColumn": 4,
+                        "startOffset": 1650,
+                        "endColumn": 61,
+                        "endOffset": 1707
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 49,
+                    "startColumn": 4,
+                    "startOffset": 2880,
+                    "endColumn": 37,
+                    "endOffset": 2913
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/res/values/values.xml",
+                    "position": {
+                        "startLine": 34,
+                        "startColumn": 4,
+                        "startOffset": 1712,
+                        "endColumn": 37,
+                        "endOffset": 1745
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 50,
+                    "startColumn": 4,
+                    "startOffset": 2918,
+                    "endColumn": 54,
+                    "endOffset": 2968
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/res/values/values.xml",
+                    "position": {
+                        "startLine": 35,
+                        "startColumn": 4,
+                        "startOffset": 1750,
+                        "endColumn": 54,
+                        "endOffset": 1800
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 51,
+                    "startColumn": 4,
+                    "startOffset": 2973,
+                    "endColumn": 56,
+                    "endOffset": 3025
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/res/values/values.xml",
+                    "position": {
+                        "startLine": 36,
+                        "startColumn": 4,
+                        "startOffset": 1805,
+                        "endColumn": 56,
+                        "endOffset": 1857
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 52,
+                    "startColumn": 4,
+                    "startOffset": 3030,
+                    "endColumn": 39,
+                    "endOffset": 3065
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/res/values/values.xml",
+                    "position": {
+                        "startLine": 37,
+                        "startColumn": 4,
+                        "startOffset": 1862,
+                        "endColumn": 39,
+                        "endOffset": 1897
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 66,
+                    "startColumn": 4,
+                    "startOffset": 8828,
+                    "endColumn": 59,
+                    "endOffset": 8883
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/res/values/values.xml",
+                    "position": {
+                        "startLine": 51,
+                        "startColumn": 4,
+                        "startOffset": 7204,
+                        "endColumn": 59,
+                        "endOffset": 7259
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 67,
+                    "startColumn": 4,
+                    "startOffset": 8888,
+                    "endColumn": 55,
+                    "endOffset": 8939
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/res/values/values.xml",
+                    "position": {
+                        "startLine": 52,
+                        "startColumn": 4,
+                        "startOffset": 7264,
+                        "endColumn": 55,
+                        "endOffset": 7315
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 68,
+                    "startColumn": 4,
+                    "startOffset": 8944,
+                    "endColumn": 63,
+                    "endOffset": 9003
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/res/values/values.xml",
+                    "position": {
+                        "startLine": 53,
+                        "startColumn": 4,
+                        "startOffset": 7320,
+                        "endColumn": 63,
+                        "endOffset": 7379
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 69,
+                    "startColumn": 4,
+                    "startOffset": 9008,
+                    "endColumn": 53,
+                    "endOffset": 9057
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/res/values/values.xml",
+                    "position": {
+                        "startLine": 54,
+                        "startColumn": 4,
+                        "startOffset": 7384,
+                        "endColumn": 53,
+                        "endOffset": 7433
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 70,
+                    "startColumn": 4,
+                    "startOffset": 9062,
+                    "endColumn": 57,
+                    "endOffset": 9115
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/res/values/values.xml",
+                    "position": {
+                        "startLine": 55,
+                        "startColumn": 4,
+                        "startOffset": 7438,
+                        "endColumn": 57,
+                        "endOffset": 7491
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 71,
+                    "startColumn": 4,
+                    "startOffset": 9120,
+                    "endColumn": 63,
+                    "endOffset": 9179
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/res/values/values.xml",
+                    "position": {
+                        "startLine": 56,
+                        "startColumn": 4,
+                        "startOffset": 7496,
+                        "endColumn": 63,
+                        "endOffset": 7555
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 72,
+                    "startColumn": 4,
+                    "startOffset": 9184,
+                    "endColumn": 67,
+                    "endOffset": 9247
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/res/values/values.xml",
+                    "position": {
+                        "startLine": 57,
+                        "startColumn": 4,
+                        "startOffset": 7560,
+                        "endColumn": 67,
+                        "endOffset": 7623
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 73,
+                    "startColumn": 4,
+                    "startOffset": 9252,
+                    "endColumn": 58,
+                    "endOffset": 9306
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/res/values/values.xml",
+                    "position": {
+                        "startLine": 58,
+                        "startColumn": 4,
+                        "startOffset": 7628,
+                        "endColumn": 58,
+                        "endOffset": 7682
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 74,
+                    "startColumn": 4,
+                    "startOffset": 9311,
+                    "endColumn": 56,
+                    "endOffset": 9363
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/res/values/values.xml",
+                    "position": {
+                        "startLine": 59,
+                        "startColumn": 4,
+                        "startOffset": 7687,
+                        "endColumn": 56,
+                        "endOffset": 7739
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 75,
+                    "startColumn": 4,
+                    "startOffset": 9368,
+                    "endColumn": 62,
+                    "endOffset": 9426
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/res/values/values.xml",
+                    "position": {
+                        "startLine": 60,
+                        "startColumn": 4,
+                        "startOffset": 7744,
+                        "endColumn": 62,
+                        "endOffset": 7802
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 76,
+                    "startColumn": 4,
+                    "startOffset": 9431,
+                    "endColumn": 55,
+                    "endOffset": 9482
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/res/values/values.xml",
+                    "position": {
+                        "startLine": 61,
+                        "startColumn": 4,
+                        "startOffset": 7807,
+                        "endColumn": 55,
+                        "endOffset": 7858
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 77,
+                    "startColumn": 4,
+                    "startOffset": 9487,
+                    "endColumn": 61,
+                    "endOffset": 9544
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/res/values/values.xml",
+                    "position": {
+                        "startLine": 62,
+                        "startColumn": 4,
+                        "startOffset": 7863,
+                        "endColumn": 61,
+                        "endOffset": 7920
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 78,
+                    "startColumn": 4,
+                    "startOffset": 9549,
+                    "endColumn": 51,
+                    "endOffset": 9596
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/res/values/values.xml",
+                    "position": {
+                        "startLine": 63,
+                        "startColumn": 4,
+                        "startOffset": 7925,
+                        "endColumn": 51,
+                        "endOffset": 7972
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 79,
+                    "startColumn": 4,
+                    "startOffset": 9601,
+                    "endColumn": 53,
+                    "endOffset": 9650
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/res/values/values.xml",
+                    "position": {
+                        "startLine": 64,
+                        "startColumn": 4,
+                        "startOffset": 7977,
+                        "endColumn": 53,
+                        "endOffset": 8026
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 80,
+                    "startColumn": 4,
+                    "startOffset": 9655,
+                    "endColumn": 55,
+                    "endOffset": 9706
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/res/values/values.xml",
+                    "position": {
+                        "startLine": 65,
+                        "startColumn": 4,
+                        "startOffset": 8031,
+                        "endColumn": 55,
+                        "endOffset": 8082
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 81,
+                    "startColumn": 4,
+                    "startOffset": 9711,
+                    "endColumn": 46,
+                    "endOffset": 9753
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/res/values/values.xml",
+                    "position": {
+                        "startLine": 66,
+                        "startColumn": 4,
+                        "startOffset": 8087,
+                        "endColumn": 46,
+                        "endOffset": 8129
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 82,
+                    "startColumn": 4,
+                    "startOffset": 9758,
+                    "endColumn": 66,
+                    "endOffset": 9820
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.4.0/res/values/version.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 55,
+                        "endColumn": 66,
+                        "endOffset": 117
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 83,
+                    "startColumn": 4,
+                    "startOffset": 9825,
+                    "endColumn": 54,
+                    "endOffset": 9875
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/src/main/res/values/strings.xml",
+                    "position": {
+                        "startLine": 1,
+                        "startColumn": 4,
+                        "startOffset": 16,
+                        "endColumn": 54,
+                        "endOffset": 66
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 84,
+                    "startColumn": 4,
+                    "startOffset": 9880,
+                    "endColumn": 91,
+                    "endOffset": 9967
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.4.0/res/values/auth_strings.xml",
+                    "position": {
+                        "startLine": 5,
+                        "startColumn": 4,
+                        "startOffset": 253,
+                        "endColumn": 91,
+                        "endOffset": 340
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 85,
+                    "startColumn": 4,
+                    "startOffset": 9972,
+                    "endColumn": 87,
+                    "endOffset": 10055
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.4.0/res/values/auth_strings.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 109,
+                        "endColumn": 87,
+                        "endOffset": 192
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 86,
+                    "startColumn": 4,
+                    "startOffset": 10060,
+                    "endColumn": 231,
+                    "endOffset": 10287
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values/base_strings.xml",
+                    "position": {
+                        "startLine": 78,
+                        "startColumn": 4,
+                        "startOffset": 6029,
+                        "endColumn": 235,
+                        "endOffset": 6260
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 87,
+                    "startColumn": 4,
+                    "startOffset": 10292,
+                    "endColumn": 125,
+                    "endOffset": 10413
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values/base_strings.xml",
+                    "position": {
+                        "startLine": 31,
+                        "startColumn": 4,
+                        "startOffset": 2382,
+                        "endColumn": 125,
+                        "endOffset": 2503
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 88,
+                    "startColumn": 4,
+                    "startOffset": 10418,
+                    "endColumn": 180,
+                    "endOffset": 10594
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values/base_strings.xml",
+                    "position": {
+                        "startLine": 26,
+                        "startColumn": 4,
+                        "startOffset": 1986,
+                        "endColumn": 184,
+                        "endOffset": 2166
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 89,
+                    "startColumn": 4,
+                    "startOffset": 10599,
+                    "endColumn": 124,
+                    "endOffset": 10719
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values/base_strings.xml",
+                    "position": {
+                        "startLine": 22,
+                        "startColumn": 4,
+                        "startOffset": 1710,
+                        "endColumn": 124,
+                        "endOffset": 1830
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 90,
+                    "startColumn": 4,
+                    "startOffset": 10724,
+                    "endColumn": 123,
+                    "endOffset": 10843
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values/base_strings.xml",
+                    "position": {
+                        "startLine": 18,
+                        "startColumn": 4,
+                        "startOffset": 1439,
+                        "endColumn": 123,
+                        "endOffset": 1558
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 91,
+                    "startColumn": 4,
+                    "startOffset": 10848,
+                    "endColumn": 212,
+                    "endOffset": 11056
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values/base_strings.xml",
+                    "position": {
+                        "startLine": 11,
+                        "startColumn": 4,
+                        "startOffset": 742,
+                        "endColumn": 216,
+                        "endOffset": 954
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 92,
+                    "startColumn": 4,
+                    "startOffset": 11061,
+                    "endColumn": 214,
+                    "endOffset": 11271
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values/base_strings.xml",
+                    "position": {
+                        "startLine": 15,
+                        "startColumn": 4,
+                        "startOffset": 1124,
+                        "endColumn": 218,
+                        "endOffset": 1338
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 93,
+                    "startColumn": 4,
+                    "startOffset": 11276,
+                    "endColumn": 122,
+                    "endOffset": 11394
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values/base_strings.xml",
+                    "position": {
+                        "startLine": 7,
+                        "startColumn": 4,
+                        "startOffset": 455,
+                        "endColumn": 122,
+                        "endOffset": 573
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 94,
+                    "startColumn": 4,
+                    "startOffset": 11399,
+                    "endColumn": 164,
+                    "endOffset": 11559
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values/base_strings.xml",
+                    "position": {
+                        "startLine": 63,
+                        "startColumn": 4,
+                        "startOffset": 4775,
+                        "endColumn": 164,
+                        "endOffset": 4935
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 95,
+                    "startColumn": 4,
+                    "startOffset": 11564,
+                    "endColumn": 93,
+                    "endOffset": 11653
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values/base_strings.xml",
+                    "position": {
+                        "startLine": 60,
+                        "startColumn": 4,
+                        "startOffset": 4560,
+                        "endColumn": 93,
+                        "endOffset": 4649
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 96,
+                    "startColumn": 4,
+                    "startOffset": 11658,
+                    "endColumn": 140,
+                    "endOffset": 11794
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values/base_strings.xml",
+                    "position": {
+                        "startLine": 57,
+                        "startColumn": 4,
+                        "startOffset": 4302,
+                        "endColumn": 140,
+                        "endOffset": 4438
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 97,
+                    "startColumn": 4,
+                    "startOffset": 11799,
+                    "endColumn": 89,
+                    "endOffset": 11884
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values/base_strings.xml",
+                    "position": {
+                        "startLine": 54,
+                        "startColumn": 4,
+                        "startOffset": 4099,
+                        "endColumn": 89,
+                        "endOffset": 4184
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 98,
+                    "startColumn": 4,
+                    "startOffset": 11889,
+                    "endColumn": 102,
+                    "endOffset": 11987
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values/base_strings.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 205,
+                        "endColumn": 102,
+                        "endOffset": 303
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 99,
+                    "startColumn": 4,
+                    "startOffset": 11992,
+                    "endColumn": 142,
+                    "endOffset": 12130
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values/base_strings.xml",
+                    "position": {
+                        "startLine": 90,
+                        "startColumn": 4,
+                        "startOffset": 7134,
+                        "endColumn": 142,
+                        "endOffset": 7272
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 100,
+                    "startColumn": 4,
+                    "startOffset": 12135,
+                    "endColumn": 99,
+                    "endOffset": 12230
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values/base_strings.xml",
+                    "position": {
+                        "startLine": 87,
+                        "startColumn": 4,
+                        "startOffset": 6890,
+                        "endColumn": 99,
+                        "endOffset": 6985
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 101,
+                    "startColumn": 4,
+                    "startOffset": 12235,
+                    "endColumn": 150,
+                    "endOffset": 12381
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values/base_strings.xml",
+                    "position": {
+                        "startLine": 84,
+                        "startColumn": 4,
+                        "startOffset": 6599,
+                        "endColumn": 150,
+                        "endOffset": 6745
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 102,
+                    "startColumn": 4,
+                    "startOffset": 12386,
+                    "endColumn": 91,
+                    "endOffset": 12473
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values/base_strings.xml",
+                    "position": {
+                        "startLine": 81,
+                        "startColumn": 4,
+                        "startOffset": 6384,
+                        "endColumn": 91,
+                        "endOffset": 6471
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 103,
+                    "startColumn": 4,
+                    "startOffset": 12478,
+                    "endColumn": 218,
+                    "endOffset": 12692
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.4.0/res/values/common_strings.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 242,
+                        "endColumn": 222,
+                        "endOffset": 460
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 104,
+                    "startColumn": 4,
+                    "startOffset": 12697,
+                    "endColumn": 218,
+                    "endOffset": 12911
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values/base_strings.xml",
+                    "position": {
+                        "startLine": 69,
+                        "startColumn": 4,
+                        "startOffset": 5305,
+                        "endColumn": 222,
+                        "endOffset": 5523
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 105,
+                    "startColumn": 4,
+                    "startOffset": 12916,
+                    "endColumn": 94,
+                    "endOffset": 13006
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values/base_strings.xml",
+                    "position": {
+                        "startLine": 66,
+                        "startColumn": 4,
+                        "startOffset": 5073,
+                        "endColumn": 94,
+                        "endOffset": 5163
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 106,
+                    "startColumn": 4,
+                    "startOffset": 13011,
+                    "endColumn": 104,
+                    "endOffset": 13111
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values/base_strings.xml",
+                    "position": {
+                        "startLine": 72,
+                        "startColumn": 4,
+                        "startOffset": 5622,
+                        "endColumn": 104,
+                        "endOffset": 5722
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 107,
+                    "startColumn": 4,
+                    "startOffset": 13116,
+                    "endColumn": 180,
+                    "endOffset": 13292
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values/base_strings.xml",
+                    "position": {
+                        "startLine": 39,
+                        "startColumn": 4,
+                        "startOffset": 2929,
+                        "endColumn": 184,
+                        "endOffset": 3109
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 108,
+                    "startColumn": 4,
+                    "startOffset": 13297,
+                    "endColumn": 124,
+                    "endOffset": 13417
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values/base_strings.xml",
+                    "position": {
+                        "startLine": 35,
+                        "startColumn": 4,
+                        "startOffset": 2654,
+                        "endColumn": 124,
+                        "endOffset": 2774
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 109,
+                    "startColumn": 4,
+                    "startOffset": 13422,
+                    "endColumn": 174,
+                    "endOffset": 13592
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values/base_strings.xml",
+                    "position": {
+                        "startLine": 51,
+                        "startColumn": 4,
+                        "startOffset": 3811,
+                        "endColumn": 178,
+                        "endOffset": 3985
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 110,
+                    "startColumn": 4,
+                    "startOffset": 13597,
+                    "endColumn": 104,
+                    "endOffset": 13697
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values/base_strings.xml",
+                    "position": {
+                        "startLine": 47,
+                        "startColumn": 4,
+                        "startOffset": 3572,
+                        "endColumn": 104,
+                        "endOffset": 3672
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 111,
+                    "startColumn": 4,
+                    "startOffset": 13702,
+                    "endColumn": 147,
+                    "endOffset": 13845
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values/base_strings.xml",
+                    "position": {
+                        "startLine": 43,
+                        "startColumn": 4,
+                        "startOffset": 3294,
+                        "endColumn": 147,
+                        "endOffset": 3437
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 112,
+                    "startColumn": 4,
+                    "startOffset": 13850,
+                    "endColumn": 62,
+                    "endOffset": 13908
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values/base_strings.xml",
+                    "position": {
+                        "startLine": 75,
+                        "startColumn": 4,
+                        "startOffset": 5822,
+                        "endColumn": 62,
+                        "endOffset": 5880
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 113,
+                    "startColumn": 4,
+                    "startOffset": 13913,
+                    "endColumn": 61,
+                    "endOffset": 13970
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values/base_strings.xml",
+                    "position": {
+                        "startLine": 93,
+                        "startColumn": 4,
+                        "startOffset": 7327,
+                        "endColumn": 61,
+                        "endOffset": 7384
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 114,
+                    "startColumn": 4,
+                    "startOffset": 13975,
+                    "endColumn": 78,
+                    "endOffset": 14049
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values/base_strings.xml",
+                    "position": {
+                        "startLine": 96,
+                        "startColumn": 4,
+                        "startOffset": 7449,
+                        "endColumn": 78,
+                        "endOffset": 7523
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 115,
+                    "startColumn": 4,
+                    "startOffset": 14054,
+                    "endColumn": 61,
+                    "endOffset": 14111
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/res/values/values.xml",
+                    "position": {
+                        "startLine": 69,
+                        "startColumn": 4,
+                        "startOffset": 8405,
+                        "endColumn": 61,
+                        "endOffset": 8462
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 116,
+                    "startColumn": 4,
+                    "startOffset": 14116,
+                    "endColumn": 58,
+                    "endOffset": 14170
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/src/main/res/values/strings.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 71,
+                        "endColumn": 58,
+                        "endOffset": 125
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 117,
+                    "startColumn": 4,
+                    "startOffset": 14175,
+                    "endColumn": 60,
+                    "endOffset": 14231
+                },
+                "from": {
+                    "file": "/Users/shivenmian/open-event-android/openeventwearable/src/main/res/values/strings.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 130,
+                        "endColumn": 60,
+                        "endOffset": 186
+                    }
+                }
+            }
+        ]
+    }
+]

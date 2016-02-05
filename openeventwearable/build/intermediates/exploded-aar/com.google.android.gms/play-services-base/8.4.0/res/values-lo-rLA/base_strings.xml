@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="common_google_play_services_notification_ticker" msgid="3936796119014022295">"ບໍ​ລິ​ການ Google Play ​ເກີດ​ຄວາມ​ຜິດ​ພາດ"</string>
+    <string name="common_google_play_services_install_title" msgid="2110712637922504348">"ຕິດຕັ້ງບໍລິການ Google Play"</string>
+    <string name="common_google_play_services_install_text_phone" msgid="1545874412485515659">"<xliff:g id="APP_NAME">%1$s</xliff:g> ຈະບໍ່ສາມາດໃຊ້ງານໄດ້ໂດຍທີ່ບໍ່ມີການ​ບໍ​ລິ​ການ Google Play ເຊິ່ງຂາດຫາຍໄປໃນໂທລະສັບຂອງທ່ານ."</string>
+    <string name="common_google_play_services_install_text_tablet" msgid="2742131317258851812">"<xliff:g id="APP_NAME">%1$s</xliff:g> ຈະບໍ່ສາມາດໃຊ້ງານໄດ້ໂດຍທີ່ບໍ່ມີການ​ບໍ​ລິ​ການ Google Play ເຊິ່ງຂາດຫາຍໄປໃນແທັບ​ເລັດຂອງທ່ານ."</string>
+    <string name="common_google_play_services_install_button" msgid="5765996826213593005">"ຕິດຕັ້ງການ​ບໍ​ລິ​ການ Google Play"</string>
+    <string name="common_google_play_services_enable_title" msgid="4763733806837472840">"ເປີດໃຊ້ການ​ບໍ​ລິ​ການ Google Play"</string>
+    <string name="common_google_play_services_enable_text" msgid="2016066508617425489">"<xliff:g id="APP_NAME">%1$s</xliff:g> ຈະບໍ່ສາມາດໃຊ້ງານໄດ້ຈົນກວ່າທ່ານຈະເປີດໃຊ້ງານ​ການ​ບໍ​ລິ​ການ Google Play."</string>
+    <string name="common_google_play_services_enable_button" msgid="7334167077229901382">"ເປີດໃຊ້ ການບໍລິການ Google Play"</string>
+    <string name="common_google_play_services_update_title" msgid="2926201203597631481">"ອັບເດດການ​ບໍ​ລິ​ການ Google Play"</string>
+    <string name="common_google_play_services_update_text" msgid="6230553430311881723">"<xliff:g id="APP_NAME">%1$s</xliff:g> ຈະບໍ່ສາມາດໃຊ້ງານໄດ້ຈົນກວ່າທ່ານຈະອັບເດດການ​ບໍ​ລິ​ການ Google Play."</string>
+    <string name="common_google_play_services_wear_update_text" msgid="8334920661858223093">"ຈຳ​ເປັນ​ຕ້ອງ​ມີ​ກາ​ນ​ບໍ​ລິ​ການ Google Play ເວີ​ຊັນ​ໃໝ່. ມັນ​ຈະ​ອັບ​ເດດ​ຕົວ​ເອງ​ໄວໆ​ນີ້."</string>
+    <string name="common_google_play_services_updating_title" msgid="1604540693139938838">"ການ​ບໍ​ລິ​ການ Google Play ກຳ​ລັງ​ອັບ​ເດດ"</string>
+    <string name="common_google_play_services_updating_text" msgid="1576144479907495032">"<xliff:g id="APP_NAME">%1$s</xliff:g> ຈະບໍ່ສາມາດໃຊ້ງານໄດ້ໂດຍທີ່ບໍ່ມີການ​ບໍ​ລິ​ການ Google Play, ເຊິ່ງ​ກຳ​ລັງ​ອັບ​ເດດ​ຢູ່​ໃນ​ປະ​ຈຸ​ບັນ."</string>
+    <string name="common_google_play_services_network_error_title" msgid="5183831421651758225">"ເຄືອຂ່າຍຜິດພາດ"</string>
+    <string name="common_google_play_services_network_error_text" msgid="2602915190038884860">"ຕ້ອງເຊື່ອມຕໍ່ອິນເຕີເນັດເພື່ອໃຊ້ການ​ບໍ​ລິ​ການ Google Play."</string>
+    <string name="common_google_play_services_invalid_account_title" msgid="9894539456463288">"ບັນຊີບໍ່ຖືກຕ້ອງ"</string>
+    <string name="common_google_play_services_invalid_account_text" msgid="8004809446015217370">"ບັນຊີທີ່ລະບຸນັ້ນບໍ່ມີໃນອຸປະກອນນີ້. ກະລຸນາເລືອກບັນຊີອື່ນແທນ."</string>
+    <string name="common_google_play_services_unsupported_title" msgid="909734065366822541">"ການບໍລິການ Google Play"</string>
+    <string name="common_google_play_services_unsupported_text" msgid="4291190028362992831">"<xliff:g id="APP_NAME">%1$s</xliff:g> ຂຶ້ນ​ກັບ​ການ​ບໍ​ລິ​ການ Google Play, ເຊິ່ງ​ອຸ​ປະ​ກອນ​ຂອງ​ທ່ານ​ບໍ່​ຮອງ​ຮັບ. ຕິດ​ຕໍ່​ຫາ​ຜູ້​ຜະ​ລິດ​ເພື່ອ​ຂໍ​ການ​ຊ່ວຍ​ເຫຼືອ​ເພີ່ມ​ເຕີມ."</string>
+    <string name="common_google_play_services_update_button" msgid="2221302284291941971">"ອັບເດດ"</string>
+    <string name="common_open_on_phone" msgid="311697239335516384">"​ເປີດ​ໃນ​ໂທ​ລະ​ສັບ"</string>
+    <string name="common_google_play_services_api_unavailable_text" msgid="2785372108150982144">"<xliff:g id="APP_NAME">%1$s</xliff:g> ຕ້ອງ​ການ​ໃຫ້​ມີ​ໜຶ່ງ​ ຫຼື​ ຫຼາຍ​ບໍ​ລິ​ການ​ຂອງ Google Play ທີ່​ບໍ່​ມີ​ໃຫ້​ຢູ່​ໃນ​ປະ​ຈຸ​ບັນ. ກະ​ລຸ​ນາ​ຕິດ​ຕໍ່​ຜູ້​ພັດ​ທະ​ນາ ເພື່ອ​ການ​ຊ່ວຍ​ເຫຼືອ​ເພີ່ມ​ເຕີມ."</string>
+    <string name="common_google_play_services_sign_in_failed_title" msgid="8431204498860131150">"ເຂົ້າສູ່ລະບົບບໍ່​ສຳ​ເລັດ"</string>
+    <string name="common_google_play_services_sign_in_failed_text" msgid="59739986196915578">"ການ​ເຂົ້າ​ສູ່ລະ​ບົບ​ບັນ​ຊີ​ລະ​ບຸ​ໄວ້​ຜິດ​ພາດ. ກະ​ລຸ​ນາ​ເລືອກ​ບັນ​ຊີ​ອື່ນ."</string>
+    <string name="common_google_play_services_restricted_profile_title" msgid="4958149393843193760">"ໂປຣໄຟລ໌ທີ່ຖືກຈຳກັດ"</string>
+    <string name="common_google_play_services_restricted_profile_text" msgid="6951442375899151085">"ການ​ເຂົ້າ​ຫາ​ບັນ​ຊີ​ຈາກ​ໂປ​ຣ​ໄຟ​ລ໌​ທີ່​ຖືກ​ຈຳ​ກັດ​ບໍ່​ຮອງ​ຮັບ."</string>
+    <string name="common_signin_button_text" msgid="3156914698180786012">"ລົງຊື່ເຂົ້າໃຊ້"</string>
+    <string name="common_signin_button_text_long" msgid="1483290677806110088">"ລົງຊື່ເຂົ້າໃຊ້ດ້ວຍ Google"</string>
+</resources>

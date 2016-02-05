@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/usr/local/google/buildbot/repo_clients/https___googleplex-android.googlesource.com_a_platform_manifest.git/ub-wearable-common-duralumin/vendor/unbundled_google/libs/wearable/wearable-support/lib/src/main/res/values-v20/styles.xml -->
+    <eat-comment/>
+    <style name="CardText" parent="TextView.Small.Light">
+        <item name="android:lineSpacingMultiplier">0.92</item>
+    </style>
+    <style name="CardTitle" parent="TextView.Medium.Light">
+        <item name="android:textColor">@color/secondary_text_light</item>
+    </style>
+    <style name="DismissOverlayText" parent="TextView.Large.Light">
+        <item name="android:background">@color/dismiss_close</item>
+        <item name="android:gravity">center</item>
+        <item name="android:lineSpacingExtra">-2sp</item>
+        <item name="android:textColor">@color/primary_text_dark</item>
+    </style>
+    <style name="DotsPageIndicatorStyle">
+        <item name="dotSpacing">7.8dp</item>
+        <item name="dotRadius">2.1dp</item>
+        <item name="dotRadiusSelected">3.1dp</item>
+        <item name="dotColor">@color/white</item>
+        <item name="dotColorSelected">@color/white</item>
+        <item name="dotFadeOutDelay">1000</item>
+        <item name="dotFadeOutDuration">250</item>
+        <item name="dotFadeInDuration">100</item>
+        <item name="dotFadeWhenIdle">true</item>
+        <item name="dotShadowColor">#66000000</item>
+        <item name="dotShadowRadius">2px</item>
+        <item name="dotShadowDx">1px</item>
+        <item name="dotShadowDy">1px</item>
+    </style>
+    <style name="TextAppearance.Wearable.Large" parent="android:TextAppearance.Medium">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/primary_text_light</item>
+    </style>
+    <style name="TextAppearance.Wearable.Medium" parent="android:TextAppearance.Medium">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/primary_text_light</item>
+    </style>
+    <style name="TextAppearance.Wearable.Small" parent="android:TextAppearance.Medium">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/primary_text_light</item>
+    </style>
+    <style name="TextView.Large" parent="@android:style/Widget.Holo.Light">
+        <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="android:textAppearance">@style/TextAppearance.Wearable.Large</item>
+    </style>
+    <style name="TextView.Large.Light">
+        <item name="android:fontFamily">sans-serif-condensed-light</item>
+        <item name="android:textAppearance">@style/TextAppearance.Wearable.Large</item>
+    </style>
+    <style name="TextView.Medium" parent="@android:style/Widget.Holo.Light">
+        <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="android:textAppearance">@style/TextAppearance.Wearable.Medium</item>
+    </style>
+    <style name="TextView.Medium.Light">
+        <item name="android:fontFamily">sans-serif-condensed-light</item>
+        <item name="android:textAppearance">@style/TextAppearance.Wearable.Medium</item>
+    </style>
+    <style name="TextView.Small" parent="@android:style/Widget.Holo.Light">
+        <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="android:textAppearance">@style/TextAppearance.Wearable.Small</item>
+    </style>
+    <style name="TextView.Small.Light">
+        <item name="android:fontFamily">sans-serif-condensed-light</item>
+        <item name="android:textAppearance">@style/TextAppearance.Wearable.Small</item>
+    </style>
+    <style name="Theme.Wearable" parent="@android:Theme.DeviceDefault"/>
+    <style name="Theme.Wearable.Modal">
+        <item name="android:windowSwipeToDismiss">false</item>
+    </style>
+</resources>

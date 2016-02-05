@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="common_google_play_services_notification_ticker" msgid="3936796119014022295">"‏שגיאה בשירותי Google Play"</string>
+    <string name="common_google_play_services_install_title" msgid="2110712637922504348">"‏קבל את שירותי Google Play"</string>
+    <string name="common_google_play_services_install_text_phone" msgid="1545874412485515659">"‏האפליקציה <xliff:g id="APP_NAME">%1$s</xliff:g> לא תפעל ללא שירותי Google Play, שאינם מותקנים בטלפון שלך."</string>
+    <string name="common_google_play_services_install_text_tablet" msgid="2742131317258851812">"‏האפליקציה <xliff:g id="APP_NAME">%1$s</xliff:g> לא תפעל ללא שירותי Google Play, שאינם מותקנים בטאבלט שלך."</string>
+    <string name="common_google_play_services_install_button" msgid="5765996826213593005">"‏קבל את שירותי Google Play"</string>
+    <string name="common_google_play_services_enable_title" msgid="4763733806837472840">"‏הפעל את שירותי Google Play"</string>
+    <string name="common_google_play_services_enable_text" msgid="2016066508617425489">"‏האפליקציה <xliff:g id="APP_NAME">%1$s</xliff:g> לא תפעל אם לא תפעיל את שירותי Google Play."</string>
+    <string name="common_google_play_services_enable_button" msgid="7334167077229901382">"‏הפעל את שירותי Google Play"</string>
+    <string name="common_google_play_services_update_title" msgid="2926201203597631481">"‏עדכון שירותי Google Play"</string>
+    <string name="common_google_play_services_update_text" msgid="6230553430311881723">"‏האפליקציה <xliff:g id="APP_NAME">%1$s</xliff:g> לא תפעל אם לא תעדכן את שירותי Google Play."</string>
+    <string name="common_google_play_services_wear_update_text" msgid="8334920661858223093">"‏דרושה גרסה חדשה של שירותי Google Play. הגרסה תתעדכן בעצמה תוך זמן קצר."</string>
+    <string name="common_google_play_services_updating_title" msgid="1604540693139938838">"‏שירותי Google Play מתעדכנים"</string>
+    <string name="common_google_play_services_updating_text" msgid="1576144479907495032">"‏האפליקציה <xliff:g id="APP_NAME">%1$s</xliff:g> לא תפעל ללא שירותי Google Play, שמתעדכנים כרגע."</string>
+    <string name="common_google_play_services_network_error_title" msgid="5183831421651758225">"שגיאת רשת"</string>
+    <string name="common_google_play_services_network_error_text" msgid="2602915190038884860">"‏דרוש חיבור נתונים כדי להתחבר לשירותי Google Play."</string>
+    <string name="common_google_play_services_invalid_account_title" msgid="9894539456463288">"חשבון לא חוקי"</string>
+    <string name="common_google_play_services_invalid_account_text" msgid="8004809446015217370">"החשבון שצוין לא קיים במכשיר זה. בחר חשבון אחר."</string>
+    <string name="common_google_play_services_unsupported_title" msgid="909734065366822541">"‏שירותי Google Play"</string>
+    <string name="common_google_play_services_unsupported_text" msgid="4291190028362992831">"‏האפליקציה <xliff:g id="APP_NAME">%1$s</xliff:g> תלויה בשירותי Google Play, שאינם נתמכים במכשיר שלך. צור קשר עם היצרן לקבלת סיוע."</string>
+    <string name="common_google_play_services_update_button" msgid="2221302284291941971">"עדכן"</string>
+    <string name="common_open_on_phone" msgid="311697239335516384">"פתח בטלפון"</string>
+    <string name="common_google_play_services_api_unavailable_text" msgid="2785372108150982144">"‏ל-<xliff:g id="APP_NAME">%1$s</xliff:g> נדרש שירות אחד או מספר שירותים של Google Play, שאינם זמינים כעת. צור קשר עם המפתח לקבלת סיוע."</string>
+    <string name="common_google_play_services_sign_in_failed_title" msgid="8431204498860131150">"הכניסה נכשלה"</string>
+    <string name="common_google_play_services_sign_in_failed_text" msgid="59739986196915578">"אירעה שגיאה בעת הכניסה אל החשבון שצוין. בחר חשבון אחר."</string>
+    <string name="common_google_play_services_restricted_profile_title" msgid="4958149393843193760">"פרופיל מוגבל"</string>
+    <string name="common_google_play_services_restricted_profile_text" msgid="6951442375899151085">"הגישה לחשבונות מפרופיל מוגבל אינה נתמכת."</string>
+    <string name="common_signin_button_text" msgid="3156914698180786012">"היכנס"</string>
+    <string name="common_signin_button_text_long" msgid="1483290677806110088">"‏היכנס באמצעות Google"</string>
+</resources>

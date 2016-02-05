@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="common_google_play_services_notification_ticker" msgid="3936796119014022295">"Eroare privind serviciile Google Play"</string>
+    <string name="common_google_play_services_install_title" msgid="2110712637922504348">"Descărcați serviciile Google Play"</string>
+    <string name="common_google_play_services_install_text_phone" msgid="1545874412485515659">"<xliff:g id="APP_NAME">%1$s</xliff:g> nu va rula fără serviciile Google Play, care lipsesc de pe telefon."</string>
+    <string name="common_google_play_services_install_text_tablet" msgid="2742131317258851812">"<xliff:g id="APP_NAME">%1$s</xliff:g> nu va rula fără serviciile Google Play, care lipsesc de pe tabletă."</string>
+    <string name="common_google_play_services_install_button" msgid="5765996826213593005">"Descărcați serviciile Google Play"</string>
+    <string name="common_google_play_services_enable_title" msgid="4763733806837472840">"Activați serviciile Google Play"</string>
+    <string name="common_google_play_services_enable_text" msgid="2016066508617425489">"<xliff:g id="APP_NAME">%1$s</xliff:g> nu va funcționa decât dacă activați serviciile Google Play."</string>
+    <string name="common_google_play_services_enable_button" msgid="7334167077229901382">"Activați serviciile Google Play"</string>
+    <string name="common_google_play_services_update_title" msgid="2926201203597631481">"Actualizați serviciile Google Play"</string>
+    <string name="common_google_play_services_update_text" msgid="6230553430311881723">"<xliff:g id="APP_NAME">%1$s</xliff:g> nu va rula decât dacă actualizați serviciile Google Play."</string>
+    <string name="common_google_play_services_wear_update_text" msgid="8334920661858223093">"Este necesară o nouă versiune a serviciilor Google Play. Se vor actualiza automat în curând."</string>
+    <string name="common_google_play_services_updating_title" msgid="1604540693139938838">"Se actualizează serviciile Google Play"</string>
+    <string name="common_google_play_services_updating_text" msgid="1576144479907495032">"<xliff:g id="APP_NAME">%1$s</xliff:g> nu va rula fără serviciile Google Play, care momentan se actualizează."</string>
+    <string name="common_google_play_services_network_error_title" msgid="5183831421651758225">"Eroare de rețea"</string>
+    <string name="common_google_play_services_network_error_text" msgid="2602915190038884860">"Este necesară o conexiune de date pentru a vă conecta la serviciile Google Play."</string>
+    <string name="common_google_play_services_invalid_account_title" msgid="9894539456463288">"Contul nu este valid"</string>
+    <string name="common_google_play_services_invalid_account_text" msgid="8004809446015217370">"Contul menționat nu există pe acest dispozitiv. Alegeți alt cont."</string>
+    <string name="common_google_play_services_unsupported_title" msgid="909734065366822541">"Serviciile Google Play"</string>
+    <string name="common_google_play_services_unsupported_text" msgid="4291190028362992831">"<xliff:g id="APP_NAME">%1$s</xliff:g> se bazează pe serviciile Google Play, care nu sunt acceptate de dispozitiv. Contactați producătorul pentru asistență."</string>
+    <string name="common_google_play_services_update_button" msgid="2221302284291941971">"Actualizați"</string>
+    <string name="common_open_on_phone" msgid="311697239335516384">"Deschideți pe telefon"</string>
+    <string name="common_google_play_services_api_unavailable_text" msgid="2785372108150982144">"<xliff:g id="APP_NAME">%1$s</xliff:g> necesită unul sau mai multe servicii Google Play, care momentan nu sunt disponibile. Contactați dezvoltatorul pentru asistență."</string>
+    <string name="common_google_play_services_sign_in_failed_title" msgid="8431204498860131150">"Conectarea nu a reușit"</string>
+    <string name="common_google_play_services_sign_in_failed_text" msgid="59739986196915578">"Eroare la conectarea la contul specificat. Alegeți alt cont."</string>
+    <string name="common_google_play_services_restricted_profile_title" msgid="4958149393843193760">"Profil cu permisiuni limitate"</string>
+    <string name="common_google_play_services_restricted_profile_text" msgid="6951442375899151085">"Accesarea conturilor dintr-un profil cu permisiuni limitate nu este acceptată."</string>
+    <string name="common_signin_button_text" msgid="3156914698180786012">"Conectați-vă"</string>
+    <string name="common_signin_button_text_long" msgid="1483290677806110088">"Conectați-vă cu Google"</string>
+</resources>

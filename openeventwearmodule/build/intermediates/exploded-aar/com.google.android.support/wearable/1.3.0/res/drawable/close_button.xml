@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <layer-list>
+            <item>
+                <shape android:shape="oval">
+                    <size
+                        android:width="@dimen/close_button_diameter"
+                        android:height="@dimen/close_button_diameter" />
+                    <solid android:color="@color/dismiss_close_pressed" />
+                </shape>
+            </item>
+            <item>
+                <bitmap android:src="@drawable/ic_full_cancel" android:gravity="center" />
+            </item>
+        </layer-list>
+    </item>
+    <item>
+        <layer-list>
+            <item>
+                <shape android:shape="oval">
+                    <size
+                        android:width="@dimen/close_button_diameter"
+                        android:height="@dimen/close_button_diameter" />
+                    <solid android:color="@color/dismiss_close" />
+                </shape>
+            </item>
+            <item>
+                <bitmap android:src="@drawable/ic_full_cancel" android:gravity="center" />
+            </item>
+        </layer-list>
+    </item>
+</selector>
+<!-- From: file:/usr/local/google/buildbot/repo_clients/https___googleplex-android.googlesource.com_a_platform_manifest.git/ub-wearable-common-duralumin/vendor/unbundled_google/libs/wearable/wearable-support/lib/src/main/res/drawable/close_button.xml -->

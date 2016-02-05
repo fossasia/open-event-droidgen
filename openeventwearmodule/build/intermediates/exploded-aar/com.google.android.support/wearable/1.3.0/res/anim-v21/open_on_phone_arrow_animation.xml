@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+    <objectAnimator
+        android:duration="433"
+        android:propertyName="translateX"
+        android:valueFrom="20.86372"
+        android:valueTo="31.75"
+        android:valueType="floatType"
+        android:interpolator="@interpolator/open_on_phone_animation_interpolator_0" />
+</set>
+<!-- From: file:/usr/local/google/buildbot/repo_clients/https___googleplex-android.googlesource.com_a_platform_manifest.git/ub-wearable-common-duralumin/vendor/unbundled_google/libs/wearable/wearable-support/lib/src/main/res/anim-v21/open_on_phone_arrow_animation.xml -->

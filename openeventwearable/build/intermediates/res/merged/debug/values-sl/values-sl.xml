@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <string msgid="2785372108150982144" name="common_google_play_services_api_unavailable_text">"Aplikacija <ns1:g id="APP_NAME">%1$s</ns1:g> potrebuje eno ali več storitev za Google Play, ki trenutno niso na voljo. Za pomoč se obrnite na razvijalca."</string>
+    <string msgid="7334167077229901382" name="common_google_play_services_enable_button">"Omogoči storitve Google Play"</string>
+    <string msgid="2016066508617425489" name="common_google_play_services_enable_text">"Aplikacija <ns1:g id="APP_NAME">%1$s</ns1:g> ne bo delovala, če ne omogočite storitev Google Play."</string>
+    <string msgid="4763733806837472840" name="common_google_play_services_enable_title">"Omogočanje storitev Google Play"</string>
+    <string msgid="5765996826213593005" name="common_google_play_services_install_button">"Namesti storitve Google Play"</string>
+    <string msgid="1545874412485515659" name="common_google_play_services_install_text_phone">"Aplikacija <ns1:g id="APP_NAME">%1$s</ns1:g> ne deluje brez storitev Google Play, vendar teh ni v telefonu."</string>
+    <string msgid="2742131317258851812" name="common_google_play_services_install_text_tablet">"Aplikacija <ns1:g id="APP_NAME">%1$s</ns1:g> ne deluje brez storitev Google Play, vendar teh ni v tabličnem računalniku."</string>
+    <string msgid="2110712637922504348" name="common_google_play_services_install_title">"Namestitev storitev Google Play"</string>
+    <string msgid="8004809446015217370" name="common_google_play_services_invalid_account_text">"Navedenega računa ni v tej napravi. Izberite drugega."</string>
+    <string msgid="9894539456463288" name="common_google_play_services_invalid_account_title">"Neveljaven račun"</string>
+    <string msgid="2602915190038884860" name="common_google_play_services_network_error_text">"Za povezavo s storitvami Google Play potrebujete podatkovno povezavo."</string>
+    <string msgid="5183831421651758225" name="common_google_play_services_network_error_title">"Napaka omrežja"</string>
+    <string msgid="3936796119014022295" name="common_google_play_services_notification_ticker">"Napaka storitev Google Play"</string>
+    <string msgid="6951442375899151085" name="common_google_play_services_restricted_profile_text">"Dostopanje do računov iz omejenega profila ni podprto."</string>
+    <string msgid="4958149393843193760" name="common_google_play_services_restricted_profile_title">"Omejen profil"</string>
+    <string msgid="59739986196915578" name="common_google_play_services_sign_in_failed_text">"Napaka pri prijavi v izbran račun. Izberite drug račun."</string>
+    <string msgid="8431204498860131150" name="common_google_play_services_sign_in_failed_title">"Prijava ni uspela"</string>
+    <string msgid="7170719956698345984" name="common_google_play_services_unknown_issue">"Aplikacija <ns1:g id="APP_NAME">%1$s</ns1:g> ima težave s storitvami Google Play. Če težava ne bo odpravljena, se za pomoč obrnite na razvijalca."</string>
+    <string msgid="4291190028362992831" name="common_google_play_services_unsupported_text">"Aplikacija <ns1:g id="APP_NAME">%1$s</ns1:g> potrebuje storitve Google Play, ki jih vaša naprava ne podpira. Za pomoč se obrnite na proizvajalca."</string>
+    <string msgid="909734065366822541" name="common_google_play_services_unsupported_title">"Storitve Google Play"</string>
+    <string msgid="2221302284291941971" name="common_google_play_services_update_button">"Posodobi"</string>
+    <string msgid="6230553430311881723" name="common_google_play_services_update_text">"Aplikacija <ns1:g id="APP_NAME">%1$s</ns1:g> ne bo delovala, če ne posodobite storitev Google Play."</string>
+    <string msgid="2926201203597631481" name="common_google_play_services_update_title">"Posodobitev storitev Google Play"</string>
+    <string msgid="1576144479907495032" name="common_google_play_services_updating_text">"Aplikacija <ns1:g id="APP_NAME">%1$s</ns1:g> ne deluje brez storitev Google Play, ki se trenutno posodabljajo."</string>
+    <string msgid="1604540693139938838" name="common_google_play_services_updating_title">"Storitve Google Play se posodabljajo"</string>
+    <string msgid="8334920661858223093" name="common_google_play_services_wear_update_text">"Potrebujete novo različico storitev Google Play. V kratkem se bodo posodobile."</string>
+    <string msgid="311697239335516384" name="common_open_on_phone">"Odpiranje v telefonu"</string>
+    <string msgid="3156914698180786012" name="common_signin_button_text">"Prijava"</string>
+    <string msgid="1483290677806110088" name="common_signin_button_text_long">"Prijava z Google Računom"</string>
+</resources>

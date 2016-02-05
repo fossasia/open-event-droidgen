@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <string msgid="2785372108150982144" name="common_google_play_services_api_unavailable_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> հավելվածի համար պահանջվում է մեկ կամ մի քանի Google Play ծառայություններ, որոնք այս պահին հասանելի չեն: Օգնություն ստանալու համար կապվեք մշակողի հետ:"</string>
+    <string msgid="7334167077229901382" name="common_google_play_services_enable_button">"Միացնել Google Play ծառայությունները"</string>
+    <string msgid="2016066508617425489" name="common_google_play_services_enable_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> հավելվածը չի աշխատի մինչև չմիացնեք Google Play ծառայությունները:"</string>
+    <string msgid="4763733806837472840" name="common_google_play_services_enable_title">"Միացնել Google Play ծառայությունները"</string>
+    <string msgid="5765996826213593005" name="common_google_play_services_install_button">"Տեղադրել Google Play ծառայությունները"</string>
+    <string msgid="1545874412485515659" name="common_google_play_services_install_text_phone">"<ns1:g id="APP_NAME">%1$s</ns1:g> հավելվածը չի աշխատի առանց Google Play ծառայությունների, որոնք չկան ձեր հեռախոսում:"</string>
+    <string msgid="2742131317258851812" name="common_google_play_services_install_text_tablet">"<ns1:g id="APP_NAME">%1$s</ns1:g> հավելվածը չի աշխատի առանց Google Play ծառայությունների, որոնք չկան ձեր պլանշետում:"</string>
+    <string msgid="2110712637922504348" name="common_google_play_services_install_title">"Տեղադրել Google Play ծառայությունները"</string>
+    <string msgid="8004809446015217370" name="common_google_play_services_invalid_account_text">"Նշված հաշիվը գոյություն չունի այս սարքում: Ընտրեք այլ հաշիվ:"</string>
+    <string msgid="9894539456463288" name="common_google_play_services_invalid_account_title">"Հաշիվն անվավեր է"</string>
+    <string msgid="2602915190038884860" name="common_google_play_services_network_error_text">"Պահանջվում է տվյալների կապ` Google Play ծառայություններին միանալու համար:"</string>
+    <string msgid="5183831421651758225" name="common_google_play_services_network_error_title">"Ցանցի սխալ կա"</string>
+    <string msgid="3936796119014022295" name="common_google_play_services_notification_ticker">"Google Play ծառայությունների սխալ կա"</string>
+    <string msgid="6951442375899151085" name="common_google_play_services_restricted_profile_text">"Սահմանափակված պրոֆիլից հնարավոր չէ մուտք գործել հաշիվներ:"</string>
+    <string msgid="4958149393843193760" name="common_google_play_services_restricted_profile_title">"Սահմանափակված պրոֆիլ"</string>
+    <string msgid="59739986196915578" name="common_google_play_services_sign_in_failed_text">"Նշված հաշիվ մուտք գործելիս առաջացել է սխալ: Ընտրեք մեկ այլ հաշիվ:"</string>
+    <string msgid="8431204498860131150" name="common_google_play_services_sign_in_failed_title">"Մուտքը ձախողվեց"</string>
+    <string msgid="7170719956698345984" name="common_google_play_services_unknown_issue">"<ns1:g id="APP_NAME">%1$s</ns1:g> հավելվածը Google Play ծառայությունների հետ կապված խնդիր ունի: Եթե խնդիրը չվերանա, դիմեք մշակողին՝ օգնություն ստանալու համար:"</string>
+    <string msgid="4291190028362992831" name="common_google_play_services_unsupported_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> հավելվածի համար հարկավոր են Google Play ծառայություններ, որոնք ձեր սարքը չի աջակցում: Օգնություն ստանալու համար կապվեք արտադրողի հետ:"</string>
+    <string msgid="909734065366822541" name="common_google_play_services_unsupported_title">"Google Play ծառայություններ"</string>
+    <string msgid="2221302284291941971" name="common_google_play_services_update_button">"Թարմացնել"</string>
+    <string msgid="6230553430311881723" name="common_google_play_services_update_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> հավելվածը չի աշխատի մինչև չթարմացնեք Google Play ծառայությունները:"</string>
+    <string msgid="2926201203597631481" name="common_google_play_services_update_title">"Թարմացնել Google Play ծառայությունները"</string>
+    <string msgid="1576144479907495032" name="common_google_play_services_updating_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> հավելվածը չի աշխատի առանց Google Play ծառայությունների, որոնք այս պահին թարմացվում են:"</string>
+    <string msgid="1604540693139938838" name="common_google_play_services_updating_title">"Google Play ծառայությունների թարմացում"</string>
+    <string msgid="8334920661858223093" name="common_google_play_services_wear_update_text">"Անհրաժեշտ է Google Play ծառայությունների նոր տարբերակը: Այն շուտով կթարմացվի ավտոմատ կերպով:"</string>
+    <string msgid="311697239335516384" name="common_open_on_phone">"Բացել հեռախոսով"</string>
+    <string msgid="3156914698180786012" name="common_signin_button_text">"Մուտք գործել"</string>
+    <string msgid="1483290677806110088" name="common_signin_button_text_long">"Մուտք գործել Google-ով"</string>
+</resources>

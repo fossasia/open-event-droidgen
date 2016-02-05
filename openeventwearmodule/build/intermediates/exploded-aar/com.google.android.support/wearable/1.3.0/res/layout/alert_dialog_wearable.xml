@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.wearable.view.ObservableScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/parentPanel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="false"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        >
+
+    <LinearLayout
+            android:id="@+id/animatedWrapperContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:clipChildren="false"
+            >
+
+        <TextView
+                android:id="@+id/alertTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/diag_content_top_padding"
+                android:paddingLeft="@dimen/diag_content_side_padding"
+                android:paddingRight="@dimen/diag_content_side_padding"
+                style="@style/Widget.WearDiag.TextView.Title"
+                />
+
+        <TextView
+                android:id="@android:id/message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/diag_content_bottom_padding"
+                android:paddingLeft="@dimen/diag_content_side_padding"
+                android:paddingRight="@dimen/diag_content_side_padding"
+                style="@style/Widget.WearDiag.TextView.Message"
+                />
+
+        <LinearLayout
+                android:id="@+id/buttonPanel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/dialog_shade_background"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/diag_content_side_padding"
+                android:paddingRight="@dimen/diag_content_side_padding"
+                android:paddingBottom="@dimen/diag_button_bottom_padding"
+                >
+
+            <Button
+                    android:id="@android:id/button1"
+                    style="@style/Widget.WearDiag.Button"/>
+
+            <Button
+                    android:id="@android:id/button3"
+                    style="@style/Widget.WearDiag.Button"/>
+
+            <Button
+                    android:id="@android:id/button2"
+                    style="@style/Widget.WearDiag.Button"/>
+        </LinearLayout>
+    </LinearLayout>
+</android.support.wearable.view.ObservableScrollView>
+<!-- From: file:/usr/local/google/buildbot/repo_clients/https___googleplex-android.googlesource.com_a_platform_manifest.git/ub-wearable-common-duralumin/vendor/unbundled_google/libs/wearable/wearable-support/lib/src/main/res/layout/alert_dialog_wearable.xml -->

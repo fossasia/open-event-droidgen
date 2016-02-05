@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <string msgid="2785372108150982144" name="common_google_play_services_api_unavailable_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> តម្រូវឲ្យមានសេវាកម្ម Google Play មួយ ឬច្រើន ប៉ុន្តែវាមិនមានផ្តល់ជូនទេបច្ចុប្បន្ននេះ។ សូមទាក់ទងអ្នកអភិវឌ្ឍន៍ដើម្បីទទួលជំនួយ។"</string>
+    <string msgid="7334167077229901382" name="common_google_play_services_enable_button">"បើកសេវាកម្ម Google Play"</string>
+    <string msgid="2016066508617425489" name="common_google_play_services_enable_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> នឹងមិនដំណើរការទេ លុះត្រាតែអ្នកបើកសេវាកម្ម Google Play។"</string>
+    <string msgid="4763733806837472840" name="common_google_play_services_enable_title">"បើកសេវាកម្ម Google Play"</string>
+    <string msgid="5765996826213593005" name="common_google_play_services_install_button">"ទាញយកសេវាកម្ម Google Play"</string>
+    <string msgid="1545874412485515659" name="common_google_play_services_install_text_phone">"<ns1:g id="APP_NAME">%1$s</ns1:g> នឹងមិនដំណើរការទេ បើទូរស័ព្ទរបស់អ្នកមិនមានសេវាកម្ម Google Play។"</string>
+    <string msgid="2742131317258851812" name="common_google_play_services_install_text_tablet">"<ns1:g id="APP_NAME">%1$s</ns1:g> នឹងមិនដំណើរការទេ បើថេប្លេតរបស់អ្នកមិនមានសេវាកម្ម Google Play។"</string>
+    <string msgid="2110712637922504348" name="common_google_play_services_install_title">"ទាញយកសេវាកម្ម Google Play"</string>
+    <string msgid="8004809446015217370" name="common_google_play_services_invalid_account_text">"គណនី​ដែល​បាន​បញ្ជាក់​មិន​មាន​នៅ​លើ​ឧបករណ៍​នេះ​ទេ។ សូម​ជ្រើស​គណនី​ផ្សេង​។"</string>
+    <string msgid="9894539456463288" name="common_google_play_services_invalid_account_title">"គណនីមិនត្រឹមត្រូវ"</string>
+    <string msgid="2602915190038884860" name="common_google_play_services_network_error_text">"តម្រូវឲ្យមានការភ្ជាប់ទិន្នន័យ ដើម្បីភ្ជាប់សេវាកម្ម Google Play"</string>
+    <string msgid="5183831421651758225" name="common_google_play_services_network_error_title">"កំហុស​បណ្ដាញ"</string>
+    <string msgid="3936796119014022295" name="common_google_play_services_notification_ticker">"កំហុសសេវាកម្ម Google Play"</string>
+    <string msgid="6951442375899151085" name="common_google_play_services_restricted_profile_text">"ការចូលដំណើរការគណនីចេញពីប្រវត្តិរូបដែលបានរឹតបន្តឹងមិនត្រូវបានគាំទ្រទេ"</string>
+    <string msgid="4958149393843193760" name="common_google_play_services_restricted_profile_title">"ប្រវត្តិរូបដែលបានរឹតបន្តឹង"</string>
+    <string msgid="59739986196915578" name="common_google_play_services_sign_in_failed_text">"កំហុសក្នុងការចូលគណនីដែលបានបញ្ជាក់ សូមជ្រើសរើសគណនីផ្សេងទៀត។"</string>
+    <string msgid="8431204498860131150" name="common_google_play_services_sign_in_failed_title">"បានបរាជ័យក្នុងការចូល"</string>
+    <string msgid="7170719956698345984" name="common_google_play_services_unknown_issue">"<ns1:g id="APP_NAME">%1$s</ns1:g> កំពុងមានបញ្ហាជាមួយសេវាកម្ម Google Play។ ប្រសិនបើបញ្ហានេះនៅតែបន្តកើតមាន សូមទាក់ទងអ្នកអភិវឌ្ឍន៍ដើម្បីទទួលបានជំនួយ។"</string>
+    <string msgid="4291190028362992831" name="common_google_play_services_unsupported_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> ពឹងផ្អែកលើសេវាកម្ម Google Play ប៉ុន្តែវាមិនគាំទ្រនៅលើឧបករណ៍របស់អ្នកទេ។ សូមទាក់ទងក្រុមហ៊ុនផលិតដើម្បីទទួលជំនួយ។"</string>
+    <string msgid="909734065366822541" name="common_google_play_services_unsupported_title">"សេវាកម្ម Google Play"</string>
+    <string msgid="2221302284291941971" name="common_google_play_services_update_button">"អាប់ដេត"</string>
+    <string msgid="6230553430311881723" name="common_google_play_services_update_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> នឹងមិនដំណើរការទេ លុះត្រាតែអ្នកអាប់ដេតសេវាកម្ម Google Play។"</string>
+    <string msgid="2926201203597631481" name="common_google_play_services_update_title">"អាប់ដេតសេវាកម្ម Google Play"</string>
+    <string msgid="1576144479907495032" name="common_google_play_services_updating_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> នឹងមិនដំណើរការទេ បើមិនមានសេវាកម្ម Google Play ដោយសារតែវាកំពុងអាប់ដេត។"</string>
+    <string msgid="1604540693139938838" name="common_google_play_services_updating_title">"សេវាកម្ម Google Play កំពុងអាប់ដេត"</string>
+    <string msgid="8334920661858223093" name="common_google_play_services_wear_update_text">"តម្រូវឲ្យមានកំណែថ្មីនៃសេវាកម្ម Google Play។ វានឹងអាប់ដេតដោយខ្លួនវានៅពេលបន្តិចទៀតនេះ។"</string>
+    <string msgid="311697239335516384" name="common_open_on_phone">"បើកតាមទូរស័ព្ទ"</string>
+    <string msgid="3156914698180786012" name="common_signin_button_text">"ចូល"</string>
+    <string msgid="1483290677806110088" name="common_signin_button_text_long">"ចូលដោយប្រើ Google"</string>
+</resources>

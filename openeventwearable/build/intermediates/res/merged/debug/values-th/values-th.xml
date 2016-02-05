@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <string msgid="2785372108150982144" name="common_google_play_services_api_unavailable_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> ต้องใช้บริการ Google Play อย่างน้อย 1 บริการ ซึ่งไม่พร้อมใช้งานในปัจจุบัน โปรดติดต่อนักพัฒนาซอฟต์แวร์เพื่อขอความช่วยเหลือ"</string>
+    <string msgid="7334167077229901382" name="common_google_play_services_enable_button">"เปิดใช้บริการ Google Play"</string>
+    <string msgid="2016066508617425489" name="common_google_play_services_enable_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> จะไม่ทำงานจนกว่าคุณจะเปิดใช้บริการ Google Play"</string>
+    <string msgid="4763733806837472840" name="common_google_play_services_enable_title">"เปิดใช้บริการ Google Play"</string>
+    <string msgid="5765996826213593005" name="common_google_play_services_install_button">"ติดตั้งบริการ Google Play"</string>
+    <string msgid="1545874412485515659" name="common_google_play_services_install_text_phone">"<ns1:g id="APP_NAME">%1$s</ns1:g> จะไม่ทำงานหากไม่มีบริการ Google Play ซึ่งไม่มีในโทรศัพท์ของคุณ"</string>
+    <string msgid="2742131317258851812" name="common_google_play_services_install_text_tablet">"<ns1:g id="APP_NAME">%1$s</ns1:g> จะไม่ทำงานหากไม่มีบริการ Google Play ซี่งไม่มีในแท็บเล็ตของคุณ"</string>
+    <string msgid="2110712637922504348" name="common_google_play_services_install_title">"ติดตั้งบริการ Google Play"</string>
+    <string msgid="8004809446015217370" name="common_google_play_services_invalid_account_text">"บัญชีที่ระบุไม่มีอยู่บนอุปกรณ์นี้ โปรดเลือกบัญชีอื่น"</string>
+    <string msgid="9894539456463288" name="common_google_play_services_invalid_account_title">"บัญชีไม่ถูกต้อง"</string>
+    <string msgid="2602915190038884860" name="common_google_play_services_network_error_text">"ต้องมีการเชื่อมต่อข้อมูลเพื่อเชื่อมต่อกับบริการ Google Play"</string>
+    <string msgid="5183831421651758225" name="common_google_play_services_network_error_title">"ข้อผิดพลาดของเครือข่าย"</string>
+    <string msgid="3936796119014022295" name="common_google_play_services_notification_ticker">"ข้อผิดพลาดของบริการ Google Play"</string>
+    <string msgid="6951442375899151085" name="common_google_play_services_restricted_profile_text">"ไม่สนับสนุนการเข้าถึงบัญชีจากโปรไฟล์ที่ถูกจำกัด"</string>
+    <string msgid="4958149393843193760" name="common_google_play_services_restricted_profile_title">"โปรไฟล์ที่ถูกจำกัด"</string>
+    <string msgid="59739986196915578" name="common_google_play_services_sign_in_failed_text">"เกิดข้อผิดพลาดในการลงชื่อเข้าใช้บัญชีที่ระบุ โปรดเลือกบัญชีอื่น"</string>
+    <string msgid="8431204498860131150" name="common_google_play_services_sign_in_failed_title">"การลงชื่อเข้าใช้ล้มเหลว"</string>
+    <string msgid="7170719956698345984" name="common_google_play_services_unknown_issue">"<ns1:g id="APP_NAME">%1$s</ns1:g> มีปัญหาเกี่ยวกับบริการของ Google Play หากยังคงมีปัญหาอยู่ โปรดติดต่อนักพัฒนาซอฟต์แวร์เพื่อขอความช่วยเหลือ"</string>
+    <string msgid="4291190028362992831" name="common_google_play_services_unsupported_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> ต้องอาศัยบริการ Google Play ซึ่งอุปกรณ์ของคุณไม่รองรับ โปรดติดต่อผู้ผลิตเพื่อขอความช่วยเหลือ"</string>
+    <string msgid="909734065366822541" name="common_google_play_services_unsupported_title">"บริการ Google Play"</string>
+    <string msgid="2221302284291941971" name="common_google_play_services_update_button">"อัปเดต"</string>
+    <string msgid="6230553430311881723" name="common_google_play_services_update_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> จะไม่ทำงานจนกว่าคุณจะอัปเดตบริการ Google Play"</string>
+    <string msgid="2926201203597631481" name="common_google_play_services_update_title">"อัปเดตบริการ Google Play"</string>
+    <string msgid="1576144479907495032" name="common_google_play_services_updating_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> จะไม่ทำงานหากไม่มีบริการ Google Play ซึ่งกำลังอัปเดตอยู่ในขณะนี้"</string>
+    <string msgid="1604540693139938838" name="common_google_play_services_updating_title">"กำลังอัปเดตบริการ Google Play"</string>
+    <string msgid="8334920661858223093" name="common_google_play_services_wear_update_text">"จำเป็นต้องใช้บริการ Google Play เวอร์ชันใหม่ ซึ่งจะอัปเดตอัตโนมัติในอีกไม่ช้า"</string>
+    <string msgid="311697239335516384" name="common_open_on_phone">"เปิดบนโทรศัพท์"</string>
+    <string msgid="3156914698180786012" name="common_signin_button_text">"ลงชื่อเข้าใช้"</string>
+    <string msgid="1483290677806110088" name="common_signin_button_text_long">"ลงชื่อเข้าใช้ด้วย Google"</string>
+    <string msgid="8455537630633057684" name="dismiss_overlay_button_label">"ออก"</string>
+</resources>

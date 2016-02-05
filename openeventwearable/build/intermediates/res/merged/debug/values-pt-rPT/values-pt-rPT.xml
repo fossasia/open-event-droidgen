@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <string msgid="2785372108150982144" name="common_google_play_services_api_unavailable_text">"O <ns1:g id="APP_NAME">%1$s</ns1:g> necessita de um ou mais serviços do Google Play que não estão disponíveis de momento. Contacte o programador para obter assistência."</string>
+    <string msgid="7334167077229901382" name="common_google_play_services_enable_button">"Ativar serviços do Google Play"</string>
+    <string msgid="2016066508617425489" name="common_google_play_services_enable_text">"O <ns1:g id="APP_NAME">%1$s</ns1:g> não funciona enquanto não ativar os serviços do Google Play."</string>
+    <string msgid="4763733806837472840" name="common_google_play_services_enable_title">"Ativar serviços do Google Play"</string>
+    <string msgid="5765996826213593005" name="common_google_play_services_install_button">"Obter serviços do Google Play"</string>
+    <string msgid="1545874412485515659" name="common_google_play_services_install_text_phone">"O <ns1:g id="APP_NAME">%1$s</ns1:g> não é executado sem os serviços do Google Play, os quais estão em falta no seu telemóvel."</string>
+    <string msgid="2742131317258851812" name="common_google_play_services_install_text_tablet">"O <ns1:g id="APP_NAME">%1$s</ns1:g> não é executado sem os serviços do Google Play, os quais estão em falta no seu tablet."</string>
+    <string msgid="2110712637922504348" name="common_google_play_services_install_title">"Obter serviços do Google Play"</string>
+    <string msgid="8004809446015217370" name="common_google_play_services_invalid_account_text">"A conta especificada não existe neste dispositivo. Escolha uma conta diferente."</string>
+    <string msgid="9894539456463288" name="common_google_play_services_invalid_account_title">"Conta inválida"</string>
+    <string msgid="2602915190038884860" name="common_google_play_services_network_error_text">"É necessária uma ligação de dados para se ligar aos serviços do Google Play."</string>
+    <string msgid="5183831421651758225" name="common_google_play_services_network_error_title">"Erro de rede"</string>
+    <string msgid="3936796119014022295" name="common_google_play_services_notification_ticker">"Erro dos serviços do Google Play"</string>
+    <string msgid="6951442375899151085" name="common_google_play_services_restricted_profile_text">"Não é suportado o acesso a contas a partir de um perfil restrito."</string>
+    <string msgid="4958149393843193760" name="common_google_play_services_restricted_profile_title">"Perfil restrito"</string>
+    <string msgid="59739986196915578" name="common_google_play_services_sign_in_failed_text">"Erro ao iniciar sessão na conta especificada. Escolha uma conta diferente."</string>
+    <string msgid="8431204498860131150" name="common_google_play_services_sign_in_failed_title">"Falha ao iniciar sessão"</string>
+    <string msgid="7170719956698345984" name="common_google_play_services_unknown_issue">"O <ns1:g id="APP_NAME">%1$s</ns1:g> está a ter problemas com os serviços do Google Play. Se o problema persistir, contacte o programador para obter assistência."</string>
+    <string msgid="4291190028362992831" name="common_google_play_services_unsupported_text">"O <ns1:g id="APP_NAME">%1$s</ns1:g> depende dos serviços do Google Play, os quais não são compatíveis com o seu dispositivo. Contacte o fabricante para obter assistência."</string>
+    <string msgid="909734065366822541" name="common_google_play_services_unsupported_title">"Serviços do Google Play"</string>
+    <string msgid="2221302284291941971" name="common_google_play_services_update_button">"Atualizar"</string>
+    <string msgid="6230553430311881723" name="common_google_play_services_update_text">"O <ns1:g id="APP_NAME">%1$s</ns1:g> não é executado enquanto não atualizar os serviços do Google Play."</string>
+    <string msgid="2926201203597631481" name="common_google_play_services_update_title">"Atualizar serviços do Google Play"</string>
+    <string msgid="1576144479907495032" name="common_google_play_services_updating_text">"O <ns1:g id="APP_NAME">%1$s</ns1:g> não é executado sem os serviços do Google Play, os quais estão a ser atualizados."</string>
+    <string msgid="1604540693139938838" name="common_google_play_services_updating_title">"Serviços do Google Play em atualização"</string>
+    <string msgid="8334920661858223093" name="common_google_play_services_wear_update_text">"É necessária uma nova versão dos serviços do Google Play. Esta será atualizada automaticamente em breve."</string>
+    <string msgid="311697239335516384" name="common_open_on_phone">"Abrir no telemóvel"</string>
+    <string msgid="3156914698180786012" name="common_signin_button_text">"Iniciar sessão"</string>
+    <string msgid="1483290677806110088" name="common_signin_button_text_long">"Iniciar sessão com o Google"</string>
+</resources>

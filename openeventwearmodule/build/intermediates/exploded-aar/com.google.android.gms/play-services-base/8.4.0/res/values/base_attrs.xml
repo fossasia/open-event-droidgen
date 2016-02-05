@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Copyright 2015 Google Inc. All Rights Reserved. -->
+<resources>
+    <!-- Attributes for SignInButton
+    WARNING: When making changes here, remember to update corresponding constants at
+             com.google.android.gms.common.SignInButton
+             For backward compatibility, you can only add new constant but not remove or change
+             existing constants -->
+    <declare-styleable name="SignInButton">
+        <attr name="buttonSize" format="reference|enum">
+            <enum name="standard" value="0" />
+            <enum name="wide" value="1" />
+            <enum name="icon_only" value="2" />
+        </attr>
+        <attr name="colorScheme" format="reference|enum">
+            <enum name="dark" value="0" />
+            <enum name="light" value="1" />
+            <enum name="auto" value="2"/>
+        </attr>
+        <attr name="scopeUris" format="reference|string"/>
+    </declare-styleable>
+
+</resources>

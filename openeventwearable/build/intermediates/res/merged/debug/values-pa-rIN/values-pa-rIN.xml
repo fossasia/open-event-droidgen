@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <string msgid="2785372108150982144" name="common_google_play_services_api_unavailable_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> ਲਈ ਇੱਕ ਜਾਂ ਵੱਧ Google Play ਸੇਵਾਵਾਂ ਦੀ ਲੋੜ ਹੈ, ਜੋ ਇਸ ਵੇਲੇ ਉਪਲਬਧ ਨਹੀਂ ਹੈ। ਕਿਰਪਾ ਕਰਕੇ ਸਹਾਇਤਾ ਲਈ ਨਿਰਮਾਤਾ ਨਾਲ ਸੰਪਰਕ ਕਰੋ।"</string>
+    <string msgid="7334167077229901382" name="common_google_play_services_enable_button">"Google Play ਸੇਵਾਵਾਂ ਨੂੰ ਯੋਗ ਬਣਾਓ"</string>
+    <string msgid="2016066508617425489" name="common_google_play_services_enable_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> ਕੰਮ ਨਹੀਂ ਕਰੇਗਾ ਜਦੋਂ ਤੱਕ ਤੁਸੀਂ Google Play ਸੇਵਾਵਾਂ ਨੂੰ ਯੋਗ ਨਹੀਂ ਬਣਾਉਂਦੇ ਹੋ।"</string>
+    <string msgid="4763733806837472840" name="common_google_play_services_enable_title">"Google Play ਸੇਵਾਵਾਂ ਨੂੰ ਯੋਗ ਬਣਾਓ"</string>
+    <string msgid="5765996826213593005" name="common_google_play_services_install_button">"Google Play ਸੇਵਾਵਾਂ ਪ੍ਰਾਪਤ ਕਰੋ"</string>
+    <string msgid="1545874412485515659" name="common_google_play_services_install_text_phone">"<ns1:g id="APP_NAME">%1$s</ns1:g> Google Play ਸੇਵਾਵਾਂ ਤੋਂ ਬਿਨਾਂ ਨਹੀਂ ਚੱਲੇਗਾ, ਜੋ ਤੁਹਾਡੇ ਫ਼ੋਨ ਤੋਂ ਲਾਪਤਾ ਹਨ।"</string>
+    <string msgid="2742131317258851812" name="common_google_play_services_install_text_tablet">"<ns1:g id="APP_NAME">%1$s</ns1:g> Google Play ਸੇਵਾਵਾਂ ਤੋਂ ਬਿਨਾਂ ਨਹੀਂ ਚੱਲੇਗਾ, ਜੋ ਤੁਹਾਡੇ ਟੈਬਲੇਟ ਤੋਂ ਲਾਪਤਾ ਹਨ।"</string>
+    <string msgid="2110712637922504348" name="common_google_play_services_install_title">"Google Play ਸੇਵਾਵਾਂ ਪ੍ਰਾਪਤ ਕਰੋ"</string>
+    <string msgid="8004809446015217370" name="common_google_play_services_invalid_account_text">"ਨਿਰਦਿਸ਼ਟ ਖਾਤਾ ਇਸ ਡਿਵਾਈਸ \'ਤੇ ਮੌਜੂਦ ਨਹੀਂ ਹੈ। ਕਿਰਪਾ ਕਰਕੇ ਕੋਈ ਵੱਖਰਾ ਖਾਤਾ ਚੁਣੋ।"</string>
+    <string msgid="9894539456463288" name="common_google_play_services_invalid_account_title">"ਅਪ੍ਰਮਾਣਿਕ ਖਾਤਾ"</string>
+    <string msgid="2602915190038884860" name="common_google_play_services_network_error_text">"Google Play ਸੇਵਾਵਾਂ ਨਾਲ ਕਨੈਕਟ ਕਰਨ ਲਈ ਡੇਟਾ ਕਨੈਕਸ਼ਨ ਦੀ ਲੋੜ ਹੈ।"</string>
+    <string msgid="5183831421651758225" name="common_google_play_services_network_error_title">"ਨੈੱਟਵਰਕ ਤਰੁੱਟੀ"</string>
+    <string msgid="3936796119014022295" name="common_google_play_services_notification_ticker">"Google Play ਸੇਵਾਵਾਂ ਤਰੁੱਟੀ"</string>
+    <string msgid="6951442375899151085" name="common_google_play_services_restricted_profile_text">"ਪ੍ਰਤਿਬੰਧਿਤ ਪ੍ਰੋਫ਼ਾਈਲ ਤੋਂ ਖਾਤਿਆਂ ਦੀ ਐਕਸੈਸ ਕਰਨਾ ਸਮਰੱਥ ਨਹੀਂ ਹੈ।"</string>
+    <string msgid="4958149393843193760" name="common_google_play_services_restricted_profile_title">"ਪ੍ਰਤਿਬੰਧਿਤ ਪ੍ਰੋਫ਼ਾਈਲ"</string>
+    <string msgid="59739986196915578" name="common_google_play_services_sign_in_failed_text">"ਨਿਰਦਿਸ਼ਟ ਖਾਤਾ ਸਾਈਨ ਇਨ ਕਰਨ ਵਿੱਚ ਤਰੁੱਟੀ। ਕਿਰਪਾ ਕਰਕੇ ਕੋਈ ਵੱਖਰਾ ਖਾਤਾ ਚੁਣੋ।"</string>
+    <string msgid="8431204498860131150" name="common_google_play_services_sign_in_failed_title">"ਸਾਈਨ ਇਨ ਅਸਫਲ ਹੋਇਆ"</string>
+    <string msgid="7170719956698345984" name="common_google_play_services_unknown_issue">"<ns1:g id="APP_NAME">%1$s</ns1:g> ਨੂੰ Google Play ਸੇਵਾਵਾਂ ਨਾਲ ਸਮੱਸਿਆ ਹੋ ਰਹੀ ਹੈ। ਜੇਕਰ ਸਮੱਸਿਆ ਬਣੀ ਰਹਿੰਦੀ ਹੈ, ਤਾਂ ਕਿਰਪਾ ਕਰਕੇ ਸਹਾਇਤਾ ਲਈ ਡਿਵੈਲਪਰ ਨਾਲ ਸੰਪਰਕ ਕਰੋ।"</string>
+    <string msgid="4291190028362992831" name="common_google_play_services_unsupported_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> Google Play ਸੇਵਾਵਾਂ \'ਤੇ ਭਰੋਸਾ ਕਰਦੀ ਹੈ, ਜੋ ਤੁਹਾਡੀ ਡਿਵਾਈਸ ਵੱਲੋਂ ਸਮਰੱਥ ਨਹੀਂ ਹੈ। ਸਹਾਇਤਾ ਲਈ ਨਿਰਮਾਤਾ ਨਾਲ ਸੰਪਰਕ ਕਰੋ।"</string>
+    <string msgid="909734065366822541" name="common_google_play_services_unsupported_title">"Google Play ਸੇਵਾਵਾਂ"</string>
+    <string msgid="2221302284291941971" name="common_google_play_services_update_button">"ਅਪਡੇਟ ਕਰੋ"</string>
+    <string msgid="6230553430311881723" name="common_google_play_services_update_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> ਨਹੀਂ ਚੱਲੇਗਾ ਜਦੋਂ ਤੱਕ ਤੁਸੀਂ Google Play ਸੇਵਾਵਾਂ ਨੂੰ ਅਪਡੇਟ ਨਹੀਂ ਕਰਦੇ ਹੋ।"</string>
+    <string msgid="2926201203597631481" name="common_google_play_services_update_title">"Google Play ਸੇਵਾਵਾਂ ਨੂੰ ਅਪਡੇਟ ਕਰੋ"</string>
+    <string msgid="1576144479907495032" name="common_google_play_services_updating_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> Google Play ਸੇਵਾਵਾਂ ਤੋਂ ਬਿਨਾਂ ਨਹੀਂ ਚੱਲੇਗਾ, ਜੋ ਵਰਤਮਾਨ ਵਿੱਚ ਅਪਡੇਟ ਹੋ ਰਹੀਆਂ ਹਨ।"</string>
+    <string msgid="1604540693139938838" name="common_google_play_services_updating_title">"Google Play ਸੇਵਾਵਾਂ ਅਪਡੇਟ ਹੋ ਰਹੀਆਂ ਹਨ"</string>
+    <string msgid="8334920661858223093" name="common_google_play_services_wear_update_text">"Google Play ਸੇਵਾਵਾਂ ਦੇ ਨਵਾਂ ਸੰਸਕਰਨ ਦੀ ਲੋੜ ਹੈ। ਇਹ ਛੇਤੀ ਹੀ ਆਪਣੇ ਆਪ ਅਪਡੇਟ ਕਰੇਗਾ।"</string>
+    <string msgid="311697239335516384" name="common_open_on_phone">"ਫ਼ੋਨ \'ਤੇ ਖੋਲ੍ਹੋ"</string>
+    <string msgid="3156914698180786012" name="common_signin_button_text">"ਸਾਈਨ ਇਨ ਕਰੇ"</string>
+    <string msgid="1483290677806110088" name="common_signin_button_text_long">"Google ਨਾਲ ਸਾਈਨ ਇਨ ਕਰੋ"</string>
+</resources>

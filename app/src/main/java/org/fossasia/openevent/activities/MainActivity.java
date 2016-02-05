@@ -128,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
         switch (requestCode) {
             case request_code: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Timber.d("Permission granted for ".concat(errorLog));
                     writeLogsToFile(errorLog);
                 } else {
                     Timber.d("Not Granted");
@@ -603,6 +604,7 @@ public class MainActivity extends AppCompatActivity {
             permission = ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
             if (permission != PackageManager.PERMISSION_GRANTED) {
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    Timber.d("For".concat(errorLog).concat("shouldshow is called"));
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setTitle("Error")
                             .setMessage("You need to allow access to External Storage")
@@ -616,9 +618,11 @@ public class MainActivity extends AppCompatActivity {
                             .create();
                     builder.show();
                 } else {
+                    Timber.d("For".concat(errorLog).concat("shouldshowelse is called"));
                     ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, request_code);
                 }
             } else {
+                Timber.d("For".concat(errorLog).concat("permissiongranted is called"));
                 writeLogsToFile(errorLog);
             }
         }

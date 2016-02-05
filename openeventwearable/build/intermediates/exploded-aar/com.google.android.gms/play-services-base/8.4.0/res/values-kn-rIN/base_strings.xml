@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="common_google_play_services_notification_ticker" msgid="3936796119014022295">"Google Play ಸೇವೆಗಳ ದೋಷ"</string>
+    <string name="common_google_play_services_install_title" msgid="2110712637922504348">"Google Play ಸೇವೆಗಳನ್ನು ಪಡೆಯಿರಿ"</string>
+    <string name="common_google_play_services_install_text_phone" msgid="1545874412485515659">"Google Play ಸೇವೆಗಳಿಲ್ಲದೆ ನಿಮ್ಮ ಫೋನ್‍‍ನಿಂದ ಕಾಣೆಯಾಗಿರುವ <xliff:g id="APP_NAME">%1$s</xliff:g> ರನ್ ಆಗುವುದಿಲ್ಲ."</string>
+    <string name="common_google_play_services_install_text_tablet" msgid="2742131317258851812">"Google Play ಸೇವೆಗಳಿಲ್ಲದೆ ನಿಮ್ಮ ಟ್ಯಾಬ್ಲೆಟ್‍ನಿಂದ ಕಾಣೆಯಾಗಿರುವ <xliff:g id="APP_NAME">%1$s</xliff:g> ರನ್ ಆಗುವುದಿಲ್ಲ."</string>
+    <string name="common_google_play_services_install_button" msgid="5765996826213593005">"Google Play ಸೇವೆಗಳನ್ನು ಪಡೆಯಿರಿ"</string>
+    <string name="common_google_play_services_enable_title" msgid="4763733806837472840">"Google Play ಸೇವೆಗಳನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಿ"</string>
+    <string name="common_google_play_services_enable_text" msgid="2016066508617425489">"Google Play ಸೇವೆಗಳನ್ನು ನೀವು ಸಕ್ರಿಯಗೊಳಿಸದ ಹೊರತು <xliff:g id="APP_NAME">%1$s</xliff:g> ಕಾರ್ಯನಿರ್ವಹಿಸುವುದಿಲ್ಲ."</string>
+    <string name="common_google_play_services_enable_button" msgid="7334167077229901382">"Google Play ಸೇವೆಗಳನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಿ"</string>
+    <string name="common_google_play_services_update_title" msgid="2926201203597631481">"Google Play ಸೇವೆಗಳನ್ನು ಅಪ್‌ಡೇಟ್‌ ಮಾಡಿ"</string>
+    <string name="common_google_play_services_update_text" msgid="6230553430311881723">"ನೀವು Google Play ಸೇವೆಗಳನ್ನು ಅಪ್‌ಡೇಟ್ ಮಾಡದ ಹೊರತು <xliff:g id="APP_NAME">%1$s</xliff:g> ರನ್ ಆಗುವುದಿಲ್ಲ."</string>
+    <string name="common_google_play_services_wear_update_text" msgid="8334920661858223093">"Google Play ಸೇವೆಗಳ ಹೊಸ ಆವೃತ್ತಿ ಅಗತ್ಯವಿದೆ. ಸದ್ಯದಲ್ಲೇ ಅದು ತಾನಾಗಿಯೇ ಅಪ್‌ಡೇಟ್ ಆಗುತ್ತದೆ."</string>
+    <string name="common_google_play_services_updating_title" msgid="1604540693139938838">"Google Play ಸೇವೆಗಳನ್ನು ಅಪ್‌ಡೇಟ್ ಮಾಡಲಾಗುತ್ತಿದೆ"</string>
+    <string name="common_google_play_services_updating_text" msgid="1576144479907495032">"Google Play ಸೇವೆಗಳಿಲ್ಲದೆ ಪ್ರಸ್ತುತ ಅಪ್‌ಡೇಟ್ ಆಗುತ್ತಿರುವ <xliff:g id="APP_NAME">%1$s</xliff:g> ರನ್ ಆಗುವುದಿಲ್ಲ."</string>
+    <string name="common_google_play_services_network_error_title" msgid="5183831421651758225">"ನೆಟ್‍ವರ್ಕ್ ದೋಷ"</string>
+    <string name="common_google_play_services_network_error_text" msgid="2602915190038884860">"Google Play ಸೇವೆಗಳಿಗೆ ಸಂಪರ್ಕ ಹೊಂದಲು ಡೇಟಾ ಸಂಪರ್ಕದ ಅಗತ್ಯವಿದೆ."</string>
+    <string name="common_google_play_services_invalid_account_title" msgid="9894539456463288">"ಅಮಾನ್ಯವಾದ ಖಾತೆ"</string>
+    <string name="common_google_play_services_invalid_account_text" msgid="8004809446015217370">"ಈ ಸಾಧನದಲ್ಲಿ ನಿರ್ದಿಷ್ಟ ಖಾತೆಯು ಅಸ್ತಿತ್ವದಲ್ಲಿಲ್ಲ. ದಯವಿಟ್ಟು ಬೇರೆಯ ಖಾತೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ."</string>
+    <string name="common_google_play_services_unsupported_title" msgid="909734065366822541">"Google Play ಸೇವೆಗಳು"</string>
+    <string name="common_google_play_services_unsupported_text" msgid="4291190028362992831">"<xliff:g id="APP_NAME">%1$s</xliff:g> ನಿಮ್ಮ ಸಾಧನವು ಬೆಂಬಲಿಸದಿರುವಂತಹ Google Play ಸೇವೆಗಳನ್ನು ಅವಲಂಬಿಸಿದೆ. ಸಹಾಯಕ್ಕಾಗಿ ತಯಾರಕರನ್ನು ಸಂಪರ್ಕಿಸಿ."</string>
+    <string name="common_google_play_services_update_button" msgid="2221302284291941971">"ಅಪ್‌ಡೇಟ್‌ ಮಾಡು"</string>
+    <string name="common_open_on_phone" msgid="311697239335516384">"ಫೋನ್‌ನಲ್ಲಿ ತೆರೆಯಿರಿ"</string>
+    <string name="common_google_play_services_api_unavailable_text" msgid="2785372108150982144">"<xliff:g id="APP_NAME">%1$s</xliff:g> ಗೆ ಪ್ರಸ್ತುತವಾಗಿ ಲಭ್ಯವಿಲ್ಲದ ಒಂದು ಅಥವಾ ಹೆಚ್ಚು Google Play ಸೇವೆಗಳ ಅಗತ್ಯವಿದೆ. ದಯವಿಟ್ಟು ಸಹಾಯಕ್ಕಾಗಿ ಡೆವಲಪರ್ ಅನ್ನು ಸಂಪರ್ಕಿಸಿ."</string>
+    <string name="common_google_play_services_sign_in_failed_title" msgid="8431204498860131150">"ಸೈನ್ ಇನ್ ವಿಫಲವಾಗಿದೆ"</string>
+    <string name="common_google_play_services_sign_in_failed_text" msgid="59739986196915578">"ಸೂಚಿಸಿದ ಖಾತೆಗೆ ಸೈನ್ ಇನ್ ಮಾಡುವಲ್ಲಿ ದೋಷ ಕಂಡುಬಂದಿದೆ. ದಯವಿಟ್ಟು ಬೇರೆಯ ಖಾತೆಯನ್ನು ಆರಿಸಿ."</string>
+    <string name="common_google_play_services_restricted_profile_title" msgid="4958149393843193760">"ನಿರ್ಬಂಧಿತ ಪ್ರೊಫೈಲ್"</string>
+    <string name="common_google_play_services_restricted_profile_text" msgid="6951442375899151085">"ನಿರ್ಬಂಧಿತ ಪ್ರೊಫೈಲ್‌ನಿಂದ ಖಾತೆಗಳ ಪ್ರವೇಶಿಸುವಿಕೆ ಬೆಂಬಲಿತವಾಗಿಲ್ಲ."</string>
+    <string name="common_signin_button_text" msgid="3156914698180786012">"ಸೈನ್ ಇನ್"</string>
+    <string name="common_signin_button_text_long" msgid="1483290677806110088">"Google ಮೂಲಕ ಸೈನ್ ಇನ್ ಮಾಡಿ"</string>
+</resources>

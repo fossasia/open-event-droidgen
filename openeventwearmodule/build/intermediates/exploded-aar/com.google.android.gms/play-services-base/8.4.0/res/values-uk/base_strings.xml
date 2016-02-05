@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="common_google_play_services_notification_ticker" msgid="3936796119014022295">"Помилка сервісів Google Play"</string>
+    <string name="common_google_play_services_install_title" msgid="2110712637922504348">"Установити сервіси Google Play"</string>
+    <string name="common_google_play_services_install_text_phone" msgid="1545874412485515659">"Додаток <xliff:g id="APP_NAME">%1$s</xliff:g> не працюватиме без сервісів Google Play, яких немає на вашому телефоні."</string>
+    <string name="common_google_play_services_install_text_tablet" msgid="2742131317258851812">"Додаток <xliff:g id="APP_NAME">%1$s</xliff:g> не працюватиме без сервісів Google Play, яких немає на вашому планшеті."</string>
+    <string name="common_google_play_services_install_button" msgid="5765996826213593005">"Установити сервіси Google Play"</string>
+    <string name="common_google_play_services_enable_title" msgid="4763733806837472840">"Увімкнути сервіси Google Play"</string>
+    <string name="common_google_play_services_enable_text" msgid="2016066508617425489">"Додаток <xliff:g id="APP_NAME">%1$s</xliff:g> не працюватиме, якщо не ввімкнути сервіси Google Play."</string>
+    <string name="common_google_play_services_enable_button" msgid="7334167077229901382">"Увімкнути сервіси Google Play"</string>
+    <string name="common_google_play_services_update_title" msgid="2926201203597631481">"Оновіть сервіси Google Play"</string>
+    <string name="common_google_play_services_update_text" msgid="6230553430311881723">"Додаток <xliff:g id="APP_NAME">%1$s</xliff:g> не працюватиме, якщо не оновити сервіси Google Play."</string>
+    <string name="common_google_play_services_wear_update_text" msgid="8334920661858223093">"Потрібна нова версія сервісів Google Play. Вони невдовзі оновляться."</string>
+    <string name="common_google_play_services_updating_title" msgid="1604540693139938838">"Сервіси Google Play оновлюються"</string>
+    <string name="common_google_play_services_updating_text" msgid="1576144479907495032">"Додаток <xliff:g id="APP_NAME">%1$s</xliff:g> не працюватиме без сервісів Google Play, які зараз оновлюються."</string>
+    <string name="common_google_play_services_network_error_title" msgid="5183831421651758225">"Помилка мережі"</string>
+    <string name="common_google_play_services_network_error_text" msgid="2602915190038884860">"Щоб під’єднатися до сервісів Google Play, потрібен мобільний Інтернет."</string>
+    <string name="common_google_play_services_invalid_account_title" msgid="9894539456463288">"Недійсний обліковий запис"</string>
+    <string name="common_google_play_services_invalid_account_text" msgid="8004809446015217370">"Указаного облікового запису немає на цьому пристрої. Виберіть інший."</string>
+    <string name="common_google_play_services_unsupported_title" msgid="909734065366822541">"Сервіси Google Play"</string>
+    <string name="common_google_play_services_unsupported_text" msgid="4291190028362992831">"Додаток <xliff:g id="APP_NAME">%1$s</xliff:g> працює завдяки сервісам Google Play, які не підтримуються на вашому пристрої. Зверніться по допомогу до виробника."</string>
+    <string name="common_google_play_services_update_button" msgid="2221302284291941971">"Оновити"</string>
+    <string name="common_open_on_phone" msgid="311697239335516384">"Відкрити на телефоні"</string>
+    <string name="common_google_play_services_api_unavailable_text" msgid="2785372108150982144">"Для роботи додатка <xliff:g id="APP_NAME">%1$s</xliff:g> потрібні один або декілька сервісів Google Play, які зараз недоступні. Зверніться по допомогу до розробника."</string>
+    <string name="common_google_play_services_sign_in_failed_title" msgid="8431204498860131150">"Помилка під час входу"</string>
+    <string name="common_google_play_services_sign_in_failed_text" msgid="59739986196915578">"Не вдалося ввійти в указаний обліковий запис. Виберіть інший."</string>
+    <string name="common_google_play_services_restricted_profile_title" msgid="4958149393843193760">"Профіль з обмеженнями"</string>
+    <string name="common_google_play_services_restricted_profile_text" msgid="6951442375899151085">"З профілю, який має обмеження, не можна входити в облікові записи."</string>
+    <string name="common_signin_button_text" msgid="3156914698180786012">"Увійти"</string>
+    <string name="common_signin_button_text_long" msgid="1483290677806110088">"Увійти в облік. запис Google"</string>
+</resources>

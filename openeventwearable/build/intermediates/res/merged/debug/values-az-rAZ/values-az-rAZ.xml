@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <string msgid="2785372108150982144" name="common_google_play_services_api_unavailable_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> hazırda əlçatmaz olan bir və ya daha çox Google Play xidməti tələb edir. Yardım üçün istehsalçı ilə əlaqə saxlayın."</string>
+    <string msgid="7334167077229901382" name="common_google_play_services_enable_button">"Google Play xidmətlərini aktiv edin"</string>
+    <string msgid="2016066508617425489" name="common_google_play_services_enable_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> Google Play xidmətlərini aktiv edənə kimi işləməyəcək."</string>
+    <string msgid="4763733806837472840" name="common_google_play_services_enable_title">"Google Play xidmətlərini aktiv edin"</string>
+    <string msgid="5765996826213593005" name="common_google_play_services_install_button">"Google Play xidmətlərini əldə edin"</string>
+    <string msgid="1545874412485515659" name="common_google_play_services_install_text_phone">"<ns1:g id="APP_NAME">%1$s</ns1:g> telefonunuzdan yoxa çıxmış Google Play xidmətləri olmadan çalışmayacaq."</string>
+    <string msgid="2742131317258851812" name="common_google_play_services_install_text_tablet">"<ns1:g id="APP_NAME">%1$s</ns1:g> planşetinizdən yoxa çıxmış Google Play xidmətləri olmadan çalışmayacaq."</string>
+    <string msgid="2110712637922504348" name="common_google_play_services_install_title">"Google Play xidmətlərini əldə edin"</string>
+    <string msgid="8004809446015217370" name="common_google_play_services_invalid_account_text">"Göstərilmiş hesab bu cihazda mövcud deyil. Lütfən, fərqli hesab seçin."</string>
+    <string msgid="9894539456463288" name="common_google_play_services_invalid_account_title">"Etibarsız Hesab"</string>
+    <string msgid="2602915190038884860" name="common_google_play_services_network_error_text">"Google Play xidmətlərinə qoşulmaq üçün data bağlantısı tələb olunur."</string>
+    <string msgid="5183831421651758225" name="common_google_play_services_network_error_title">"Şəbəkə Xətası"</string>
+    <string msgid="3936796119014022295" name="common_google_play_services_notification_ticker">"Google Play xidmətləri xətası"</string>
+    <string msgid="6951442375899151085" name="common_google_play_services_restricted_profile_text">"Məhdudlaşdırılmış profildən hesablara giriş dəstəklənmir."</string>
+    <string msgid="4958149393843193760" name="common_google_play_services_restricted_profile_title">"Məhdudlaşdırılmış Profil"</string>
+    <string msgid="59739986196915578" name="common_google_play_services_sign_in_failed_text">"Göstərilən hesaba daxil olarkən xəta baş verdi. Lütfən fərqli bir hesab seçin."</string>
+    <string msgid="8431204498860131150" name="common_google_play_services_sign_in_failed_title">"Daxil olmadı"</string>
+    <string msgid="7170719956698345984" name="common_google_play_services_unknown_issue">"<ns1:g id="APP_NAME">%1$s</ns1:g> tətbiqi ilə Google Play xidmətləri arasında problem var. Problem davam edərsə, Yardım üçün tərtibatçı ilə əlaqə saxlayın."</string>
+    <string msgid="4291190028362992831" name="common_google_play_services_unsupported_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> cihazınız tərəfindən dəstəklənməyən Google Play xidmətlərinə əsaslanır. Yardım üçün istehsalçı ilə əlaqə saxlayın."</string>
+    <string msgid="909734065366822541" name="common_google_play_services_unsupported_title">"Google Play xidmətləri"</string>
+    <string msgid="2221302284291941971" name="common_google_play_services_update_button">"Güncəlləyin"</string>
+    <string msgid="6230553430311881723" name="common_google_play_services_update_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> Google Play xidmətlərini güncəlləmədən çalışmayacaq."</string>
+    <string msgid="2926201203597631481" name="common_google_play_services_update_title">"Google Play xidmətlərini güncəlləşdirin"</string>
+    <string msgid="1576144479907495032" name="common_google_play_services_updating_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> hal-hazırda güncəllənən Google Play xidmətləri olmadan çalışmayacaq."</string>
+    <string msgid="1604540693139938838" name="common_google_play_services_updating_title">"Google Play xidmətləri təzələnir"</string>
+    <string msgid="8334920661858223093" name="common_google_play_services_wear_update_text">"Google Play xidmətlərinin yeni versiyası lazımdır. Qısa müddətə özünü yeniləyəcək."</string>
+    <string msgid="311697239335516384" name="common_open_on_phone">"Telefonda açın"</string>
+    <string msgid="3156914698180786012" name="common_signin_button_text">"Daxil olun"</string>
+    <string msgid="1483290677806110088" name="common_signin_button_text_long">"Google ilə daxil olun"</string>
+</resources>

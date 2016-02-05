@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:name="generic_confirmation"
+    android:alpha="0"
+    android:width="100dp"
+    android:viewportWidth="100"
+    android:height="100dp"
+    android:viewportHeight="100" >
+    <group
+        android:name="icon"
+        android:translateX="50"
+        android:translateY="43.79"
+        android:scaleX="0.1035"
+        android:scaleY="0.1035"
+        android:rotation="65" >
+        <group
+            android:name="border"
+            android:scaleX="1.68832"
+            android:scaleY="1.68832" >
+            <path
+                android:name="border_path"
+                android:fillColor="#FF1CE8B5"
+                android:pathData="M 0.0,-82.283205 c 45.4437592862,0.0 82.283205,36.8394457138 82.283205,82.283205 c 0.0,45.4437592862 -36.8394457138,82.283205 -82.283205,82.283205 c -45.4437592862,0.0 -82.283205,-36.8394457138 -82.283205,-82.283205 c 0.0,-45.4437592862 36.8394457138,-82.283205 82.283205,-82.283205 Z" />
+        </group>
+        <group
+            android:name="check" >
+            <path
+                android:name="check_path"
+                android:pathData="M 52.75,-57.75 c 0.0,0.0 -71.5,80.0 -71.5,80.0 c 0.0,0.0 -45.75,-29.5 -45.75,-29.5 c 0.0,0.0 0.0,16.0 0.0,16.0 c 0.0,0.0 46.0,47.75 46.0,47.75 c 0.0,0.0 5.25,0.0 5.25,0.0 c 0.0,0.0 77.5,-104.5 77.5,-104.5 c 0.0,0.0 -11.5,-9.75 -11.5,-9.75 Z"
+                android:fillColor="#FFFFFFFF" />
+        </group>
+    </group>
+</vector>
+<!-- From: file:/usr/local/google/buildbot/repo_clients/https___googleplex-android.googlesource.com_a_platform_manifest.git/ub-wearable-common-duralumin/vendor/unbundled_google/libs/wearable/wearable-support/lib/src/main/res/drawable-v21/generic_confirmation.xml -->

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="common_google_play_services_notification_ticker" msgid="3936796119014022295">"Σφάλμα υπηρεσιών Google Play"</string>
+    <string name="common_google_play_services_install_title" msgid="2110712637922504348">"Λήψη υπηρεσιών Google Play"</string>
+    <string name="common_google_play_services_install_text_phone" msgid="1545874412485515659">"Η εφαρμογή <xliff:g id="APP_NAME">%1$s</xliff:g> δεν θα εκτελεστεί χωρίς τις υπηρεσίες Google Play, οι οποίες λείπουν από το τηλέφωνό σας."</string>
+    <string name="common_google_play_services_install_text_tablet" msgid="2742131317258851812">"Η εφαρμογή <xliff:g id="APP_NAME">%1$s</xliff:g> δεν θα εκτελεστεί χωρίς τις υπηρεσίες Google Play, οι οποίες λείπουν από το tablet σας."</string>
+    <string name="common_google_play_services_install_button" msgid="5765996826213593005">"Λήψη υπηρεσιών Google Play"</string>
+    <string name="common_google_play_services_enable_title" msgid="4763733806837472840">"Ενεργοποίηση υπηρεσιών Google Play"</string>
+    <string name="common_google_play_services_enable_text" msgid="2016066508617425489">"Η εφαρμογή <xliff:g id="APP_NAME">%1$s</xliff:g> δεν θα λειτουργήσει εάν δεν έχετε ενεργοποιήσει τις υπηρεσίες Google Play."</string>
+    <string name="common_google_play_services_enable_button" msgid="7334167077229901382">"Ενεργοποίηση υπηρεσιών Google Play"</string>
+    <string name="common_google_play_services_update_title" msgid="2926201203597631481">"Ενημέρωση υπηρεσιών Google Play"</string>
+    <string name="common_google_play_services_update_text" msgid="6230553430311881723">"Η εφαρμογή <xliff:g id="APP_NAME">%1$s</xliff:g> θα εκτελεστεί αφού ενημερώσετε τις υπηρεσίες Google Play."</string>
+    <string name="common_google_play_services_wear_update_text" msgid="8334920661858223093">"Απαιτείται νέα έκδοση των υπηρεσιών Google Play. Θα ενημερωθεί σύντομα."</string>
+    <string name="common_google_play_services_updating_title" msgid="1604540693139938838">"Ενημέρωση των υπηρεσιών Google Play"</string>
+    <string name="common_google_play_services_updating_text" msgid="1576144479907495032">"Η εφαρμογή <xliff:g id="APP_NAME">%1$s</xliff:g> δεν θα εκτελεστεί χωρίς τις υπηρεσίες Google Play, οι οποίες ενημερώνονται αυτήν τη στιγμή."</string>
+    <string name="common_google_play_services_network_error_title" msgid="5183831421651758225">"Σφάλμα δικτύου"</string>
+    <string name="common_google_play_services_network_error_text" msgid="2602915190038884860">"Απαιτείται σύνδεση δεδομένων για να συνδεθείτε με τις υπηρεσίες Google Play."</string>
+    <string name="common_google_play_services_invalid_account_title" msgid="9894539456463288">"Μη έγκυρος λογαριασμός"</string>
+    <string name="common_google_play_services_invalid_account_text" msgid="8004809446015217370">"Ο συγκεκριμένος λογαριασμός δεν υπάρχει σε αυτήν τη συσκευή. Επιλέξτε έναν διαφορετικό λογαριασμό."</string>
+    <string name="common_google_play_services_unsupported_title" msgid="909734065366822541">"υπηρεσίες Google Play"</string>
+    <string name="common_google_play_services_unsupported_text" msgid="4291190028362992831">"Η εφαρμογή <xliff:g id="APP_NAME">%1$s</xliff:g> βασίζεται στις υπηρεσίες Google Play, οι οποίες δεν υποστηρίζονται από τη συσκευή σας. Επικοινωνήστε με τον κατασκευαστή για βοήθεια."</string>
+    <string name="common_google_play_services_update_button" msgid="2221302284291941971">"Ενημέρωση"</string>
+    <string name="common_open_on_phone" msgid="311697239335516384">"Άνοιγμα σε τηλέφωνο"</string>
+    <string name="common_google_play_services_api_unavailable_text" msgid="2785372108150982144">"Η εφαρμογή <xliff:g id="APP_NAME">%1$s</xliff:g> απαιτεί μία ή περισσότερες υπηρεσίες του Google Play που δεν είναι διαθέσιμες προς το παρόν. Επικοινωνήστε με τον προγραμματιστή για βοήθεια."</string>
+    <string name="common_google_play_services_sign_in_failed_title" msgid="8431204498860131150">"Η σύνδεση απέτυχε"</string>
+    <string name="common_google_play_services_sign_in_failed_text" msgid="59739986196915578">"Σφάλμα κατά τη σύνδεση στον συγκεκριμένο λογαριασμό. Επιλέξτε έναν διαφορετικό λογαριασμό."</string>
+    <string name="common_google_play_services_restricted_profile_title" msgid="4958149393843193760">"Προφίλ περιορισμένης πρόσβασης"</string>
+    <string name="common_google_play_services_restricted_profile_text" msgid="6951442375899151085">"Δεν υποστηρίζεται η πρόσβαση σε λογαριασμούς από ένα προφίλ περιορισμένης πρόσβασης."</string>
+    <string name="common_signin_button_text" msgid="3156914698180786012">"Σύνδεση"</string>
+    <string name="common_signin_button_text_long" msgid="1483290677806110088">"Συνδεθείτε με το Google"</string>
+</resources>

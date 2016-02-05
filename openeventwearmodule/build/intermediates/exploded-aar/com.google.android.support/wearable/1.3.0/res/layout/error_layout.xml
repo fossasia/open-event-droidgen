@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey"
+    android:orientation="vertical" >
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_weight="0.6"
+        android:scaleType="center"
+        android:src="@drawable/ic_full_sad" />
+
+    <TextView
+        android:id="@+id/message"
+        android:layout_width="140dp"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_weight="0.4"
+        android:fontFamily="sans-serif-condensed-light"
+        android:gravity="center_horizontal|top"
+        android:maxWidth="140dp"
+        android:textAppearance="@style/TextAppearance.Wearable.Medium"
+        android:textColor="@color/primary_text_dark" />
+
+</LinearLayout><!-- From: file:/usr/local/google/buildbot/repo_clients/https___googleplex-android.googlesource.com_a_platform_manifest.git/ub-wearable-common-duralumin/vendor/unbundled_google/libs/wearable/wearable-support/lib/src/main/res/layout/error_layout.xml -->

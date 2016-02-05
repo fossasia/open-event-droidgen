@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="common_google_play_services_unknown_issue" msgid="7170719956698345984">"<xliff:g id="APP_NAME">%1$s</xliff:g> သည် Google Play ဝန်ဆောင်မှုများနှင့် ပြဿနာရှိနေသည်။ ပြဿနာရှိနေသေးလျှင်၊ အကူအညီအတွက် ဆော့ဖ်ဝဲအင်ဂျင်နီယာကို ဆက်သွယ်ပါ။"</string>
+</resources>

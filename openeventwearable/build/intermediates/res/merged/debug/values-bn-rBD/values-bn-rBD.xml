@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <string msgid="2785372108150982144" name="common_google_play_services_api_unavailable_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> এর একটি বা আরও বেশি Google Play পরিষেবার প্রয়োজন যা বর্তমানে উপলব্ধ নেই। অনুগ্রহ করে সহায়তার জন্য বিকাশকারীর সাথে যোগাযোগ করুন।"</string>
+    <string msgid="7334167077229901382" name="common_google_play_services_enable_button">"Google Play পরিষেবা সক্ষম করুন"</string>
+    <string msgid="2016066508617425489" name="common_google_play_services_enable_text">"আপনি Google Play পরিষেবা সক্ষম না করা পর্যন্ত <ns1:g id="APP_NAME">%1$s</ns1:g> কাজ করবে না।"</string>
+    <string msgid="4763733806837472840" name="common_google_play_services_enable_title">"Google Play পরিষেবা সক্ষম করুন"</string>
+    <string msgid="5765996826213593005" name="common_google_play_services_install_button">"Google Play পরিষেবা পান"</string>
+    <string msgid="1545874412485515659" name="common_google_play_services_install_text_phone">"Google Play পরিষেবা ছাড়া <ns1:g id="APP_NAME">%1$s</ns1:g> চলবে না, যা আপনার ফোনে অনুপস্থিত।"</string>
+    <string msgid="2742131317258851812" name="common_google_play_services_install_text_tablet">"Google Play পরিষেবা ছাড়া <ns1:g id="APP_NAME">%1$s</ns1:g> চলবে না, যা আপনার ট্যাবলেটে অনুপস্থিত।"</string>
+    <string msgid="2110712637922504348" name="common_google_play_services_install_title">"Google Play পরিষেবা পান"</string>
+    <string msgid="8004809446015217370" name="common_google_play_services_invalid_account_text">"উল্লিখিত অ্যাকাউন্টটি এই ডিভাইসে বিদ্যমান নেই৷ অনুগ্রহ করে আলাদা কোনো অ্যাকাউন্ট বাছুন৷"</string>
+    <string msgid="9894539456463288" name="common_google_play_services_invalid_account_title">"অবৈধ অ্যাকাউন্ট"</string>
+    <string msgid="2602915190038884860" name="common_google_play_services_network_error_text">"Google Play পরিষেবাতে সংযোগ করতে একটি ডেটা সংযোগের প্রয়োজন৷"</string>
+    <string msgid="5183831421651758225" name="common_google_play_services_network_error_title">"নেটওয়ার্ক ত্রুটি"</string>
+    <string msgid="3936796119014022295" name="common_google_play_services_notification_ticker">"Google Play পরিষেবার ত্রুটি"</string>
+    <string msgid="6951442375899151085" name="common_google_play_services_restricted_profile_text">"একটি বিধিনিষেধযুক্ত প্রোফাইল থেকে অ্যাকাউন্টগুলিতে অ্যাক্সেস করা সমর্থিত নয়।"</string>
+    <string msgid="4958149393843193760" name="common_google_play_services_restricted_profile_title">"বিধিনিষেধযুক্ত প্রোফাইল"</string>
+    <string msgid="59739986196915578" name="common_google_play_services_sign_in_failed_text">"উল্লিখিত অ্যাকাউন্টে সাইন ইন করার সময় ত্রুটি৷ অনুগ্রহ করে আলাদা কোনো অ্যাকাউন্ট বাছুন৷"</string>
+    <string msgid="8431204498860131150" name="common_google_play_services_sign_in_failed_title">"সাইন ইন করতে ব্যর্থ হয়েছে"</string>
+    <string msgid="7170719956698345984" name="common_google_play_services_unknown_issue">"Google Play পরিষেবাগুলির সাথে <ns1:g id="APP_NAME">%1$s</ns1:g> এর সমস্যা হচ্ছে৷ যদি সমস্যাটি থেকে যায় তাহলে অনুগ্রহ করে সহায়তার জন্য বিকাশকারীর সাথে যোগাযোগ করুন।"</string>
+    <string msgid="4291190028362992831" name="common_google_play_services_unsupported_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> Google Play পরিষেবার উপর নির্ভরশীল, যা আপনার ডিভাইসে সমর্থিত নয়। সহায়তার জন্য প্রস্তুতকারকের সাথে যোগাযোগ করুন।"</string>
+    <string msgid="909734065366822541" name="common_google_play_services_unsupported_title">"Google Play পরিষেবা"</string>
+    <string msgid="2221302284291941971" name="common_google_play_services_update_button">"আপডেট করুন"</string>
+    <string msgid="6230553430311881723" name="common_google_play_services_update_text">"আপনি Google Play পরিষেবা আপডেট না করা পর্যন্ত <ns1:g id="APP_NAME">%1$s</ns1:g> চলবে না।"</string>
+    <string msgid="2926201203597631481" name="common_google_play_services_update_title">"Google Play পরিষেবা আপডেট করুন"</string>
+    <string msgid="1576144479907495032" name="common_google_play_services_updating_text">"Google Play পরিষেবা ছাড়া <ns1:g id="APP_NAME">%1$s</ns1:g> চলবে না যা বর্তমানে আপডেট হচ্ছে।"</string>
+    <string msgid="1604540693139938838" name="common_google_play_services_updating_title">"Google Play পরিষেবা আপডেট হচ্ছে"</string>
+    <string msgid="8334920661858223093" name="common_google_play_services_wear_update_text">"Google Play পরিষেবার নতুন সংস্করণ প্রয়োজন৷ খুব শীঘ্রই এটা নিজেই আপডেট হবে৷"</string>
+    <string msgid="311697239335516384" name="common_open_on_phone">"ফোনে খুলুন"</string>
+    <string msgid="3156914698180786012" name="common_signin_button_text">"সাইন ইন করুন"</string>
+    <string msgid="1483290677806110088" name="common_signin_button_text_long">"Google এর মাধ্যমে সাইন ইন করুন"</string>
+</resources>

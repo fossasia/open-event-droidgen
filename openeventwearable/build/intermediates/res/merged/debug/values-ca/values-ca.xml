@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <string msgid="2785372108150982144" name="common_google_play_services_api_unavailable_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> necessita almenys un servei de Google Play que actualment no està disponible. Contacta amb el desenvolupador per obtenir ajuda."</string>
+    <string msgid="7334167077229901382" name="common_google_play_services_enable_button">"Activa els serveis de Google Play"</string>
+    <string msgid="2016066508617425489" name="common_google_play_services_enable_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> no funcionarà si no actives els serveis de Google Play."</string>
+    <string msgid="4763733806837472840" name="common_google_play_services_enable_title">"Activa els serveis de Google Play"</string>
+    <string msgid="5765996826213593005" name="common_google_play_services_install_button">"Obtén els serveis de Google Play"</string>
+    <string msgid="1545874412485515659" name="common_google_play_services_install_text_phone">"<ns1:g id="APP_NAME">%1$s</ns1:g> no s\'executarà si el telèfon no té instal·lats els serveis de Google Play."</string>
+    <string msgid="2742131317258851812" name="common_google_play_services_install_text_tablet">"<ns1:g id="APP_NAME">%1$s</ns1:g> no s\'executarà si la tauleta no té instal·lats els serveis de Google Play."</string>
+    <string msgid="2110712637922504348" name="common_google_play_services_install_title">"Obtén els serveis de Google Play"</string>
+    <string msgid="8004809446015217370" name="common_google_play_services_invalid_account_text">"El compte especificat no existeix en aquest dispositiu. Tria un altre compte."</string>
+    <string msgid="9894539456463288" name="common_google_play_services_invalid_account_title">"Compte no vàlid"</string>
+    <string msgid="2602915190038884860" name="common_google_play_services_network_error_text">"Cal una connexió de dades per connectar amb els serveis de Google Play."</string>
+    <string msgid="5183831421651758225" name="common_google_play_services_network_error_title">"Error de xarxa"</string>
+    <string msgid="3936796119014022295" name="common_google_play_services_notification_ticker">"Error dels serveis de Google Play"</string>
+    <string msgid="6951442375899151085" name="common_google_play_services_restricted_profile_text">"No es pot accedir als comptes d\'un perfil restringit."</string>
+    <string msgid="4958149393843193760" name="common_google_play_services_restricted_profile_title">"Perfil restringit"</string>
+    <string msgid="59739986196915578" name="common_google_play_services_sign_in_failed_text">"S\'ha produït un error en iniciar la sessió al compte especificat. Tria\'n un altre."</string>
+    <string msgid="8431204498860131150" name="common_google_play_services_sign_in_failed_title">"Error d\'inici de sessió"</string>
+    <string msgid="7170719956698345984" name="common_google_play_services_unknown_issue">"<ns1:g id="APP_NAME">%1$s</ns1:g> té problemes amb els serveis de Google Play. Si el problema continua, contacta amb el desenvolupador per obtenir ajuda."</string>
+    <string msgid="4291190028362992831" name="common_google_play_services_unsupported_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> depèn dels serveis de Google Play, que no són compatibles amb el teu dispositiu. Contacta amb el fabricant per obtenir ajuda."</string>
+    <string msgid="909734065366822541" name="common_google_play_services_unsupported_title">"Serveis de Google Play"</string>
+    <string msgid="2221302284291941971" name="common_google_play_services_update_button">"Actualitza"</string>
+    <string msgid="6230553430311881723" name="common_google_play_services_update_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> no s\'executarà si no actualitzes els serveis de Google Play."</string>
+    <string msgid="2926201203597631481" name="common_google_play_services_update_title">"Actualitza els serveis de Google Play"</string>
+    <string msgid="1576144479907495032" name="common_google_play_services_updating_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> no s\'executarà sense els serveis de Google Play, que s\'estan actualitzant en aquest moment."</string>
+    <string msgid="1604540693139938838" name="common_google_play_services_updating_title">"Actualitzant els serveis de Google Play"</string>
+    <string msgid="8334920661858223093" name="common_google_play_services_wear_update_text">"Cal una nova versió dels serveis de Google Play. S\'actualitzaran automàticament aviat."</string>
+    <string msgid="311697239335516384" name="common_open_on_phone">"Obre al telèfon"</string>
+    <string msgid="3156914698180786012" name="common_signin_button_text">"Inicia sessió"</string>
+    <string msgid="1483290677806110088" name="common_signin_button_text_long">"Inicia la sessió amb Google"</string>
+</resources>

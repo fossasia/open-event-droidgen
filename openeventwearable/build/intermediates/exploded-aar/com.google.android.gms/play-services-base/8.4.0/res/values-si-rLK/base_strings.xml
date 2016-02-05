@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="common_google_play_services_notification_ticker" msgid="3936796119014022295">"Google Play සේවා දෝෂය"</string>
+    <string name="common_google_play_services_install_title" msgid="2110712637922504348">"Google Play සේවා ලබා ගන්න"</string>
+    <string name="common_google_play_services_install_text_phone" msgid="1545874412485515659">"ඔබගේ දුරකථනයේ නැති Google Play සේවාවන් නොමැතිව <xliff:g id="APP_NAME">%1$s</xliff:g> ධාවනය නොවනු ඇත."</string>
+    <string name="common_google_play_services_install_text_tablet" msgid="2742131317258851812">"ඔබගේ ටැබ්ලට් පරිගණකයේ නැති Google Play සේවා නොමැතිව <xliff:g id="APP_NAME">%1$s</xliff:g> ධාවනය නොවනු ඇත."</string>
+    <string name="common_google_play_services_install_button" msgid="5765996826213593005">"Google Play සේවා ලබා ගන්න"</string>
+    <string name="common_google_play_services_enable_title" msgid="4763733806837472840">"Google Play සේවා සබල කරන්න"</string>
+    <string name="common_google_play_services_enable_text" msgid="2016066508617425489">"ඔබ Google Play සේවා සබල කරන්නේ නම් මිස <xliff:g id="APP_NAME">%1$s</xliff:g> වැඩ නොකරනු ඇත."</string>
+    <string name="common_google_play_services_enable_button" msgid="7334167077229901382">"Google Play සේවා සබල කරන්න"</string>
+    <string name="common_google_play_services_update_title" msgid="2926201203597631481">"Google Play සේවා යාවත්කාලීන කරන්න"</string>
+    <string name="common_google_play_services_update_text" msgid="6230553430311881723">"Google Play සේවා යාවත්කාලීන කරන තෙක් <xliff:g id="APP_NAME">%1$s</xliff:g> ධාවනය නොවනු ඇත."</string>
+    <string name="common_google_play_services_wear_update_text" msgid="8334920661858223093">"Google Play සේවාවල නව අනුවාදයක් අවශ්‍යයි. එය මද වේලාවකින් එය විසින්ම යාවත්කාලීන වනු ඇත."</string>
+    <string name="common_google_play_services_updating_title" msgid="1604540693139938838">"Google Play සේවා යාවත්කාලීන කරමින්"</string>
+    <string name="common_google_play_services_updating_text" msgid="1576144479907495032">"දැනට යාවත්කාලීන කරමින් ඇති, Google Play සේවා නොමැතිව <xliff:g id="APP_NAME">%1$s</xliff:g> ධාවනය නොවනු ඇත."</string>
+    <string name="common_google_play_services_network_error_title" msgid="5183831421651758225">"ජාල දෝෂය"</string>
+    <string name="common_google_play_services_network_error_text" msgid="2602915190038884860">"Google Play සේවා වෙත සබැඳීමට දත්ත සබැඳුමක් අවශ්‍යය."</string>
+    <string name="common_google_play_services_invalid_account_title" msgid="9894539456463288">"වලංගු නොවන ගිණුම"</string>
+    <string name="common_google_play_services_invalid_account_text" msgid="8004809446015217370">"සඳහන් කළ ගිණුම මෙම උපාංගය මත නොපවතී. කරුණාකර වෙනත් ගිණුමක් තෝරන්න."</string>
+    <string name="common_google_play_services_unsupported_title" msgid="909734065366822541">"Google Play සේවා"</string>
+    <string name="common_google_play_services_unsupported_text" msgid="4291190028362992831">"<xliff:g id="APP_NAME">%1$s</xliff:g> Google Play සේවා මත යැපෙන අතර, එය වෙත ඔබගේ උපාංගය සහාය නොදක්වයි. කරුණාකර සහාය සඳහා නිෂ්පාදකයා අමතන්න."</string>
+    <string name="common_google_play_services_update_button" msgid="2221302284291941971">"යාවත්කාලීන කරන්න"</string>
+    <string name="common_open_on_phone" msgid="311697239335516384">"දුරකථනය තුළ විවෘත කරන්න"</string>
+    <string name="common_google_play_services_api_unavailable_text" msgid="2785372108150982144">"<xliff:g id="APP_NAME">%1$s</xliff:g> සඳහා දැනට නොතිබෙන Google Play සේවා එකක් හෝ කිහිපයක් අවශ්‍යයි. කරුණාකර සහාය සඳහා සංවර්ධක අමතන්න."</string>
+    <string name="common_google_play_services_sign_in_failed_title" msgid="8431204498860131150">"පිරීම අසාර්ථක විය"</string>
+    <string name="common_google_play_services_sign_in_failed_text" msgid="59739986196915578">"සඳහන් කළ ගිණුමට පිරීමේ දෝෂයකි. කරුණාකර වෙනත් ගිණුමක් තෝරන්න."</string>
+    <string name="common_google_play_services_restricted_profile_title" msgid="4958149393843193760">"සීමා කළ පැතිකඩ"</string>
+    <string name="common_google_play_services_restricted_profile_text" msgid="6951442375899151085">"සීමා කළ පැතිකඩක් වෙතින් ගිණුම්වලට ප්‍රවේශ වීමට සහාය නොදක්වයි."</string>
+    <string name="common_signin_button_text" msgid="3156914698180786012">"පුරන්න"</string>
+    <string name="common_signin_button_text_long" msgid="1483290677806110088">"Google සමගින් පුරන්න"</string>
+</resources>

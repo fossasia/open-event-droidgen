@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<pathInterpolator
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:pathData="M 0.0,0.0 c 0.230242651469,0.0 0.415094339623,0.655389695336 0.415094339623,0.655389695336 c 0.0,0.0 0.297922257913,0.344610304664 0.584905660377,0.344610304664 L 1.0,1.0" />
+<!-- From: file:/usr/local/google/buildbot/repo_clients/https___googleplex-android.googlesource.com_a_platform_manifest.git/ub-wearable-common-duralumin/vendor/unbundled_google/libs/wearable/wearable-support/lib/src/main/res/interpolator/generic_confirmation_animation_interpolator_2.xml -->

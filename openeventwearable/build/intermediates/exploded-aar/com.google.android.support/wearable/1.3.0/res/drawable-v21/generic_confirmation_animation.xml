@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/generic_confirmation" >
+    <target
+        android:name="icon"
+        android:animation="@anim/generic_confirmation_icon_animation" />
+    <target
+        android:name="generic_confirmation"
+        android:animation="@anim/generic_confirmation_generic_confirmation_animation" />
+</animated-vector>
+<!-- From: file:/usr/local/google/buildbot/repo_clients/https___googleplex-android.googlesource.com_a_platform_manifest.git/ub-wearable-common-duralumin/vendor/unbundled_google/libs/wearable/wearable-support/lib/src/main/res/drawable-v21/generic_confirmation_animation.xml -->

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="common_google_play_services_notification_ticker" msgid="3936796119014022295">"Pogreška usluga Google Playa"</string>
+    <string name="common_google_play_services_install_title" msgid="2110712637922504348">"Preuzimanje usluga Google Playa"</string>
+    <string name="common_google_play_services_install_text_phone" msgid="1545874412485515659">"<xliff:g id="APP_NAME">%1$s</xliff:g> neće funkcionirati bez usluga Google Playa koje nisu instalirane na vašem telefonu."</string>
+    <string name="common_google_play_services_install_text_tablet" msgid="2742131317258851812">"<xliff:g id="APP_NAME">%1$s</xliff:g> neće funkcionirati bez usluga Google Playa koje nisu instalirane na vašem tabletu."</string>
+    <string name="common_google_play_services_install_button" msgid="5765996826213593005">"Preuzmi usluge Google Playa"</string>
+    <string name="common_google_play_services_enable_title" msgid="4763733806837472840">"Omogućivanje usluga Google Playa"</string>
+    <string name="common_google_play_services_enable_text" msgid="2016066508617425489">"<xliff:g id="APP_NAME">%1$s</xliff:g> neće funkcionirati ako ne omogućite usluge Google Playa."</string>
+    <string name="common_google_play_services_enable_button" msgid="7334167077229901382">"Omogući usluge Google Playa"</string>
+    <string name="common_google_play_services_update_title" msgid="2926201203597631481">"Ažuriranje usluga Google Playa"</string>
+    <string name="common_google_play_services_update_text" msgid="6230553430311881723">"<xliff:g id="APP_NAME">%1$s</xliff:g> neće funkcionirati ako ne ažurirate usluge Google Playa."</string>
+    <string name="common_google_play_services_wear_update_text" msgid="8334920661858223093">"Potrebna je nova verzija usluga Google Playa. Uskoro će se ažurirati."</string>
+    <string name="common_google_play_services_updating_title" msgid="1604540693139938838">"Ažuriranje usluga Google Playa u tijeku"</string>
+    <string name="common_google_play_services_updating_text" msgid="1576144479907495032">"<xliff:g id="APP_NAME">%1$s</xliff:g> neće se pokrenuti bez usluga Google Playa koje se trenutačno ažuriraju."</string>
+    <string name="common_google_play_services_network_error_title" msgid="5183831421651758225">"Mrežna pogreška"</string>
+    <string name="common_google_play_services_network_error_text" msgid="2602915190038884860">"Potrebna je podatkovna veza za povezivanje s uslugama Google Playa."</string>
+    <string name="common_google_play_services_invalid_account_title" msgid="9894539456463288">"Nevažeći račun"</string>
+    <string name="common_google_play_services_invalid_account_text" msgid="8004809446015217370">"Navedeni račun ne postoji na ovom uređaju. Odaberite neki drugi račun."</string>
+    <string name="common_google_play_services_unsupported_title" msgid="909734065366822541">"Usluge Google Playa"</string>
+    <string name="common_google_play_services_unsupported_text" msgid="4291190028362992831">"<xliff:g id="APP_NAME">%1$s</xliff:g> radi na temelju usluga Google Playa koje vaš uređaj ne podržava. Za pomoć se obratite proizvođaču."</string>
+    <string name="common_google_play_services_update_button" msgid="2221302284291941971">"Ažuriraj"</string>
+    <string name="common_open_on_phone" msgid="311697239335516384">"Otvori na telefonu"</string>
+    <string name="common_google_play_services_api_unavailable_text" msgid="2785372108150982144">"<xliff:g id="APP_NAME">%1$s</xliff:g> zahtijeva jednu ili više usluga Google Playa koje trenutačno nisu dostupne. Za pomoć se obratite razvojnom programeru."</string>
+    <string name="common_google_play_services_sign_in_failed_title" msgid="8431204498860131150">"Prijava nije uspjela"</string>
+    <string name="common_google_play_services_sign_in_failed_text" msgid="59739986196915578">"Pogreška prilikom prijave na navedeni račun. Odaberite neki drugi račun."</string>
+    <string name="common_google_play_services_restricted_profile_title" msgid="4958149393843193760">"Ograničeni profil"</string>
+    <string name="common_google_play_services_restricted_profile_text" msgid="6951442375899151085">"Pristupanje računima iz ograničenog profila nije dopušteno."</string>
+    <string name="common_signin_button_text" msgid="3156914698180786012">"Prijava"</string>
+    <string name="common_signin_button_text_long" msgid="1483290677806110088">"Prijava putem Googlea"</string>
+</resources>

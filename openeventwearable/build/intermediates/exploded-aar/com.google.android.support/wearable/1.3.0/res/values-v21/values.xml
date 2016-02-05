@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/usr/local/google/buildbot/repo_clients/https___googleplex-android.googlesource.com_a_platform_manifest.git/ub-wearable-common-duralumin/vendor/unbundled_google/libs/wearable/wearable-support/lib/src/main/res/values-v21/styles.xml -->
+    <eat-comment/>
+    <style name="TextAppearance.WearDiag" parent="android:TextAppearance.Medium">
+        <item name="android:textColor">@color/primary_text_dark</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <style name="TextAppearance.WearDiag.Button">
+        <item name="android:textSize">16sp</item>
+    </style>
+    <style name="TextAppearance.WearDiag.Message">
+        <item name="android:textSize">16sp</item>
+        <item name="android:lineSpacingMultiplier">.96</item>
+    </style>
+    <style name="TextAppearance.WearDiag.Title">
+        <item name="android:textSize">20sp</item>
+        <item name="android:lineSpacingMultiplier">0.93867</item>
+    </style>
+    <!-- From: file:/usr/local/google/buildbot/repo_clients/https___googleplex-android.googlesource.com_a_platform_manifest.git/ub-wearable-common-duralumin/vendor/unbundled_google/libs/wearable/wearable-support/lib/src/main/res/values-v21/themes.xml -->
+    <eat-comment/>
+    <style name="Theme.WearDiag" parent="@android:style/Theme.DeviceDefault.NoActionBar">
+        <item name="android:textAppearance">@style/TextAppearance.WearDiag</item>
+        <item name="android:windowBackground">@color/dialog_background</item>
+        <item name="android:colorBackground">@color/dialog_background</item>
+        <item name="android:colorBackgroundCacheHint">@color/dialog_background</item>
+        <item name="android:buttonStyle">@style/Widget.WearDiag.Button</item>
+    </style>
+    <!-- From: file:/usr/local/google/buildbot/repo_clients/https___googleplex-android.googlesource.com_a_platform_manifest.git/ub-wearable-common-duralumin/vendor/unbundled_google/libs/wearable/wearable-support/lib/src/main/res/values-v21/styles.xml -->
+    <eat-comment/>
+    <style name="Widget.ActionPage" parent="@android:style/Widget">
+        <item name="android:background">#99000000</item>
+        <item name="android:elevation">@dimen/circular_button_elevation</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:stateListAnimator">@animator/circular_image_button_anim</item>
+        <item name="android:textColor">@color/primary_text_dark</item>
+        <item name="android:fontFamily">sans-serif-condensed-light</item>
+        <item name="maxTextSize">20sp</item>
+        <item name="minTextSize">12sp</item>
+        <item name="android:color">@color/circular_button</item>
+        <item name="buttonRippleColor">@color/circular_button_pressed</item>
+    </style>
+    <style name="Widget.WearDiag.Button" parent="@android:style/Widget.DeviceDefault.Button">
+        <item name="android:fontFamily">sans-serif-condensed-light</item>
+        <item name="android:gravity">center_vertical|left</item>
+        <item name="android:textAppearance">@style/TextAppearance.WearDiag.Button</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:minLines">1</item>
+        <item name="android:maxLines">3</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:drawablePadding">12dp</item>
+    </style>
+    <style name="Widget.WearDiag.TextView" parent="@android:style/Widget.DeviceDefault.TextView">
+        <item name="android:fontFamily">sans-serif-condensed-light</item>
+    </style>
+    <style name="Widget.WearDiag.TextView.Message">
+        <item name="android:textAppearance">@style/TextAppearance.WearDiag.Message</item>
+        <item name="android:gravity">left</item>
+    </style>
+    <style name="Widget.WearDiag.TextView.Title">
+        <item name="android:textAppearance">@style/TextAppearance.WearDiag.Title</item>
+        <item name="android:gravity">center</item>
+    </style>
+</resources>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="common_google_play_services_notification_ticker" msgid="3936796119014022295">"Kesalahan layanan Google Play"</string>
+    <string name="common_google_play_services_install_title" msgid="2110712637922504348">"Dapatkan layanan Google Play"</string>
+    <string name="common_google_play_services_install_text_phone" msgid="1545874412485515659">"<xliff:g id="APP_NAME">%1$s</xliff:g> tidak akan berjalan tanpa layanan Google Play, yang tidak ada di ponsel Anda."</string>
+    <string name="common_google_play_services_install_text_tablet" msgid="2742131317258851812">"<xliff:g id="APP_NAME">%1$s</xliff:g> tidak akan berjalan tanpa layanan Google Play, yang tidak ada di tablet Anda."</string>
+    <string name="common_google_play_services_install_button" msgid="5765996826213593005">"Dapatkan layanan Google Play"</string>
+    <string name="common_google_play_services_enable_title" msgid="4763733806837472840">"Aktifkan layanan Google Play"</string>
+    <string name="common_google_play_services_enable_text" msgid="2016066508617425489">"<xliff:g id="APP_NAME">%1$s</xliff:g> tidak akan berfungsi jika layanan Google Play tidak diaktifkan."</string>
+    <string name="common_google_play_services_enable_button" msgid="7334167077229901382">"Aktifkan layanan Google Play"</string>
+    <string name="common_google_play_services_update_title" msgid="2926201203597631481">"Perbarui layanan Google Play"</string>
+    <string name="common_google_play_services_update_text" msgid="6230553430311881723">"<xliff:g id="APP_NAME">%1$s</xliff:g> tidak akan berjalan jika layanan Google Play tidak diperbarui."</string>
+    <string name="common_google_play_services_wear_update_text" msgid="8334920661858223093">"Perlu versi baru layanan Google Play. Akan segera memperbarui sendiri."</string>
+    <string name="common_google_play_services_updating_title" msgid="1604540693139938838">"Layanan Google Play sedang diperbarui"</string>
+    <string name="common_google_play_services_updating_text" msgid="1576144479907495032">"<xliff:g id="APP_NAME">%1$s</xliff:g> tidak akan berjalan tanpa layanan Google Play, yang saat ini sedang diperbarui."</string>
+    <string name="common_google_play_services_network_error_title" msgid="5183831421651758225">"Kesalahan Jaringan"</string>
+    <string name="common_google_play_services_network_error_text" msgid="2602915190038884860">"Perlu sambungan data untuk tersambung ke layanan Google Play."</string>
+    <string name="common_google_play_services_invalid_account_title" msgid="9894539456463288">"Akun Tidak Valid"</string>
+    <string name="common_google_play_services_invalid_account_text" msgid="8004809446015217370">"Akun yang ditentukan tidak ada di perangkat ini. Pilih akun lain."</string>
+    <string name="common_google_play_services_unsupported_title" msgid="909734065366822541">"Layanan Google Play"</string>
+    <string name="common_google_play_services_unsupported_text" msgid="4291190028362992831">"<xliff:g id="APP_NAME">%1$s</xliff:g> memerlukan layanan Google Play, yang tidak didukung oleh perangkat Anda. Hubungi pabrikan untuk mendapat bantuan."</string>
+    <string name="common_google_play_services_update_button" msgid="2221302284291941971">"Perbarui"</string>
+    <string name="common_open_on_phone" msgid="311697239335516384">"Buka di ponsel"</string>
+    <string name="common_google_play_services_api_unavailable_text" msgid="2785372108150982144">"<xliff:g id="APP_NAME">%1$s</xliff:g> memerlukan satu atau beberapa layanan Google Play yang saat ini tidak tersedia. Hubungi pengembang untuk mendapatkan bantuan."</string>
+    <string name="common_google_play_services_sign_in_failed_title" msgid="8431204498860131150">"Gagal masuk"</string>
+    <string name="common_google_play_services_sign_in_failed_text" msgid="59739986196915578">"Kesalahan saat masuk ke akun yang ditentukan. Pilih akun yang lain."</string>
+    <string name="common_google_play_services_restricted_profile_title" msgid="4958149393843193760">"Profil Dibatasi"</string>
+    <string name="common_google_play_services_restricted_profile_text" msgid="6951442375899151085">"Mengakses akun dari profil yang dibatasi tidak didukung."</string>
+    <string name="common_signin_button_text" msgid="3156914698180786012">"Masuk"</string>
+    <string name="common_signin_button_text_long" msgid="1483290677806110088">"Masuk dengan Google"</string>
+</resources>

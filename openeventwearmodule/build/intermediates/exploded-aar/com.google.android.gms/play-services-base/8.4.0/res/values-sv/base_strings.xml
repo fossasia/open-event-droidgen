@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="common_google_play_services_notification_ticker" msgid="3936796119014022295">"Fel på Google Play-tjänster"</string>
+    <string name="common_google_play_services_install_title" msgid="2110712637922504348">"Hämta Google Play-tjänster"</string>
+    <string name="common_google_play_services_install_text_phone" msgid="1545874412485515659">"Du måste installera Google Play-tjänster för att kunna köra <xliff:g id="APP_NAME">%1$s</xliff:g> på mobilen."</string>
+    <string name="common_google_play_services_install_text_tablet" msgid="2742131317258851812">"Du måste installera Google Play-tjänster för att kunna köra <xliff:g id="APP_NAME">%1$s</xliff:g> på surfplattan."</string>
+    <string name="common_google_play_services_install_button" msgid="5765996826213593005">"Hämta Google Play-tjänster"</string>
+    <string name="common_google_play_services_enable_title" msgid="4763733806837472840">"Aktivera Google Play-tjänster"</string>
+    <string name="common_google_play_services_enable_text" msgid="2016066508617425489">"<xliff:g id="APP_NAME">%1$s</xliff:g> fungerar inte om du inte aktiverar Google Play-tjänster."</string>
+    <string name="common_google_play_services_enable_button" msgid="7334167077229901382">"Aktivera Google Play-tjänster"</string>
+    <string name="common_google_play_services_update_title" msgid="2926201203597631481">"Uppdatera Google Play-tjänster"</string>
+    <string name="common_google_play_services_update_text" msgid="6230553430311881723">"Om du vill köra <xliff:g id="APP_NAME">%1$s</xliff:g> måste du först uppdatera Google Play-tjänster."</string>
+    <string name="common_google_play_services_wear_update_text" msgid="8334920661858223093">"En ny version av Google Play-tjänster krävs. Den uppdateras automatiskt inom kort."</string>
+    <string name="common_google_play_services_updating_title" msgid="1604540693139938838">"Google Play-tjänster uppdateras"</string>
+    <string name="common_google_play_services_updating_text" msgid="1576144479907495032">"<xliff:g id="APP_NAME">%1$s</xliff:g> kan inte köras utan Google Play-tjänster, och dessa uppdateras för närvarande."</string>
+    <string name="common_google_play_services_network_error_title" msgid="5183831421651758225">"Nätverksfel"</string>
+    <string name="common_google_play_services_network_error_text" msgid="2602915190038884860">"Du måste ha en dataanslutning för att kunna ansluta till Google Play-tjänster."</string>
+    <string name="common_google_play_services_invalid_account_title" msgid="9894539456463288">"Ogiltigt konto"</string>
+    <string name="common_google_play_services_invalid_account_text" msgid="8004809446015217370">"Det angivna kontot finns inte på den här enheten. Välj ett annat konto."</string>
+    <string name="common_google_play_services_unsupported_title" msgid="909734065366822541">"Google Play-tjänster"</string>
+    <string name="common_google_play_services_unsupported_text" msgid="4291190028362992831">"För <xliff:g id="APP_NAME">%1$s</xliff:g> krävs Google Play-tjänster, och dessa stöds inte på enheten. Kontakta tillverkaren om du vill ha hjälp."</string>
+    <string name="common_google_play_services_update_button" msgid="2221302284291941971">"Uppdatera"</string>
+    <string name="common_open_on_phone" msgid="311697239335516384">"Öppna på mobilen"</string>
+    <string name="common_google_play_services_api_unavailable_text" msgid="2785372108150982144">"För <xliff:g id="APP_NAME">%1$s</xliff:g> krävs en eller flera Google Play-tjänster som inte är tillgängliga för närvarande. Kontakta utvecklaren om du vill ha hjälp."</string>
+    <string name="common_google_play_services_sign_in_failed_title" msgid="8431204498860131150">"Det gick inte att logga in"</string>
+    <string name="common_google_play_services_sign_in_failed_text" msgid="59739986196915578">"Ett fel uppstod när du försökte logga in på kontot. Välj ett annat konto."</string>
+    <string name="common_google_play_services_restricted_profile_title" msgid="4958149393843193760">"Begränsad profil"</string>
+    <string name="common_google_play_services_restricted_profile_text" msgid="6951442375899151085">"Det går inte att komma åt konton från en begränsad profil."</string>
+    <string name="common_signin_button_text" msgid="3156914698180786012">"Logga in"</string>
+    <string name="common_signin_button_text_long" msgid="1483290677806110088">"Logga in med Google"</string>
+</resources>

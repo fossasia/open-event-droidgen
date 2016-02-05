@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="common_google_play_services_notification_ticker" msgid="3936796119014022295">"Google Play кызматтарынын катасы"</string>
+    <string name="common_google_play_services_install_title" msgid="2110712637922504348">"Google Play кызматтарын алуу"</string>
+    <string name="common_google_play_services_install_text_phone" msgid="1545874412485515659">"Google Play кызматтарысыз <xliff:g id="APP_NAME">%1$s</xliff:g> иштебейт, алар телефонуңузда жок болуп жатат."</string>
+    <string name="common_google_play_services_install_text_tablet" msgid="2742131317258851812">"Google Play кызматтарысыз <xliff:g id="APP_NAME">%1$s</xliff:g> иштебейт, алар планшетиңизде жок болуп жатат."</string>
+    <string name="common_google_play_services_install_button" msgid="5765996826213593005">"Google Play кызматтарын алуу"</string>
+    <string name="common_google_play_services_enable_title" msgid="4763733806837472840">"Google Play кызматтарын иштетүү"</string>
+    <string name="common_google_play_services_enable_text" msgid="2016066508617425489">"Google Play кызматтарын иштетмейиңизче <xliff:g id="APP_NAME">%1$s</xliff:g> иштебейт."</string>
+    <string name="common_google_play_services_enable_button" msgid="7334167077229901382">"Google Play кызматтарын иштетүү"</string>
+    <string name="common_google_play_services_update_title" msgid="2926201203597631481">"Google Play кызматтарын жаңыртуу"</string>
+    <string name="common_google_play_services_update_text" msgid="6230553430311881723">"Google Play кызматтары жаңыртылмайынча <xliff:g id="APP_NAME">%1$s</xliff:g> иштебейт."</string>
+    <string name="common_google_play_services_wear_update_text" msgid="8334920661858223093">"Google Play кызматтарынын жаңы версиясы талап кылынат. Бир аздан кийин ал өзү эле жаңыртылат."</string>
+    <string name="common_google_play_services_updating_title" msgid="1604540693139938838">"Google Play кызматтары жаңыртылууда"</string>
+    <string name="common_google_play_services_updating_text" msgid="1576144479907495032">"Google Play кызматтарысыз <xliff:g id="APP_NAME">%1$s</xliff:g> иштебейт, алар учурда жаңыртылууда."</string>
+    <string name="common_google_play_services_network_error_title" msgid="5183831421651758225">"Тармак катасы"</string>
+    <string name="common_google_play_services_network_error_text" msgid="2602915190038884860">"Google Play Кызматтарына туташуу үчүн, мобилдик туташуу талап кылынат."</string>
+    <string name="common_google_play_services_invalid_account_title" msgid="9894539456463288">"Каттоо эсеби жараксыз"</string>
+    <string name="common_google_play_services_invalid_account_text" msgid="8004809446015217370">"Көрсөтүлгөн каттоо эсеби бул түзмөктө жок. Башка каттоо эсебин тандаңыз."</string>
+    <string name="common_google_play_services_unsupported_title" msgid="909734065366822541">"Google Play кызматтары"</string>
+    <string name="common_google_play_services_unsupported_text" msgid="4291190028362992831">"<xliff:g id="APP_NAME">%1$s</xliff:g> Google Play кызматтарына ишенет, аларды түзмөгүңүз колдоого албайт. Жардам үчүн өндүрүүчүгө кайрылыңыз."</string>
+    <string name="common_google_play_services_update_button" msgid="2221302284291941971">"Жаңыртуу"</string>
+    <string name="common_open_on_phone" msgid="311697239335516384">"Телефондо ачык"</string>
+    <string name="common_google_play_services_api_unavailable_text" msgid="2785372108150982144">"<xliff:g id="APP_NAME">%1$s</xliff:g> учурда жеткиликсиз бир же бир нече Google Play кызматтарын талап кылууда. Жардам үчүн өндүрүүчүгө кайрылыңыз."</string>
+    <string name="common_google_play_services_sign_in_failed_title" msgid="8431204498860131150">"Каттоо эсебине кирбей калды"</string>
+    <string name="common_google_play_services_sign_in_failed_text" msgid="59739986196915578">"Белгиленген каттоо эсепке кирүү катасы. Башка каттоо эсебин тандаңыз."</string>
+    <string name="common_google_play_services_restricted_profile_title" msgid="4958149393843193760">"Чектелген профиль"</string>
+    <string name="common_google_play_services_restricted_profile_text" msgid="6951442375899151085">"Каттоо эсептерине чектелген профилден кирүү колдоого алынбайт."</string>
+    <string name="common_signin_button_text" msgid="3156914698180786012">"Кирүү"</string>
+    <string name="common_signin_button_text_long" msgid="1483290677806110088">"Google менен кирүү"</string>
+</resources>

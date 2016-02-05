@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <string msgid="2785372108150982144" name="common_google_play_services_api_unavailable_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> krever én eller flere Google Play-tjenester som ikke er tilgjengelige for øyeblikket. Ta kontakt med utvikleren for å få hjelp."</string>
+    <string msgid="7334167077229901382" name="common_google_play_services_enable_button">"Slå på Google Play-tjenester"</string>
+    <string msgid="2016066508617425489" name="common_google_play_services_enable_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> fungerer ikke med mindre du slår på Google Play-tjenester."</string>
+    <string msgid="4763733806837472840" name="common_google_play_services_enable_title">"Slå på Google Play-tjenester"</string>
+    <string msgid="5765996826213593005" name="common_google_play_services_install_button">"Installer Google Play-tjenester"</string>
+    <string msgid="1545874412485515659" name="common_google_play_services_install_text_phone">"<ns1:g id="APP_NAME">%1$s</ns1:g> kan ikke kjøre uten Google Play-tjenester, som ikke er installert på telefonen din."</string>
+    <string msgid="2742131317258851812" name="common_google_play_services_install_text_tablet">"<ns1:g id="APP_NAME">%1$s</ns1:g> kan ikke kjøre uten Google Play-tjenester, som ikke er installert på nettbrettet ditt."</string>
+    <string msgid="2110712637922504348" name="common_google_play_services_install_title">"Installer Google Play-tjenester"</string>
+    <string msgid="8004809446015217370" name="common_google_play_services_invalid_account_text">"Den angitte kontoen finnes ikke på enheten. Velg en annen konto."</string>
+    <string msgid="9894539456463288" name="common_google_play_services_invalid_account_title">"Ugyldig konto"</string>
+    <string msgid="2602915190038884860" name="common_google_play_services_network_error_text">"Du må ha datatilkobling for å koble deg til Google Play-tjenester."</string>
+    <string msgid="5183831421651758225" name="common_google_play_services_network_error_title">"Nettverksfeil"</string>
+    <string msgid="3936796119014022295" name="common_google_play_services_notification_ticker">"Feil i Google Play-tjenester"</string>
+    <string msgid="6951442375899151085" name="common_google_play_services_restricted_profile_text">"Du kan ikke få tilgang til kontoer fra en begrenset profil."</string>
+    <string msgid="4958149393843193760" name="common_google_play_services_restricted_profile_title">"Begrenset profil"</string>
+    <string msgid="59739986196915578" name="common_google_play_services_sign_in_failed_text">"Det oppsto en feil ved pålogging til den angitte kontoen. Velg en annen konto."</string>
+    <string msgid="8431204498860131150" name="common_google_play_services_sign_in_failed_title">"Pålogging mislyktes"</string>
+    <string msgid="7170719956698345984" name="common_google_play_services_unknown_issue">"<ns1:g id="APP_NAME">%1$s</ns1:g> har problemer med Google Play-tjenester. Hvis problemet vedvarer, kan du ta kontakt med utvikleren for å få hjelp."</string>
+    <string msgid="4291190028362992831" name="common_google_play_services_unsupported_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> er avhengig av Google Play-tjenester, som ikke støttes av enheten din. Ta kontakt med produsenten for å få hjelp."</string>
+    <string msgid="909734065366822541" name="common_google_play_services_unsupported_title">"Google Play-tjenester"</string>
+    <string msgid="2221302284291941971" name="common_google_play_services_update_button">"Oppdater"</string>
+    <string msgid="6230553430311881723" name="common_google_play_services_update_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> kjører ikke med mindre du oppdaterer Google Play-tjenester."</string>
+    <string msgid="2926201203597631481" name="common_google_play_services_update_title">"Oppdater Google Play-tjenester"</string>
+    <string msgid="1576144479907495032" name="common_google_play_services_updating_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> kjører ikke uten Google Play-tjenester, som oppdateres akkurat nå."</string>
+    <string msgid="1604540693139938838" name="common_google_play_services_updating_title">"Google Play-tjenester oppdateres"</string>
+    <string msgid="8334920661858223093" name="common_google_play_services_wear_update_text">"Du må installere en ny versjon av Google Play-tjenester. Appen oppdateres automatisk om en kort stund."</string>
+    <string msgid="311697239335516384" name="common_open_on_phone">"Åpne på telefonen"</string>
+    <string msgid="3156914698180786012" name="common_signin_button_text">"Logg på"</string>
+    <string msgid="1483290677806110088" name="common_signin_button_text_long">"Logg på med Google"</string>
+    <string msgid="8455537630633057684" name="dismiss_overlay_button_label">"Avslutt"</string>
+</resources>

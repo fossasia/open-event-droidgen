@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <string msgid="2785372108150982144" name="common_google_play_services_api_unavailable_text">"‏يتطلب <ns1:g id="APP_NAME">%1$s</ns1:g> خدمة أو أكثر من خدمات Google Play والتي لا تتوفر حاليًا. يُرجى الاتصال بمطوّر البرامج للحصول على المساعدة."</string>
+    <string msgid="7334167077229901382" name="common_google_play_services_enable_button">"‏تمكين خدمات Google Play"</string>
+    <string msgid="2016066508617425489" name="common_google_play_services_enable_text">"‏لن يعمل <ns1:g id="APP_NAME">%1$s</ns1:g> ما لم يتم تمكين خدمات Google Play."</string>
+    <string msgid="4763733806837472840" name="common_google_play_services_enable_title">"‏تمكين خدمات Google Play"</string>
+    <string msgid="5765996826213593005" name="common_google_play_services_install_button">"‏الحصول على خدمات Google Play"</string>
+    <string msgid="1545874412485515659" name="common_google_play_services_install_text_phone">"‏لن يتم تشغيل <ns1:g id="APP_NAME">%1$s</ns1:g> بدون خدمات Google Play، والتي لا تتوفر على هاتفك."</string>
+    <string msgid="2742131317258851812" name="common_google_play_services_install_text_tablet">"‏لن يتم تشغيل <ns1:g id="APP_NAME">%1$s</ns1:g> بدون خدمات Google Play، والتي لا تتوفر على جهازك اللوحي."</string>
+    <string msgid="2110712637922504348" name="common_google_play_services_install_title">"‏الحصول على خدمات Google Play"</string>
+    <string msgid="8004809446015217370" name="common_google_play_services_invalid_account_text">"الحساب الذي تم تحديده غير موجود على الجهاز. الرجاء اختيار حساب آخر."</string>
+    <string msgid="9894539456463288" name="common_google_play_services_invalid_account_title">"حساب غير صالح"</string>
+    <string msgid="2602915190038884860" name="common_google_play_services_network_error_text">"‏يتطلب الاتصال بخدمات Google Play وجود اتصال بيانات."</string>
+    <string msgid="5183831421651758225" name="common_google_play_services_network_error_title">"حدث خطأ في الشبكة"</string>
+    <string msgid="3936796119014022295" name="common_google_play_services_notification_ticker">"‏حدث خطأ في خدمات Google Play"</string>
+    <string msgid="6951442375899151085" name="common_google_play_services_restricted_profile_text">"لا تتوفر إمكانية الوصول إلى الحسابات من ملف شخصي مقيَّد."</string>
+    <string msgid="4958149393843193760" name="common_google_play_services_restricted_profile_title">"ملف شخصي مقيَّد"</string>
+    <string msgid="59739986196915578" name="common_google_play_services_sign_in_failed_text">"حدث خطأ أثناء تسجيل الدخول إلى الحساب المحدد. الرجاء اختيار حساب مختلف."</string>
+    <string msgid="8431204498860131150" name="common_google_play_services_sign_in_failed_title">"أخفق تسجيل الدخول"</string>
+    <string msgid="7170719956698345984" name="common_google_play_services_unknown_issue">"‏تواجه <ns1:g id="APP_NAME">%1$s</ns1:g> مشكلة في خدمات Google Play. إذا ظلت المشكلة قائمة، فيُرجى الاتصال بمطوِّر البرامج للحصول على مساعدة."</string>
+    <string msgid="4291190028362992831" name="common_google_play_services_unsupported_text">"‏يعتمد <ns1:g id="APP_NAME">%1$s</ns1:g> على خدمات Google Play والتي لا تتوافق مع جهازك. يمكنك الاتصال بجهة التصنيع للحصول على مساعدة."</string>
+    <string msgid="909734065366822541" name="common_google_play_services_unsupported_title">"‏خدمات Google Play"</string>
+    <string msgid="2221302284291941971" name="common_google_play_services_update_button">"تحديث"</string>
+    <string msgid="6230553430311881723" name="common_google_play_services_update_text">"‏لن يتم تشغيل <ns1:g id="APP_NAME">%1$s</ns1:g> ما لم يتم تحديث خدمات Google Play."</string>
+    <string msgid="2926201203597631481" name="common_google_play_services_update_title">"‏تحديث خدمات Google Play"</string>
+    <string msgid="1576144479907495032" name="common_google_play_services_updating_text">"‏لن يتم تشغيل <ns1:g id="APP_NAME">%1$s</ns1:g> بدون خدمات Google Play، والتي يتم تحديثها حاليًا."</string>
+    <string msgid="1604540693139938838" name="common_google_play_services_updating_title">"‏يتم الآن تحديث خدمات Google Play."</string>
+    <string msgid="8334920661858223093" name="common_google_play_services_wear_update_text">"‏يجب توفر إصدار جديد من خدمات Google Play. سيتم تحديثها تلقائيًا قريبًا."</string>
+    <string msgid="311697239335516384" name="common_open_on_phone">"فتح على الهاتف"</string>
+    <string msgid="3156914698180786012" name="common_signin_button_text">"تسجل الدخول"</string>
+    <string msgid="1483290677806110088" name="common_signin_button_text_long">"‏تسجيل الدخول عبر Google"</string>
+    <string msgid="8455537630633057684" name="dismiss_overlay_button_label">"إنهاء"</string>
+</resources>

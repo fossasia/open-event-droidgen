@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <string msgid="2785372108150982144" name="common_google_play_services_api_unavailable_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> захтева једну Google Play услугу која тренутно није доступна или више њих. Контактирајте програмера да бисте добили помоћ."</string>
+    <string msgid="7334167077229901382" name="common_google_play_services_enable_button">"Омогући Google Play услуге"</string>
+    <string msgid="2016066508617425489" name="common_google_play_services_enable_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> неће функционисати ако не омогућите Google Play услуге."</string>
+    <string msgid="4763733806837472840" name="common_google_play_services_enable_title">"Омогућите Google Play услуге"</string>
+    <string msgid="5765996826213593005" name="common_google_play_services_install_button">"Преузми Google Play услуге"</string>
+    <string msgid="1545874412485515659" name="common_google_play_services_install_text_phone">"<ns1:g id="APP_NAME">%1$s</ns1:g> не може да се покрене без Google Play услуга, које нису инсталиране на телефону."</string>
+    <string msgid="2742131317258851812" name="common_google_play_services_install_text_tablet">"<ns1:g id="APP_NAME">%1$s</ns1:g> не може да се покрене без Google Play услуга, које нису инсталиране на таблету."</string>
+    <string msgid="2110712637922504348" name="common_google_play_services_install_title">"Преузмите Google Play услуге"</string>
+    <string msgid="8004809446015217370" name="common_google_play_services_invalid_account_text">"Наведени налог не постоји на овом уређају. Изаберите неки други налог."</string>
+    <string msgid="9894539456463288" name="common_google_play_services_invalid_account_title">"Неважећи налог"</string>
+    <string msgid="2602915190038884860" name="common_google_play_services_network_error_text">"За повезивање са Google Play услугама потребна је веза за пренос података."</string>
+    <string msgid="5183831421651758225" name="common_google_play_services_network_error_title">"Грешка на мрежи"</string>
+    <string msgid="3936796119014022295" name="common_google_play_services_notification_ticker">"Грешка Google Play услуга"</string>
+    <string msgid="6951442375899151085" name="common_google_play_services_restricted_profile_text">"Приступање налозима са ограниченог профила није подржано."</string>
+    <string msgid="4958149393843193760" name="common_google_play_services_restricted_profile_title">"Ограничени профил"</string>
+    <string msgid="59739986196915578" name="common_google_play_services_sign_in_failed_text">"Дошло је до грешке при пријављивању на наведени налог. Изаберите други налог."</string>
+    <string msgid="8431204498860131150" name="common_google_play_services_sign_in_failed_title">"Пријављивање није успело"</string>
+    <string msgid="7170719956698345984" name="common_google_play_services_unknown_issue">"<ns1:g id="APP_NAME">%1$s</ns1:g> има проблема са Google Play услугама. Ако се проблем и даље јавља, обратите се програмеру да бисте добили помоћ."</string>
+    <string msgid="4291190028362992831" name="common_google_play_services_unsupported_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> користи Google Play услуге, које уређај не подржава. Контактирајте произвођача да бисте добили помоћ."</string>
+    <string msgid="909734065366822541" name="common_google_play_services_unsupported_title">"Google Play услуге"</string>
+    <string msgid="2221302284291941971" name="common_google_play_services_update_button">"Ажурирај"</string>
+    <string msgid="6230553430311881723" name="common_google_play_services_update_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> не може да се покрене ако не ажурирате Google Play услуге."</string>
+    <string msgid="2926201203597631481" name="common_google_play_services_update_title">"Ажурирајте Google Play услуге"</string>
+    <string msgid="1576144479907495032" name="common_google_play_services_updating_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> не може да се покрене без Google Play услуга, које се тренутно ажурирају."</string>
+    <string msgid="1604540693139938838" name="common_google_play_services_updating_title">"Google Play услуге се ажурирају"</string>
+    <string msgid="8334920661858223093" name="common_google_play_services_wear_update_text">"Потребна је нова верзија Google Play услуга. Ускоро ће се ажурирати."</string>
+    <string msgid="311697239335516384" name="common_open_on_phone">"Отвори на телефону"</string>
+    <string msgid="3156914698180786012" name="common_signin_button_text">"Пријави ме"</string>
+    <string msgid="1483290677806110088" name="common_signin_button_text_long">"Пријави ме на Google"</string>
+</resources>

@@ -1,0 +1,25 @@
+<merge xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView
+        android:id="@+id/dismiss_overlay_explain"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_width="wrap_content"
+        android:padding="12dp"
+        style="@style/DismissOverlayText"
+        />
+    <android.support.wearable.view.ActionPage
+        android:id="@+id/dismiss_overlay_button"
+        android:layout_height="match_parent"
+        android:background="@color/dismiss_overlay_bg"
+        android:layout_width="match_parent"
+        android:src="@drawable/ic_full_cancel"
+        android:color="@color/dismiss_close"
+        app:buttonRippleColor="@color/dismiss_close_pressed"
+        android:text="@string/dismiss_overlay_button_label"
+        />
+</merge>
+<!-- From: file:/usr/local/google/buildbot/repo_clients/https___googleplex-android.googlesource.com_a_platform_manifest.git/ub-wearable-common-duralumin/vendor/unbundled_google/libs/wearable/wearable-support/lib/src/main/res/layout-v21/dismiss_overlay.xml -->

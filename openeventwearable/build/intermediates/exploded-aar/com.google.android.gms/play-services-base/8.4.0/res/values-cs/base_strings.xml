@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="common_google_play_services_notification_ticker" msgid="3936796119014022295">"Chyba služeb Google Play"</string>
+    <string name="common_google_play_services_install_title" msgid="2110712637922504348">"Instalace služeb Google Play"</string>
+    <string name="common_google_play_services_install_text_phone" msgid="1545874412485515659">"Ke spuštění aplikace <xliff:g id="APP_NAME">%1$s</xliff:g> jsou potřeba služby Google Play, které v telefonu nemáte."</string>
+    <string name="common_google_play_services_install_text_tablet" msgid="2742131317258851812">"Ke spuštění aplikace <xliff:g id="APP_NAME">%1$s</xliff:g> jsou potřeba služby Google Play, které v tabletu nemáte."</string>
+    <string name="common_google_play_services_install_button" msgid="5765996826213593005">"Instalace služeb Google Play"</string>
+    <string name="common_google_play_services_enable_title" msgid="4763733806837472840">"Aktivace služeb Google Play"</string>
+    <string name="common_google_play_services_enable_text" msgid="2016066508617425489">"Ke spuštění aplikace <xliff:g id="APP_NAME">%1$s</xliff:g> je třeba aktivovat služby Google Play."</string>
+    <string name="common_google_play_services_enable_button" msgid="7334167077229901382">"Aktivovat služby Google Play"</string>
+    <string name="common_google_play_services_update_title" msgid="2926201203597631481">"Aktualizace služeb Google Play"</string>
+    <string name="common_google_play_services_update_text" msgid="6230553430311881723">"Ke spuštění aplikace <xliff:g id="APP_NAME">%1$s</xliff:g> je třeba aktualizovat služby Google Play."</string>
+    <string name="common_google_play_services_wear_update_text" msgid="8334920661858223093">"Je vyžadována nová verze služeb Google Play. Nová verze se brzy sama nainstaluje."</string>
+    <string name="common_google_play_services_updating_title" msgid="1604540693139938838">"Probíhá aktualizace služeb Google Play"</string>
+    <string name="common_google_play_services_updating_text" msgid="1576144479907495032">"Ke spuštění aplikace <xliff:g id="APP_NAME">%1$s</xliff:g> jsou potřeba služby Google Play, které jsou právě aktualizovány."</string>
+    <string name="common_google_play_services_network_error_title" msgid="5183831421651758225">"Chyba sítě"</string>
+    <string name="common_google_play_services_network_error_text" msgid="2602915190038884860">"Připojení ke službám Google Play vyžaduje datové připojení."</string>
+    <string name="common_google_play_services_invalid_account_title" msgid="9894539456463288">"Neplatný účet"</string>
+    <string name="common_google_play_services_invalid_account_text" msgid="8004809446015217370">"Uvedený účet v tomto zařízení není k dispozici. Vyberte jiný účet."</string>
+    <string name="common_google_play_services_unsupported_title" msgid="909734065366822541">"Služby Google Play"</string>
+    <string name="common_google_play_services_unsupported_text" msgid="4291190028362992831">"Aplikace <xliff:g id="APP_NAME">%1$s</xliff:g> vyžaduje služby Google Play, které ve vašem zařízení nejsou podporovány. S žádostí o pomoc kontaktujte výrobce zařízení."</string>
+    <string name="common_google_play_services_update_button" msgid="2221302284291941971">"Aktualizovat"</string>
+    <string name="common_open_on_phone" msgid="311697239335516384">"Otevřít v telefonu"</string>
+    <string name="common_google_play_services_api_unavailable_text" msgid="2785372108150982144">"Aplikace <xliff:g id="APP_NAME">%1$s</xliff:g> vyžaduje jednu nebo více služeb Google Play, které aktuálně nejsou k dispozici. S žádostí o pomoc se obraťte na vývojáře."</string>
+    <string name="common_google_play_services_sign_in_failed_title" msgid="8431204498860131150">"Přihlášení se nezdařilo"</string>
+    <string name="common_google_play_services_sign_in_failed_text" msgid="59739986196915578">"Při přihlašování k uvedenému účtu došlo k chybě. Vyberte jiný účet."</string>
+    <string name="common_google_play_services_restricted_profile_title" msgid="4958149393843193760">"Omezený profil"</string>
+    <string name="common_google_play_services_restricted_profile_text" msgid="6951442375899151085">"Přístup k účtům z omezeného profilu není podporován."</string>
+    <string name="common_signin_button_text" msgid="3156914698180786012">"Přihlásit se"</string>
+    <string name="common_signin_button_text_long" msgid="1483290677806110088">"Přihlásit se k účtu Google"</string>
+</resources>

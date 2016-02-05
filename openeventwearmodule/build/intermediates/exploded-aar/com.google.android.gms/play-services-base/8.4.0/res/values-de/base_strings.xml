@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="common_google_play_services_notification_ticker" msgid="3936796119014022295">"Fehler beim Zugriff auf Google Play-Dienste"</string>
+    <string name="common_google_play_services_install_title" msgid="2110712637922504348">"Google Play-Dienste installieren"</string>
+    <string name="common_google_play_services_install_text_phone" msgid="1545874412485515659">"Zur Nutzung von <xliff:g id="APP_NAME">%1$s</xliff:g> sind Google Play-Dienste erforderlich, die auf Ihrem Smartphone nicht installiert sind."</string>
+    <string name="common_google_play_services_install_text_tablet" msgid="2742131317258851812">"Zur Nutzung von <xliff:g id="APP_NAME">%1$s</xliff:g> sind Google Play-Dienste erforderlich, die auf Ihrem Tablet nicht installiert sind."</string>
+    <string name="common_google_play_services_install_button" msgid="5765996826213593005">"Google Play-Dienste installieren"</string>
+    <string name="common_google_play_services_enable_title" msgid="4763733806837472840">"Google Play-Dienste aktivieren"</string>
+    <string name="common_google_play_services_enable_text" msgid="2016066508617425489">"<xliff:g id="APP_NAME">%1$s</xliff:g> funktioniert erst nach der Aktivierung der Google Play-Dienste."</string>
+    <string name="common_google_play_services_enable_button" msgid="7334167077229901382">"Google Play-Dienste aktivieren"</string>
+    <string name="common_google_play_services_update_title" msgid="2926201203597631481">"Google Play-Dienste aktualisieren"</string>
+    <string name="common_google_play_services_update_text" msgid="6230553430311881723">"Zur Nutzung von <xliff:g id="APP_NAME">%1$s</xliff:g> ist eine Aktualisierung von Google Play-Diensten erforderlich."</string>
+    <string name="common_google_play_services_wear_update_text" msgid="8334920661858223093">"Eine neue Version der Google Play-Dienste wird benötigt. Diese wird in Kürze automatisch aktualisiert."</string>
+    <string name="common_google_play_services_updating_title" msgid="1604540693139938838">"Google Play-Dienste werden aktualisiert"</string>
+    <string name="common_google_play_services_updating_text" msgid="1576144479907495032">"Zur Nutzung von <xliff:g id="APP_NAME">%1$s</xliff:g> sind Google Play-Dienste erforderlich, die gerade aktualisiert werden."</string>
+    <string name="common_google_play_services_network_error_title" msgid="5183831421651758225">"Netzwerkfehler"</string>
+    <string name="common_google_play_services_network_error_text" msgid="2602915190038884860">"Um eine Verbindung zu den Google Play-Diensten herzustellen, ist eine Datenverbindung erforderlich."</string>
+    <string name="common_google_play_services_invalid_account_title" msgid="9894539456463288">"Konto ungültig"</string>
+    <string name="common_google_play_services_invalid_account_text" msgid="8004809446015217370">"Das angegebene Konto ist auf diesem Gerät nicht vorhanden. Bitte wählen Sie ein anderes Konto aus."</string>
+    <string name="common_google_play_services_unsupported_title" msgid="909734065366822541">"Google Play-Dienste"</string>
+    <string name="common_google_play_services_unsupported_text" msgid="4291190028362992831">"Zur Nutzung von <xliff:g id="APP_NAME">%1$s</xliff:g> sind Google Play-Dienste erforderlich. Diese werden auf Ihrem Gerät jedoch nicht unterstützt. Wenden Sie sich für weitere Informationen an den Hersteller."</string>
+    <string name="common_google_play_services_update_button" msgid="2221302284291941971">"Aktualisieren"</string>
+    <string name="common_open_on_phone" msgid="311697239335516384">"Auf Smartphone öffnen"</string>
+    <string name="common_google_play_services_api_unavailable_text" msgid="2785372108150982144">"<xliff:g id="APP_NAME">%1$s</xliff:g> erfordert einen oder mehrere Google Play-Dienste, der bzw. die derzeit nicht verfügbar sind. Bitte wenden Sie sich an den Entwickler, um Unterstützung zu erhalten."</string>
+    <string name="common_google_play_services_sign_in_failed_title" msgid="8431204498860131150">"Anmeldung fehlgeschlagen"</string>
+    <string name="common_google_play_services_sign_in_failed_text" msgid="59739986196915578">"Fehler beim Anmelden im angegebenen Konto. Bitte wählen Sie ein anderes Konto aus."</string>
+    <string name="common_google_play_services_restricted_profile_title" msgid="4958149393843193760">"Eingeschränktes Profil"</string>
+    <string name="common_google_play_services_restricted_profile_text" msgid="6951442375899151085">"Der Zugriff auf Konten von eingeschränkten Profilen wird nicht unterstützt."</string>
+    <string name="common_signin_button_text" msgid="3156914698180786012">"Anmelden"</string>
+    <string name="common_signin_button_text_long" msgid="1483290677806110088">"Über Google anmelden"</string>
+</resources>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <string msgid="2785372108150982144" name="common_google_play_services_api_unavailable_text">"Lai lietotne <ns1:g id="APP_NAME">%1$s</ns1:g> darbotos, ir nepieciešams viens vai vairāki Google Play pakalpojumi, kas pašlaik nav pieejami. Lai saņemtu palīdzību, lūdzu, sazinieties ar izstrādātāju."</string>
+    <string msgid="7334167077229901382" name="common_google_play_services_enable_button">"Iespējot Google Play pakalpojumus"</string>
+    <string msgid="2016066508617425489" name="common_google_play_services_enable_text">"Lai lietotne <ns1:g id="APP_NAME">%1$s</ns1:g> darbotos, ir jāiespējo Google Play pakalpojumi."</string>
+    <string msgid="4763733806837472840" name="common_google_play_services_enable_title">"Google Play pakalpojumu iespējošana"</string>
+    <string msgid="5765996826213593005" name="common_google_play_services_install_button">"Iegūt Google Play pakalpojumus"</string>
+    <string msgid="1545874412485515659" name="common_google_play_services_install_text_phone">"Lai lietotne <ns1:g id="APP_NAME">%1$s</ns1:g> darbotos, tālrunī ir jāinstalē Google Play pakalpojumi."</string>
+    <string msgid="2742131317258851812" name="common_google_play_services_install_text_tablet">"Lai lietotne <ns1:g id="APP_NAME">%1$s</ns1:g> darbotos, planšetdatorā ir jāinstalē Google Play pakalpojumi."</string>
+    <string msgid="2110712637922504348" name="common_google_play_services_install_title">"Google Play pakalpojumu iegūšana"</string>
+    <string msgid="8004809446015217370" name="common_google_play_services_invalid_account_text">"Norādītais konts šajā ierīcē nepastāv. Lūdzu, izvēlieties citu kontu."</string>
+    <string msgid="9894539456463288" name="common_google_play_services_invalid_account_title">"Nederīgs konts"</string>
+    <string msgid="2602915190038884860" name="common_google_play_services_network_error_text">"Lai izveidotu savienojumu ar Google Play pakalpojumiem, ir nepieciešams datu savienojums."</string>
+    <string msgid="5183831421651758225" name="common_google_play_services_network_error_title">"Tīkla kļūda"</string>
+    <string msgid="3936796119014022295" name="common_google_play_services_notification_ticker">"Google Play pakalpojumu kļūda"</string>
+    <string msgid="6951442375899151085" name="common_google_play_services_restricted_profile_text">"Piekļuve kontiem no ierobežota profila netiek atbalstīta."</string>
+    <string msgid="4958149393843193760" name="common_google_play_services_restricted_profile_title">"Ierobežots profils"</string>
+    <string msgid="59739986196915578" name="common_google_play_services_sign_in_failed_text">"Pierakstoties norādītajā kontā, radās kļūda. Lūdzu, izvēlieties citu kontu."</string>
+    <string msgid="8431204498860131150" name="common_google_play_services_sign_in_failed_title">"Neizdevās pierakstīties"</string>
+    <string msgid="7170719956698345984" name="common_google_play_services_unknown_issue">"Lietotnē <ns1:g id="APP_NAME">%1$s</ns1:g> ir radusies problēma ar Google Play pakalpojumu darbību. Ja problēma joprojām pastāv, lūdzu, sazinieties ar izstrādātāju."</string>
+    <string msgid="4291190028362992831" name="common_google_play_services_unsupported_text">"Lai lietotne <ns1:g id="APP_NAME">%1$s</ns1:g> darbotos, ir jāinstalē Google Play pakalpojumi, taču tie jūsu ierīcē netiek atbalstīti. Sazinieties ar ražotāju, lai saņemtu palīdzību."</string>
+    <string msgid="909734065366822541" name="common_google_play_services_unsupported_title">"Google Play pakalpojumi"</string>
+    <string msgid="2221302284291941971" name="common_google_play_services_update_button">"Atjaunināt"</string>
+    <string msgid="6230553430311881723" name="common_google_play_services_update_text">"Lai lietotne <ns1:g id="APP_NAME">%1$s</ns1:g> darbotos, ir jāatjaunina Google Play pakalpojumi."</string>
+    <string msgid="2926201203597631481" name="common_google_play_services_update_title">"Google Play pakalpojumu atjaunināšana"</string>
+    <string msgid="1576144479907495032" name="common_google_play_services_updating_text">"Lai lietotne <ns1:g id="APP_NAME">%1$s</ns1:g> darbotos, ir jāinstalē Google Play pakalpojumi. Pašlaik notiek to atjaunināšana."</string>
+    <string msgid="1604540693139938838" name="common_google_play_services_updating_title">"Tiek atjaunināti Google Play pakalpojumi"</string>
+    <string msgid="8334920661858223093" name="common_google_play_services_wear_update_text">"Ir nepieciešama jauna Google Play pakalpojumu versija. Drīzumā tā tiks instalēta."</string>
+    <string msgid="311697239335516384" name="common_open_on_phone">"Atvērt tālrunī"</string>
+    <string msgid="3156914698180786012" name="common_signin_button_text">"Pierakstīties"</string>
+    <string msgid="1483290677806110088" name="common_signin_button_text_long">"Pierakstīties ar Google kontu"</string>
+</resources>

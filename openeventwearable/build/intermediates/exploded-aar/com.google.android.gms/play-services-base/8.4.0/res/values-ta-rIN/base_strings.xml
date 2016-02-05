@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="common_google_play_services_notification_ticker" msgid="3936796119014022295">"Google Play சேவைகள் பிழை"</string>
+    <string name="common_google_play_services_install_title" msgid="2110712637922504348">"Google Play சேவைகளைப் பெறவும்"</string>
+    <string name="common_google_play_services_install_text_phone" msgid="1545874412485515659">"Google Play சேவைகள் இருந்தால் மட்டுமே, <xliff:g id="APP_NAME">%1$s</xliff:g> செயல்படும். அவை தற்போது உங்கள் மொபைலில் இல்லை."</string>
+    <string name="common_google_play_services_install_text_tablet" msgid="2742131317258851812">"Google Play சேவைகள் இருந்தால் மட்டுமே, <xliff:g id="APP_NAME">%1$s</xliff:g> செயல்படும். அவை தற்போது உங்கள் டேப்லெட்டில் இல்லை."</string>
+    <string name="common_google_play_services_install_button" msgid="5765996826213593005">"Google Play சேவைகளைப் பெறுக"</string>
+    <string name="common_google_play_services_enable_title" msgid="4763733806837472840">"Google Play சேவைகளை இயக்கவும்"</string>
+    <string name="common_google_play_services_enable_text" msgid="2016066508617425489">"Google Play சேவைகளை இயக்கினால் மட்டுமே, <xliff:g id="APP_NAME">%1$s</xliff:g> செயல்படும்."</string>
+    <string name="common_google_play_services_enable_button" msgid="7334167077229901382">"Google Play சேவைகளை இயக்கு"</string>
+    <string name="common_google_play_services_update_title" msgid="2926201203597631481">"Google Play சேவைகளைப் புதுப்பிக்கவும்"</string>
+    <string name="common_google_play_services_update_text" msgid="6230553430311881723">"Google Play சேவைகளை இயக்கினால் மட்டுமே, <xliff:g id="APP_NAME">%1$s</xliff:g> செயல்படும்."</string>
+    <string name="common_google_play_services_wear_update_text" msgid="8334920661858223093">"Google Play சேவைகளின் புதிய பதிப்பு தேவை. அது விரைவில் தானாகவே புதுப்பிக்கப்படும்."</string>
+    <string name="common_google_play_services_updating_title" msgid="1604540693139938838">"Google Play சேவைகளைப் புதுப்பிக்கிறது"</string>
+    <string name="common_google_play_services_updating_text" msgid="1576144479907495032">"தற்போது புதுப்பிக்கப்படும், Google Play சேவைகள் இருந்தால் மட்டுமே, <xliff:g id="APP_NAME">%1$s</xliff:g> செயல்படும்."</string>
+    <string name="common_google_play_services_network_error_title" msgid="5183831421651758225">"நெட்வொர்க் பிழை"</string>
+    <string name="common_google_play_services_network_error_text" msgid="2602915190038884860">"Google Play சேவைகளுடன் இணைக்க, தரவு இணைப்பு தேவை."</string>
+    <string name="common_google_play_services_invalid_account_title" msgid="9894539456463288">"தவறான கணக்கு"</string>
+    <string name="common_google_play_services_invalid_account_text" msgid="8004809446015217370">"இந்தச் சாதனத்தில் குறிப்பிடப்பட்ட கணக்கு இல்லை. வேறு கணக்கைத் தேர்வுசெய்யவும்."</string>
+    <string name="common_google_play_services_unsupported_title" msgid="909734065366822541">"Google Play சேவைகள்"</string>
+    <string name="common_google_play_services_unsupported_text" msgid="4291190028362992831">"சாதனம் ஆதரிக்காத Google Play சேவைகளை <xliff:g id="APP_NAME">%1$s</xliff:g> சார்ந்துள்ளது. உதவிக்கு, தயாரிப்பாளரைத் தொடர்புகொள்ளவும்."</string>
+    <string name="common_google_play_services_update_button" msgid="2221302284291941971">"புதுப்பி"</string>
+    <string name="common_open_on_phone" msgid="311697239335516384">"மொபைலில் திற"</string>
+    <string name="common_google_play_services_api_unavailable_text" msgid="2785372108150982144">"தற்போது கிடைக்காத, ஒன்று அல்லது அதற்கு மேற்பட்ட Google Play சேவைகள் <xliff:g id="APP_NAME">%1$s</xliff:g>க்குத் தேவை. உதவிக்கு, டெவெலப்பரைத் தொடர்புகொள்ளவும்."</string>
+    <string name="common_google_play_services_sign_in_failed_title" msgid="8431204498860131150">"உள்நுழைவதில் தோல்வி"</string>
+    <string name="common_google_play_services_sign_in_failed_text" msgid="59739986196915578">"குறிப்பிடப்பட்ட கணக்கில் உள்நுழைவதில் பிழை. வேறு கணக்கைத் தேர்வுசெய்யவும்."</string>
+    <string name="common_google_play_services_restricted_profile_title" msgid="4958149393843193760">"வரையறுக்கப்பட்ட சுயவிவரம்"</string>
+    <string name="common_google_play_services_restricted_profile_text" msgid="6951442375899151085">"வரையறுக்கப்பட்ட சுயவிவரத்திலிருந்து கணக்குகளை அணுகுவது ஆதரிக்கப்படாது."</string>
+    <string name="common_signin_button_text" msgid="3156914698180786012">"உள்நுழைக"</string>
+    <string name="common_signin_button_text_long" msgid="1483290677806110088">"Google மூலம் உள்நுழைக"</string>
+</resources>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="common_google_play_services_notification_ticker" msgid="3936796119014022295">"Lỗi dịch vụ của Google Play"</string>
+    <string name="common_google_play_services_install_title" msgid="2110712637922504348">"Cài đặt dịch vụ của Google Play"</string>
+    <string name="common_google_play_services_install_text_phone" msgid="1545874412485515659">"<xliff:g id="APP_NAME">%1$s</xliff:g> sẽ không chạy nếu không có dịch vụ của Google Play. Điện thoại của bạn bị thiếu dịch vụ này."</string>
+    <string name="common_google_play_services_install_text_tablet" msgid="2742131317258851812">"<xliff:g id="APP_NAME">%1$s</xliff:g> sẽ không chạy nếu không có dịch vụ của Google Play. Máy tính bảng của bạn bị thiếu dịch vụ này."</string>
+    <string name="common_google_play_services_install_button" msgid="5765996826213593005">"Cài đặt dịch vụ của Google Play"</string>
+    <string name="common_google_play_services_enable_title" msgid="4763733806837472840">"Bật dịch vụ của Google Play"</string>
+    <string name="common_google_play_services_enable_text" msgid="2016066508617425489">"<xliff:g id="APP_NAME">%1$s</xliff:g> sẽ không hoạt động nếu bạn không bật dịch vụ của Google Play."</string>
+    <string name="common_google_play_services_enable_button" msgid="7334167077229901382">"Bật dịch vụ của Google Play"</string>
+    <string name="common_google_play_services_update_title" msgid="2926201203597631481">"Cập nhật dịch vụ của Google Play"</string>
+    <string name="common_google_play_services_update_text" msgid="6230553430311881723">"<xliff:g id="APP_NAME">%1$s</xliff:g> sẽ không chạy trừ khi bạn cập nhật dịch vụ của Google Play."</string>
+    <string name="common_google_play_services_wear_update_text" msgid="8334920661858223093">"Cần phiên bản mới của dịch vụ Google Play. Dịch vụ sẽ sớm tự động cập nhật."</string>
+    <string name="common_google_play_services_updating_title" msgid="1604540693139938838">"Dịch vụ của Google Play đang cập nhật"</string>
+    <string name="common_google_play_services_updating_text" msgid="1576144479907495032">"<xliff:g id="APP_NAME">%1$s</xliff:g> sẽ không chạy nếu không có dịch vụ của Google Play. Dịch vụ này hiện đang cập nhật."</string>
+    <string name="common_google_play_services_network_error_title" msgid="5183831421651758225">"Lỗi mạng"</string>
+    <string name="common_google_play_services_network_error_text" msgid="2602915190038884860">"Cần có kết nối dữ liệu để kết nối với các dịch vụ của Google Play."</string>
+    <string name="common_google_play_services_invalid_account_title" msgid="9894539456463288">"Tài khoản không hợp lệ"</string>
+    <string name="common_google_play_services_invalid_account_text" msgid="8004809446015217370">"Tài khoản đã chỉ định không tồn tại trên thiết bị này. Vui lòng chọn một tài khoản khác."</string>
+    <string name="common_google_play_services_unsupported_title" msgid="909734065366822541">"Dịch vụ của Google Play"</string>
+    <string name="common_google_play_services_unsupported_text" msgid="4291190028362992831">"<xliff:g id="APP_NAME">%1$s</xliff:g> chạy trên dịch vụ của Google Play không được thiết bị của bạn hỗ trợ. Hãy liên hệ với nhà sản xuất để được hỗ trợ."</string>
+    <string name="common_google_play_services_update_button" msgid="2221302284291941971">"Cập nhật"</string>
+    <string name="common_open_on_phone" msgid="311697239335516384">"Mở trên điện thoại"</string>
+    <string name="common_google_play_services_api_unavailable_text" msgid="2785372108150982144">"<xliff:g id="APP_NAME">%1$s</xliff:g> yêu cầu một hoặc nhiều dịch vụ của Google Play hiện không có sẵn. Vui lòng liên hệ với nhà phát triển để được hỗ trợ."</string>
+    <string name="common_google_play_services_sign_in_failed_title" msgid="8431204498860131150">"Đăng nhập không thành công"</string>
+    <string name="common_google_play_services_sign_in_failed_text" msgid="59739986196915578">"Lỗi khi đăng nhập vào tài khoản được chỉ định. Vui lòng chọn một tài khoản khác."</string>
+    <string name="common_google_play_services_restricted_profile_title" msgid="4958149393843193760">"Hồ sơ bị hạn chế"</string>
+    <string name="common_google_play_services_restricted_profile_text" msgid="6951442375899151085">"Không hỗ trợ truy cập tài khoản từ hồ sơ bị hạn chế."</string>
+    <string name="common_signin_button_text" msgid="3156914698180786012">"Đăng nhập"</string>
+    <string name="common_signin_button_text_long" msgid="1483290677806110088">"Đăng nhập bằng Google"</string>
+</resources>
