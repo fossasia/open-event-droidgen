@@ -2,7 +2,6 @@ package org.fossasia.openevent.adapters;
 
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,12 +35,9 @@ public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, SponsorsListAdap
     @Override
     public void onBindViewHolder(SponsorsListAdapter.Viewholder holder, int position) {
         Sponsor currentSponsor = getItem(position);
-        DisplayMetrics displayMetrics = holder.sponsorImage.getContext().getResources().getDisplayMetrics();
-        int width = displayMetrics.widthPixels;
-        int height = displayMetrics.heightPixels;
 
         Uri uri = Uri.parse(currentSponsor.getLogo());
-        Picasso.with(holder.sponsorImage.getContext()).load(uri).resize(width, (height / 6)).centerCrop().into(holder.sponsorImage);
+        Picasso.with(holder.sponsorImage.getContext()).load(uri).into(holder.sponsorImage);
     }
 
     public void refresh() {
@@ -50,20 +46,15 @@ public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, SponsorsListAdap
         animateTo(dbSingleton.getSponsorList());
     }
 
-    public class Viewholder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class Viewholder extends RecyclerView.ViewHolder  {
         ImageView sponsorImage;
 
         public Viewholder(View itemView) {
             super(itemView);
             itemView.setClickable(true);
-            itemView.setOnClickListener(this);
             sponsorImage = (ImageView) itemView.findViewById(R.id.sponsor_image);
         }
 
-        @Override
-        public void onClick(View view) {
-
-        }
     }
 }
 

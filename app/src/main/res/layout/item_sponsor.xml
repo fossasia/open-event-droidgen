@@ -1,10 +1,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="@dimen/sponsor_padding"
     android:orientation="vertical">
 
     <ImageView
         android:id="@+id/sponsor_image"
+        android:layout_margin="@dimen/sponsor_image_margin"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

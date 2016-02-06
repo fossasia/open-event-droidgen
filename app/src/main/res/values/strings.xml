@@ -66,5 +66,6 @@
     <string name="message_2"> on the topics: </string>
     <string name="message_3"> For more information checkout this app on google play store: </string>
     <string name="fmt_floor">"Floor : "</string>
-    <string name="noBookmark">No bookmarked session yet !!</string>
+    <string name="invalid_url">Invalid Url</string>
+    <string name="emptyBookmarkList">No bookmarked session yet !!</string>
 </resources>
