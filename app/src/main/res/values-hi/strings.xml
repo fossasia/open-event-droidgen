@@ -33,4 +33,6 @@
     <string name="net_unavailable">नेटवर्क उपलब्ध नहीं है</string>
     <string name="ok">ठीक है!</string>
     <string name="turn_on"> सेटिंग्स में वाईफाई या मोबाइल डेटा को चालू करें</string>
+    <string name="invalid_url">अवैध यूआरएल</string>
+
 </resources>
