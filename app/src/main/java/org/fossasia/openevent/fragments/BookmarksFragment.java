@@ -60,7 +60,7 @@ public class BookmarksFragment extends Fragment {
         Timber.i("Bookmarks Fragment create view");
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.fragment_bookmarks, container, false);
-        TextView noBookmarks = (TextView) view.findViewById(R.id.txt_no_bookmarks);
+        TextView noBookmarkView = (TextView) view.findViewById(R.id.txt_no_bookmarks);
         bookmarkedTracks = (RecyclerView) view.findViewById(R.id.list_bookmarks);
         DbSingleton dbSingleton = DbSingleton.getInstance();
 
@@ -71,7 +71,7 @@ public class BookmarksFragment extends Fragment {
             Timber.e("Parsing Error Occurred at BookmarksFragment::onCreateView.");
         }
         if (!bookmarkedIds.isEmpty()) {
-            noBookmarks.setVisibility(View.GONE);
+            noBookmarkView.setVisibility(View.GONE);
         }
         sessionsListAdapter = new SessionsListAdapter(new ArrayList<Session>());
         for (int i = 0; i < bookmarkedIds.size(); i++) {
