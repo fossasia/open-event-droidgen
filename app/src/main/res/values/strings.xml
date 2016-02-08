@@ -76,4 +76,5 @@
 \nPlease report all the issues in <a href="https://github.com/fossasia/open-event-android/issues/new">Github Repository Issue Tracker</a>.
 \n
     </string>
+    <string name="invalid_url">Invalid Url</string>
 </resources>
