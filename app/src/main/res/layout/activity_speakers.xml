@@ -55,6 +55,7 @@
                         android:id="@+id/speaker_bio"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:padding="@dimen/speaker_bio_padding"
                         android:text="Biography"
                         android:textColor="#000000"
                         android:textStyle="bold" />
