@@ -10,8 +10,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
-import android.view.*;
-import android.widget.TextView;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.squareup.otto.Subscribe;
 
@@ -19,12 +23,12 @@ import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.activities.LocationActivtiy;
 import org.fossasia.openevent.adapters.LocationsListAdapter;
+import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.dbutils.DataDownload;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.MicrolocationDownloadEvent;
 import org.fossasia.openevent.events.RefreshUiEvent;
 import org.fossasia.openevent.utils.IntentStrings;
-import org.fossasia.openevent.utils.RecyclerItemClickListener;
 
 /**
  * User: MananWason
@@ -52,6 +56,17 @@ public class LocationsFragment extends Fragment implements SearchView.OnQueryTex
         final DbSingleton dbSingleton = DbSingleton.getInstance();
         locationsListAdapter = new LocationsListAdapter(dbSingleton.getMicrolocationsList());
         locationsRecyclerView.setAdapter(locationsListAdapter);
+        locationsListAdapter.setOnClickListener(new LocationsListAdapter.SetOnClickListener() {
+            @Override
+            public void onItemClick(int position, View view) {
+
+                Microlocation model = (Microlocation) locationsListAdapter.getItem(position);
+                String title = model.getName();
+                Intent intent = new Intent(getActivity(), LocationActivtiy.class);
+                intent.putExtra(IntentStrings.MICROLOCATIONS, title);
+                startActivity(intent);
+            }
+        });
 
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.locations_swipe_refresh);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -63,17 +78,7 @@ public class LocationsFragment extends Fragment implements SearchView.OnQueryTex
         });
 
         locationsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        locationsRecyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(view.getContext(), new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
-                        String title = ((TextView) view.findViewById(R.id.location_name)).getText().toString();
-                        Intent intent = new Intent(getActivity(), LocationActivtiy.class);
-                        intent.putExtra(IntentStrings.MICROLOCATIONS, title);
-                        startActivity(intent);
-                    }
-                })
-        );
+
         if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
             searchText = savedInstanceState.getString(SEARCH);
         }

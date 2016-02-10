@@ -1,10 +1,16 @@
 package org.fossasia.openevent.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.*;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.SessionsListAdapter;
@@ -52,10 +58,24 @@ public class LocationActivtiy extends BaseActivity implements SearchView.OnQuery
 
         sessionRecyclerView = (RecyclerView) findViewById(R.id.recyclerView_locations);
         mSessions = dbSingleton.getSessionbyLocationName(location);
+
         sessionsListAdapter = new SessionsListAdapter(mSessions);
+
         sessionRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         sessionRecyclerView.setAdapter(sessionsListAdapter);
+        sessionsListAdapter.setOnClickListener(new SessionsListAdapter.SetOnClickListener() {
+            @Override
+            public void onItemClick(int position, View view) {
+
+                Session model = (Session) sessionsListAdapter.getItem(position);
+                String sessionName = model.getTitle();
+                Intent intent = new Intent(getApplicationContext(), SessionDetailActivity.class);
+                intent.putExtra(IntentStrings.SESSION, sessionName);
+                startActivity(intent);
+            }
+        });
         sessionRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
         if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
             searchText = savedInstanceState.getString(SEARCH);
         }

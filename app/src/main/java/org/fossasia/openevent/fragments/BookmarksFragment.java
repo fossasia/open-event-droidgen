@@ -6,7 +6,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.fossasia.openevent.R;
@@ -15,7 +20,7 @@ import org.fossasia.openevent.adapters.SessionsListAdapter;
 import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.dbutils.DbSingleton;
-import org.fossasia.openevent.utils.RecyclerItemClickListener;
+import org.fossasia.openevent.utils.IntentStrings;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -81,18 +86,20 @@ public class BookmarksFragment extends Fragment {
         }
 
         bookmarkedTracks.setAdapter(sessionsListAdapter);
+        sessionsListAdapter.setOnClickListener(new SessionsListAdapter.SetOnClickListener() {
+            @Override
+            public void onItemClick(int position, View view) {
+                Session model = (Session) sessionsListAdapter.getItem(position);
+                String sessionName = model.getTitle();
+                Intent intent = new Intent(getContext(), SessionDetailActivity.class);
+                intent.putExtra(IntentStrings.SESSION, sessionName);
+                startActivity(intent);
+            }
+        });
+
+
         bookmarkedTracks.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        bookmarkedTracks.addOnItemTouchListener(
-                new RecyclerItemClickListener(view.getContext(), new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
-                        String session_name = ((TextView) view.findViewById(R.id.session_title)).getText().toString();
-                        Intent intent = new Intent(view.getContext(), SessionDetailActivity.class);
-                        intent.putExtra("SESSION", session_name);
-                        startActivity(intent);
-                    }
-                })
-        );
+
         return view;
     }
 

@@ -67,7 +67,7 @@ public class SessionDetailActivity extends BaseActivity {
 
         speakersRecyclerView = (RecyclerView) findViewById(R.id.list_speakerss);
 
-        List<Speaker> speakers = dbSingleton.getSpeakersbySessionName(title);
+        final List<Speaker> speakers = dbSingleton.getSpeakersbySessionName(title);
         session = dbSingleton.getSessionbySessionname(title);
 
         text_room1.setText((dbSingleton.getMicrolocationById(session.getMicrolocations())).getName());
@@ -102,9 +102,22 @@ public class SessionDetailActivity extends BaseActivity {
         }
         summary.setText(session.getSummary());
         descrip.setText(session.getDescription());
+
         adapter = new SpeakersListAdapter(speakers);
+
         speakersRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         speakersRecyclerView.setAdapter(adapter);
+        adapter.setOnClickListener(new SpeakersListAdapter.SetOnClickListener() {
+            @Override
+            public void onItemClick(int position, View view) {
+
+                Speaker model = (Speaker) adapter.getItem(position);
+                String speakerName = model.getName();
+                Intent intent = new Intent(getApplicationContext(), SpeakersActivity.class);
+                intent.putExtra(Speaker.SPEAKER, speakerName);
+                startActivity(intent);
+            }
+        });
         speakersRecyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 

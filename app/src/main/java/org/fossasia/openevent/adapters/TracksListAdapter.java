@@ -1,6 +1,5 @@
 package org.fossasia.openevent.adapters;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +9,7 @@ import android.widget.TextView;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.utils.ViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +20,7 @@ import timber.log.Timber;
  * User: MananWason
  * Date: 07-06-2015
  */
-public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.Viewholder> {
+public class TracksListAdapter extends BaseRVAdapter<Track, ViewHolder.Viewholder> {
 
     @SuppressWarnings("all")
     Filter filter = new Filter() {
@@ -48,34 +48,46 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.Vi
             animateTo((List<Track>) results.values);
         }
     };
+    private ViewHolder.SetOnClickListener listener;
 
     public TracksListAdapter(List<Track> tracks) {
         super(tracks);
     }
 
-    @Override
-    public TracksListAdapter.Viewholder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.item_track, parent, false);
-        return new Viewholder(view);
+    public void setOnClickListener(ViewHolder.SetOnClickListener clickListener) {
+        this.listener = clickListener;
     }
 
     @Override
-    public void onBindViewHolder(TracksListAdapter.Viewholder holder, int position) {
+    public ViewHolder.Viewholder onCreateViewHolder(ViewGroup parent, int viewType) {
+        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+        View view = layoutInflater.inflate(R.layout.item_track, parent, false);
+        ViewHolder.Viewholder viewholder = new ViewHolder.Viewholder(view);
+        viewholder.setTxtView1((TextView) view.findViewById(R.id.track_title));
+        viewholder.setTxtView2((TextView) view.findViewById(R.id.track_description));
+        viewholder.setView1(view.findViewById(R.id.track_top));
+        viewholder.setView2(view.findViewById(R.id.track_bottom));
+
+        return viewholder;
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder.Viewholder holder, int position) {
         Track current = getItem(position);
-        holder.title.setText(current.getName());
-        holder.desc.setText(current.getDescription());
+        holder.getTxtView1().setText(current.getName());
+        holder.getTxtView2().setText(current.getDescription());
+        holder.setItemClickListener(listener);
 
         if (position == 0) {
-            holder.topLine.setVisibility(View.INVISIBLE);
+            holder.getView1().setVisibility(View.INVISIBLE);
         } else {
-            holder.topLine.setVisibility(View.VISIBLE);
+            holder.getView1().setVisibility(View.VISIBLE);
         }
 
         if (position == getItemCount() - 1) {
-            holder.bottomLine.setVisibility(View.INVISIBLE);
+            holder.getView2().setVisibility(View.INVISIBLE);
         } else {
-            holder.bottomLine.setVisibility(View.VISIBLE);
+            holder.getView2().setVisibility(View.VISIBLE);
         }
     }
 
@@ -91,23 +103,10 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.Vi
         return filter;
     }
 
-    class Viewholder extends RecyclerView.ViewHolder {
-        TextView title;
-
-        TextView desc;
-
-        View topLine;
-
-        View bottomLine;
-
-        public Viewholder(View itemView) {
-            super(itemView);
-            itemView.setClickable(true);
-
-            title = (TextView) itemView.findViewById(R.id.track_title);
-            desc = (TextView) itemView.findViewById(R.id.track_description);
-            topLine = itemView.findViewById(R.id.track_top);
-            bottomLine = itemView.findViewById(R.id.track_bottom);
-        }
+    /**
+     * to handle click listener
+     */
+    public interface SetOnClickListener extends ViewHolder.SetOnClickListener {
+        void onItemClick(int position, View itemView);
     }
 }

@@ -1,6 +1,5 @@
 package org.fossasia.openevent.adapters;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +9,7 @@ import android.widget.TextView;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.utils.ViewHolder;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ import timber.log.Timber;
  * User: MananWason
  * Date: 8/18/2015
  */
-public class LocationsListAdapter extends BaseRVAdapter<Microlocation, LocationsListAdapter.Viewholder> {
+public class LocationsListAdapter extends BaseRVAdapter<Microlocation, ViewHolder.Viewholder> {
     @SuppressWarnings("all")
     Filter filter = new Filter() {
         @Override
@@ -48,6 +48,7 @@ public class LocationsListAdapter extends BaseRVAdapter<Microlocation, Locations
             animateTo((List<Microlocation>) results.values);
         }
     };
+    private ViewHolder.SetOnClickListener listener;
 
     public LocationsListAdapter(List<Microlocation> microlocations) {
         super(microlocations);
@@ -58,21 +59,30 @@ public class LocationsListAdapter extends BaseRVAdapter<Microlocation, Locations
         return filter;
     }
 
-    @Override
-    public LocationsListAdapter.Viewholder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.item_location, parent, false);
-        return new Viewholder(view);
+    public void setOnClickListener(ViewHolder.SetOnClickListener clickListener) {
+        this.listener = clickListener;
     }
 
+    @Override
+    public ViewHolder.Viewholder onCreateViewHolder(ViewGroup parent, int viewType) {
+        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+        View view = layoutInflater.inflate(R.layout.item_location, parent, false);
+        ViewHolder.Viewholder viewholder = new ViewHolder.Viewholder(view);
+
+        viewholder.setTxtView1((TextView) view.findViewById(R.id.location_name));
+        viewholder.setTxtView2((TextView) view.findViewById(R.id.location_floor));
+
+        return viewholder;
+    }
 
     @Override
-    public void onBindViewHolder(LocationsListAdapter.Viewholder holder, int position) {
+    public void onBindViewHolder(ViewHolder.Viewholder holder, int position) {
         Microlocation current = getItem(position);
-        holder.name.setText(current.getName());
-        holder.floor.setText(MessageFormat.format("{0}{1}",
+        holder.getTxtView1().setText(current.getName());
+        holder.getTxtView2().setText(MessageFormat.format("{0}{1}",
                 holder.itemView.getResources().getString(R.string.fmt_floor),
                 current.getFloor()));
+        holder.setItemClickListener(listener);
     }
 
     public void refresh() {
@@ -81,17 +91,10 @@ public class LocationsListAdapter extends BaseRVAdapter<Microlocation, Locations
         animateTo(dbSingleton.getMicrolocationsList());
     }
 
-    class Viewholder extends RecyclerView.ViewHolder {
-        TextView name;
-
-        TextView floor;
-
-        public Viewholder(View itemView) {
-            super(itemView);
-            itemView.setClickable(true);
-
-            name = (TextView) itemView.findViewById(R.id.location_name);
-            floor = (TextView) itemView.findViewById(R.id.location_floor);
-        }
+    /**
+     * to handle click listener
+     */
+    public interface SetOnClickListener extends ViewHolder.SetOnClickListener {
+        void onItemClick(int position, View itemView);
     }
 }

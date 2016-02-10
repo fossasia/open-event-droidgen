@@ -13,8 +13,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
-import android.view.*;
-import android.widget.TextView;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.squareup.otto.Subscribe;
 
@@ -29,7 +33,6 @@ import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.RefreshUiEvent;
 import org.fossasia.openevent.events.TracksDownloadEvent;
 import org.fossasia.openevent.utils.IntentStrings;
-import org.fossasia.openevent.utils.RecyclerItemClickListener;
 
 import java.util.List;
 
@@ -48,7 +51,6 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
     private TracksListAdapter tracksListAdapter;
 
     private List<Track> mTracks;
-
     private String searchText = "";
 
     private SearchView searchView;
@@ -61,9 +63,19 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
         tracksRecyclerView = (RecyclerView) view.findViewById(R.id.list_tracks);
         final DbSingleton dbSingleton = DbSingleton.getInstance();
         mTracks = dbSingleton.getTrackList();
+
         tracksListAdapter = new TracksListAdapter(mTracks);
         tracksRecyclerView.setAdapter(tracksListAdapter);
-
+        tracksListAdapter.setOnClickListener(new TracksListAdapter.SetOnClickListener() {
+            @Override
+            public void onItemClick(int position, View view) {
+                Track model = (Track) tracksListAdapter.getItem(position);
+                String trackTitle = model.getName();
+                Intent intent = new Intent(getContext(), TracksActivity.class);
+                intent.putExtra(IntentStrings.TRACK, trackTitle);
+                startActivity(intent);
+            }
+        });
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.tracks_swipe_refresh);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -78,17 +90,7 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
         });
 
         tracksRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        tracksRecyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(view.getContext(), new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
-                        String title = ((TextView) view.findViewById(R.id.track_title)).getText().toString();
-                        Intent intent = new Intent(getActivity(), TracksActivity.class);
-                        intent.putExtra(IntentStrings.TRACK, title);
-                        startActivity(intent);
-                    }
-                })
-        );
+
         if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
             searchText = savedInstanceState.getString(SEARCH);
         }

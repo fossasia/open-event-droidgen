@@ -15,8 +15,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
-import android.view.*;
-import android.widget.TextView;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.squareup.otto.Subscribe;
 
@@ -29,7 +33,6 @@ import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.dbutils.DataDownload;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.SpeakerDownloadEvent;
-import org.fossasia.openevent.utils.RecyclerItemClickListener;
 
 import java.util.List;
 
@@ -68,6 +71,17 @@ public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextL
         speakersListAdapter = new SpeakersListAdapter(mSpeakers);
         speakersRecyclerView.setAdapter(speakersListAdapter);
 
+        speakersListAdapter.setOnClickListener(new SpeakersListAdapter.SetOnClickListener() {
+            @Override
+            public void onItemClick(int position, View view) {
+                Speaker model = (Speaker) speakersListAdapter.getItem(position);
+                String speakerName = model.getName();
+                Intent intent = new Intent(getContext(), SpeakersActivity.class);
+                intent.putExtra(Speaker.SPEAKER, speakerName);
+                startActivity(intent);
+            }
+        });
+
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.speaker_swipe_refresh);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -82,17 +96,6 @@ public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextL
         });
 
         speakersRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        speakersRecyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(view.getContext(),
-                        new RecyclerItemClickListener.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(View view, int position) {
-                                String speaker_name = ((TextView) view.findViewById(R.id.speaker_name)).getText().toString();
-                                Intent intent = new Intent(view.getContext(), SpeakersActivity.class);
-                                intent.putExtra(Speaker.SPEAKER, speaker_name);
-                                startActivity(intent);
-                            }
-                        }));
 
         if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
             searchText = savedInstanceState.getString(SEARCH);
