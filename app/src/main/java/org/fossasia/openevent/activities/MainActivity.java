@@ -38,6 +38,7 @@ import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.*;
 import org.fossasia.openevent.fragments.*;
 import org.fossasia.openevent.utils.SmoothActionBarDrawerToggle;
+import org.fossasia.openevent.widget.DialogFactory;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -414,19 +415,16 @@ public class MainActivity extends BaseActivity {
     @Subscribe
     public void showNetworkDialog(ShowNetworkDialogEvent event) {
         downloadProgress.setVisibility(View.GONE);
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setTitle(getString(R.string.net_unavailable))
-                .setMessage(getString(R.string.turn_on))
-                .setPositiveButton(R.string.action_settings, new DialogInterface.OnClickListener() {
+        DialogFactory.createSimpleActionDialog(this,
+                R.string.net_unavailable,
+                R.string.turn_on,
+                new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Intent setNetworkIntent = new Intent(Settings.ACTION_SETTINGS);
                         startActivity(setNetworkIntent);
                     }
-                })
-                .setNeutralButton(R.string.cancel, null)
-                .create();
-        builder.show();
+                }).show();
     }
 
     @Subscribe
