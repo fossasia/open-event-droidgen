@@ -1,7 +1,6 @@
 package org.fossasia.openevent.adapters;
 
 import android.net.Uri;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +15,7 @@ import org.fossasia.openevent.R;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.CircleTransform;
+import org.fossasia.openevent.utils.ViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +26,7 @@ import timber.log.Timber;
  * User: MananWason
  * Date: 11-06-2015
  */
-public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakersListAdapter.ViewHolder> {
+public class SpeakersListAdapter extends BaseRVAdapter<Speaker, ViewHolder.Viewholder> {
 
     @SuppressWarnings("all")
     Filter filter = new Filter() {
@@ -54,6 +54,7 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakersListAdap
             animateTo((List<Speaker>) results.values);
         }
     };
+    private ViewHolder.SetOnClickListener listener;
 
     public SpeakersListAdapter(List<Speaker> speakers) {
         super(speakers);
@@ -64,26 +65,35 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakersListAdap
         return filter;
     }
 
-    @Override
-    public SpeakersListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.item_speaker, parent, false);
-        return new ViewHolder(view);
+    public void setOnClickListener(ViewHolder.SetOnClickListener clickListener) {
+        this.listener = clickListener;
     }
 
     @Override
-    public void onBindViewHolder(SpeakersListAdapter.ViewHolder holder, int position) {
+    public ViewHolder.Viewholder onCreateViewHolder(ViewGroup parent, int viewType) {
+        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+        View view = layoutInflater.inflate(R.layout.item_speaker, parent, false);
+        ViewHolder.Viewholder viewholder = new ViewHolder.Viewholder(view);
+
+        viewholder.setImgView1((ImageView) view.findViewById(R.id.speaker_image));
+        viewholder.setTxtView1((TextView) view.findViewById(R.id.speaker_name));
+        viewholder.setTxtView2((TextView) view.findViewById(R.id.speaker_designation));
+
+        return viewholder;
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder.Viewholder holder, int position) {
         Speaker current = getItem(position);
 
         Uri uri = Uri.parse(current.getPhoto());
-        Picasso.with(holder.speakerImage.getContext())
-                .load(uri)
-                .placeholder(R.drawable.ic_account_circle_grey_24dp)
-                .transform(new CircleTransform())
-                .into(holder.speakerImage);
+        Picasso.with(holder.getImgView1().getContext()).load(uri)
+                .placeholder(R.drawable.ic_account_circle_grey_24dp).transform(new CircleTransform()).into(holder.getImgView1());
 
-        holder.designation.setText(current.getPosition());
-        holder.name.setText(TextUtils.isEmpty(current.getName()) ? "" : current.getName());
+        holder.getTxtView2().setText(current.getPosition());
+        holder.getTxtView1().setText(TextUtils.isEmpty(current.getName()) ? "" : current.getName());
+
+        holder.setItemClickListener(listener);
     }
 
     public void refresh() {
@@ -92,22 +102,10 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakersListAdap
         animateTo(dbSingleton.getSpeakerList());
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
-
-        ImageView speakerImage;
-
-        TextView name;
-
-        TextView designation;
-
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-            itemView.setClickable(true);
-            speakerImage = (ImageView) itemView.findViewById(R.id.speaker_image);
-            name = (TextView) itemView.findViewById(R.id.speaker_name);
-            designation = (TextView) itemView.findViewById(R.id.speaker_designation);
-        }
+    /**
+     * to handle click listener
+     */
+    public interface SetOnClickListener extends ViewHolder.SetOnClickListener {
+        void onItemClick(int position, View itemView);
     }
 }
-

@@ -1,6 +1,5 @@
 package org.fossasia.openevent.adapters;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +9,7 @@ import android.widget.TextView;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.utils.ViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +20,7 @@ import timber.log.Timber;
  * User: MananWason
  * Date: 26-06-2015
  */
-public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdapter.Viewholder> {
+public class SessionsListAdapter extends BaseRVAdapter<Session, ViewHolder.Viewholder> {
     @SuppressWarnings("all")
     Filter filter = new Filter() {
         @Override
@@ -48,6 +48,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
             animateTo((List<Session>) results.values);
         }
     };
+    private ViewHolder.SetOnClickListener listener;
 
     public SessionsListAdapter(List<Session> sessions) {
         super(sessions);
@@ -58,39 +59,35 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
         return filter;
     }
 
-    @Override
-    public SessionsListAdapter.Viewholder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.tracksactvity_item, parent, false);
-        return new Viewholder(view);
+    public void setOnClickListener(ViewHolder.SetOnClickListener clickListener) {
+        this.listener = clickListener;
     }
 
     @Override
-    public void onBindViewHolder(Viewholder holder, int position) {
+    public ViewHolder.Viewholder onCreateViewHolder(ViewGroup parent, int viewType) {
+        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+        View view = layoutInflater.inflate(R.layout.tracksactvity_item, parent, false);
+        ViewHolder.Viewholder viewholder = new ViewHolder.Viewholder(view);
+        viewholder.setTxtView1((TextView) view.findViewById(R.id.session_title));
+        viewholder.setTxtView2((TextView) view.findViewById(R.id.session_abstract));
+
+        return viewholder;
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder.Viewholder holder, int position) {
         Session current = getItem(position);
         String title = current.getTitle();
         String summary = current.getSummary();
-        holder.sessionName.setText(title);
-        holder.sessionSummary.setText(summary);
+        holder.getTxtView1().setText(title);
+        holder.getTxtView2().setText(summary);
+        holder.setItemClickListener(listener);
     }
 
-    class Viewholder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView sessionName;
-
-        TextView sessionSummary;
-
-        public Viewholder(View itemView) {
-            super(itemView);
-            itemView.setClickable(true);
-            itemView.setOnClickListener(this);
-            sessionName = (TextView) itemView.findViewById(R.id.session_title);
-            sessionSummary = (TextView) itemView.findViewById(R.id.session_abstract);
-
-        }
-
-        @Override
-        public void onClick(View view) {
-
-        }
+    /**
+     * to handle click listener
+     */
+    public interface SetOnClickListener extends ViewHolder.SetOnClickListener {
+        void onItemClick(int position, View itemView);
     }
 }
