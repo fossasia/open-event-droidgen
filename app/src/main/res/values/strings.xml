@@ -77,4 +77,6 @@
 \n
     </string>
     <string name="invalid_url">Invalid Url</string>
+    <string name="dialog_action_ok">Ok</string>
+    <string name="dialog_error_title">Error</string>
 </resources>
