@@ -10,7 +10,7 @@ import org.fossasia.openevent.api.processor.*;
  *
  * A singleton to keep track of download
  */
-public class DataDownloadManager {
+public final class DataDownloadManager {
     static DataDownloadManager instance;
 
     APIClient client = new APIClient();

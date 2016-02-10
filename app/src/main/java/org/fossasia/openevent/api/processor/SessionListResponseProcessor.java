@@ -17,7 +17,8 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
- * Created by MananWason on 27-05-2015.
+ * User: MananWason
+ * Date: 27-05-2015
  */
 public class SessionListResponseProcessor implements Callback<SessionResponseList> {
     private static final String TAG = "Session";
@@ -51,5 +52,4 @@ public class SessionListResponseProcessor implements Callback<SessionResponseLis
         // Do something with failure, raise an event etc.
         OpenEventApp.getEventBus().post(new SessionDownloadEvent(false));
     }
-
 }
