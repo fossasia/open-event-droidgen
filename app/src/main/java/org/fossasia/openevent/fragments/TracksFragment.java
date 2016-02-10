@@ -155,7 +155,7 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
     }
 
     @Subscribe
-    public void TrackDownloadDone(TracksDownloadEvent event) {
+    public void onTrackDownloadDone(TracksDownloadEvent event) {
 
         swipeRefreshLayout.setRefreshing(false);
         if (event.isState()) {
