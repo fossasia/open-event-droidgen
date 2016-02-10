@@ -14,11 +14,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.Patterns;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
@@ -26,7 +22,7 @@ import com.squareup.otto.Subscribe;
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.SponsorsListAdapter;
-import org.fossasia.openevent.dbutils.DataDownload;
+import org.fossasia.openevent.dbutils.DataDownloadManager;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.SponsorDownloadEvent;
 import org.fossasia.openevent.utils.RecyclerItemClickListener;
@@ -56,8 +52,7 @@ public class SponsorsFragment extends Fragment {
             @Override
             public void onRefresh() {
                 if (haveNetworkConnection()) {
-                    DataDownload download = new DataDownload();
-                    download.downloadSponsors();
+                    DataDownloadManager.getInstance().downloadSponsors();
                 } else {
                     OpenEventApp.getEventBus().post(new SponsorDownloadEvent(true));
                 }

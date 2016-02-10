@@ -5,7 +5,7 @@ import android.util.Log;
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.api.protocol.VersionResponseList;
 import org.fossasia.openevent.data.Version;
-import org.fossasia.openevent.dbutils.DataDownload;
+import org.fossasia.openevent.dbutils.DataDownloadManager;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.CounterEvent;
 import org.fossasia.openevent.utils.CommonTaskLoop;
@@ -38,7 +38,7 @@ public class VersionApiProcessor implements Callback<VersionResponseList> {
                     if ((dbSingleton.getVersionIds() == null)) {
                         queries.add(version.generateSql());
                         dbSingleton.insertQueries(queries);
-                        DataDownload download = new DataDownload();
+                        DataDownloadManager download = DataDownloadManager.getInstance();
                         download.downloadEvents();
                         download.downloadSpeakers();
                         download.downloadTracks();
@@ -48,7 +48,7 @@ public class VersionApiProcessor implements Callback<VersionResponseList> {
                         counterRequests += 6;
 
                     } else if ((dbSingleton.getVersionIds().getId() != version.getId())) {
-                        DataDownload download = new DataDownload();
+                        DataDownloadManager download = DataDownloadManager.getInstance();
                         if (dbSingleton.getVersionIds().getEventVer() != version.getEventVer()) {
                             download.downloadEvents();
                             Log.d(TAG, "events");

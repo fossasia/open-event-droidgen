@@ -7,10 +7,23 @@ import org.fossasia.openevent.api.processor.*;
 /**
  * User: MananWason
  * Date: 31-05-2015
+ *
+ * A singleton to keep track of download
  */
-public class DataDownload {
+public class DataDownloadManager {
+    static DataDownloadManager instance;
+
     APIClient client = new APIClient();
 
+    private DataDownloadManager() {
+    }
+
+    public static DataDownloadManager getInstance() {
+        if (instance == null) {
+            instance = new DataDownloadManager();
+        }
+        return instance;
+    }
 
     public void downloadEvents() {
         client.getOpenEventAPI().getEvents(new EventListResponseProcessor());

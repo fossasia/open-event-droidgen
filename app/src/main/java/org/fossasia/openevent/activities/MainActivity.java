@@ -33,7 +33,7 @@ import com.squareup.picasso.Picasso;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
-import org.fossasia.openevent.dbutils.DataDownload;
+import org.fossasia.openevent.dbutils.DataDownloadManager;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.*;
 import org.fossasia.openevent.fragments.*;
@@ -431,8 +431,7 @@ public class MainActivity extends BaseActivity {
 
     @Subscribe
     public void downloadData(DataDownloadEvent event) {
-        DataDownload download = new DataDownload();
-        download.downloadVersions();
+        DataDownloadManager.getInstance().downloadVersions();
         downloadProgress.setVisibility(View.VISIBLE);
         Log.d("DataNotif", "Download has started");
     }
