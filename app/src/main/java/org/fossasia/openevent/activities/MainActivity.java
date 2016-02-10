@@ -281,6 +281,8 @@ public class MainActivity extends BaseActivity {
                         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
                     }
                 });
+		break;
+
             case R.id.nav_about:
                 AlertDialog.Builder builder =
                         new AlertDialog.Builder(this);
