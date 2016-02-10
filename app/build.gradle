@@ -46,10 +46,12 @@ android {
         }
     }
     packagingOptions {
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
         exclude 'LICENSE.txt'
     }
     lintOptions {
         abortOnError false
+        disable 'InvalidPackage'
     }
 }
 
@@ -77,6 +79,7 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.squareup:otto:1.3.8'
     compile 'com.jakewharton.timber:timber:4.1.0'
+    compile 'com.jakewharton:butterknife:7.0.1'
 
     googleplayCompile 'com.google.android.gms:play-services-maps:8.4.0'
 

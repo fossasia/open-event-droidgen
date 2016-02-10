@@ -5,13 +5,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.util.Log;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.events.ConnectionCheckEvent;
 
+import timber.log.Timber;
+
 /**
- * Created by shivenmian on 02/01/16.
+ * User: shivenmian
+ * Date: 02/01/16
+ *
+ * Network connectivity change receiver to detect changes in network
  */
 public class NetworkConnectivityChangeReceiver extends BroadcastReceiver {
 
@@ -19,7 +23,7 @@ public class NetworkConnectivityChangeReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.d("NetNotif", "Received network information");
+        Timber.i("Network information received %s", intent);
         ConnectionCheckEvent event = new ConnectionCheckEvent(isConnected);
         if (isNetworkAvailable(context)) {
             if (!event.connState()) {
@@ -28,6 +32,7 @@ public class NetworkConnectivityChangeReceiver extends BroadcastReceiver {
         } else {
             event.isConnected = false;
         }
+        Timber.i("Network connected %s", event.isConnected);
         OpenEventApp.postEventOnUIThread(event);
     }
 

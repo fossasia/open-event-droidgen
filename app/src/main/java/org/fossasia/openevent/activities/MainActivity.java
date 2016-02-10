@@ -39,6 +39,8 @@ import org.fossasia.openevent.events.*;
 import org.fossasia.openevent.fragments.*;
 import org.fossasia.openevent.utils.SmoothActionBarDrawerToggle;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import retrofit.RetrofitError;
 
 public class MainActivity extends BaseActivity {
@@ -61,15 +63,20 @@ public class MainActivity extends BaseActivity {
 
     public String errorDesc;
 
-    private DrawerLayout mDrawerLayout;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
 
-    private Toolbar mToolbar;
+    @Bind(R.id.nav_view)
+    NavigationView navigationView;
 
-    private NavigationView navigationView;
+    @Bind(R.id.progress)
+    ProgressBar downloadProgress;
 
-    private ProgressBar downloadProgress;
+    @Bind(R.id.layout_main)
+    CoordinatorLayout mainFrame;
 
-    private CoordinatorLayout mainFrame;
+    @Bind(R.id.drawer)
+    DrawerLayout drawerLayout;
 
     private int counter;
 
@@ -88,13 +95,13 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         counter = 0;
-        setContentView(R.layout.activity_main);
         eventsDone = 0;
+        setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
+
         setUpToolbar();
         setUpNavDrawer();
-        mainFrame = (CoordinatorLayout) findViewById(R.id.layout_main);
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
-        downloadProgress = (ProgressBar) findViewById(R.id.progress);
+
         downloadProgress.setVisibility(View.VISIBLE);
         downloadProgress.setIndeterminate(true);
         this.findViewById(android.R.id.content).setBackgroundColor(Color.LTGRAY);
@@ -114,7 +121,6 @@ public class MainActivity extends BaseActivity {
         if (getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG) == null) {
             doMenuAction(currentMenuItemId);
         }
-
     }
 
     @Override
@@ -161,7 +167,7 @@ public class MainActivity extends BaseActivity {
         int id = item.getItemId();
         switch (id) {
             case R.id.home:
-                mDrawerLayout.openDrawer(GravityCompat.START);
+                drawerLayout.openDrawer(GravityCompat.START);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -170,29 +176,27 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (mDrawerLayout.isDrawerOpen(navigationView)) {
-            mDrawerLayout.closeDrawer(navigationView);
+        if (drawerLayout.isDrawerOpen(navigationView)) {
+            drawerLayout.closeDrawer(navigationView);
         } else {
             super.onBackPressed();
         }
     }
 
     private void setUpToolbar() {
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        if (mToolbar != null) {
-            setSupportActionBar(mToolbar);
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
         }
     }
 
     private void setUpNavDrawer() {
-        if (mToolbar != null) {
+        if (toolbar != null) {
             final ActionBar ab = getSupportActionBar();
             assert ab != null;
-            mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
             smoothActionBarToggle = new SmoothActionBarDrawerToggle(this,
-                    mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                    drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 
-            mDrawerLayout.setDrawerListener(smoothActionBarToggle);
+            drawerLayout.setDrawerListener(smoothActionBarToggle);
             ab.setHomeAsUpIndicator(R.drawable.ic_menu);
             ab.setDisplayHomeAsUpEnabled(true);
             ab.setDisplayHomeAsUpEnabled(true);
@@ -204,10 +208,10 @@ public class MainActivity extends BaseActivity {
         downloadProgress.setVisibility(View.GONE);
         Bus bus = OpenEventApp.getEventBus();
         bus.post(new RefreshUiEvent());
-        ImageView header_drawer = (ImageView) findViewById(R.id.headerDrawer);
         DbSingleton dbSingleton = DbSingleton.getInstance();
         if (!(dbSingleton.getEventDetails().getLogo().isEmpty())) {
-            Picasso.with(getApplicationContext()).load(dbSingleton.getEventDetails().getLogo()).into(header_drawer);
+            ImageView headerDrawer = (ImageView) findViewById(R.id.headerDrawer);
+            Picasso.with(getApplicationContext()).load(dbSingleton.getEventDetails().getLogo()).into(headerDrawer);
         }
 
         Snackbar.make(mainFrame, getString(R.string.download_complete), Snackbar.LENGTH_SHORT).show();
@@ -295,7 +299,7 @@ public class MainActivity extends BaseActivity {
                 break;
         }
         currentMenuItemId = menuItemId;
-        mDrawerLayout.closeDrawers();
+        drawerLayout.closeDrawers();
     }
 
     public void showErrorDialog(String errorType, String errorDesc) {
@@ -475,17 +479,4 @@ public class MainActivity extends BaseActivity {
             showErrorDialog(errorType, errorDesc);
         }
     }
-
-    @Subscribe
-
-    public void onConnectionChangeReact(ConnectionCheckEvent event) {
-        if (event.connState()) {
-            OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
-            Log.d("NetNotif", "Connected to Internet");
-        } else {
-            Log.d("NetNotif", "Not connected to Internet");
-            OpenEventApp.postEventOnUIThread(new ShowNetworkDialogEvent());
-        }
-    }
-
 }

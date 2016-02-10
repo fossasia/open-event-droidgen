@@ -1,7 +1,8 @@
 package org.fossasia.openevent.events;
 
 /**
- * Created by MananWason on 8/5/2015.
+ * User: MananWason
+ * Date: 8/5/2015
  */
 public class CounterEvent {
     int requestsCount;

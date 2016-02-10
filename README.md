@@ -73,6 +73,13 @@ Before you begin, you should already have the Android Studio SDK downloaded and 
 - Also there is a check on the version of data already there in the app's database. If data is stale then only it is downloaded.
 - If database is empty then firstly json file in assets is accessed but if internet is available , latest data is downloaded.
 
+## Libraries userd
+- Otto
+- Retrofit
+- ButterKnife
+- Timber
+- Google Gson
+
 ## A note about Codestyle
 Please read our [CODESTYLE](CODESTYLE.md) carefully. Pull requests that do not match the style will be rejected. 
 

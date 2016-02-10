@@ -1,7 +1,8 @@
 package org.fossasia.openevent.events;
 
 /**
- * Created by shivenmian on 04/01/16.
+ * User: shivenmian
+ * Date: 04/01/16
  */
 public class ConnectionCheckEvent {
 
