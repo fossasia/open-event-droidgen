@@ -26,7 +26,7 @@ import org.fossasia.openevent.activities.SpeakersActivity;
 import org.fossasia.openevent.adapters.SpeakersListAdapter;
 import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Speaker;
-import org.fossasia.openevent.dbutils.DataDownload;
+import org.fossasia.openevent.dbutils.DataDownloadManager;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.SpeakerDownloadEvent;
 import org.fossasia.openevent.utils.RecyclerItemClickListener;
@@ -73,8 +73,7 @@ public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextL
             @Override
             public void onRefresh() {
                 if (haveNetworkConnection()) {
-                    DataDownload download = new DataDownload();
-                    download.downloadSpeakers();
+                    DataDownloadManager.getInstance().downloadSpeakers();
                 } else {
                     OpenEventApp.getEventBus().post(new SpeakerDownloadEvent(false));
                 }

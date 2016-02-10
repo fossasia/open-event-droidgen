@@ -19,7 +19,7 @@ import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.activities.LocationActivtiy;
 import org.fossasia.openevent.adapters.LocationsListAdapter;
-import org.fossasia.openevent.dbutils.DataDownload;
+import org.fossasia.openevent.dbutils.DataDownloadManager;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.MicrolocationDownloadEvent;
 import org.fossasia.openevent.events.RefreshUiEvent;
@@ -57,8 +57,7 @@ public class LocationsFragment extends Fragment implements SearchView.OnQueryTex
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                DataDownload download = new DataDownload();
-                download.downloadMicrolocations();
+                DataDownloadManager.getInstance().downloadMicrolocations();
             }
         });
 

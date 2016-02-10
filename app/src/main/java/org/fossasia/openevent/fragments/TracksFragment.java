@@ -24,7 +24,7 @@ import org.fossasia.openevent.activities.TracksActivity;
 import org.fossasia.openevent.adapters.TracksListAdapter;
 import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Track;
-import org.fossasia.openevent.dbutils.DataDownload;
+import org.fossasia.openevent.dbutils.DataDownloadManager;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.RefreshUiEvent;
 import org.fossasia.openevent.events.TracksDownloadEvent;
@@ -69,8 +69,7 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
             @Override
             public void onRefresh() {
                 if (haveNetworkConnection()) {
-                    DataDownload download = new DataDownload();
-                    download.downloadTracks();
+                    DataDownloadManager.getInstance().downloadTracks();
                 } else {
                     OpenEventApp.getEventBus().post(new TracksDownloadEvent(false));
                 }
