@@ -281,6 +281,7 @@ public class MainActivity extends BaseActivity {
                         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
                     }
                 });
+                break;
             case R.id.nav_about:
                 AlertDialog.Builder builder =
                         new AlertDialog.Builder(this);
@@ -288,13 +289,10 @@ public class MainActivity extends BaseActivity {
                 builder.setMessage(getResources().getText(R.string.about_text));
                 builder.setPositiveButton("OK", null);
                 builder.setIcon(R.mipmap.ic_launcher);
-
                 AlertDialog welcomeAlert = builder.create();
                 welcomeAlert.show();
-                // Make the textview clickable. Must be called after show()
                 ((TextView) welcomeAlert.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
                 break;
-
         }
         currentMenuItemId = menuItemId;
         mDrawerLayout.closeDrawers();
