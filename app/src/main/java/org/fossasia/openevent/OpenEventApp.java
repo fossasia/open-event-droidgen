@@ -8,9 +8,13 @@ import android.os.Looper;
 import android.util.Log;
 
 import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 
 import org.fossasia.openevent.Receivers.NetworkConnectivityChangeReceiver;
 import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.events.ConnectionCheckEvent;
+import org.fossasia.openevent.events.DataDownloadEvent;
+import org.fossasia.openevent.events.ShowNetworkDialogEvent;
 import org.fossasia.openevent.modules.MapModuleFactory;
 
 import timber.log.Timber;
@@ -21,19 +25,21 @@ import timber.log.Timber;
  */
 public class OpenEventApp extends Application {
 
-    private static Bus sEventBus;
+    static Handler handler;
+
+    private static Bus eventBus;
 
     MapModuleFactory mapModuleFactory;
 
     public static Bus getEventBus() {
-        if (sEventBus == null) {
-            sEventBus = new Bus();
+        if (eventBus == null) {
+            eventBus = new Bus();
         }
-        return sEventBus;
+        return eventBus;
     }
 
     public static void postEventOnUIThread(final Object event) {
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
+        handler.post(new Runnable() {
             @Override
             public void run() {
                 getEventBus().post(event);
@@ -44,6 +50,7 @@ public class OpenEventApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        handler = new Handler(Looper.getMainLooper());
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
         } else {
@@ -53,7 +60,20 @@ public class OpenEventApp extends Application {
         DbSingleton.init(this);
         mapModuleFactory = new MapModuleFactory();
         registerReceiver(new NetworkConnectivityChangeReceiver(), new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+        getEventBus().register(this);
     }
+
+    @Subscribe
+    public void onConnectionChangeReact(ConnectionCheckEvent event) {
+        if (event.connState()) {
+            postEventOnUIThread(new DataDownloadEvent());
+            Timber.d("[NetNotif] %s", "Connected to Internet");
+        } else {
+            Timber.d("[NetNotif] %s", "Not connected to Internet");
+            postEventOnUIThread(new ShowNetworkDialogEvent());
+        }
+    }
+
 
     public MapModuleFactory getMapModuleFactory() {
         return mapModuleFactory;

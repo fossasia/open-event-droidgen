@@ -96,11 +96,8 @@ public class VersionApiProcessor implements Callback<VersionResponseList> {
                     CounterEvent counterEvent = new CounterEvent(counterRequests);
                     OpenEventApp.postEventOnUIThread(counterEvent);
                 }
-
-
             }
         });
-
     }
 
     @Override
@@ -109,5 +106,4 @@ public class VersionApiProcessor implements Callback<VersionResponseList> {
         OpenEventApp.postEventOnUIThread(error);
         Log.d("ErrorDescription", String.valueOf(error.getCause()));
     }
-
 }
