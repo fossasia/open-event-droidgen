@@ -33,6 +33,7 @@ import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.dbutils.DataDownloadManager;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.SpeakerDownloadEvent;
+import org.fossasia.openevent.utils.KeyboardHelper;
 
 import java.util.List;
 
@@ -64,6 +65,7 @@ public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextL
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.list_speakers, container, false);
+        KeyboardHelper.hideKeyboard(getActivity(), view.findViewById(R.id.rv_speakers));
         OpenEventApp.getEventBus().register(this);
         speakersRecyclerView = (RecyclerView) view.findViewById(R.id.rv_speakers);
         final DbSingleton dbSingleton = DbSingleton.getInstance();

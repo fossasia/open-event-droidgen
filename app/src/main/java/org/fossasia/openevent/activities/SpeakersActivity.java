@@ -21,6 +21,7 @@ import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.IntentStrings;
+import org.fossasia.openevent.utils.KeyboardHelper;
 import org.fossasia.openevent.utils.SpeakerIntent;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ import java.util.List;
 /**
  * Created by MananWason on 30-06-2015.
  */
-public class SpeakersActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
+public class SpeakersActivity extends BaseActivity implements SearchView.OnQueryTextListener {
     final private String SEARCH = "searchText";
 
     SessionsListAdapter sessionsListAdapter;
@@ -50,6 +51,8 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_speakers);
+        KeyboardHelper.hideKeyboard(this, findViewById(R.id.appbar));
+        KeyboardHelper.hideKeyboard(this, findViewById(R.id.recyclerView_speakers));
         DbSingleton dbSingleton = DbSingleton.getInstance();
         speaker = getIntent().getStringExtra(Speaker.SPEAKER);
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_speakers);
