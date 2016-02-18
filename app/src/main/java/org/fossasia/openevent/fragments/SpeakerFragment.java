@@ -161,6 +161,8 @@ public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextL
         searchText = query;
         if (!TextUtils.isEmpty(query)) {
             speakersListAdapter.getFilter().filter(query);
+        } else {
+            speakersListAdapter.refresh();
         }
         return true;
     }

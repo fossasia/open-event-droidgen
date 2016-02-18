@@ -84,6 +84,13 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, ViewHolder.Viewh
         holder.setItemClickListener(listener);
     }
 
+    public void refresh() {
+        Timber.d("Refreshing session List from db");
+        DbSingleton dbSingleton = DbSingleton.getInstance();
+        clear();
+        animateTo(dbSingleton.getSessionList());
+    }
+
     /**
      * to handle click listener
      */

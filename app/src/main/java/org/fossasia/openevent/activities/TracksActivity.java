@@ -146,6 +146,8 @@ public class TracksActivity extends BaseActivity implements SearchView.OnQueryTe
     public boolean onQueryTextChange(String query) {
         if (!TextUtils.isEmpty(query)) {
             sessionsListAdapter.getFilter().filter(query);
+        } else {
+            sessionsListAdapter.refresh();
         }
         searchText = query;
         return true;
