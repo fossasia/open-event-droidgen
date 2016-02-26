@@ -35,7 +35,8 @@ public class BookmarksFragment extends Fragment {
     SessionsListAdapter sessionsListAdapter;
 
     RecyclerView bookmarkedTracks;
-
+    TextView noBookmarkView;
+    View view;
     ArrayList<Integer> bookmarkedIds;
 
     @Override
@@ -57,6 +58,13 @@ public class BookmarksFragment extends Fragment {
                 Timber.e("Parsing Error Occurred at BookmarksFragment::onResume.");
             }
         }
+        if (!bookmarkedIds.isEmpty()) {
+            noBookmarkView.setVisibility(View.GONE);
+            bookmarkedTracks.setVisibility(View.VISIBLE);
+        } else {
+            noBookmarkView.setVisibility(View.VISIBLE);
+            bookmarkedTracks.setVisibility(View.GONE);
+        }
     }
 
     @Nullable
@@ -64,8 +72,8 @@ public class BookmarksFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Timber.i("Bookmarks Fragment create view");
         setHasOptionsMenu(true);
-        View view = inflater.inflate(R.layout.fragment_bookmarks, container, false);
-        TextView noBookmarkView = (TextView) view.findViewById(R.id.txt_no_bookmarks);
+        view = inflater.inflate(R.layout.fragment_bookmarks, container, false);
+        noBookmarkView = (TextView) view.findViewById(R.id.txt_no_bookmarks);
         bookmarkedTracks = (RecyclerView) view.findViewById(R.id.list_bookmarks);
         DbSingleton dbSingleton = DbSingleton.getInstance();
 
@@ -77,6 +85,10 @@ public class BookmarksFragment extends Fragment {
         }
         if (!bookmarkedIds.isEmpty()) {
             noBookmarkView.setVisibility(View.GONE);
+            bookmarkedTracks.setVisibility(View.VISIBLE);
+        } else {
+            noBookmarkView.setVisibility(View.VISIBLE);
+            bookmarkedTracks.setVisibility(View.GONE);
         }
         sessionsListAdapter = new SessionsListAdapter(new ArrayList<Session>());
         for (int i = 0; i < bookmarkedIds.size(); i++) {
