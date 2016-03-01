@@ -1,6 +1,7 @@
 [![Build Status](https://travis-ci.org/fossasia/open-event-android.svg)](https://travis-ci.org/fossasia/open-event-android)
 [![Coverage Status](https://coveralls.io/repos/github/fossasia/open-event-android/badge.svg?branch=master)](https://coveralls.io/github/fossasia/open-event-android?branch=master)
 [![todofy badge](https://todofy.org/b/fossasia/open-event-android)](https://todofy.org/r/fossasia/open-event-android)
+[![Join the chat at https://gitter.im/fossasia/open-event-android](https://badges.gitter.im/fossasia/open-event-android.svg)](https://gitter.im/fossasia/open-event-android?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ## The Open Event Android Client
 
