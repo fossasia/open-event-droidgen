@@ -4,6 +4,8 @@
 
 ## The Open Event Android Client
 
+[![Join the chat at https://gitter.im/fossasia/open-event-android](https://badges.gitter.im/fossasia/open-event-android.svg)](https://gitter.im/fossasia/open-event-android?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 The Android client is a generic app that has two parts:
 a) A standard configuration file, that sets the details of the app (e.g. color scheme, logo of event, link to JSON app data)
 b) The Android app itself
