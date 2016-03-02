@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/border"
+    android:padding="10dp"
+    android:layout_weight="10"
+    android:layout_gravity="center">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/filter_tracks"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:layout_weight="8"
+        android:scrollbars="vertical">
+
+
+    </android.support.v7.widget.RecyclerView>
+    <TextView
+        android:id="@+id/reset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:clickable="true"
+        android:textSize="16sp"
+        android:textColor="@color/color_primary"
+        android:text="@string/reset_filters"/>
+
+</LinearLayout>

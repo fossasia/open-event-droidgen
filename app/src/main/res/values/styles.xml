@@ -52,5 +52,10 @@
         <item name="android:paddingBottom">24dp</item>
         <item name="android:orientation">vertical</item>
     </style>
+    <style name="AppCompatAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/color_accent</item>
+        <item name="android:textColorPrimary">#000</item>
+        <item name="android:background">#ffffff</item>
+    </style>
 
 </resources>

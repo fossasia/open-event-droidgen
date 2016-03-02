@@ -1,6 +1,7 @@
 package org.fossasia.openevent.fragments;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -9,24 +10,29 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.squareup.otto.Subscribe;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.activities.TracksActivity;
+import org.fossasia.openevent.adapters.FilterAdapter;
 import org.fossasia.openevent.adapters.TracksListAdapter;
 import org.fossasia.openevent.api.Urls;
+import org.fossasia.openevent.data.Information;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DataDownloadManager;
 import org.fossasia.openevent.dbutils.DbSingleton;
@@ -34,6 +40,7 @@ import org.fossasia.openevent.events.RefreshUiEvent;
 import org.fossasia.openevent.events.TracksDownloadEvent;
 import org.fossasia.openevent.utils.IntentStrings;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -55,12 +62,15 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
 
     private SearchView searchView;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.list_tracks, container, false);
         OpenEventApp.getEventBus().register(this);
         tracksRecyclerView = (RecyclerView) view.findViewById(R.id.list_tracks);
+
+
         final DbSingleton dbSingleton = DbSingleton.getInstance();
         mTracks = dbSingleton.getTrackList();
 
@@ -115,9 +125,12 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
                 intent.putExtra(Intent.EXTRA_SUBJECT, R.string.share_links);
                 intent.setType("text/plain");
                 startActivity(Intent.createChooser(intent, getResources().getString(R.string.share_links)));
+                break;
+
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
