@@ -21,7 +21,6 @@
     <string name="action_settings">Setari</string>
 
     <!-- Speaker Fragment-->
-
     <!--Settings-->
     <string name="settings_mode_api"> Modul API</string>
     <string name="default_mode_api">Dezvoltator</string>
