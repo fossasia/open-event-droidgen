@@ -7,6 +7,7 @@
 
     <!-- Main menu_speakers -->
     <string name="menu_tracks">Tracks</string>
+    <string name="menu_schedule">Schedule</string>
     <string name="menu_bookmarks">Bookmarks</string>
     <string name="menu_speakers">Speakers</string>
     <string name="menu_sponsor">Sponsors</string>

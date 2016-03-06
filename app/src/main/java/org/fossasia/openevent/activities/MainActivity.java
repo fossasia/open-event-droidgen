@@ -247,6 +247,11 @@ public class MainActivity extends BaseActivity {
                         .replace(R.id.content_frame, new TracksFragment(), FRAGMENT_TAG).commit();
                 getSupportActionBar().setTitle(R.string.menu_tracks);
                 break;
+            case R.id.nav_schedule:
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_frame, new ScheduleFragment(), FRAGMENT_TAG).commit();
+                getSupportActionBar().setTitle(R.string.menu_schedule);
+                break;
             case R.id.nav_bookmarks:
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_frame, new BookmarksFragment(), FRAGMENT_TAG).commit();
