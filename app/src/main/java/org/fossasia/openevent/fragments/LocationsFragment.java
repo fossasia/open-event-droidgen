@@ -21,7 +21,7 @@ import com.squareup.otto.Subscribe;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
-import org.fossasia.openevent.activities.LocationActivtiy;
+import org.fossasia.openevent.activities.LocationActivity;
 import org.fossasia.openevent.adapters.LocationsListAdapter;
 import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.dbutils.DataDownloadManager;
@@ -62,7 +62,7 @@ public class LocationsFragment extends Fragment implements SearchView.OnQueryTex
 
                 Microlocation model = (Microlocation) locationsListAdapter.getItem(position);
                 String title = model.getName();
-                Intent intent = new Intent(getActivity(), LocationActivtiy.class);
+                Intent intent = new Intent(getActivity(), LocationActivity.class);
                 intent.putExtra(IntentStrings.MICROLOCATIONS, title);
                 startActivity(intent);
             }
