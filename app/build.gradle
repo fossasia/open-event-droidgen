@@ -2,7 +2,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.github.kt3k.coveralls'
 apply from: "https://raw.githubusercontent.com/monstar-lab/gradle-android-ci-check/1.2.0/ci.gradle"
 
-def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
+def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()  //Comment this line if you are building the project on Windows
+//def gitSha = ['cmd', '/c', 'git rev-parse --short HEAD'].execute([], project.rootDir).text.trim()  //Uncomment this line if you are building the project on Windows
 def buildTime = new Date().format("yyyy-MM-dd'T'HH:mm'Z'", TimeZone.getTimeZone("UTC"))
 
 def isTravis = "true".equals(System.getenv("TRAVIS"))
