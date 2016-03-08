@@ -2,18 +2,26 @@ package org.fossasia.openevent.utils;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.data.Speaker;
 
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+
 /**
  * Created by MananWason on 02-07-2015.
  */
 public class SpeakerIntent {
     Speaker speaker;
-
+    public String url="dummy", reurl="dummy", error = "none";
     public SpeakerIntent(Speaker speaker) {
         this.speaker = speaker;
     }
@@ -22,9 +30,18 @@ public class SpeakerIntent {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String url = "";
+                 url = "";
                 if (imageView.getTag().toString().equals(view.getContext().getString(R.string.linkedin))) {
                     url = speaker.getLinkedin();
+                    url = URLDecoder.decode(url);
+                    String[] parts = url.split("&");
+                    for ( String s: parts )
+                    {
+                        if ( s.startsWith("url=") )
+                        {
+                            url = s.substring(4);
+                        }
+                    }
 
                 } else if (imageView.getTag().toString().equals(view.getContext().getString(R.string.twitter))) {
                     url = speaker.getTwitter();
@@ -39,10 +56,10 @@ public class SpeakerIntent {
                 if ((!url.startsWith("https://") && !url.startsWith("http://"))) {
                     url = "http://" + url;
                 }
+
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 view.getContext().startActivity(intent);
-
 
             }
         });
