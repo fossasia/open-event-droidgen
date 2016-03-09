@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.github.kt3k.coveralls'
-apply from: "https://raw.githubusercontent.com/monstar-lab/gradle-android-ci-check/1.2.0/ci.gradle"
+apply plugin: 'jacoco-android'
+// apply from: "https://raw.githubusercontent.com/monstar-lab/gradle-android-ci-check/1.2.0/ci.gradle"
 
 def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
 def buildTime = new Date().format("yyyy-MM-dd'T'HH:mm'Z'", TimeZone.getTimeZone("UTC"))
@@ -55,16 +55,7 @@ android {
     }
 }
 
-// Coverall
-// See http://jeroenmols.github.io/blog/2015/11/13/traviscoveralls/
-coveralls {
-    jacocoReportPath = "${buildDir}/reports/coverage/googleplay/debug/report.xml"
-}
 
-tasks.coveralls {
-    dependsOn 'connectedAndroidTest'
-    onlyIf { System.env.'CI' }
-}
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -81,21 +72,29 @@ dependencies {
     compile 'com.jakewharton.timber:timber:4.1.0'
     compile 'com.jakewharton:butterknife:7.0.1'
 
+    // Googleplay Variant
     googleplayCompile 'com.google.android.gms:play-services-maps:8.4.0'
 
+    // Fdroid Variant
     fdroidCompile 'org.osmdroid:osmdroid-android:5.1'
     fdroidCompile 'org.apache.directory.studio:org.slf4j.api:1.7.2'
     fdroidCompile 'org.slf4j:slf4j-simple:1.7.14'
+
+    // Testing
     testCompile 'junit:junit:4.12'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2'
-    androidTestCompile 'com.android.support.test:runner:0.3'
+    androidTestCompile ('com.android.support.test:runner:0.4') {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
     androidTestCompile "com.android.support:support-annotations:${SUPPORT_LIB_VERSION}"
     androidTestCompile('com.android.support.test.espresso:espresso-contrib:2.2') {
         exclude group: 'com.android.support', module: 'appcompat'
         exclude group: 'com.android.support', module: 'support-v4'
         exclude module: 'recyclerview-v7'
     }
-    androidTestCompile 'com.android.support.test:rules:0.3'
+    androidTestCompile ('com.android.support.test:rules:0.4') {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
     androidTestCompile "org.mockito:mockito-core:1.10.19"
 
     // Catch all the leaks
