@@ -37,6 +37,7 @@ import org.fossasia.openevent.dbutils.DataDownloadManager;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.*;
 import org.fossasia.openevent.fragments.*;
+import org.fossasia.openevent.utils.KeyboardHelper;
 import org.fossasia.openevent.utils.SmoothActionBarDrawerToggle;
 import org.fossasia.openevent.widget.DialogFactory;
 
@@ -98,6 +99,7 @@ public class MainActivity extends BaseActivity {
         counter = 0;
         eventsDone = 0;
         setContentView(R.layout.activity_main);
+        KeyboardHelper.hideKeyboard(this, findViewById(R.id.design_navigation_view));
         ButterKnife.bind(this);
 
         setUpToolbar();
