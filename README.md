@@ -30,6 +30,10 @@ Before you begin, you should already have the Android Studio SDK downloaded and 
 
 7. If the app was built succesfully, you can test it by running it on either a real device or an emulated one by going to *Run>Run 'app'* or presing the Run icon in the toolbar.
 
+### Screenshots
+![image](http://s10.postimg.org/dhqo2044p/ss1.png) ![image](http://s10.postimg.org/llu6t0161/ss2.png)
+![image](http://s7.postimg.org/wpbxbiasr/ss3.png) ![image](http://s7.postimg.org/rrycqe8tn/ss4.png)
+
 ### Configuring the app
 
 **Configuring Server and Web-App Urls**
