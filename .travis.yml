@@ -33,8 +33,11 @@ android:
 #   - adb shell input keyevent 82 &
 script:
   - ./gradlew build jacocoTestReport assembleAndroidTest
-  - chmod a+x codestyle.sh
-  - "./codestyle.sh"
+  - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
+  - emulator -avd test -no-skin -no-audio -no-window &
+  - android-wait-for-emulator
+  - adb shell setprop dalvik.vm.dexopt-flags v=n,o=v
+  - ./gradlew connectedCheck
 notifications:
   webhooks:
     urls:
