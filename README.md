@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/fossasia/open-event-android.svg)](https://travis-ci.org/fossasia/open-event-android)
-[![Coverage Status](https://coveralls.io/repos/github/fossasia/open-event-android/badge.svg?branch=master)](https://coveralls.io/github/fossasia/open-event-android?branch=master)
+[![codecov.io](https://codecov.io/github/fossasia/open-event-android/coverage.svg?branch=master)](https://codecov.io/github/fossasia/open-event-android?branch=master)
 [![todofy badge](https://todofy.org/b/fossasia/open-event-android)](https://todofy.org/r/fossasia/open-event-android)
 [![Join the chat at https://gitter.im/fossasia/open-event-android](https://badges.gitter.im/fossasia/open-event-android.svg)](https://gitter.im/fossasia/open-event-android?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
@@ -8,7 +8,7 @@
 The Android client is a generic app that has two parts:
 a) A standard configuration file, that sets the details of the app (e.g. color scheme, logo of event, link to JSON app data)
 b) The Android app itself
-This app uses the json api provided by a server maintained [here](https://github.com/fossasia/open-event-orga-server). 
+This app uses the json api provided by a server maintained [here](https://github.com/fossasia/open-event-orga-server).
 
 ## Development Setup
 Before you begin, you should already have the Android Studio SDK downloaded and set up correctly. You can find a guide on how to do this here: [Setting up Android Studio](http://developer.android.com/sdk/installing/index.html?pkg=studio)
@@ -20,7 +20,7 @@ Before you begin, you should already have the Android Studio SDK downloaded and 
 
 3. Navigate to the directory where you saved the open-event-android project, select the root folder of the project (the folder named "open-event-android"), and hit OK. Android Studio should now begin building the project with Gradle.
 
-4. Once this process is complete and Android Studio opens, check the Console for any build errors. 
+4. Once this process is complete and Android Studio opens, check the Console for any build errors.
 
 	- *Note:* If you recieve a Gradle sync error titled, "failed to find ...", you should click on the link below the error message (if avaliable) that says *Install missing platform(s) and sync project* and allow Android studio to fetch you what is missing.
 
@@ -52,12 +52,12 @@ Before you begin, you should already have the Android Studio SDK downloaded and 
 	* */app/src/main/res/values-v21/styles.xml*
 
 - Using *Theme Editor*:
-	* You can also configure the theme of the app using Android Studio's *Theme Editor*. 
+	* You can also configure the theme of the app using Android Studio's *Theme Editor*.
 	* Go to *Tools>Android>Theme Editor* to open the Theme Editor.
 	* From there you can configure the colors and styles of in-app elements using a neat UI.
 
 - *Translations Editor*:
-	* You can configure the string localizaions / translations using Android Studio's *Translations Editor*. 
+	* You can configure the string localizaions / translations using Android Studio's *Translations Editor*.
 	* Find /app/src/main/res/values/strings.xml
 	* Right click on the file, and select *Open Translations Editor*.
 
@@ -82,7 +82,7 @@ Before you begin, you should already have the Android Studio SDK downloaded and 
 - Google Gson
 
 ## A note about Codestyle
-Please read our [CODESTYLE](CODESTYLE.md) carefully. Pull requests that do not match the style will be rejected. 
+Please read our [CODESTYLE](CODESTYLE.md) carefully. Pull requests that do not match the style will be rejected.
 
 ##License
 This project is currently licensed under the GNU General Public License v3. A copy of LICENSE.md should be present along with the source code. To obtain the software under a different license, please contact FOSSASIA.

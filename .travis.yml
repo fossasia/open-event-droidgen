@@ -26,15 +26,15 @@ android:
   - extra-google-m2repository
   - extra-android-m2repository
   - sys-img-armeabi-v7a-$ANDROID_TARGET
-before_script:
-- echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
-- emulator -avd test -no-skin -no-audio -no-window &
-- android-wait-for-emulator
-- adb shell input keyevent 82 &
+# before_script:
+#   - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
+#   - emulator -avd test -no-skin -no-audio -no-window &
+#   - android-wait-for-emulator
+#   - adb shell input keyevent 82 &
 script:
-- "./gradlew clean coveralls"
-- chmod a+x codestyle.sh
-- "./codestyle.sh"
+  - ./gradlew build jacocoTestReport assembleAndroidTest
+  - chmod a+x codestyle.sh
+  - "./codestyle.sh"
 notifications:
   webhooks:
     urls:
@@ -42,3 +42,5 @@ notifications:
     on_success: always
     on_failure: always
     on_start: false
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
