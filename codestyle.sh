@@ -80,7 +80,7 @@ cat app/build/reports/pmd/cpd.xml \
 echo "********************"
 echo "* android lint     *"
 echo "********************"
-if [ -z "$TRAVIS"]; then
+if [ -z "$TRAVIS" ]; then
   # If not on travis
   cat app/build/outputs/lint-results-fdroidDebug.xml \
       | android_lint_translate_checkstyle_format translate \
