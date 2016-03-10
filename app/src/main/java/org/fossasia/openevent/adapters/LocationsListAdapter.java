@@ -29,9 +29,9 @@ public class LocationsListAdapter extends BaseRVAdapter<Microlocation, ViewHolde
             DbSingleton instance = DbSingleton.getInstance();
             List<Microlocation> microlocations = instance.getMicrolocationsList();
             final ArrayList<Microlocation> filteredLocationList = new ArrayList<>();
-            String query = constraint.toString().toLowerCase();
+            String query = constraint.toString().toLowerCase(Locale.getDefault());
             for (Microlocation microlocation : microlocations) {
-                final String text = microlocation.getName().toLowerCase();
+                final String text = microlocation.getName().toLowerCase(Locale.getDefault());
                 if (text.contains(query)) {
                     filteredLocationList.add(microlocation);
                 }
