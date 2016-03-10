@@ -22,8 +22,8 @@ android {
         applicationId "org.fossasia.openevent"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 1
-        versionName "0.1"
+        versionCode 80
+        versionName "0.8.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "GIT_SHA", "\"${gitSha}\""
