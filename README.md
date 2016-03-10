@@ -30,6 +30,10 @@ Before you begin, you should already have the Android Studio SDK downloaded and 
 
 7. If the app was built succesfully, you can test it by running it on either a real device or an emulated one by going to *Run>Run 'app'* or presing the Run icon in the toolbar.
 
+###Screenshots
+![alt-tag](https://github.com/the-dagger/open-event-android/blob/ss/screensots/ss2.PNG) ![alt-tag](https://github.com/the-dagger/open-event-android/blob/ss/screensots/ss1.PNG)
+![alt-tag](https://github.com/the-dagger/open-event-android/blob/ss/screensots/ss3.PNG)  ![alt-tag](https://github.com/the-dagger/open-event-android/blob/ss/screensots/ss4.PNG)
+
 ### Configuring the app
 
 **Configuring Server and Web-App Urls**
