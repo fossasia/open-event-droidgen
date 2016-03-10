@@ -12,14 +12,12 @@
     <string name="menu_tracks">议程轨</string>
     <string name="refresh_failed">重新整理失败</string>
     <string name="download_complete">下载完成</string>
-    <string name="fb"></string>
     <string name="settings_mode_api">API模式</string>
     <string name="settings_mode_notification">通知模式</string>
     <string name="share">分享</string>
     <string name="share_links">分享网址</string>
     <string name="title_section_location">位置</string>
     <string name="title_section_speakerlist">讲者</string>
-    <string name="twitter"></string>
     <string name="session">议程内容</string>
     <string name="title_section_tracks">议程轨</string>
     <string name="search_hint_tracks">搜寻议程轨</string>
