@@ -1,9 +1,12 @@
 package org.fossasia.openevent.activities;
 
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -30,6 +33,7 @@ import android.widget.TextView;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
@@ -40,9 +44,15 @@ import org.fossasia.openevent.fragments.*;
 import org.fossasia.openevent.utils.SmoothActionBarDrawerToggle;
 import org.fossasia.openevent.widget.DialogFactory;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import retrofit.RetrofitError;
+import timber.log.Timber;
 
 public class MainActivity extends BaseActivity {
 
@@ -55,6 +65,8 @@ public class MainActivity extends BaseActivity {
     private final static String STATE_FRAGMENT = "stateFragment";
 
     private static final String NAV_ITEM = "navItem";
+
+    private static final String FILENAME_NAV_HEADER_DRAWER = "navheader";
 
     private static final String BOOKMARK = "bookmarks";
 
@@ -198,6 +210,7 @@ public class MainActivity extends BaseActivity {
                     drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 
             drawerLayout.setDrawerListener(smoothActionBarToggle);
+
             ab.setHomeAsUpIndicator(R.drawable.ic_menu);
             ab.setDisplayHomeAsUpEnabled(true);
             ab.setDisplayHomeAsUpEnabled(true);
@@ -211,8 +224,44 @@ public class MainActivity extends BaseActivity {
         bus.post(new RefreshUiEvent());
         DbSingleton dbSingleton = DbSingleton.getInstance();
         if (!(dbSingleton.getEventDetails().getLogo().isEmpty())) {
-            ImageView headerDrawer = (ImageView) findViewById(R.id.headerDrawer);
-            Picasso.with(getApplicationContext()).load(dbSingleton.getEventDetails().getLogo()).into(headerDrawer);
+            final ImageView headerDrawer = (ImageView) findViewById(R.id.headerDrawer);
+            Target target = new Target() {
+                @Override
+                public void onBitmapLoaded(final Bitmap bitmap, Picasso.LoadedFrom from) {
+                    headerDrawer.setImageBitmap(bitmap);
+
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            File dir = new ContextWrapper(getApplicationContext()).getFilesDir();
+                            File imageFile = new File(dir, FILENAME_NAV_HEADER_DRAWER);
+                            try {
+                                FileOutputStream outputStream = new FileOutputStream(imageFile);
+                                bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+                                outputStream.flush();
+                                outputStream.close();
+                            } catch (FileNotFoundException e) {
+                                Timber.w("Navigation Drawer Image: File Not Created");
+                            } catch (IOException e) {
+                                Timber.w("Navigation Drawer Image: Not Saved");
+                            }
+                        }
+                    }).start();
+
+                }
+
+                @Override
+                public void onBitmapFailed(Drawable errorDrawable) {
+
+                }
+
+                @Override
+                public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                }
+            };
+            headerDrawer.setTag(target);
+            Picasso.with(getApplicationContext()).load(dbSingleton.getEventDetails().getLogo()).into(target);
         }
 
         Snackbar.make(mainFrame, getString(R.string.download_complete), Snackbar.LENGTH_SHORT).show();
@@ -237,6 +286,13 @@ public class MainActivity extends BaseActivity {
                         return true;
                     }
                 });
+        final ImageView headerDrawer = (ImageView) navigationView.findViewById(R.id.headerDrawer);
+        File dir = new ContextWrapper(getApplicationContext()).getFilesDir();
+        File imageFile = new File(dir, FILENAME_NAV_HEADER_DRAWER);
+        if (imageFile.exists()) {
+            Picasso.with(getApplicationContext()).load(imageFile).into(headerDrawer);
+        }
+
     }
 
     private void doMenuAction(int menuItemId) {
