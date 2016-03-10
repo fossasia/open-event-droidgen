@@ -25,6 +25,7 @@ import org.fossasia.openevent.utils.SpeakerIntent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by MananWason on 30-06-2015.
@@ -187,11 +188,11 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
     }
 
     private List<Session> filter(List<Session> sessions, String query) {
-        query = query.toLowerCase();
+        query = query.toLowerCase(Locale.getDefault());
 
         final List<Session> filteredTracksList = new ArrayList<>();
         for (Session session : sessions) {
-            final String text = session.getTitle().toLowerCase();
+            final String text = session.getTitle().toLowerCase(Locale.getDefault());
             if (text.contains(query)) {
                 filteredTracksList.add(session);
             }

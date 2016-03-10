@@ -176,7 +176,7 @@ public class SessionDetailActivity extends BaseActivity {
         Intent myIntent = new Intent(this, NotificationAlarmReceiver.class);
         myIntent.putExtra(IntentStrings.SESSION, session.getId());
         myIntent.putExtra(IntentStrings.SESSION_TIMING, timings);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, myIntent, 0);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         alarmManager.set(AlarmManager.RTC, calendar.getTimeInMillis(), pendingIntent);
