@@ -25,8 +25,8 @@
     <string name="search_hint_tracks">खोजें ट्रैक्स</string>
     <string name="search">खोज</string>
     <string name="time_not_specified"> टाइमिंग्स निर्दिष्ट नहीं</string>
-    <string name="navigation_drawer_close"> बंद नेविगेशन दराज</string>
-    <string name="navigation_drawer_open"> ओपन नेविगेशन दराज</string>
+    <string name="navigation_drawer_close"> नेविगेशन दराज बंद करे</string>
+    <string name="navigation_drawer_open"> नेविगेशन दराज खोले</string>
     <string name="error">एरर</string>
     <string name="menu_about">हमारे बारे में</string>
     <string name="menu_settings">सेटिंग्स</string>
