@@ -12,14 +12,12 @@
     <string name="menu_tracks">ट्राक्स</string>
     <string name="refresh_failed">ताज़ा नहीं कर सका</string>
     <string name="download_complete">डाउनलोड हो गया</string>
-    <string name="fb"></string>
     <string name="settings_mode_api">एपीआई मोड</string>
     <string name="settings_mode_notification"> अधिसूचना मोड</string>
     <string name="share">शेयर</string>
     <string name="share_links">शेयरिंग यूआरएल</string>
     <string name="title_section_location">स्थान</string>
     <string name="title_section_speakerlist">वक्ताओं</string>
-    <string name="twitter"></string>
     <string name="session"> सत्र विस्तार</string>
     <string name="title_section_tracks">पटरियों</string>
     <string name="search_hint_tracks">खोजें ट्रैक्स</string>
