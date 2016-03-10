@@ -80,7 +80,10 @@ cat app/build/reports/pmd/cpd.xml \
 echo "********************"
 echo "* android lint     *"
 echo "********************"
-cat app/build/outputs/lint-results-fdroidDebug.xml \
-    | android_lint_translate_checkstyle_format translate \
-    | saddler report --require ${REPORTER_REQUIRE} --reporter ${REPORTER}
-#    | checkstyle_filter-git diff origin/master \
+if [ -z "$TRAVIS" ]; then
+  # If not on travis
+  cat app/build/outputs/lint-results-fdroidDebug.xml \
+      | android_lint_translate_checkstyle_format translate \
+      | saddler report --require ${REPORTER_REQUIRE} --reporter ${REPORTER}
+  #    | checkstyle_filter-git diff origin/master \
+fi

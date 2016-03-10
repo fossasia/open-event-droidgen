@@ -13,6 +13,7 @@ import org.fossasia.openevent.utils.ViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import timber.log.Timber;
 
@@ -29,9 +30,9 @@ public class TracksListAdapter extends BaseRVAdapter<Track, ViewHolder.Viewholde
             DbSingleton instance = DbSingleton.getInstance();
             List<Track> trackList = instance.getTrackList();
             final ArrayList<Track> filteredTracksList = new ArrayList<>();
-            String query = constraint.toString().toLowerCase();
+            String query = constraint.toString().toLowerCase(Locale.getDefault());
             for (Track track : trackList) {
-                final String text = track.getName().toLowerCase();
+                final String text = track.getName().toLowerCase(Locale.getDefault());
                 if (text.contains(query)) {
                     filteredTracksList.add(track);
                 }
