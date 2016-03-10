@@ -25,6 +25,7 @@ import org.fossasia.openevent.utils.SpeakerIntent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by MananWason on 30-06-2015.
