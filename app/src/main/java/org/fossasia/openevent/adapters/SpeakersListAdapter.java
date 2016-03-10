@@ -19,6 +19,7 @@ import org.fossasia.openevent.utils.ViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import timber.log.Timber;
 
@@ -35,9 +36,9 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, ViewHolder.Viewh
             DbSingleton instance = DbSingleton.getInstance();
             List<Speaker> trackList = instance.getSpeakerList();
             final ArrayList<Speaker> filteredSpeakerList = new ArrayList<>();
-            String query = constraint.toString().toLowerCase();
+            String query = constraint.toString().toLowerCase(Locale.getDefault());
             for (Speaker speaker : trackList) {
-                final String text = speaker.getName().toLowerCase();
+                final String text = speaker.getName().toLowerCase(Locale.getDefault());
                 if (text.contains(query)) {
                     filteredSpeakerList.add(speaker);
                 }

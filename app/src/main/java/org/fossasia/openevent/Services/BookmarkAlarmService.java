@@ -4,6 +4,8 @@ import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
@@ -64,9 +66,10 @@ public class BookmarkAlarmService extends IntentService {
         Intent intent1 = new Intent(this.getApplicationContext(), SessionDetailActivity.class);
         intent1.putExtra(IntentStrings.SESSION, session.getTitle());
         PendingIntent pendingNotificationIntent = PendingIntent.getActivity(this.getApplicationContext(), 0, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
-
+        Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.ic_bookmark_white_24dp)
+                .setLargeIcon(largeIcon)
                 .setContentTitle(session.getTitle())
                 .setContentText(session_timings)
                 .setAutoCancel(true)

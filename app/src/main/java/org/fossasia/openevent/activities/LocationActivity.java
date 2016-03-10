@@ -21,12 +21,13 @@ import org.fossasia.openevent.utils.IntentStrings;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * User: MananWason
  * Date: 8/18/2015
  */
-public class LocationActivtiy extends BaseActivity implements SearchView.OnQueryTextListener {
+public class LocationActivity extends BaseActivity implements SearchView.OnQueryTextListener {
     final private String SEARCH = "searchText";
 
     SessionsListAdapter sessionsListAdapter;
@@ -133,11 +134,11 @@ public class LocationActivtiy extends BaseActivity implements SearchView.OnQuery
     }
 
     private List<Session> filter(List<Session> sessions, String query) {
-        query = query.toLowerCase();
+        query = query.toLowerCase(Locale.getDefault());
 
         final List<Session> filteredTracksList = new ArrayList<>();
         for (Session session : sessions) {
-            final String text = session.getTitle().toLowerCase();
+            final String text = session.getTitle().toLowerCase(Locale.getDefault());
             if (text.contains(query)) {
                 filteredTracksList.add(session);
             }
