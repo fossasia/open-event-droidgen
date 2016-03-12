@@ -6,8 +6,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
- *  User: opticod(Anupam Das)
- *  Date: 27/1/16.
+ * User: opticod(Anupam Das)
+ * Date: 27/1/16.
  */
 public class ViewHolder {
 

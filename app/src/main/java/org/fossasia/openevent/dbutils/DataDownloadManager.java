@@ -2,12 +2,18 @@ package org.fossasia.openevent.dbutils;
 
 import org.fossasia.openevent.api.APIClient;
 import org.fossasia.openevent.api.Urls;
-import org.fossasia.openevent.api.processor.*;
+import org.fossasia.openevent.api.processor.EventListResponseProcessor;
+import org.fossasia.openevent.api.processor.MicrolocationListResponseProcessor;
+import org.fossasia.openevent.api.processor.SessionListResponseProcessor;
+import org.fossasia.openevent.api.processor.SpeakerListResponseProcessor;
+import org.fossasia.openevent.api.processor.SponsorListResponseProcessor;
+import org.fossasia.openevent.api.processor.TrackListResponseProcessor;
+import org.fossasia.openevent.api.processor.VersionApiProcessor;
 
 /**
  * User: MananWason
  * Date: 31-05-2015
- *
+ * <p/>
  * A singleton to keep track of download
  */
 public final class DataDownloadManager {

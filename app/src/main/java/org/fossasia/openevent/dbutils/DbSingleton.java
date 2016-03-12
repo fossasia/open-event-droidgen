@@ -3,7 +3,13 @@ package org.fossasia.openevent.dbutils;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-import org.fossasia.openevent.data.*;
+import org.fossasia.openevent.data.Event;
+import org.fossasia.openevent.data.Microlocation;
+import org.fossasia.openevent.data.Session;
+import org.fossasia.openevent.data.Speaker;
+import org.fossasia.openevent.data.Sponsor;
+import org.fossasia.openevent.data.Track;
+import org.fossasia.openevent.data.Version;
 
 import java.text.ParseException;
 import java.util.ArrayList;

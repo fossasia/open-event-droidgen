@@ -1,6 +1,12 @@
 package org.fossasia.openevent.api.network;
 
-import org.fossasia.openevent.api.protocol.*;
+import org.fossasia.openevent.api.protocol.EventResponseList;
+import org.fossasia.openevent.api.protocol.MicrolocationResponseList;
+import org.fossasia.openevent.api.protocol.SessionResponseList;
+import org.fossasia.openevent.api.protocol.SpeakerResponseList;
+import org.fossasia.openevent.api.protocol.SponsorResponseList;
+import org.fossasia.openevent.api.protocol.TrackResponseList;
+import org.fossasia.openevent.api.protocol.VersionResponseList;
 
 import retrofit.Callback;
 import retrofit.http.GET;

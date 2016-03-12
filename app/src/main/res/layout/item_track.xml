@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="horizontal">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -12,27 +12,27 @@
         android:paddingLeft="16dp">
 
         <View
+            android:id="@+id/track_top"
             android:layout_width="3dp"
             android:layout_height="0dp"
             android:layout_weight="0.5"
-            android:id="@+id/track_top"
-            android:background="#8a000000"/>
+            android:background="#8a000000" />
 
         <View
+            android:id="@+id/track_bullet"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:id="@+id/track_bullet"
             android:layout_gravity="center"
             android:background="@drawable/track_circle"
             android:clickable="true"
-            android:padding="16dp"/>
+            android:padding="16dp" />
 
         <View
+            android:id="@+id/track_bottom"
             android:layout_width="3dp"
             android:layout_height="0dp"
-            android:id="@+id/track_bottom"
             android:layout_weight="0.5"
-            android:background="#8a000000"/>
+            android:background="#8a000000" />
     </LinearLayout>
 
     <LinearLayout
@@ -49,14 +49,14 @@
             style="@style/TextAppearance.AppCompat.Title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Friends"/>
+            android:text="Friends" />
 
         <TextView
             android:id="@+id/track_description"
             style="@style/TextAppearance.AppCompat.Body1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="abc"/>
+            android:text="abc" />
 
     </LinearLayout>
 

@@ -14,7 +14,7 @@ import timber.log.Timber;
 /**
  * User: shivenmian
  * Date: 02/01/16
- *
+ * <p/>
  * Network connectivity change receiver to detect changes in network
  */
 public class NetworkConnectivityChangeReceiver extends BroadcastReceiver {
