@@ -27,6 +27,8 @@ import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.SponsorDownloadEvent;
 import org.fossasia.openevent.utils.RecyclerItemClickListener;
 
+import timber.log.Timber;
+
 /**
  * Created by MananWason on 05-06-2015.
  */
@@ -87,13 +89,13 @@ public class SponsorsFragment extends Fragment {
         swipeRefreshLayout.setRefreshing(false);
         if (event.isState()) {
             sponsorsListAdapter.refresh();
-            Log.d("countersp", "Refresh done");
+            Timber.d("Refresh done");
 
         } else {
             if (getActivity() != null) {
                 Snackbar.make(getView(), getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).show();
             }
-            Log.d("countersp", "Refresh not done");
+            Timber.d("Refresh not done");
 
         }
     }
