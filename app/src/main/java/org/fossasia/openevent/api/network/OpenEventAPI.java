@@ -32,6 +32,6 @@ public interface OpenEventAPI {
     @GET("/out/{id}/tracks")
     void getTracks(@Path("id") int id, Callback<TrackResponseList> trackResponseListCallback);
 
-    @GET("/out/{id}/version.json")
+    @GET("/out/{id}/version")
     void getVersion(@Path("id") int id, Callback<VersionResponseList> versionResponseListCallback);
 }
