@@ -19,7 +19,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,8 +34,22 @@ import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.dbutils.DataDownloadManager;
 import org.fossasia.openevent.dbutils.DbSingleton;
-import org.fossasia.openevent.events.*;
-import org.fossasia.openevent.fragments.*;
+import org.fossasia.openevent.events.CounterEvent;
+import org.fossasia.openevent.events.DataDownloadEvent;
+import org.fossasia.openevent.events.EventDownloadEvent;
+import org.fossasia.openevent.events.MicrolocationDownloadEvent;
+import org.fossasia.openevent.events.NoInternetEvent;
+import org.fossasia.openevent.events.RefreshUiEvent;
+import org.fossasia.openevent.events.SessionDownloadEvent;
+import org.fossasia.openevent.events.ShowNetworkDialogEvent;
+import org.fossasia.openevent.events.SpeakerDownloadEvent;
+import org.fossasia.openevent.events.SponsorDownloadEvent;
+import org.fossasia.openevent.events.TracksDownloadEvent;
+import org.fossasia.openevent.fragments.BookmarksFragment;
+import org.fossasia.openevent.fragments.LocationsFragment;
+import org.fossasia.openevent.fragments.SpeakerFragment;
+import org.fossasia.openevent.fragments.SponsorsFragment;
+import org.fossasia.openevent.fragments.TracksFragment;
 import org.fossasia.openevent.utils.SmoothActionBarDrawerToggle;
 import org.fossasia.openevent.widget.DialogFactory;
 
@@ -47,10 +60,7 @@ import timber.log.Timber;
 
 public class MainActivity extends BaseActivity {
 
-    public static final String TYPE = "RetrofitError Type";
-
-    public static final String ERROR_CODE = "Error Code";
-
+    
     private static final String COUNTER_TAG = "Donecounter";
 
     private final static String STATE_FRAGMENT = "stateFragment";
