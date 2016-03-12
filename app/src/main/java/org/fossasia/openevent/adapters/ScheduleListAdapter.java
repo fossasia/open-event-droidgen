@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.data.Event;
-import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.utils.ViewHolder;
 
 import java.util.List;

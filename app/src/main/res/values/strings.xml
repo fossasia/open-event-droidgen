@@ -69,6 +69,10 @@
     <string name="fmt_floor">"Floor : "</string>
     <string name="noBookmark">No bookmarked session yet !!</string>
 
+    <!--Schedule-->
+    <string name="filter">Filter</string>
+    <string name="search_favorites">Search Favorites</string>
+
     <!--About us text-->
     <string name="about_text">Programmed by <a href="https://github.com/fossasia/open-event-android/graphs/contributors">FOSSASIA contributors</a>.
 \n
