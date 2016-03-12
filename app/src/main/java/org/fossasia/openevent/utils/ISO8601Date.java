@@ -42,7 +42,7 @@ public final class ISO8601Date {
         SimpleDateFormat dateFormat = new SimpleDateFormat("EE, dd MMM yyyy, HH:mm, z");
         dateFormat.setTimeZone(TimeZone.getDefault());
         String DateToStr = dateFormat.format(date);
-        Log.d("counter", DateToStr);
+        Timber.tag("counter").d(DateToStr);
         return DateToStr;
     }
 
@@ -51,7 +51,7 @@ public final class ISO8601Date {
         SimpleDateFormat dateFormat = new SimpleDateFormat("EE, dd MMM yyyy, HH:mm, z");
         dateFormat.setTimeZone(TimeZone.getDefault());
         String DateToStr = dateFormat.format(date);
-        Log.d("counter", DateToStr);
+        Timber.tag("counter").d(DateToStr);
         return date;
     }
 
@@ -68,7 +68,7 @@ public final class ISO8601Date {
         StringBuilder s = new StringBuilder();
         s.append(iso8601String).append("Z");
         String final1 = s.toString();
-        Log.d("time", final1);
+        Timber.tag("time").d(final1);
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
         format.setTimeZone(TimeZone.getTimeZone("GMT"));
