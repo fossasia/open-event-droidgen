@@ -5,6 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import timber.log.Timber;
+
 /**
  * User: championswimmer
  * Date: 17/5/15
@@ -22,7 +24,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        Log.d(TAG, "==== OnCreate DB ====");
+        Timber.tag(TAG).d("==== OnCreate DB ====");
         db.execSQL(DbContract.Speakers.CREATE_TABLE);
         db.execSQL(DbContract.Sponsors.CREATE_TABLE);
         db.execSQL(DbContract.Sessions.CREATE_TABLE);
@@ -32,12 +34,12 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(DbContract.Microlocation.CREATE_TABLE);
         db.execSQL(DbContract.Versions.CREATE_TABLE);
         db.execSQL(DbContract.Bookmarks.CREATE_TABLE);
-        Log.d(TAG, "==== onUpgrade DB ====");
+        Timber.tag(TAG).d("==== onUpgrade DB ====");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.d(TAG, "==== onUpgrade DB ====");
+        Timber.tag(TAG).d("==== onUpgrade DB ====");
         db.execSQL(DbContract.Sponsors.DELETE_TABLE);
         db.execSQL(DbContract.Sessions.DELETE_TABLE);
         db.execSQL(DbContract.Tracks.DELETE_TABLE);
@@ -47,6 +49,6 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(DbContract.Microlocation.DELETE_TABLE);
         db.execSQL(DbContract.Bookmarks.DELETE_TABLE);
         onCreate(db);
-        Log.d(TAG, "==== OnUpgrade DB Completed ====");
+        Timber.tag(TAG).d("==== OnUpgrade DB Completed ====");
     }
 }

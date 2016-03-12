@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import timber.log.Timber;
 
 /**
  * User: MananWason
@@ -51,19 +52,19 @@ public class VersionApiProcessor implements Callback<VersionResponseList> {
                         DataDownloadManager download = DataDownloadManager.getInstance();
                         if (dbSingleton.getVersionIds().getEventVer() != version.getEventVer()) {
                             download.downloadEvents();
-                            Log.d(TAG, "events");
+                            Timber.tag(TAG).d("events");
                             counterRequests++;
                         }
                         if (dbSingleton.getVersionIds().getSpeakerVer() != version.getSpeakerVer()) {
                             download.downloadSpeakers();
-                            Log.d(TAG, "speaker");
+                            Timber.tag(TAG).d("speaker");
 
                             counterRequests++;
 
                         }
                         if (dbSingleton.getVersionIds().getSponsorVer() != version.getSponsorVer()) {
                             download.downloadSponsors();
-                            Log.d(TAG, "sponsor");
+                            Timber.tag(TAG).d("sponsor");
 
                             counterRequests++;
 
@@ -71,7 +72,7 @@ public class VersionApiProcessor implements Callback<VersionResponseList> {
                         if (dbSingleton.getVersionIds().getTracksVer() != version.getTracksVer()) {
                             download.downloadTracks();
 
-                            Log.d(TAG, "tracks");
+                            Timber.tag(TAG).d("tracks");
 
                             counterRequests++;
 
@@ -79,19 +80,19 @@ public class VersionApiProcessor implements Callback<VersionResponseList> {
                         if (dbSingleton.getVersionIds().getSessionVer() != version.getSessionVer()) {
                             download.downloadSession();
 
-                            Log.d(TAG, "session");
+                            Timber.tag(TAG).d("session");
 
                             counterRequests++;
 
                         }
                         if (dbSingleton.getVersionIds().getMicrolocationsVer() != version.getMicrolocationsVer()) {
                             download.downloadMicrolocations();
-                            Log.d(TAG, "micro");
+                            Timber.tag(TAG).d("micro");
                             counterRequests++;
 
                         }
                     } else {
-                        Log.d(TAG, "data fresh");
+                        Timber.tag(TAG).d("data fresh");
                     }
                     CounterEvent counterEvent = new CounterEvent(counterRequests);
                     OpenEventApp.postEventOnUIThread(counterEvent);
@@ -102,8 +103,7 @@ public class VersionApiProcessor implements Callback<VersionResponseList> {
 
     @Override
     public void failure(RetrofitError error) {
-        Log.d("Ret", "RetrofitError");
+        Timber.tag("RetrofitError").d(String.valueOf(error.getCause()));
         OpenEventApp.postEventOnUIThread(error);
-        Log.d("ErrorDescription", String.valueOf(error.getCause()));
     }
 }

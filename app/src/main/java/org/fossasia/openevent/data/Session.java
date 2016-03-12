@@ -12,6 +12,8 @@ import org.fossasia.openevent.utils.StringUtils;
 import java.text.ParseException;
 import java.util.Locale;
 
+import timber.log.Timber;
+
 
 /**
  * Created by championswimmer on 16/5/15.
@@ -176,7 +178,7 @@ public class Session {
                 DbContract.Bookmarks.TABLE_NAME,
                 id
         );
-        Log.d("BOOKMARKS", query);
+        Timber.tag("BOOKMARKS").d(query);
         DbSingleton dbSingleton = DbSingleton.getInstance();
         dbSingleton.insertQuery(query);
     }
