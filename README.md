@@ -96,6 +96,8 @@ Before you begin, you should already have the Android Studio SDK downloaded and 
 - ButterKnife
 - Timber
 - Google Gson
+- LeakCanary
+- Picasso
 
 ## Branches and Contribution policy
 We have the following branches   
