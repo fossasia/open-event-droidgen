@@ -1,10 +1,9 @@
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar_speakers"
@@ -15,9 +14,9 @@
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
-        android:layout_marginTop="?attr/actionBarSize"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="?attr/actionBarSize"
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
@@ -32,8 +31,7 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
 
-            <android.support.v7.widget.CardView
-                xmlns:android="http://schemas.android.com/apk/res/android"
+            <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:card_view="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/card_speaker"
                 android:layout_width="match_parent"
@@ -44,8 +42,7 @@
                 card_view:cardElevation="4dp"
                 card_view:cardUseCompatPadding="true">
 
-                <LinearLayout
-                    xmlns:android="http://schemas.android.com/apk/res/android"
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginBottom="2dp"
@@ -64,8 +61,8 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:gravity="end|center_vertical"
                         android:layout_gravity="center_horizontal"
+                        android:gravity="end|center_vertical"
                         android:orientation="horizontal"
                         android:paddingRight="10dp">
 
@@ -131,9 +128,9 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView_speakers"
-        android:layout_marginTop="?attr/actionBarSize"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="?attr/actionBarSize"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 

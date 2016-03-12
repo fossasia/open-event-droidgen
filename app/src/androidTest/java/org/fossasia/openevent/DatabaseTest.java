@@ -4,9 +4,14 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.test.InstrumentationRegistry;
 import android.test.AndroidTestCase;
-import android.util.Log;
 
-import org.fossasia.openevent.data.*;
+import org.fossasia.openevent.data.Event;
+import org.fossasia.openevent.data.Microlocation;
+import org.fossasia.openevent.data.Session;
+import org.fossasia.openevent.data.Speaker;
+import org.fossasia.openevent.data.Sponsor;
+import org.fossasia.openevent.data.Track;
+import org.fossasia.openevent.data.Version;
 import org.fossasia.openevent.dbutils.DatabaseOperations;
 import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.dbutils.DbHelper;

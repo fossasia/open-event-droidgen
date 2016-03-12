@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -18,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay"/>
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
 
@@ -50,7 +49,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textIsSelectable="true"
-                        tools:text="Welcome to Event"/>
+                        tools:text="Welcome to Event" />
 
                     <TextView
                         android:id="@+id/subtitle_session"
@@ -58,11 +57,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textIsSelectable="true"
-                        tools:text="Welcome to Event"/>
+                        tools:text="Welcome to Event" />
 
                     <View
                         style="@style/SeparatorLine"
-                        android:layout_marginTop="8dp"/>
+                        android:layout_marginTop="8dp" />
 
                     <TextView
                         android:id="@+id/track"
@@ -71,7 +70,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:drawableLeft="@drawable/ic_local_offer_grey600_18dp"
-                        tools:text="Keynotes"/>
+                        tools:text="Keynotes" />
 
                     <TextView
                         android:id="@+id/tv_time"
@@ -80,7 +79,7 @@
                         android:layout_height="wrap_content"
                         android:background="@color/translucent_grey"
                         android:drawableLeft="@drawable/ic_access_time_grey600_18dp"
-                        tools:text="Day 1 (Saturday), 09:30 - 09:55"/>
+                        tools:text="Day 1 (Saturday), 09:30 - 09:55" />
 
                     <TextView
                         android:id="@+id/tv_location"
@@ -88,7 +87,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawableLeft="@drawable/ic_place_grey600_18dp"
-                        android:text="NA"/>
+                        android:text="NA" />
 
                 </LinearLayout>
 
@@ -100,7 +99,7 @@
                     android:background="@color/translucent_grey"
                     android:padding="@dimen/content_margin"
                     android:textIsSelectable="true"
-                    tools:text="Open Event"/>
+                    tools:text="Open Event" />
 
                 <TextView
                     android:id="@+id/tv_description"
@@ -109,7 +108,7 @@
                     android:layout_height="wrap_content"
                     android:padding="@dimen/content_margin"
                     android:textIsSelectable="true"
-                    tools:text="Open Event!"/>
+                    tools:text="Open Event!" />
             </LinearLayout>
 
 
@@ -118,7 +117,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Speakers"
-                android:textIsSelectable="true"/>
+                android:textIsSelectable="true" />
         </LinearLayout>
     </ScrollView>
 
