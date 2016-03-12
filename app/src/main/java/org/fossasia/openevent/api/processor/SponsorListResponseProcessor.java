@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import timber.log.Timber;
 
 /**
  * Created by MananWason on 26-05-2015.
@@ -32,7 +33,7 @@ public class SponsorListResponseProcessor implements Callback<SponsorResponseLis
                 for (Sponsor sponsor : sponsorResponseList.sponsors) {
                     String query = sponsor.generateSql();
                     queries.add(query);
-                    Log.d(TAG, query);
+                    Timber.tag(TAG).d(query);
                 }
 
 
