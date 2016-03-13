@@ -27,7 +27,7 @@ public class SpeakerListResponseProcessor implements Callback<SpeakerResponseLis
 
     @Override
     public void onResponse(Call<SpeakerResponseList> call, final Response<SpeakerResponseList> response) {
-        if (response.isSuccess()) {
+        if (response.isSuccessful()) {
             CommonTaskLoop.getInstance().post(new Runnable() {
                 @Override
                 public void run() {

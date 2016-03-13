@@ -24,7 +24,7 @@ public class SponsorListResponseProcessor implements Callback<SponsorResponseLis
 
     @Override
     public void onResponse(Call<SponsorResponseList> call, final Response<SponsorResponseList> response) {
-        if (response.isSuccess()) {
+        if (response.isSuccessful()) {
             CommonTaskLoop.getInstance().post(new Runnable() {
                 @Override
                 public void run() {

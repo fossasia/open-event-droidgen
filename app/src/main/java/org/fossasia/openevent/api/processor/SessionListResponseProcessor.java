@@ -26,7 +26,7 @@ public class SessionListResponseProcessor implements Callback<SessionResponseLis
 
     @Override
     public void onResponse(Call<SessionResponseList> call, final Response<SessionResponseList> response) {
-        if (response.isSuccess()) {
+        if (response.isSuccessful()) {
             CommonTaskLoop.getInstance().post(new Runnable() {
 
                 @Override

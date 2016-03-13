@@ -25,7 +25,7 @@ public class EventListResponseProcessor implements Callback<EventResponseList> {
 
     @Override
     public void onResponse(Call<EventResponseList> call, final Response<EventResponseList> response) {
-        if (response.isSuccess()) {
+        if (response.isSuccessful()) {
             CommonTaskLoop.getInstance().post(new Runnable() {
                 @Override
                 public void run() {

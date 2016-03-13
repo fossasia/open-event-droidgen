@@ -25,7 +25,7 @@ public class TrackListResponseProcessor implements Callback<TrackResponseList> {
 
     @Override
     public void onResponse(Call<TrackResponseList> call, final Response<TrackResponseList> response) {
-        if (response.isSuccess()) {
+        if (response.isSuccessful()) {
             CommonTaskLoop.getInstance().post(new Runnable() {
                 @Override
                 public void run() {

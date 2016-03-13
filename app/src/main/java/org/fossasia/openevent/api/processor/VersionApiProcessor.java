@@ -27,7 +27,7 @@ public class VersionApiProcessor implements Callback<VersionResponseList> {
 
     @Override
     public void onResponse(Call<VersionResponseList> call, final Response<VersionResponseList> response) {
-        if (response.isSuccess()) {
+        if (response.isSuccessful()) {
             CommonTaskLoop.getInstance().post(new Runnable() {
                 @Override
                 public void run() {

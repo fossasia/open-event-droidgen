@@ -26,7 +26,7 @@ public class MicrolocationListResponseProcessor implements Callback<Microlocatio
 
     @Override
     public void onResponse(Call<MicrolocationResponseList> call, final Response<MicrolocationResponseList> response) {
-        if (response.isSuccess()) {
+        if (response.isSuccessful()) {
             CommonTaskLoop.getInstance().post(new Runnable() {
                 @Override
                 public void run() {

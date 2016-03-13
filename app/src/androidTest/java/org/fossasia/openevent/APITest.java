@@ -28,7 +28,7 @@ public class APITest extends AndroidTestCase {
         client.getOpenEventAPI().getSpeakers(Urls.EVENT_ID).enqueue(new Callback<SpeakerResponseList>() {
             @Override
             public void onResponse(Call<SpeakerResponseList> call, Response<SpeakerResponseList> response) {
-                if (response.isSuccess()) {
+                if (response.isSuccessful()) {
                     assertNotNull(response.body().speakers);
                     // Assert that the list size > 0
                     assertTrue(response.body().speakers.size() > 0);
@@ -55,7 +55,7 @@ public class APITest extends AndroidTestCase {
         client.getOpenEventAPI().getSponsors(Urls.EVENT_ID).enqueue(new Callback<SponsorResponseList>() {
             @Override
             public void onResponse(Call<SponsorResponseList> call, Response<SponsorResponseList> response) {
-                if (response.isSuccess()) {
+                if (response.isSuccessful()) {
                     assertNotNull(response.body().sponsors);
                     // Assert that the list size > 0
                     assertTrue(response.body().sponsors.size() > 0);
@@ -82,7 +82,7 @@ public class APITest extends AndroidTestCase {
         client.getOpenEventAPI().getEvents().enqueue(new Callback<EventResponseList>() {
             @Override
             public void onResponse(Call<EventResponseList> call, Response<EventResponseList> response) {
-                if (response.isSuccess()) {
+                if (response.isSuccessful()) {
                     assertNotNull(response.body().event);
                     assertTrue(response.body().event.size() > 0);
                     latch.countDown();
@@ -107,7 +107,7 @@ public class APITest extends AndroidTestCase {
         client.getOpenEventAPI().getSessions(Urls.EVENT_ID).enqueue(new Callback<SessionResponseList>() {
             @Override
             public void onResponse(Call<SessionResponseList> call, Response<SessionResponseList> response) {
-                if (response.isSuccess()) {
+                if (response.isSuccessful()) {
                     assertNotNull(response.body().sessions);
                     assertTrue(response.body().sessions.size() > 0);
                     latch.countDown();
@@ -132,7 +132,7 @@ public class APITest extends AndroidTestCase {
         client.getOpenEventAPI().getTracks(Urls.EVENT_ID).enqueue(new Callback<TrackResponseList>() {
             @Override
             public void onResponse(Call<TrackResponseList> call, Response<TrackResponseList> response) {
-                if (response.isSuccess()) {
+                if (response.isSuccessful()) {
                     assertNotNull(response.body().tracks);
                     assertTrue(response.body().tracks.size() > 0);
                     latch.countDown();
@@ -157,7 +157,7 @@ public class APITest extends AndroidTestCase {
         client.getOpenEventAPI().getMicrolocations(Urls.EVENT_ID).enqueue(new Callback<MicrolocationResponseList>() {
             @Override
             public void onResponse(Call<MicrolocationResponseList> call, Response<MicrolocationResponseList> response) {
-                if (response.isSuccess()) {
+                if (response.isSuccessful()) {
                     assertNotNull(response.body().microlocations);
                     assertTrue(response.body().microlocations.size() > 0);
                     latch.countDown();
