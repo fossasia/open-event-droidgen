@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.CoordinatorLayout;
@@ -35,15 +33,27 @@ import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.dbutils.DataDownloadManager;
 import org.fossasia.openevent.dbutils.DbSingleton;
-import org.fossasia.openevent.events.*;
-import org.fossasia.openevent.fragments.*;
+import org.fossasia.openevent.events.CounterEvent;
+import org.fossasia.openevent.events.DataDownloadEvent;
+import org.fossasia.openevent.events.EventDownloadEvent;
+import org.fossasia.openevent.events.MicrolocationDownloadEvent;
+import org.fossasia.openevent.events.NoInternetEvent;
+import org.fossasia.openevent.events.RefreshUiEvent;
+import org.fossasia.openevent.events.SessionDownloadEvent;
+import org.fossasia.openevent.events.ShowNetworkDialogEvent;
+import org.fossasia.openevent.events.SpeakerDownloadEvent;
+import org.fossasia.openevent.events.SponsorDownloadEvent;
+import org.fossasia.openevent.events.TracksDownloadEvent;
+import org.fossasia.openevent.fragments.BookmarksFragment;
+import org.fossasia.openevent.fragments.LocationsFragment;
+import org.fossasia.openevent.fragments.SpeakerFragment;
+import org.fossasia.openevent.fragments.SponsorsFragment;
+import org.fossasia.openevent.fragments.TracksFragment;
 import org.fossasia.openevent.utils.SmoothActionBarDrawerToggle;
 import org.fossasia.openevent.widget.DialogFactory;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import retrofit.RetrofitError;
-import timber.log.Timber;
 
 public class MainActivity extends BaseActivity {
 
@@ -138,11 +148,6 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-    }
-
-    @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putInt(STATE_FRAGMENT, currentMenuItemId);
         super.onSaveInstanceState(outState);
@@ -217,7 +222,7 @@ public class MainActivity extends BaseActivity {
         }
 
         Snackbar.make(mainFrame, getString(R.string.download_complete), Snackbar.LENGTH_SHORT).show();
-        Timber.d("Download done");
+        Log.d("DownNotif", "Download done");
     }
 
     private void downloadFailed() {
@@ -318,7 +323,7 @@ public class MainActivity extends BaseActivity {
     @Subscribe
     public void onCounterReceiver(CounterEvent event) {
         counter = event.getRequestsCount();
-        Timber.tag(COUNTER_TAG).d(counter + "");
+        Log.d(COUNTER_TAG, counter + "");
         if (counter == 0) {
             syncComplete();
         }
@@ -328,7 +333,7 @@ public class MainActivity extends BaseActivity {
     public void onTracksDownloadDone(TracksDownloadEvent event) {
         if (event.isState()) {
             eventsDone++;
-            Timber.tag(COUNTER_TAG).d(eventsDone + " " + counter);
+            Log.d(COUNTER_TAG, eventsDone + " " + counter);
             if (counter == eventsDone) {
                 syncComplete();
             }
@@ -341,7 +346,7 @@ public class MainActivity extends BaseActivity {
     public void onSponsorsDownloadDone(SponsorDownloadEvent event) {
         if (event.isState()) {
             eventsDone++;
-            Timber.tag(COUNTER_TAG).d(eventsDone + " " + counter);
+            Log.d(COUNTER_TAG, eventsDone + " " + counter);
             if (counter == eventsDone) {
                 syncComplete();
             }
@@ -355,7 +360,7 @@ public class MainActivity extends BaseActivity {
     public void onSpeakersDownloadDone(SpeakerDownloadEvent event) {
         if (event.isState()) {
             eventsDone++;
-            Timber.tag(COUNTER_TAG).d(eventsDone + " " + counter);
+            Log.d(COUNTER_TAG, eventsDone + " " + counter);
             if (counter == eventsDone) {
                 syncComplete();
             }
@@ -369,7 +374,7 @@ public class MainActivity extends BaseActivity {
     public void onSessionDownloadDone(SessionDownloadEvent event) {
         if (event.isState()) {
             eventsDone++;
-            Timber.tag(COUNTER_TAG).d(eventsDone + " " + counter);
+            Log.d(COUNTER_TAG, eventsDone + " " + counter);
             if (counter == eventsDone) {
                 syncComplete();
             }
@@ -388,7 +393,7 @@ public class MainActivity extends BaseActivity {
     public void onEventsDownloadDone(EventDownloadEvent event) {
         if (event.isState()) {
             eventsDone++;
-            Timber.tag(COUNTER_TAG).d(eventsDone + " " + counter);
+            Log.d(COUNTER_TAG, eventsDone + " " + counter);
             if (counter == eventsDone) {
                 syncComplete();
             }
@@ -402,7 +407,7 @@ public class MainActivity extends BaseActivity {
     public void onMicrolocationsDownloadDone(MicrolocationDownloadEvent event) {
         if (event.isState()) {
             eventsDone++;
-            Timber.tag(COUNTER_TAG).d(eventsDone + " " + counter);
+            Log.d(COUNTER_TAG, eventsDone + " " + counter);
             if (counter == eventsDone) {
                 syncComplete();
             }
@@ -432,44 +437,49 @@ public class MainActivity extends BaseActivity {
     public void downloadData(DataDownloadEvent event) {
         DataDownloadManager.getInstance().downloadVersions();
         downloadProgress.setVisibility(View.VISIBLE);
-        Timber.d("Download has started");
+        Log.d("DataNotif", "Download has started");
     }
 
-    @Subscribe
-    public void ErrorHandlerEvent(RetrofitError cause) {
-        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netinfo = connMgr.getActiveNetworkInfo();
-        if (!(netinfo != null && netinfo.isConnected())) {
-            OpenEventApp.postEventOnUIThread(new ShowNetworkDialogEvent());
-        } else {
-            switch (cause.getKind()) {
-                case CONVERSION: {
-                    errorType = "Conversion Error";
-                    errorDesc = String.valueOf(cause.getCause());
-                    break;
-                }
-                case HTTP: {
-                    errorType = "HTTP Error";
-                    errorDesc = String.valueOf(cause.getResponse().getStatus());
-                    break;
-                }
-                case UNEXPECTED: {
-                    errorType = "Unexpected Error";
-                    errorDesc = String.valueOf(cause.getCause());
-                    break;
-                }
-                case NETWORK: {
-                    errorType = "Network Error";
-                    errorDesc = String.valueOf(cause.getCause());
-                    break;
-                }
-                default: {
-                    errorType = "Other Error";
-                    errorDesc = String.valueOf(cause.getCause());
-                }
-            }
-            Timber.tag(errorType).e(errorDesc);
-            showErrorDialog(errorType, errorDesc);
-        }
-    }
+//    @Subscribe
+//    public void ErrorHandlerEvent(RetrofitError cause) {
+//        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+//        NetworkInfo netinfo = connMgr.getActiveNetworkInfo();
+//        if (!(netinfo != null && netinfo.isConnected())) {
+//            OpenEventApp.postEventOnUIThread(new ShowNetworkDialogEvent());
+//        } else {
+//            switch (cause.getKind()) {
+//                case CONVERSION: {
+//                    Log.d(TYPE, "ConversionError");
+//                    errorType = "Conversion Error";
+//                    errorDesc = String.valueOf(cause.getCause());
+//                    break;
+//                }
+//                case HTTP: {
+//                    Log.d(TYPE, "HTTPError");
+//                    errorType = "HTTP Error";
+//                    errorDesc = String.valueOf(cause.getResponse().getStatus());
+//                    Log.d(ERROR_CODE, String.valueOf(cause.getResponse().getStatus()));
+//                    break;
+//                }
+//                case UNEXPECTED: {
+//                    Log.d(TYPE, "UnexpectedError");
+//                    errorType = "Unexpected Error";
+//                    errorDesc = String.valueOf(cause.getCause());
+//                    break;
+//                }
+//                case NETWORK: {
+//                    Log.d(TYPE, "NetworkError");
+//                    errorType = "Network Error";
+//                    errorDesc = String.valueOf(cause.getCause());
+//                    break;
+//                }
+//                default: {
+//                    Log.d(TYPE, "Other Error");
+//                    errorType = "Other Error";
+//                    errorDesc = String.valueOf(cause.getCause());
+//                }
+//            }
+//            showErrorDialog(errorType, errorDesc);
+//        }
+//    }
 }
