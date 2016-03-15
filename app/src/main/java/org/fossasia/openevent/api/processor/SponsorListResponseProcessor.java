@@ -1,7 +1,5 @@
 package org.fossasia.openevent.api.processor;
 
-import android.util.Log;
-
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.api.protocol.SponsorResponseList;
 import org.fossasia.openevent.data.Sponsor;
