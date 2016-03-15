@@ -1,7 +1,5 @@
 package org.fossasia.openevent.utils;
 
-import android.util.Log;
-
 import timber.log.Timber;
 
 /**

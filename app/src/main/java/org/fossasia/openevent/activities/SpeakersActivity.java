@@ -68,28 +68,24 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
 
         final SpeakerIntent speakerIntent = new SpeakerIntent(selectedSpeaker);
 
-        if(selectedSpeaker.getLinkedin() == null || selectedSpeaker.getLinkedin().isEmpty()) {
+        if (selectedSpeaker.getLinkedin() == null || selectedSpeaker.getLinkedin().isEmpty()) {
             linkedin.setVisibility(View.GONE);
-        }
-        else {
+        } else {
             speakerIntent.clickedImage(linkedin);
         }
-        if(selectedSpeaker.getTwitter() == null || selectedSpeaker.getTwitter().isEmpty()) {
+        if (selectedSpeaker.getTwitter() == null || selectedSpeaker.getTwitter().isEmpty()) {
             twitter.setVisibility(View.GONE);
-        }
-        else {
+        } else {
             speakerIntent.clickedImage(twitter);
         }
-        if(selectedSpeaker.getGithub() == null || selectedSpeaker.getGithub().isEmpty()) {
+        if (selectedSpeaker.getGithub() == null || selectedSpeaker.getGithub().isEmpty()) {
             github.setVisibility(View.GONE);
-        }
-        else {
+        } else {
             speakerIntent.clickedImage(github);
         }
-        if(selectedSpeaker.getFacebook() == null || selectedSpeaker.getFacebook().isEmpty()) {
+        if (selectedSpeaker.getFacebook() == null || selectedSpeaker.getFacebook().isEmpty()) {
             fb.setVisibility(View.GONE);
-        }
-        else {
+        } else {
             speakerIntent.clickedImage(fb);
         }
 
