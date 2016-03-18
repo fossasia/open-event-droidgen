@@ -8,4 +8,17 @@
     <color name="secondary_text">#727272</color>
     <color name="translucent_grey">#0c000000</color>
     <color name="grey">#E0E0E0</color>
+
+    <color name="item_session_name">#3E4049</color>
+    <color name="item_session_time">#5B5E6B</color>
+    <color name="item_session_location">#9B9EA5</color>
+
+    <color name="session_description">#212224</color>
+    <color name="session_detail_speaker">#5B5E6B</color>
+    <color name="more_background">#EFEFF4</color>
+    <color name="about_item_pressed">#BFBFBF</color>
+
+    <color name="schedule_bookmark_bg">#F5A623</color>
+
+    <color name="title_picker_bg">#F7F7F7</color>
 </resources>

@@ -16,6 +16,18 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="AppTheme.About" parent="AppTheme">
+        <item name="android:background">@color/more_background</item>
+    </style>
+
+    <style name="AppTheme.Schedule" parent="AppTheme">
+        <item name="android:background">@android:color/white</item>
+    </style>
+
+    <style name="TitlePicker" parent="AppTheme">
+        <item name="android:background">@color/title_picker_bg</item>
+    </style>
+
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>
         <item name="color">@android:color/white</item>

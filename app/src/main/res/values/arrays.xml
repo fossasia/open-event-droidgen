@@ -18,4 +18,19 @@
         <item>1</item>
         <item>12</item>
     </string-array>
+    <array name="tracks_colors">
+        <item>#8E8E93</item>
+        <item>#FF4D55</item>
+        <item>#FF8C2F</item>
+        <item>#FFCD10</item>
+        <item>#5EB56C</item>
+        <item>#2CC1BC</item>
+        <item>#2A9DFD</item>
+        <item>#AE65E1</item>
+    </array>
+    <array name="days">
+        <item>Day 1</item>
+        <item>Day 2</item>
+        <item>Day 3</item>
+    </array>
 </resources>

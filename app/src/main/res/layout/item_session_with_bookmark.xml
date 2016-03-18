@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:clipToPadding="false">
+    <include
+        android:id="@+id/item_session_session_view"
+        layout="@layout/item_session"/>
+    <FrameLayout
+        android:id="@+id/item_session_bookmark_view"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:layout_alignTop="@id/item_session_session_view"
+        android:layout_alignBottom="@id/item_session_session_view"
+        android:orientation="vertical"
+        android:background="@color/schedule_bookmark_bg"
+        android:padding="8dp"
+        android:layout_gravity="start"
+        android:layout_marginLeft="-50dp"
+        android:layout_marginStart="-50dp">
+        <ImageView
+            android:id="@+id/schedule_bookmark_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_bookmark_outline_white_24dp"
+            tools:ignore="ContentDescription" />
+    </FrameLayout>
+</RelativeLayout>

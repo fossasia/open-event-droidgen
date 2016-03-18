@@ -48,6 +48,15 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
+            android:name=".activities.ScheduleSessionDetailActivity"
+            android:label="@string/session"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable"/>
+        </activity>
+
+        <activity
             android:name=".activities.SessionDetailActivity"
             android:label="@string/session"
             android:theme="@style/AppTheme.NoActionBar">

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent" android:layout_height="@dimen/title_picker_height"
+    style="@style/TitlePicker"
+    android:padding="@dimen/title_picker_padding">
+    <ImageView
+        android:id="@+id/title_picker_left_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:alpha="0.5"
+        android:src="@drawable/ic_menu_left_grey"
+        tools:ignore="ContentDescription" />
+    <ImageView
+        android:id="@+id/title_picker_right_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/ic_menu_right_grey"
+        tools:ignore="ContentDescription" />
+    <TextView
+        android:id="@+id/title_picker_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textColor="@color/session_detail_speaker"
+        android:fontFamily="sans-serif-medium"
+        android:textSize="13sp"
+        tools:text="Wednesday, Mar 18"
+        tools:ignore="UnusedAttribute" />
+</merge>

@@ -28,7 +28,13 @@
     <dimen name="widget_min_resize_width">220dp</dimen>
     <dimen name="list_icon">40dp</dimen>
     <dimen name="widget_text_size">24dp</dimen>
+
+    <dimen name="about_item_height">48dp</dimen>
     <dimen name="sponsor_image_margin">3dp</dimen>
     <dimen name="sponsor_padding">10dp</dimen>
     <dimen name="speaker_bio_padding">15dp</dimen>
+    <dimen name="schedule_session_text_size">16sp</dimen>
+
+    <dimen name="title_picker_height">48dp</dimen>
+    <dimen name="title_picker_padding">8dp</dimen>
 </resources>

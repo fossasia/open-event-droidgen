@@ -6,6 +6,8 @@
     <string name="title_section_location">Locations</string>
 
     <!-- Main menu_speakers -->
+    <string name="menu_schedule">Schedule</string>
+    <string name="menu_favourites">Favourites</string>
     <string name="menu_tracks">Tracks</string>
     <string name="menu_bookmarks">Bookmarks</string>
     <string name="menu_speakers">Speakers</string>
@@ -67,6 +69,11 @@
     <string name="message_3"> For more information checkout this app on google play store: </string>
     <string name="fmt_floor">"Floor : "</string>
     <string name="noBookmark">No bookmarked session yet !!</string>
+    
+    <!--Schedule-->
+    <string name="filter_sessions">Filter sessions</string>
+    <string name="select_all">Select all</string>
+    <string name="select_none">Select none</string>
 
     <!--About us text-->
     <string name="about_text">Programmed by <a href="https://github.com/fossasia/open-event-android/graphs/contributors">FOSSASIA contributors</a>.
@@ -76,7 +83,17 @@
 \nPlease report all the issues in <a href="https://github.com/fossasia/open-event-android/issues/new">Github Repository Issue Tracker</a>.
 \n
     </string>
+
+    <string name="website_url">2016.fossasia.com</string>
+    <string name="twitter_handle">\@fossasia</string>
+    <string name="rate_fossasia">Rate Fossasia</string>
+    <string name="subscribe_mail">Subscribe to mailing list</string>
+
     <string name="invalid_url">Invalid Url</string>
     <string name="dialog_action_ok">Ok</string>
     <string name="dialog_error_title">Error</string>
+
+    <!--Session Details-->
+    <string name="add_to_calendar">Add to Calendar</string>
+
 </resources>

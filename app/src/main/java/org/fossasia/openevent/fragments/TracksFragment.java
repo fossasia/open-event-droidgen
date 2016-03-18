@@ -107,19 +107,6 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.share_tracks_url:
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.putExtra(Intent.EXTRA_TEXT, Urls.WEB_APP_URL_BASIC + Urls.TRACKS);
-                intent.putExtra(Intent.EXTRA_SUBJECT, R.string.share_links);
-                intent.setType("text/plain");
-                startActivity(Intent.createChooser(intent, getResources().getString(R.string.share_links)));
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear();
         inflater.inflate(R.menu.menu_tracks, menu);
