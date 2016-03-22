@@ -80,4 +80,6 @@
     <string name="dialog_action_ok">Ok</string>
     <string name="dialog_error_title">Error</string>
     <string name="website">website</string>
+    <string name="notification_key">notification</string>
+>>>>>>> Fixed #300 not showing the preference's value of NotificationMode + Fixed #295
 </resources>
