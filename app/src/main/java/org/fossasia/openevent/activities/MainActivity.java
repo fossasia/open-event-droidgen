@@ -322,6 +322,7 @@ public class MainActivity extends BaseActivity {
                 .setNeutralButton(R.string.ok, null)
                 .create();
         builder.show();
+
     }
 
     //Subscribe Events
@@ -441,6 +442,7 @@ public class MainActivity extends BaseActivity {
     @Subscribe
     public void downloadData(DataDownloadEvent event) {
         DataDownloadManager.getInstance().downloadVersions();
+        DialogFactory.dismissDialog();
         downloadProgress.setVisibility(View.VISIBLE);
         Timber.d("Download has started");
     }
