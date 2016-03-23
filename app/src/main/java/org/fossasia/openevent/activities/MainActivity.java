@@ -242,7 +242,8 @@ public class MainActivity extends BaseActivity {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         int id = menuItem.getItemId();
-                        menuItem.setChecked(true);
+                        if (menuItem.getGroupId()!=0)
+                            menuItem.setChecked(true);
                         menu.clear();
                         doMenuAction(id);
                         return true;
