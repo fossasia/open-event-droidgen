@@ -11,14 +11,22 @@ import org.fossasia.openevent.R;
 
 public final class DialogFactory {
 
+    public static AlertDialog alertDialog;
+
     public static Dialog createSimpleOkErrorDialog(Context context, String title, String message) {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(context)
+        alertDialog = new AlertDialog.Builder(context)
                 .setTitle(title)
                 .setMessage(message)
-                .setNeutralButton(R.string.dialog_action_ok, null);
-        return alertDialog.create();
+                .setNeutralButton(R.string.dialog_action_ok, null)
+                .create();
+        return alertDialog;
     }
 
+    public static void dismissDialog(){
+        if(alertDialog!=null && alertDialog.isShowing()){
+            alertDialog.dismiss();
+        }
+    }
     public static Dialog createSimpleOkErrorDialog(Context context,
                                                    @StringRes int titleResource,
                                                    @StringRes int messageResource) {
@@ -32,19 +40,21 @@ public final class DialogFactory {
                                                   @StringRes int titleResource,
                                                   @StringRes int messageResource,
                                                   DialogInterface.OnClickListener listener) {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(context)
+        alertDialog = new AlertDialog.Builder(context)
                 .setTitle(context.getString(titleResource))
                 .setMessage(context.getString(messageResource))
-                .setNeutralButton(R.string.dialog_action_ok, listener);
-        return alertDialog.create();
+                .setNeutralButton(R.string.dialog_action_ok, listener)
+                .create();
+        return alertDialog;
     }
 
     public static Dialog createGenericErrorDialog(Context context, String message) {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(context)
+        alertDialog = new AlertDialog.Builder(context)
                 .setTitle(context.getString(R.string.dialog_error_title))
                 .setMessage(message)
-                .setNeutralButton(R.string.dialog_action_ok, null);
-        return alertDialog.create();
+                .setNeutralButton(R.string.dialog_action_ok, null)
+                .create();
+        return alertDialog;
     }
 
     public static Dialog createGenericErrorDialog(Context context, @StringRes int messageResource) {
