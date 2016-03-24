@@ -2,7 +2,7 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="menu_main">16dp</dimen>
-
+    <dimen name="title_text_size">8sp</dimen>
     <dimen name="main_menu_padding">16dp</dimen>
     <dimen name="main_menu_drawable_padding">32dp</dimen>
     <dimen name="main_menu_item_height">48dp</dimen>
@@ -30,5 +30,6 @@
     <dimen name="widget_text_size">24dp</dimen>
     <dimen name="sponsor_image_margin">3dp</dimen>
     <dimen name="sponsor_padding">10dp</dimen>
-    <dimen name="speaker_bio_padding">15dp</dimen>
+    <dimen name="speaker_margin">20dp</dimen>
+    <dimen name="social_image_icon">40dp</dimen>
 </resources>
