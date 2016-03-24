@@ -53,4 +53,8 @@
         <item name="android:orientation">vertical</item>
     </style>
 
+    <style name="ExpandedAppBar" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">#FAFAFA</item>
+    </style>
 </resources>

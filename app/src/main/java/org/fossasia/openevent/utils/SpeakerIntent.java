@@ -44,6 +44,8 @@ public class SpeakerIntent {
 
                 } else if (imageView.getTag().toString().equals(view.getContext().getString(R.string.github))) {
                     url = speaker.getGithub();
+                } else if (imageView.getTag().toString().equals(view.getContext().getString(R.string.website))) {
+                    url = speaker.getWeb();
                 }
 
                 if ((!url.startsWith("https://") && !url.startsWith("http://"))) {
