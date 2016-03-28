@@ -19,7 +19,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,21 +34,33 @@ import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.dbutils.DataDownloadManager;
 import org.fossasia.openevent.dbutils.DbSingleton;
-import org.fossasia.openevent.events.*;
-import org.fossasia.openevent.fragments.*;
+import org.fossasia.openevent.events.CounterEvent;
+import org.fossasia.openevent.events.DataDownloadEvent;
+import org.fossasia.openevent.events.EventDownloadEvent;
+import org.fossasia.openevent.events.MicrolocationDownloadEvent;
+import org.fossasia.openevent.events.NoInternetEvent;
+import org.fossasia.openevent.events.RefreshUiEvent;
+import org.fossasia.openevent.events.SessionDownloadEvent;
+import org.fossasia.openevent.events.ShowNetworkDialogEvent;
+import org.fossasia.openevent.events.SpeakerDownloadEvent;
+import org.fossasia.openevent.events.SponsorDownloadEvent;
+import org.fossasia.openevent.events.TracksDownloadEvent;
+import org.fossasia.openevent.fragments.BookmarksFragment;
+import org.fossasia.openevent.fragments.LocationsFragment;
+import org.fossasia.openevent.fragments.SpeakerFragment;
+import org.fossasia.openevent.fragments.SponsorsFragment;
+import org.fossasia.openevent.fragments.TracksFragment;
 import org.fossasia.openevent.utils.SmoothActionBarDrawerToggle;
 import org.fossasia.openevent.widget.DialogFactory;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import retrofit.RetrofitError;
+import timber.log.Timber;
 
 public class MainActivity extends BaseActivity {
 
-    public static final String TYPE = "RetrofitError Type";
-
-    public static final String ERROR_CODE = "Error Code";
-
+    
     private static final String COUNTER_TAG = "Donecounter";
 
     private final static String STATE_FRAGMENT = "stateFragment";
@@ -216,7 +227,7 @@ public class MainActivity extends BaseActivity {
         }
 
         Snackbar.make(mainFrame, getString(R.string.download_complete), Snackbar.LENGTH_SHORT).show();
-        Log.d("DownNotif", "Download done");
+        Timber.d("Download done");
     }
 
     private void downloadFailed() {
@@ -317,7 +328,7 @@ public class MainActivity extends BaseActivity {
     @Subscribe
     public void onCounterReceiver(CounterEvent event) {
         counter = event.getRequestsCount();
-        Log.d(COUNTER_TAG, counter + "");
+        Timber.tag(COUNTER_TAG).d(counter + "");
         if (counter == 0) {
             syncComplete();
         }
@@ -327,7 +338,7 @@ public class MainActivity extends BaseActivity {
     public void onTracksDownloadDone(TracksDownloadEvent event) {
         if (event.isState()) {
             eventsDone++;
-            Log.d(COUNTER_TAG, eventsDone + " " + counter);
+            Timber.tag(COUNTER_TAG).d(eventsDone + " " + counter);
             if (counter == eventsDone) {
                 syncComplete();
             }
@@ -340,7 +351,7 @@ public class MainActivity extends BaseActivity {
     public void onSponsorsDownloadDone(SponsorDownloadEvent event) {
         if (event.isState()) {
             eventsDone++;
-            Log.d(COUNTER_TAG, eventsDone + " " + counter);
+            Timber.tag(COUNTER_TAG).d(eventsDone + " " + counter);
             if (counter == eventsDone) {
                 syncComplete();
             }
@@ -354,7 +365,7 @@ public class MainActivity extends BaseActivity {
     public void onSpeakersDownloadDone(SpeakerDownloadEvent event) {
         if (event.isState()) {
             eventsDone++;
-            Log.d(COUNTER_TAG, eventsDone + " " + counter);
+            Timber.tag(COUNTER_TAG).d(eventsDone + " " + counter);
             if (counter == eventsDone) {
                 syncComplete();
             }
@@ -368,7 +379,7 @@ public class MainActivity extends BaseActivity {
     public void onSessionDownloadDone(SessionDownloadEvent event) {
         if (event.isState()) {
             eventsDone++;
-            Log.d(COUNTER_TAG, eventsDone + " " + counter);
+            Timber.tag(COUNTER_TAG).d(eventsDone + " " + counter);
             if (counter == eventsDone) {
                 syncComplete();
             }
@@ -387,7 +398,7 @@ public class MainActivity extends BaseActivity {
     public void onEventsDownloadDone(EventDownloadEvent event) {
         if (event.isState()) {
             eventsDone++;
-            Log.d(COUNTER_TAG, eventsDone + " " + counter);
+            Timber.tag(COUNTER_TAG).d(eventsDone + " " + counter);
             if (counter == eventsDone) {
                 syncComplete();
             }
@@ -401,7 +412,7 @@ public class MainActivity extends BaseActivity {
     public void onMicrolocationsDownloadDone(MicrolocationDownloadEvent event) {
         if (event.isState()) {
             eventsDone++;
-            Log.d(COUNTER_TAG, eventsDone + " " + counter);
+            Timber.tag(COUNTER_TAG).d(eventsDone + " " + counter);
             if (counter == eventsDone) {
                 syncComplete();
             }
@@ -431,7 +442,7 @@ public class MainActivity extends BaseActivity {
     public void downloadData(DataDownloadEvent event) {
         DataDownloadManager.getInstance().downloadVersions();
         downloadProgress.setVisibility(View.VISIBLE);
-        Log.d("DataNotif", "Download has started");
+        Timber.d("Download has started");
     }
 
     @Subscribe
@@ -443,36 +454,31 @@ public class MainActivity extends BaseActivity {
         } else {
             switch (cause.getKind()) {
                 case CONVERSION: {
-                    Log.d(TYPE, "ConversionError");
                     errorType = "Conversion Error";
                     errorDesc = String.valueOf(cause.getCause());
                     break;
                 }
                 case HTTP: {
-                    Log.d(TYPE, "HTTPError");
                     errorType = "HTTP Error";
                     errorDesc = String.valueOf(cause.getResponse().getStatus());
-                    Log.d(ERROR_CODE, String.valueOf(cause.getResponse().getStatus()));
                     break;
                 }
                 case UNEXPECTED: {
-                    Log.d(TYPE, "UnexpectedError");
                     errorType = "Unexpected Error";
                     errorDesc = String.valueOf(cause.getCause());
                     break;
                 }
                 case NETWORK: {
-                    Log.d(TYPE, "NetworkError");
                     errorType = "Network Error";
                     errorDesc = String.valueOf(cause.getCause());
                     break;
                 }
                 default: {
-                    Log.d(TYPE, "Other Error");
                     errorType = "Other Error";
                     errorDesc = String.valueOf(cause.getCause());
                 }
             }
+            Timber.tag(errorType).e(errorDesc);
             showErrorDialog(errorType, errorDesc);
         }
     }

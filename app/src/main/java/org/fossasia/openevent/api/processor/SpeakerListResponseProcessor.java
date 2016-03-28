@@ -1,7 +1,5 @@
 package org.fossasia.openevent.api.processor;
 
-import android.util.Log;
-
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.api.protocol.SpeakerResponseList;
 import org.fossasia.openevent.data.SessionSpeakersMapping;
@@ -16,6 +14,7 @@ import java.util.ArrayList;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import timber.log.Timber;
 
 /**
  * User: mohit
@@ -39,7 +38,7 @@ public class SpeakerListResponseProcessor implements Callback<SpeakerResponseLis
                     }
                     String query = speaker.generateSql();
                     queries.add(query);
-                    Log.d(TAG, query);
+                    Timber.tag(TAG).d(query);
                 }
 
                 DbSingleton dbSingleton = DbSingleton.getInstance();

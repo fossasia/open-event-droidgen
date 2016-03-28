@@ -1,7 +1,5 @@
 package org.fossasia.openevent.api.processor;
 
-import android.util.Log;
-
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.api.protocol.TrackResponseList;
 import org.fossasia.openevent.data.Track;
@@ -15,6 +13,7 @@ import java.util.ArrayList;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import timber.log.Timber;
 
 /**
  * Created by MananWason on 27-05-2015.
@@ -29,11 +28,11 @@ public class TrackListResponseProcessor implements Callback<TrackResponseList> {
             public void run() {
                 ArrayList<String> queries = new ArrayList<>();
 
-                Log.d(TAG, "run" + tracksResponseList.tracks.size());
+                Timber.tag(TAG).d("run" + tracksResponseList.tracks.size());
                 for (Track track : tracksResponseList.tracks) {
                     String query = track.generateSql();
                     queries.add(query);
-                    Log.d(TAG, query);
+                    Timber.tag(TAG).d(query);
                 }
 
 

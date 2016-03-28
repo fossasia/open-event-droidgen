@@ -1,10 +1,16 @@
 package org.fossasia.openevent.fragments;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,8 +35,10 @@ public class OSMapFragment extends Fragment {
     private static final double DESTINATION_LONGITUDE = 13.389893;
 
     private static final String DESTINATION_NAME = "Kalkscheune Johannisstraße 2  10117 Berlin Germany";
+    private static final int PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE_RESULT = 100;
 
     MapView mapView;
+    View rootView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,7 +49,24 @@ public class OSMapFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_map, null);
+        rootView = inflater.inflate(R.layout.fragment_map, null);
+        Activity activity = getActivity();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(activity,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE_RESULT);
+            } else {
+                populateMap();
+            }
+        } else {
+            populateMap();
+        }
+        return rootView;
+    }
+
+    private void populateMap() {
         mapView = (MapView) rootView.findViewById(R.id.mapview);
         mapView.setBuiltInZoomControls(true);
         mapView.setMultiTouchControls(true);
@@ -67,10 +92,27 @@ public class OSMapFragment extends Fragment {
                     }
                 }, new DefaultResourceProxyImpl(getActivity())));
         mapView.invalidate();
-
-        return rootView;
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE_RESULT: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    populateMap();
+                    Snackbar.make(rootView.findViewById(R.id.map), "Permissions Given!", Snackbar.LENGTH_LONG)
+                            .show();
+
+                } else {
+                    Snackbar.make(rootView.findViewById(R.id.map), "Insufficient Permissions!", Snackbar.LENGTH_LONG)
+                            .show();
+                }
+                return;
+            }
+        }
+    }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
