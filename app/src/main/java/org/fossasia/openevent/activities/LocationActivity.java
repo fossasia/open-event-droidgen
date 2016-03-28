@@ -7,7 +7,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,6 +21,8 @@ import org.fossasia.openevent.utils.IntentStrings;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import timber.log.Timber;
 
 /**
  * User: MananWason
@@ -124,7 +125,7 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
 
         mSessions = dbSingleton.getSessionbyLocationName(location);
         final List<Session> filteredModelList = filter(mSessions, query);
-        Log.d("xyz", mSessions.size() + " " + filteredModelList.size());
+        Timber.tag("xyz").d(mSessions.size() + " " + filteredModelList.size());
 
         sessionsListAdapter.animateTo(filteredModelList);
         sessionRecyclerView.scrollToPosition(0);

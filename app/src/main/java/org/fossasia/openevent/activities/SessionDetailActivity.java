@@ -12,7 +12,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,6 +29,8 @@ import org.fossasia.openevent.widget.BookmarkWidgetProvider;
 
 import java.util.Calendar;
 import java.util.List;
+
+import timber.log.Timber;
 
 /**
  * User: MananWason
@@ -56,7 +57,7 @@ public class SessionDetailActivity extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         final String title = getIntent().getStringExtra(IntentStrings.SESSION);
         String trackName = getIntent().getStringExtra(IntentStrings.TRACK);
-        Log.d(TAG, title);
+        Timber.tag(TAG).d(title);
         TextView text_title = (TextView) findViewById(R.id.title_session);
         TextView text_subtitle = (TextView) findViewById(R.id.subtitle_session);
         TextView text_time = (TextView) findViewById(R.id.tv_time);
@@ -130,11 +131,11 @@ public class SessionDetailActivity extends BaseActivity {
             case R.id.bookmark_status:
                 DbSingleton dbSingleton = DbSingleton.getInstance();
                 if (dbSingleton.isBookmarked(session.getId())) {
-                    Log.d(TAG, "Bookmark Removed");
+                    Timber.tag(TAG).d("Bookmark Removed");
                     dbSingleton.deleteBookmarks(session.getId());
                     item.setIcon(R.drawable.ic_bookmark_outline_white_24dp);
                 } else {
-                    Log.d(TAG, "Bookmarked");
+                    Timber.tag(TAG).d("Bookmarked");
                     dbSingleton.addBookmarks(session.getId());
                     item.setIcon(R.drawable.ic_bookmark_white_24dp);
                     createNotification();
@@ -150,10 +151,10 @@ public class SessionDetailActivity extends BaseActivity {
         DbSingleton dbSingleton = DbSingleton.getInstance();
         MenuItem item = menu.findItem(R.id.bookmark_status);
         if (dbSingleton.isBookmarked(session.getId())) {
-            Log.d(TAG, "Bookmarked");
+            Timber.tag(TAG).d("Bookmarked");
             item.setIcon(R.drawable.ic_bookmark_white_24dp);
         } else {
-            Log.d(TAG, "Bookmark Removed");
+            Timber.tag(TAG).d("Bookmark Removed");
             item.setIcon(R.drawable.ic_bookmark_outline_white_24dp);
         }
         return super.onCreateOptionsMenu(menu);

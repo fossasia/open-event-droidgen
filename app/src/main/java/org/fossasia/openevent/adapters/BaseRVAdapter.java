@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * User: mohit
  * Date: 1/2/16
- *
+ * <p/>
  * Base class for all the adapters binding to a recycler view
  * Supports add, remove, clear methods & animations
  */

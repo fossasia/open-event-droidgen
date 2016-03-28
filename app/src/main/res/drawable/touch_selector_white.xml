@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:drawable="@color/grey" android:state_activated="true"
-          android:state_focused="false"/>
-    <item android:drawable="@android:color/white" android:state_window_focused="false"/>
-    <item android:drawable="@drawable/abc_list_selector_holo_light" android:state_enabled="false" android:state_focused="true" android:state_pressed="true"/>
-    <item android:drawable="@drawable/abc_list_selector_holo_light" android:state_enabled="false" android:state_focused="true"/>
-    <item android:drawable="@drawable/abc_list_selector_holo_light" android:state_focused="true" android:state_pressed="true"/>
-    <item android:drawable="@drawable/abc_list_selector_holo_light" android:state_focused="false" android:state_pressed="true"/>
-    <item android:drawable="@drawable/abc_list_selector_holo_light" android:state_focused="true"/>
-    <item android:drawable="@android:color/white"/>
+    <item android:drawable="@color/grey" android:state_activated="true" android:state_focused="false" />
+    <item android:drawable="@android:color/white" android:state_window_focused="false" />
+    <item android:drawable="@drawable/abc_list_selector_holo_light" android:state_enabled="false" android:state_focused="true" android:state_pressed="true" />
+    <item android:drawable="@drawable/abc_list_selector_holo_light" android:state_enabled="false" android:state_focused="true" />
+    <item android:drawable="@drawable/abc_list_selector_holo_light" android:state_focused="true" android:state_pressed="true" />
+    <item android:drawable="@drawable/abc_list_selector_holo_light" android:state_focused="false" android:state_pressed="true" />
+    <item android:drawable="@drawable/abc_list_selector_holo_light" android:state_focused="true" />
+    <item android:drawable="@android:color/white" />
 </selector>

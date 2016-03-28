@@ -1,7 +1,9 @@
 package org.fossasia.openevent.activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,12 +16,15 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.SessionsListAdapter;
 import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.utils.CircleTransform;
 import org.fossasia.openevent.utils.IntentStrings;
 import org.fossasia.openevent.utils.SpeakerIntent;
 
@@ -47,6 +52,8 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
 
     private String speaker;
 
+    private boolean flagSocial = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,42 +62,63 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
         speaker = getIntent().getStringExtra(Speaker.SPEAKER);
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_speakers);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(null);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         selectedSpeaker = dbSingleton.getSpeakerbySpeakersname(speaker);
 
+        CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        collapsingToolbarLayout.setTitle(selectedSpeaker.getName());
+        collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedAppBar);
 
-        TextView biography = (TextView) findViewById(R.id.speaker_bio);
+
+        final TextView biography = (TextView) findViewById(R.id.speaker_bio);
         ImageView linkedin = (ImageView) findViewById(R.id.imageView_linkedin);
         ImageView twitter = (ImageView) findViewById(R.id.imageView_twitter);
         ImageView github = (ImageView) findViewById(R.id.imageView_github);
         ImageView fb = (ImageView) findViewById(R.id.imageView_fb);
+        ImageView website = (ImageView) findViewById(R.id.imageView_web);
+        Picasso.with(this)
+                .load(Uri.parse(selectedSpeaker.getPhoto()))
+                .placeholder(R.drawable.ic_account_circle_grey_24dp)
+                .transform(new CircleTransform())
+                .into((ImageView) findViewById(R.id.speaker_image));
 
         final SpeakerIntent speakerIntent = new SpeakerIntent(selectedSpeaker);
 
-        if(selectedSpeaker.getLinkedin() == null || selectedSpeaker.getLinkedin().isEmpty()) {
+        if (selectedSpeaker.getLinkedin() == null || selectedSpeaker.getLinkedin().isEmpty()) {
             linkedin.setVisibility(View.GONE);
-        }
-        else {
+        } else {
+            flagSocial = true;
             speakerIntent.clickedImage(linkedin);
         }
-        if(selectedSpeaker.getTwitter() == null || selectedSpeaker.getTwitter().isEmpty()) {
+        if (selectedSpeaker.getTwitter() == null || selectedSpeaker.getTwitter().isEmpty()) {
             twitter.setVisibility(View.GONE);
-        }
-        else {
+        } else {
+            flagSocial = true;
             speakerIntent.clickedImage(twitter);
         }
-        if(selectedSpeaker.getGithub() == null || selectedSpeaker.getGithub().isEmpty()) {
+        if (selectedSpeaker.getGithub() == null || selectedSpeaker.getGithub().isEmpty()) {
             github.setVisibility(View.GONE);
-        }
-        else {
+        } else {
+            flagSocial = true;
             speakerIntent.clickedImage(github);
         }
-        if(selectedSpeaker.getFacebook() == null || selectedSpeaker.getFacebook().isEmpty()) {
+        if (selectedSpeaker.getFacebook() == null || selectedSpeaker.getFacebook().isEmpty()) {
             fb.setVisibility(View.GONE);
-        }
-        else {
+        } else {
+            flagSocial = true;
             speakerIntent.clickedImage(fb);
+        }
+        if (selectedSpeaker.getWeb() == null || selectedSpeaker.getWeb().isEmpty()) {
+            website.setVisibility(View.GONE);
+        } else {
+            flagSocial = true;
+            speakerIntent.clickedImage(website);
+        }
+
+        if (flagSocial == false) {
+            findViewById(R.id.view).setVisibility(View.GONE);
         }
 
         biography.setText(selectedSpeaker.getBio());

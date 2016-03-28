@@ -4,15 +4,22 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.test.InstrumentationRegistry;
 import android.test.AndroidTestCase;
-import android.util.Log;
 
-import org.fossasia.openevent.data.*;
+import org.fossasia.openevent.data.Event;
+import org.fossasia.openevent.data.Microlocation;
+import org.fossasia.openevent.data.Session;
+import org.fossasia.openevent.data.Speaker;
+import org.fossasia.openevent.data.Sponsor;
+import org.fossasia.openevent.data.Track;
+import org.fossasia.openevent.data.Version;
 import org.fossasia.openevent.dbutils.DatabaseOperations;
 import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.dbutils.DbHelper;
 import org.fossasia.openevent.dbutils.DbSingleton;
 
 import java.util.ArrayList;
+
+import timber.log.Timber;
 
 /**
  * User: MananWason
@@ -33,24 +40,24 @@ public class DatabaseTest extends AndroidTestCase {
         Event event = new Event(4, "foss", "a@b.com", "#000000", "img.png", "2015-06-05T12:00:00",
                 "2015-06-06T12:00:00", 23.7f, 45.60f, "moscone centre", "www.event2.com", "swagger event");
         String eventQuery = event.generateSql();
-        Log.d("Event", eventQuery);
+        Timber.tag("Event").d(eventQuery);
         queries.add(eventQuery);
 
         Sponsor sponsor = new Sponsor(5, "Google", "www.google.com", "google.png");
         String sponsorQuery = sponsor.generateSql();
-        Log.d("Sponsor", sponsorQuery);
+        Timber.tag("Sponsor").d(sponsorQuery);
         queries.add(sponsorQuery);
 
         Speaker speaker = new Speaker(5, "manan", "manan.png", "manan wason", "IIITD",
                 "mananwason.me", "twitter.com/mananwason", "facebook.com/mananwason",
                 "github.com/mananwason", "linkedin.com/mananwason", "fossasia", "gsoc student", null, "india");
         String speakerQuery = speaker.generateSql();
-        Log.d("speaker", speakerQuery);
+        Timber.tag("Speaker").d(speakerQuery);
         queries.add(speakerQuery);
 
         Microlocation microlocation = new Microlocation(4, "moscone centre", 35.6f, 112.5f, 2);
         String microlocationQuery = microlocation.generateSql();
-        Log.d("micro", microlocationQuery);
+        Timber.tag("Micro").d(microlocationQuery);
         queries.add(microlocationQuery);
 
         Session session = new Session(5, "abcd", "abc", "abcdefgh", "sdfjs dsjfnjs",
@@ -58,16 +65,16 @@ public class DatabaseTest extends AndroidTestCase {
                 "3", 2);
 
         String sessionQuery = session.generateSql();
-        Log.d("session", sessionQuery);
+        Timber.tag("Session").d(sessionQuery);
         queries.add(sessionQuery);
 
         Version version = new Version(1, 2, 3, 4, 5, 6, 7);
         String versionQuery = version.generateSql();
-        Log.d("VErsion", versionQuery);
+        Timber.tag("Version").d(versionQuery);
         queries.add(versionQuery);
         Track track = new Track(6, "android", "open source mobile os by google", "https://farm8.staticflickr.com/7575/15355329014_3cb3eb0c74_b.jpg");
         String trackQuery = track.generateSql();
-        Log.d("track", trackQuery);
+        Timber.tag("Track").d(trackQuery);
         queries.add(trackQuery);
         DatabaseOperations databaseOperations = new DatabaseOperations();
         databaseOperations.insertQueries(queries, db);
@@ -106,7 +113,7 @@ public class DatabaseTest extends AndroidTestCase {
         DbSingleton dbSingleton = DbSingleton.getInstance();
 
         assertNotNull(dbSingleton.getTrackList());
-        Log.d("TEST TRACKS", dbSingleton.getTrackList().size() + " ");
+        Timber.tag("TEST TRACKS").d(dbSingleton.getTrackList().size() + " ");
         assertTrue(dbSingleton.getTrackList().size() > 0);
     }
 
