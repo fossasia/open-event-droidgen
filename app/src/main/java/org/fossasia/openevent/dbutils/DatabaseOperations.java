@@ -142,7 +142,7 @@ public class DatabaseOperations {
     public List<Speaker> getSpeakerList(SQLiteDatabase mDb) {
         //getReadOnlyDatabase();
 
-        String sortOrder = DbContract.Speakers.ID + ASCENDING;
+        String sortOrder = DbContract.Speakers.NAME + ASCENDING;
         Cursor cur = mDb.query(
                 DbContract.Speakers.TABLE_NAME,
                 DbContract.Speakers.FULL_PROJECTION,
