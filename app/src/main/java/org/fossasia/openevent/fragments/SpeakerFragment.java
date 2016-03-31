@@ -1,11 +1,15 @@
 package org.fossasia.openevent.fragments;
 
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -38,6 +42,8 @@ import java.util.List;
 
 import timber.log.Timber;
 
+import static org.fossasia.openevent.utils.SortOrder.sortOrderSpeaker;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the factory method to
@@ -45,7 +51,11 @@ import timber.log.Timber;
  */
 public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextListener {
 
+    private static final String PREF_SORT = "sortType";
+
     final private String SEARCH = "searchText";
+
+    private SharedPreferences prefsSort;
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -59,6 +69,8 @@ public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextL
 
     private SearchView searchView;
 
+    private int sortType;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -67,8 +79,10 @@ public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextL
         OpenEventApp.getEventBus().register(this);
         speakersRecyclerView = (RecyclerView) view.findViewById(R.id.rv_speakers);
         final DbSingleton dbSingleton = DbSingleton.getInstance();
-        mSpeakers = dbSingleton.getSpeakerList();
-        speakersListAdapter = new SpeakersListAdapter(mSpeakers);
+        mSpeakers = dbSingleton.getSpeakerList(sortOrderSpeaker(getActivity()));
+        prefsSort = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        sortType = prefsSort.getInt(PREF_SORT, 0);
+        speakersListAdapter = new SpeakersListAdapter(mSpeakers, getActivity());
         speakersRecyclerView.setAdapter(speakersListAdapter);
 
         speakersListAdapter.setOnClickListener(new SpeakersListAdapter.SetOnClickListener() {
@@ -121,6 +135,25 @@ public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextL
                 intent.putExtra(Intent.EXTRA_SUBJECT, R.string.share_links);
                 intent.setType("text/plain");
                 startActivity(Intent.createChooser(intent, getResources().getString(R.string.share_links)));
+                break;
+            case R.id.action_sort:
+
+                final AlertDialog.Builder dialogSort = new AlertDialog.Builder(getActivity())
+                        .setTitle(R.string.dialog_sort_title)
+                        .setSingleChoiceItems(R.array.speaker_sort, sortType, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                sortType = which;
+                                SharedPreferences.Editor editor = prefsSort.edit();
+                                editor.putInt(PREF_SORT, which);
+                                editor.commit();
+                                speakersListAdapter.refresh();
+                                dialog.dismiss();
+                            }
+                        });
+
+                dialogSort.show();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -142,7 +175,6 @@ public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextL
         if (event.isState()) {
             speakersListAdapter.refresh();
             Timber.i("Speaker download completed");
-
         } else {
             if (getActivity() != null) {
                 Snackbar.make(getView(), getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).show();
