@@ -19,6 +19,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -221,9 +222,13 @@ public class MainActivity extends BaseActivity {
         Bus bus = OpenEventApp.getEventBus();
         bus.post(new RefreshUiEvent());
         DbSingleton dbSingleton = DbSingleton.getInstance();
-        if (!(dbSingleton.getEventDetails().getLogo().isEmpty())) {
-            ImageView headerDrawer = (ImageView) findViewById(R.id.headerDrawer);
-            Picasso.with(getApplicationContext()).load(dbSingleton.getEventDetails().getLogo()).into(headerDrawer);
+        try {
+            if (!(dbSingleton.getEventDetails().getLogo().isEmpty())) {
+                ImageView headerDrawer = (ImageView) findViewById(R.id.headerDrawer);
+                Picasso.with(getApplicationContext()).load(dbSingleton.getEventDetails().getLogo()).into(headerDrawer);
+            }
+        } catch (NullPointerException npe) {
+            Log.e(MainActivity.class.getSimpleName(), "Could not get logo.", npe);
         }
 
         Snackbar.make(mainFrame, getString(R.string.download_complete), Snackbar.LENGTH_SHORT).show();
