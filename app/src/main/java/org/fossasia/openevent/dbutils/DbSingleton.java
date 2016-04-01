@@ -168,8 +168,8 @@ public class DbSingleton {
         return databaseOperations.getBookmarkIds(mDb);
     }
 
-    public Microlocation getLocationByLocationname(String LocationName) {
-        return databaseOperations.getLocationByName(LocationName, mDb);
+    public Microlocation getLocationByLocationname(String locationName) {
+        return databaseOperations.getLocationByName(locationName, mDb);
     }
 
     public void insertQueries(ArrayList<String> queries) {

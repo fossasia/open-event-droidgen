@@ -39,17 +39,17 @@ public final class ISO8601Date {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("EE, dd MMM yyyy, HH:mm, z");
         dateFormat.setTimeZone(TimeZone.getDefault());
-        String DateToStr = dateFormat.format(date);
-        Timber.tag("counter").d(DateToStr);
-        return DateToStr;
+        String dateToStr = dateFormat.format(date);
+        Timber.tag("counter").d(dateToStr);
+        return dateToStr;
     }
 
     public static Date getTimeZoneDate(final Date date) {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("EE, dd MMM yyyy, HH:mm, z");
         dateFormat.setTimeZone(TimeZone.getDefault());
-        String DateToStr = dateFormat.format(date);
-        Timber.tag("counter").d(DateToStr);
+        String dateToStr = dateFormat.format(date);
+        Timber.tag("counter").d(dateToStr);
         return date;
     }
 

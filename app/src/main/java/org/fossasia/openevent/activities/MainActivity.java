@@ -63,17 +63,17 @@ public class MainActivity extends BaseActivity {
     
     private static final String COUNTER_TAG = "Donecounter";
 
-    private final static String STATE_FRAGMENT = "stateFragment";
+    private static final String STATE_FRAGMENT = "stateFragment";
 
     private static final String NAV_ITEM = "navItem";
 
     private static final String BOOKMARK = "bookmarks";
 
-    private final String FRAGMENT_TAG = "FTAG";
+    private static final String FRAGMENT_TAG = "FTAG";
 
-    public String errorType;
+    private String errorType;
 
-    public String errorDesc;
+    private String errorDesc;
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
@@ -445,7 +445,7 @@ public class MainActivity extends BaseActivity {
     }
 
     @Subscribe
-    public void ErrorHandlerEvent(RetrofitError cause) {
+    public void errorHandlerEvent(RetrofitError cause) {
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netinfo = connMgr.getActiveNetworkInfo();
         if (!(netinfo != null && netinfo.isConnected())) {

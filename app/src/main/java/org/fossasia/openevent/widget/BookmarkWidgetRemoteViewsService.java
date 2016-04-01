@@ -36,13 +36,13 @@ public class BookmarkWidgetRemoteViewsService extends RemoteViewsService {
 
     static final int INDEX_BOOKMARK_END_TIME = 3;
 
-    final String ID = "id";
+    static final String ID = "id";
 
-    final String TITLE = "title";
+    static final String TITLE = "title";
 
-    final String START_TIME = "startTime";
+    static final String START_TIME = "startTime";
 
-    final String END_TIME = "endTime";
+    static final String END_TIME = "endTime";
 
     ArrayList<Integer> bookmarkedIds;
 
@@ -144,8 +144,9 @@ public class BookmarkWidgetRemoteViewsService extends RemoteViewsService {
 
             @Override
             public long getItemId(int position) {
-                if (data.moveToPosition(position))
+                if (data.moveToPosition(position)) {
                     return data.getLong(INDEX_BOOKMARK_ID);
+                }
                 return position;
             }
 

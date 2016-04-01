@@ -223,8 +223,6 @@ public class DbContract {
     public static abstract class Tracks implements BaseColumns {
         public static final String TABLE_NAME = "tracks";
 
-        public static final String _ID = "_id";
-
         public static final String ID = "id";
 
         public static final String NAME = "name";

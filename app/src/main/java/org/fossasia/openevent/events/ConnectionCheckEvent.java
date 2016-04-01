@@ -6,7 +6,7 @@ package org.fossasia.openevent.events;
  */
 public class ConnectionCheckEvent {
 
-    public boolean isConnected;
+    private boolean isConnected;
 
     public ConnectionCheckEvent(boolean isConnected) {
         this.isConnected = isConnected;
@@ -14,5 +14,9 @@ public class ConnectionCheckEvent {
 
     public boolean connState() {
         return isConnected;
+    }
+
+    public void setConnected(boolean isConnected) {
+        this.isConnected = isConnected;
     }
 }

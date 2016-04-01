@@ -19,7 +19,7 @@ import timber.log.Timber;
  */
 public class NetworkConnectivityChangeReceiver extends BroadcastReceiver {
 
-    public boolean isConnected = false;
+    private boolean isConnected = false;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -27,12 +27,12 @@ public class NetworkConnectivityChangeReceiver extends BroadcastReceiver {
         ConnectionCheckEvent event = new ConnectionCheckEvent(isConnected);
         if (isNetworkAvailable(context)) {
             if (!event.connState()) {
-                event.isConnected = true;
+                event.setConnected(true);
             }
         } else {
-            event.isConnected = false;
+            event.setConnected(false);
         }
-        Timber.i("Network connected %s", event.isConnected);
+        Timber.i("Network connected %s", event.connState());
         OpenEventApp.postEventOnUIThread(event);
     }
 

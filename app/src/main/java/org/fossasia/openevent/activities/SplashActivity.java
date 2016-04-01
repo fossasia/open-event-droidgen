@@ -12,7 +12,7 @@ import org.fossasia.openevent.R;
  * Created by MananWason on 10-06-2015.
  */
 public class SplashActivity extends Activity {
-    private final int SPLASH_DISPLAY_LENGTH = 1000;
+    private static final int SPLASH_DISPLAY_LENGTH = 1000;
 
 
     @Override

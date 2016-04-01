@@ -35,7 +35,7 @@ import org.fossasia.openevent.utils.IntentStrings;
  * Date: 8/18/2015
  */
 public class LocationsFragment extends Fragment implements SearchView.OnQueryTextListener {
-    final private String SEARCH = "searchText";
+    private static final String SEARCH = "searchText";
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -136,7 +136,7 @@ public class LocationsFragment extends Fragment implements SearchView.OnQueryTex
     }
 
     @Subscribe
-    public void LocationsDownloadDone(MicrolocationDownloadEvent event) {
+    public void locationsDownloadDone(MicrolocationDownloadEvent event) {
 
         swipeRefreshLayout.setRefreshing(false);
         if (event.isState()) {

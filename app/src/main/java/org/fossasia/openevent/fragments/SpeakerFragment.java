@@ -45,7 +45,7 @@ import timber.log.Timber;
  */
 public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextListener {
 
-    final private String SEARCH = "searchText";
+    private static final String SEARCH = "searchText";
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -174,12 +174,12 @@ public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextL
         ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo[] netInfo = cm.getAllNetworkInfo();
         for (NetworkInfo ni : netInfo) {
-            if (ni.getTypeName().equalsIgnoreCase("WIFI"))
-                if (ni.isConnected())
-                    haveConnectedWifi = true;
-            if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
-                if (ni.isConnected())
-                    haveConnectedMobile = true;
+            if (ni.getTypeName().equalsIgnoreCase("WIFI") && ni.isConnected()) {
+                haveConnectedWifi = true;
+            }
+            if (ni.getTypeName().equalsIgnoreCase("MOBILE") && ni.isConnected()) {
+                haveConnectedMobile = true;
+            }
         }
         return haveConnectedWifi || haveConnectedMobile;
     }

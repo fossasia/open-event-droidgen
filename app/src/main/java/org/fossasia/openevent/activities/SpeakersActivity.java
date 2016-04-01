@@ -36,9 +36,9 @@ import java.util.Locale;
  * Created by MananWason on 30-06-2015.
  */
 public class SpeakersActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
-    final private String SEARCH = "searchText";
+    private static final String SEARCH = "searchText";
 
-    SessionsListAdapter sessionsListAdapter;
+    private SessionsListAdapter sessionsListAdapter;
 
     private String searchText = "";
 

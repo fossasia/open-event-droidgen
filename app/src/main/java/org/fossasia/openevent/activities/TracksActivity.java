@@ -33,7 +33,7 @@ public class TracksActivity extends BaseActivity implements SearchView.OnQueryTe
 
     private static final String TAG = "TracksActivity";
 
-    final private String SEARCH = "org.fossasia.openevent.searchText";
+    private static final String SEARCH = "org.fossasia.openevent.searchText";
 
     SessionsListAdapter sessionsListAdapter;
 

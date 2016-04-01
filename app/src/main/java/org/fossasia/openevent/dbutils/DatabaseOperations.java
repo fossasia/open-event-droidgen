@@ -809,7 +809,9 @@ public class DatabaseOperations {
         } catch (Exception e) {
             Timber.e("Parsing Error Occurred at DatabaseOperations::isBookmarked.");
         } finally {
-            if (c != null) c.close();
+            if (c != null) {
+                c.close();
+            }
         }
         return number;
     }

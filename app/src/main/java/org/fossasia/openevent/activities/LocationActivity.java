@@ -29,7 +29,7 @@ import timber.log.Timber;
  * Date: 8/18/2015
  */
 public class LocationActivity extends BaseActivity implements SearchView.OnQueryTextListener {
-    final private String SEARCH = "searchText";
+    private static final String SEARCH = "searchText";
 
     SessionsListAdapter sessionsListAdapter;
 
