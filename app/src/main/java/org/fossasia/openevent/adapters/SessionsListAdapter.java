@@ -22,13 +22,15 @@ import timber.log.Timber;
  * Date: 26-06-2015
  */
 public class SessionsListAdapter extends BaseRVAdapter<Session, ViewHolder.Viewholder> {
+
+    private String trackName;
     @SuppressWarnings("all")
     Filter filter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             DbSingleton instance = DbSingleton.getInstance();
             // TODO: Use a query to do this, iterating over an entire set is pretty bad
-            List<Session> sessionList = instance.getSessionList();
+            List<Session> sessionList = instance.getSessionbyTracksname(trackName);
             final ArrayList<Session> filteredSessionList = new ArrayList<>();
             String query = constraint.toString().toLowerCase(Locale.getDefault());
             for (Session session : sessionList) {
@@ -50,9 +52,12 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, ViewHolder.Viewh
         }
     };
     private ViewHolder.SetOnClickListener listener;
-
     public SessionsListAdapter(List<Session> sessions) {
         super(sessions);
+    }
+
+    public void setTrackName(String trackName) {
+        this.trackName = trackName;
     }
 
     @Override
@@ -89,7 +94,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, ViewHolder.Viewh
         Timber.d("Refreshing session List from db");
         DbSingleton dbSingleton = DbSingleton.getInstance();
         clear();
-        animateTo(dbSingleton.getSessionList());
+        animateTo(dbSingleton.getSessionbyTracksname(trackName));
     }
 
     /**
