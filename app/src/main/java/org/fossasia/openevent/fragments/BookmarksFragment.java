@@ -19,6 +19,7 @@ import org.fossasia.openevent.activities.SessionDetailActivity;
 import org.fossasia.openevent.adapters.SessionsListAdapter;
 import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Session;
+import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.IntentStrings;
 
@@ -75,7 +76,7 @@ public class BookmarksFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_bookmarks, container, false);
         noBookmarkView = (TextView) view.findViewById(R.id.txt_no_bookmarks);
         bookmarkedTracks = (RecyclerView) view.findViewById(R.id.list_bookmarks);
-        DbSingleton dbSingleton = DbSingleton.getInstance();
+        final DbSingleton dbSingleton = DbSingleton.getInstance();
 
         try {
             bookmarkedIds = dbSingleton.getBookmarkIds();
@@ -103,8 +104,11 @@ public class BookmarksFragment extends Fragment {
             public void onItemClick(int position, View view) {
                 Session model = (Session) sessionsListAdapter.getItem(position);
                 String sessionName = model.getTitle();
+                Track track = dbSingleton.getTrackbyId(model.getTrack());
+                String trackName = track.getName();
                 Intent intent = new Intent(getContext(), SessionDetailActivity.class);
                 intent.putExtra(IntentStrings.SESSION, sessionName);
+                intent.putExtra(IntentStrings.TRACK, trackName);
                 startActivity(intent);
             }
         });

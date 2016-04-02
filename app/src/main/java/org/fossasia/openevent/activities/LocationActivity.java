@@ -15,6 +15,7 @@ import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.SessionsListAdapter;
 import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.data.Session;
+import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.IntentStrings;
 
@@ -49,7 +50,7 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_locations);
-        DbSingleton dbSingleton = DbSingleton.getInstance();
+        final DbSingleton dbSingleton = DbSingleton.getInstance();
         location = getIntent().getStringExtra(IntentStrings.MICROLOCATIONS);
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_locations);
         setSupportActionBar(toolbar);
@@ -71,8 +72,11 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
 
                 Session model = (Session) sessionsListAdapter.getItem(position);
                 String sessionName = model.getTitle();
+                Track track = dbSingleton.getTrackbyId(model.getTrack());
+                String trackName = track.getName();
                 Intent intent = new Intent(getApplicationContext(), SessionDetailActivity.class);
                 intent.putExtra(IntentStrings.SESSION, sessionName);
+                intent.putExtra(IntentStrings.TRACK, trackName);
                 startActivity(intent);
             }
         });
