@@ -23,6 +23,7 @@ import org.fossasia.openevent.adapters.SessionsListAdapter;
 import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
+import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.CircleTransform;
 import org.fossasia.openevent.utils.IntentStrings;
@@ -58,7 +59,7 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_speakers);
-        DbSingleton dbSingleton = DbSingleton.getInstance();
+        final DbSingleton dbSingleton = DbSingleton.getInstance();
         speaker = getIntent().getStringExtra(Speaker.SPEAKER);
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_speakers);
         setSupportActionBar(toolbar);
@@ -134,8 +135,11 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
 
                 Session model = (Session) sessionsListAdapter.getItem(position);
                 String sessionName = model.getTitle();
+                Track track = dbSingleton.getTrackbyId(model.getTrack());
+                String trackName = track.getName();
                 Intent intent = new Intent(getApplicationContext(), SessionDetailActivity.class);
                 intent.putExtra(IntentStrings.SESSION, sessionName);
+                intent.putExtra(IntentStrings.TRACK, trackName);
                 startActivity(intent);
             }
         });
