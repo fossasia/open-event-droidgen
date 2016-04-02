@@ -12,9 +12,10 @@ import org.fossasia.openevent.utils.CommonTaskLoop;
 
 import java.util.ArrayList;
 
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 /**
  * User: MananWason
@@ -24,32 +25,34 @@ public class SessionListResponseProcessor implements Callback<SessionResponseLis
     private static final String TAG = "Session";
 
     @Override
-    public void success(final SessionResponseList sessionResponseList, Response response) {
-        CommonTaskLoop.getInstance().post(new Runnable() {
+    public void onResponse(Call<SessionResponseList> call, final Response<SessionResponseList> response) {
+        if (response.isSuccessful()) {
+            CommonTaskLoop.getInstance().post(new Runnable() {
 
-            @Override
-            public void run() {
-                ArrayList<String> queries = new ArrayList<String>();
-                for (Session session : sessionResponseList.sessions) {
-                    String query = session.generateSql();
-                    queries.add(query);
-                    Log.d(TAG, query);
+                @Override
+                public void run() {
+                    ArrayList<String> queries = new ArrayList<String>();
+                    for (Session session : response.body().sessions) {
+                        String query = session.generateSql();
+                        queries.add(query);
+                        Log.d(TAG, query);
+                    }
+
+                    DbSingleton dbSingleton = DbSingleton.getInstance();
+                    dbSingleton.clearDatabase(DbContract.Sessions.TABLE_NAME);
+                    dbSingleton.insertQueries(queries);
+                    OpenEventApp.postEventOnUIThread(new SessionDownloadEvent(true));
                 }
 
-                DbSingleton dbSingleton = DbSingleton.getInstance();
-                dbSingleton.clearDatabase(DbContract.Sessions.TABLE_NAME);
-                dbSingleton.insertQueries(queries);
-                OpenEventApp.postEventOnUIThread(new SessionDownloadEvent(true));
-            }
 
-
-        });
+            });
+        } else {
+            OpenEventApp.getEventBus().post(new SessionDownloadEvent(false));
+        }
     }
 
-
     @Override
-    public void failure(RetrofitError error) {
-        // Do something with failure, raise an event etc.
+    public void onFailure(Call<SessionResponseList> call, Throwable t) {
         OpenEventApp.getEventBus().post(new SessionDownloadEvent(false));
     }
 }

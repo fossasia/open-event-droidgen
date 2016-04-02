@@ -4,7 +4,13 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 
-import org.fossasia.openevent.data.*;
+import org.fossasia.openevent.data.Event;
+import org.fossasia.openevent.data.Microlocation;
+import org.fossasia.openevent.data.Session;
+import org.fossasia.openevent.data.Speaker;
+import org.fossasia.openevent.data.Sponsor;
+import org.fossasia.openevent.data.Track;
+import org.fossasia.openevent.data.Version;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -405,6 +411,32 @@ public class DatabaseOperations {
 
     public Track getTracksbyTracksname(String trackName, SQLiteDatabase mDb) {
         String tracksColumnSelection = DbContract.Tracks.NAME + EQUAL + DatabaseUtils.sqlEscapeString(trackName);
+
+        Cursor tracksCursor = mDb.query(
+                DbContract.Tracks.TABLE_NAME,
+                DbContract.Tracks.FULL_PROJECTION,
+                tracksColumnSelection,
+                null,
+                null,
+                null,
+                null
+        );
+
+        tracksCursor.moveToFirst();
+
+        Track selected = new Track(
+                tracksCursor.getInt(tracksCursor.getColumnIndex(DbContract.Tracks.ID)),
+                tracksCursor.getString(tracksCursor.getColumnIndex(DbContract.Tracks.NAME)),
+                tracksCursor.getString(tracksCursor.getColumnIndex(DbContract.Tracks.DESCRIPTION)),
+                tracksCursor.getString(tracksCursor.getColumnIndex(DbContract.Tracks.IMAGE))
+        );
+        tracksCursor.close();
+        return selected;
+
+    }
+
+    public Track getTracksbyTracksId(int id, SQLiteDatabase mDb) {
+        String tracksColumnSelection = DbContract.Tracks.ID + EQUAL + DatabaseUtils.sqlEscapeString(String.valueOf(id));
 
         Cursor tracksCursor = mDb.query(
                 DbContract.Tracks.TABLE_NAME,

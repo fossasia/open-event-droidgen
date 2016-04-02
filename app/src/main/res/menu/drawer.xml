@@ -1,5 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group android:checkableBehavior="single">
+    <group android:checkableBehavior="single"
+        android:id="@+id/menu_top">
         <item
             android:id="@+id/nav_tracks"
             android:checked="true"
@@ -28,15 +29,16 @@
             android:title="@string/menu_locations" />
     </group>
 
-    <item android:title="">
-        <menu>
-            <item
-                android:id="@+id/nav_settings"
-                android:title="@string/menu_settings" />
-            <item
-                android:id="@+id/nav_about"
-                android:title="@string/menu_about" />
-        </menu>
-    </item>
+    <group android:checkableBehavior="none"
+        android:id="@+id/menu_bottom">
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_settings_grey600_24dp"
+            android:title="@string/menu_settings" />
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/ic_info_grey600_24dp"
+            android:title="@string/menu_about" />
+    </group>
 
 </menu>

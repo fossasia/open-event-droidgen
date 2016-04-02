@@ -13,9 +13,10 @@ import org.fossasia.openevent.utils.CommonTaskLoop;
 
 import java.util.ArrayList;
 
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 /**
  * User: mohit
@@ -25,37 +26,38 @@ public class SpeakerListResponseProcessor implements Callback<SpeakerResponseLis
     private final String TAG = "Speaker";
 
     @Override
-    public void success(final SpeakerResponseList speakerResponseList, Response response) {
-        CommonTaskLoop.getInstance().post(new Runnable() {
-            @Override
-            public void run() {
-                ArrayList<String> queries = new ArrayList<String>();
+    public void onResponse(Call<SpeakerResponseList> call, final Response<SpeakerResponseList> response) {
+        if (response.isSuccessful()) {
+            CommonTaskLoop.getInstance().post(new Runnable() {
+                @Override
+                public void run() {
+                    ArrayList<String> queries = new ArrayList<String>();
 
-                for (Speaker speaker : speakerResponseList.speakers) {
-                    for (int i = 0; i < speaker.getSession().length; i++) {
-                        SessionSpeakersMapping sessionSpeakersMapping = new SessionSpeakersMapping(speaker.getSession()[i], speaker.getId());
-                        String query_ss = sessionSpeakersMapping.generateSql();
-                        queries.add(query_ss);
+                    for (Speaker speaker : response.body().speakers) {
+                        for (int i = 0; i < speaker.getSession().length; i++) {
+                            SessionSpeakersMapping sessionSpeakersMapping = new SessionSpeakersMapping(speaker.getSession()[i], speaker.getId());
+                            String query_ss = sessionSpeakersMapping.generateSql();
+                            queries.add(query_ss);
+                        }
+                        String query = speaker.generateSql();
+                        queries.add(query);
+                        Log.d(TAG, query);
                     }
-                    String query = speaker.generateSql();
-                    queries.add(query);
-                    Log.d(TAG, query);
+
+                    DbSingleton dbSingleton = DbSingleton.getInstance();
+                    dbSingleton.clearDatabase(DbContract.Speakers.TABLE_NAME);
+                    dbSingleton.insertQueries(queries);
+
+                    OpenEventApp.postEventOnUIThread(new SpeakerDownloadEvent(true));
                 }
-
-                DbSingleton dbSingleton = DbSingleton.getInstance();
-                dbSingleton.clearDatabase(DbContract.Speakers.TABLE_NAME);
-                dbSingleton.insertQueries(queries);
-
-                OpenEventApp.postEventOnUIThread(new SpeakerDownloadEvent(true));
-            }
-        });
-
-
+            });
+        } else {
+            OpenEventApp.getEventBus().post(new SpeakerDownloadEvent(false));
+        }
     }
 
     @Override
-    public void failure(RetrofitError error) {
-        // Do something with failure, raise an event etc.
+    public void onFailure(Call<SpeakerResponseList> call, Throwable t) {
         OpenEventApp.getEventBus().post(new SpeakerDownloadEvent(false));
     }
 }
