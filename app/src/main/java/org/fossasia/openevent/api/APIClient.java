@@ -1,14 +1,14 @@
 package org.fossasia.openevent.api;
 
-import com.google.gson.Gson;
-import com.squareup.okhttp.OkHttpClient;
-
 import org.fossasia.openevent.api.network.OpenEventAPI;
 
 import java.util.concurrent.TimeUnit;
 
-import retrofit.RestAdapter;
-import retrofit.converter.GsonConverter;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 
 /**
  * User: mohit
@@ -24,21 +24,23 @@ public final class APIClient {
 
     static final int READ_TIMEOUT_MILLIS = 50 * 1000; // 20s
 
-    static final Gson gson = new Gson();
-
     private final OpenEventAPI openEventAPI;
 
     public APIClient() {
-        OkHttpClient okHttpClient = new OkHttpClient();
-        okHttpClient.setConnectTimeout(CONNECT_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS);
-        okHttpClient.setReadTimeout(READ_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS);
-
-        RestAdapter adapter = new RestAdapter.Builder()
-                .setConverter(new GsonConverter(gson))
-                .setEndpoint(Urls.BASE_GET_URL_ALT)
-                .setLogLevel(RestAdapter.LogLevel.BASIC)
+        OkHttpClient okHttpClient = new OkHttpClient().newBuilder()
+                .connectTimeout(CONNECT_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)
+                .readTimeout(READ_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)
+                .addInterceptor(new HttpLoggingInterceptor().
+                        setLevel(HttpLoggingInterceptor.Level.BASIC))
                 .build();
-        openEventAPI = adapter.create(OpenEventAPI.class);
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Urls.BASE_GET_URL_ALT)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(okHttpClient)
+                .build();
+
+        openEventAPI = retrofit.create(OpenEventAPI.class);
     }
 
     public OpenEventAPI getOpenEventAPI() {
