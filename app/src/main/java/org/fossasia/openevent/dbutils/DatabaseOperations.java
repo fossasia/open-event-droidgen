@@ -435,6 +435,32 @@ public class DatabaseOperations {
 
     }
 
+    public Track getTracksbyTracksId(int id, SQLiteDatabase mDb) {
+        String tracksColumnSelection = DbContract.Tracks.ID + EQUAL + DatabaseUtils.sqlEscapeString(String.valueOf(id));
+
+        Cursor tracksCursor = mDb.query(
+                DbContract.Tracks.TABLE_NAME,
+                DbContract.Tracks.FULL_PROJECTION,
+                tracksColumnSelection,
+                null,
+                null,
+                null,
+                null
+        );
+
+        tracksCursor.moveToFirst();
+
+        Track selected = new Track(
+                tracksCursor.getInt(tracksCursor.getColumnIndex(DbContract.Tracks.ID)),
+                tracksCursor.getString(tracksCursor.getColumnIndex(DbContract.Tracks.NAME)),
+                tracksCursor.getString(tracksCursor.getColumnIndex(DbContract.Tracks.DESCRIPTION)),
+                tracksCursor.getString(tracksCursor.getColumnIndex(DbContract.Tracks.IMAGE))
+        );
+        tracksCursor.close();
+        return selected;
+
+    }
+
     public void insertQueries(ArrayList<String> queries, DbHelper mDbHelper) {
 
         try {
