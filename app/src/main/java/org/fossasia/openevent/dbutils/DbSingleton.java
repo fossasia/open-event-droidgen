@@ -150,6 +150,10 @@ public class DbSingleton {
         return databaseOperations.getTracksbyTracksname(trackName, mDb);
     }
 
+    public Track getTrackbyId(int id) {
+        return databaseOperations.getTracksbyTracksId(id, mDb);
+    }
+
     public Speaker getSpeakerbySpeakersname(String speakerName) {
         return databaseOperations.getSpeakerbySpeakersname(speakerName, mDb);
     }
