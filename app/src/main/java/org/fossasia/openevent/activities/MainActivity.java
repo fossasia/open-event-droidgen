@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.CoordinatorLayout;
@@ -55,12 +53,11 @@ import org.fossasia.openevent.widget.DialogFactory;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import retrofit.RetrofitError;
 import timber.log.Timber;
 
 public class MainActivity extends BaseActivity {
 
-    
+
     private static final String COUNTER_TAG = "Donecounter";
 
     private final static String STATE_FRAGMENT = "stateFragment";
@@ -444,41 +441,41 @@ public class MainActivity extends BaseActivity {
         Timber.d("Download has started");
     }
 
-    @Subscribe
-    public void ErrorHandlerEvent(RetrofitError cause) {
-        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netinfo = connMgr.getActiveNetworkInfo();
-        if (!(netinfo != null && netinfo.isConnected())) {
-            OpenEventApp.postEventOnUIThread(new ShowNetworkDialogEvent());
-        } else {
-            switch (cause.getKind()) {
-                case CONVERSION: {
-                    errorType = "Conversion Error";
-                    errorDesc = String.valueOf(cause.getCause());
-                    break;
-                }
-                case HTTP: {
-                    errorType = "HTTP Error";
-                    errorDesc = String.valueOf(cause.getResponse().getStatus());
-                    break;
-                }
-                case UNEXPECTED: {
-                    errorType = "Unexpected Error";
-                    errorDesc = String.valueOf(cause.getCause());
-                    break;
-                }
-                case NETWORK: {
-                    errorType = "Network Error";
-                    errorDesc = String.valueOf(cause.getCause());
-                    break;
-                }
-                default: {
-                    errorType = "Other Error";
-                    errorDesc = String.valueOf(cause.getCause());
-                }
-            }
-            Timber.tag(errorType).e(errorDesc);
-            showErrorDialog(errorType, errorDesc);
-        }
-    }
+//    @Subscribe
+//    public void ErrorHandlerEvent(RetrofitError cause) {
+//        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+//        NetworkInfo netinfo = connMgr.getActiveNetworkInfo();
+//        if (!(netinfo != null && netinfo.isConnected())) {
+//            OpenEventApp.postEventOnUIThread(new ShowNetworkDialogEvent());
+//        } else {
+//            switch (cause.getKind()) {
+//                case CONVERSION: {
+//                    errorType = "Conversion Error";
+//                    errorDesc = String.valueOf(cause.getCause());
+//                    break;
+//                }
+//                case HTTP: {
+//                    errorType = "HTTP Error";
+//                    errorDesc = String.valueOf(cause.getResponse().getStatus());
+//                    break;
+//                }
+//                case UNEXPECTED: {
+//                    errorType = "Unexpected Error";
+//                    errorDesc = String.valueOf(cause.getCause());
+//                    break;
+//                }
+//                case NETWORK: {
+//                    errorType = "Network Error";
+//                    errorDesc = String.valueOf(cause.getCause());
+//                    break;
+//                }
+//                default: {
+//                    errorType = "Other Error";
+//                    errorDesc = String.valueOf(cause.getCause());
+//                }
+//            }
+//            Timber.tag(errorType).e(errorDesc);
+//            showErrorDialog(errorType, errorDesc);
+//        }
+//    }
 }
