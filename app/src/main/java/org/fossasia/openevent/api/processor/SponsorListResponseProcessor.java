@@ -12,9 +12,9 @@ import org.fossasia.openevent.utils.CommonTaskLoop;
 
 import java.util.ArrayList;
 
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by MananWason on 26-05-2015.
@@ -23,30 +23,34 @@ public class SponsorListResponseProcessor implements Callback<SponsorResponseLis
     private static final String TAG = "Sponsors";
 
     @Override
-    public void success(final SponsorResponseList sponsorResponseList, Response response) {
-        CommonTaskLoop.getInstance().post(new Runnable() {
-            @Override
-            public void run() {
-                ArrayList<String> queries = new ArrayList<String>();
+    public void onResponse(Call<SponsorResponseList> call, final Response<SponsorResponseList> response) {
+        if (response.isSuccessful()) {
+            CommonTaskLoop.getInstance().post(new Runnable() {
+                @Override
+                public void run() {
+                    ArrayList<String> queries = new ArrayList<>();
 
-                for (Sponsor sponsor : sponsorResponseList.sponsors) {
-                    String query = sponsor.generateSql();
-                    queries.add(query);
-                    Log.d(TAG, query);
+                    for (Sponsor sponsor : response.body().sponsors) {
+                        String query = sponsor.generateSql();
+                        queries.add(query);
+                        Log.d(TAG, query);
+                    }
+
+
+                    DbSingleton dbSingleton = DbSingleton.getInstance();
+                    dbSingleton.clearDatabase(DbContract.Sponsors.TABLE_NAME);
+                    dbSingleton.insertQueries(queries);
+                    OpenEventApp.postEventOnUIThread(new SponsorDownloadEvent(true));
                 }
-
-
-                DbSingleton dbSingleton = DbSingleton.getInstance();
-                dbSingleton.clearDatabase(DbContract.Sponsors.TABLE_NAME);
-                dbSingleton.insertQueries(queries);
-                OpenEventApp.postEventOnUIThread(new SponsorDownloadEvent(true));
-            }
-        });
+            });
+        } else {
+            OpenEventApp.getEventBus().post(new SponsorDownloadEvent(false));
+        }
 
     }
 
     @Override
-    public void failure(RetrofitError error) {
+    public void onFailure(Call<SponsorResponseList> call, Throwable t) {
         OpenEventApp.getEventBus().post(new SponsorDownloadEvent(false));
     }
 }

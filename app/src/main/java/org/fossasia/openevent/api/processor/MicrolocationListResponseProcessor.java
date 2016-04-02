@@ -12,9 +12,9 @@ import org.fossasia.openevent.utils.CommonTaskLoop;
 
 import java.util.ArrayList;
 
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by MananWason on 27-05-2015.
@@ -22,33 +22,36 @@ import retrofit.client.Response;
 public class MicrolocationListResponseProcessor implements Callback<MicrolocationResponseList> {
     private static final String TAG = "Microprocessor";
 
-    ArrayList<String> queries = new ArrayList<String>();
+    ArrayList<String> queries = new ArrayList<>();
 
     @Override
-    public void success(final MicrolocationResponseList microlocationResponseList, Response response) {
-        CommonTaskLoop.getInstance().post(new Runnable() {
-            @Override
-            public void run() {
-                for (Microlocation microlocation : microlocationResponseList.microlocations)
+    public void onResponse(Call<MicrolocationResponseList> call, final Response<MicrolocationResponseList> response) {
+        if (response.isSuccessful()) {
+            CommonTaskLoop.getInstance().post(new Runnable() {
+                @Override
+                public void run() {
+                    for (Microlocation microlocation : response.body().microlocations)
 
-                {
-                    String query = microlocation.generateSql();
-                    queries.add(query);
-                    Log.d(TAG, query);
+                    {
+                        String query = microlocation.generateSql();
+                        queries.add(query);
+                        Log.d(TAG, query);
+                    }
+                    DbSingleton dbSingleton = DbSingleton.getInstance();
+
+                    dbSingleton.clearDatabase(DbContract.Microlocation.TABLE_NAME);
+                    dbSingleton.insertQueries(queries);
+
+                    OpenEventApp.postEventOnUIThread(new MicrolocationDownloadEvent(true));
                 }
-                DbSingleton dbSingleton = DbSingleton.getInstance();
-
-                dbSingleton.clearDatabase(DbContract.Microlocation.TABLE_NAME);
-                dbSingleton.insertQueries(queries);
-
-                OpenEventApp.postEventOnUIThread(new MicrolocationDownloadEvent(true));
-            }
-        });
-
+            });
+        } else {
+            OpenEventApp.getEventBus().post(new MicrolocationDownloadEvent(false));
+        }
     }
 
     @Override
-    public void failure(RetrofitError error) {
+    public void onFailure(Call<MicrolocationResponseList> call, Throwable t) {
         OpenEventApp.getEventBus().post(new MicrolocationDownloadEvent(false));
     }
 }

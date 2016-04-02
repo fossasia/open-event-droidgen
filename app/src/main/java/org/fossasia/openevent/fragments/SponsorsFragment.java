@@ -12,9 +12,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.Patterns;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
@@ -26,6 +29,8 @@ import org.fossasia.openevent.dbutils.DataDownloadManager;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.SponsorDownloadEvent;
 import org.fossasia.openevent.utils.RecyclerItemClickListener;
+
+import timber.log.Timber;
 
 /**
  * Created by MananWason on 05-06-2015.
@@ -87,13 +92,13 @@ public class SponsorsFragment extends Fragment {
         swipeRefreshLayout.setRefreshing(false);
         if (event.isState()) {
             sponsorsListAdapter.refresh();
-            Log.d("countersp", "Refresh done");
+            Timber.d("Refresh done");
 
         } else {
             if (getActivity() != null) {
                 Snackbar.make(getView(), getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).show();
             }
-            Log.d("countersp", "Refresh not done");
+            Timber.d("Refresh not done");
 
         }
     }

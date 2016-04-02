@@ -7,7 +7,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,12 +15,15 @@ import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.SessionsListAdapter;
 import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.data.Session;
+import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.IntentStrings;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import timber.log.Timber;
 
 /**
  * User: MananWason
@@ -48,7 +50,7 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_locations);
-        DbSingleton dbSingleton = DbSingleton.getInstance();
+        final DbSingleton dbSingleton = DbSingleton.getInstance();
         location = getIntent().getStringExtra(IntentStrings.MICROLOCATIONS);
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_locations);
         setSupportActionBar(toolbar);
@@ -70,8 +72,11 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
 
                 Session model = (Session) sessionsListAdapter.getItem(position);
                 String sessionName = model.getTitle();
+                Track track = dbSingleton.getTrackbyId(model.getTrack());
+                String trackName = track.getName();
                 Intent intent = new Intent(getApplicationContext(), SessionDetailActivity.class);
                 intent.putExtra(IntentStrings.SESSION, sessionName);
+                intent.putExtra(IntentStrings.TRACK, trackName);
                 startActivity(intent);
             }
         });
@@ -124,7 +129,7 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
 
         mSessions = dbSingleton.getSessionbyLocationName(location);
         final List<Session> filteredModelList = filter(mSessions, query);
-        Log.d("xyz", mSessions.size() + " " + filteredModelList.size());
+        Timber.tag("xyz").d(mSessions.size() + " " + filteredModelList.size());
 
         sessionsListAdapter.animateTo(filteredModelList);
         sessionRecyclerView.scrollToPosition(0);
