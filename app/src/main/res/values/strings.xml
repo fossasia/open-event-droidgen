@@ -81,5 +81,6 @@
     <string name="dialog_error_title">Error</string>
     <string name="website">website</string>
     <string name="notification_key">notification</string>
->>>>>>> Fixed #300 not showing the preference's value of NotificationMode + Fixed #295
+    <string name="location_name_placeholder">Location</string>
+    <string name="location_floor_placeholder">Floor</string>
 </resources>

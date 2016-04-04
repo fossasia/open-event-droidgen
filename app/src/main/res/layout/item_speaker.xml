@@ -3,7 +3,8 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:clickable="true"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="?android:attr/selectableItemBackground">
 
     <LinearLayout
         android:layout_width="match_parent"

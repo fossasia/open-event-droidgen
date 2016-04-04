@@ -32,4 +32,8 @@
     <dimen name="sponsor_padding">10dp</dimen>
     <dimen name="speaker_margin">20dp</dimen>
     <dimen name="social_image_icon">40dp</dimen>
+    <dimen name="speaker_bio_padding">15dp</dimen>
+    <dimen name="location_item_padding_horizontal">16dp</dimen>
+    <dimen name="location_item_padding_vertical">8dp</dimen>
+    <dimen name="list_item_divider_height">1dp</dimen>
 </resources>

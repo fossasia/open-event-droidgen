@@ -1,42 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/ll_locations"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="@dimen/card_margin_vertical"
-    android:layout_marginTop="@dimen/card_margin_vertical"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="?android:attr/selectableItemBackground">
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/card_locations"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/card_margin"
-        android:layout_marginRight="@dimen/card_margin">
+        android:paddingLeft="@dimen/location_item_padding_horizontal"
+        android:paddingRight="@dimen/location_item_padding_horizontal"
+        android:paddingTop="@dimen/location_item_padding_vertical"
+        android:paddingBottom="@dimen/location_item_padding_vertical">
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/ll"
-            style="@style/Widget.CardContent"
+        <TextView
+            android:id="@+id/location_name"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:text="@string/location_name_placeholder"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
-            <TextView
-                android:id="@+id/location_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Friends"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                android:textStyle="bold" />
+        <TextView
+            android:id="@+id/location_floor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/location_floor_placeholder" />
+    </LinearLayout>
 
-            <TextView
-                android:id="@+id/location_floor"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="abc" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/list_item_divider_height"
+        android:background="@android:color/darker_gray"/>
 
-        </LinearLayout>
-    </android.support.v7.widget.CardView>
 </LinearLayout>
+
