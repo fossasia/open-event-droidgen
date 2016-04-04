@@ -33,7 +33,12 @@
         <activity
             android:name=".activities.SettingsActivity"
             android:label="@string/action_settings"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.NOTIFICATION_PREFERENCES" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activities.TracksActivity"
             android:label="@string/title_section_tracks"
