@@ -104,7 +104,7 @@ public class SessionDetailActivity extends BaseActivity {
         summary.setText(session.getSummary());
         descrip.setText(session.getDescription());
 
-        adapter = new SpeakersListAdapter(speakers);
+        adapter = new SpeakersListAdapter(speakers, this);
 
         speakersRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         speakersRecyclerView.setAdapter(adapter);

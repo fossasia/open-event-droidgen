@@ -171,7 +171,7 @@ public class SpeakerInsertTest extends AndroidTestCase {
         instance.clearDatabase(DbContract.Speakers.TABLE_NAME);
         instance.insertQuery(query);
 
-        List<Speaker> speakerList = instance.getSpeakerList();
+        List<Speaker> speakerList = instance.getSpeakerList(DbContract.Speakers.ID);
         assertTrue(speakerList != null);
         assertTrue(speakerList.size() == 1);
         Speaker speaker2 = speakerList.get(0);

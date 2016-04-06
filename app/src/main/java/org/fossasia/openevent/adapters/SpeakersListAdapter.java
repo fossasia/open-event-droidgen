@@ -1,5 +1,6 @@
 package org.fossasia.openevent.adapters;
 
+import android.app.Activity;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -23,18 +24,22 @@ import java.util.Locale;
 
 import timber.log.Timber;
 
+import static org.fossasia.openevent.utils.SortOrder.sortOrderSpeaker;
+
 /**
  * User: MananWason
  * Date: 11-06-2015
  */
 public class SpeakersListAdapter extends BaseRVAdapter<Speaker, ViewHolder.Viewholder> {
 
+    private Activity activity;
+
     @SuppressWarnings("all")
     Filter filter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             DbSingleton instance = DbSingleton.getInstance();
-            List<Speaker> trackList = instance.getSpeakerList();
+            List<Speaker> trackList = instance.getSpeakerList(sortOrderSpeaker(activity));
             final ArrayList<Speaker> filteredSpeakerList = new ArrayList<>();
             String query = constraint.toString().toLowerCase(Locale.getDefault());
             for (Speaker speaker : trackList) {
@@ -57,8 +62,9 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, ViewHolder.Viewh
     };
     private ViewHolder.SetOnClickListener listener;
 
-    public SpeakersListAdapter(List<Speaker> speakers) {
+    public SpeakersListAdapter(List<Speaker> speakers, Activity activity) {
         super(speakers);
+        this.activity = activity;
     }
 
     @Override
@@ -100,7 +106,7 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, ViewHolder.Viewh
     public void refresh() {
         DbSingleton dbSingleton = DbSingleton.getInstance();
         clear();
-        animateTo(dbSingleton.getSpeakerList());
+        animateTo(dbSingleton.getSpeakerList(sortOrderSpeaker(activity)));
     }
 
     /**

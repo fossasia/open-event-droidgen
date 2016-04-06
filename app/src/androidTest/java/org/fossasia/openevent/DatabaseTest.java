@@ -98,8 +98,8 @@ public class DatabaseTest extends AndroidTestCase {
     public void testSpeakersList() throws Exception {
         DbSingleton dbSingleton = DbSingleton.getInstance();
 
-        assertNotNull(dbSingleton.getSpeakerList());
-        assertTrue(dbSingleton.getSpeakerList().size() > 0);
+        assertNotNull(dbSingleton.getSpeakerList(DbContract.Speakers.ID));
+        assertTrue(dbSingleton.getSpeakerList(DbContract.Speakers.ID).size() > 0);
     }
 
     public void testSessionsList() throws Exception {
