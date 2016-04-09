@@ -97,7 +97,7 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, ViewHolder.Viewh
         Picasso.with(holder.getImgView1().getContext()).load(uri)
                 .placeholder(R.drawable.ic_account_circle_grey_24dp).transform(new CircleTransform()).into(holder.getImgView1());
 
-        holder.getTxtView2().setText(current.getPosition());
+        holder.getTxtView2().setText(current.getOrganisation());
         holder.getTxtView1().setText(TextUtils.isEmpty(current.getName()) ? "" : current.getName());
 
         holder.setItemClickListener(listener);
