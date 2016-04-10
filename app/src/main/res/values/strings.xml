@@ -53,7 +53,9 @@
     <string name="net_unavailable">Network not available</string>
     <string name="turn_on">Turn on WiFi or Mobile data in Settings</string>
     <string name="cancel">Cancel</string>
+    <string name="no_sessions">No Sessions scheduled</string>
     <string name="error">Error</string>
+    <string name="no_locations">Locations yet to be decided</string>
     <string name="ok">OK</string>
 
     <string name="empty_list">No Bookmarks Available</string>

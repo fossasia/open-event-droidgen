@@ -16,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
 
@@ -47,15 +48,27 @@ public class LocationsFragment extends Fragment implements SearchView.OnQueryTex
 
     private SearchView searchView;
 
+    private TextView noLocations;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.list_locations, container, false);
         OpenEventApp.getEventBus().register(this);
         locationsRecyclerView = (RecyclerView) view.findViewById(R.id.list_locations);
+        noLocations = (TextView) view.findViewById(R.id.text_no_locations);
         final DbSingleton dbSingleton = DbSingleton.getInstance();
         locationsListAdapter = new LocationsListAdapter(dbSingleton.getMicrolocationsList());
         locationsRecyclerView.setAdapter(locationsListAdapter);
+
+        if(!dbSingleton.getMicrolocationsList().isEmpty()){
+            locationsRecyclerView.setVisibility(View.GONE);
+            noLocations.setVisibility(View.VISIBLE);
+        }
+        else{
+            locationsRecyclerView.setVisibility(View.VISIBLE);
+            noLocations.setVisibility(View.GONE);
+        }
         locationsListAdapter.setOnClickListener(new LocationsListAdapter.SetOnClickListener() {
             @Override
             public void onItemClick(int position, View view) {
