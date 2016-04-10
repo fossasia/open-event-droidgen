@@ -32,6 +32,9 @@ Before you begin, you should already have the Android Studio SDK downloaded and 
 
 7. If the app was built succesfully, you can test it by running it on either a real device or an emulated one by going to *Run>Run 'app'* or presing the Run icon in the toolbar.
 
+###Video Walkthrough
+[![FOSSASIA](https://img.youtube.com/vi/n5G4yw3t--U/0.jpg)](https://www.youtube.com/watch?v=n5G4yw3t--U)
+
 ### Screenshots  
 ![alt-tag](screenshots/ss2.PNG)
 
