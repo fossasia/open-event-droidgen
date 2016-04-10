@@ -62,7 +62,6 @@
         android:id="@+id/infoLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/color_primary"
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
@@ -135,13 +134,23 @@
             android:id="@+id/view"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize" />
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView_speakers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/view"
-            android:background="#fff"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+        <TextView
+            android:id="@+id/text_no_sessions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:gravity="center_horizontal|center_vertical"
+            android:layout_below="@id/recyclerView_speakers"
+            android:text="@string/no_sessions"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
     </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>

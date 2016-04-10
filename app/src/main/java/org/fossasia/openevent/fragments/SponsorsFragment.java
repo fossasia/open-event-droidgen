@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
@@ -42,6 +43,8 @@ public class SponsorsFragment extends Fragment {
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
+    private TextView noSponsors;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -51,7 +54,7 @@ public class SponsorsFragment extends Fragment {
         bus.register(this);
         sponsorsRecyclerView = (RecyclerView) view.findViewById(R.id.list_sponsors);
         final DbSingleton dbSingleton = DbSingleton.getInstance();
-
+        noSponsors = (TextView) view.findViewById(R.id.text_no_sponsors);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.sponsor_swipe_refresh);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -63,6 +66,14 @@ public class SponsorsFragment extends Fragment {
                 }
             }
         });
+        if(dbSingleton.getSponsorList().isEmpty()){
+            noSponsors.setVisibility(View.VISIBLE);
+            sponsorsRecyclerView.setVisibility(View.GONE);
+        }
+        else {
+            noSponsors.setVisibility(View.GONE);
+            sponsorsRecyclerView.setVisibility(View.VISIBLE);
+        }
         sponsorsListAdapter = new SponsorsListAdapter(dbSingleton.getSponsorList());
         sponsorsRecyclerView.setAdapter(sponsorsListAdapter);
         sponsorsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
