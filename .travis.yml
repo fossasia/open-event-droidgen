@@ -33,7 +33,7 @@ android:
 #   - android-wait-for-emulator
 #   - adb shell input keyevent 82 &
 script:
-  - ./gradlew build jacocoTestReport assembleAndroidTest
+  - ./gradlew build test
   - chmod a+x codestyle.sh
   - "./codestyle.sh"
 notifications:
