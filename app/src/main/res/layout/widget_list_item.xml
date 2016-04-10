@@ -10,7 +10,7 @@
         android:layout_width="220dp"
         android:layout_height="match_parent"
         android:layout_margin="8dp"
-        android:gravity="left|center_vertical"
+        android:gravity="left|center_vertical|start"
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
         android:textColor="@color/primary_text" />
 
@@ -19,7 +19,7 @@
         android:id="@+id/startTime_widget_bookmarks"
         android:layout_width="wrap_content"
         android:layout_height="20dp"
-        android:layout_gravity="top|right"
+        android:layout_gravity="top|right|end"
         android:layout_margin="8dp"
         android:textColor="@color/secondary_text" />
 
@@ -27,7 +27,7 @@
         android:id="@+id/endTime_widget_bookmarks"
         android:layout_width="wrap_content"
         android:layout_height="20dp"
-        android:layout_gravity="bottom|right"
+        android:layout_gravity="bottom|right|end"
         android:layout_margin="8dp"
         android:textColor="@color/secondary_text" />
 </FrameLayout>
