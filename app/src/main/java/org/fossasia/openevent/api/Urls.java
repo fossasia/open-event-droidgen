@@ -15,6 +15,8 @@ public abstract class Urls {
 
     public static final String WEB_APP_URL_BASIC = "http://fossasia.github.io/open-event-webapp/#/";
 
+    public static final String EVENTS = "event";
+
     public static final String SPEAKERS = "speakers";
 
     public static final String TRACKS = "tracks";
@@ -22,6 +24,8 @@ public abstract class Urls {
     public static final String SESSIONS = "sessions";
 
     public static final String BOOKMARKS = "bookmarks";
+
+    public static final String MICROLOCATIONS = "microlocations";
 
     public static final String MAP = "map";
 

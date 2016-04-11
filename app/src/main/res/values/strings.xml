@@ -80,4 +80,12 @@
     <string name="dialog_action_ok">Ok</string>
     <string name="dialog_error_title">Error</string>
     <string name="website">website</string>
+    <string name="notification_key">notification</string>
+    <string name="menu_speaker_sort">Sort</string>
+    <string name="dialog_sort_title">Sort By</string>
+
+    <!--Sort Dialog text-->
+    <string name="dialog_sort_organisation">Organisation</string>
+    <string name="dialog_sort_country">Country</string>
+    <string name="dialog_sort_name">Speaker Name</string>
 </resources>

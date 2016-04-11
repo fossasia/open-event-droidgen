@@ -1,9 +1,11 @@
 package org.fossasia.openevent.activities;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
@@ -24,9 +26,9 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
     private static final String API_PREF_MODE = "serverurlmode";
 
     private static final String NOTIFICATION_PREF_MODE = "notification";
-
     ListPreference listPreference;
-
+    private Preference prefNotification;
+    private SharedPreferences preferences;
     private AppCompatDelegate mDelegate;
 
     @Override
@@ -34,6 +36,7 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
         getDelegate().installViewFactory();
         getDelegate().onCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
         addPreferencesFromResource(R.xml.settings);
         setContentView(R.layout.activity_settings);
         setToolbar();
@@ -41,6 +44,7 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
         listPreference = (ListPreference) preferenceScreen.findPreference(API_PREF_MODE);
         listPreference.setDefaultValue(getResources().getString(R.string.default_mode_api));
         listPreference.setOnPreferenceChangeListener(this);
+        prefNotification = findPreference(getString(R.string.notification_key));
 
     }
 
@@ -79,6 +83,15 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
     @Override
     public void onResume() {
         super.onResume();
+        prefNotification.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                prefNotification.setSummary((String) newValue);
+                return true;
+            }
+        });
+
+        prefNotification.setSummary(preferences.getString(getString(R.string.notification_key), ""));
     }
 
     @Override
