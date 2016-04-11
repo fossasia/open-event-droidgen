@@ -11,16 +11,19 @@
         android:id="@+id/card_locations"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/card_margin"
         android:layout_marginLeft="@dimen/card_margin"
-        android:layout_marginRight="@dimen/card_margin">
+        android:layout_marginRight="@dimen/card_margin"
+        android:layout_marginStart="@dimen/card_margin"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp">
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/ll"
             style="@style/Widget.CardContent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
+            android:background="?attr/selectableItemBackground"
             android:orientation="vertical">
 
             <TextView
