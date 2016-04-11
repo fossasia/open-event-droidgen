@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'jacoco-android'
-// apply from: "https://raw.githubusercontent.com/monstar-lab/gradle-android-ci-check/1.2.0/ci.gradle"
+apply plugin: 'jacoco-everywhere'
 
 def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
 def buildTime = new Date().format("yyyy-MM-dd'T'HH:mm'Z'", TimeZone.getTimeZone("UTC"))
@@ -16,6 +15,10 @@ android {
     dexOptions {
         // Skip pre-dexing when running on Travis CI or when disabled via -Dpre-dex=false.
         preDexLibraries = preDexEnabled && !isTravis
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
     }
 
     defaultConfig {
@@ -80,8 +83,11 @@ dependencies {
     fdroidCompile 'org.apache.directory.studio:org.slf4j.api:1.7.2'
     fdroidCompile 'org.slf4j:slf4j-simple:1.7.14'
 
-    // Testing
+    // Unit Test
     testCompile 'junit:junit:4.12'
+    testCompile "org.robolectric:robolectric:3.0"
+
+    //Instrumentation Test
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2'
     androidTestCompile('com.android.support.test:runner:0.4') {
         exclude group: 'com.android.support', module: 'support-annotations'

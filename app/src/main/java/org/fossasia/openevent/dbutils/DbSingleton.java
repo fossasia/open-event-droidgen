@@ -83,9 +83,9 @@ public class DbSingleton {
         return databaseOperations.getSessionById(id, mDb);
     }
 
-    public List<Speaker> getSpeakerList() {
+    public List<Speaker> getSpeakerList(String sortBy) {
         getReadOnlyDatabase();
-        return databaseOperations.getSpeakerList(mDb);
+        return databaseOperations.getSpeakerList(mDb, sortBy);
 
     }
 
