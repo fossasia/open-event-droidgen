@@ -19,6 +19,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
 
@@ -54,16 +55,24 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
     private String searchText = "";
 
     private SearchView searchView;
-
+    private TextView noTracks;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.list_tracks, container, false);
         OpenEventApp.getEventBus().register(this);
         tracksRecyclerView = (RecyclerView) view.findViewById(R.id.list_tracks);
+        noTracks = (TextView) view.findViewById(R.id.text_no_tracks);
         final DbSingleton dbSingleton = DbSingleton.getInstance();
         mTracks = dbSingleton.getTrackList();
-
+        if(mTracks.isEmpty()){
+            noTracks.setVisibility(View.VISIBLE);
+            tracksRecyclerView.setVisibility(View.GONE);
+        }
+        else {
+            noTracks.setVisibility(View.GONE);
+            tracksRecyclerView.setVisibility(View.VISIBLE);
+        }
         tracksListAdapter = new TracksListAdapter(mTracks);
         tracksRecyclerView.setAdapter(tracksListAdapter);
         tracksListAdapter.setOnClickListener(new TracksListAdapter.SetOnClickListener() {

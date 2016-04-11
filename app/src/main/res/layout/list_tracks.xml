@@ -8,6 +8,17 @@
         android:id="@+id/tracks_swipe_refresh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/text_no_tracks"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="@string/no_tracks"
+                android:textAppearance="?android:attr/textAppearanceLarge"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/list_tracks"
@@ -15,5 +26,6 @@
             android:layout_height="wrap_content"
             android:clipToPadding="false"
             android:scrollbars="vertical" />
+        </LinearLayout>
     </android.support.v4.widget.SwipeRefreshLayout>
 </RelativeLayout>

@@ -55,6 +55,8 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
 
     private boolean flagSocial = false;
 
+    private TextView noSessions;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,11 +126,20 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
 
         biography.setText(selectedSpeaker.getBio());
 
+        noSessions = (TextView) findViewById(R.id.text_no_sessions);
         sessionRecyclerView = (RecyclerView) findViewById(R.id.recyclerView_speakers);
         mSessions = dbSingleton.getSessionbySpeakersName(speaker);
         sessionsListAdapter = new SessionsListAdapter(mSessions);
         sessionRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         sessionRecyclerView.setAdapter(sessionsListAdapter);
+        if(mSessions.isEmpty()){
+            sessionRecyclerView.setVisibility(View.GONE);
+            noSessions.setVisibility(View.VISIBLE);
+        }
+        else{
+            sessionRecyclerView.setVisibility(View.VISIBLE);
+            noSessions.setVisibility(View.GONE);
+        }
         sessionsListAdapter.setOnClickListener(new SessionsListAdapter.SetOnClickListener() {
             @Override
             public void onItemClick(int position, View view) {

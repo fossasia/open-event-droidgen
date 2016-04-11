@@ -25,6 +25,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
 
@@ -71,6 +72,8 @@ public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextL
 
     private int sortType;
 
+    private TextView noSpeakers;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -78,9 +81,18 @@ public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextL
         View view = inflater.inflate(R.layout.list_speakers, container, false);
         OpenEventApp.getEventBus().register(this);
         speakersRecyclerView = (RecyclerView) view.findViewById(R.id.rv_speakers);
+        noSpeakers = (TextView) view.findViewById(R.id.text_no_speakers);
         final DbSingleton dbSingleton = DbSingleton.getInstance();
         mSpeakers = dbSingleton.getSpeakerList(sortOrderSpeaker(getActivity()));
         prefsSort = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        if(mSpeakers.isEmpty()){
+            noSpeakers.setVisibility(View.VISIBLE);
+            speakersRecyclerView.setVisibility(View.GONE);
+        }
+        else{
+            noSpeakers.setVisibility(View.GONE);
+            speakersRecyclerView.setVisibility(View.VISIBLE);
+        }
         sortType = prefsSort.getInt(PREF_SORT, 0);
         speakersListAdapter = new SpeakersListAdapter(mSpeakers, getActivity());
         speakersRecyclerView.setAdapter(speakersListAdapter);

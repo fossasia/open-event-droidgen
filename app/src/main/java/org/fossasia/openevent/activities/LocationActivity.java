@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.SessionsListAdapter;
@@ -46,11 +47,14 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
 
     private SearchView searchView;
 
+    private TextView noLocationSessions;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_locations);
         final DbSingleton dbSingleton = DbSingleton.getInstance();
+        noLocationSessions = (TextView) findViewById(R.id.text_no_location_sessions);
         location = getIntent().getStringExtra(IntentStrings.MICROLOCATIONS);
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_locations);
         setSupportActionBar(toolbar);
@@ -58,9 +62,17 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
 
         selectedLocation = dbSingleton.getLocationByLocationname(location);
 
-
         sessionRecyclerView = (RecyclerView) findViewById(R.id.recyclerView_locations);
         mSessions = dbSingleton.getSessionbyLocationName(location);
+
+        if(mSessions.isEmpty()){
+            sessionRecyclerView.setVisibility(View.GONE);
+            noLocationSessions.setVisibility(View.VISIBLE);
+        }
+        else{
+            sessionRecyclerView.setVisibility(View.VISIBLE);
+            noLocationSessions.setVisibility(View.GONE);
+        }
 
         sessionsListAdapter = new SessionsListAdapter(mSessions);
 

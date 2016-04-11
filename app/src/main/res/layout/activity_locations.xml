@@ -1,7 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
@@ -20,6 +20,14 @@
         android:layout_marginTop="2dp"
         android:orientation="vertical">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/text_no_location_sessions"
+            android:text="@string/no_sessions"
+            android:textColor="#000"
+            android:gravity="center_horizontal|center_vertical"
+            android:textAppearance="?android:attr/textAppearanceLarge"/>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView_locations"
             android:layout_width="match_parent"
