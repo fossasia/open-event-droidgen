@@ -42,6 +42,16 @@
     </android.support.design.widget.AppBarLayout>
 
 
+    <TextView
+        android:id="@+id/txt_no_sessions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/navigation_drawer_width"
+        android:text="@string/noSessions"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:textColor="@color/secondary_text" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"

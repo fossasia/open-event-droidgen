@@ -20,6 +20,16 @@
         android:layout_marginTop="2dp"
         android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/txt_no_sessions"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:layout_marginTop="@dimen/navigation_drawer_width"
+            android:text="@string/noSessions"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textColor="@color/secondary_text" />
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView_locations"
             android:layout_width="match_parent"

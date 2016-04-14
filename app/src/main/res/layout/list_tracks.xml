@@ -4,6 +4,15 @@
     android:layout_height="match_parent"
     android:background="?attr/selectableItemBackground">
 
+    <TextView
+        android:id="@+id/txt_no_tracks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="@string/noTracks"
+        android:textAppearance="?android:textAppearanceMedium" />
+
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/tracks_swipe_refresh"
         android:layout_width="match_parent"

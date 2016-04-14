@@ -88,4 +88,9 @@
     <string name="dialog_sort_organisation">Organisation</string>
     <string name="dialog_sort_country">Country</string>
     <string name="dialog_sort_name">Speaker Name</string>
+    <string name="noSessions">No Sessions yet!</string>
+    <string name="noMicrolocations">No Microlocations yet!</string>
+    <string name="noSpeakers">No Speakers yet!</string>
+    <string name="noSponsors">No Sponsors yet!</string>
+    <string name="noTracks">No Tracks yet!</string>
 </resources>

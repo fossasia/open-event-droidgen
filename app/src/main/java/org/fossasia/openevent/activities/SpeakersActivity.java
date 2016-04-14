@@ -62,6 +62,7 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
         final DbSingleton dbSingleton = DbSingleton.getInstance();
         speaker = getIntent().getStringExtra(Speaker.SPEAKER);
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_speakers);
+        TextView noSessionsView = (TextView) findViewById(R.id.txt_no_sessions);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -146,6 +147,13 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
         sessionRecyclerView.setItemAnimator(new DefaultItemAnimator());
         if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
             searchText = savedInstanceState.getString(SEARCH);
+        }
+        if (!mSessions.isEmpty()) {
+            noSessionsView.setVisibility(View.GONE);
+            sessionRecyclerView.setVisibility(View.VISIBLE);
+        } else {
+            noSessionsView.setVisibility(View.VISIBLE);
+            sessionRecyclerView.setVisibility(View.GONE);
         }
     }
 
