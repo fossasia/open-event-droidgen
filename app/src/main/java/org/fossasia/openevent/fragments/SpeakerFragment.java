@@ -146,7 +146,7 @@ public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextL
                                 sortType = which;
                                 SharedPreferences.Editor editor = prefsSort.edit();
                                 editor.putInt(PREF_SORT, which);
-                                editor.commit();
+                                editor.apply();
                                 speakersListAdapter.refresh();
                                 dialog.dismiss();
                             }

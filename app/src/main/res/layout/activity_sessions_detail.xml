@@ -89,8 +89,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawableLeft="@drawable/ic_place_grey600_18dp"
-                        android:drawableStart="@drawable/ic_place_grey600_18dp"
-                        android:text="NA" />
+                        android:drawableStart="@drawable/ic_place_grey600_18dp" />
 
                 </LinearLayout>
 
@@ -119,7 +118,6 @@
                 style="@style/TextAppearance.AppCompat.Headline"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Speakers"
                 android:textIsSelectable="true" />
         </LinearLayout>
     </ScrollView>

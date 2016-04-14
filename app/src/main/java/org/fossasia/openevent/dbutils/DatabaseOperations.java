@@ -404,7 +404,7 @@ public class DatabaseOperations {
             }
             sessionCursor.moveToNext();
         }
-
+        tracksCursor.close();
         sessionCursor.close();
         return sessions;
     }
