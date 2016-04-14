@@ -19,6 +19,7 @@ import com.squareup.picasso.Picasso;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.SessionsListAdapter;
+import org.fossasia.openevent.adapters.TrackSessionsListAdpater;
 import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Track;
@@ -35,7 +36,7 @@ public class TracksActivity extends BaseActivity implements SearchView.OnQueryTe
 
     final private String SEARCH = "org.fossasia.openevent.searchText";
 
-    SessionsListAdapter sessionsListAdapter;
+    TrackSessionsListAdpater trackSessionsListAdapter;
 
     private String track;
 
@@ -59,14 +60,14 @@ public class TracksActivity extends BaseActivity implements SearchView.OnQueryTe
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbar.setTitle(track);
         sessionsRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        sessionsListAdapter = new SessionsListAdapter(dbSingleton.getSessionbyTracksname(track));
-
+        trackSessionsListAdapter = new TrackSessionsListAdpater(dbSingleton.getSessionbyTracksname(track),
+                dbSingleton.getTrackbyName(track).getId());
         sessionsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        sessionsRecyclerView.setAdapter(sessionsListAdapter);
-        sessionsListAdapter.setOnClickListener(new SessionsListAdapter.SetOnClickListener() {
+        sessionsRecyclerView.setAdapter(trackSessionsListAdapter);
+        trackSessionsListAdapter.setOnClickListener(new SessionsListAdapter.SetOnClickListener() {
             @Override
             public void onItemClick(int position, View view) {
-                Session model = (Session) sessionsListAdapter.getItem(position);
+                Session model = (Session) trackSessionsListAdapter.getItem(position);
                 String sessionName = model.getTitle();
                 Intent intent = new Intent(getApplicationContext(), SessionDetailActivity.class);
                 intent.putExtra(IntentStrings.SESSION, sessionName);
@@ -145,9 +146,9 @@ public class TracksActivity extends BaseActivity implements SearchView.OnQueryTe
     @Override
     public boolean onQueryTextChange(String query) {
         if (!TextUtils.isEmpty(query)) {
-            sessionsListAdapter.getFilter().filter(query);
+            trackSessionsListAdapter.getFilter().filter(query);
         } else {
-            sessionsListAdapter.refresh();
+            trackSessionsListAdapter.refresh();
         }
         searchText = query;
         return true;

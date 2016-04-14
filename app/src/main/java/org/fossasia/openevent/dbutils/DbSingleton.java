@@ -140,6 +140,10 @@ public class DbSingleton {
         return databaseOperations.getSessionbyLocationname(locationName, mDb);
     }
 
+    public ArrayList<Session> getSessionbySearchTextAndTrack(String searchText, int trackId) {
+        return databaseOperations.getSessionbySearchTextAndTrack(searchText, trackId, mDb);
+    }
+
     public ArrayList<Speaker> getSpeakersbySessionName(String sessionName) {
         getReadOnlyDatabase();
         return databaseOperations.getSpeakersbySessionName(sessionName, mDb);

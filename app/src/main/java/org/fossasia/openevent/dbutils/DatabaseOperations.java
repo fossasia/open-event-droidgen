@@ -33,6 +33,10 @@ public class DatabaseOperations {
 
     private static final String EQUAL = " == ";
 
+    private static final String LIKE = " LIKE ";
+
+    private static final String AND = " AND ";
+
     Event event;
 
     public ArrayList<Session> getSessionList(SQLiteDatabase mDb) {
@@ -732,6 +736,50 @@ public class DatabaseOperations {
             }
         } else {
             return sessions;
+        }
+        sessionCursor.close();
+        return sessions;
+    }
+
+    public ArrayList<Session> getSessionbySearchTextAndTrack(String searchText, int trackId, SQLiteDatabase mDb) {
+        String sessionColumnSelection = DbContract.Sessions.TITLE + LIKE + "\'%" + searchText + "%\'" +
+                AND + DbContract.Sessions.TRACK + EQUAL + trackId;
+
+        Cursor sessionCursor = mDb.query(
+                DbContract.Sessions.TABLE_NAME,
+                DbContract.Sessions.FULL_PROJECTION,
+                sessionColumnSelection,
+                null,
+                null,
+                null,
+                null
+        );
+
+        ArrayList<Session> sessions = new ArrayList<>();
+        Session s;
+        sessionCursor.moveToFirst();
+
+        while (!sessionCursor.isAfterLast()) {
+            try {
+                s = new Session(
+                        sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.ID)),
+                        sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.TITLE)),
+                        sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.SUBTITLE)),
+                        sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.SUMMARY)),
+                        sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.DESCRIPTION)),
+                        sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.START_TIME)),
+                        sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.END_TIME)),
+                        sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.TYPE)),
+                        sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.TRACK)),
+                        sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.LEVEL)),
+                        sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.MICROLOCATION))
+                );
+                sessions.add(s);
+
+            } catch (ParseException e) {
+                Timber.e("Parsing Error Occurred at DatabaseOperations::getSessionbyLocationname.");
+            }
+            sessionCursor.moveToNext();
         }
         sessionCursor.close();
         return sessions;
