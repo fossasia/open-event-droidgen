@@ -145,11 +145,6 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-    }
-
-    @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putInt(STATE_FRAGMENT, currentMenuItemId);
         super.onSaveInstanceState(outState);

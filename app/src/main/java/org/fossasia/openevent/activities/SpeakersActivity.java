@@ -118,7 +118,7 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
             speakerIntent.clickedImage(website);
         }
 
-        if (flagSocial == false) {
+        if (!flagSocial) {
             findViewById(R.id.view).setVisibility(View.GONE);
         }
 
@@ -133,7 +133,7 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
             @Override
             public void onItemClick(int position, View view) {
 
-                Session model = (Session) sessionsListAdapter.getItem(position);
+                Session model = sessionsListAdapter.getItem(position);
                 String sessionName = model.getTitle();
                 Track track = dbSingleton.getTrackbyId(model.getTrack());
                 String trackName = track.getName();
