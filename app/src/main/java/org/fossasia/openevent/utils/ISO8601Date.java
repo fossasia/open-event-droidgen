@@ -55,7 +55,7 @@ public final class ISO8601Date {
 
     public static String getTime(final Date date) {
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm ");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
         String timeToStr = dateFormat.format(date);
 
         return timeToStr;
