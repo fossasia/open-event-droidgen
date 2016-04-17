@@ -14,6 +14,7 @@ import com.squareup.picasso.Picasso;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.data.Speaker;
+import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.CircleTransform;
 import org.fossasia.openevent.utils.ViewHolder;
@@ -97,8 +98,13 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, ViewHolder.Viewh
         Picasso.with(holder.getImgView1().getContext()).load(uri)
                 .placeholder(R.drawable.ic_account_circle_grey_24dp).transform(new CircleTransform()).into(holder.getImgView1());
 
-        holder.getTxtView2().setText(current.getPosition());
         holder.getTxtView1().setText(TextUtils.isEmpty(current.getName()) ? "" : current.getName());
+        
+        if(sortOrderSpeaker(activity).equals(DbContract.Speakers.NAME) || sortOrderSpeaker(activity).equals(DbContract.Speakers.ORGANISATION)){
+            holder.getTxtView2().setText(TextUtils.isEmpty(current.getPosition()) ? current.getOrganisation() : current.getPosition() + " at " + current.getOrganisation());
+        } else if(sortOrderSpeaker(activity).equals(DbContract.Speakers.COUNTRY)){
+            holder.getTxtView2().setText(current.getCountry());
+        }
 
         holder.setItemClickListener(listener);
     }
