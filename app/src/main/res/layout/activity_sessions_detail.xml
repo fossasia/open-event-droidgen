@@ -70,6 +70,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:drawableLeft="@drawable/ic_local_offer_grey600_18dp"
+                        android:drawableStart="@drawable/ic_local_offer_grey600_18dp"
                         tools:text="Keynotes" />
 
                     <TextView
@@ -79,6 +80,7 @@
                         android:layout_height="wrap_content"
                         android:background="@color/translucent_grey"
                         android:drawableLeft="@drawable/ic_access_time_grey600_18dp"
+                        android:drawableStart="@drawable/ic_access_time_grey600_18dp"
                         tools:text="Day 1 (Saturday), 09:30 - 09:55" />
 
                     <TextView
@@ -87,6 +89,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawableLeft="@drawable/ic_place_grey600_18dp"
+                        android:drawableStart="@drawable/ic_place_grey600_18dp"
                         android:text="NA" />
 
                 </LinearLayout>

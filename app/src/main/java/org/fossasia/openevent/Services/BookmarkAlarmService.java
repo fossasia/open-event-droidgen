@@ -21,13 +21,11 @@ import org.fossasia.openevent.utils.IntentStrings;
  */
 public class BookmarkAlarmService extends IntentService {
 
-    public BookmarkAlarmService() {
-        super(null);
-    }
-
     public BookmarkAlarmService(String name) {
         super(name);
     }
+
+
 
     @Override
     public IBinder onBind(Intent arg0) {

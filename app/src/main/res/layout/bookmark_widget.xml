@@ -30,6 +30,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="0.80"
                 android:paddingLeft="@dimen/card_margin"
+                android:paddingStart="@dimen/card_margin"
                 android:text="@string/bookmarks"
                 android:textColor="@color/cardview_dark_background"
                 android:textSize="24sp" />
