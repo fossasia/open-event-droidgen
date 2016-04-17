@@ -840,6 +840,22 @@ public class DatabaseOperations {
         return number;
     }
 
+    public boolean isBookmarksTableEmpty(SQLiteDatabase db) {
+        boolean check = false;
+        Cursor c = null;
+        try {
+            c = db.rawQuery("select * from " + DbContract.Bookmarks.TABLE_NAME, null);
+            if (c.getCount() == 0){
+                check = true;
+            }
+        } catch (Exception e){
+            Timber.e("Parsing Error Occurred at DatabaseOperations::isBookmarksTableEmpty.");
+        } finally {
+            if (c != null) c.close();
+        }
+        return check;
+    }
+
     public Session getSessionbySessionname(String sessionName, SQLiteDatabase mDb) {
         String sessionColumnSelection = DbContract.Sessions.TITLE + EQUAL + DatabaseUtils.sqlEscapeString(sessionName);
         Cursor cursor = mDb.query(
