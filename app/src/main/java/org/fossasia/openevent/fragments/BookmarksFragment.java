@@ -1,9 +1,12 @@
 package org.fossasia.openevent.fragments;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -22,6 +25,7 @@ import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.IntentStrings;
+import org.fossasia.openevent.widget.DialogFactory;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -33,10 +37,10 @@ import timber.log.Timber;
  * Date: 22-05-2015
  */
 public class BookmarksFragment extends Fragment {
-    SessionsListAdapter sessionsListAdapter;
 
+    private final String FRAGMENT_TAG = "FTAG";
+    SessionsListAdapter sessionsListAdapter;
     RecyclerView bookmarkedTracks;
-    TextView noBookmarkView;
     View view;
     ArrayList<Integer> bookmarkedIds;
 
@@ -60,10 +64,16 @@ public class BookmarksFragment extends Fragment {
             }
         }
         if (!bookmarkedIds.isEmpty()) {
-            noBookmarkView.setVisibility(View.GONE);
             bookmarkedTracks.setVisibility(View.VISIBLE);
         } else {
-            noBookmarkView.setVisibility(View.VISIBLE);
+            DialogFactory.createSimpleActionDialog(getActivity(), R.string.bookmarks, R.string.empty_list, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.content_frame, new TracksFragment(), FRAGMENT_TAG).commit();
+                    ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.menu_tracks);
+                }
+            }).show();
             bookmarkedTracks.setVisibility(View.GONE);
         }
     }
@@ -74,7 +84,6 @@ public class BookmarksFragment extends Fragment {
         Timber.i("Bookmarks Fragment create view");
         setHasOptionsMenu(true);
         view = inflater.inflate(R.layout.fragment_bookmarks, container, false);
-        noBookmarkView = (TextView) view.findViewById(R.id.txt_no_bookmarks);
         bookmarkedTracks = (RecyclerView) view.findViewById(R.id.list_bookmarks);
         final DbSingleton dbSingleton = DbSingleton.getInstance();
 
@@ -84,13 +93,7 @@ public class BookmarksFragment extends Fragment {
         } catch (ParseException e) {
             Timber.e("Parsing Error Occurred at BookmarksFragment::onCreateView.");
         }
-        if (!bookmarkedIds.isEmpty()) {
-            noBookmarkView.setVisibility(View.GONE);
-            bookmarkedTracks.setVisibility(View.VISIBLE);
-        } else {
-            noBookmarkView.setVisibility(View.VISIBLE);
-            bookmarkedTracks.setVisibility(View.GONE);
-        }
+        bookmarkedTracks.setVisibility(View.VISIBLE);
         sessionsListAdapter = new SessionsListAdapter(new ArrayList<Session>());
         for (int i = 0; i < bookmarkedIds.size(); i++) {
             Integer id = bookmarkedIds.get(i);
