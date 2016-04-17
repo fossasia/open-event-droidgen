@@ -13,7 +13,7 @@ import org.fossasia.openevent.api.processor.VersionApiProcessor;
 /**
  * User: MananWason
  * Date: 31-05-2015
- * <p>
+ * <p/>
  * A singleton to keep track of download
  */
 public final class DataDownloadManager {

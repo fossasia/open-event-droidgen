@@ -255,9 +255,14 @@ public class MainActivity extends BaseActivity {
                 getSupportActionBar().setTitle(R.string.menu_tracks);
                 break;
             case R.id.nav_bookmarks:
-                fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, new BookmarksFragment(), FRAGMENT_TAG).commit();
-                getSupportActionBar().setTitle(R.string.menu_bookmarks);
+                DbSingleton dbSingleton = DbSingleton.getInstance();
+                if (!dbSingleton.isBookmarksTableEmpty()) {
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.content_frame, new BookmarksFragment(), FRAGMENT_TAG).commit();
+                    getSupportActionBar().setTitle(R.string.menu_bookmarks);
+                } else {
+                    DialogFactory.createSimpleActionDialog(this, R.string.bookmarks, R.string.empty_list, null).show();
+                }
                 break;
             case R.id.nav_speakers:
                 fragmentManager.beginTransaction()
