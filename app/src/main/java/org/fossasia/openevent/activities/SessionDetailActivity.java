@@ -112,7 +112,7 @@ public class SessionDetailActivity extends BaseActivity {
             @Override
             public void onItemClick(int position, View view) {
 
-                Speaker model = (Speaker) adapter.getItem(position);
+                Speaker model = adapter.getItem(position);
                 String speakerName = model.getName();
                 Intent intent = new Intent(getApplicationContext(), SpeakersActivity.class);
                 intent.putExtra(Speaker.SPEAKER, speakerName);

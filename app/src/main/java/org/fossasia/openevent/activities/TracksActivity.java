@@ -66,7 +66,7 @@ public class TracksActivity extends BaseActivity implements SearchView.OnQueryTe
         sessionsListAdapter.setOnClickListener(new SessionsListAdapter.SetOnClickListener() {
             @Override
             public void onItemClick(int position, View view) {
-                Session model = (Session) sessionsListAdapter.getItem(position);
+                Session model = sessionsListAdapter.getItem(position);
                 String sessionName = model.getTitle();
                 Intent intent = new Intent(getApplicationContext(), SessionDetailActivity.class);
                 intent.putExtra(IntentStrings.SESSION, sessionName);
