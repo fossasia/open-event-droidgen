@@ -2,13 +2,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="?attr/selectableItemBackground"
     android:padding="@dimen/sponsor_padding">
 
     <ImageView
         android:id="@+id/sponsor_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="@dimen/sponsor_image_margin" />
+        android:layout_margin="@dimen/sponsor_image_margin"
+        android:contentDescription="@string/sponsor_image" />
 
 </LinearLayout>
