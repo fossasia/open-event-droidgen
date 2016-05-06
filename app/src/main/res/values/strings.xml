@@ -52,7 +52,6 @@
     <!--Error Titles-->
     <string name="net_unavailable">Network not available</string>
     <string name="turn_on">Turn on WiFi or Mobile data in Settings</string>
-    <string name="cancel">Cancel</string>
     <string name="error">Error</string>
     <string name="ok">OK</string>
 
@@ -77,7 +76,7 @@
 \n
     </string>
     <string name="invalid_url">Invalid Url</string>
-    <string name="dialog_action_ok">Ok</string>
+    <string name="dialog_action_ok">OK</string>
     <string name="dialog_error_title">Error</string>
     <string name="website">website</string>
     <string name="notification_key">notification</string>
@@ -88,4 +87,15 @@
     <string name="dialog_sort_organisation">Organisation</string>
     <string name="dialog_sort_country">Country</string>
     <string name="dialog_sort_name">Speaker Name</string>
+    <string name="launcher_icon">Launcher Icon</string>
+    <string name="sponsor_image">Sponsor Image</string>
+    <string name="header_image">Header Image</string>
+    <string name="speaker_image">Speaker\'s Image</string>
+    <string name="logo_widget">Logo Widget</string>
+    <string name="backdrop_image">Backdrop Image</string>
+    <string name="linkedin_icon">Linkedin Icon</string>
+    <string name="twitter_icon">Twitter Icon</string>
+    <string name="facebook_icon">Facebook Icon</string>
+    <string name="github_icon">Github Icon</string>
+    <string name="web_icon">Web Icon</string>
 </resources>
