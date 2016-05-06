@@ -364,7 +364,8 @@ public class DatabaseOperations {
         trackSelected = tracksCursor.getInt(tracksCursor.getColumnIndex(DbContract.Speakers.ID));
 
         //Select columns having track id same as that obtained previously
-        String sessionColumnSelection = DbContract.Sessions.TRACK + EQUAL + trackSelected;
+        String sessionColumnSelection = DbContract.Sessions.TRACK + EQUAL +
+                DatabaseUtils.sqlEscapeString(String.valueOf(trackSelected));
 
         //Order
         String sortOrder = DbContract.Sessions.ID + ASCENDING;
@@ -404,7 +405,7 @@ public class DatabaseOperations {
             }
             sessionCursor.moveToNext();
         }
-
+        tracksCursor.close();
         sessionCursor.close();
         return sessions;
     }

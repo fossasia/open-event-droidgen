@@ -6,22 +6,20 @@
     android:orientation="vertical"
     android:padding="@dimen/widget_margin">
 
-    <FrameLayout
-        android:id="@+id/widget"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/abc_alert_dialog_button_bar_height"
-        android:background="@color/color_primary">
+
 
         <LinearLayout
+            android:id="@+id/widget"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="@dimen/main_menu_item_height"
+            android:background="@color/color_primary">
 
             <ImageView
-                android:id="@+id/logo_widget"
                 android:layout_width="34dp"
                 android:layout_height="34dp"
                 android:layout_gravity="center"
                 android:layout_weight="0.20"
+                android:contentDescription="@string/logo_widget"
                 android:src="@drawable/ic_bookmark_outline_black_24dp" />
 
             <TextView
@@ -35,7 +33,6 @@
                 android:textColor="@color/cardview_dark_background"
                 android:textSize="24sp" />
         </LinearLayout>
-    </FrameLayout>
 
     <FrameLayout
         android:layout_width="match_parent"

@@ -31,6 +31,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="@dimen/speaker_margin"
                     android:layout_marginTop="?attr/actionBarSize"
+                    android:contentDescription="@string/speaker_image"
                     app:layout_collapseMode="parallax" />
 
                 <TextView
@@ -45,7 +46,6 @@
                     android:paddingLeft="@dimen/speaker_margin"
                     android:paddingRight="@dimen/speaker_margin"
                     android:paddingStart="@dimen/speaker_margin"
-                    android:text="Biography"
                     app:layout_collapseMode="parallax" />
             </RelativeLayout>
 
@@ -61,7 +61,6 @@
     </android.support.design.widget.AppBarLayout>
 
     <RelativeLayout
-        android:id="@+id/infoLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/color_primary"
@@ -80,6 +79,7 @@
             android:layout_toStartOf="@+id/imageView_twitter"
             android:adjustViewBounds="true"
             android:clickable="true"
+            android:contentDescription="@string/linkedin_icon"
             android:src="@drawable/linkedin"
             android:tag="@string/linkedin" />
 
@@ -95,6 +95,7 @@
             android:layout_toStartOf="@+id/imageView_fb"
             android:adjustViewBounds="true"
             android:clickable="true"
+            android:contentDescription="@string/twitter_icon"
             android:src="@drawable/twitter"
             android:tag="@string/twitter" />
 
@@ -109,6 +110,7 @@
             android:layout_marginTop="5dp"
             android:adjustViewBounds="true"
             android:clickable="true"
+            android:contentDescription="@string/facebook_icon"
             android:src="@drawable/facebook"
             android:tag="@string/fb" />
 
@@ -124,6 +126,7 @@
             android:layout_toRightOf="@+id/imageView_fb"
             android:adjustViewBounds="true"
             android:clickable="true"
+            android:contentDescription="@string/github_icon"
             android:src="@drawable/github"
             android:tag="@string/github" />
 
@@ -139,6 +142,7 @@
             android:layout_toRightOf="@+id/imageView_github"
             android:adjustViewBounds="true"
             android:clickable="true"
+            android:contentDescription="@string/web_icon"
             android:src="@drawable/ic_domain_black_24dp"
             android:tag="@string/website" />
 
