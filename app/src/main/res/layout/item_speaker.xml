@@ -1,12 +1,4 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:background="?attr/selectableItemBackground"
-    android:clickable="true"
-    android:orientation="vertical">
-
-    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
@@ -20,6 +12,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
             android:adjustViewBounds="true"
+            android:contentDescription="@string/speaker_image"
             android:scaleType="centerCrop"
             android:src="@drawable/default_user" />
 
@@ -50,5 +43,3 @@
         </LinearLayout>
 
     </LinearLayout>
-
-</LinearLayout>
