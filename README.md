@@ -2,7 +2,7 @@
 [![codecov.io](https://codecov.io/github/fossasia/open-event-android/coverage.svg?branch=master)](https://codecov.io/github/fossasia/open-event-android?branch=master)
 [![todofy badge](https://todofy.org/b/fossasia/open-event-android)](https://todofy.org/r/fossasia/open-event-android)
 [![Join the chat at https://gitter.im/fossasia/open-event-android](https://badges.gitter.im/fossasia/open-event-android.svg)](https://gitter.im/fossasia/open-event-android?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Appetize.io-blue.svg?style=flat)](https://appetize.io/app/2rfx5pavny47jnb1qzwg204fr8)
 ## The Open Event Android Client
 
 The Android client is a generic app that has two parts:
