@@ -28,6 +28,7 @@ import org.fossasia.openevent.adapters.SponsorsListAdapter;
 import org.fossasia.openevent.dbutils.DataDownloadManager;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.SponsorDownloadEvent;
+import org.fossasia.openevent.utils.KeyboardHelper;
 import org.fossasia.openevent.utils.RecyclerItemClickListener;
 
 import timber.log.Timber;
@@ -49,6 +50,7 @@ public class SponsorsFragment extends Fragment {
         final View view = inflater.inflate(R.layout.list_sponsors, container, false);
         Bus bus = OpenEventApp.getEventBus();
         bus.register(this);
+        KeyboardHelper.hideKeyboard(getActivity());
         sponsorsRecyclerView = (RecyclerView) view.findViewById(R.id.list_sponsors);
         final DbSingleton dbSingleton = DbSingleton.getInstance();
 

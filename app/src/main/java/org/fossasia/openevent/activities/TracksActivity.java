@@ -24,6 +24,7 @@ import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.IntentStrings;
+import org.fossasia.openevent.utils.KeyboardHelper;
 
 /**
  * User: MananWason
@@ -49,6 +50,8 @@ public class TracksActivity extends BaseActivity implements SearchView.OnQueryTe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tracks);
+        KeyboardHelper.hideKeyboardEventListener(this, findViewById(R.id.appbar));
+        KeyboardHelper.hideKeyboardEventListener(this, findViewById(R.id.recyclerView));
         DbSingleton dbSingleton = DbSingleton.getInstance();
         track = getIntent().getStringExtra(IntentStrings.TRACK);
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

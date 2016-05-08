@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,6 +26,7 @@ import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.CircleTransform;
 import org.fossasia.openevent.utils.IntentStrings;
+import org.fossasia.openevent.utils.KeyboardHelper;
 import org.fossasia.openevent.utils.SpeakerIntent;
 
 import java.util.ArrayList;
@@ -36,7 +36,7 @@ import java.util.Locale;
 /**
  * Created by MananWason on 30-06-2015.
  */
-public class SpeakersActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
+public class SpeakersActivity extends BaseActivity implements SearchView.OnQueryTextListener {
     final private String SEARCH = "searchText";
 
     SessionsListAdapter sessionsListAdapter;
@@ -60,6 +60,8 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_speakers);
         final DbSingleton dbSingleton = DbSingleton.getInstance();
+        KeyboardHelper.hideKeyboardEventListener(this, findViewById(R.id.appbar));
+        KeyboardHelper.hideKeyboardEventListener(this, findViewById(R.id.recyclerView_speakers));
         speaker = getIntent().getStringExtra(Speaker.SPEAKER);
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_speakers);
         setSupportActionBar(toolbar);

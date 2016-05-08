@@ -29,6 +29,7 @@ import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.MicrolocationDownloadEvent;
 import org.fossasia.openevent.events.RefreshUiEvent;
 import org.fossasia.openevent.utils.IntentStrings;
+import org.fossasia.openevent.utils.KeyboardHelper;
 
 /**
  * User: MananWason
@@ -51,6 +52,8 @@ public class LocationsFragment extends Fragment implements SearchView.OnQueryTex
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.list_locations, container, false);
+        KeyboardHelper.hideKeyboard(getActivity());
+        KeyboardHelper.hideKeyboardEventListener(getActivity(), view.findViewById(R.id.list_locations));
         OpenEventApp.getEventBus().register(this);
         locationsRecyclerView = (RecyclerView) view.findViewById(R.id.list_locations);
         final DbSingleton dbSingleton = DbSingleton.getInstance();

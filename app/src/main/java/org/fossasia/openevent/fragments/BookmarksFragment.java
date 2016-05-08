@@ -22,6 +22,7 @@ import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.IntentStrings;
+import org.fossasia.openevent.utils.KeyboardHelper;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -74,6 +75,7 @@ public class BookmarksFragment extends Fragment {
         Timber.i("Bookmarks Fragment create view");
         setHasOptionsMenu(true);
         view = inflater.inflate(R.layout.fragment_bookmarks, container, false);
+        KeyboardHelper.hideKeyboard(getActivity());
         noBookmarkView = (TextView) view.findViewById(R.id.txt_no_bookmarks);
         bookmarkedTracks = (RecyclerView) view.findViewById(R.id.list_bookmarks);
         final DbSingleton dbSingleton = DbSingleton.getInstance();

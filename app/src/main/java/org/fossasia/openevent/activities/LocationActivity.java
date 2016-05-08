@@ -18,6 +18,7 @@ import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.IntentStrings;
+import org.fossasia.openevent.utils.KeyboardHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +52,8 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_locations);
         final DbSingleton dbSingleton = DbSingleton.getInstance();
+        KeyboardHelper.hideKeyboardEventListener(this, findViewById(R.id.toolbar_locations));
+        KeyboardHelper.hideKeyboardEventListener(this, findViewById(R.id.recyclerView_locations));
         location = getIntent().getStringExtra(IntentStrings.MICROLOCATIONS);
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_locations);
         setSupportActionBar(toolbar);

@@ -33,6 +33,7 @@ import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.RefreshUiEvent;
 import org.fossasia.openevent.events.TracksDownloadEvent;
 import org.fossasia.openevent.utils.IntentStrings;
+import org.fossasia.openevent.utils.KeyboardHelper;
 
 import java.util.List;
 
@@ -59,6 +60,8 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.list_tracks, container, false);
+        KeyboardHelper.hideKeyboard(getActivity());
+        KeyboardHelper.hideKeyboardEventListener(getActivity(), view.findViewById(R.id.list_tracks));
         OpenEventApp.getEventBus().register(this);
         tracksRecyclerView = (RecyclerView) view.findViewById(R.id.list_tracks);
         final DbSingleton dbSingleton = DbSingleton.getInstance();
