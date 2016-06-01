@@ -1,0 +1,122 @@
+
+<!--
+Author: Harshit Dwivedi
+-->
+<!DOCTYPE html>
+<html>
+<head>
+<title>Webpage for app generator by FOSSAsia</title>
+<!-- for-mobile-apps -->
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="Webpage for app generator by FOSSAsia,GSoC,FOSSAsia" />
+<!-- //for-mobile-apps -->
+<link href='//fonts.googleapis.com/css?family=Questrial' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="css/j-forms.css">
+<link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+</head>
+<body>
+<div class="content">
+		<h1>Webpage for app generator</h1>
+		<div class="main">
+			<form class="contact-forms">
+				<!-- end /.header-->
+
+					<!-- start name -->
+					<div class="first-line">
+						<div class="span6 main-row">
+							<div class="input">
+
+								<input type="email" id="email" name="email" placeholder="E-mail">
+							</div>
+						</div>
+						<div class="span6 main-row">
+							<div class="input">
+
+								<input type="text" placeholder="App's Name" id="appname" name="appname">
+							</div>
+						</div>
+					</div>
+					<!-- end name -->
+					<!-- start address -->
+					<div class="main-row">
+						<div class="input">
+
+							<input type="text" id="api" placeholder="Link to the API" name="api">
+						</div>
+					</div>
+					<!-- end address -->
+
+						<div class=" main-row">
+							<label class="input append-small-btn">
+								<div class="upload-btn">
+									Browse
+									<input type="file" name="file1" onchange="document.getElementById('file1_input').value = this.value;">
+								</div>
+								<input type="text" id="file1_input" readonly="" placeholder="Add the JSON for speakers">
+								<!-- <span class="hint"></span> -->
+							</label>
+						</div>
+						<div class=" main-row">
+							<label class="input append-small-btn">
+								<div class="upload-btn">
+									Browse
+									<input type="file" name="file2" onchange="document.getElementById('file1_input').value = this.value;">
+								</div>
+								<input type="text" id="file2_input" readonly="" placeholder="Add the JSON for sessions">
+								<!-- <span class="hint"></span> -->
+							</label>
+						</div>
+						<div class=" main-row">
+							<label class="input append-small-btn">
+								<div class="upload-btn">
+									Browse
+									<input type="file" name="file13" onchange="document.getElementById('file1_input').value = this.value;">
+								</div>
+								<input type="text" id="file3_input" readonly="" placeholder="Add the JSON for tracks">
+								<!-- <span class="hint"></span> -->
+							</label>
+						</div>
+						<div class=" main-row">
+							<label class="input append-small-btn">
+								<div class="upload-btn">
+									Browse
+									<input type="file" name="file13" onchange="document.getElementById('file1_input').value = this.value;">
+								</div>
+								<input type="text" id="file3_input" readonly="" placeholder="Add the JSON for locations">
+								<!-- <span class="hint"></span> -->
+							</label>
+						</div>
+					<!-- end files -->
+
+
+				<!-- end /.content -->
+
+				<div class="footer">
+					<button type="submit" class="primary-btn">Generate and Download App</button>
+					<!-- <button type="reset" class="secondary-btn">Reset</button> -->
+				</div>
+				<!-- end /.footer -->
+
+			</form>
+		</div>
+</div>
+		<!-- Scripts -->
+		<script src="js/jquery.1.11.1.min.js"></script>
+
+
+		<script>
+			$(document).ready(function(){
+
+				// Phone masking
+				$('#phone').mask('(999) 999-9999', {placeholder:'x'});
+
+				// Post code masking
+				$('#post').mask('999-9999', {placeholder:'x'});
+
+			});
+		</script>
+</body>
+</html>
