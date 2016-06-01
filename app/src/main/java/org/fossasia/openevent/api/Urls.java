@@ -27,6 +27,10 @@ public abstract class Urls {
 
     public static final String MICROLOCATIONS = "microlocations";
 
+    public static final String SPONSORS = "sponsors";
+
+    public static final String VERSION = "version";
+
     public static final String MAP = "map";
 
     public static final String BASE_URL = "http://springboard.championswimmer.in";

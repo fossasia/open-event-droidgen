@@ -113,6 +113,31 @@ public class DatabaseOperations {
         return session;
     }
 
+    public Sponsor getSponsorById(int id, SQLiteDatabase mDb) {
+        String selection = DbContract.Sponsors.ID + EQUAL + id;
+        Cursor cursor = mDb.query(
+                DbContract.Sponsors.TABLE_NAME,
+                DbContract.Sponsors.FULL_PROJECTION,
+                selection,
+                null,
+                null,
+                null,
+                null
+        );
+        Sponsor sponsor = null;
+        cursor.moveToFirst();
+        //Should return only one due to UNIQUE constraint
+        sponsor = new Sponsor(
+                cursor.getInt(cursor.getColumnIndex(DbContract.Sponsors.ID)),
+                cursor.getString(cursor.getColumnIndex(DbContract.Sponsors.NAME)),
+                cursor.getString(cursor.getColumnIndex(DbContract.Sponsors.URL)),
+                cursor.getString(cursor.getColumnIndex(DbContract.Sponsors.LOGO_URL))
+        );
+        cursor.close();
+
+        return sponsor;
+    }
+
     public Microlocation getMicroLocationById(int id, SQLiteDatabase mDb) {
         String selection = DbContract.Microlocation.ID + EQUAL + id;
         Cursor cursor = mDb.query(
@@ -492,6 +517,35 @@ public class DatabaseOperations {
 
 
         }
+    }
+
+    public ArrayList<Integer> getSessionIdsbySpeakerId(int id, SQLiteDatabase mDb) {
+        String sessionColumnSelection = DbContract.Sessionsspeakers.SPEAKER_ID + EQUAL + id;
+
+        //Order
+        String[] columns1 = {DbContract.Sessionsspeakers.SESSION_ID};
+
+        Cursor sessionCursor = mDb.query(
+                DbContract.Sessionsspeakers.TABLE_NAME,
+                columns1,
+                sessionColumnSelection,
+                null,
+                null,
+                null,
+                null
+        );
+
+        ArrayList<Integer> sessionIds = new ArrayList<>();
+        sessionCursor.moveToFirst();
+        //Should return only one due to UNIQUE constraint
+        while (!sessionCursor.isAfterLast()) {
+            sessionIds.add(sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessionsspeakers.SESSION_ID)));
+            sessionCursor.moveToNext();
+        }
+
+        sessionCursor.close();
+
+        return sessionIds;
     }
 
     public ArrayList<Session> getSessionbySpeakersname(String speakerName, SQLiteDatabase mDb) {

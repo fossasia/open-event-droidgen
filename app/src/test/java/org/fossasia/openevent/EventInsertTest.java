@@ -113,6 +113,7 @@ public class EventInsertTest {
                 Event eventDetails = instance.getEventDetails();
                 assertNotNull(eventDetails);
                 assertEquals(event.getEmail(), eventDetails.getEmail());
+                assertEquals(event.getName(), eventDetails.getName());
                 assertEquals(event.getColor(), eventDetails.getColor());
                 assertEquals(event.getLogo(), eventDetails.getLogo());
                 assertEquals(event.getStart(), eventDetails.getStart());

@@ -7,6 +7,7 @@ import android.net.Uri;
 import com.google.gson.Gson;
 
 import org.fossasia.openevent.api.Urls;
+import org.fossasia.openevent.data.SessionSpeakersMapping;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.dbutils.DbHelper;
@@ -28,6 +29,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 
@@ -103,16 +105,38 @@ public class SpeakerInsertTest {
 
                 JSONObject eventJsonObject = eventJsonArray.getJSONObject(0);
                 Speaker speaker = gson.fromJson(String.valueOf(eventJsonObject), Speaker.class);
+                JSONArray sessionJsonArray = eventJsonObject.getJSONArray(Urls.SESSIONS);
 
                 String query = speaker.generateSql();
                 DbSingleton instance = new DbSingleton(database, mActivity, db);
                 instance.clearDatabase(DbContract.Speakers.TABLE_NAME);
+                instance.clearDatabase(DbContract.Sessionsspeakers.TABLE_NAME);
                 instance.insertQuery(query);
-
                 Speaker speakerDetails = instance.getSpeakerList(DbContract.Speakers.ID).get(0);
-                assertEquals(speaker.getName(), speakerDetails.getName());
-                assertEquals(speaker.getName(), speakerDetails.getName());
+                assertEquals(speaker.getId(), speakerDetails.getId());
+                assertEquals(speaker.getTwitter(), speakerDetails.getTwitter());
+                assertEquals(speaker.getFacebook(), speakerDetails.getFacebook());
+                assertEquals(speaker.getGithub(), speakerDetails.getGithub());
+                assertEquals(speaker.getLinkedin(), speakerDetails.getLinkedin());
+                assertEquals(speaker.getOrganisation(), speakerDetails.getOrganisation());
+                assertEquals(speaker.getPosition(), speakerDetails.getPosition());
                 assertEquals(speaker.getBio(), speakerDetails.getBio());
+                if (sessionJsonArray != null) {
+                    int sessions[] = new int[sessionJsonArray.length()];
+                    for (int i = 0; i < sessionJsonArray.length(); ++i) {
+                        sessions[i] = sessionJsonArray.optInt(i);
+                    }
+                    for (int i = 0; i < speaker.getSession().length; i++) {
+                        //will also test sessionspeakers table insertion
+                        SessionSpeakersMapping sessionSpeakersMapping = new SessionSpeakersMapping(sessions[i], speaker.getId());
+                        String query_ss = sessionSpeakersMapping.generateSql();
+                        instance.insertQuery(query_ss);
+                    }
+                    ArrayList<Integer> sessionsIds = instance.getSessionIdsbySpeakerId(speaker.getId());
+                    for (int i = 0; i < speaker.getSession().length; i++) {
+                        assertEquals(Integer.valueOf(sessions[i]), sessionsIds.get(i));
+                    }
+                }
                 assertEquals(speaker.getCountry(), speakerDetails.getCountry());
                 assertEquals(speaker.getEmail(), speakerDetails.getEmail());
                 assertEquals(speaker.getPhoto(), speakerDetails.getPhoto());

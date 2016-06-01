@@ -7,7 +7,7 @@ import android.net.Uri;
 import com.google.gson.Gson;
 
 import org.fossasia.openevent.api.Urls;
-import org.fossasia.openevent.data.Session;
+import org.fossasia.openevent.data.Sponsor;
 import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.dbutils.DbHelper;
 import org.fossasia.openevent.dbutils.DbSingleton;
@@ -56,14 +56,14 @@ public class SponsorInsertTest {
     }
 
     @Test
-    public void testSessionDbInsertionHttp() throws JSONException {
+    public void testSponsorDbInsertionHttp() throws JSONException {
 
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
         String jsonStr = null;
 
         try {
-            final String BASE_URL = Urls.BASE_GET_URL_ALT + "event/" + Urls.EVENT_ID + "/" + Urls.SESSIONS;
+            final String BASE_URL = Urls.BASE_GET_URL_ALT + "event/" + Urls.EVENT_ID + "/" + Urls.SPONSORS;
 
             Uri builtUri = Uri.parse(BASE_URL).buildUpon().build();
             URL url = new URL(builtUri.toString());
@@ -100,26 +100,23 @@ public class SponsorInsertTest {
         Gson gson = new Gson();
         try {
             JSONObject json = new JSONObject(jsonStr);
-            JSONArray eventJsonArray = json.getJSONArray(Urls.SESSIONS);
+            JSONArray eventJsonArray = json.getJSONArray(Urls.SPONSORS);
             if (eventJsonArray.length() > 0) {
 
                 JSONObject eventJsonObject = eventJsonArray.getJSONObject(0);
-                Session session = gson.fromJson(String.valueOf(eventJsonObject), Session.class);
+                Sponsor sponsor = gson.fromJson(String.valueOf(eventJsonObject), Sponsor.class);
 
-                String query = session.generateSql();
+                String query = sponsor.generateSql();
                 DbSingleton instance = new DbSingleton(mActivity);
-                instance.clearDatabase(DbContract.Sessions.TABLE_NAME);
+                instance.clearDatabase(DbContract.Sponsors.TABLE_NAME);
                 instance.insertQuery(query);
 
-                Session sessionDetails = instance.getSessionById(session.getId());
-                assertNotNull(sessionDetails);
-                assertEquals(session.getDescription(), sessionDetails.getDescription());
-                assertEquals(session.getSummary(), sessionDetails.getSummary());
-                assertEquals(session.getStartTime(), sessionDetails.getStartTime());
-                assertEquals(session.getEndTime(), sessionDetails.getEndTime());
-                assertEquals(session.getMicrolocations(), sessionDetails.getMicrolocations());
-                assertEquals(session.getTitle(), sessionDetails.getTitle());
-                assertEquals(session.getTrack(), sessionDetails.getTrack());
+                Sponsor sponsorDetails = instance.getSponsorById(sponsor.getId());
+                assertNotNull(sponsorDetails);
+                assertEquals(sponsor.getId(), sponsorDetails.getId());
+                assertEquals(sponsor.getName(), sponsorDetails.getName());
+                assertEquals(sponsor.getUrl(), sponsor.getUrl());
+                assertEquals(sponsor.getLogo(), sponsorDetails.getLogo());
             }
         } catch (JSONException e) {
         }

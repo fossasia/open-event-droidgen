@@ -112,6 +112,8 @@ public class TracksInsertTest {
 
                 Track trackDetails = instance.getTrackbyId(track.getId());
                 assertNotNull(trackDetails);
+                assertEquals(track.getId(), trackDetails.getId());
+                assertEquals(track.getImage(), trackDetails.getImage());
                 assertEquals(track.getDescription(), trackDetails.getDescription());
                 assertEquals(track.getName(), trackDetails.getName());
             }

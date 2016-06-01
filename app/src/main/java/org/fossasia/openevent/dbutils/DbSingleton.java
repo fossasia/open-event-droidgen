@@ -73,6 +73,11 @@ public class DbSingleton {
 
     }
 
+    public Sponsor getSponsorById(int id) {
+        getReadOnlyDatabase();
+        return databaseOperations.getSponsorById(id, mDb);
+    }
+
     public Event getEventDetails() {
         getReadOnlyDatabase();
         return databaseOperations.getEventDetails(mDb);
@@ -134,6 +139,10 @@ public class DbSingleton {
 
     public ArrayList<Session> getSessionbySpeakersName(String speakerName) {
         return databaseOperations.getSessionbySpeakersname(speakerName, mDb);
+    }
+
+    public ArrayList<Integer> getSessionIdsbySpeakerId(int id) {
+        return databaseOperations.getSessionIdsbySpeakerId(id, mDb);
     }
 
     public ArrayList<Session> getSessionbyLocationName(String locationName) {

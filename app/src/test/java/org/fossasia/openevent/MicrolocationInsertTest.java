@@ -55,7 +55,7 @@ public class MicrolocationInsertTest {
     }
 
     @Test
-    public void testSpeakerDbInsertionHttp() throws JSONException {
+    public void testMicrolocationDbInsertionHttp() throws JSONException {
 
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
@@ -111,6 +111,7 @@ public class MicrolocationInsertTest {
                 instance.insertQuery(query);
 
                 Microlocation microlocationDetails = new DatabaseOperations().getMicroLocationById(microlocation.getId(), database);
+                assertEquals(microlocation.getId(), microlocationDetails.getId());
                 assertEquals(microlocation.getName(), microlocationDetails.getName());
                 assertEquals(microlocation.getLatitude(), microlocationDetails.getLatitude(), 0.001);
                 assertEquals(microlocation.getLongitude(), microlocationDetails.getLongitude(), 0.001);

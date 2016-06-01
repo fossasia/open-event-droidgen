@@ -112,6 +112,7 @@ public class SessionInsertTest {
 
                 Session sessionDetails = instance.getSessionById(session.getId());
                 assertNotNull(sessionDetails);
+                assertEquals(session.getId(), sessionDetails.getId());
                 assertEquals(session.getDescription(), sessionDetails.getDescription());
                 assertEquals(session.getSummary(), sessionDetails.getSummary());
                 assertEquals(session.getStartTime(), sessionDetails.getStartTime());
