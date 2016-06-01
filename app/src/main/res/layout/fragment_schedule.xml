@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:background="@color/color_primary"
+        android:orientation="horizontal"
+        android:paddingLeft="16dp"
+        android:paddingStart="16dp"
+        android:paddingRight="16dp"
+        android:paddingEnd="16dp"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <TextView
+            android:text="@string/filter"
+            android:textColor="#FFFFFF"
+            android:layout_width="0dp"
+            android:paddingLeft="16dp"
+            android:paddingStart="16dp"
+            android:paddingRight="16dp"
+            android:paddingEnd="16dp"
+            android:layout_weight="1"
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/et_search_schedule"
+            android:background="@color/color_accent"
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:padding="6dp"
+            android:hint="@string/search_favorites"
+            android:gravity="center"
+            android:textColorHint="#EFEFEF"
+            android:textColor="#FFFFFF"
+            android:drawableLeft="@drawable/ic_search_white_24dp"
+            android:drawableStart="@drawable/ic_search_white_24dp"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <TextView
+            android:id="@+id/tv_date_schedule"
+            android:text=""
+            android:padding="8dp"
+            android:background="#EFEFEF"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/speaker_swipe_refresh"
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_schedule"
+            android:paddingLeft="16dp"
+            android:paddingStart="16dp"
+            android:paddingRight="16dp"
+            android:paddingEnd="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:paddingBottom="30dp">
+        </android.support.v7.widget.RecyclerView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+</LinearLayout>

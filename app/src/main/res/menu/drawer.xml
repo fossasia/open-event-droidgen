@@ -8,6 +8,12 @@
             android:title="@string/menu_tracks" />
 
         <item
+            android:id="@+id/nav_schedule"
+            android:checked="true"
+            android:icon="@drawable/ic_event_grey600_24dp"
+            android:title="@string/menu_schedule" />
+
+        <item
             android:id="@+id/nav_bookmarks"
             android:icon="@drawable/ic_bookmark_grey600_24dp"
             android:title="@string/menu_bookmarks" />
