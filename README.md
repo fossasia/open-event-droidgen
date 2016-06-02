@@ -38,13 +38,13 @@ Before you begin, you should already have the Android Studio SDK downloaded and 
 [![FOSSASIA](https://img.youtube.com/vi/n5G4yw3t--U/0.jpg)](https://www.youtube.com/watch?v=n5G4yw3t--U)
 
 ### Screenshots  
-![alt-tag](screenshots/ss2.PNG)
+![alt-tag](android/screenshots/ss2.PNG)
 
-![alt-tag](screenshots/ss1.PNG)
+![alt-tag](android/screenshots/ss1.PNG)
 
-![alt-tag](screenshots/ss3.PNG)
+![alt-tag](android/screenshots/ss3.PNG)
 
-![alt-tag](screenshots/ss4.PNG)
+![alt-tag](android/screenshots/ss4.PNG)
 
 ### Configuring the app
 
