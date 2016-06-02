@@ -2,20 +2,29 @@ package org.fossasia.openevent;
 
 import android.app.Application;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.Handler;
 import android.os.Looper;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
 import org.fossasia.openevent.Receivers.NetworkConnectivityChangeReceiver;
+import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.ConnectionCheckEvent;
 import org.fossasia.openevent.events.DataDownloadEvent;
 import org.fossasia.openevent.events.ShowNetworkDialogEvent;
 import org.fossasia.openevent.modules.MapModuleFactory;
+import org.fossasia.openevent.utils.ConstantStrings;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 import timber.log.Timber;
 
@@ -30,6 +39,8 @@ public class OpenEventApp extends Application {
     private static Bus eventBus;
 
     MapModuleFactory mapModuleFactory;
+
+    SharedPreferences sharedPreferences;
 
     public static Bus getEventBus() {
         if (eventBus == null) {
@@ -51,11 +62,42 @@ public class OpenEventApp extends Application {
     public void onCreate() {
         super.onCreate();
         handler = new Handler(Looper.getMainLooper());
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
         } else {
             Timber.plant(new CrashReportingTree());
         }
+
+        String json = null;
+        try {
+            InputStream inputStream = getAssets().open("config.json");
+            int size = inputStream.available();
+            byte[] buffer = new byte[size];
+            inputStream.read(buffer);
+            inputStream.close();
+            json = new String(buffer, "UTF-8");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            JSONObject jsonObject = new JSONObject(json);
+            String email = jsonObject.getString("Email");
+            String app_name = jsonObject.getString("App_Name");
+            String api_link = jsonObject.getString("Api_Link");
+
+            Urls.setBaseUrl(api_link);
+
+            sharedPreferences.edit().putString(ConstantStrings.EMAIL, email).apply();
+            sharedPreferences.edit().putString(ConstantStrings.APP_NAME, app_name).apply();
+            sharedPreferences.edit().putString(ConstantStrings.BASE_API_URL, api_link).apply();
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
 
         DbSingleton.init(this);
         mapModuleFactory = new MapModuleFactory();

@@ -15,7 +15,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.activities.SessionDetailActivity;
@@ -24,7 +23,7 @@ import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DbSingleton;
-import org.fossasia.openevent.utils.IntentStrings;
+import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.widget.DialogFactory;
 
 import java.text.ParseException;
@@ -110,8 +109,8 @@ public class BookmarksFragment extends Fragment {
                 Track track = dbSingleton.getTrackbyId(model.getTrack());
                 String trackName = track.getName();
                 Intent intent = new Intent(getContext(), SessionDetailActivity.class);
-                intent.putExtra(IntentStrings.SESSION, sessionName);
-                intent.putExtra(IntentStrings.TRACK, trackName);
+                intent.putExtra(ConstantStrings.SESSION, sessionName);
+                intent.putExtra(ConstantStrings.TRACK, trackName);
                 startActivity(intent);
             }
         });
