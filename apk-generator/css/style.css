@@ -1,0 +1,217 @@
+/*--
+Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+--*/
+
+/* reset */
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,dl,dt,dd,ol,nav ul,nav li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline;}
+article, aside, details, figcaption, figure,footer, header, hgroup, menu, nav, section {display: block;}
+ol,ul{list-style:none;margin:0px;padding:0px;}
+blockquote,q{quotes:none;}
+blockquote:before,blockquote:after,q:before,q:after{content:'';content:none;}
+table{border-collapse:collapse;border-spacing:0;}
+/* start editing from here */
+a{text-decoration:none;}
+.txt-rt{text-align:right;}/* text align right */
+.txt-lt{text-align:left;}/* text align left */
+.txt-center{text-align:center;}/* text align center */
+.float-rt{float:right;}/* float right */
+.float-lt{float:left;}/* float left */
+.clear{clear:both;}/* clear float */
+.pos-relative{position:relative;}/* Position Relative */
+.pos-absolute{position:absolute;}/* Position Absolute */
+.vertical-base{	vertical-align:baseline;}/* vertical align baseline */
+.vertical-top{	vertical-align:top;}/* vertical align top */
+nav.vertical ul li{	display:block;}/* vertical menu */
+nav.horizontal ul li{	display: inline-block;}/* horizontal menu */
+img{max-width:100%;}
+/*end reset*/
+
+body{
+padding:0;
+margin:0;
+    background:#003f69;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -o-background-size: cover;
+    -ms-background-size: cover;
+    -moz-background-size: cover;
+font-family: 'Open Sans', sans-serif !important;
+}
+
+h1,h2,h3,h4,h5,h6{
+	margin:0;	
+}	
+p{
+	margin:0;
+}
+	 /*-- w3layouts --*/
+ul{
+	margin:0;
+	padding:0;
+}
+label{
+	margin:0;
+}
+/*-- main --*/
+.content{
+	padding:50px 0;
+}
+.content h1{
+    color: #fff;
+    font-size: 40px;
+    text-align: center;
+    letter-spacing: 1px;
+font-family: 'Questrial', sans-serif;
+	text-transform:capitalize;
+}
+.main{
+    width: 32%;
+    margin: 45px auto;
+    background:#fff;
+    padding: 30px 30px;
+}
+p.copy_rights {
+    color: #fff;
+    font-size: 14px;
+    text-align: center;
+}
+p.copy_rights a{
+	text-decoration:none;
+	color:#fff;
+}
+p.copy_rights a:hover{
+	text-decoration:underline;
+}
+/*-- responsive media queries --*/
+
+@media (max-width: 1440px){
+	
+}
+@media (max-width: 1366px){
+	.main {
+		width: 34%;
+	}	
+}
+@media (max-width: 1280px){
+	.main {
+			 /*-- agileits --*/
+		width: 37%;
+	}	
+}
+@media (max-width: 1080px){
+	.main {
+		width: 41%;
+	}	
+}
+@media (max-width: 1024px){
+	.content h1 {
+		font-size: 35px;
+	}
+	.main {
+		padding: 23px 23px;
+		width: 45%;
+	}	
+}
+@media (max-width: 991px){
+	.contact-forms .main-row {
+		margin-bottom: 17px;
+	}	
+}
+@media (max-width: 800px){
+	.content h1 {
+		font-size: 30px;
+	}
+	.main {
+		width: 51%;
+	}	
+}
+@media (max-width: 768px){
+	.main {
+		width: 66%;
+	}	
+}
+@media (max-width: 736px){
+	
+}
+@media (max-width: 667px){
+	
+}
+@media (max-width: 640px){
+	
+}
+@media (max-width: 600px){
+	.main {
+		width: 74%;
+	}	
+}
+	 /*-- w3layouts --*/
+@media (max-width: 568px){
+	
+}
+@media (max-width: 480px){
+	.contact-forms .span6 {
+		width: 100%;
+	}
+	p.copy_rights {
+		font-size: 13px;
+		line-height:1.8em;
+	}	
+	.contact-forms input[type="text"], .contact-forms input[type="password"], .contact-forms input[type="email"], .contact-forms input[type="search"], .contact-forms input[type="url"], .contact-forms textarea, .contact-forms select {
+		font-size: 13px;
+	}
+	.content h1 {
+		font-size: 27px;
+	}
+	.main {
+		margin: 33px auto;
+	}
+	.contact-forms .primary-btn, .contact-forms .secondary-btn {
+		font-size: 14px;
+		padding: 8px 18px;
+	}
+}
+@media (max-width: 414px){
+	.content h1 {
+		font-size: 25px;
+	}
+	p.copy_rights {
+		line-height: 1.8em;
+		margin: 0 auto;
+		width: 94%;
+	}	
+}
+@media (max-width: 384px){
+	.contact-forms input[type="text"], .contact-forms input[type="password"], .contact-forms input[type="email"], .contact-forms input[type="search"], .contact-forms input[type="url"], .contact-forms textarea, .contact-forms select {
+		padding: 8px 10px;
+	}
+	.contact-forms .upload-btn {
+		padding: 5px 0;
+	}	
+}
+@media (max-width: 375px){
+	.content h1 {
+		font-size: 23px;
+	}
+	.main {
+		width: 80%;
+	}
+	.contact-forms .input textarea {
+		height: 90px;
+	}
+}
+	 /*-- agileits --*/
+@media (max-width: 320px){
+	.content h1 {
+		font-size: 19px;
+	}
+	.content {
+		padding: 40px 0;
+	}	
+	.main {
+		padding: 12px 12px;
+		width: 85%;
+	}
+}
