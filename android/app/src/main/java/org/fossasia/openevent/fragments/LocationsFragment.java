@@ -28,7 +28,7 @@ import org.fossasia.openevent.dbutils.DataDownloadManager;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.MicrolocationDownloadEvent;
 import org.fossasia.openevent.events.RefreshUiEvent;
-import org.fossasia.openevent.utils.IntentStrings;
+import org.fossasia.openevent.utils.ConstantStrings;
 
 /**
  * User: MananWason
@@ -63,7 +63,7 @@ public class LocationsFragment extends Fragment implements SearchView.OnQueryTex
                 Microlocation model = (Microlocation) locationsListAdapter.getItem(position);
                 String title = model.getName();
                 Intent intent = new Intent(getActivity(), LocationActivity.class);
-                intent.putExtra(IntentStrings.MICROLOCATIONS, title);
+                intent.putExtra(ConstantStrings.MICROLOCATIONS, title);
                 startActivity(intent);
             }
         });

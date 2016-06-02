@@ -14,7 +14,7 @@ import org.fossasia.openevent.R;
 import org.fossasia.openevent.activities.SessionDetailActivity;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.dbutils.DbSingleton;
-import org.fossasia.openevent.utils.IntentStrings;
+import org.fossasia.openevent.utils.ConstantStrings;
 
 /**
  * Created by Manan Wason on 21/08/15.
@@ -57,12 +57,12 @@ public class BookmarkAlarmService extends IntentService {
 
     void handleStart(Intent intent, int startId) {
         NotificationManager mManager = (NotificationManager) this.getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
-        int id = intent.getIntExtra(IntentStrings.SESSION, 0);
-        String session_timings = intent.getStringExtra(IntentStrings.SESSION_TIMING);
+        int id = intent.getIntExtra(ConstantStrings.SESSION, 0);
+        String session_timings = intent.getStringExtra(ConstantStrings.SESSION_TIMING);
         DbSingleton dbSingleton = DbSingleton.getInstance();
         Session session = dbSingleton.getSessionById(id);
         Intent intent1 = new Intent(this.getApplicationContext(), SessionDetailActivity.class);
-        intent1.putExtra(IntentStrings.SESSION, session.getTitle());
+        intent1.putExtra(ConstantStrings.SESSION, session.getTitle());
         PendingIntent pendingNotificationIntent = PendingIntent.getActivity(this.getApplicationContext(), 0, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
         Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
