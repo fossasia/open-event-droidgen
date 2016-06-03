@@ -23,7 +23,7 @@ import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DbSingleton;
-import org.fossasia.openevent.utils.IntentStrings;
+import org.fossasia.openevent.utils.ConstantStrings;
 
 /**
  * User: MananWason
@@ -50,7 +50,7 @@ public class TracksActivity extends BaseActivity implements SearchView.OnQueryTe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tracks);
         DbSingleton dbSingleton = DbSingleton.getInstance();
-        track = getIntent().getStringExtra(IntentStrings.TRACK);
+        track = getIntent().getStringExtra(ConstantStrings.TRACK);
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -69,8 +69,8 @@ public class TracksActivity extends BaseActivity implements SearchView.OnQueryTe
                 Session model = sessionsListAdapter.getItem(position);
                 String sessionName = model.getTitle();
                 Intent intent = new Intent(getApplicationContext(), SessionDetailActivity.class);
-                intent.putExtra(IntentStrings.SESSION, sessionName);
-                intent.putExtra(IntentStrings.TRACK, track);
+                intent.putExtra(ConstantStrings.SESSION, sessionName);
+                intent.putExtra(ConstantStrings.TRACK, track);
                 startActivity(intent);
             }
         });

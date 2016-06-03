@@ -26,7 +26,7 @@ import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.CircleTransform;
-import org.fossasia.openevent.utils.IntentStrings;
+import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.SpeakerIntent;
 
 import java.util.ArrayList;
@@ -138,8 +138,8 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
                 Track track = dbSingleton.getTrackbyId(model.getTrack());
                 String trackName = track.getName();
                 Intent intent = new Intent(getApplicationContext(), SessionDetailActivity.class);
-                intent.putExtra(IntentStrings.SESSION, sessionName);
-                intent.putExtra(IntentStrings.TRACK, trackName);
+                intent.putExtra(ConstantStrings.SESSION, sessionName);
+                intent.putExtra(ConstantStrings.TRACK, trackName);
                 startActivity(intent);
             }
         });
