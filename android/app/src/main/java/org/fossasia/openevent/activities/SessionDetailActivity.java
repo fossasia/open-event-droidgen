@@ -24,7 +24,7 @@ import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.ISO8601Date;
-import org.fossasia.openevent.utils.IntentStrings;
+import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.widget.BookmarkWidgetProvider;
 
 import java.util.Calendar;
@@ -55,8 +55,8 @@ public class SessionDetailActivity extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        final String title = getIntent().getStringExtra(IntentStrings.SESSION);
-        String trackName = getIntent().getStringExtra(IntentStrings.TRACK);
+        final String title = getIntent().getStringExtra(ConstantStrings.SESSION);
+        String trackName = getIntent().getStringExtra(ConstantStrings.TRACK);
         Timber.tag(TAG).d(title);
         TextView text_title = (TextView) findViewById(R.id.title_session);
         TextView text_subtitle = (TextView) findViewById(R.id.subtitle_session);
@@ -175,8 +175,8 @@ public class SessionDetailActivity extends BaseActivity {
             calendar.add(Calendar.MINUTE, -10);
         }
         Intent myIntent = new Intent(this, NotificationAlarmReceiver.class);
-        myIntent.putExtra(IntentStrings.SESSION, session.getId());
-        myIntent.putExtra(IntentStrings.SESSION_TIMING, timings);
+        myIntent.putExtra(ConstantStrings.SESSION, session.getId());
+        myIntent.putExtra(ConstantStrings.SESSION_TIMING, timings);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);

@@ -32,7 +32,7 @@ import org.fossasia.openevent.dbutils.DataDownloadManager;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.RefreshUiEvent;
 import org.fossasia.openevent.events.TracksDownloadEvent;
-import org.fossasia.openevent.utils.IntentStrings;
+import org.fossasia.openevent.utils.ConstantStrings;
 
 import java.util.List;
 
@@ -72,7 +72,7 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
                 Track model = (Track) tracksListAdapter.getItem(position);
                 String trackTitle = model.getName();
                 Intent intent = new Intent(getContext(), TracksActivity.class);
-                intent.putExtra(IntentStrings.TRACK, trackTitle);
+                intent.putExtra(ConstantStrings.TRACK, trackTitle);
                 startActivity(intent);
             }
         });
