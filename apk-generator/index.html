@@ -1,4 +1,4 @@
-<form name="htmlform">
+<form name="htmlform" id="form">
   <p align="center"><b><big>FOSSASIA's App Generator</big></b></p>
 <table align="center"
 width = "900px"
@@ -8,15 +8,14 @@ height="200px">
   <label for="Email">Email</label>
  </td>
  <td valign="top">
-  <input  type="email" name="email"  size="30">
+  <input id="email" type="email" name="Email"  size="30">
  </td>
-
 
  <td>
   <label for="name">App's Name</label>
  </td>&nbsp;
  <td valign="top">
-  <input  type="text" name="name" maxlength="50" size="30">
+  <input id="appName" type="text" name="App_Name" maxlength="50" size="30">
  </td>
 
 </tr>
@@ -25,7 +24,7 @@ height="200px">
   <label for="link">Api Link</label>
  </td>
  <td valign="top">
-  <input  type="url" name="url" maxlength="30" size="30">
+  <input id="apiLink" type="url" name="Api_Link" maxlength="30" size="30">
  </td>
 </tr>
 <tr>
@@ -62,8 +61,22 @@ height="200px">
  </tr>
 <tr>
  <td colspan="5" style="text-align:center">
-  <input type="submit" value="Generate and Download app">
+  <button type="submit">Generate and Download app</button>
  </td>
 </tr>
 </table>
 </form>
+<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+<script>
+    var $ = jQuery;
+    var form = document.querySelector("form");
+    form.addEventListener("submit", function(event) {
+      var ary = $(form).serializeArray();
+      var obj = {};
+      for (var a = 0; a < ary.length; a++) obj[ary[a].name] = ary[a].value;
+      console.log("JSON",obj);
+      return obj;
+      localStorage.setItem("json", obj);
+    });
+</script>
