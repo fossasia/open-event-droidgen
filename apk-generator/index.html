@@ -24,7 +24,7 @@ height="200px">
   <label for="link">Api Link</label>
  </td>
  <td valign="top">
-  <input id="apiLink" type="url" name="Api_Link" maxlength="30" size="30">
+  <input id="apiLink" type="url" name="Api_Link" maxlength="90" size="30">
  </td>
 </tr>
 <tr>
@@ -66,17 +66,29 @@ height="200px">
 </tr>
 </table>
 </form>
-<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
-<script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+<script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="https://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 <script>
     var $ = jQuery;
     var form = document.querySelector("form");
+    var config = {
+      apiKey: "AIzaSyDTo4TPzUkvYYN5dwvNnI4jVmB_eTc0Lpo",
+      authDomain: "app-generator.firebaseapp.com",
+      databaseURL: "https://app-generator.firebaseio.com",
+      storageBucket: "app-generator.appspot.com",
+    };
+    firebase.initializeApp(config);
+    var userId = 1;
+    var database = firebase.database();
     form.addEventListener("submit", function(event) {
       var ary = $(form).serializeArray();
       var obj = {};
       for (var a = 0; a < ary.length; a++) obj[ary[a].name] = ary[a].value;
       console.log("JSON",obj);
-      return obj;
-      // localStorage.setItem("json", obj);
+      firebase.database().ref('users/' + userId).set(obj);
+      });
+    database.ref('users/' + userId).on('value', function(user) {
+      console.log('The user is ' + user.username + '!');
     });
 </script>
