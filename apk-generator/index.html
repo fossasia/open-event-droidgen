@@ -75,13 +75,12 @@ height="200px">
     var timestamp = Number(new Date());
     var form = document.querySelector("form");
     var config = {
-      apiKey: "AIzaSyDTo4TPzUkvYYN5dwvNnI4jVmB_eTc0Lpo",
-      authDomain: "app-generator.firebaseapp.com",
-      databaseURL: "https://app-generator.firebaseio.com",
-      storageBucket: "app-generator.appspot.com",
+      apiKey: "API_KEY",
+      authDomain: "app-name.firebaseapp.com",
+      databaseURL: "https://app-name.firebaseio.com",
+      storageBucket: "app-name.appspot.com",
     };
     firebase.initializeApp(config);
-    // var userId = 1;
     var database = firebase.database();
     form.addEventListener("submit", function(event) {
       event.preventDefault();
@@ -94,7 +93,7 @@ height="200px">
       console.log("Received value",snapshot.val());
       $.ajax({
         type: "POST",
-	      url: "/test.php",
+	      url: "/runPy.php",
 	      data: { timestamp : timestamp },
         success: function(response){
           console.log("Success",response);
