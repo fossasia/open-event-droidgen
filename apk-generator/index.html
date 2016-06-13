@@ -71,24 +71,34 @@ height="200px">
 <script src="https://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 <script>
     var $ = jQuery;
+    var timestamp = Number(new Date());
     var form = document.querySelector("form");
     var config = {
-      apiKey: "AIzaSyDTo4TPzUkvYYN5dwvNnI4jVmB_eTc0Lpo",
-      authDomain: "app-generator.firebaseapp.com",
-      databaseURL: "https://app-generator.firebaseio.com",
-      storageBucket: "app-generator.appspot.com",
+      apiKey: "API_KEY",
+      authDomain: "app-name.firebaseapp.com",
+      databaseURL: "https://app-name.firebaseio.com",
+      storageBucket: "app-name.appspot.com",
     };
     firebase.initializeApp(config);
-    var userId = 1;
     var database = firebase.database();
     form.addEventListener("submit", function(event) {
+      event.preventDefault();
       var ary = $(form).serializeArray();
       var obj = {};
       for (var a = 0; a < ary.length; a++) obj[ary[a].name] = ary[a].value;
       console.log("JSON",obj);
-      firebase.database().ref('users/' + userId).set(obj);
+      firebase.database().ref('users/' + timestamp).set(obj);
+      database.ref('users/' + timestamp).once('value').then(function(snapshot) {
+      console.log("Received value",snapshot.val());
+      $.ajax({
+        type: "POST",
+	url: "/runPy.php",
+	data: { timestamp : timestamp },
+        success: function(response){
+          console.log("Success",response);
+          alert(response);
+	}
       });
-    database.ref('users/' + userId).on('value', function(user) {
-      console.log('The user is ' + user.username + '!');
-    });
+      });
+      });
 </script>
