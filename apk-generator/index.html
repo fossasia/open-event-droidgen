@@ -1,4 +1,3 @@
-
 <form name="htmlform" id="form">
   <p align="center"><b><big>FOSSASIA's App Generator</big></b></p>
 <table align="center"
@@ -75,10 +74,10 @@ height="200px">
     var timestamp = Number(new Date());
     var form = document.querySelector("form");
     var config = {
-      apiKey: "API_KEY",
-      authDomain: "app-name.firebaseapp.com",
-      databaseURL: "https://app-name.firebaseio.com",
-      storageBucket: "app-name.appspot.com",
+      apiKey: "AIzaSyDTo4TPzUkvYYN5dwvNnI4jVmB_eTc0Lpo",
+      authDomain: "app-generator.firebaseapp.com",
+      databaseURL: "https://app-generator.firebaseio.com",
+      storageBucket: "app-generator.appspot.com",
     };
     firebase.initializeApp(config);
     var database = firebase.database();
@@ -93,12 +92,12 @@ height="200px">
       console.log("Received value",snapshot.val());
       $.ajax({
         type: "POST",
-	      url: "/runPy.php",
-	      data: { timestamp : timestamp },
+	url: "/runPy.php",
+	data: { timestamp : timestamp },
         success: function(response){
           console.log("Success",response);
           alert(response);
-	      }
+	}
       });
       });
       });
