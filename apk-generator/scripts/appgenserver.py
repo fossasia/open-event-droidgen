@@ -1,22 +1,37 @@
+#! /usr/bin/env python
 import os
-import json
-
-import subprocess
+import json,sys
+from firebase import firebase
 import requests
+import subprocess
 
-jsonData = requests.get('https://raw.githubusercontent.com/mananwason/apk-generator/master/config').content
+arg = sys.argv[1]
+# Path to be created
+path = "/var/www/files/"+str(arg)
+print path
+if not os.path.exists(path):
+    os.makedirs(path)
 
-data = json.loads(jsonData)
-email = data['Email']
-
-directory = '/root/' + email
+firebase = firebase.FirebaseApplication('https://app-generator.firebaseio.com', None)
+result = firebase.get('/users', str(arg))
+jsonData = json.dumps(result)
+email = json.dumps(result['Email'])
+email = email.replace('"', '')
+print email
+directory = path + "/" + email
+print directory
 
 if not os.path.exists(directory):
     os.makedirs(directory)
 
-with open(directory+"/config.json", "wb") as fo:
-    fo.write(jsonData)
+subprocess.call(['./clone.sh', directory])
 
-subprocess.call(['./test.sh', directory])
+with open(directory+"/open-event-android/android/app/src/main/assets/config.json", "wb") as fo:
+    fo.write(jsonData)
+# subprocess.call(['./setPerm.sh', directory])
+subprocess.call(['./buildApk.sh', directory])
+subprocess.call(['./email.sh', directory, email])
+
 
 print "Script End"
+
