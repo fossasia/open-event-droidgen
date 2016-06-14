@@ -5,13 +5,32 @@
 [![Preview the app](http://i.imgur.com/iuWpLuX.png)](https://appetize.io/app/2rfx5pavny47jnb1qzwg204fr8) <br>
 [![Get it on GPlay](http://i.imgur.com/rZYxvAo.png)](https://play.google.com/store/apps/details?id=org.fossasia.openevent&hl=en)
 
-## The Open Event Android Client
+## The Open Event Android App
 
-The Android client is a generic app that has two parts:
+The Open Event Android App consists of 2 main parts : <br>
 
-a) A standard configuration file, that sets the details of the app (e.g. color scheme, logo of event, link to JSON app data)
+1. App Generator hosted on a server
+2. Android client that is can be installed on any Android device for browsing any event
 
-b) This app uses the json api provided by a server maintained [here](https://github.com/fossasia/open-event-orga-server).
+#App Generator : https://192.241.232.231
+
+The App Generator is a simple One Pager HTML webpage that allows the user to input details related to the App that he/she wants to be generated.<br>
+These details include :
+
+1. App's Name
+2. API Link from where the json files needed for the App will be fetched
+3. E-Mail address where the generated app will be sent.
+
+The Generator is hosted on a server and is backed up by PHP script which in turn executes python and Bash scripts which start the app's build process. <br>
+After the app is generated,it is emailed to the user using [Mutt](http://www.mutt.org/) and [MSMTP](http://msmtp.sourceforge.net/) <br>
+
+Scripts used in the app generator server can be found [here](https://github.com/fossasia/open-event-android/tree/master/apk-generator/scripts).
+
+#Android client 
+This is a generic app that has two parts:
+
+1.A standard configuration file, that sets the details of the app (e.g. color scheme, logo of event, link to JSON app data)<br>
+2.This app uses the json api provided by a server maintained [here](https://github.com/fossasia/open-event-orga-server).
 
 ## Development Setup
 Before you begin, you should already have the Android Studio SDK downloaded and set up correctly. You can find a guide on how to do this here: [Setting up Android Studio](http://developer.android.com/sdk/installing/index.html?pkg=studio)
@@ -26,7 +45,6 @@ Before you begin, you should already have the Android Studio SDK downloaded and 
 4. Once this process is complete and Android Studio opens, check the Console for any build errors.
 
 	- *Note:* If you recieve a Gradle sync error titled, "failed to find ...", you should click on the link below the error message (if avaliable) that says *Install missing platform(s) and sync project* and allow Android studio to fetch you what is missing.
-	- *Note:* If you are trying to build this project on a Windows Machine, you should **Comment** out line number 5 and **Uncomment** line number 6 inside build.gradle(Project: app).
 
 5. Once all build errors have been resolved, you should be all set to build the app and test it.
 
