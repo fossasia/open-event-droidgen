@@ -12,7 +12,7 @@ The Open Event Android App consists of 2 main parts : <br>
 1. App Generator hosted on a server
 2. Android client that is can be installed on any Android device for browsing any event
 
-#App Generator : https://192.241.232.231
+#App Generator : http://192.241.232.231
 
 The App Generator is a simple One Pager HTML webpage that allows the user to input details related to the App that he/she wants to be generated.<br>
 These details include :
