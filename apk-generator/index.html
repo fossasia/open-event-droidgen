@@ -66,39 +66,5 @@ height="200px">
 </tr>
 </table>
 </form>
-<script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
-<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-<script src="https://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
-<script>
-    var $ = jQuery;
-    var timestamp = Number(new Date());
-    var form = document.querySelector("form");
-    var config = {
-      apiKey: "API_KEY",
-      authDomain: "app-name.firebaseapp.com",
-      databaseURL: "https://app-name.firebaseio.com",
-      storageBucket: "app-name.appspot.com",
-    };
-    firebase.initializeApp(config);
-    var database = firebase.database();
-    form.addEventListener("submit", function(event) {
-      event.preventDefault();
-      var ary = $(form).serializeArray();
-      var obj = {};
-      for (var a = 0; a < ary.length; a++) obj[ary[a].name] = ary[a].value;
-      console.log("JSON",obj);
-      firebase.database().ref('users/' + timestamp).set(obj);
-      database.ref('users/' + timestamp).once('value').then(function(snapshot) {
-      console.log("Received value",snapshot.val());
-      $.ajax({
-        type: "POST",
-	url: "/runPy.php",
-	data: { timestamp : timestamp },
-        success: function(response){
-          console.log("Success",response);
-          alert(response);
-	}
-      });
-      });
-      });
-</script>
+<script src="index.js></script>
+
