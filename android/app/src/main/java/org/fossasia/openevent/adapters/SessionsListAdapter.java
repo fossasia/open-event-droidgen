@@ -52,6 +52,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, ViewHolder.Viewh
         }
     };
     private ViewHolder.SetOnClickListener listener;
+
     public SessionsListAdapter(List<Session> sessions) {
         super(sessions);
     }

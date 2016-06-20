@@ -104,7 +104,7 @@ public class BookmarksFragment extends Fragment {
         sessionsListAdapter.setOnClickListener(new SessionsListAdapter.SetOnClickListener() {
             @Override
             public void onItemClick(int position, View view) {
-                Session model = (Session) sessionsListAdapter.getItem(position);
+                Session model = sessionsListAdapter.getItem(position);
                 String sessionName = model.getTitle();
                 Track track = dbSingleton.getTrackbyId(model.getTrack());
                 String trackName = track.getName();

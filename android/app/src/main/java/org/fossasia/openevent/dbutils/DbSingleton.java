@@ -169,6 +169,7 @@ public class DbSingleton {
     public boolean isBookmarksTableEmpty() {
         return databaseOperations.isBookmarksTableEmpty(mDb);
     }
+
     public ArrayList<Integer> getBookmarkIds() throws ParseException {
 
         getReadOnlyDatabase();

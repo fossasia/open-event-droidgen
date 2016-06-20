@@ -846,10 +846,10 @@ public class DatabaseOperations {
         Cursor c = null;
         try {
             c = db.rawQuery("select * from " + DbContract.Bookmarks.TABLE_NAME, null);
-            if (c.getCount() == 0){
+            if (c.getCount() == 0) {
                 check = true;
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             Timber.e("Parsing Error Occurred at DatabaseOperations::isBookmarksTableEmpty.");
         } finally {
             if (c != null) c.close();
