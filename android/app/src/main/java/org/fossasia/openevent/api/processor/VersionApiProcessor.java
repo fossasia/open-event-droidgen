@@ -46,7 +46,8 @@ public class VersionApiProcessor implements Callback<VersionResponseList> {
                             download.downloadMicrolocations();
                             download.downloadSession();
                             download.downloadSponsors();
-                            counterRequests += 6;
+                            download.downloadEventDates();
+                            counterRequests += 7;
 
                         } else if ((dbSingleton.getVersionIds().getId() != version.getId())) {
                             DataDownloadManager download = DataDownloadManager.getInstance();

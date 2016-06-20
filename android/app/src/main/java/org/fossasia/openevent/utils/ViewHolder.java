@@ -25,6 +25,7 @@ public class ViewHolder {
         SetOnClickListener listener;
         private TextView txtView1;
         private TextView txtView2;
+        private TextView txtView3;
         private ImageView imgView1;
         private View view1;
         private View view2;
@@ -95,6 +96,12 @@ public class ViewHolder {
             this.listener = itemClickListener;
         }
 
+        public TextView getTxtView3() {
+            return txtView3;
+        }
 
+        public void setTxtView3(TextView txtView3) {
+            this.txtView3 = txtView3;
+        }
     }
 }

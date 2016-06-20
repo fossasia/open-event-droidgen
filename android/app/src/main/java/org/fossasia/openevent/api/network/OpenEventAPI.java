@@ -1,5 +1,6 @@
 package org.fossasia.openevent.api.network;
 
+import org.fossasia.openevent.api.protocol.EventDatesResponseList;
 import org.fossasia.openevent.api.protocol.EventResponseList;
 import org.fossasia.openevent.api.protocol.MicrolocationResponseList;
 import org.fossasia.openevent.api.protocol.SessionResponseList;
@@ -40,4 +41,8 @@ public interface OpenEventAPI {
     //https://raw.githubusercontent.com/fossasia/open-event/master/testapi/event/1/version
     @GET("event/{id}/version")
     Call<VersionResponseList> getVersion(@Path("id") int id);
+
+    @GET("event/{id}/eventDates")
+    Call<EventDatesResponseList> getDates(@Path("id") int id);
+
 }
