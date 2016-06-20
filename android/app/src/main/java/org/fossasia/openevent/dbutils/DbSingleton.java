@@ -132,6 +132,16 @@ public class DbSingleton {
         return databaseOperations.getSessionbyTracksname(trackName, mDb);
     }
 
+    public List<String> getDateList() {
+        getReadOnlyDatabase();
+        return databaseOperations.getDateList(mDb);
+    }
+
+
+    public ArrayList<Session> getSessionbyDate(String date) {
+        return databaseOperations.getSessionbyDate(date, mDb);
+    }
+
     public ArrayList<Session> getSessionbySpeakersName(String speakerName) {
         return databaseOperations.getSessionbySpeakersname(speakerName, mDb);
     }
@@ -195,5 +205,11 @@ public class DbSingleton {
     public void deleteAllRecords(String tableName) {
         databaseOperations.deleteAllRecords(tableName, mDb);
     }
+
+    public boolean checkDateNotInDatabase(String date){
+        return databaseOperations.checkDateNotInDatabase(date,mDb);
+    }
+
+
 
 }

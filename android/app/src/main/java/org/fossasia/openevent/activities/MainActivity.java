@@ -49,6 +49,7 @@ import org.fossasia.openevent.events.SponsorDownloadEvent;
 import org.fossasia.openevent.events.TracksDownloadEvent;
 import org.fossasia.openevent.fragments.BookmarksFragment;
 import org.fossasia.openevent.fragments.LocationsFragment;
+import org.fossasia.openevent.fragments.ScheduleFragment;
 import org.fossasia.openevent.fragments.SpeakerFragment;
 import org.fossasia.openevent.fragments.SponsorsFragment;
 import org.fossasia.openevent.fragments.TracksFragment;
@@ -268,6 +269,11 @@ public class MainActivity extends BaseActivity {
             case R.id.nav_tracks:
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_frame, new TracksFragment(), FRAGMENT_TAG).commit();
+                getSupportActionBar().setTitle(R.string.menu_tracks);
+                break;
+            case R.id.nav_schedule:
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_frame, new ScheduleFragment(), FRAGMENT_TAG).commit();
                 getSupportActionBar().setTitle(R.string.menu_tracks);
                 break;
             case R.id.nav_bookmarks:
