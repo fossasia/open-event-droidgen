@@ -54,7 +54,10 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
         location = getIntent().getStringExtra(ConstantStrings.MICROLOCATIONS);
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_locations);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         selectedLocation = dbSingleton.getLocationByLocationname(location);
 

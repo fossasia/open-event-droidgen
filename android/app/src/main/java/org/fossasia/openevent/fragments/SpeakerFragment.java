@@ -2,12 +2,9 @@ package org.fossasia.openevent.fragments;
 
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -37,6 +34,7 @@ import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.dbutils.DataDownloadManager;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.SpeakerDownloadEvent;
+import org.fossasia.openevent.utils.NetworkUtils;
 
 import java.util.List;
 
@@ -88,7 +86,7 @@ public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextL
         speakersListAdapter.setOnClickListener(new SpeakersListAdapter.SetOnClickListener() {
             @Override
             public void onItemClick(int position, View view) {
-                Speaker model = (Speaker) speakersListAdapter.getItem(position);
+                Speaker model = speakersListAdapter.getItem(position);
                 String speakerName = model.getName();
                 Intent intent = new Intent(getContext(), SpeakersActivity.class);
                 intent.putExtra(Speaker.SPEAKER, speakerName);
@@ -100,7 +98,7 @@ public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextL
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if (haveNetworkConnection()) {
+                if (NetworkUtils.haveNetworkConnection(getActivity())) {
                     DataDownloadManager.getInstance().downloadSpeakers();
                 } else {
                     OpenEventApp.getEventBus().post(new SpeakerDownloadEvent(false));
@@ -199,20 +197,4 @@ public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextL
         return true;
     }
 
-    private boolean haveNetworkConnection() {
-        boolean haveConnectedWifi = false;
-        boolean haveConnectedMobile = false;
-
-        ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo[] netInfo = cm.getAllNetworkInfo();
-        for (NetworkInfo ni : netInfo) {
-            if (ni.getTypeName().equalsIgnoreCase("WIFI"))
-                if (ni.isConnected())
-                    haveConnectedWifi = true;
-            if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
-                if (ni.isConnected())
-                    haveConnectedMobile = true;
-        }
-        return haveConnectedWifi || haveConnectedMobile;
-    }
 }
