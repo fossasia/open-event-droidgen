@@ -2,14 +2,9 @@ package org.fossasia.openevent.fragments;
 
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.Network;
-import android.net.NetworkInfo;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -41,8 +36,6 @@ import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.SpeakerDownloadEvent;
 import org.fossasia.openevent.utils.NetworkUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import timber.log.Timber;
