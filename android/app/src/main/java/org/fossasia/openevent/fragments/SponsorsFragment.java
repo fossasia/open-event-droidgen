@@ -28,6 +28,7 @@ import org.fossasia.openevent.adapters.SponsorsListAdapter;
 import org.fossasia.openevent.dbutils.DataDownloadManager;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.SponsorDownloadEvent;
+import org.fossasia.openevent.utils.NetworkUtils;
 import org.fossasia.openevent.utils.RecyclerItemClickListener;
 
 import timber.log.Timber;
@@ -56,7 +57,7 @@ public class SponsorsFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if (haveNetworkConnection()) {
+                if (NetworkUtils.haveNetworkConnection(getActivity())) {
                     DataDownloadManager.getInstance().downloadSponsors();
                 } else {
                     OpenEventApp.getEventBus().post(new SponsorDownloadEvent(true));
@@ -101,23 +102,6 @@ public class SponsorsFragment extends Fragment {
             Timber.d("Refresh not done");
 
         }
-    }
-
-    private boolean haveNetworkConnection() {
-        boolean haveConnectedWifi = false;
-        boolean haveConnectedMobile = false;
-
-        ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo[] netInfo = cm.getAllNetworkInfo();
-        for (NetworkInfo ni : netInfo) {
-            if (ni.getTypeName().equalsIgnoreCase("WIFI"))
-                if (ni.isConnected())
-                    haveConnectedWifi = true;
-            if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
-                if (ni.isConnected())
-                    haveConnectedMobile = true;
-        }
-        return haveConnectedWifi || haveConnectedMobile;
     }
 
     @Override
