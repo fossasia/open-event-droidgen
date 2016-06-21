@@ -27,17 +27,12 @@ android:
   - extra-google-m2repository
   - extra-android-m2repository
   - sys-img-armeabi-v7a-$ANDROID_TARGET
-# before_script:
-#   - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
-#   - emulator -avd test -no-skin -no-audio -no-window &
-#   - android-wait-for-emulator
-#   - adb shell input keyevent 82 &
 before_script:
-  - cd android
+- cd android
 script:
-  - ./gradlew build test
-  - chmod a+x codestyle.sh
-  - "./codestyle.sh"
+- "./gradlew build test"
+- chmod a+x codestyle.sh
+- "./codestyle.sh"
 notifications:
   webhooks:
     urls:
@@ -46,4 +41,13 @@ notifications:
     on_failure: always
     on_start: false
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
+- bash <(curl -s https://codecov.io/bash)
+deploy:
+  provider: releases
+  api_key:
+    secure: VDU1UmBTRHFkn0Dz5TfDFnY+WfFjldKu9YEBE8Bl/VZssXRAgs63p/GCtwV47jwckHAaDUhGsfTYh1A3Caajxl0KMGriLYMZON3teF72qi+cz8J4QQjirS/x7LYid1eFzktxgpVh2kFZHa26llZ3fOJCzWVyk9MpoBl03bEr/i/L1UPnYb1cQIAut+EwgLwIKG3VJnJThveC4wFKQaP7GPR91rnTPGIZFPWbhuXFOq78nOAafC+hpgyzQJq893Hk4v4jjW1oRtjdWcvSf+YG36IHDEphTrMCDW/OwwSJFiF10At3J+9KPk8welJljUKjAOroPuBPkrX1Yt1/CXJYyKV1D8LQjLeN3vs9V13u0xom59563yOWewvCijWmr5X+SIcJwljL9qSvatsps7jvD46yYbH9Lo2pw5ZvfAyy50+ZYotwaotziQSz7LkitHvSsEZyZssCt3EnnUFrarDgQkOOdtexBE5TOlOv2rIyog2lTGnr+kKU/FdQDYuPpqmunhi1NnRi1QJOBgQJPcuAwtNKCU/oNlTKFndHKQxz9UQnrG2CChGagBrM8oEVZFhwOej0WYX3fJg6jBJXk2l0EQlGRV1FT9synqv2oCXOhU2+SV1fxe/7ZKhUBk89P/Re+O/HLkI/7cgZw3iNtYFXQccm7fMzcnEv0X8HKwPNplA=
+  file: 
+      "android/app/build/outputs/apk/app-fdroid-debug.apk"
+      "android/app/build/outputs/apk/app-googleplay-debug.apk"
+  on:
+    repo: fossasia/open-event-android
