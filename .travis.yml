@@ -47,3 +47,15 @@ notifications:
     on_start: false
 after_success:
   - bash <(curl -s https://codecov.io/bash)
+deploy:
+  provider: releases
+  skip_cleanup: true
+  api_key:
+    secure: VUz/DjL6esI3C5Wj3+/iuwTAsElk92vVU2QSjs+qWv80di6qGi1me7AGy6+PybX+Q5BB0qMOrGNX0X78AzDjozAcCoevfWKpxWgSw9hiz43uk6vLS7CUUB5HPmRXU3niSSDEZapqM9AYjgZctwCrk1q8yJMemsXuGHidRDYhpOdv7ytwtaDu3K8/TNTuMu4UdPoATDZ7AuM6NjuLbf5SXnLO3QFL+HwzVH/oe07A35xB8rKS4t2DjOPe5b/RLsytLnjo6dMDZRYl08bZ0J+kZLDKLZAI76WALmDR0Ruc6uGFtqK3DLi3YYC4Lu9CRj8lQ7NuaznMhgjzSzsJNOGeR1V7VoBIvzGIRk/AgExPXP0Jw/62wHpyUgznC1tS3ObPVAUwz5PLbOI8m+MG2JpIZampmA4Rog1mCXHI/pPYSmGd4zUmNO6WmNrzKVMSP51nBCjNPx7jvRBZkcAnKoTyOZPb5wCLP3Ac6hqChG6TQiLml8F8jKg8lqdnXJEs8nw2x/92F089R3s6MLwCUiAzhcUleRKUrISBGBRa93GAfwGXSSkXrpLYfsPwNNaWsybXvoIGHEvDLoRqFN5fPJhqWXYLLST5mQbiQxBANHQxOspxgKLiKEHv5WHPwwkSFG0e1Jeq5Q4MVS0/Rjne0qgvCgpx0YKUZe7XErC9LMHSO/o=
+  file:
+    - "android/app/build/outputs/apk/app-fdroid-debug.apk"
+    - "android/app/build/outputs/apk/app-googleplay-debug.apk"
+  on:
+    tags: true
+    repo: fossasia/open-event-android
+
