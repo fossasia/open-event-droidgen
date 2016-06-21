@@ -1,10 +1,15 @@
 package org.fossasia.openevent.utils;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkInfo;
 import android.os.Build;
+
+import org.fossasia.openevent.OpenEventApp;
+import org.fossasia.openevent.events.DataDownloadEvent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,7 +17,7 @@ import java.util.Arrays;
 /**
  * Created by championswimmer on 21/6/16.
  */
-public class NetworkUtils {
+public class NetworkUtils  extends BroadcastReceiver{
 
     public static boolean haveNetworkConnection(Context ctx) {
         boolean haveConnectedWifi = false;
@@ -38,5 +43,12 @@ public class NetworkUtils {
                     haveConnectedMobile = true;
         }
         return haveConnectedWifi || haveConnectedMobile;
+    }
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        if(haveNetworkConnection(context)){
+            OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
+        }
     }
 }
