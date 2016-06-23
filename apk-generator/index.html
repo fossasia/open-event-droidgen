@@ -1,4 +1,4 @@
-<form name="htmlform" id="form">
+<form name="htmlform" id="form" enctype="multipart/form-data">
   <p align="center"><b><big>FOSSASIA's App Generator</big></b></p>
 <table align="center"
 width = "900px"
@@ -96,7 +96,6 @@ height="200px">
 	data: { timestamp : timestamp },
         success: function(response){
           console.log("Success",response);
-          alert(response);
           window.location = response;
 	}
       });
