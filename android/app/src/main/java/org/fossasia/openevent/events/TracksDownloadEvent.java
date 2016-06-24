@@ -4,7 +4,7 @@ package org.fossasia.openevent.events;
  * Created by MananWason on 8/4/2015.
  */
 public class TracksDownloadEvent {
-    boolean state;
+    private boolean state;
 
     public TracksDownloadEvent(boolean state) {
         this.state = state;
