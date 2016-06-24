@@ -8,6 +8,8 @@ import org.fossasia.openevent.data.Version;
 import org.fossasia.openevent.dbutils.DataDownloadManager;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.CounterEvent;
+import org.fossasia.openevent.events.RetrofitError;
+import org.fossasia.openevent.events.RetrofitResponseEvent;
 import org.fossasia.openevent.utils.CommonTaskLoop;
 
 import java.util.ArrayList;
@@ -100,15 +102,12 @@ public class VersionApiProcessor implements Callback<VersionResponseList> {
                 }
             });
         } else {
-            //Post failure on the bus
+            OpenEventApp.postEventOnUIThread(new RetrofitResponseEvent(response.code()));
         }
     }
 
     @Override
     public void onFailure(Call<VersionResponseList> call, Throwable t) {
-        Log.d("Ret", "RetrofitError");
-        // TODO: 3/8/2016 convert error to Retrofit2
-//        OpenEventApp.postEventOnUIThread(error);
-//        Log.d("ErrorDescription", String.valueOf(error.getCause()));
+        OpenEventApp.postEventOnUIThread(new RetrofitError(t));
     }
 }

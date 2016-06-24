@@ -5,7 +5,7 @@ package org.fossasia.openevent.events;
  * Date: 8/4/2015
  */
 public class SpeakerDownloadEvent {
-    boolean state;
+    private boolean state;
 
     public SpeakerDownloadEvent(boolean state) {
         this.state = state;

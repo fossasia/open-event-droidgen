@@ -5,7 +5,7 @@ package org.fossasia.openevent.events;
  * Date: 8/4/2015
  */
 public class SessionDownloadEvent {
-    boolean state;
+    private boolean state;
 
     public SessionDownloadEvent(boolean state) {
 

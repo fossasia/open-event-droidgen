@@ -5,6 +5,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.CoordinatorLayout;
@@ -42,6 +44,8 @@ import org.fossasia.openevent.events.EventDownloadEvent;
 import org.fossasia.openevent.events.MicrolocationDownloadEvent;
 import org.fossasia.openevent.events.NoInternetEvent;
 import org.fossasia.openevent.events.RefreshUiEvent;
+import org.fossasia.openevent.events.RetrofitError;
+import org.fossasia.openevent.events.RetrofitResponseEvent;
 import org.fossasia.openevent.events.SessionDownloadEvent;
 import org.fossasia.openevent.events.ShowNetworkDialogEvent;
 import org.fossasia.openevent.events.SpeakerDownloadEvent;
@@ -54,6 +58,8 @@ import org.fossasia.openevent.fragments.SponsorsFragment;
 import org.fossasia.openevent.fragments.TracksFragment;
 import org.fossasia.openevent.utils.SmoothActionBarDrawerToggle;
 import org.fossasia.openevent.widget.DialogFactory;
+
+import java.io.IOException;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -462,41 +468,33 @@ public class MainActivity extends BaseActivity {
         Timber.d("Download has started");
     }
 
-//    @Subscribe
-//    public void ErrorHandlerEvent(RetrofitError cause) {
-//        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-//        NetworkInfo netinfo = connMgr.getActiveNetworkInfo();
-//        if (!(netinfo != null && netinfo.isConnected())) {
-//            OpenEventApp.postEventOnUIThread(new ShowNetworkDialogEvent());
-//        } else {
-//            switch (cause.getKind()) {
-//                case CONVERSION: {
-//                    errorType = "Conversion Error";
-//                    errorDesc = String.valueOf(cause.getCause());
-//                    break;
-//                }
-//                case HTTP: {
-//                    errorType = "HTTP Error";
-//                    errorDesc = String.valueOf(cause.getResponse().getStatus());
-//                    break;
-//                }
-//                case UNEXPECTED: {
-//                    errorType = "Unexpected Error";
-//                    errorDesc = String.valueOf(cause.getCause());
-//                    break;
-//                }
-//                case NETWORK: {
-//                    errorType = "Network Error";
-//                    errorDesc = String.valueOf(cause.getCause());
-//                    break;
-//                }
-//                default: {
-//                    errorType = "Other Error";
-//                    errorDesc = String.valueOf(cause.getCause());
-//                }
-//            }
-//            Timber.tag(errorType).e(errorDesc);
-//            showErrorDialog(errorType, errorDesc);
-//        }
-//    }
+    @Subscribe
+    public void handleResponseEvent(RetrofitResponseEvent responseEvent) {
+        Integer statusCode = responseEvent.getStatusCode();
+        if (statusCode.equals(404)) {
+            showErrorDialog("HTTP Error", statusCode + "Api Not Found");
+        }
+    }
+
+    @Subscribe
+    public void errorHandlerEvent(RetrofitError error) {
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netinfo = connMgr.getActiveNetworkInfo();
+        if (!(netinfo != null && netinfo.isConnected())) {
+            OpenEventApp.postEventOnUIThread(new ShowNetworkDialogEvent());
+        } else {
+            if (error.getThrowable() instanceof IOException) {
+                errorType = "Timeout";
+                errorDesc = String.valueOf(error.getThrowable().getCause());
+            } else if (error.getThrowable() instanceof IllegalStateException) {
+                errorType = "ConversionError";
+                errorDesc = String.valueOf(error.getThrowable().getCause());
+            } else {
+                errorType = "Other Error";
+                errorDesc = String.valueOf(error.getThrowable().getLocalizedMessage());
+            }
+            Timber.tag(errorType).e(errorDesc);
+            showErrorDialog(errorType, errorDesc);
+        }
+    }
 }
