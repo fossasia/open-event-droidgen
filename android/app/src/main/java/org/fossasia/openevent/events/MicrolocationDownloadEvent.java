@@ -4,7 +4,7 @@ package org.fossasia.openevent.events;
  * Created by MananWason on 8/4/2015.
  */
 public class MicrolocationDownloadEvent {
-    boolean state;
+    private boolean state;
 
     public MicrolocationDownloadEvent(boolean state) {
 

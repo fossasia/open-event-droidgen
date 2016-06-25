@@ -5,7 +5,7 @@ package org.fossasia.openevent.events;
  * Date: 8/5/2015
  */
 public class CounterEvent {
-    int requestsCount;
+    private int requestsCount;
 
     public CounterEvent(int count) {
         this.requestsCount = count;
