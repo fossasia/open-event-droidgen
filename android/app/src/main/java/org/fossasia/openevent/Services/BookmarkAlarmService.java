@@ -25,6 +25,9 @@ public class BookmarkAlarmService extends IntentService {
         super(name);
     }
 
+    public BookmarkAlarmService(){
+        super("BookMarkAlarmService");
+    }
 
     @Override
     public IBinder onBind(Intent arg0) {
