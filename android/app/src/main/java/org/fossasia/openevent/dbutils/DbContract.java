@@ -175,6 +175,8 @@ public class DbContract {
 
         public static final String START_TIME = "starttime";
 
+        public static final String START_DATE = "startdate";
+
         public static final String END_TIME = "end_time";
 
         public static final String TYPE = "type";
@@ -209,6 +211,7 @@ public class DbContract {
                         + DESCRIPTION + TEXT_TYPE + COMMA_SEP
                         + START_TIME + TEXT_TYPE + COMMA_SEP
                         + END_TIME + TEXT_TYPE + COMMA_SEP
+                        + START_DATE + TEXT_TYPE + COMMA_SEP
                         + TYPE + TEXT_TYPE + COMMA_SEP
                         + TRACK + INT_TYPE + COMMA_SEP
                         + LEVEL + TEXT_TYPE + COMMA_SEP
@@ -322,6 +325,26 @@ public class DbContract {
 
     }
 
+    public static abstract class EventDates implements BaseColumns {
+        public static final String TABLE_NAME = "eventdate";
+
+
+        public static final String DATE = "date";
+
+        public static final String[] FULL_PROJECTION = {
+                DATE
+        };
+
+        public static final String CREATE_TABLE =
+                "CREATE TABLE " + TABLE_NAME
+                        + " ("
+                        + DATE + TEXT_TYPE + PRIMARY_KEY
+                        + " );";
+
+        public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
+
+
+    }
 
     public static abstract class Event implements BaseColumns {
         public static final String TABLE_NAME = "events";

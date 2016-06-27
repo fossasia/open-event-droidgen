@@ -15,6 +15,8 @@
     <string name="menu_settings">Settings</string>
     <string name="menu_about">About us</string>
     <string name="session">Session detail</string>
+    <string name="menu_schedule" translatable="false">Schedule</string>
+
 
     <!--Navigation Drawer-->
     <string name="navigation_drawer_open">Open navigation drawer</string>

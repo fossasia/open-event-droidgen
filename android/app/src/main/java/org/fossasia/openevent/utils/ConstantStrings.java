@@ -24,5 +24,8 @@ public class ConstantStrings {
 
     public static final String BASE_API_URL = "BASE_API_URL";
 
+    public static final int DAYS_OF_EVENT = 3;
 
+
+    public static final String EVENT_DAY = "EVENT_DAY";
 }

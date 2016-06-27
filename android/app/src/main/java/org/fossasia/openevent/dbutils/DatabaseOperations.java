@@ -33,6 +33,8 @@ public class DatabaseOperations {
 
     private static final String EQUAL = " == ";
 
+    private static final String LIKE = " LIKE ";
+
     Event event;
 
     public ArrayList<Session> getSessionList(SQLiteDatabase mDb) {
@@ -473,6 +475,7 @@ public class DatabaseOperations {
             db.setTransactionSuccessful();
             db.endTransaction();
         } catch (Exception e) {
+            Timber.d(e.getMessage());
             Timber.e("Parsing Error Occurred at DatabaseOperations::insertQueries.");
         }
     }
@@ -948,4 +951,80 @@ public class DatabaseOperations {
         db.execSQL("delete from " + DatabaseUtils.sqlEscapeString(tableName));
     }
 
+    public boolean checkDateNotInDatabase(String date, SQLiteDatabase mDb) {
+        String Query = "Select * from " + DbContract.EventDates.TABLE_NAME + " where " + DbContract.EventDates.DATE + " = " + date;
+        Cursor cursor = mDb.rawQuery(Query, null);
+        if (cursor.getCount() > 0) {
+            cursor.close();
+            return false;
+
+        }
+        cursor.close();
+        return true;
+
+    }
+
+    public ArrayList<Session> getSessionbyDate(String date, SQLiteDatabase mDb) {
+
+        //Select columns having date same as that obtained previously
+        String sessionColumnSelection = DbContract.Sessions.START_DATE + EQUAL + DatabaseUtils.sqlEscapeString(date);
+
+        //Order
+        String sortOrder = DbContract.Sessions.ID + ASCENDING;
+
+        Cursor sessionCursor = mDb.query(
+                DbContract.Sessions.TABLE_NAME,
+                DbContract.Sessions.FULL_PROJECTION,
+                sessionColumnSelection,
+                null,
+                null,
+                null,
+                sortOrder
+        );
+
+
+        ArrayList<Session> sessions = new ArrayList<>();
+        Session session;
+        sessionCursor.moveToFirst();
+        //Should return only one due to UNIQUE constraint
+        while (!sessionCursor.isAfterLast()) {
+            try {
+                session = new Session(
+                        sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.ID)),
+                        sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.TITLE)),
+                        sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.SUBTITLE)),
+                        sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.SUMMARY)),
+                        sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.DESCRIPTION)),
+                        sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.START_TIME)),
+                        sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.END_TIME)),
+                        sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.TYPE)),
+                        sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.TRACK)),
+                        sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.LEVEL)),
+                        sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.MICROLOCATION))
+                );
+                sessions.add(session);
+            } catch (ParseException e) {
+                Timber.e("Parsing Error Occurred at DatabaseOperations::getSessionbyDatename.");
+            }
+            sessionCursor.moveToNext();
+        }
+        sessionCursor.close();
+        return sessions;
+
+    }
+
+    public List<String> getDateList(SQLiteDatabase mDb) {
+        Cursor cursor = mDb.rawQuery("SELECT * FROM " + DbContract.EventDates.TABLE_NAME + " ORDER BY strftime('%s'," + DbContract.EventDates.DATE + ");", null);
+        List<String> dates = new ArrayList<>();
+        String date;
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            date = cursor.getString(cursor.getColumnIndex(DbContract.EventDates.DATE));
+            dates.add(date);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return dates;
+    }
 }
