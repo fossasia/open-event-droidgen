@@ -46,6 +46,8 @@ public class Session {
 
     int track;
 
+    String startDate;
+
     public Session(int id, String title, String subtitle,
                    String summary, String description,
                    String startTime, String endTime, String type,
@@ -58,6 +60,25 @@ public class Session {
         this.description = description;
         this.startTime = startTime;
         this.endTime = endTime;
+        this.type = type;
+        this.track = track;
+        this.level = level;
+        this.microlocations = microlocations;
+    }
+
+    public Session(int id, String title, String subtitle,
+                   String summary, String description,
+                   String startTime, String endTime, String startDate, String type,
+                   int track, String level, int microlocations
+    ) throws ParseException {
+        this.id = id;
+        this.title = title;
+        this.subtitle = subtitle;
+        this.summary = summary;
+        this.description = description;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.startDate = startDate;
         this.type = type;
         this.track = track;
         this.level = level;
@@ -152,8 +173,16 @@ public class Session {
         this.microlocations = microlocations;
     }
 
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
     public String generateSql() {
-        String insertQueryFmt = "INSERT INTO %s VALUES ('%d', %s, %s, %s, %s, %s, %s, %s, '%d', %s, '%d');";
+        String insertQueryFmt = "INSERT INTO %s VALUES ('%d', %s, %s, %s, %s, %s, %s, %s, %s, '%d', %s, '%d');";
         return String.format(Locale.ENGLISH,
                 insertQueryFmt,
                 DbContract.Sessions.TABLE_NAME,
@@ -164,6 +193,7 @@ public class Session {
                 DatabaseUtils.sqlEscapeString(StringUtils.optionalString(description)),
                 DatabaseUtils.sqlEscapeString(StringUtils.optionalString(startTime)),
                 DatabaseUtils.sqlEscapeString(StringUtils.optionalString(endTime)),
+                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(startDate)),
                 DatabaseUtils.sqlEscapeString(StringUtils.optionalString(type)),
                 track,
                 DatabaseUtils.sqlEscapeString(StringUtils.optionalString(level)),

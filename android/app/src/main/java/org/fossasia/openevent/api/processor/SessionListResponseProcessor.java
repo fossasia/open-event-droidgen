@@ -31,14 +31,15 @@ public class SessionListResponseProcessor implements Callback<SessionResponseLis
 
                 @Override
                 public void run() {
+                    DbSingleton dbSingleton = DbSingleton.getInstance();
                     ArrayList<String> queries = new ArrayList<String>();
                     for (Session session : response.body().sessions) {
+                        session.setStartDate(session.getStartTime().split("T")[0]);
                         String query = session.generateSql();
                         queries.add(query);
                         Log.d(TAG, query);
                     }
 
-                    DbSingleton dbSingleton = DbSingleton.getInstance();
                     dbSingleton.clearDatabase(DbContract.Sessions.TABLE_NAME);
                     dbSingleton.insertQueries(queries);
                     OpenEventApp.postEventOnUIThread(new SessionDownloadEvent(true));

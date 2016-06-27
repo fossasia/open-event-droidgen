@@ -2,6 +2,7 @@ package org.fossasia.openevent.dbutils;
 
 import org.fossasia.openevent.api.APIClient;
 import org.fossasia.openevent.api.Urls;
+import org.fossasia.openevent.api.processor.EventDatesListResponseProcessor;
 import org.fossasia.openevent.api.processor.EventListResponseProcessor;
 import org.fossasia.openevent.api.processor.MicrolocationListResponseProcessor;
 import org.fossasia.openevent.api.processor.SessionListResponseProcessor;
@@ -58,4 +59,10 @@ public final class DataDownloadManager {
     public void downloadVersions() {
         client.getOpenEventAPI().getVersion(Urls.EVENT_ID).enqueue(new VersionApiProcessor());
     }
+
+    public void downloadEventDates() {
+        client.getOpenEventAPI().getDates(Urls.EVENT_ID).enqueue(new EventDatesListResponseProcessor());
+    }
+
+
 }

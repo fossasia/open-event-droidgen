@@ -33,7 +33,8 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(DbContract.Microlocation.CREATE_TABLE);
         db.execSQL(DbContract.Versions.CREATE_TABLE);
         db.execSQL(DbContract.Bookmarks.CREATE_TABLE);
-        Timber.tag(TAG).d("==== onUpgrade DB ====");
+        db.execSQL(DbContract.EventDates.CREATE_TABLE);
+        Timber.tag(TAG).d("==== onCreate DB ====");
     }
 
     @Override
@@ -47,6 +48,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(DbContract.Event.DELETE_TABLE);
         db.execSQL(DbContract.Microlocation.DELETE_TABLE);
         db.execSQL(DbContract.Bookmarks.DELETE_TABLE);
+        db.execSQL(DbContract.EventDates.DELETE_TABLE);
         onCreate(db);
         Timber.tag(TAG).d("==== OnUpgrade DB Completed ====");
     }
