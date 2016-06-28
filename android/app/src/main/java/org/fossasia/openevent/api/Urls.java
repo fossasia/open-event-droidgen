@@ -1,5 +1,7 @@
 package org.fossasia.openevent.api;
 
+import android.webkit.URLUtil;
+
 /**
  * User: championswimmer
  * Date: 23/5/15
@@ -37,6 +39,8 @@ public abstract class Urls {
 
     public static final String APP_LINK = "https://app_link_goes_here.com";
 
+    public static final String INVALID_LINK = "http://abc//";
+
 
     //Getters and Setters
 
@@ -46,6 +50,12 @@ public abstract class Urls {
     }
 
     public static void setBaseUrl(String baseUrl) {
-        BASE_URL = baseUrl;
+        if (URLUtil.isValidUrl(baseUrl)) {
+            BASE_URL = baseUrl;
+
+        } else {
+            BASE_URL = "http://abc//";
+
+        }
     }
 }
