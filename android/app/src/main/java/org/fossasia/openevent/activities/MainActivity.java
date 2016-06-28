@@ -36,6 +36,7 @@ import com.squareup.picasso.Picasso;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
+import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.dbutils.DataDownloadManager;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.CounterEvent;
@@ -469,8 +470,13 @@ public class MainActivity extends BaseActivity {
 
     @Subscribe
     public void downloadData(DataDownloadEvent event) {
-        DataDownloadManager.getInstance().downloadVersions();
-        downloadProgress.setVisibility(View.VISIBLE);
+        if(Urls.getBaseUrl().equals(Urls.INVALID_LINK)){
+            showErrorDialog("Invalid Api", "Api link doesn't seem to be valid");
+        }
+        else {
+            DataDownloadManager.getInstance().downloadVersions();
+        }
+            downloadProgress.setVisibility(View.VISIBLE);
         Timber.d("Download has started");
     }
 
