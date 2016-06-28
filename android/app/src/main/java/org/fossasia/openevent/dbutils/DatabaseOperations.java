@@ -305,10 +305,12 @@ public class DatabaseOperations {
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             sponsor = new Sponsor(
-                    cursor.getInt(cursor.getColumnIndex(DbContract.Sponsors.ID)),
                     cursor.getString(cursor.getColumnIndex(DbContract.Sponsors.NAME)),
-                    cursor.getString(cursor.getColumnIndex(DbContract.Sponsors.URL)),
-                    cursor.getString(cursor.getColumnIndex(DbContract.Sponsors.LOGO_URL))
+                    cursor.getString(cursor.getColumnIndex(DbContract.Sponsors.LINK)),
+                    cursor.getString(cursor.getColumnIndex(DbContract.Sponsors.IMAGE)),
+                    cursor.getString(cursor.getColumnIndex(DbContract.Sponsors.DESCRIPTION)),
+                    cursor.getString(cursor.getColumnIndex(DbContract.Sponsors.TYPE)),
+                    cursor.getString(cursor.getColumnIndex(DbContract.Sponsors.LEVEL))
             );
             sponsors.add(sponsor);
             cursor.moveToNext();

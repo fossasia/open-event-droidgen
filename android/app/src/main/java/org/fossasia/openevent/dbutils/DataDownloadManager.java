@@ -41,7 +41,7 @@ public final class DataDownloadManager {
     }
 
     public void downloadSponsors() {
-        client.getOpenEventAPI().getSponsors(Urls.EVENT_ID).enqueue(new SponsorListResponseProcessor());
+        client.getOpenEventAPI().getSponsors().enqueue(new SponsorListResponseProcessor());
     }
 
     public void downloadSession() {

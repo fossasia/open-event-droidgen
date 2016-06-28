@@ -52,7 +52,7 @@ public class APITest extends AndroidTestCase {
     public void testSponsorAPIResponse() throws Exception {
         APIClient client = new APIClient();
         final CountDownLatch latch = new CountDownLatch(1);
-        client.getOpenEventAPI().getSponsors(Urls.EVENT_ID).enqueue(new Callback<SponsorResponseList>() {
+        client.getOpenEventAPI().getSponsors().enqueue(new Callback<SponsorResponseList>() {
             @Override
             public void onResponse(Call<SponsorResponseList> call, Response<SponsorResponseList> response) {
                 if (response.isSuccessful()) {
