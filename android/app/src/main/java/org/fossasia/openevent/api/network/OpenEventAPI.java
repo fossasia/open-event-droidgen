@@ -22,8 +22,8 @@ public interface OpenEventAPI {
     @GET("event/{id}/speakers")
     Call<SpeakerResponseList> getSpeakers(@Path("id") int id);
 
-    @GET("event/{id}/sponsors")
-    Call<SponsorResponseList> getSponsors(@Path("id") int id);
+    @GET("sponsors.json")
+    Call<SponsorResponseList> getSponsors();
 
     @GET("event/{id}/sessions")
     Call<SessionResponseList> getSessions(@Path("id") int id);

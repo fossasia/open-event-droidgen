@@ -44,7 +44,7 @@ public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, ViewHolder.Viewh
     @Override
     public void onBindViewHolder(ViewHolder.Viewholder holder, int position) {
         Sponsor currentSponsor = getItem(position);
-        Uri uri = Uri.parse(currentSponsor.getLogo());
+        Uri uri = Uri.parse(currentSponsor.getImage());
         Picasso.with(holder.getImgView1().getContext()).load(uri).into(holder.getImgView1());
     }
 

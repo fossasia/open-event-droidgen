@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -67,9 +68,10 @@ public class SponsorsFragment extends Fragment {
         sponsorsRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(view.getContext(), new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View itemView, int position) {
-                String sponsorUrl = dbSingleton.getSponsorList().get(position).getUrl();
-                if (!sponsorUrl.startsWith("http") || !sponsorUrl.startsWith("https")) {
+                String sponsorUrl = dbSingleton.getSponsorList().get(position).getLink();
+                if (!sponsorUrl.startsWith("http")) {
                     sponsorUrl = "http://" + sponsorUrl;
+                    Log.e("Sponsor URL",sponsorUrl);
                 }
                 if (Patterns.WEB_URL.matcher(sponsorUrl).matches()) {
                     Intent sponsorsIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(sponsorUrl));

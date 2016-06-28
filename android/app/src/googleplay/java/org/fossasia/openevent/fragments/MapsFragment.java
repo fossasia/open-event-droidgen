@@ -71,9 +71,9 @@ public class MapsFragment extends SupportMapFragment implements LocationListener
             case R.id.share_map_url:
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.putExtra(Intent.EXTRA_TEXT, Urls.WEB_APP_URL_BASIC + Urls.MAP);
-                intent.putExtra(Intent.EXTRA_SUBJECT, "Sharing URL");
+                intent.putExtra(Intent.EXTRA_SUBJECT, "Sharing LINK");
                 intent.setType("text/plain");
-                startActivity(Intent.createChooser(intent, "Share URL"));
+                startActivity(Intent.createChooser(intent, "Share LINK"));
         }
         return super.onOptionsItemSelected(item);
     }
