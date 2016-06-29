@@ -27,6 +27,10 @@ Follow the HyperLinks above for documentation on how to setup the server and and
 
 ![alt-tag](android/screenshots/ss4.PNG)
 
+## Documentation
+
+You can fin the apk generator docs [here](docs/AndroidApp.md) and the android app docs [here](docs/ApkGenerator.md)
+
 
 ## Branches and Contribution policy
 We have the following branches   
