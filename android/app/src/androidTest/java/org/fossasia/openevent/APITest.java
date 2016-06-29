@@ -8,8 +8,8 @@ import org.fossasia.openevent.api.protocol.EventResponseList;
 import org.fossasia.openevent.api.protocol.MicrolocationResponseList;
 import org.fossasia.openevent.api.protocol.SessionResponseList;
 import org.fossasia.openevent.api.protocol.SpeakerResponseList;
-import org.fossasia.openevent.api.protocol.SponsorResponseList;
 import org.fossasia.openevent.api.protocol.TrackResponseList;
+import org.fossasia.openevent.data.Sponsor;
 
 import java.util.concurrent.CountDownLatch;
 
@@ -52,13 +52,13 @@ public class APITest extends AndroidTestCase {
     public void testSponsorAPIResponse() throws Exception {
         APIClient client = new APIClient();
         final CountDownLatch latch = new CountDownLatch(1);
-        client.getOpenEventAPI().getSponsors(Urls.EVENT_ID).enqueue(new Callback<SponsorResponseList>() {
+        client.getOpenEventAPI().getSponsors().enqueue(new Callback<Sponsor[]>() {
             @Override
-            public void onResponse(Call<SponsorResponseList> call, Response<SponsorResponseList> response) {
+            public void onResponse(Call<Sponsor[]> call, Response<Sponsor[]> response) {
                 if (response.isSuccessful()) {
-                    assertNotNull(response.body().sponsors);
+                    assertNotNull(response.body());
                     // Assert that the list size > 0
-                    assertTrue(response.body().sponsors.size() > 0);
+                    assertTrue(response.body().length > 0);
                     latch.countDown();
 
                 } else {
@@ -68,7 +68,7 @@ public class APITest extends AndroidTestCase {
             }
 
             @Override
-            public void onFailure(Call<SponsorResponseList> call, Throwable t) {
+            public void onFailure(Call<Sponsor[]> call, Throwable t) {
                 fail("API Request Failed");
                 latch.countDown();
             }

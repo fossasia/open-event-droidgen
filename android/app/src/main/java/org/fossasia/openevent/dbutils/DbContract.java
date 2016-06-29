@@ -267,11 +267,20 @@ public class DbContract {
 
         public static final String LOGO_URL = "logo_url";
 
+        public static final String DESCRIPTION = "description";
+
+        public static final String TYPE = "sponsor_type";
+
+        public static final String LEVEL = "level";
+
         public static final String[] FULL_PROJECTION = {
                 ID,
                 NAME,
                 URL,
-                LOGO_URL
+                LOGO_URL,
+                DESCRIPTION,
+                TYPE,
+                LEVEL
         };
 
         public static final String CREATE_TABLE =
@@ -280,7 +289,10 @@ public class DbContract {
                         + ID + INT_TYPE + PRIMARY_KEY + COMMA_SEP
                         + NAME + TEXT_TYPE + COMMA_SEP
                         + URL + TEXT_TYPE + COMMA_SEP
-                        + LOGO_URL + TEXT_TYPE
+                        + LOGO_URL + TEXT_TYPE + COMMA_SEP
+                        + DESCRIPTION + TEXT_TYPE + COMMA_SEP
+                        + TYPE + TEXT_TYPE + COMMA_SEP
+                        + LEVEL + TEXT_TYPE
                         + " );";
 
         public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
