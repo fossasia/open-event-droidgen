@@ -5,9 +5,9 @@ import org.fossasia.openevent.api.protocol.EventResponseList;
 import org.fossasia.openevent.api.protocol.MicrolocationResponseList;
 import org.fossasia.openevent.api.protocol.SessionResponseList;
 import org.fossasia.openevent.api.protocol.SpeakerResponseList;
-import org.fossasia.openevent.api.protocol.SponsorResponseList;
 import org.fossasia.openevent.api.protocol.TrackResponseList;
 import org.fossasia.openevent.api.protocol.VersionResponseList;
+import org.fossasia.openevent.data.Sponsor;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -22,8 +22,8 @@ public interface OpenEventAPI {
     @GET("event/{id}/speakers")
     Call<SpeakerResponseList> getSpeakers(@Path("id") int id);
 
-    @GET("event/{id}/sponsors")
-    Call<SponsorResponseList> getSponsors(@Path("id") int id);
+    @GET("sponsors.json")
+    Call<Sponsor[]> getSponsors();
 
     @GET("event/{id}/sessions")
     Call<SessionResponseList> getSessions(@Path("id") int id);
