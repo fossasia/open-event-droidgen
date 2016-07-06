@@ -11,7 +11,7 @@
             android:id="@+id/nav_schedule"
             android:checked="true"
             android:icon="@drawable/ic_access_time_white_24dp"
-            android:title="@string/menu_schedule"/>
+            android:title="@string/menu_schedule" />
 
         <item
             android:id="@+id/nav_bookmarks"

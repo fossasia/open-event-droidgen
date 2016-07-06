@@ -60,10 +60,10 @@ android {
     // https://stackoverflow.com/questions/36833606/android-support-library-error-after-updating-to-23-3-0
     configurations.all {
         resolutionStrategy {
-            force  "com.android.support:appcompat-v7:${SUPPORT_LIB_VERSION}"
-            force  "com.android.support:support-v4:${SUPPORT_LIB_VERSION}"
-            force  "com.android.support:recyclerview-v7:${SUPPORT_LIB_VERSION}"
-            force  "com.android.support:design:${SUPPORT_LIB_VERSION}"
+            force "com.android.support:appcompat-v7:${SUPPORT_LIB_VERSION}"
+            force "com.android.support:support-v4:${SUPPORT_LIB_VERSION}"
+            force "com.android.support:recyclerview-v7:${SUPPORT_LIB_VERSION}"
+            force "com.android.support:design:${SUPPORT_LIB_VERSION}"
         }
     }
 }

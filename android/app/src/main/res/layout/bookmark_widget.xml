@@ -7,32 +7,31 @@
     android:padding="@dimen/widget_margin">
 
 
+    <LinearLayout
+        android:id="@+id/widget"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/main_menu_item_height"
+        android:background="@color/color_primary">
 
-        <LinearLayout
-            android:id="@+id/widget"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/main_menu_item_height"
-            android:background="@color/color_primary">
+        <ImageView
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:layout_gravity="center"
+            android:layout_weight="0.20"
+            android:contentDescription="@string/logo_widget"
+            android:src="@drawable/ic_bookmark_outline_black_24dp" />
 
-            <ImageView
-                android:layout_width="34dp"
-                android:layout_height="34dp"
-                android:layout_gravity="center"
-                android:layout_weight="0.20"
-                android:contentDescription="@string/logo_widget"
-                android:src="@drawable/ic_bookmark_outline_black_24dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="0.80"
-                android:paddingLeft="@dimen/card_margin"
-                android:paddingStart="@dimen/card_margin"
-                android:text="@string/bookmarks"
-                android:textColor="@color/cardview_dark_background"
-                android:textSize="24sp" />
-        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="0.80"
+            android:paddingLeft="@dimen/card_margin"
+            android:paddingStart="@dimen/card_margin"
+            android:text="@string/bookmarks"
+            android:textColor="@color/cardview_dark_background"
+            android:textSize="24sp" />
+    </LinearLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
