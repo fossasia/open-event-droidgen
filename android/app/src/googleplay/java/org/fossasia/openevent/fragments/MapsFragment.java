@@ -26,17 +26,20 @@ public class MapsFragment extends SupportMapFragment
   private GoogleMap mMap;
   private LatLng location;
 
-  @Override public void onCreate(Bundle savedInstanceState) {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setHasOptionsMenu(true);
   }
 
-  @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+  @Override
+  public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     getMapAsync(this);
   }
 
-  @Override public void onMapReady(GoogleMap map) {
+  @Override
+  public void onMapReady(GoogleMap map) {
     DbSingleton dbSingleton = DbSingleton.getInstance();
     float latitude = dbSingleton.getEventDetails().getLatitude();
     float longitude = dbSingleton.getEventDetails().getLongitude();
@@ -53,12 +56,14 @@ public class MapsFragment extends SupportMapFragment
     }
   }
 
-  @Override public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+  @Override
+  public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
     menu.clear();
     inflater.inflate(R.menu.menu_map, menu);
   }
 
-  @Override public boolean onOptionsItemSelected(MenuItem item) {
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
       case R.id.share_map_url:
         Intent intent = new Intent(Intent.ACTION_SEND);
@@ -66,6 +71,7 @@ public class MapsFragment extends SupportMapFragment
         intent.putExtra(Intent.EXTRA_SUBJECT, "Sharing URL");
         intent.setType("text/plain");
         startActivity(Intent.createChooser(intent, "Share URL"));
+        break;
     }
     return super.onOptionsItemSelected(item);
   }
@@ -76,11 +82,10 @@ public class MapsFragment extends SupportMapFragment
   }
 
   private void get_Latlng() {
-
+    // do nothing
   }
 
   @Override
-
   public void onLocationChanged(Location locations) {
     CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(location, 10);
     if (mMap != null) {
@@ -88,15 +93,18 @@ public class MapsFragment extends SupportMapFragment
     }
   }
 
-  @Override public void onStatusChanged(String s, int i, Bundle bundle) {
-
+  @Override
+  public void onStatusChanged(String s, int i, Bundle bundle) {
+      // do nothing
   }
 
-  @Override public void onProviderEnabled(String s) {
-
+  @Override
+  public void onProviderEnabled(String s) {
+    // do nothing
   }
 
-  @Override public void onProviderDisabled(String s) {
-
+  @Override
+  public void onProviderDisabled(String s) {
+    // do nothing
   }
 }
