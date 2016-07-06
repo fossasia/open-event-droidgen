@@ -1,6 +1,6 @@
 language: android
 sudo: false
-jdk: oraclejdk7
+jdk: oraclejdk8
 env:
   global:
   - GRADLE_OPTS="-Xmx512m -XX:MaxPermSize=512m"
