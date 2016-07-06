@@ -150,6 +150,7 @@
             android:id="@+id/view"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize" />
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView_speakers"
             android:layout_width="match_parent"
