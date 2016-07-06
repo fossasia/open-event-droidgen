@@ -59,8 +59,8 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginTop="4dp"
-                android:textSize="14sp"
                 android:textColor="@color/cardview_dark_background"
+                android:textSize="14sp"
                 tools:text="9:00 AM - 11:30 AM / Room 1" />
 
         </LinearLayout>
