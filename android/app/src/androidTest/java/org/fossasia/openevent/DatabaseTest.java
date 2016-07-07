@@ -43,7 +43,7 @@ public class DatabaseTest extends AndroidTestCase {
         Timber.tag("Event").d(eventQuery);
         queries.add(eventQuery);
 
-        Sponsor sponsor = new Sponsor(5, "Google", "www.google.com", "google.png");
+        Sponsor sponsor = new Sponsor(5, "Google", "www.google.com", "google.png","Description","Epic","5");
         String sponsorQuery = sponsor.generateSql();
         Timber.tag("Sponsor").d(sponsorQuery);
         queries.add(sponsorQuery);

@@ -61,7 +61,7 @@ public class SpeakerInsertTest {
         String jsonStr = null;
 
         try {
-            final String BASE_URL = Urls.BASE_GET_URL_ALT + Urls.EVENTS + "/" + Urls.EVENT_ID + "/" + Urls.SPEAKERS;
+            final String BASE_URL = Urls.BASE_GET_URL_ALT + Urls.SPEAKERS + ".json";
 
             Uri builtUri = Uri.parse(BASE_URL).buildUpon().build();
             URL url = new URL(builtUri.toString());
@@ -97,11 +97,12 @@ public class SpeakerInsertTest {
         }
         Gson gson = new Gson();
         try {
-            JSONObject json = new JSONObject(jsonStr);
-            JSONArray eventJsonArray = json.getJSONArray(Urls.SPEAKERS);
-            if (eventJsonArray.length() > 0) {
+//            JSONObject json = new JSONObject(jsonStr);
+            JSONArray testJson = new JSONArray(jsonStr);
+//            JSONArray eventJsonArray = json.getJSONArray(Urls.SPEAKERS);
+            if (testJson.length() > 0) {
 
-                JSONObject eventJsonObject = eventJsonArray.getJSONObject(0);
+                JSONObject eventJsonObject = testJson.getJSONObject(0);
                 Speaker speaker = gson.fromJson(String.valueOf(eventJsonObject), Speaker.class);
 
                 String query = speaker.generateSql();
@@ -112,11 +113,11 @@ public class SpeakerInsertTest {
                 Speaker speakerDetails = instance.getSpeakerList(DbContract.Speakers.ID).get(0);
                 assertEquals(speaker.getName(), speakerDetails.getName());
                 assertEquals(speaker.getName(), speakerDetails.getName());
-                assertEquals(speaker.getBio(), speakerDetails.getBio());
+                assertEquals(speaker.getLongBiography(), speakerDetails.getLongBiography());
                 assertEquals(speaker.getCountry(), speakerDetails.getCountry());
                 assertEquals(speaker.getEmail(), speakerDetails.getEmail());
                 assertEquals(speaker.getPhoto(), speakerDetails.getPhoto());
-                assertEquals(speaker.getWeb(), speakerDetails.getWeb());
+                assertEquals(speaker.getWebsite(), speakerDetails.getWebsite());
             }
         } catch (JSONException e) {
         }

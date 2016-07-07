@@ -111,7 +111,7 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
             flagSocial = true;
             speakerIntent.clickedImage(fb);
         }
-        if (selectedSpeaker.getWeb() == null || selectedSpeaker.getWeb().isEmpty()) {
+        if (selectedSpeaker.getWebsite() == null || selectedSpeaker.getWebsite().isEmpty()) {
             website.setVisibility(View.GONE);
         } else {
             flagSocial = true;
@@ -122,7 +122,7 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
             findViewById(R.id.view).setVisibility(View.GONE);
         }
 
-        biography.setText(selectedSpeaker.getBio());
+        biography.setText(selectedSpeaker.getLongBiography());
 
         sessionRecyclerView = (RecyclerView) findViewById(R.id.recyclerView_speakers);
         mSessions = dbSingleton.getSessionbySpeakersName(speaker);
