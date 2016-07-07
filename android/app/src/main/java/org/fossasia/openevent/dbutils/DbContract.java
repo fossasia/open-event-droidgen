@@ -29,8 +29,6 @@ public class DbContract {
 
         public static final String VER_EVENT = "verevent";
 
-        public static final String EVENT_ID = "event_id";
-
         public static final String VER_ID = "verid";
 
         public static final String VER_MICROLOCATIONS = "vermicrolocations";

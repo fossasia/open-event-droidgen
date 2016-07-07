@@ -1,7 +1,5 @@
 package org.fossasia.openevent.api.processor;
 
-import android.util.Log;
-
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.api.protocol.TrackResponseList;
 import org.fossasia.openevent.data.Track;
@@ -15,6 +13,7 @@ import java.util.ArrayList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timber.log.Timber;
 
 
 /**
@@ -31,31 +30,26 @@ public class TrackListResponseProcessor implements Callback<TrackResponseList> {
                 public void run() {
                     ArrayList<String> queries = new ArrayList<>();
 
-                    Log.d(TAG, "run" + response.body().tracks.size());
                     for (Track track : response.body().tracks) {
                         String query = track.generateSql();
                         queries.add(query);
-                        Log.d(TAG, query);
+                        Timber.d(query);
                     }
-
 
                     DbSingleton dbSingleton = DbSingleton.getInstance();
                     dbSingleton.clearDatabase(DbContract.Tracks.TABLE_NAME);
                     dbSingleton.insertQueries(queries);
 
-                    //Post success on the bus
                     OpenEventApp.postEventOnUIThread(new TracksDownloadEvent(true));
                 }
             });
         } else {
-            //Post failure on the bus
             OpenEventApp.getEventBus().post(new TracksDownloadEvent(false));
         }
     }
 
     @Override
     public void onFailure(Call<TrackResponseList> call, Throwable t) {
-        //Post failure on the bus
         OpenEventApp.getEventBus().post(new TracksDownloadEvent(false));
     }
 }

@@ -102,11 +102,6 @@ public class DbSingleton {
         databaseOperations.deleteBookmarks(bookmarkId, mDb);
     }
 
-    public Speaker getSpeakerById(int id) {
-        getReadOnlyDatabase();
-        return databaseOperations.getSpeakerById(id, mDb);
-    }
-
     public List<Track> getTrackList() {
         getReadOnlyDatabase();
         return databaseOperations.getTrackList(mDb);
@@ -201,15 +196,6 @@ public class DbSingleton {
     public void clearDatabase(String table) {
         databaseOperations.clearDatabaseTable(table, mDbHelper);
     }
-
-    public void deleteAllRecords(String tableName) {
-        databaseOperations.deleteAllRecords(tableName, mDb);
-    }
-
-    public boolean checkDateNotInDatabase(String date){
-        return databaseOperations.checkDateNotInDatabase(date,mDb);
-    }
-
 
 
 }

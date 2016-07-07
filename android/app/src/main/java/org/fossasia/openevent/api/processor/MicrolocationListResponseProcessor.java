@@ -1,7 +1,5 @@
 package org.fossasia.openevent.api.processor;
 
-import android.util.Log;
-
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.api.protocol.MicrolocationResponseList;
 import org.fossasia.openevent.data.Microlocation;
@@ -15,12 +13,12 @@ import java.util.ArrayList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timber.log.Timber;
 
 /**
  * Created by MananWason on 27-05-2015.
  */
 public class MicrolocationListResponseProcessor implements Callback<MicrolocationResponseList> {
-    private static final String TAG = "Microprocessor";
 
     ArrayList<String> queries = new ArrayList<>();
 
@@ -35,7 +33,7 @@ public class MicrolocationListResponseProcessor implements Callback<Microlocatio
                     {
                         String query = microlocation.generateSql();
                         queries.add(query);
-                        Log.d(TAG, query);
+                        Timber.d(query);
                     }
                     DbSingleton dbSingleton = DbSingleton.getInstance();
 

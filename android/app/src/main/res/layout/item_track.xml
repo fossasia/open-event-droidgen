@@ -11,7 +11,7 @@
         android:gravity="center"
         android:orientation="vertical"
         android:paddingLeft="16dp"
-        android:paddingStart="16dp">
+        android:paddingRight="16dp">
 
         <View
             android:id="@+id/track_top"
