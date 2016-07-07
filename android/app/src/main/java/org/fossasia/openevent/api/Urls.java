@@ -42,9 +42,6 @@ public abstract class Urls {
     public static final String INVALID_LINK = "http://abc//";
 
 
-    //Getters and Setters
-
-
     public static String getBaseUrl() {
         return BASE_URL;
     }

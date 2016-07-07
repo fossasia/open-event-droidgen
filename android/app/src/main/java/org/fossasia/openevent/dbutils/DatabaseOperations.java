@@ -219,43 +219,6 @@ public class DatabaseOperations {
         }
     }
 
-    public Speaker getSpeakerById(int id, SQLiteDatabase mDb) {
-        //getReadOnlyDatabase();
-        String selection = DbContract.Speakers.ID + EQUAL + id;
-        Cursor cursor = mDb.query(
-                DbContract.Sessions.TABLE_NAME,
-                DbContract.Sessions.FULL_PROJECTION,
-                selection,
-                null,
-                null,
-                null,
-                null
-        );
-        Speaker speaker;
-        cursor.moveToFirst();
-
-        //Should return only one due to UNIQUE constraint
-        speaker = new Speaker(
-                cursor.getInt(cursor.getColumnIndex(DbContract.Speakers.ID)),
-                cursor.getString(cursor.getColumnIndex(DbContract.Speakers.NAME)),
-                cursor.getString(cursor.getColumnIndex(DbContract.Speakers.PHOTO)),
-                cursor.getString(cursor.getColumnIndex(DbContract.Speakers.BIO)),
-                cursor.getString(cursor.getColumnIndex(DbContract.Speakers.EMAIL)),
-                cursor.getString(cursor.getColumnIndex(DbContract.Speakers.WEB)),
-                cursor.getString(cursor.getColumnIndex(DbContract.Speakers.TWITTER)),
-                cursor.getString(cursor.getColumnIndex(DbContract.Speakers.FACEBOOK)),
-                cursor.getString(cursor.getColumnIndex(DbContract.Speakers.GITHUB)),
-                cursor.getString(cursor.getColumnIndex(DbContract.Speakers.LINKEDIN)),
-                cursor.getString(cursor.getColumnIndex(DbContract.Speakers.ORGANISATION)),
-                cursor.getString(cursor.getColumnIndex(DbContract.Speakers.POSITION)),
-                null,
-                cursor.getString(cursor.getColumnIndex(DbContract.Speakers.COUNTRY))
-
-        );
-        cursor.close();
-        return speaker;
-    }
-
     public List<Track> getTrackList(SQLiteDatabase mDb) {
         String sortOrder = DbContract.Tracks.ID + ASCENDING;
         Cursor cursor = mDb.query(
@@ -759,10 +722,8 @@ public class DatabaseOperations {
 
         sessionsCursor.close();
 
-        //Select columns having speaker id same as that obtained previously
         String speakersColumnSelection = DbContract.Sessionsspeakers.SESSION_ID + EQUAL + sessionSelected;
 
-        //Order
         String[] columns1 = {DbContract.Sessionsspeakers.SPEAKER_ID};
 
         Cursor speakerCursor = mDb.query(
@@ -946,30 +907,10 @@ public class DatabaseOperations {
 
     }
 
-    public void deleteAllRecords(String tableName, SQLiteDatabase db) {
-
-        db.execSQL("delete from " + DatabaseUtils.sqlEscapeString(tableName));
-    }
-
-    public boolean checkDateNotInDatabase(String date, SQLiteDatabase mDb) {
-        String Query = "Select * from " + DbContract.EventDates.TABLE_NAME + " where " + DbContract.EventDates.DATE + " = " + date;
-        Cursor cursor = mDb.rawQuery(Query, null);
-        if (cursor.getCount() > 0) {
-            cursor.close();
-            return false;
-
-        }
-        cursor.close();
-        return true;
-
-    }
-
     public ArrayList<Session> getSessionbyDate(String date, SQLiteDatabase mDb) {
 
-        //Select columns having date same as that obtained previously
         String sessionColumnSelection = DbContract.Sessions.START_DATE + EQUAL + DatabaseUtils.sqlEscapeString(date);
 
-        //Order
         String sortOrder = DbContract.Sessions.ID + ASCENDING;
 
         Cursor sessionCursor = mDb.query(
@@ -986,7 +927,6 @@ public class DatabaseOperations {
         ArrayList<Session> sessions = new ArrayList<>();
         Session session;
         sessionCursor.moveToFirst();
-        //Should return only one due to UNIQUE constraint
         while (!sessionCursor.isAfterLast()) {
             try {
                 session = new Session(

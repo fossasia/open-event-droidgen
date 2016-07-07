@@ -34,8 +34,6 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
 
     SessionsListAdapter sessionsListAdapter;
 
-    private Microlocation selectedLocation;
-
     private List<Session> mSessions;
 
     private RecyclerView sessionRecyclerView;
@@ -59,7 +57,7 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        selectedLocation = dbSingleton.getLocationByLocationname(location);
+        Microlocation selectedLocation = dbSingleton.getLocationByLocationname(location);
 
 
         sessionRecyclerView = (RecyclerView) findViewById(R.id.recyclerView_locations);

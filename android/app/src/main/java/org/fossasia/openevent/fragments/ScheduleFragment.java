@@ -22,8 +22,6 @@ import java.util.List;
  */
 public class ScheduleFragment extends Fragment {
     TabLayout scheduleTabLayout;
-    private ViewPager viewPager;
-    private List<String> event_days;
 
     @Nullable
     @Override
@@ -32,7 +30,7 @@ public class ScheduleFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_schedule, container, false);
         OpenEventApp.getEventBus().register(true);
 
-        viewPager = (ViewPager) view.findViewById(R.id.viewpager);
+        ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewpager);
         setupViewPager(viewPager);
         scheduleTabLayout = (TabLayout) view.findViewById(R.id.tabLayout);
         scheduleTabLayout.setupWithViewPager(viewPager);
@@ -44,7 +42,7 @@ public class ScheduleFragment extends Fragment {
         ScheduleViewPagerAdapter adapter = new ScheduleViewPagerAdapter(getFragmentManager());
         DbSingleton dbSingleton = DbSingleton.getInstance();
 
-        event_days = dbSingleton.getDateList();
+        List<String> event_days = dbSingleton.getDateList();
         int daysofEvent = event_days.size();
 
         for (int i = 0; i < daysofEvent; i++) {

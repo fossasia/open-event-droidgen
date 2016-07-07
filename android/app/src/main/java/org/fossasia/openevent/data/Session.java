@@ -5,13 +5,10 @@ import android.database.DatabaseUtils;
 import com.google.gson.annotations.SerializedName;
 
 import org.fossasia.openevent.dbutils.DbContract;
-import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.StringUtils;
 
 import java.text.ParseException;
 import java.util.Locale;
-
-import timber.log.Timber;
 
 
 /**
@@ -198,17 +195,5 @@ public class Session {
                 track,
                 DatabaseUtils.sqlEscapeString(StringUtils.optionalString(level)),
                 microlocations);
-    }
-
-    public void bookmark(int id) {
-        String query_normal = "INSERT INTO %s VALUES ('%d');";
-        String query = String.format(Locale.ENGLISH,
-                query_normal,
-                DbContract.Bookmarks.TABLE_NAME,
-                id
-        );
-        Timber.tag("BOOKMARKS").d(query);
-        DbSingleton dbSingleton = DbSingleton.getInstance();
-        dbSingleton.insertQuery(query);
     }
 }

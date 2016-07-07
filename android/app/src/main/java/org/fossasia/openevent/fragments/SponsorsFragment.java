@@ -34,7 +34,6 @@ import timber.log.Timber;
  * Created by MananWason on 05-06-2015.
  */
 public class SponsorsFragment extends Fragment {
-    private RecyclerView sponsorsRecyclerView;
 
     private SponsorsListAdapter sponsorsListAdapter;
 
@@ -47,7 +46,7 @@ public class SponsorsFragment extends Fragment {
         final View view = inflater.inflate(R.layout.list_sponsors, container, false);
         Bus bus = OpenEventApp.getEventBus();
         bus.register(this);
-        sponsorsRecyclerView = (RecyclerView) view.findViewById(R.id.list_sponsors);
+        RecyclerView sponsorsRecyclerView = (RecyclerView) view.findViewById(R.id.list_sponsors);
         final DbSingleton dbSingleton = DbSingleton.getInstance();
 
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.sponsor_swipe_refresh);

@@ -21,14 +21,12 @@ import java.util.List;
  */
 public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, ViewHolder.Viewholder> {
 
-    private ViewHolder.SetOnClickListener listener;
-
     public SponsorsListAdapter(List<Sponsor> sponsors) {
         super(sponsors);
     }
 
     public void setOnClickListener(ViewHolder.SetOnClickListener clickListener) {
-        this.listener = clickListener;
+        ViewHolder.SetOnClickListener listener = clickListener;
     }
 
     @Override
