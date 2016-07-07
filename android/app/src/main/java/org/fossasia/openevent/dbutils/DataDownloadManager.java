@@ -37,7 +37,7 @@ public final class DataDownloadManager {
     }
 
     public void downloadSpeakers() {
-        client.getOpenEventAPI().getSpeakers(Urls.EVENT_ID).enqueue(new SpeakerListResponseProcessor());
+        client.getOpenEventAPI().getSpeakers().enqueue(new SpeakerListResponseProcessor());
     }
 
     public void downloadSponsors() {

@@ -112,11 +112,11 @@ public class SpeakerInsertTest {
                 Speaker speakerDetails = instance.getSpeakerList(DbContract.Speakers.ID).get(0);
                 assertEquals(speaker.getName(), speakerDetails.getName());
                 assertEquals(speaker.getName(), speakerDetails.getName());
-                assertEquals(speaker.getBio(), speakerDetails.getBio());
+                assertEquals(speaker.getLong_biography(), speakerDetails.getLong_biography());
                 assertEquals(speaker.getCountry(), speakerDetails.getCountry());
                 assertEquals(speaker.getEmail(), speakerDetails.getEmail());
                 assertEquals(speaker.getPhoto(), speakerDetails.getPhoto());
-                assertEquals(speaker.getWeb(), speakerDetails.getWeb());
+                assertEquals(speaker.getWebsite(), speakerDetails.getWebsite());
             }
         } catch (JSONException e) {
         }

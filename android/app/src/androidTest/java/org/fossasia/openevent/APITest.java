@@ -4,12 +4,12 @@ import android.test.AndroidTestCase;
 
 import org.fossasia.openevent.api.APIClient;
 import org.fossasia.openevent.api.Urls;
-import org.fossasia.openevent.api.protocol.EventResponseList;
 import org.fossasia.openevent.api.protocol.MicrolocationResponseList;
 import org.fossasia.openevent.api.protocol.SessionResponseList;
-import org.fossasia.openevent.api.protocol.SpeakerResponseList;
 import org.fossasia.openevent.api.protocol.SponsorResponseList;
 import org.fossasia.openevent.api.protocol.TrackResponseList;
+import org.fossasia.openevent.data.Event;
+import org.fossasia.openevent.data.Speaker;
 
 import java.util.concurrent.CountDownLatch;
 
@@ -25,13 +25,13 @@ public class APITest extends AndroidTestCase {
     public void testSpeakerAPIResponse() throws Exception {
         APIClient client = new APIClient();
         final CountDownLatch latch = new CountDownLatch(1);
-        client.getOpenEventAPI().getSpeakers(Urls.EVENT_ID).enqueue(new Callback<SpeakerResponseList>() {
+        client.getOpenEventAPI().getSpeakers().enqueue(new Callback<Speaker[]>() {
             @Override
-            public void onResponse(Call<SpeakerResponseList> call, Response<SpeakerResponseList> response) {
+            public void onResponse(Call<Speaker[]> call, Response<Speaker[]> response) {
                 if (response.isSuccessful()) {
-                    assertNotNull(response.body().speakers);
+                    assertNotNull(response.body());
                     // Assert that the list size > 0
-                    assertTrue(response.body().speakers.size() > 0);
+                    assertTrue(response.body().length > 0);
                     latch.countDown();
                 } else {
                     fail("API Request Failed");
@@ -40,7 +40,7 @@ public class APITest extends AndroidTestCase {
             }
 
             @Override
-            public void onFailure(Call<SpeakerResponseList> call, Throwable t) {
+            public void onFailure(Call<Speaker[]> call, Throwable t) {
                 fail("API Request Failed");
                 latch.countDown();
             }
@@ -79,12 +79,12 @@ public class APITest extends AndroidTestCase {
     public void testEventAPIResponse() throws Exception {
         APIClient client = new APIClient();
         final CountDownLatch latch = new CountDownLatch(1);
-        client.getOpenEventAPI().getEvents().enqueue(new Callback<EventResponseList>() {
+        client.getOpenEventAPI().getEvents().enqueue(new Callback<Event>() {
             @Override
-            public void onResponse(Call<EventResponseList> call, Response<EventResponseList> response) {
+            public void onResponse(Call<Event> call, Response<Event> response) {
                 if (response.isSuccessful()) {
-                    assertNotNull(response.body().event);
-                    assertTrue(response.body().event.size() > 0);
+                    assertNotNull(response.body());
+                    assertTrue(response.body()!=null);
                     latch.countDown();
                 } else {
                     fail("API Request Failed");
@@ -93,7 +93,7 @@ public class APITest extends AndroidTestCase {
             }
 
             @Override
-            public void onFailure(Call<EventResponseList> call, Throwable t) {
+            public void onFailure(Call<Event> call, Throwable t) {
                 fail("API Request Failed");
                 latch.countDown();
             }
