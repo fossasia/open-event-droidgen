@@ -1,7 +1,13 @@
 # Changelog for Open Event Android
-Being maintained since 0.8.x 
+Being maintained since 0.8.x
 
-#### 0.8.2 - next
+#### 0.8.3 - next
+
+
+#### 0.8.2 - 0.8.3
+ - Daywise schedule of sessions
+ - Support apk generator
+ 
 
 #### 0.8.1 - 0.8.2
  - add support for native RTL
