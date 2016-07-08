@@ -39,8 +39,6 @@ public class LocationsFragment extends Fragment implements SearchView.OnQueryTex
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
-    private RecyclerView locationsRecyclerView;
-
     private LocationsListAdapter locationsListAdapter;
 
     private String searchText = "";
@@ -52,7 +50,7 @@ public class LocationsFragment extends Fragment implements SearchView.OnQueryTex
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.list_locations, container, false);
         OpenEventApp.getEventBus().register(this);
-        locationsRecyclerView = (RecyclerView) view.findViewById(R.id.list_locations);
+        RecyclerView locationsRecyclerView = (RecyclerView) view.findViewById(R.id.list_locations);
         final DbSingleton dbSingleton = DbSingleton.getInstance();
         locationsListAdapter = new LocationsListAdapter(dbSingleton.getMicrolocationsList());
         locationsRecyclerView.setAdapter(locationsListAdapter);
@@ -60,7 +58,7 @@ public class LocationsFragment extends Fragment implements SearchView.OnQueryTex
             @Override
             public void onItemClick(int position, View view) {
 
-                Microlocation model = (Microlocation) locationsListAdapter.getItem(position);
+                Microlocation model = locationsListAdapter.getItem(position);
                 String title = model.getName();
                 Intent intent = new Intent(getActivity(), LocationActivity.class);
                 intent.putExtra(ConstantStrings.MICROLOCATIONS, title);

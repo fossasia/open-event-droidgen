@@ -1,7 +1,5 @@
 package org.fossasia.openevent.api.processor;
 
-import android.util.Log;
-
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.api.protocol.VersionResponseList;
 import org.fossasia.openevent.data.Version;
@@ -17,13 +15,13 @@ import java.util.ArrayList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timber.log.Timber;
 
 /**
  * User: MananWason
  * Date: 12-06-2015
  */
 public class VersionApiProcessor implements Callback<VersionResponseList> {
-    private static final String TAG = "Version";
 
     int counterRequests;
 
@@ -55,19 +53,19 @@ public class VersionApiProcessor implements Callback<VersionResponseList> {
                             DataDownloadManager download = DataDownloadManager.getInstance();
                             if (dbSingleton.getVersionIds().getEventVer() != version.getEventVer()) {
                                 download.downloadEvents();
-                                Log.d(TAG, "events");
+                                Timber.d("Downloading Events");
                                 counterRequests++;
                             }
                             if (dbSingleton.getVersionIds().getSpeakerVer() != version.getSpeakerVer()) {
                                 download.downloadSpeakers();
-                                Log.d(TAG, "speaker");
+                                Timber.d("Downloading Speakers");
 
                                 counterRequests++;
 
                             }
                             if (dbSingleton.getVersionIds().getSponsorVer() != version.getSponsorVer()) {
                                 download.downloadSponsors();
-                                Log.d(TAG, "sponsor");
+                                Timber.d("Downloading Sponsor");
 
                                 counterRequests++;
 
@@ -75,7 +73,7 @@ public class VersionApiProcessor implements Callback<VersionResponseList> {
                             if (dbSingleton.getVersionIds().getTracksVer() != version.getTracksVer()) {
                                 download.downloadTracks();
 
-                                Log.d(TAG, "tracks");
+                                Timber.d("Downloading Tracks");
 
                                 counterRequests++;
 
@@ -83,19 +81,19 @@ public class VersionApiProcessor implements Callback<VersionResponseList> {
                             if (dbSingleton.getVersionIds().getSessionVer() != version.getSessionVer()) {
                                 download.downloadSession();
 
-                                Log.d(TAG, "session");
+                                Timber.d("Downloading Sessions");
 
                                 counterRequests++;
 
                             }
                             if (dbSingleton.getVersionIds().getMicrolocationsVer() != version.getMicrolocationsVer()) {
                                 download.downloadMicrolocations();
-                                Log.d(TAG, "micro");
+                                Timber.d("Downloading microlocations");
                                 counterRequests++;
 
                             }
                         } else {
-                            Log.d(TAG, "data fresh");
+                            Timber.d("Data fresh");
                         }
                         CounterEvent counterEvent = new CounterEvent(counterRequests);
                         OpenEventApp.postEventOnUIThread(counterEvent);

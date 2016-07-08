@@ -1,7 +1,5 @@
 package org.fossasia.openevent.api.processor;
 
-import android.util.Log;
-
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.api.protocol.SponsorResponseList;
 import org.fossasia.openevent.data.Sponsor;
@@ -15,12 +13,12 @@ import java.util.ArrayList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timber.log.Timber;
 
 /**
  * Created by MananWason on 26-05-2015.
  */
 public class SponsorListResponseProcessor implements Callback<SponsorResponseList> {
-    private static final String TAG = "Sponsors";
 
     @Override
     public void onResponse(Call<SponsorResponseList> call, final Response<SponsorResponseList> response) {
@@ -33,7 +31,7 @@ public class SponsorListResponseProcessor implements Callback<SponsorResponseLis
                     for (Sponsor sponsor : response.body().sponsors) {
                         String query = sponsor.generateSql();
                         queries.add(query);
-                        Log.d(TAG, query);
+                        Timber.d(query);
                     }
 
 

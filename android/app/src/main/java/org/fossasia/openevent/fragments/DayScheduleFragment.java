@@ -38,11 +38,7 @@ public class DayScheduleFragment extends Fragment {
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
-    private RecyclerView dayRecyclerView;
-
     private DayScheduleAdapter dayScheduleAdapter;
-
-    private List<Session> sortedSessions;
 
     String date;
 
@@ -63,9 +59,9 @@ public class DayScheduleFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.list_schedule, container, false);
-        dayRecyclerView = (RecyclerView) view.findViewById(R.id.list_schedule);
+        RecyclerView dayRecyclerView = (RecyclerView) view.findViewById(R.id.list_schedule);
         final DbSingleton dbSingleton = DbSingleton.getInstance();
-        sortedSessions = dbSingleton.getSessionbyDate(date);
+        List<Session> sortedSessions = dbSingleton.getSessionbyDate(date);
 
         dayScheduleAdapter = new DayScheduleAdapter(sortedSessions);
         dayRecyclerView.setAdapter(dayScheduleAdapter);

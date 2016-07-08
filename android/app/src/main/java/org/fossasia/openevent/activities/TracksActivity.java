@@ -31,15 +31,11 @@ import org.fossasia.openevent.utils.ConstantStrings;
  */
 public class TracksActivity extends BaseActivity implements SearchView.OnQueryTextListener {
 
-    private static final String TAG = "TracksActivity";
-
     final private String SEARCH = "org.fossasia.openevent.searchText";
 
     SessionsListAdapter sessionsListAdapter;
 
     private String track;
-
-    private RecyclerView sessionsRecyclerView;
 
     private String searchText = "";
 
@@ -58,7 +54,7 @@ public class TracksActivity extends BaseActivity implements SearchView.OnQueryTe
         CollapsingToolbarLayout collapsingToolbar =
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbar.setTitle(track);
-        sessionsRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        RecyclerView sessionsRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         sessionsListAdapter = new SessionsListAdapter(dbSingleton.getSessionbyTracksname(track));
 
         sessionsRecyclerView.setLayoutManager(new LinearLayoutManager(this));

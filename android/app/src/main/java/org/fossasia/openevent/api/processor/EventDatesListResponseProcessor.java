@@ -1,7 +1,5 @@
 package org.fossasia.openevent.api.processor;
 
-import android.util.Log;
-
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.api.protocol.EventDatesResponseList;
 import org.fossasia.openevent.data.EventDates;
@@ -15,12 +13,12 @@ import java.util.ArrayList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timber.log.Timber;
 
 /**
  * Created by Manan Wason on 18/06/16.
  */
 public class EventDatesListResponseProcessor implements Callback<EventDatesResponseList> {
-    private static final String TAG = "EventDatesListProcessor";
 
     ArrayList<String> queries = new ArrayList<>();
 
@@ -33,7 +31,7 @@ public class EventDatesListResponseProcessor implements Callback<EventDatesRespo
                     for (EventDates eventDates : response.body().event) {
                         String query = eventDates.generateSql();
                         queries.add(query);
-                        Log.d(TAG, query);
+                        Timber.d(query);
                     }
                     DbSingleton dbSingleton = DbSingleton.getInstance();
 
