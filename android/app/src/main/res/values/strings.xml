@@ -1,0 +1,103 @@
+<resources>
+    <string name="app_name" translatable="false">OpenEvent</string>
+
+    <string name="title_section_tracks">Tracks</string>
+    <string name="title_section_speakerlist">Speakers</string>
+    <string name="title_section_location">Locations</string>
+
+    <!-- Main menu_speakers -->
+    <string name="menu_tracks">Tracks</string>
+    <string name="menu_bookmarks">Bookmarks</string>
+    <string name="menu_speakers">Speakers</string>
+    <string name="menu_sponsor">Sponsors</string>
+    <string name="menu_map">Map</string>
+    <string name="menu_locations">Locations</string>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_about">About us</string>
+    <string name="session">Session detail</string>
+    <string name="menu_schedule" translatable="false">Schedule</string>
+
+
+    <!--Navigation Drawer-->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!--Settings-->
+    <string name="settings_mode_api"> API Mode</string>
+    <string name="default_mode_api">Developer</string>
+
+    <string name="settings_mode_notification"> Notification Mode</string>
+    <string name="default_mode_notification">10</string>
+
+
+    <!--Social-->
+    <string name="linkedin" translatable="false">linkedin</string>
+    <string name="twitter" translatable="false">twitter</string>
+    <string name="fb" translatable="false">fb</string>
+    <string name="github" translatable="false">github</string>
+
+    <!--Menu Titles-->
+    <string name="search">Search</string>
+    <string name="share">Share</string>
+
+
+    <!--Search Titles-->
+    <string name="search_hint_tracks"> Search Tracks</string>
+    <string name="refresh_failed">Couldn\'t Refresh</string>
+    <string name="download_failed">Download Failed</string>
+    <string name="download_complete">Download Done</string>
+    <string name="share_links">Sharing URL</string>
+    <string name="time_not_specified">Timings not specified</string>
+
+    <!--Error Titles-->
+    <string name="net_unavailable">Network not available</string>
+    <string name="turn_on">Turn on WiFi or Mobile data in Settings</string>
+    <string name="error">Error</string>
+    <string name="ok">OK</string>
+
+    <string name="empty_list">No Bookmarks Available</string>
+    <string name="bullet">"•"</string>
+    <string name="bookmarks">Bookmarks</string>
+
+    <!--Speaker-->
+    <string name="subject">Speaker profile</string>
+    <string name="message_1"> is speaking at </string>
+    <string name="message_2"> on the topics: </string>
+    <string name="message_3"> For more information checkout this app on google play store: </string>
+    <string name="fmt_floor">"Floor : "</string>
+    <string name="noBookmark">No bookmarked session yet !!</string>
+
+    <!--About us text-->
+    <string name="about_text">Programmed by <a href="https://github.com/fossasia/open-event-android/graphs/contributors">FOSSASIA contributors</a>.
+\n
+\nLicensed under the GNU General Public License v3. Source available on <a href="https://github.com/fossasia/open-event-android">GitHub</a>.
+\n
+\nPlease report all the issues in <a href="https://github.com/fossasia/open-event-android/issues/new">Github Repository Issue Tracker</a>.
+\n
+    </string>
+    <string name="invalid_url">Invalid Url</string>
+    <string name="dialog_action_ok">OK</string>
+    <string name="dialog_error_title">Error</string>
+    <string name="website">website</string>
+    <string name="notification_key">notification</string>
+    <string name="menu_speaker_sort">Sort</string>
+    <string name="dialog_sort_title">Sort By</string>
+
+    <!--Sort Dialog text-->
+    <string name="dialog_sort_organisation">Organisation</string>
+    <string name="dialog_sort_country">Country</string>
+    <string name="dialog_sort_name">Speaker Name</string>
+    <string name="launcher_icon">Launcher Icon</string>
+    <string name="sponsor_image">Sponsor Image</string>
+    <string name="header_image">Header Image</string>
+    <string name="speaker_image">Speaker\'s Image</string>
+    <string name="logo_widget">Logo Widget</string>
+    <string name="backdrop_image">Backdrop Image</string>
+    <string name="linkedin_icon">Linkedin Icon</string>
+    <string name="twitter_icon">Twitter Icon</string>
+    <string name="facebook_icon">Facebook Icon</string>
+    <string name="github_icon">Github Icon</string>
+    <string name="web_icon">Web Icon</string>
+</resources>
