@@ -7,6 +7,8 @@ Being maintained since 0.8.x
  - add support for native RTL
  - add App Notification Settings intent
  - add Robolectric tests for DB operations
+ - Fixed session list within tracks
+ - Fixed search
 
 
 #### 0.8.0 - 0.8.1
