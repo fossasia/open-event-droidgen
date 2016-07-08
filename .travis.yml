@@ -11,10 +11,10 @@ env:
     ANDROID_ABI=armeabi-v7a
 cache:
   directories:
-  - "${TRAVIS_BUILD_DIR}/gradle/caches/"
-  - "${TRAVIS_BUILD_DIR}/gradle/wrapper/dists/"
-  - "$HOME/.gradle/caches/"
-  - "$HOME/.gradle/wrapper/"
+  - "${TRAVIS_BUILD_DIR}/android/gradle/caches/"
+  - "${TRAVIS_BUILD_DIR}/android/gradle/wrapper/dists/"
+  - "$HOME/android/.gradle/caches/"
+  - "$HOME/android/.gradle/wrapper/"
 android:
   components:
   - platform-tools
@@ -32,6 +32,8 @@ android:
 #   - emulator -avd test -no-skin -no-audio -no-window &
 #   - android-wait-for-emulator
 #   - adb shell input keyevent 82 &
+before_script:
+  - cd android
 script:
   - ./gradlew build
   - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
