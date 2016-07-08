@@ -7,8 +7,10 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -106,6 +108,7 @@ public class MainActivity extends BaseActivity {
     private int currentMenuItemId;
 
     private SmoothActionBarDrawerToggle smoothActionBarToggle;
+    private AppBarLayout appBarLayout;
 
     public static Intent createLaunchFragmentIntent(Context context) {
         return new Intent(context, MainActivity.class)
@@ -136,6 +139,7 @@ public class MainActivity extends BaseActivity {
         eventsDone = 0;
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        appBarLayout = (AppBarLayout) findViewById(R.id.appbar);
 
         setUpToolbar();
         setUpNavDrawer();
@@ -272,23 +276,31 @@ public class MainActivity extends BaseActivity {
 
     private void doMenuAction(int menuItemId) {
         FragmentManager fragmentManager = getSupportFragmentManager();
+        addShadowToAppBar(true);
         switch (menuItemId) {
             case R.id.nav_tracks:
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_frame, new TracksFragment(), FRAGMENT_TAG).commit();
-                getSupportActionBar().setTitle(R.string.menu_tracks);
+                if(getSupportActionBar() != null){
+                    getSupportActionBar().setTitle(R.string.menu_tracks);
+                }
                 break;
             case R.id.nav_schedule:
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_frame, new ScheduleFragment(), FRAGMENT_TAG).commit();
-                getSupportActionBar().setTitle(R.string.menu_tracks);
+                addShadowToAppBar(false);
+                if(getSupportActionBar() != null){
+                    getSupportActionBar().setTitle(R.string.menu_schedule);
+                }
                 break;
             case R.id.nav_bookmarks:
                 DbSingleton dbSingleton = DbSingleton.getInstance();
                 if (!dbSingleton.isBookmarksTableEmpty()) {
                     fragmentManager.beginTransaction()
                             .replace(R.id.content_frame, new BookmarksFragment(), FRAGMENT_TAG).commit();
-                    getSupportActionBar().setTitle(R.string.menu_bookmarks);
+                    if(getSupportActionBar() != null){
+                        getSupportActionBar().setTitle(R.string.menu_bookmarks);
+                    }
                 } else {
                     DialogFactory.createSimpleActionDialog(this, R.string.bookmarks, R.string.empty_list, null).show();
                 }
@@ -296,17 +308,23 @@ public class MainActivity extends BaseActivity {
             case R.id.nav_speakers:
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_frame, new SpeakerFragment(), FRAGMENT_TAG).commit();
-                getSupportActionBar().setTitle(R.string.menu_speakers);
+                if(getSupportActionBar() != null){
+                    getSupportActionBar().setTitle(R.string.menu_speakers);
+                }
                 break;
             case R.id.nav_sponsors:
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_frame, new SponsorsFragment(), FRAGMENT_TAG).commit();
-                getSupportActionBar().setTitle(R.string.menu_sponsor);
+                if(getSupportActionBar() != null){
+                    getSupportActionBar().setTitle(R.string.menu_sponsor);
+                }
                 break;
             case R.id.nav_locations:
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_frame, new LocationsFragment(), FRAGMENT_TAG).commit();
-                getSupportActionBar().setTitle(R.string.menu_locations);
+                if(getSupportActionBar() != null){
+                    getSupportActionBar().setTitle(R.string.menu_locations);
+                }
                 break;
             case R.id.nav_map:
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -316,7 +334,9 @@ public class MainActivity extends BaseActivity {
                                 .getMapModuleFactory()
                                 .provideMapModule()
                                 .provideMapFragment(), FRAGMENT_TAG).commit();
-                getSupportActionBar().setTitle(R.string.menu_map);
+                if(getSupportActionBar() != null){
+                    getSupportActionBar().setTitle(R.string.menu_map);
+                }
                 break;
             case R.id.nav_settings:
                 final Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
@@ -342,6 +362,19 @@ public class MainActivity extends BaseActivity {
         }
         currentMenuItemId = menuItemId;
         drawerLayout.closeDrawers();
+    }
+
+    public void addShadowToAppBar(boolean addShadow) {
+        if(addShadow){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                appBarLayout.setElevation(12);
+            }
+        }
+        else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                appBarLayout.setElevation(0);
+            }
+        }
     }
 
     public void showErrorDialog(String errorType, String errorDesc) {
