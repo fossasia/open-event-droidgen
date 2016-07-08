@@ -42,11 +42,6 @@ import timber.log.Timber;
 
 import static org.fossasia.openevent.utils.SortOrder.sortOrderSpeaker;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the factory method to
- * create an instance of this fragment.
- */
 public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextListener {
 
     private static final String PREF_SORT = "sortType";
@@ -57,11 +52,7 @@ public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextL
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
-    private RecyclerView speakersRecyclerView;
-
     private SpeakersListAdapter speakersListAdapter;
-
-    private List<Speaker> mSpeakers;
 
     private String searchText = "";
 
@@ -75,9 +66,9 @@ public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextL
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.list_speakers, container, false);
         OpenEventApp.getEventBus().register(this);
-        speakersRecyclerView = (RecyclerView) view.findViewById(R.id.rv_speakers);
+        RecyclerView speakersRecyclerView = (RecyclerView) view.findViewById(R.id.rv_speakers);
         final DbSingleton dbSingleton = DbSingleton.getInstance();
-        mSpeakers = dbSingleton.getSpeakerList(sortOrderSpeaker(getActivity()));
+        List<Speaker> mSpeakers = dbSingleton.getSpeakerList(sortOrderSpeaker(getActivity()));
         prefsSort = PreferenceManager.getDefaultSharedPreferences(getActivity());
         sortType = prefsSort.getInt(PREF_SORT, 0);
         speakersListAdapter = new SpeakersListAdapter(mSpeakers, getActivity());

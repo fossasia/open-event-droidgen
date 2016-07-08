@@ -44,30 +44,31 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
-    private RecyclerView tracksRecyclerView;
-
     private TracksListAdapter tracksListAdapter;
 
-    private List<Track> mTracks;
     private String searchText = "";
 
     private SearchView searchView;
+
+    private View windowFrame;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.list_tracks, container, false);
         OpenEventApp.getEventBus().register(this);
-        tracksRecyclerView = (RecyclerView) view.findViewById(R.id.list_tracks);
+        RecyclerView tracksRecyclerView = (RecyclerView) view.findViewById(R.id.list_tracks);
         final DbSingleton dbSingleton = DbSingleton.getInstance();
-        mTracks = dbSingleton.getTrackList();
+        List<Track> mTracks = dbSingleton.getTrackList();
+
+        windowFrame = view.findViewById(R.id.tracks_frame);
 
         tracksListAdapter = new TracksListAdapter(mTracks);
         tracksRecyclerView.setAdapter(tracksListAdapter);
         tracksListAdapter.setOnClickListener(new TracksListAdapter.SetOnClickListener() {
             @Override
             public void onItemClick(int position, View view) {
-                Track model = (Track) tracksListAdapter.getItem(position);
+                Track model = tracksListAdapter.getItem(position);
                 String trackTitle = model.getName();
                 Intent intent = new Intent(getContext(), TracksActivity.class);
                 intent.putExtra(ConstantStrings.TRACK, trackTitle);
@@ -163,7 +164,7 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
 
         } else {
             if (getActivity() != null) {
-                Snackbar.make(getView(), getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).show();
+                Snackbar.make(windowFrame, getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).show();
             }
         }
     }

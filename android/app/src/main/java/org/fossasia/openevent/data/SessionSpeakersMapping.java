@@ -9,7 +9,6 @@ import java.util.Locale;
  * Date: 04-06-2015
  */
 public class SessionSpeakersMapping {
-    private static final String TAG = "SessionSpeaker";
 
     int sessionId;
 

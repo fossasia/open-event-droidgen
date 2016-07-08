@@ -39,8 +39,6 @@ import timber.log.Timber;
 public class SessionDetailActivity extends BaseActivity {
     private static final String TAG = "Session Detail";
 
-    private RecyclerView speakersRecyclerView;
-
     private SpeakersListAdapter adapter;
 
     private Session session;
@@ -66,7 +64,7 @@ public class SessionDetailActivity extends BaseActivity {
         TextView summary = (TextView) findViewById(R.id.tv_abstract_text);
         TextView descrip = (TextView) findViewById(R.id.tv_description);
 
-        speakersRecyclerView = (RecyclerView) findViewById(R.id.list_speakerss);
+        RecyclerView speakersRecyclerView = (RecyclerView) findViewById(R.id.list_speakerss);
 
         final List<Speaker> speakers = dbSingleton.getSpeakersbySessionName(title);
         session = dbSingleton.getSessionbySessionname(title);
