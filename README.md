@@ -34,13 +34,13 @@ You can fin the apk generator docs [here](docs/AndroidApp.md) and the android ap
 
 ## Branches and Contribution policy
 We have the following branches   
- * **master**   
+ * **develop**   
 	 All development goes on in this branch. If you're making a contribution,
-	 you are supposed to make a pull request to _master_.
+	 you are supposed to make a pull request to _develop_.
 	 PRs to master must pass a build check and a unit-test (_app/src/test_) check on Travis
- * **stable**   
-	 Every few days (after some contributions have come to _master_), we merge
-	 master to stable. PRs from _master -> stable_ will have to pass a build check,
+ * **master**   
+	 Every few days (after some contributions have come to _develop_), we merge
+	 develop to master. PRs from _develop -> master_ will have to pass a build check,
 	 a unit-test check, AND a instrumentation test (_app/src/androidTest_) on Travis.
  * **shipping**   
    This contains shipped code. After significant features/bugfixes are accumulated on stable, we make a version update, and make a release.
