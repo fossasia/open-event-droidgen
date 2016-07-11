@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import timber.log.Timber;
 
 
 /**
@@ -39,7 +38,7 @@ public class SpeakerListResponseProcessor implements Callback<SpeakerResponseLis
                         }
                         String query = speaker.generateSql();
                         queries.add(query);
-                        Timber.d(query);
+//                        Timber.d(query);
                     }
 
                     DbSingleton dbSingleton = DbSingleton.getInstance();
