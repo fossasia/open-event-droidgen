@@ -56,4 +56,4 @@ deploy:
   on:
     tags: true
     repo: fossasia/open-event-android
-    branch: shipping
+    branch: master
