@@ -63,7 +63,9 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
         speaker = getIntent().getStringExtra(Speaker.SPEAKER);
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_speakers);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(null);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(null);
+        }
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         selectedSpeaker = dbSingleton.getSpeakerbySpeakersname(speaker);
