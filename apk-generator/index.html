@@ -39,6 +39,16 @@
     <input accept=".zip" type="file" id="uploadZip" name="sessions">
   </td>
 </tr>
+
+<tr>
+  <td valign="top">
+    <label for="icon">App's icon in .png format</label>
+  </td>
+  <td valign="top">
+    <input accept=".png" type="file" id="uploadIcon" name="icon">
+  </td>
+</tr>
+
 <tr>
  <td colspan="5" style="text-align:center">
   <button type="submit">Generate and Download app</button>
@@ -68,7 +78,9 @@
         var obj = {};
         for (var a = 0; a < ary.length; a++) obj[ary[a].name] = ary[a].value;
           console.log("JSON",obj);
-        var file_data = $('#uploadZip').prop('files')[0];       
+        var file_data = $('#uploadZip').prop('files')[0];
+        var storageRef = firebase.storage().ref(timestamp.toString());       
+        storageRef.put(file_data);
         var form_data = new FormData();                  
         form_data.append('file', file_data);                           
         firebase.database().ref('users/' + timestamp).set(obj);
