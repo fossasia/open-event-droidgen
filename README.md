@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.org/fossasia/open-event-android.svg?branch=stable)](https://travis-ci.org/fossasia/open-event-android)
-[![codecov.io](https://codecov.io/github/fossasia/open-event-android/coverage.svg?branch=stable)](https://codecov.io/github/fossasia/open-event-android?branch=stable)
+[![Build Status](https://travis-ci.org/fossasia/open-event-android.svg?branch=development)](https://travis-ci.org/fossasia/open-event-android)
+[![codecov.io](https://codecov.io/github/fossasia/open-event-android/coverage.svg?branch=development)](https://codecov.io/github/fossasia/open-event-android?branch=development)
 [![todofy badge](https://todofy.org/b/fossasia/open-event-android)](https://todofy.org/r/fossasia/open-event-android)
 [![Join the chat at https://gitter.im/fossasia/open-event-android](https://badges.gitter.im/fossasia/open-event-android.svg)](https://gitter.im/fossasia/open-event-android?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
@@ -101,17 +101,13 @@ Before you begin, you should already have the Android Studio SDK downloaded and 
 
 ## Branches and Contribution policy
 We have the following branches   
- * **master**   
+ * **development**   
 	 All development goes on in this branch. If you're making a contribution,
-	 you are supposed to make a pull request to _master_.
+	 you are supposed to make a pull request to _development_.
 	 PRs to master must pass a build check and a unit-test (_app/src/test_) check on Travis
- * **stable**   
-	 Every few days (after some contributions have come to _master_), we merge
-	 master to stable. PRs from _master -> stable_ will have to pass a build check,
-	 a unit-test check, AND a instrumentation test (_app/src/androidTest_) on Travis.
- * **shipping**   
-   This contains shipped code. After significant features/bugfixes are accumulated on stable, we make a version update, and make a release.
-	 All tagged commits on _shipping_ branch will automatically generate a release on Github with a copy of ***fDroid-debug*** and ***GooglePlay-debug*** apks.
+ * **master**   
+   This contains shipped code. After significant features/bugfixes are accumulated on development, we make a version update, and make a release.
+	 All tagged commits on _master_ branch will automatically generate a release on Github with a copy of ***fDroid-debug*** and ***GooglePlay-debug*** apks.
 
 ## A note about Codestyle
 Please read our [CODESTYLE](CODESTYLE.md) carefully. Pull requests that do not match the style will be rejected.
