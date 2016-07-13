@@ -434,6 +434,7 @@ public class DatabaseOperations {
             db.beginTransaction();
             for (String query : queries) {
                 db.execSQL(query);
+                Timber.d(query);
             }
             db.setTransactionSuccessful();
             db.endTransaction();
