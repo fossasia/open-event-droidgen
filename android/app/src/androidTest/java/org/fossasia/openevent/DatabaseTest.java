@@ -3,7 +3,7 @@ package org.fossasia.openevent;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.test.InstrumentationRegistry;
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.fossasia.openevent.data.Event;
 import org.fossasia.openevent.data.Microlocation;
@@ -16,23 +16,29 @@ import org.fossasia.openevent.dbutils.DatabaseOperations;
 import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.dbutils.DbHelper;
 import org.fossasia.openevent.dbutils.DbSingleton;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.ArrayList;
 
 import timber.log.Timber;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 /**
  * User: MananWason
  * Date: 17-06-2015
  */
-public class DatabaseTest extends AndroidTestCase {
-    private final Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
-
+public class DatabaseTest {
+    private Context context;
     private DbHelper db;
 
-    @Override
+    @Before
     protected void setUp() throws Exception {
-        super.setUp();
+        context = InstrumentationRegistry.getInstrumentation().getTargetContext();
         context.deleteDatabase(DbContract.DATABASE_NAME);
         ArrayList<String> queries;
         queries = new ArrayList<>();
@@ -81,6 +87,7 @@ public class DatabaseTest extends AndroidTestCase {
 
     }
 
+    @Test
     public void testDropDB() {
         /** Check that the DB path is correct and db exists */
         assertTrue(context.getDatabasePath(DbContract.DATABASE_NAME).exists());
@@ -88,6 +95,7 @@ public class DatabaseTest extends AndroidTestCase {
         assertTrue(context.deleteDatabase(DbContract.DATABASE_NAME));
     }
 
+    @Test
     public void testCreateDB() {
         DbHelper dbHelper = new DbHelper(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -95,6 +103,7 @@ public class DatabaseTest extends AndroidTestCase {
         db.close();
     }
 
+    @Test
     public void testSpeakersList() throws Exception {
         DbSingleton dbSingleton = DbSingleton.getInstance();
 
@@ -102,6 +111,7 @@ public class DatabaseTest extends AndroidTestCase {
         assertTrue(dbSingleton.getSpeakerList(DbContract.Speakers.ID).size() > 0);
     }
 
+    @Test
     public void testSessionsList() throws Exception {
         DbSingleton dbSingleton = DbSingleton.getInstance();
 
@@ -109,6 +119,7 @@ public class DatabaseTest extends AndroidTestCase {
         assertTrue(dbSingleton.getSessionList().size() > 0);
     }
 
+    @Test
     public void testTracksList() throws Exception {
         DbSingleton dbSingleton = DbSingleton.getInstance();
 
@@ -117,11 +128,13 @@ public class DatabaseTest extends AndroidTestCase {
         assertTrue(dbSingleton.getTrackList().size() > 0);
     }
 
+    @Test
     public void testVersionList() throws Exception {
         DbSingleton dbSingleton = DbSingleton.getInstance();
         assertNotNull(dbSingleton.getVersionIds());
     }
 
+    @Test
     public void testSponsorsList() throws Exception {
         /**
          * This call is ambiguous because the Singleton caches the DB and the helper
@@ -133,10 +146,9 @@ public class DatabaseTest extends AndroidTestCase {
     }
 
 
-    @Override
+    @After
     protected void tearDown() throws Exception {
         db.close();
         context.deleteDatabase(DbContract.DATABASE_NAME);
-        super.tearDown();
     }
 }
