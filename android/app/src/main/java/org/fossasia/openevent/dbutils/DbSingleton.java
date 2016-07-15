@@ -197,5 +197,4 @@ public class DbSingleton {
         databaseOperations.clearDatabaseTable(table, mDbHelper);
     }
 
-
 }

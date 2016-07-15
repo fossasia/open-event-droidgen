@@ -69,6 +69,10 @@ public class OpenEventApp extends Application {
         } else {
             Timber.plant(new CrashReportingTree());
         }
+        DbSingleton.init(this);
+        mapModuleFactory = new MapModuleFactory();
+        registerReceiver(new NetworkConnectivityChangeReceiver(), new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+        getEventBus().register(this);
 
         String json = null;
         try {
@@ -99,10 +103,6 @@ public class OpenEventApp extends Application {
         }
 
 
-        DbSingleton.init(this);
-        mapModuleFactory = new MapModuleFactory();
-        registerReceiver(new NetworkConnectivityChangeReceiver(), new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
-        getEventBus().register(this);
     }
 
     @Subscribe

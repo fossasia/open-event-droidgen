@@ -28,4 +28,22 @@ public class ConstantStrings {
 
 
     public static final String EVENT_DAY = "EVENT_DAY";
+
+    public static final String Speakers = "speakers";
+
+    public static final String Sessions = "sessions";
+
+    public static final String Tracks = "tracks";
+
+    public static final String Version = "version";
+
+    public static final String EventDates = "eventDates";
+
+    public static final String Microlocations = "microlocations";
+
+    public static final String Sponsors = "sponsors";
+
+    public static final String Events = "events";
+
+    public static final String DATABASE_RECORDS_EXIST = "database_records_exist" ;
 }
