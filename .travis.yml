@@ -50,3 +50,6 @@ notifications:
     on_start: false
 after_success:
   - bash <(curl -s https://codecov.io/bash)
+  - cd ..
+  - - chmod +x ./upload-apk.sh
+  - ./upload-apk.sh
