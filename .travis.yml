@@ -1,5 +1,4 @@
 language: android
-sudo: false
 jdk: oraclejdk8
 env:
   global:
@@ -51,5 +50,5 @@ notifications:
 after_success:
   - bash <(curl -s https://codecov.io/bash)
   - cd ..
-  - - chmod +x ./upload-apk.sh
-  - ./upload-apk.sh
+  - chmod +x $HOME/build/fossasia/open-event-android/upload-apk.sh
+  - sh $HOME/build/fossasia/open-event-android/upload-apk.sh
