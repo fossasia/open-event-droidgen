@@ -19,6 +19,7 @@ import org.fossasia.openevent.dbutils.DbSingleton;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 
@@ -32,6 +33,7 @@ import static org.junit.Assert.assertTrue;
  * User: MananWason
  * Date: 17-06-2015
  */
+@RunWith(AndroidJUnit4.class)
 public class DatabaseTest {
     private Context context;
     private DbHelper db;
