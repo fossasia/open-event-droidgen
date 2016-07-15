@@ -8,6 +8,8 @@ import subprocess
 from tempfile import mkstemp
 from shutil import move
 from os import remove, close
+import zipfile
+from shutil import copyfile
 
 def replace(file_path, pattern, subst):
     #Create temp file
@@ -53,6 +55,18 @@ absDirectory = directory + "/open-event-android/android/"
 # subprocess.call(['./setPerm.sh', directory])
 replace(directory+"/open-event-android/android/app/build.gradle", '"org.fossasia.openevent"', '"org.fossasia.openevent.'+app_name.split()[0]+'"')
 replace(directory+"/open-event-android/android/app/src/main/res/values/strings.xml", 'OpenEvent', app_name.split()[0])
+
+#TODO: Add zip path
+zip_ref = zipfile.ZipFile(path_to_zip_file, 'r')
+zip_ref.extractall(directory)
+zip_ref.close()
+#TODO: Change path here
+for f in os.listdir(directory+ "/zip"):
+	if f.endswith('.json'):
+		copyfile(f, directoy + "open-event-android/android/app/src/main/assets/"+f)
+	elif f.endswith('.png'):
+		copyfile(f, directory + "open-event-android/android/app/src/main/res/drawable"+f)
+replace(directory+"/open-event-android/android/app/src/main/res/values/strings.xml", 'mipmap/ic_launcher', 'drawable/' + f)
 subprocess.call(['/var/www/html/buildApk.sh', directory])
 subprocess.call(['/var/www/html/email.sh', directory, email])
 subprocess.call(['/var/www/html/copyApk.sh', absDirectory, arg])
