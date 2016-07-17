@@ -35,7 +35,7 @@ public class EventDatesListResponseProcessor implements Callback<EventDatesRespo
                     }
                     DbSingleton dbSingleton = DbSingleton.getInstance();
 
-                    dbSingleton.clearDatabase(DbContract.Microlocation.TABLE_NAME);
+                    dbSingleton.clearTable(DbContract.Microlocation.TABLE_NAME);
                     dbSingleton.insertQueries(queries);
 
                     OpenEventApp.postEventOnUIThread(new EventDownloadEvent(true));

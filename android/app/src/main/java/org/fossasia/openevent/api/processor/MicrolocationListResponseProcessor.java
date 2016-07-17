@@ -37,7 +37,7 @@ public class MicrolocationListResponseProcessor implements Callback<Microlocatio
                     }
                     DbSingleton dbSingleton = DbSingleton.getInstance();
 
-                    dbSingleton.clearDatabase(DbContract.Microlocation.TABLE_NAME);
+                    dbSingleton.clearTable(DbContract.Microlocation.TABLE_NAME);
                     dbSingleton.insertQueries(queries);
 
                     OpenEventApp.postEventOnUIThread(new MicrolocationDownloadEvent(true));

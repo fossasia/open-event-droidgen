@@ -106,7 +106,7 @@ public class SpeakerInsertTest {
 
                 String query = speaker.generateSql();
                 DbSingleton instance = new DbSingleton(database, mActivity, db);
-                instance.clearDatabase(DbContract.Speakers.TABLE_NAME);
+                instance.clearTable(DbContract.Speakers.TABLE_NAME);
                 instance.insertQuery(query);
 
                 Speaker speakerDetails = instance.getSpeakerList(DbContract.Speakers.ID).get(0);

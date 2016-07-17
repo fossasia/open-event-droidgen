@@ -107,7 +107,7 @@ public class MicrolocationInsertTest {
 
                 String query = microlocation.generateSql();
                 DbSingleton instance = new DbSingleton(database, mActivity, db);
-                instance.clearDatabase(DbContract.Microlocation.TABLE_NAME);
+                instance.clearTable(DbContract.Microlocation.TABLE_NAME);
                 instance.insertQuery(query);
 
                 Microlocation microlocationDetails = new DatabaseOperations().getMicroLocationById(microlocation.getId(), database);

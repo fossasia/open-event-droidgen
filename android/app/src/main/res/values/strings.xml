@@ -100,4 +100,7 @@
     <string name="facebook_icon">Facebook Icon</string>
     <string name="github_icon">Github Icon</string>
     <string name="web_icon">Web Icon</string>
+    <string name="download_assets">Do you want to download all assets right now?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

@@ -461,6 +461,21 @@ public class DatabaseOperations {
         }
     }
 
+    public void clearDatabase( DbHelper mDbHelper) {
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        db.beginTransaction();
+        try {
+
+            mDbHelper.onUpgrade(db,0, 0);
+            db.setTransactionSuccessful();
+
+        } finally {
+            db.endTransaction();
+
+
+        }
+    }
+
     public ArrayList<Session> getSessionbySpeakersname(String speakerName, SQLiteDatabase mDb) {
         String speakerColumnSelection = DbContract.Speakers.NAME + EQUAL + DatabaseUtils.sqlEscapeString(speakerName);
         String[] columns = {DbContract.Speakers.ID, DbContract.Speakers.NAME};

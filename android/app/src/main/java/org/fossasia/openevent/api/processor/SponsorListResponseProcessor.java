@@ -36,7 +36,7 @@ public class SponsorListResponseProcessor implements Callback<SponsorResponseLis
 
 
                     DbSingleton dbSingleton = DbSingleton.getInstance();
-                    dbSingleton.clearDatabase(DbContract.Sponsors.TABLE_NAME);
+                    dbSingleton.clearTable(DbContract.Sponsors.TABLE_NAME);
                     dbSingleton.insertQueries(queries);
                     OpenEventApp.postEventOnUIThread(new SponsorDownloadEvent(true));
                 }
