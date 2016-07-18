@@ -38,7 +38,7 @@ public class SessionListResponseProcessor implements Callback<SessionResponseLis
                         Timber.d(query);
                     }
 
-                    dbSingleton.clearDatabase(DbContract.Sessions.TABLE_NAME);
+                    dbSingleton.clearTable(DbContract.Sessions.TABLE_NAME);
                     dbSingleton.insertQueries(queries);
                     OpenEventApp.postEventOnUIThread(new SessionDownloadEvent(true));
                 }

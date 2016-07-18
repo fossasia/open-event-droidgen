@@ -49,6 +49,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(DbContract.Microlocation.DELETE_TABLE);
         db.execSQL(DbContract.Bookmarks.DELETE_TABLE);
         db.execSQL(DbContract.EventDates.DELETE_TABLE);
+        db.execSQL(DbContract.Versions.DELETE_TABLE);
         onCreate(db);
         Timber.tag(TAG).d("==== OnUpgrade DB Completed ====");
     }

@@ -62,6 +62,8 @@ public class DbContract {
                         + VER_SPEAKERS + INT_TYPE + COMMA_SEP
                         + VER_MICROLOCATIONS + INT_TYPE
                         + " );";
+        public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
+
 
     }
 

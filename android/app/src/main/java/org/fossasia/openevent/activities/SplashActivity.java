@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.Window;
 
+import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 
 /**
@@ -14,12 +15,13 @@ import org.fossasia.openevent.R;
 public class SplashActivity extends Activity {
     private final int SPLASH_DISPLAY_LENGTH = 1000;
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        OpenEventApp.getEventBus().register(this);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_splash);
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

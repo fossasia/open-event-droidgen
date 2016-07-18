@@ -108,7 +108,7 @@ public class SponsorInsertTest {
 
                 String query = session.generateSql();
                 DbSingleton instance = new DbSingleton(mActivity);
-                instance.clearDatabase(DbContract.Sessions.TABLE_NAME);
+                instance.clearTable(DbContract.Sessions.TABLE_NAME);
                 instance.insertQuery(query);
 
                 Session sessionDetails = instance.getSessionById(session.getId());

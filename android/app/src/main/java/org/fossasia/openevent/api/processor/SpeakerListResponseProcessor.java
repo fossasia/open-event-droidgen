@@ -43,8 +43,8 @@ public class SpeakerListResponseProcessor implements Callback<SpeakerResponseLis
                     }
 
                     DbSingleton dbSingleton = DbSingleton.getInstance();
-                    dbSingleton.clearDatabase(DbContract.Sessionsspeakers.TABLE_NAME);
-                    dbSingleton.clearDatabase(DbContract.Speakers.TABLE_NAME);
+                    dbSingleton.clearTable(DbContract.Sessionsspeakers.TABLE_NAME);
+                    dbSingleton.clearTable(DbContract.Speakers.TABLE_NAME);
                     dbSingleton.insertQueries(queries);
 
                     OpenEventApp.postEventOnUIThread(new SpeakerDownloadEvent(true));

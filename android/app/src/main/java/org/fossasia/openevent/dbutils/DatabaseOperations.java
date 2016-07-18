@@ -434,6 +434,7 @@ public class DatabaseOperations {
             db.beginTransaction();
             for (String query : queries) {
                 db.execSQL(query);
+                Timber.d(query);
             }
             db.setTransactionSuccessful();
             db.endTransaction();
@@ -451,6 +452,21 @@ public class DatabaseOperations {
 
             db.delete(table, null, null);
 
+            db.setTransactionSuccessful();
+
+        } finally {
+            db.endTransaction();
+
+
+        }
+    }
+
+    public void clearDatabase( DbHelper mDbHelper) {
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        db.beginTransaction();
+        try {
+
+            mDbHelper.onUpgrade(db,0, 0);
             db.setTransactionSuccessful();
 
         } finally {

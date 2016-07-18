@@ -1,0 +1,32 @@
+{
+  "microlocations": [
+    {
+      "id": 0,
+      "name": "Stage 7",
+      "latitude": "75.12312",
+      "longitude": "123.11212",
+      "floor": 2
+    },
+    {
+      "id": 1,
+      "name": "Hall 3",
+      "latitude": "75.12312",
+      "longitude": "123.11212",
+      "floor": 1
+    },
+    {
+      "id": 2,
+      "name": "Stage 2",
+      "latitude": "75.12212",
+      "longitude": "123.14512",
+      "floor": 1
+    },
+
+    { "floor": 1,
+      "id": 3,
+      "latitude": 27.0,
+      "longitude": -122.400546,
+      "name": "moscone"
+    }
+  ]
+}

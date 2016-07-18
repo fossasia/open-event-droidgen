@@ -37,7 +37,7 @@ public class EventListResponseProcessor implements Callback<EventResponseList> {
                     }
 
                     DbSingleton dbSingleton = DbSingleton.getInstance();
-                    dbSingleton.clearDatabase(DbContract.Event.TABLE_NAME);
+                    dbSingleton.clearTable(DbContract.Event.TABLE_NAME);
                     dbSingleton.insertQueries(queries);
 
                     OpenEventApp.postEventOnUIThread(new EventDownloadEvent(true));
