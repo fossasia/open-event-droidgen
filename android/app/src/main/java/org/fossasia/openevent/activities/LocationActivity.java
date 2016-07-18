@@ -73,7 +73,7 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
 
                 Session model = sessionsListAdapter.getItem(position);
                 String sessionName = model.getTitle();
-                Track track = dbSingleton.getTrackbyId(model.getTrack());
+                Track track = dbSingleton.getTrackbyId(model.getTrack().getId());
                 String trackName = track.getName();
                 Intent intent = new Intent(getApplicationContext(), SessionDetailActivity.class);
                 intent.putExtra(ConstantStrings.SESSION, sessionName);

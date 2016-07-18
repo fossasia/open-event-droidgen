@@ -106,7 +106,8 @@ public class BookmarksFragment extends Fragment {
             public void onItemClick(int position, View view) {
                 Session model = sessionsListAdapter.getItem(position);
                 String sessionName = model.getTitle();
-                Track track = dbSingleton.getTrackbyId(model.getTrack());
+                Timber.d(model.getTitle());
+                Track track = dbSingleton.getTrackbyId(model.getTrack().getId());
                 String trackName = track.getName();
                 Intent intent = new Intent(getContext(), SessionDetailActivity.class);
                 intent.putExtra(ConstantStrings.SESSION, sessionName);

@@ -126,8 +126,8 @@ public class DatabaseOperations {
                 null,
                 null
         );
-        Microlocation location;
-        cursor.moveToFirst();
+        Microlocation location = null;
+        if(cursor.moveToFirst()){
         //Should return only one due to UNIQUE constraint
         location = new Microlocation(
                 cursor.getInt(cursor.getColumnIndex(DbContract.Microlocation.ID)),
@@ -135,7 +135,7 @@ public class DatabaseOperations {
                 cursor.getFloat(cursor.getColumnIndex(DbContract.Microlocation.LATITUDE)),
                 cursor.getFloat(cursor.getColumnIndex(DbContract.Microlocation.LONGITUDE)),
                 cursor.getInt(cursor.getColumnIndex(DbContract.Microlocation.FLOOR))
-        );
+        );}
         cursor.close();
 
         return location;

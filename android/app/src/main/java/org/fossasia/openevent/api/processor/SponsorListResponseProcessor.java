@@ -1,7 +1,6 @@
 package org.fossasia.openevent.api.processor;
 
 import org.fossasia.openevent.OpenEventApp;
-import org.fossasia.openevent.api.protocol.SponsorResponseList;
 import org.fossasia.openevent.data.Sponsor;
 import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.dbutils.DbSingleton;
@@ -9,6 +8,7 @@ import org.fossasia.openevent.events.SponsorDownloadEvent;
 import org.fossasia.openevent.utils.CommonTaskLoop;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -18,17 +18,17 @@ import timber.log.Timber;
 /**
  * Created by MananWason on 26-05-2015.
  */
-public class SponsorListResponseProcessor implements Callback<SponsorResponseList> {
+public class SponsorListResponseProcessor implements Callback<List<Sponsor>> {
 
     @Override
-    public void onResponse(Call<SponsorResponseList> call, final Response<SponsorResponseList> response) {
+    public void onResponse(Call<List<Sponsor>> call, final Response<List<Sponsor>> response) {
         if (response.isSuccessful()) {
             CommonTaskLoop.getInstance().post(new Runnable() {
                 @Override
                 public void run() {
                     ArrayList<String> queries = new ArrayList<>();
 
-                    for (Sponsor sponsor : response.body().sponsors) {
+                    for (Sponsor sponsor : response.body()) {
                         String query = sponsor.generateSql();
                         queries.add(query);
                         Timber.d(query);
@@ -48,7 +48,7 @@ public class SponsorListResponseProcessor implements Callback<SponsorResponseLis
     }
 
     @Override
-    public void onFailure(Call<SponsorResponseList> call, Throwable t) {
+    public void onFailure(Call<List<Sponsor>> call, Throwable t) {
         OpenEventApp.getEventBus().post(new SponsorDownloadEvent(false));
     }
 }
