@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.org/fossasia/open-event-android.svg?branch=development)](https://travis-ci.org/fossasia/open-event-android)
-[![codecov.io](https://codecov.io/github/fossasia/open-event-android/coverage.svg?branch=development)](https://codecov.io/github/fossasia/open-event-android?branch=development)
+[![Build Status](https://travis-ci.org/fossasia/open-event-android.svg?branch=master)](https://travis-ci.org/fossasia/open-event-android)
+[![codecov.io](https://codecov.io/github/fossasia/open-event-android/coverage.svg?branch=master)](https://codecov.io/github/fossasia/open-event-android?branch=master)
 [![todofy badge](https://todofy.org/b/fossasia/open-event-android)](https://todofy.org/r/fossasia/open-event-android)
 [![Join the chat at https://gitter.im/fossasia/open-event-android](https://badges.gitter.im/fossasia/open-event-android.svg)](https://gitter.im/fossasia/open-event-android?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Preview the app](http://i.imgur.com/iuWpLuX.png)](https://appetize.io/app/2rfx5pavny47jnb1qzwg204fr8)
