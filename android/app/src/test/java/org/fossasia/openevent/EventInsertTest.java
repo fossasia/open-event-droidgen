@@ -107,7 +107,7 @@ public class EventInsertTest {
 
                 String query = event.generateSql();
                 DbSingleton instance = new DbSingleton(mActivity);
-                instance.clearDatabase(DbContract.Event.TABLE_NAME);
+                instance.clearTable(DbContract.Event.TABLE_NAME);
                 instance.insertQuery(query);
 
                 Event eventDetails = instance.getEventDetails();
