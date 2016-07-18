@@ -1,6 +1,6 @@
 #[Open Event Android App Generator](http://192.241.232.231)
 
-Glosarry
+Glossary
 ======
 | Term        | Meaning           |
 | ------------- |:-------------|
