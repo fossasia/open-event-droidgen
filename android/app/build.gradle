@@ -86,7 +86,7 @@ dependencies {
     compile 'com.jakewharton:butterknife:7.0.1'
 
     // Googleplay Variant
-    googleplayCompile 'com.google.android.gms:play-services-maps:9.2.0'
+    googleplayCompile 'com.google.android.gms:play-services-maps:9.0.2'
 
     // Fdroid Variant
     fdroidCompile 'org.osmdroid:osmdroid-android:5.1'
@@ -95,7 +95,6 @@ dependencies {
 
     // Unit Test
     testCompile 'junit:junit:4.12'
-    testCompile "org.robolectric:robolectric:3.0"
 
     //Instrumentation Test
     androidTestCompile "com.android.support:support-annotations:${SUPPORT_LIB_VERSION}"

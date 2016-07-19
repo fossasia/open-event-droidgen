@@ -7,6 +7,7 @@ import com.google.gson.annotations.SerializedName;
 import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.utils.StringUtils;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 /**
@@ -172,5 +173,21 @@ public class Event {
                 DatabaseUtils.sqlEscapeString(StringUtils.optionalString(locationName)),
                 DatabaseUtils.sqlEscapeString(StringUtils.optionalString(url)),
                 DatabaseUtils.sqlEscapeString(StringUtils.optionalString(slogan)));
+    }
+
+    public static class EventList {
+        public EventList(ArrayList<Event> events) {
+            this.events = events;
+        }
+
+        public ArrayList<Event> getEvents() {
+            return events;
+        }
+
+        public void setEvents(ArrayList<Event> events) {
+            this.events = events;
+        }
+
+        ArrayList<Event> events;
     }
 }

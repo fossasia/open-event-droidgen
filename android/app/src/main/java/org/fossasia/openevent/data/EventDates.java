@@ -2,6 +2,7 @@ package org.fossasia.openevent.data;
 
 import org.fossasia.openevent.dbutils.DbContract;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 /**
@@ -28,5 +29,21 @@ public class EventDates {
                 insertQuery,
                 DbContract.EventDates.TABLE_NAME,
                 date);
+    }
+
+    public static class EventDatesList {
+        ArrayList<EventDates> dates;
+
+        public EventDatesList(ArrayList<EventDates> dates) {
+            this.dates = dates;
+        }
+
+        public ArrayList<EventDates> getDates() {
+            return dates;
+        }
+
+        public void setDates(ArrayList<EventDates> dates) {
+            this.dates = dates;
+        }
     }
 }
