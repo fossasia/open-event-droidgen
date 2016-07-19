@@ -5,7 +5,7 @@ import org.fossasia.openevent.api.protocol.EventDatesResponseList;
 import org.fossasia.openevent.data.EventDates;
 import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.dbutils.DbSingleton;
-import org.fossasia.openevent.events.MicrolocationDownloadEvent;
+import org.fossasia.openevent.events.EventDownloadEvent;
 import org.fossasia.openevent.utils.CommonTaskLoop;
 
 import java.util.ArrayList;
@@ -35,14 +35,14 @@ public class EventDatesListResponseProcessor implements Callback<EventDatesRespo
                     }
                     DbSingleton dbSingleton = DbSingleton.getInstance();
 
-                    dbSingleton.clearDatabase(DbContract.Microlocation.TABLE_NAME);
+                    dbSingleton.clearTable(DbContract.Microlocation.TABLE_NAME);
                     dbSingleton.insertQueries(queries);
 
-                    OpenEventApp.postEventOnUIThread(new MicrolocationDownloadEvent(true));
+                    OpenEventApp.postEventOnUIThread(new EventDownloadEvent(true));
                 }
             });
         } else {
-            OpenEventApp.getEventBus().post(new MicrolocationDownloadEvent(false));
+            OpenEventApp.getEventBus().post(new EventDownloadEvent(false));
         }
 
     }

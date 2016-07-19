@@ -193,9 +193,12 @@ public class DbSingleton {
         databaseOperations.insertQuery(query, mDbHelper);
     }
 
-    public void clearDatabase(String table) {
+    public void clearTable(String table) {
         databaseOperations.clearDatabaseTable(table, mDbHelper);
     }
 
+    public void clearDatabase() {
+        databaseOperations.clearDatabase(mDbHelper);
+    }
 
 }

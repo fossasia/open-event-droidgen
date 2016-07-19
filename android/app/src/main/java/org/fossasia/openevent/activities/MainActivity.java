@@ -3,12 +3,14 @@ package org.fossasia.openevent.activities;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -32,6 +34,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
@@ -39,11 +42,28 @@ import com.squareup.picasso.Picasso;
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.api.Urls;
+import org.fossasia.openevent.api.protocol.EventDatesResponseList;
+import org.fossasia.openevent.api.protocol.EventResponseList;
+import org.fossasia.openevent.api.protocol.MicrolocationResponseList;
+import org.fossasia.openevent.api.protocol.SessionResponseList;
+import org.fossasia.openevent.api.protocol.SpeakerResponseList;
+import org.fossasia.openevent.api.protocol.SponsorResponseList;
+import org.fossasia.openevent.api.protocol.TrackResponseList;
+import org.fossasia.openevent.data.Event;
+import org.fossasia.openevent.data.EventDates;
+import org.fossasia.openevent.data.Microlocation;
+import org.fossasia.openevent.data.Session;
+import org.fossasia.openevent.data.SessionSpeakersMapping;
+import org.fossasia.openevent.data.Speaker;
+import org.fossasia.openevent.data.Sponsor;
+import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DataDownloadManager;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.CounterEvent;
 import org.fossasia.openevent.events.DataDownloadEvent;
+import org.fossasia.openevent.events.EventDatesDownloadEvent;
 import org.fossasia.openevent.events.EventDownloadEvent;
+import org.fossasia.openevent.events.JsonReadEvent;
 import org.fossasia.openevent.events.MicrolocationDownloadEvent;
 import org.fossasia.openevent.events.NoInternetEvent;
 import org.fossasia.openevent.events.RefreshUiEvent;
@@ -60,10 +80,15 @@ import org.fossasia.openevent.fragments.ScheduleFragment;
 import org.fossasia.openevent.fragments.SpeakerFragment;
 import org.fossasia.openevent.fragments.SponsorsFragment;
 import org.fossasia.openevent.fragments.TracksFragment;
+import org.fossasia.openevent.utils.CommonTaskLoop;
+import org.fossasia.openevent.utils.ConstantStrings;
+import org.fossasia.openevent.utils.NetworkUtils;
 import org.fossasia.openevent.utils.SmoothActionBarDrawerToggle;
 import org.fossasia.openevent.widget.DialogFactory;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -85,6 +110,8 @@ public class MainActivity extends BaseActivity {
     public String errorType;
 
     public String errorDesc;
+
+    private SharedPreferences sharedPreferences;
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
@@ -140,14 +167,44 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         appBarLayout = (AppBarLayout) findViewById(R.id.appbar);
-
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         setUpToolbar();
         setUpNavDrawer();
 
         downloadProgress.setVisibility(View.VISIBLE);
         downloadProgress.setIndeterminate(true);
         this.findViewById(android.R.id.content).setBackgroundColor(Color.LTGRAY);
-        OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
+        if (NetworkUtils.haveNetworkConnection(this)) {
+            if (!sharedPreferences.getBoolean(ConstantStrings.IS_DOWNLOAD_DONE, false)) {
+                AlertDialog.Builder downloadDialog = new AlertDialog.Builder(this);
+                downloadDialog.setTitle(R.string.download_assets);
+                downloadDialog.setIcon(R.drawable.ic_file_download_black_24dp);
+                downloadDialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        DbSingleton.getInstance().clearDatabase();
+                        OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
+                        sharedPreferences.edit().putBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true).apply();
+                    }
+                });
+                downloadDialog.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        downloadFromAssets();
+                    }
+                });
+                downloadDialog.show();
+            }
+            else {
+                OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
+            }
+        } else if (!sharedPreferences.getBoolean(ConstantStrings.DATABASE_RECORDS_EXIST, false)) {
+            downloadFromAssets();
+
+        } else {
+            //TODO : Add some feedback on the error
+            downloadProgress.setVisibility(View.GONE);
+        }
         if (savedInstanceState == null) {
             currentMenuItemId = R.id.nav_tracks;
         } else {
@@ -281,7 +338,7 @@ public class MainActivity extends BaseActivity {
             case R.id.nav_tracks:
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_frame, new TracksFragment(), FRAGMENT_TAG).commit();
-                if(getSupportActionBar() != null){
+                if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle(R.string.menu_tracks);
                 }
                 break;
@@ -289,7 +346,7 @@ public class MainActivity extends BaseActivity {
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_frame, new ScheduleFragment(), FRAGMENT_TAG).commit();
                 addShadowToAppBar(false);
-                if(getSupportActionBar() != null){
+                if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle(R.string.menu_schedule);
                 }
                 break;
@@ -298,7 +355,7 @@ public class MainActivity extends BaseActivity {
                 if (!dbSingleton.isBookmarksTableEmpty()) {
                     fragmentManager.beginTransaction()
                             .replace(R.id.content_frame, new BookmarksFragment(), FRAGMENT_TAG).commit();
-                    if(getSupportActionBar() != null){
+                    if (getSupportActionBar() != null) {
                         getSupportActionBar().setTitle(R.string.menu_bookmarks);
                     }
                 } else {
@@ -308,21 +365,21 @@ public class MainActivity extends BaseActivity {
             case R.id.nav_speakers:
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_frame, new SpeakerFragment(), FRAGMENT_TAG).commit();
-                if(getSupportActionBar() != null){
+                if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle(R.string.menu_speakers);
                 }
                 break;
             case R.id.nav_sponsors:
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_frame, new SponsorsFragment(), FRAGMENT_TAG).commit();
-                if(getSupportActionBar() != null){
+                if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle(R.string.menu_sponsor);
                 }
                 break;
             case R.id.nav_locations:
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_frame, new LocationsFragment(), FRAGMENT_TAG).commit();
-                if(getSupportActionBar() != null){
+                if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle(R.string.menu_locations);
                 }
                 break;
@@ -334,7 +391,7 @@ public class MainActivity extends BaseActivity {
                                 .getMapModuleFactory()
                                 .provideMapModule()
                                 .provideMapFragment(), FRAGMENT_TAG).commit();
-                if(getSupportActionBar() != null){
+                if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle(R.string.menu_map);
                 }
                 break;
@@ -365,12 +422,11 @@ public class MainActivity extends BaseActivity {
     }
 
     public void addShadowToAppBar(boolean addShadow) {
-        if(addShadow){
+        if (addShadow) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 appBarLayout.setElevation(12);
             }
-        }
-        else {
+        } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 appBarLayout.setElevation(0);
             }
@@ -487,6 +543,19 @@ public class MainActivity extends BaseActivity {
     }
 
     @Subscribe
+    public void onEventDatesDownloadDone(EventDatesDownloadEvent event) {
+        if (event.isState()) {
+            eventsDone++;
+            Timber.tag(COUNTER_TAG).d(eventsDone + " " + counter);
+            if (counter == eventsDone) {
+                syncComplete();
+            }
+        } else {
+            downloadFailed();
+        }
+    }
+
+    @Subscribe
     public void showNetworkDialog(ShowNetworkDialogEvent event) {
         downloadProgress.setVisibility(View.GONE);
         DialogFactory.createSimpleActionDialog(this,
@@ -503,13 +572,12 @@ public class MainActivity extends BaseActivity {
 
     @Subscribe
     public void downloadData(DataDownloadEvent event) {
-        if(Urls.getBaseUrl().equals(Urls.INVALID_LINK)){
+        if (Urls.getBaseUrl().equals(Urls.INVALID_LINK)) {
             showErrorDialog("Invalid Api", "Api link doesn't seem to be valid");
-        }
-        else {
+        } else {
             DataDownloadManager.getInstance().downloadVersions();
         }
-            downloadProgress.setVisibility(View.VISIBLE);
+        downloadProgress.setVisibility(View.VISIBLE);
         Timber.d("Download has started");
     }
 
@@ -519,6 +587,112 @@ public class MainActivity extends BaseActivity {
         if (statusCode.equals(404)) {
             showErrorDialog("HTTP Error", statusCode + "Api Not Found");
         }
+    }
+
+    @Subscribe
+    public void handleJsonEvent(JsonReadEvent jsonReadEvent) {
+        final String name = jsonReadEvent.getName();
+        final String json = jsonReadEvent.getJson();
+        CommonTaskLoop.getInstance().post(new Runnable() {
+            @Override
+            public void run() {
+                final Gson gson = new Gson();
+                if (name.equals(ConstantStrings.Events)) {
+                    CommonTaskLoop.getInstance().post(new Runnable() {
+                        @Override
+                        public void run() {
+                            EventResponseList eventResponseList = gson.fromJson(json, EventResponseList.class);
+                            ArrayList<String> queries = new ArrayList<String>();
+                            for (Event current : eventResponseList.event) {
+                                queries.add(current.generateSql());
+                            }
+                            DbSingleton.getInstance().insertQueries(queries);
+                            OpenEventApp.postEventOnUIThread(new EventDownloadEvent(true));
+                        }
+                    });
+                } else if (name.equals(ConstantStrings.Tracks)) {
+                    CommonTaskLoop.getInstance().post(new Runnable() {
+                        @Override
+                        public void run() {
+                            TrackResponseList trackResponseList = gson.fromJson(json, TrackResponseList.class);
+                            ArrayList<String> queries = new ArrayList<String>();
+                            for (Track current : trackResponseList.tracks) {
+                                queries.add(current.generateSql());
+                            }
+                            DbSingleton.getInstance().insertQueries(queries);
+                            OpenEventApp.postEventOnUIThread(new TracksDownloadEvent(true));
+                        }
+                    });
+                } else if (name.equals(ConstantStrings.Sessions)) {
+
+                    SessionResponseList sessionResponseList = gson.fromJson(json, SessionResponseList.class);
+                    ArrayList<String> queries = new ArrayList<String>();
+                    for (Session current : sessionResponseList.sessions) {
+                        current.setStartDate(current.getStartTime().split("T")[0]);
+                        queries.add(current.generateSql());
+                    }
+                    DbSingleton.getInstance().insertQueries(queries);
+                    OpenEventApp.postEventOnUIThread(new SessionDownloadEvent(true));
+
+                } else if (name.equals(ConstantStrings.Speakers)) {
+
+                    SpeakerResponseList speakerResponseList = gson.fromJson(json, SpeakerResponseList.class);
+                    ArrayList<String> queries = new ArrayList<String>();
+                    for (Speaker current : speakerResponseList.speakers) {
+                        for (int i = 0; i < current.getSession().length; i++) {
+                            SessionSpeakersMapping sessionSpeakersMapping = new SessionSpeakersMapping(current.getSession()[i], current.getId());
+                            String query_ss = sessionSpeakersMapping.generateSql();
+                            queries.add(query_ss);
+                        }
+
+                        queries.add(current.generateSql());
+                    }
+                    DbSingleton.getInstance().insertQueries(queries);
+                    OpenEventApp.postEventOnUIThread(new SpeakerDownloadEvent(true));
+
+                } else if (name.equals(ConstantStrings.EventDates)) {
+                    CommonTaskLoop.getInstance().post(new Runnable() {
+                        @Override
+                        public void run() {
+                            EventDatesResponseList eventDatesResponseList = gson.fromJson(json, EventDatesResponseList.class);
+                            ArrayList<String> queries = new ArrayList<String>();
+                            for (EventDates current : eventDatesResponseList.event) {
+                                queries.add(current.generateSql());
+                            }
+                            DbSingleton.getInstance().insertQueries(queries);
+                            OpenEventApp.postEventOnUIThread(new EventDatesDownloadEvent(true));
+                        }
+                    });
+                } else if (name.equals(ConstantStrings.Sponsors)) {
+                    CommonTaskLoop.getInstance().post(new Runnable() {
+                        @Override
+                        public void run() {
+                            SponsorResponseList sponsorResponseList = gson.fromJson(json, SponsorResponseList.class);
+                            ArrayList<String> queries = new ArrayList<String>();
+                            for (Sponsor current : sponsorResponseList.sponsors) {
+                                queries.add(current.generateSql());
+                            }
+                            DbSingleton.getInstance().insertQueries(queries);
+                            OpenEventApp.postEventOnUIThread(new SponsorDownloadEvent(true));
+                        }
+                    });
+                } else if (name.equals(ConstantStrings.Microlocations)) {
+                    CommonTaskLoop.getInstance().post(new Runnable() {
+                        @Override
+                        public void run() {
+                            MicrolocationResponseList microlocationResponseList = gson.fromJson(json, MicrolocationResponseList.class);
+                            ArrayList<String> queries = new ArrayList<String>();
+                            for (Microlocation current : microlocationResponseList.microlocations) {
+                                queries.add(current.generateSql());
+                            }
+                            DbSingleton.getInstance().insertQueries(queries);
+                            OpenEventApp.postEventOnUIThread(new MicrolocationDownloadEvent(true));
+                        }
+                    });
+                }
+            }
+        });
+
     }
 
     @Subscribe
@@ -541,5 +715,45 @@ public class MainActivity extends BaseActivity {
             Timber.tag(errorType).e(errorDesc);
             showErrorDialog(errorType, errorDesc);
         }
+    }
+
+    public void downloadFromAssets() {
+        //TODO: Add and Take counter value from to config.json
+        sharedPreferences.edit().putBoolean(ConstantStrings.DATABASE_RECORDS_EXIST, true).apply();
+        counter = 7;
+        readJsonAsset("events");
+        readJsonAsset("tracks");
+        readJsonAsset("speakers");
+        readJsonAsset("eventDates");
+        readJsonAsset("sessions");
+        readJsonAsset("sponsors");
+        readJsonAsset("microlocations");
+
+    }
+
+    public void readJsonAsset(final String name) {
+        CommonTaskLoop.getInstance().post(new Runnable() {
+            String json = null;
+
+            @Override
+            public void run() {
+                try {
+                    InputStream inputStream = getAssets().open(name + ".json");
+                    int size = inputStream.available();
+                    byte[] buffer = new byte[size];
+                    inputStream.read(buffer);
+                    inputStream.close();
+                    json = new String(buffer, "UTF-8");
+
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+
+
+                }
+                OpenEventApp.postEventOnUIThread(new JsonReadEvent(name, json));
+
+            }
+        });
     }
 }

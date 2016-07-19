@@ -107,7 +107,7 @@ public class TracksInsertTest {
 
                 String query = track.generateSql();
                 DbSingleton instance = new DbSingleton(database, mActivity, db);
-                instance.clearDatabase(DbContract.Tracks.TABLE_NAME);
+                instance.clearTable(DbContract.Tracks.TABLE_NAME);
                 instance.insertQuery(query);
 
                 Track trackDetails = instance.getTrackbyId(track.getId());
