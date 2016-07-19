@@ -12,7 +12,7 @@ Before you begin, you should already have the Android Studio SDK downloaded and 
 
 2. Open Android Studio, you will see a **Welcome to Android** window. Under Quick Start, select *Import Project (Eclipse ADT, Gradle, etc.)*
 
-3. Navigate to the directory where you saved the open-event-android project, select the root folder of the project (the folder named "open-event-android"), and hit OK. Android Studio should now begin building the project with Gradle.
+3. Navigate to the directory where you saved the open-event-android project, select android inside the root folder of the project (the folder named "open-event-android"), and hit OK. Android Studio should now begin building the project with Gradle.
 
 4. Once this process is complete and Android Studio opens, check the Console for any build errors.
 

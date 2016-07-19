@@ -46,4 +46,6 @@ public class ConstantStrings {
     public static final String Events = "events";
 
     public static final String DATABASE_RECORDS_EXIST = "database_records_exist" ;
+
+    public static String IS_DOWNLOAD_DONE = "isDownloadDone" ;
 }

@@ -175,19 +175,31 @@ public class MainActivity extends BaseActivity {
         downloadProgress.setIndeterminate(true);
         this.findViewById(android.R.id.content).setBackgroundColor(Color.LTGRAY);
         if (NetworkUtils.haveNetworkConnection(this)) {
-            OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
+            if (!sharedPreferences.getBoolean(ConstantStrings.IS_DOWNLOAD_DONE, false)) {
+                AlertDialog.Builder downloadDialog = new AlertDialog.Builder(this);
+                downloadDialog.setTitle(R.string.download_assets);
+                downloadDialog.setIcon(R.drawable.ic_file_download_black_24dp);
+                downloadDialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        DbSingleton.getInstance().clearDatabase();
+                        OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
+                        sharedPreferences.edit().putBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true).apply();
+                    }
+                });
+                downloadDialog.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        downloadFromAssets();
+                    }
+                });
+                downloadDialog.show();
+            }
+            else {
+                OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
+            }
         } else if (!sharedPreferences.getBoolean(ConstantStrings.DATABASE_RECORDS_EXIST, false)) {
-            //TODO: Add and Take counter value from to config.json
-            sharedPreferences.edit().putBoolean(ConstantStrings.DATABASE_RECORDS_EXIST, true).apply();
-            counter = 7;
-            readJsonAsset("events");
-            readJsonAsset("tracks");
-            readJsonAsset("speakers");
-            readJsonAsset("eventDates");
-            readJsonAsset("sessions");
-            readJsonAsset("sponsors");
-            readJsonAsset("microlocations");
-
+            downloadFromAssets();
 
         } else {
             //TODO : Add some feedback on the error
@@ -705,6 +717,19 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    public void downloadFromAssets() {
+        //TODO: Add and Take counter value from to config.json
+        sharedPreferences.edit().putBoolean(ConstantStrings.DATABASE_RECORDS_EXIST, true).apply();
+        counter = 7;
+        readJsonAsset("events");
+        readJsonAsset("tracks");
+        readJsonAsset("speakers");
+        readJsonAsset("eventDates");
+        readJsonAsset("sessions");
+        readJsonAsset("sponsors");
+        readJsonAsset("microlocations");
+
+    }
 
     public void readJsonAsset(final String name) {
         CommonTaskLoop.getInstance().post(new Runnable() {
