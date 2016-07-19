@@ -26,13 +26,8 @@ android:
   - extra-google-m2repository
   - extra-android-m2repository
   - sys-img-armeabi-v7a-$ANDROID_TARGET
-# before_script:
-#   - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
-#   - emulator -avd test -no-skin -no-audio -no-window &
-#   - android-wait-for-emulator
-#   - adb shell input keyevent 82 &
 before_script:
-  - cd android
+ - cd android
 script:
   - ./gradlew build
   - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
@@ -48,7 +43,16 @@ notifications:
     on_failure: always
     on_start: false
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
-  - cd ..
-  - chmod +x $HOME/build/fossasia/open-event-android/upload-apk.sh
-  - sh $HOME/build/fossasia/open-event-android/upload-apk.sh
+- bash <(curl -s https://codecov.io/bash)
+deploy:
+  provider: releases
+  skip_cleanup: true
+  api_key:
+    secure: svIaEqjRgXlBU+oyWoHgxLX0/SO8T05iTlMRvewEUyMQOCiEBvT/phwHMtzEDZL1mcWwZeYnORzNiFdecwok4d/kwxHPFoyegdfVrN8uGFvwvAyiSBo2BKNfn4VZRCGf63ardz/hRmrBf9YeohD50vhXNnkipHmFAmdyvaCuB75/mtAh+t0L4ASEkHUfznkRNbsuWtmKgRKVcgcM+dc8TrA1lkLBiVOmzlbt3qfleQtkMCU1eFK0+HS9mKBglqjAG0V00UPXIp+LnkUciaHLaUaVRA0g4/LrRAxDwjErNLmHCxlBnw0gFrSIOzauOHg9QaOSvlZiEYdVWqGmDSf1eDsIWFXJk4EJ3w/M3bPRH35Ir/X5xwsQYTM5KwemJrIbpY6/DPV+24YrxabLQkkItOfihy4FKYaSjtt4TKkp8JO03J8QRgk8N4rkt95Q2OK59f5NTQAuMtjXXBPu5zeqAlx9P0jQNFMEIhYSPLy0yqZ9r7CXVs3jnfLqWduJzm5MTlTdsXaV4if55u9YlYuZX57GfjYhuINDlwQXvVJuYJH/J/QAt71MiFoDp74Uj/KveQIyOcMmN5uNTHoWHgrZgGUZn1PEv0mGAs+T5178uID1avZK2id3wCNhbgQCvh5XXzHvWP1acS98MwrrdfAZgCS/LJtFTfinmRTu/4snSFU=
+  file:
+    - "app/build/outputs/apk/app-fdroid-debug.apk"
+    - "app/build/outputs/apk/app-googleplay-debug.apk"
+  on:
+    tags: true
+    repo: fossasia/open-event-android
+    branch: master
