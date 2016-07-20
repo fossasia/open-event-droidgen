@@ -8,4 +8,5 @@
     <color name="secondary_text">#727272</color>
     <color name="translucent_grey">#0c000000</color>
     <color name="grey">#E0E0E0</color>
+    <color name="transparent">#00000000</color>
 </resources>
