@@ -31,6 +31,11 @@ public class Track {
         this.image = image;
     }
 
+    public Track (int id, String name){
+        this.id = id;
+        this.name = name;
+    }
+
     public String getImage() {
         return image;
     }

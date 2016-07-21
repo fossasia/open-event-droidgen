@@ -117,10 +117,10 @@ public class DatabaseTest extends AndroidTestCase {
         assertTrue(dbSingleton.getTrackList().size() > 0);
     }
 
-    public void testVersionList() throws Exception {
-        DbSingleton dbSingleton = DbSingleton.getInstance();
-        assertNotNull(dbSingleton.getVersionIds());
-    }
+//    public void testVersionList() throws Exception {
+//        DbSingleton dbSingleton = DbSingleton.getInstance();
+//        assertNotNull(dbSingleton.getVersionIds());
+//    }
 
     public void testSponsorsList() throws Exception {
         /**
