@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
@@ -35,7 +36,7 @@ public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, ViewHolder.Viewh
         View view = layoutInflater.inflate(R.layout.item_sponsor, parent, false);
         ViewHolder.Viewholder viewholder = new ViewHolder.Viewholder(view);
         viewholder.setImgView1((ImageView) view.findViewById(R.id.sponsor_image));
-
+        viewholder.setTxtView1((TextView) view.findViewById(R.id.sponsor_Tview));
         return viewholder;
     }
 
@@ -44,6 +45,7 @@ public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, ViewHolder.Viewh
         Sponsor currentSponsor = getItem(position);
         Uri uri = Uri.parse(currentSponsor.getLogo());
         Picasso.with(holder.getImgView1().getContext()).load(uri).into(holder.getImgView1());
+        holder.getTxtView1().setText(currentSponsor.getName());
     }
 
     public void refresh() {
@@ -60,4 +62,3 @@ public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, ViewHolder.Viewh
 
     }
 }
-

@@ -77,7 +77,7 @@ public class DayScheduleFragment extends Fragment {
                 Log.d("CLICKED", "SESSIONS");
                 Session model = dayScheduleAdapter.getItem(position);
                 String sessionName = model.getTitle();
-                Track track = dbSingleton.getTrackbyId(model.getTrack());
+                Track track = dbSingleton.getTrackbyId(model.getTrack().getId());
                 String trackName = track.getName();
                 Intent intent = new Intent(getContext(), SessionDetailActivity.class);
                 intent.putExtra(ConstantStrings.SESSION, sessionName);
