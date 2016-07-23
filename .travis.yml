@@ -51,4 +51,4 @@ after_success:
   - bash <(curl -s https://codecov.io/bash)
   - cd ..
   - chmod +x $HOME/build/fossasia/open-event-android/upload-apk.sh
-- sh $HOME/build/fossasia/open-event-android/upload-apk.sh
+  - sh $HOME/build/fossasia/open-event-android/upload-apk.sh
