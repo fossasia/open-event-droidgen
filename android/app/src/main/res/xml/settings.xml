@@ -3,6 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!--<PreferenceCategory android:title="@string/data_update_frequency">-->
+
+        <!--<ListPreference-->
+            <!--android:defaultValue="@string/"-->
+            <!--android:dialogTitle="@string/settings_mode_notification"-->
+            <!--android:entries="@array/notification_mode_strings"-->
+            <!--android:entryValues="@array/notification_mode_values"-->
+            <!--android:key="@string/notification_key" />-->
+    <!--</PreferenceCategory>-->
+
     <PreferenceCategory android:title="@string/settings_mode_api">
 
         <ListPreference
