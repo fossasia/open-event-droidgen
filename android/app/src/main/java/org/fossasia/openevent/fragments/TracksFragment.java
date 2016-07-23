@@ -16,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
 
@@ -58,6 +59,7 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
         View view = inflater.inflate(R.layout.list_tracks, container, false);
         OpenEventApp.getEventBus().register(this);
         RecyclerView tracksRecyclerView = (RecyclerView) view.findViewById(R.id.list_tracks);
+        TextView noTracksView = (TextView) view.findViewById(R.id.txt_no_tracks);
         final DbSingleton dbSingleton = DbSingleton.getInstance();
         List<Track> mTracks = dbSingleton.getTrackList();
 
@@ -91,6 +93,13 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
 
         if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
             searchText = savedInstanceState.getString(SEARCH);
+        }
+        if (!mTracks.isEmpty()) {
+            noTracksView.setVisibility(View.GONE);
+            tracksRecyclerView.setVisibility(View.VISIBLE);
+        } else {
+            noTracksView.setVisibility(View.VISIBLE);
+            tracksRecyclerView.setVisibility(View.GONE);
         }
         return view;
     }

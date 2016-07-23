@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
@@ -47,6 +48,7 @@ public class SponsorsFragment extends Fragment {
         Bus bus = OpenEventApp.getEventBus();
         bus.register(this);
         RecyclerView sponsorsRecyclerView = (RecyclerView) view.findViewById(R.id.list_sponsors);
+        TextView noSponsorsView = (TextView) view.findViewById(R.id.txt_no_sponsors);
         final DbSingleton dbSingleton = DbSingleton.getInstance();
 
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.sponsor_swipe_refresh);
@@ -78,7 +80,13 @@ public class SponsorsFragment extends Fragment {
                 }
             }
         }));
-
+        if (sponsorsListAdapter.getItemCount() != 0) {
+            noSponsorsView.setVisibility(View.GONE);
+            sponsorsRecyclerView.setVisibility(View.VISIBLE);
+        } else {
+            noSponsorsView.setVisibility(View.VISIBLE);
+            sponsorsRecyclerView.setVisibility(View.GONE);
+        }
         return view;
     }
 

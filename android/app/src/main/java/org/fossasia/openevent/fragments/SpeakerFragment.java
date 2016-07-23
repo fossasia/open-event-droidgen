@@ -22,6 +22,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
 
@@ -67,6 +68,7 @@ public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextL
         View view = inflater.inflate(R.layout.list_speakers, container, false);
         OpenEventApp.getEventBus().register(this);
         RecyclerView speakersRecyclerView = (RecyclerView) view.findViewById(R.id.rv_speakers);
+        TextView noSpeakersView = (TextView) view.findViewById(R.id.txt_no_speakers);
         final DbSingleton dbSingleton = DbSingleton.getInstance();
         List<Speaker> mSpeakers = dbSingleton.getSpeakerList(sortOrderSpeaker(getActivity()));
         prefsSort = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -101,6 +103,13 @@ public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextL
 
         if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
             searchText = savedInstanceState.getString(SEARCH);
+        }
+        if (!mSpeakers.isEmpty()) {
+            noSpeakersView.setVisibility(View.GONE);
+            speakersRecyclerView.setVisibility(View.VISIBLE);
+        } else {
+            noSpeakersView.setVisibility(View.VISIBLE);
+            speakersRecyclerView.setVisibility(View.GONE);
         }
         return view;
     }
