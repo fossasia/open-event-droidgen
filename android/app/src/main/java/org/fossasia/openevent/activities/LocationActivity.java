@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.SessionsListAdapter;
@@ -32,7 +33,7 @@ import timber.log.Timber;
 public class LocationActivity extends BaseActivity implements SearchView.OnQueryTextListener {
     final private String SEARCH = "searchText";
 
-    SessionsListAdapter sessionsListAdapter;
+    private SessionsListAdapter sessionsListAdapter;
 
     private List<Session> mSessions;
 
@@ -52,15 +53,14 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
         location = getIntent().getStringExtra(ConstantStrings.MICROLOCATIONS);
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_locations);
         setSupportActionBar(toolbar);
-
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-
         Microlocation selectedLocation = dbSingleton.getLocationByLocationname(location);
 
 
         sessionRecyclerView = (RecyclerView) findViewById(R.id.recyclerView_locations);
+        TextView noSessionsView = (TextView) findViewById(R.id.txt_no_sessions);
         mSessions = dbSingleton.getSessionbyLocationName(location);
 
         sessionsListAdapter = new SessionsListAdapter(mSessions);
@@ -85,6 +85,13 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
 
         if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
             searchText = savedInstanceState.getString(SEARCH);
+        }
+        if (!mSessions.isEmpty()) {
+            noSessionsView.setVisibility(View.GONE);
+            sessionRecyclerView.setVisibility(View.VISIBLE);
+        } else {
+            noSessionsView.setVisibility(View.VISIBLE);
+            sessionRecyclerView.setVisibility(View.GONE);
         }
     }
 

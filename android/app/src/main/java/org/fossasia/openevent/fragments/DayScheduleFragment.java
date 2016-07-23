@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
 
@@ -40,7 +41,7 @@ public class DayScheduleFragment extends Fragment {
 
     private DayScheduleAdapter dayScheduleAdapter;
 
-    String date;
+    private String date;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,8 +62,13 @@ public class DayScheduleFragment extends Fragment {
         View view = inflater.inflate(R.layout.list_schedule, container, false);
         RecyclerView dayRecyclerView = (RecyclerView) view.findViewById(R.id.list_schedule);
         final DbSingleton dbSingleton = DbSingleton.getInstance();
+        TextView noSchedule = (TextView) view.findViewById(R.id.txt_no_schedule);
         List<Session> sortedSessions = dbSingleton.getSessionbyDate(date);
-
+        if (!sortedSessions.isEmpty()) {
+            noSchedule.setVisibility(View.GONE);
+        } else {
+            noSchedule.setVisibility(View.VISIBLE);
+        }
         dayScheduleAdapter = new DayScheduleAdapter(sortedSessions);
         dayRecyclerView.setAdapter(dayScheduleAdapter);
         dayScheduleAdapter.setOnClickListener(new DayScheduleAdapter.SetOnClickListener() {

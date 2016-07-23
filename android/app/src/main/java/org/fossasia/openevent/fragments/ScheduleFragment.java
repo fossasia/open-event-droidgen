@@ -21,7 +21,6 @@ import java.util.List;
  * Created by Manan Wason on 16/06/16.
  */
 public class ScheduleFragment extends Fragment {
-    TabLayout scheduleTabLayout;
 
     @Nullable
     @Override
@@ -32,7 +31,7 @@ public class ScheduleFragment extends Fragment {
 
         ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewpager);
         setupViewPager(viewPager);
-        scheduleTabLayout = (TabLayout) view.findViewById(R.id.tabLayout);
+        TabLayout scheduleTabLayout = (TabLayout) view.findViewById(R.id.tabLayout);
         scheduleTabLayout.setupWithViewPager(viewPager);
 
         return view;
@@ -47,7 +46,6 @@ public class ScheduleFragment extends Fragment {
 
         for (int i = 0; i < daysofEvent; i++) {
             adapter.addFragment(new DayScheduleFragment(), Days.values()[i].toString(), i);
-
         }
 
         viewPager.setAdapter(adapter);

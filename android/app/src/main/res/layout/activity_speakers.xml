@@ -62,6 +62,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <RelativeLayout
+        android:id="@+id/infoLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/color_primary"
@@ -159,6 +160,17 @@
             android:layout_below="@+id/view"
             android:background="#fff"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+        <TextView
+            android:id="@+id/txt_no_sessions"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/view"
+            android:background="#fff"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="@string/noSessions"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textColor="@color/secondary_text" />
     </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>
