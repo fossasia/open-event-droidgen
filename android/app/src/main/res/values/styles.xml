@@ -5,16 +5,16 @@
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorPrimaryDark">@color/color_primary_dark</item>
         <item name="colorAccent">@color/color_accent</item>
+        <!--Changes drawer background-->
+        <item name="android:windowBackground">@color/white</item>
+
     </style>
 
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
+    <style name="AppTheme.NoActionBar.MainTheme" parent="AppTheme.NoActionBar"/>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>
@@ -37,28 +37,36 @@
         <item name="android:background">?attr/selectableItemBackground</item>
     </style>
 
-    <style name="Widget.CardContent" parent="android:Widget">
+    <style name="WindowBackground">
+        <item name="android:background">@color/window_background</item>
+    </style>
+
+    <style name="CoordinatorBackground">
+        <item name="android:background">@color/coordinator_background</item>
+    </style>
+
+
+    <style name="CardContent" parent="android:Widget">
         <item name="android:paddingLeft">16dp</item>
         <item name="android:paddingRight">16dp</item>
         <item name="android:paddingTop">24dp</item>
         <item name="android:paddingBottom">24dp</item>
         <item name="android:orientation">vertical</item>
+
+        <!-- Change card background -->
+        <item name="android:background">@color/white</item>
     </style>
 
     <style name="ExpandedAppBar" parent="@android:style/TextAppearance.Medium">
         <item name="android:textSize">20sp</item>
-        <item name="android:textColor">#FAFAFA</item>
+        <item name="android:textColor">@android:color/holo_green_dark</item>
     </style>
 
-    <style name="TextAppearance.Body1" parent="TextAppearance.AppCompat.Body1">
-        <item name="android:textSize">14sp
-        </item> <!-- bug in AppCompat, can remove this when it's fixed -->
-        <item name="android:textColor">?android:textColorSecondary</item>
-    </style>
+    <!--Change toolbar colors -->
+    <style name="ToolbarTheme" parent="Widget.AppCompat.Toolbar">
+        <item name="android:background">@color/color_primary</item>
+        <item name="android:textColorPrimary">@color/white</item>
 
-    <style name="Body1Text">
-        <item name="android:textAppearance">@style/TextAppearance.Body1</item>
-        <item name="android:lineSpacingMultiplier">@dimen/body_1_spacing</item>
     </style>
 
 </resources>

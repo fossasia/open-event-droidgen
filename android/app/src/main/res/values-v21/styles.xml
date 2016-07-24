@@ -9,4 +9,5 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@color/color_primary_dark</item>
     </style>
+
 </resources>

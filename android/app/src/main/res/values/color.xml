@@ -4,8 +4,11 @@
     <color name="color_primary_dark">#D32F2F</color>
     <color name="color_accent">#C62828</color>
 
+    <color name="window_background">#E0E0E0</color>
+    <color name="coordinator_background">#D32F2F</color>
     <color name="primary_text">#212121</color>
     <color name="secondary_text">#727272</color>
     <color name="translucent_grey">#0c000000</color>
     <color name="grey">#E0E0E0</color>
+    <color name="white">#FFFFFF</color>
 </resources>

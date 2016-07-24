@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
@@ -33,7 +34,7 @@ public class TracksActivity extends BaseActivity implements SearchView.OnQueryTe
 
     final private String SEARCH = "org.fossasia.openevent.searchText";
 
-    SessionsListAdapter sessionsListAdapter;
+    private SessionsListAdapter sessionsListAdapter;
 
     private String track;
 
@@ -57,6 +58,7 @@ public class TracksActivity extends BaseActivity implements SearchView.OnQueryTe
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbar.setTitle(track);
         RecyclerView sessionsRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        TextView noSessionsView = (TextView) findViewById(R.id.txt_no_sessions);
         sessionsListAdapter = new SessionsListAdapter(dbSingleton.getSessionbyTracksname(track));
 
         sessionsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -88,6 +90,13 @@ public class TracksActivity extends BaseActivity implements SearchView.OnQueryTe
 
         if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
             searchText = savedInstanceState.getString(SEARCH);
+        }
+        if (sessionsListAdapter.getItemCount() != 0) {
+            noSessionsView.setVisibility(View.GONE);
+            sessionsRecyclerView.setVisibility(View.VISIBLE);
+        } else {
+            noSessionsView.setVisibility(View.VISIBLE);
+            sessionsRecyclerView.setVisibility(View.GONE);
         }
     }
 

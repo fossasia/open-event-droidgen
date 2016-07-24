@@ -10,7 +10,7 @@
         android:id="@+id/toolbar_locations"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/color_primary"
+        style="@style/ToolbarTheme"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
     <LinearLayout
@@ -19,6 +19,15 @@
         android:layout_marginBottom="2dp"
         android:layout_marginTop="2dp"
         android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txt_no_sessions"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:text="@string/noSessions"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textColor="@color/secondary_text" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView_locations"

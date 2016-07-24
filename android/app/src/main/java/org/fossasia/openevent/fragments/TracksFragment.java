@@ -2,6 +2,7 @@ package org.fossasia.openevent.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
@@ -16,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
 
@@ -52,19 +54,23 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
 
     private View windowFrame;
 
+    private static TextView noTracksView;
+
+    private static RecyclerView tracksRecyclerView;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.list_tracks, container, false);
         OpenEventApp.getEventBus().register(this);
-        RecyclerView tracksRecyclerView = (RecyclerView) view.findViewById(R.id.list_tracks);
-        final DbSingleton dbSingleton = DbSingleton.getInstance();
+        tracksRecyclerView = (RecyclerView) view.findViewById(R.id.list_tracks);
+        noTracksView = (TextView) view.findViewById(R.id.txt_no_tracks);
+        DbSingleton dbSingleton = DbSingleton.getInstance();
         List<Track> mTracks = dbSingleton.getTrackList();
-
         windowFrame = view.findViewById(R.id.tracks_frame);
-
         tracksListAdapter = new TracksListAdapter(mTracks);
         tracksRecyclerView.setAdapter(tracksListAdapter);
+        setVisibility(PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true));
         tracksListAdapter.setOnClickListener(new TracksListAdapter.SetOnClickListener() {
             @Override
             public void onItemClick(int position, View view) {
@@ -81,8 +87,10 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
             public void onRefresh() {
                 if (NetworkUtils.haveNetworkConnection(getActivity())) {
                     DataDownloadManager.getInstance().downloadTracks();
+                    setVisibility(true);
                 } else {
                     OpenEventApp.getEventBus().post(new TracksDownloadEvent(false));
+                    setVisibility(false);
                 }
             }
         });
@@ -93,6 +101,16 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
             searchText = savedInstanceState.getString(SEARCH);
         }
         return view;
+    }
+
+    public static void setVisibility(Boolean isDownloadDone) {
+        if (isDownloadDone) {
+            noTracksView.setVisibility(View.GONE);
+            tracksRecyclerView.setVisibility(View.VISIBLE);
+        } else {
+            noTracksView.setVisibility(View.VISIBLE);
+            tracksRecyclerView.setVisibility(View.GONE);
+        }
     }
 
     @Override

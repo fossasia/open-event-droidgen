@@ -54,6 +54,7 @@
     <!--Error Titles-->
     <string name="net_unavailable">Network not available</string>
     <string name="turn_on">Turn on WiFi or Mobile data in Settings</string>
+    <string name="cancel">Cancel</string>
     <string name="error">Error</string>
     <string name="ok">OK</string>
 
@@ -103,4 +104,10 @@
     <string name="download_assets">Do you want to download all assets right now?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="noSessions">No Sessions yet!</string>
+    <string name="noMicrolocations">No Microlocations yet!</string>
+    <string name="noSchedule">No Schedule yet!</string>
+    <string name="noSpeakers">No Speakers yet!</string>
+    <string name="noSponsors">No Sponsors yet!</string>
+    <string name="noTracks">No Tracks yet!</string>
 </resources>

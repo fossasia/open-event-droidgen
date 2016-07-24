@@ -16,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
 
@@ -39,6 +40,8 @@ public class LocationsFragment extends Fragment implements SearchView.OnQueryTex
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
+    private RecyclerView locationsRecyclerView;
+
     private LocationsListAdapter locationsListAdapter;
 
     private String searchText = "";
@@ -50,7 +53,8 @@ public class LocationsFragment extends Fragment implements SearchView.OnQueryTex
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.list_locations, container, false);
         OpenEventApp.getEventBus().register(this);
-        RecyclerView locationsRecyclerView = (RecyclerView) view.findViewById(R.id.list_locations);
+        locationsRecyclerView = (RecyclerView) view.findViewById(R.id.list_locations);
+        TextView noMicrolocationsView = (TextView) view.findViewById(R.id.txt_no_microlocations);
         final DbSingleton dbSingleton = DbSingleton.getInstance();
         locationsListAdapter = new LocationsListAdapter(dbSingleton.getMicrolocationsList());
         locationsRecyclerView.setAdapter(locationsListAdapter);
@@ -78,6 +82,13 @@ public class LocationsFragment extends Fragment implements SearchView.OnQueryTex
 
         if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
             searchText = savedInstanceState.getString(SEARCH);
+        }
+        if (locationsListAdapter.getItemCount() != 0) {
+            noMicrolocationsView.setVisibility(View.GONE);
+            locationsRecyclerView.setVisibility(View.VISIBLE);
+        } else {
+            noMicrolocationsView.setVisibility(View.VISIBLE);
+            locationsRecyclerView.setVisibility(View.GONE);
         }
         return view;
     }
