@@ -10,7 +10,7 @@
         android:id="@+id/toolbar_locations"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/color_primary"
+        style="@style/ToolbarTheme"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
     <LinearLayout
