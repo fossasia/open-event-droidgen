@@ -107,9 +107,9 @@ public class MainActivity extends BaseActivity {
 
     private final String FRAGMENT_TAG = "FTAG";
 
-    public String errorType;
+    private String errorType;
 
-    public String errorDesc;
+    private String errorDesc;
 
     private SharedPreferences sharedPreferences;
 
@@ -185,6 +185,7 @@ public class MainActivity extends BaseActivity {
                         DbSingleton.getInstance().clearDatabase();
                         OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
                         sharedPreferences.edit().putBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true).apply();
+                        TracksFragment.setVisibility(true);
                     }
                 });
                 downloadDialog.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
@@ -200,7 +201,6 @@ public class MainActivity extends BaseActivity {
             }
         } else if (!sharedPreferences.getBoolean(ConstantStrings.DATABASE_RECORDS_EXIST, false)) {
             downloadFromAssets();
-
         } else {
             //TODO : Add some feedback on the error
             downloadProgress.setVisibility(View.GONE);
@@ -303,9 +303,13 @@ public class MainActivity extends BaseActivity {
         Bus bus = OpenEventApp.getEventBus();
         bus.post(new RefreshUiEvent());
         DbSingleton dbSingleton = DbSingleton.getInstance();
-        if (!(dbSingleton.getEventDetails().getLogo().isEmpty())) {
-            ImageView headerDrawer = (ImageView) findViewById(R.id.headerDrawer);
-            Picasso.with(getApplicationContext()).load(dbSingleton.getEventDetails().getLogo()).into(headerDrawer);
+        try {
+            if (!(dbSingleton.getEventDetails().getLogo().isEmpty())) {
+                ImageView headerDrawer = (ImageView) findViewById(R.id.headerDrawer);
+                Picasso.with(getApplicationContext()).load(dbSingleton.getEventDetails().getLogo()).into(headerDrawer);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         Snackbar.make(mainFrame, getString(R.string.download_complete), Snackbar.LENGTH_SHORT).show();
