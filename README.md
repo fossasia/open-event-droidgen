@@ -4,8 +4,8 @@
 [![Join the chat at https://gitter.im/fossasia/open-event-android](https://badges.gitter.im/fossasia/open-event-android.svg)](https://gitter.im/fossasia/open-event-android?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Preview the app](http://i.imgur.com/iuWpLuX.png)](https://appetize.io/app/2rfx5pavny47jnb1qzwg204fr8)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/d32f87844a9346d09f3e8ad09600d3e1)](https://www.codacy.com/app/dev_19/open-event-android?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=fossasia/open-event-android&amp;utm_campaign=Badge_Grade) <br>
-[![Get it on GPlay](http://i.imgur.com/rZYxvAo.png)](https://play.google.com/store/apps/details?id=org.fossasia.openevent&hl=en)
-
+[![Get it on GPlay](http://i.imgur.com/rZYxvAo.png)](https://play.google.com/store/apps/details?id=org.fossasia.openevent&hl=en) <br>
+[![Hosted on DigitalOcean](http://i.imgur.com/dfRvhAG.png)](http://192.241.232.231/)
 ## Open Event Android 
 
 Open Event Android consists of 2 main parts : <br>
