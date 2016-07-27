@@ -117,7 +117,7 @@ public class SponsorInsertTest {
                 assertEquals(session.getSummary(), sessionDetails.getSummary());
                 assertEquals(session.getStartTime(), sessionDetails.getStartTime());
                 assertEquals(session.getEndTime(), sessionDetails.getEndTime());
-                assertEquals(session.getMicrolocations(), sessionDetails.getMicrolocations());
+                assertEquals(session.getMicrolocation(), sessionDetails.getMicrolocation());
                 assertEquals(session.getTitle(), sessionDetails.getTitle());
                 assertEquals(session.getTrack(), sessionDetails.getTrack());
             }

@@ -68,7 +68,7 @@ public final class ISO8601Date {
         String final1 = s.toString();
         Timber.tag("time").d(final1);
 
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm:ss'Z'");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
         format.setTimeZone(TimeZone.getTimeZone("GMT"));
 
         Date date = null;

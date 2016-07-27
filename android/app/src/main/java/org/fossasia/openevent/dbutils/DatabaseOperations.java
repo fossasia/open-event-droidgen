@@ -5,12 +5,12 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 
 import org.fossasia.openevent.data.Event;
-import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Sponsor;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.data.Version;
+import org.fossasia.openevent.data.parsingExtras.Microlocation;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -56,6 +56,8 @@ public class DatabaseOperations {
         cur.moveToFirst();
         while (!cur.isAfterLast()) {
             try {
+                int id = cur.getInt(cur.getColumnIndex(DbContract.Sessions.MICROLOCATION));
+                Microlocation microlocation = new Microlocation(id, getMicroLocationById(id, mDb).getName());
                 s = new Session(
                         cur.getInt(cur.getColumnIndex(DbContract.Sessions.ID)),
                         cur.getString(cur.getColumnIndex(DbContract.Sessions.TITLE)),
@@ -67,7 +69,8 @@ public class DatabaseOperations {
                         cur.getString(cur.getColumnIndex(DbContract.Sessions.TYPE)),
                         cur.getInt(cur.getColumnIndex(DbContract.Sessions.TRACK)),
                         cur.getString(cur.getColumnIndex(DbContract.Sessions.LEVEL)),
-                        cur.getInt(cur.getColumnIndex(DbContract.Sessions.MICROLOCATION))
+                        microlocation
+
                 );
                 sessions.add(s);
             } catch (ParseException e) {
@@ -94,6 +97,9 @@ public class DatabaseOperations {
         cursor.moveToFirst();
         //Should return only one due to UNIQUE constraint
         try {
+            int microlocationId = cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.MICROLOCATION));
+            Microlocation microlocation = new Microlocation(id, getMicroLocationById(id, mDb).getName());
+
             session = new Session(
                     cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.ID)),
                     cursor.getString(cursor.getColumnIndex(DbContract.Sessions.TITLE)),
@@ -105,7 +111,7 @@ public class DatabaseOperations {
                     cursor.getString(cursor.getColumnIndex(DbContract.Sessions.TYPE)),
                     cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.TRACK)),
                     cursor.getString(cursor.getColumnIndex(DbContract.Sessions.LEVEL)),
-                    cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.MICROLOCATION))
+                    microlocation
             );
         } catch (ParseException e) {
             Timber.e("Parsing Error Occurred at DatabaseOperations::getSessionById.");
@@ -115,7 +121,7 @@ public class DatabaseOperations {
         return session;
     }
 
-    public Microlocation getMicroLocationById(int id, SQLiteDatabase mDb) {
+    public org.fossasia.openevent.data.Microlocation getMicroLocationById(int id, SQLiteDatabase mDb) {
         String selection = DbContract.Microlocation.ID + EQUAL + id;
         Cursor cursor = mDb.query(
                 DbContract.Microlocation.TABLE_NAME,
@@ -126,16 +132,17 @@ public class DatabaseOperations {
                 null,
                 null
         );
-        Microlocation location = null;
-        if(cursor.moveToFirst()){
+        org.fossasia.openevent.data.Microlocation location = null;
+        if (cursor.moveToFirst()) {
             //Should return only one due to UNIQUE constraint
-            location = new Microlocation(
+            location = new org.fossasia.openevent.data.Microlocation(
                     cursor.getInt(cursor.getColumnIndex(DbContract.Microlocation.ID)),
                     cursor.getString(cursor.getColumnIndex(DbContract.Microlocation.NAME)),
                     cursor.getFloat(cursor.getColumnIndex(DbContract.Microlocation.LATITUDE)),
                     cursor.getFloat(cursor.getColumnIndex(DbContract.Microlocation.LONGITUDE)),
                     cursor.getInt(cursor.getColumnIndex(DbContract.Microlocation.FLOOR))
-            );}
+            );
+        }
         cursor.close();
 
         return location;
@@ -280,7 +287,7 @@ public class DatabaseOperations {
     }
 
 
-    public ArrayList<Microlocation> getMicrolocationsList(SQLiteDatabase mDb) {
+    public ArrayList<org.fossasia.openevent.data.Microlocation> getMicrolocationsList(SQLiteDatabase mDb) {
         String sortOrder = DbContract.Microlocation.NAME + ASCENDING;
         Cursor cursor = mDb.query(
                 DbContract.Microlocation.TABLE_NAME,
@@ -292,12 +299,12 @@ public class DatabaseOperations {
                 sortOrder
         );
 
-        ArrayList<Microlocation> microlocations = new ArrayList<>();
-        Microlocation microlocation;
+        ArrayList<org.fossasia.openevent.data.Microlocation> microlocations = new ArrayList<>();
+        org.fossasia.openevent.data.Microlocation microlocation;
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            microlocation = new Microlocation(
+            microlocation = new org.fossasia.openevent.data.Microlocation(
                     cursor.getInt(cursor.getColumnIndex(DbContract.Microlocation.ID)),
                     cursor.getString(cursor.getColumnIndex(DbContract.Microlocation.NAME)),
                     cursor.getFloat(cursor.getColumnIndex(DbContract.Microlocation.LATITUDE)),
@@ -350,6 +357,9 @@ public class DatabaseOperations {
         //Should return only one due to UNIQUE constraint
         while (!sessionCursor.isAfterLast()) {
             try {
+                int id = sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.MICROLOCATION));
+                Microlocation microlocation = new Microlocation(id, getMicroLocationById(id, mDb).getName());
+
                 session = new Session(
                         sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.ID)),
                         sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.TITLE)),
@@ -361,7 +371,7 @@ public class DatabaseOperations {
                         sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.TYPE)),
                         sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.TRACK)),
                         sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.LEVEL)),
-                        sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.MICROLOCATION))
+                        microlocation
                 );
                 sessions.add(session);
             } catch (ParseException e) {
@@ -460,12 +470,12 @@ public class DatabaseOperations {
         }
     }
 
-    public void clearDatabase( DbHelper mDbHelper) {
+    public void clearDatabase(DbHelper mDbHelper) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         db.beginTransaction();
         try {
 
-            mDbHelper.onUpgrade(db,0, 0);
+            mDbHelper.onUpgrade(db, 0, 0);
             db.setTransactionSuccessful();
 
         } finally {
@@ -536,6 +546,9 @@ public class DatabaseOperations {
             Session session;
             if (sessionTableCursor != null && sessionTableCursor.moveToFirst()) {
                 try {
+                    int id = sessionTableCursor.getInt(sessionTableCursor.getColumnIndex(DbContract.Sessions.MICROLOCATION));
+                    Microlocation microlocation = new Microlocation(id, getMicroLocationById(id, mDb).getName());
+
                     session = new Session(
                             sessionTableCursor.getInt(sessionTableCursor.getColumnIndex(DbContract.Sessions.ID)),
                             sessionTableCursor.getString(sessionTableCursor.getColumnIndex(DbContract.Sessions.TITLE)),
@@ -547,7 +560,7 @@ public class DatabaseOperations {
                             sessionTableCursor.getString(sessionTableCursor.getColumnIndex(DbContract.Sessions.TYPE)),
                             sessionTableCursor.getInt(sessionTableCursor.getColumnIndex(DbContract.Sessions.TRACK)),
                             sessionTableCursor.getString(sessionTableCursor.getColumnIndex(DbContract.Sessions.LEVEL)),
-                            sessionTableCursor.getInt(sessionTableCursor.getColumnIndex(DbContract.Sessions.MICROLOCATION))
+                            microlocation
                     );
                     sessions.add(session);
                 } catch (ParseException e) {
@@ -629,7 +642,7 @@ public class DatabaseOperations {
     }
 
 
-    public Microlocation getLocationByName(String speakerName, SQLiteDatabase mDb) {
+    public org.fossasia.openevent.data.Microlocation getLocationByName(String speakerName, SQLiteDatabase mDb) {
         String locationColumnSelection = DbContract.Microlocation.NAME + EQUAL + DatabaseUtils.sqlEscapeString(speakerName);
         Cursor locationCursor = mDb.query(
                 DbContract.Microlocation.TABLE_NAME,
@@ -640,9 +653,9 @@ public class DatabaseOperations {
                 null,
                 null
         );
-        Microlocation location;
+        org.fossasia.openevent.data.Microlocation location;
         locationCursor.moveToFirst();
-        location = new Microlocation(
+        location = new org.fossasia.openevent.data.Microlocation(
                 locationCursor.getInt(locationCursor.getColumnIndex(DbContract.Microlocation.ID)),
                 locationCursor.getString(locationCursor.getColumnIndex(DbContract.Microlocation.NAME)),
                 locationCursor.getFloat(locationCursor.getColumnIndex(DbContract.Microlocation.LATITUDE)),
@@ -692,6 +705,9 @@ public class DatabaseOperations {
         if (cursor.getCount() > 0) {
             while (!sessionCursor.isAfterLast()) {
                 try {
+                    int id = cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.MICROLOCATION));
+                    Microlocation microlocation = new Microlocation(id, getMicroLocationById(id, mDb).getName());
+
                     s = new Session(
                             sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.ID)),
                             sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.TITLE)),
@@ -703,7 +719,7 @@ public class DatabaseOperations {
                             sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.TYPE)),
                             sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.TRACK)),
                             sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.LEVEL)),
-                            sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.MICROLOCATION))
+                            microlocation
                     );
                     sessions.add(s);
 
@@ -850,6 +866,9 @@ public class DatabaseOperations {
         Session session = null;
         cursor.moveToFirst();
         try {
+            int id = cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.MICROLOCATION));
+            Microlocation microlocation = new Microlocation(id, getMicroLocationById(id, mDb).getName());
+
             session = new Session(
                     cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.ID)),
                     cursor.getString(cursor.getColumnIndex(DbContract.Sessions.TITLE)),
@@ -861,7 +880,7 @@ public class DatabaseOperations {
                     cursor.getString(cursor.getColumnIndex(DbContract.Sessions.TYPE)),
                     cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.TRACK)),
                     cursor.getString(cursor.getColumnIndex(DbContract.Sessions.LEVEL)),
-                    cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.MICROLOCATION))
+                    microlocation
 
             );
         } catch (ParseException e) {
@@ -944,6 +963,9 @@ public class DatabaseOperations {
         sessionCursor.moveToFirst();
         while (!sessionCursor.isAfterLast()) {
             try {
+                int id = sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.MICROLOCATION));
+                Microlocation microlocation = new Microlocation(id, getMicroLocationById(id, mDb).getName());
+
                 session = new Session(
                         sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.ID)),
                         sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.TITLE)),
@@ -955,7 +977,7 @@ public class DatabaseOperations {
                         sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.TYPE)),
                         sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.TRACK)),
                         sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.LEVEL)),
-                        sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.MICROLOCATION))
+                        microlocation
                 );
                 sessions.add(session);
             } catch (ParseException e) {

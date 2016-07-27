@@ -31,8 +31,13 @@ public class SessionListResponseProcessor implements Callback<List<Session>> {
                 public void run() {
                     DbSingleton dbSingleton = DbSingleton.getInstance();
                     ArrayList<String> queries = new ArrayList<String>();
+
                     for (Session session : response.body()) {
+//                        Timber.d(session.getMicrolocations().getId()+"");
+
+
                         session.setStartDate(session.getStartTime().split("T")[0]);
+//                        Timber.d(session.getMicrolocations()+"");
                         String query = session.generateSql();
                         queries.add(query);
                         Timber.d(query);
