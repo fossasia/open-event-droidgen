@@ -4,6 +4,7 @@ import android.database.DatabaseUtils;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.fossasia.openevent.data.parsingExtras.Microlocation;
 import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.utils.StringUtils;
 
@@ -33,7 +34,7 @@ public class Session {
     @SerializedName("comments")
     String level;
 
-    int microlocations;
+    Microlocation microlocation;
 
     @SerializedName("title")
     String title;
@@ -50,7 +51,7 @@ public class Session {
 
     int trackName;
 
-    public Session(String title,int id){
+    public Session(String title, int id) {
         this.id = id;
         this.title = title;
     }
@@ -58,7 +59,7 @@ public class Session {
     public Session(int id, String title, String subtitle,
                    String summary, String description,
                    String startTime, String endTime, String type,
-                   int track, String level, int microlocations
+                   int track, String level, Microlocation microlocation
     ) throws ParseException {
         this.id = id;
         this.title = title;
@@ -70,13 +71,13 @@ public class Session {
         this.type = type;
         this.trackName = track;
         this.level = level;
-        this.microlocations = microlocations;
+        this.microlocation = microlocation;
     }
 
     public Session(int id, String title, String subtitle,
                    String summary, String description,
                    String startTime, String endTime, String type,
-                   Track track, String level, int microlocations
+                   Track track, String level, Microlocation microlocation
     ) throws ParseException {
         this.id = id;
         this.title = title;
@@ -88,13 +89,13 @@ public class Session {
         this.type = type;
         this.track = track;
         this.level = level;
-        this.microlocations = microlocations;
+        this.microlocation = microlocation;
     }
 
     public Session(int id, String title, String subtitle,
                    String summary, String description,
                    String startTime, String endTime, String startDate, String type,
-                   Track track, String level, int microlocations
+                   Track track, String level, Microlocation microlocation
     ) throws ParseException {
         this.id = id;
         this.title = title;
@@ -107,9 +108,8 @@ public class Session {
         this.type = type;
         this.track = track;
         this.level = level;
-        this.microlocations = microlocations;
+        this.microlocation = microlocation;
     }
-
 
 
     public int getId() {
@@ -192,12 +192,12 @@ public class Session {
         this.level = level;
     }
 
-    public int getMicrolocations() {
-        return microlocations;
+    public Microlocation getMicrolocation() {
+        return microlocation;
     }
 
-    public void setMicrolocations(int microlocations) {
-        this.microlocations = microlocations;
+    public void setMicrolocation(Microlocation microlocation) {
+        this.microlocation = microlocation;
     }
 
     public String getStartDate() {
@@ -224,6 +224,6 @@ public class Session {
                 DatabaseUtils.sqlEscapeString(StringUtils.optionalString(type)),
                 track.getId(),
                 DatabaseUtils.sqlEscapeString(StringUtils.optionalString(level)),
-                microlocations);
+                microlocation.getId());
     }
 }

@@ -33,18 +33,12 @@ public class EventListResponseProcessor implements Callback<Event> {
                 public void run() {
                     ArrayList<String> queries = new ArrayList<>();
                     DbSingleton dbSingleton = DbSingleton.getInstance();
-//                    for(Event event : response.body().)
                     Version version = response.body().getVersion();
                     counterRequests = 0;
-//                    Timber.d(version.getEventVer()+"");
-//                    String string = version.generateSql();
-//                    Timber.d(string);
-////                    dbSingleton.insertQuery(version.generateSql());
-//                    Timber.d(dbSingleton.getVersionIds().getEventVer()+"");
 
                         if ((dbSingleton.getVersionIds() == null)) {
                             queries.add(version.generateSql());
-                            Timber.d(version.generateSql());
+                            Timber.d("IF");
                             dbSingleton.insertQueries(queries);
                             DataDownloadManager download = DataDownloadManager.getInstance();
                             download.downloadSpeakers();

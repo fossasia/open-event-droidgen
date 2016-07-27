@@ -729,7 +729,6 @@ public class MainActivity extends BaseActivity {
         readJsonAsset("events");
         readJsonAsset("tracks");
         readJsonAsset("speakers");
-        readJsonAsset("eventDates");
         readJsonAsset("sessions");
         readJsonAsset("sponsors");
         readJsonAsset("microlocations");
