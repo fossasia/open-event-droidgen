@@ -6,18 +6,16 @@ import org.fossasia.openevent.dbutils.DbContract;
 
 import java.util.Locale;
 
+import timber.log.Timber;
+
 /**
  * User: MananWason
  * Date: 05-06-2015
  */
 public class Version {
-    @SerializedName("event_id")
-    int eventId;
 
     @SerializedName("event_ver")
     int eventVer;
-
-    int id;
 
     @SerializedName("microlcations_ver")
     int microlocationsVer;
@@ -34,8 +32,7 @@ public class Version {
     @SerializedName("tracks_ver")
     int tracksVer;
 
-    public Version(int id, int eventVer, int tracksVer, int sessionVer, int sponsorVer, int speakerVer, int microlocationsVer) {
-        this.id = id;
+    public Version( int eventVer, int tracksVer, int sessionVer, int sponsorVer, int speakerVer, int microlocationsVer) {
         this.eventVer = eventVer;
         this.tracksVer = tracksVer;
         this.sessionVer = sessionVer;
@@ -60,13 +57,6 @@ public class Version {
         this.speakerVer = speakerVer;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public int getMicrolocationsVer() {
         return microlocationsVer;
@@ -101,10 +91,14 @@ public class Version {
     }
 
     public String generateSql() {
-        String query_normal = "INSERT INTO %s VALUES ('%d', '%d', '%d', '%d', '%d', '%d', '%d');";
-        return String.format(Locale.ENGLISH,
+        String query_normal = "INSERT INTO %s VALUES ('%d', '%d', '%d', '%d', '%d', '%d');";
+        Timber.d(query_normal);
+        String query = String.format(Locale.ENGLISH,
                 query_normal,
                 DbContract.Versions.TABLE_NAME,
-                id, eventVer, tracksVer, sessionVer, sponsorVer, speakerVer, microlocationsVer);
+                eventVer, tracksVer, sessionVer, sponsorVer, speakerVer, microlocationsVer);
+        Timber.d(query);
+        return query;
+
     }
 }

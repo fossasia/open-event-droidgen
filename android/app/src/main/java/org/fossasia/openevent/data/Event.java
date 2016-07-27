@@ -41,6 +41,8 @@ public class Event {
 
     String slogan;
 
+    Version version;
+
     public Event(int id, String name, String email, String color, String logo, String start,
                  String end, float latitude, float longitude, String locationName, String url, String slogan) {
         this.id = id;
@@ -153,6 +155,14 @@ public class Event {
 
     public void setLocationName(String locationName) {
         this.locationName = locationName;
+    }
+
+    public Version getVersion() {
+        return version;
+    }
+
+    public void setVersion(Version version) {
+        this.version = version;
     }
 
     public String generateSql() {

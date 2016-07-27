@@ -54,10 +54,6 @@ public final class DataDownloadManager {
         client.getOpenEventAPI().getMicrolocations().enqueue(new MicrolocationListResponseProcessor());
     }
 
-//    public void downloadVersions() {
-//        client.getOpenEventAPI().getVersion().enqueue(new VersionApiProcessor());
-//    }
-
     public void downloadEventDates() {
         client.getOpenEventAPI().getDates().enqueue(new EventDatesListResponseProcessor());
     }

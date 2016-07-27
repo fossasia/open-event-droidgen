@@ -40,16 +40,14 @@ public class VersionApiProcessor implements Callback<VersionResponseList> {
                             queries.add(version.generateSql());
                             dbSingleton.insertQueries(queries);
                             DataDownloadManager download = DataDownloadManager.getInstance();
-                            download.downloadEvents();
                             download.downloadSpeakers();
                             download.downloadTracks();
                             download.downloadMicrolocations();
                             download.downloadSession();
                             download.downloadSponsors();
-//                            download.downloadEventDates();
-                            counterRequests += 7;
+                            counterRequests += 5;
 
-                        } else if ((dbSingleton.getVersionIds().getId() != version.getId())) {
+                        } else {
                             DataDownloadManager download = DataDownloadManager.getInstance();
                             if (dbSingleton.getVersionIds().getEventVer() != version.getEventVer()) {
                                 download.downloadEvents();
@@ -59,14 +57,12 @@ public class VersionApiProcessor implements Callback<VersionResponseList> {
                             if (dbSingleton.getVersionIds().getSpeakerVer() != version.getSpeakerVer()) {
                                 download.downloadSpeakers();
                                 Timber.d("Downloading Speakers");
-
                                 counterRequests++;
 
                             }
                             if (dbSingleton.getVersionIds().getSponsorVer() != version.getSponsorVer()) {
                                 download.downloadSponsors();
                                 Timber.d("Downloading Sponsor");
-
                                 counterRequests++;
 
                             }
@@ -74,7 +70,6 @@ public class VersionApiProcessor implements Callback<VersionResponseList> {
                                 download.downloadTracks();
 
                                 Timber.d("Downloading Tracks");
-
                                 counterRequests++;
 
                             }
@@ -82,7 +77,6 @@ public class VersionApiProcessor implements Callback<VersionResponseList> {
                                 download.downloadSession();
 
                                 Timber.d("Downloading Sessions");
-
                                 counterRequests++;
 
                             }
@@ -92,8 +86,9 @@ public class VersionApiProcessor implements Callback<VersionResponseList> {
                                 counterRequests++;
 
                             }
-                        } else {
-                            Timber.d("Data fresh");
+                            if (counterRequests == 0) {
+                                Timber.d("Data fresh");
+                            }
                         }
                         CounterEvent counterEvent = new CounterEvent(counterRequests);
                         OpenEventApp.postEventOnUIThread(counterEvent);
