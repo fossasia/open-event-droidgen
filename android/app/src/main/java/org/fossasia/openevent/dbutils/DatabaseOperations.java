@@ -203,7 +203,6 @@ public class DatabaseOperations {
             cursor.moveToFirst();
 
             currentVersion = new Version(
-                    cursor.getInt(cursor.getColumnIndex(DbContract.Versions.VER_ID)),
                     cursor.getInt(cursor.getColumnIndex(DbContract.Versions.VER_EVENT)),
                     cursor.getInt(cursor.getColumnIndex(DbContract.Versions.VER_TRACKS)),
                     cursor.getInt(cursor.getColumnIndex(DbContract.Versions.VER_SESSIONS)),

@@ -29,7 +29,6 @@ public class DbContract {
 
         public static final String VER_EVENT = "verevent";
 
-        public static final String VER_ID = "verid";
 
         public static final String VER_MICROLOCATIONS = "vermicrolocations";
 
@@ -43,7 +42,6 @@ public class DbContract {
 
         public static final String[] FULL_PROJECTION = {
                 VER_EVENT,
-                VER_ID,
                 VER_MICROLOCATIONS,
                 VER_SESSIONS,
                 VER_SPEAKERS,
@@ -54,8 +52,7 @@ public class DbContract {
         public static final String CREATE_TABLE =
                 "CREATE TABLE " + TABLE_NAME
                         + " ("
-                        + VER_ID + INT_TYPE + PRIMARY_KEY + COMMA_SEP
-                        + VER_EVENT + INT_TYPE + COMMA_SEP
+                        + VER_EVENT + INT_TYPE  + COMMA_SEP
                         + VER_TRACKS + INT_TYPE + COMMA_SEP
                         + VER_SESSIONS + INT_TYPE + COMMA_SEP
                         + VER_SPONSORS + INT_TYPE + COMMA_SEP

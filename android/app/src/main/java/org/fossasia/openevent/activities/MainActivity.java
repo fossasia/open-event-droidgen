@@ -451,7 +451,7 @@ public class MainActivity extends BaseActivity {
     @Subscribe
     public void onCounterReceiver(CounterEvent event) {
         counter = event.getRequestsCount();
-        Timber.tag(COUNTER_TAG).d(counter + "");
+        Timber.tag(COUNTER_TAG).d(counter + " counter" );
         if (counter == 0) {
             syncComplete();
         }
@@ -461,7 +461,7 @@ public class MainActivity extends BaseActivity {
     public void onTracksDownloadDone(TracksDownloadEvent event) {
         if (event.isState()) {
             eventsDone++;
-            Timber.tag(COUNTER_TAG).d(eventsDone + " " + counter);
+            Timber.tag(COUNTER_TAG).d(eventsDone + " tracks " + counter);
             if (counter == eventsDone) {
                 syncComplete();
             }
@@ -474,7 +474,7 @@ public class MainActivity extends BaseActivity {
     public void onSponsorsDownloadDone(SponsorDownloadEvent event) {
         if (event.isState()) {
             eventsDone++;
-            Timber.tag(COUNTER_TAG).d(eventsDone + " " + counter);
+            Timber.tag(COUNTER_TAG).d(eventsDone + " sponsors " + counter);
             if (counter == eventsDone) {
                 syncComplete();
             }
@@ -488,7 +488,7 @@ public class MainActivity extends BaseActivity {
     public void onSpeakersDownloadDone(SpeakerDownloadEvent event) {
         if (event.isState()) {
             eventsDone++;
-            Timber.tag(COUNTER_TAG).d(eventsDone + " " + counter);
+            Timber.tag(COUNTER_TAG).d(eventsDone + " speakers " + counter);
             if (counter == eventsDone) {
                 syncComplete();
             }
@@ -502,7 +502,7 @@ public class MainActivity extends BaseActivity {
     public void onSessionDownloadDone(SessionDownloadEvent event) {
         if (event.isState()) {
             eventsDone++;
-            Timber.tag(COUNTER_TAG).d(eventsDone + " " + counter);
+            Timber.tag(COUNTER_TAG).d(eventsDone + " session " + counter);
             if (counter == eventsDone) {
                 syncComplete();
             }
@@ -521,7 +521,7 @@ public class MainActivity extends BaseActivity {
     public void onEventsDownloadDone(EventDownloadEvent event) {
         if (event.isState()) {
             eventsDone++;
-            Timber.tag(COUNTER_TAG).d(eventsDone + " " + counter);
+            Timber.tag(COUNTER_TAG).d(eventsDone + " events " + counter);
             if (counter == eventsDone) {
                 syncComplete();
             }
@@ -535,7 +535,7 @@ public class MainActivity extends BaseActivity {
     public void onMicrolocationsDownloadDone(MicrolocationDownloadEvent event) {
         if (event.isState()) {
             eventsDone++;
-            Timber.tag(COUNTER_TAG).d(eventsDone + " " + counter);
+            Timber.tag(COUNTER_TAG).d(eventsDone + " microlocation " + counter);
             if (counter == eventsDone) {
                 syncComplete();
             }
@@ -575,16 +575,11 @@ public class MainActivity extends BaseActivity {
     }
 
     @Subscribe
+
     public void downloadData(DataDownloadEvent event) {
         if (Urls.getBaseUrl().equals(Urls.INVALID_LINK)) {
             showErrorDialog("Invalid Api", "Api link doesn't seem to be valid");
         } else {
-            //TODO : Change this to download only the version
-            DataDownloadManager.getInstance().downloadTracks();
-            DataDownloadManager.getInstance().downloadSession();
-            DataDownloadManager.getInstance().downloadSpeakers();
-            DataDownloadManager.getInstance().downloadSponsors();
-            DataDownloadManager.getInstance().downloadMicrolocations();
             DataDownloadManager.getInstance().downloadEvents();
         }
         downloadProgress.setVisibility(View.VISIBLE);
