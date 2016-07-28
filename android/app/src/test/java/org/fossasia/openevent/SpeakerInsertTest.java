@@ -2,7 +2,6 @@ package org.fossasia.openevent;
 
 import android.app.Activity;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
 
 import com.google.gson.Gson;
 
@@ -22,12 +21,8 @@ import org.robolectric.Robolectric;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 import static org.junit.Assert.assertEquals;
 
@@ -56,52 +51,14 @@ public class SpeakerInsertTest {
     @Test
     public void testSpeakerDbInsertionHttp() throws JSONException {
 
-        HttpURLConnection urlConnection = null;
-        BufferedReader reader = null;
-        String jsonStr = null;
 
-        try {
-            final String BASE_URL = Urls.BASE_GET_URL_ALT + Urls.EVENTS + "/" + Urls.EVENT_ID + "/" + Urls.SPEAKERS;
-
-            Uri builtUri = Uri.parse(BASE_URL).buildUpon().build();
-            URL url = new URL(builtUri.toString());
-            urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setRequestMethod("GET");
-            urlConnection.connect();
-            InputStream inputStream = urlConnection.getInputStream();
-            StringBuffer buffer = new StringBuffer();
-            if (inputStream == null) {
-                return;
-            }
-            reader = new BufferedReader(new InputStreamReader(inputStream));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                buffer.append(line + "\n");
-            }
-            if (buffer.length() == 0) {
-                return;
-            }
-            jsonStr = buffer.toString();
-        } catch (IOException e) {
-            return;
-        } finally {
-            if (urlConnection != null) {
-                urlConnection.disconnect();
-            }
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (final IOException e) {
-                }
-            }
-        }
         Gson gson = new Gson();
         try {
-            JSONObject json = new JSONObject(jsonStr);
-            JSONArray eventJsonArray = json.getJSONArray(Urls.SPEAKERS);
-            if (eventJsonArray.length() > 0) {
+            JSONObject json = new JSONObject(readJsonAsset(Urls.SPEAKERS));
+            JSONArray speakerJsonArray = json.getJSONArray(Urls.SPEAKERS);
+            if (speakerJsonArray.length() > 0) {
 
-                JSONObject eventJsonObject = eventJsonArray.getJSONObject(0);
+                JSONObject eventJsonObject = speakerJsonArray.getJSONObject(0);
                 Speaker speaker = gson.fromJson(String.valueOf(eventJsonObject), Speaker.class);
 
                 String query = speaker.generateSql();
@@ -127,5 +84,27 @@ public class SpeakerInsertTest {
         mActivity.deleteDatabase(DbContract.DATABASE_NAME);
         db.close();
     }
+
+    public String readJsonAsset(final String name) {
+        String json = null;
+
+        try {
+            InputStream inputStream = mActivity.getAssets().open(name + ".json");
+            int size = inputStream.available();
+            byte[] buffer = new byte[size];
+            inputStream.read(buffer);
+            inputStream.close();
+            json = new String(buffer, "UTF-8");
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+
+
+        }
+
+        return json;
+    }
+
 }
 

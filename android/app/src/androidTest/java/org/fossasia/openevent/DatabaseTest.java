@@ -37,8 +37,8 @@ public class DatabaseTest extends AndroidTestCase {
         ArrayList<String> queries;
         queries = new ArrayList<>();
         db = new DbHelper(context, DbContract.DATABASE_NAME);
-        Event event = new Event(4, "foss", "a@b.com", "#000000", "img.png", "2015-06-05T12:00:00",
-                "2015-06-06T12:00:00", 23.7f, 45.60f, "moscone centre", "www.event2.com", "swagger event");
+        Event event = new Event(4, "foss", "a@b.com", "img.png", "2015-06-05T12:00:00",
+                "2015-06-06T12:00:00", 23.7f, 45.60f, "moscone centre", "www.event2.com");
         String eventQuery = event.generateSql();
         Timber.tag("Event").d(eventQuery);
         queries.add(eventQuery);
@@ -59,16 +59,14 @@ public class DatabaseTest extends AndroidTestCase {
         String microlocationQuery = microlocation.generateSql();
         Timber.tag("Micro").d(microlocationQuery);
         queries.add(microlocationQuery);
-
         Session session = new Session(5, "abcd", "abc", "abcdefgh", "sdfjs dsjfnjs",
-                "2015-06-05T00:00:00", "2015-06-06T00:00:00", "abcde", 1,
-                "3", 2);
+                "2015-06-05T00:00:00", "2015-06-06T00:00:00", "abcde", new Track(1, "kids", "ABCd", "img.png"), "1", new org.fossasia.openevent.data.parsingExtras.Microlocation(4, "moscone centre"));
 
         String sessionQuery = session.generateSql();
         Timber.tag("Session").d(sessionQuery);
         queries.add(sessionQuery);
 
-        Version version = new Version(1, 2, 3, 4, 5, 6, 7);
+        Version version = new Version(1, 3, 4, 5, 6, 7);
         String versionQuery = version.generateSql();
         Timber.tag("Version").d(versionQuery);
         queries.add(versionQuery);
@@ -117,10 +115,10 @@ public class DatabaseTest extends AndroidTestCase {
         assertTrue(dbSingleton.getTrackList().size() > 0);
     }
 
-//    public void testVersionList() throws Exception {
-//        DbSingleton dbSingleton = DbSingleton.getInstance();
-//        assertNotNull(dbSingleton.getVersionIds());
-//    }
+    public void testVersionList() throws Exception {
+        DbSingleton dbSingleton = DbSingleton.getInstance();
+        assertNotNull(dbSingleton.getVersionIds());
+    }
 
     public void testSponsorsList() throws Exception {
         /**

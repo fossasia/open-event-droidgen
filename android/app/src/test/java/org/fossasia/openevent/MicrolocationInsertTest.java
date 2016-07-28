@@ -62,7 +62,7 @@ public class MicrolocationInsertTest {
         String jsonStr = null;
 
         try {
-            final String BASE_URL = Urls.BASE_GET_URL_ALT + Urls.EVENTS + "/" + Urls.EVENT_ID + "/" + Urls.MICROLOCATIONS;
+            final String BASE_URL = Urls.BASE_GET_URL_ALT + Urls.EVENT + "/" + Urls.EVENT_ID + "/" + Urls.MICROLOCATIONS;
 
             Uri builtUri = Uri.parse(BASE_URL).buildUpon().build();
             URL url = new URL(builtUri.toString());

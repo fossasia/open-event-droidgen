@@ -33,12 +33,17 @@ public class EventListResponseProcessor implements Callback<Event> {
                 public void run() {
                     ArrayList<String> queries = new ArrayList<>();
                     DbSingleton dbSingleton = DbSingleton.getInstance();
+                    Event event = response.body();
+                    String event_query = event.generateSql();
+
+                    Timber.d(event_query);
+
+                    dbSingleton.insertQuery(event_query);
                     Version version = response.body().getVersion();
                     counterRequests = 0;
 
                         if ((dbSingleton.getVersionIds() == null)) {
                             queries.add(version.generateSql());
-                            Timber.d("IF");
                             dbSingleton.insertQueries(queries);
                             DataDownloadManager download = DataDownloadManager.getInstance();
                             download.downloadSpeakers();
@@ -96,7 +101,6 @@ public class EventListResponseProcessor implements Callback<Event> {
                 }
             });
         } else {
-            Timber.d(response.code()+"");
             OpenEventApp.postEventOnUIThread(new RetrofitResponseEvent(response.code()));
         }
 
@@ -104,7 +108,6 @@ public class EventListResponseProcessor implements Callback<Event> {
 
     @Override
     public void onFailure(Call<Event> call, Throwable t) {
-        Timber.d(t.getMessage() +"FAIL");
         OpenEventApp.postEventOnUIThread(new RetrofitError(t));
     }
 }

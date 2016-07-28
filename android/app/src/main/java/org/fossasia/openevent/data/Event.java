@@ -20,7 +20,6 @@ public class Event {
 
     String email;
 
-    String color;
 
     String logo;
 
@@ -37,18 +36,17 @@ public class Event {
     @SerializedName("location_name")
     String locationName;
 
+    @SerializedName("event_url")
     String url;
 
-    String slogan;
 
     Version version;
 
-    public Event(int id, String name, String email, String color, String logo, String start,
-                 String end, float latitude, float longitude, String locationName, String url, String slogan) {
+    public Event(int id, String name, String email, String logo, String start,
+                 String end, float latitude, float longitude, String locationName, String url) {
         this.id = id;
         this.name = name;
         this.email = email;
-        this.color = color;
         this.logo = logo;
         this.start = start;
         this.end = end;
@@ -56,7 +54,6 @@ public class Event {
         this.longitude = longitude;
         this.locationName = locationName;
         this.url = url;
-        this.slogan = slogan;
     }
 
     public String getEmail() {
@@ -67,28 +64,12 @@ public class Event {
         this.email = email;
     }
 
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
-
     public String getUrl() {
         return url;
     }
 
     public void setUrl(String url) {
         this.url = url;
-    }
-
-    public String getSlogan() {
-        return slogan;
-    }
-
-    public void setSlogan(String slogan) {
-        this.slogan = slogan;
     }
 
     public int getId() {
@@ -166,21 +147,19 @@ public class Event {
     }
 
     public String generateSql() {
-        String insertQuery = "INSERT INTO %s VALUES ('%d', %s, %s,%s, %s, %s, %s, '%f', '%f', %s, %s, %s);";
+        String insertQuery = "INSERT INTO %s VALUES ('%d', %s, %s, %s, %s, %s, '%f', '%f', %s, %s);";
         return String.format(Locale.ENGLISH,
                 insertQuery,
                 DbContract.Event.TABLE_NAME,
                 id,
                 DatabaseUtils.sqlEscapeString(StringUtils.optionalString(name)),
                 DatabaseUtils.sqlEscapeString(StringUtils.optionalString(email)),
-                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(color)),
                 DatabaseUtils.sqlEscapeString(StringUtils.optionalString(logo)),
                 DatabaseUtils.sqlEscapeString(StringUtils.optionalString(start)),
                 DatabaseUtils.sqlEscapeString(StringUtils.optionalString(end)),
                 latitude,
                 longitude,
                 DatabaseUtils.sqlEscapeString(StringUtils.optionalString(locationName)),
-                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(url)),
-                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(slogan)));
+                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(url)));
     }
 }
