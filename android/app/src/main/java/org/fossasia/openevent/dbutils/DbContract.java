@@ -352,8 +352,6 @@ public class DbContract {
 
         public static final String EMAIL = "event";
 
-        public static final String COLOR = "color";
-
         public static final String LOGO_URL = "logo_url";
 
         public static final String START = "start";
@@ -368,21 +366,17 @@ public class DbContract {
 
         public static final String EVENT_URL = "event_url";
 
-        public static final String EVENT_SLOGAN = "slogan";
-
         public static final String[] FULL_PROJECTION = {
                 ID,
                 NAME,
                 EMAIL,
-                COLOR,
                 LOGO_URL,
                 START,
                 END,
                 LATITUDE,
                 LONGITUDE,
                 LOCATION_NAME,
-                EVENT_URL,
-                EVENT_SLOGAN
+                EVENT_URL
         };
 
         public static final String CREATE_TABLE =
@@ -391,15 +385,13 @@ public class DbContract {
                         + ID + INT_TYPE + PRIMARY_KEY + COMMA_SEP
                         + NAME + TEXT_TYPE + COMMA_SEP
                         + EMAIL + TEXT_TYPE + COMMA_SEP
-                        + COLOR + TEXT_TYPE + COMMA_SEP
                         + LOGO_URL + TEXT_TYPE + COMMA_SEP
                         + START + TEXT_TYPE + COMMA_SEP
                         + END + TEXT_TYPE + COMMA_SEP
                         + LATITUDE + REAL_TYPE + COMMA_SEP
                         + LONGITUDE + REAL_TYPE + COMMA_SEP
                         + LOCATION_NAME + TEXT_TYPE + COMMA_SEP
-                        + EVENT_URL + TEXT_TYPE + COMMA_SEP
-                        + EVENT_SLOGAN + TEXT_TYPE
+                        + EVENT_URL + TEXT_TYPE
                         + " );";
 
         public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;

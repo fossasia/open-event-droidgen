@@ -726,12 +726,12 @@ public class MainActivity extends BaseActivity {
         //TODO: Add and Take counter value from to config.json
         sharedPreferences.edit().putBoolean(ConstantStrings.DATABASE_RECORDS_EXIST, true).apply();
         counter = 7;
-        readJsonAsset("events");
-        readJsonAsset("tracks");
-        readJsonAsset("speakers");
-        readJsonAsset("sessions");
-        readJsonAsset("sponsors");
-        readJsonAsset("microlocations");
+        readJsonAsset(Urls.EVENT);
+        readJsonAsset(Urls.TRACKS);
+        readJsonAsset(Urls.SPEAKERS);
+        readJsonAsset(Urls.SESSIONS);
+        readJsonAsset(Urls.SPONSORS);
+        readJsonAsset(Urls.MICROLOCATIONS);
 
     }
 

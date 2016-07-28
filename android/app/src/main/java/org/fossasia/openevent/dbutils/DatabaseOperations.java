@@ -625,16 +625,13 @@ public class DatabaseOperations {
                     cursor.getInt(cursor.getColumnIndex(DbContract.Event.ID)),
                     cursor.getString(cursor.getColumnIndex(DbContract.Event.NAME)),
                     cursor.getString(cursor.getColumnIndex(DbContract.Event.EMAIL)),
-                    cursor.getString(cursor.getColumnIndex(DbContract.Event.COLOR)),
                     cursor.getString(cursor.getColumnIndex(DbContract.Event.LOGO_URL)),
                     cursor.getString(cursor.getColumnIndex(DbContract.Event.START)),
                     cursor.getString(cursor.getColumnIndex(DbContract.Event.END)),
                     cursor.getFloat(cursor.getColumnIndex(DbContract.Event.LATITUDE)),
                     cursor.getFloat(cursor.getColumnIndex(DbContract.Event.LONGITUDE)),
                     cursor.getString(cursor.getColumnIndex(DbContract.Event.LOCATION_NAME)),
-                    cursor.getString(cursor.getColumnIndex(DbContract.Event.EVENT_URL)),
-                    cursor.getString(cursor.getColumnIndex(DbContract.Event.EVENT_SLOGAN))
-            );
+                    cursor.getString(cursor.getColumnIndex(DbContract.Event.EVENT_URL)));
             cursor.close();
         }
         return event;
@@ -705,7 +702,7 @@ public class DatabaseOperations {
         if (cursor.getCount() > 0) {
             while (!sessionCursor.isAfterLast()) {
                 try {
-                    int id = cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.MICROLOCATION));
+                    int id = sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.MICROLOCATION));
                     Microlocation microlocation = new Microlocation(id, getMicroLocationById(id, mDb).getName());
 
                     s = new Session(
