@@ -114,7 +114,7 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
             flagSocial = true;
             speakerIntent.clickedImage(fb);
         }
-        if (selectedSpeaker.getWeb() == null || selectedSpeaker.getWeb().isEmpty()) {
+        if (selectedSpeaker.getWebsite() == null || selectedSpeaker.getWebsite().isEmpty()) {
             website.setVisibility(View.GONE);
         } else {
             flagSocial = true;
@@ -138,7 +138,7 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
 
                 Session model = sessionsListAdapter.getItem(position);
                 String sessionName = model.getTitle();
-                Track track = dbSingleton.getTrackbyId(model.getTrack());
+                Track track = dbSingleton.getTrackbyId(model.getTrack().getId());
                 String trackName = track.getName();
                 Intent intent = new Intent(getApplicationContext(), SessionDetailActivity.class);
                 intent.putExtra(ConstantStrings.SESSION, sessionName);

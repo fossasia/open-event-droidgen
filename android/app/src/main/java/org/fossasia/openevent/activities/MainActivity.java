@@ -579,7 +579,13 @@ public class MainActivity extends BaseActivity {
         if (Urls.getBaseUrl().equals(Urls.INVALID_LINK)) {
             showErrorDialog("Invalid Api", "Api link doesn't seem to be valid");
         } else {
-            DataDownloadManager.getInstance().downloadVersions();
+            //TODO : Change this to download only the version
+            DataDownloadManager.getInstance().downloadTracks();
+            DataDownloadManager.getInstance().downloadSession();
+            DataDownloadManager.getInstance().downloadSpeakers();
+            DataDownloadManager.getInstance().downloadSponsors();
+            DataDownloadManager.getInstance().downloadMicrolocations();
+            DataDownloadManager.getInstance().downloadEvents();
         }
         downloadProgress.setVisibility(View.VISIBLE);
         Timber.d("Download has started");
@@ -643,8 +649,8 @@ public class MainActivity extends BaseActivity {
                     SpeakerResponseList speakerResponseList = gson.fromJson(json, SpeakerResponseList.class);
                     ArrayList<String> queries = new ArrayList<String>();
                     for (Speaker current : speakerResponseList.speakers) {
-                        for (int i = 0; i < current.getSession().length; i++) {
-                            SessionSpeakersMapping sessionSpeakersMapping = new SessionSpeakersMapping(current.getSession()[i], current.getId());
+                        for (int i = 0; i < current.getSession().size(); i++) {
+                            SessionSpeakersMapping sessionSpeakersMapping = new SessionSpeakersMapping(current.getSession().get(i).getId(), current.getId());
                             String query_ss = sessionSpeakersMapping.generateSql();
                             queries.add(query_ss);
                         }
