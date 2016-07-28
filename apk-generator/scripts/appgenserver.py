@@ -26,7 +26,7 @@ def replace(file_path, pattern, subst):
 
 arg = sys.argv[1]
 # Path to be created
-path = "/var/www/files/"+str(arg)
+path = "/var/www/html/files/"+str(arg)
 print path
 if not os.path.exists(path):
     os.makedirs(path)
@@ -34,9 +34,9 @@ if not os.path.exists(path):
 firebase = firebase.FirebaseApplication('https://app-generator.firebaseio.com', None)
 result = firebase.get('/users', str(arg))
 jsonData = json.dumps(result)
-email = json.dumps(result['Email'])
+email = json.dumps(result['email'])
 email = email.replace('"', '')
-app_name = json.dumps(result['App_Name'])
+app_name = json.dumps(result['name'])
 app_name = app_name.replace('"', '')
 print app_name
 print email

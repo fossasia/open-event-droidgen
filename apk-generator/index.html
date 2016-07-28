@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -49,44 +50,51 @@
 			</center>
 
 		</form>
-		<script src="./js/jquery.min.js"></script>
 		<script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
 		<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 		<script src="https://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 
-		<script src="./js/main.js"></script>
-		<script src="./js/form.js"></script>
 		<script>
-			var $ = jQuery;
-			var timestamp = Number(new Date());
-			var form = document.querySelector("form");
-			var config = {
-				apiKey: "API_KEY",
-				authDomain: "app-id.firebaseapp.com",
-				databaseURL: "https://app-id.firebaseio.com",
-				storageBucket: "app-id.appspot.com",
-			};
-			firebase.initializeApp(config);
-      // var userId = 1;
-      var database = firebase.database();
-      form.addEventListener("btnGenerate", function(event) {
-      	console.log("HERE")
-      	event.preventDefault();
-      	var ary = $(form).serializeArray();
-      	var obj = {};
-      	for (var a = 0; a < ary.length; a++) obj[ary[a].name] = ary[a].value;
-      		console.log("JSON",obj);
-      	var file_data = $('#uploadZip').prop('files')[0];
-      	var storageRef = firebase.storage().ref(timestamp.toString());       
-      	storageRef.put(file_data);
-      	var form_data = new FormData();                  
-      	form_data.append('file', file_data);                           
-      	firebase.database().ref('users/' + timestamp).set(obj);
-      	database.ref('users/' + timestamp).once('value').then(function(snapshot) {
-      		console.log("Received value",snapshot.val());
-      		alert("Please wait while we generate the app, meanwhile you can stick around to directly download it.The app will also be emailed to you."); 
-      		$.ajax({
-      			
+			$('input:radio[name="datasource"]').change(
+  function() {
+    if ($(this).is(':checked')) {
+
+      if ($(this).val() === 'mockjson') {
+        $('#jsonupload-input').hide(100);
+        $('#eventapi-input').hide(100);
+      }
+
+      if ($(this).val() === 'jsonupload') {
+        $('#jsonupload-input').show(100);
+        $('#eventapi-input').hide(100);
+      }
+
+      if ($(this).val() === 'eventapi') {
+        $('#eventapi-input').show(100);
+        $('#jsonupload-input').hide(100);
+      }
+    }
+  });
+$('#btnGenerate').click(function () {
+  var formData = getData();
+  var timestamp = Number(new Date());
+  var config = {
+    apiKey: "AIzaSyDTo4TPzUkvYYN5dwvNnI4jVmB_eTc0Lpo",
+    authDomain: "app-generator.firebaseapp.com",
+    databaseURL: "https://app-generator.firebaseio.com",
+    storageBucket: "app-generator.appspot.com",
+  };
+  firebase.initializeApp(config);
+  var database = firebase.database();
+        var form_data = new FormData();      
+        var file_data = $('#singlefileUpload').prop('files')[0];
+        form_data.append('file', file_data);                           
+        firebase.database().ref('users/' + timestamp).set(formData);
+        database.ref('users/' + timestamp).once('value').then(function(snapshot) {
+          console.log("Received value",snapshot.val());
+          alert("Please wait while we generate the app, meanwhile you can stick around to directly download it.The app will also be emailed to you."); 
+          $.ajax({
+
                   url: '/upload.php', // point to server-side PHP script
                   cache: false,
                   contentType: false,
@@ -94,95 +102,75 @@
                   data: form_data,                         
                   type: 'post',
                   success: function(php_script_response){
-                  	ajaxCall1();
+                    ajaxCall1();
                   }
-              });
-      		function ajaxCall1() {
-      			$.ajax({
-      				type: "POST",
-      				url: "/uploadHelper.php",
-      				data: { timestamp : timestamp },
-      				success: function(response){
-      					ajaxCall2();
-      				}
-      			});
-      		}
-      		function ajaxCall2(){      
-      			$.ajax({
-      				type: "POST",
-      				url: "/runPy.php",
-      				data: { timestamp : timestamp },
-      				success: function(response){
-      					console.log("Success",response);
-      					window.location = response;
-      				}
-      			});
-      		}
-      	});
-      });
-  </script>
+                });
+          function ajaxCall1() {
+            $.ajax({
+              type: "POST",
+              url: "/uploadHelper.php",
+              data: { timestamp : timestamp },
+              success: function(response){
+                ajaxCall2();
+              }
+            });
+          }
+          function ajaxCall2(){      
+            $.ajax({
+              type: "POST",
+              url: "/runPy.php",
+              data: { timestamp : timestamp },
+              success: function(response){
+                console.log("Success",response);
+                window.location = response;
+              }
+            });
+          }
+        });
+});
 
+function displayButtons (appPath) {
+  var btnDownload = $('#btnDownload');
+  var btnLive = $('#btnLive');
+  btnDownload.css('display', 'block');
+  btnLive.css('display', 'block');
+
+  btnLive.click(function () {
+    window.location.href = '/live/preview/' + appPath
+  });
+
+  btnDownload.click(function () {
+    window.location.href = '/download/' + appPath
+  })
+}
+
+function updateStatus (statusMsg) {
+  $('#status').animate({'opacity': 0}, 500, function () {
+    $(this).text(statusMsg);
+  }).animate({'opacity': 1}, 500);
+}
+
+function getData () {
+  var data = {};
+  var formData = $('#form').serializeArray();
+  formData.forEach( function(field) {
+    if (field.name == 'name') {data.name = field.value }
+    if (field.name == 'email') {data.email = field.value }
+    if (field.name == 'theme') {data.theme = field.value }
+    if (field.name == 'datasource') {data.datasource = field.value }
+    if (field.name == 'apiendpoint') {data.apiendpoint = field.value }
+    if (field.name == 'assetmode') {data.assetmode = field.value }});
+  try {
+    data.singlefileUpload = $('#singlefileUpload')[0].files[0];
+    data.zipLength = $('#singlefileUpload')[0].files[0].size;
+  } catch (err) {
+    data.singlefileUpload = "";
+    data.zipLength = 0;
+  }
+  return data;
+}
+  </script>
 </div>
 </body>
 </html>
-
-<!-- <form name="htmlform" id="form" enctype="multipart/form-data">
-  <p align="center"><b><big>FOSSASIA's App Generator</big></b></p>
-  <table align="center"
-  width = "900px"
-  height="200px">
-  <tr>
-   <td valign="top">
-    <label for="Email">Email</label>
-  </td>
-  <td valign="top">
-    <input id="email" type="email" name="Email"  size="30">
-  </td>
-  <td>
-
-   <td valign="top">
-    <label for="name">App's Name</label>
-  </td>&nbsp;
-  <td valign="top">
-    <input id="appName" type="text" name="App_Name" maxlength="50" size="30">
-  </td>&nbsp;
-
-</tr>
-<tr>
- <td valign="top">
-  <label for="link">Api Link</label>
-</td>
-<td valign="top">
-  <input id="apiLink" type="url" name="Api_Link" maxlength="90" size="30">
-</td>
-</tr>
-
-<tr>
-  <td valign="top">
-    <label for="sessions">Zip containing .json files</label>
-  </td>
-  <td valign="top">
-    <input accept=".zip" type="file" id="uploadZip" name="sessions">
-  </td>
-</tr>
-
-<tr>
--->  
-<!--  <td valign="top">
-    <label for="icon">App's icon in .png format</label>
-  </td>
-  <td valign="top">
-    <input accept=".png" type="file" id="uploadIcon" name="icon">
-  </td>
-</tr>
-
-<tr>
- <td colspan="5" style="text-align:center">
-  <button type="submit">Generate and Download app</button>
-</td>
-</tr>
-</table>
-</form>
--->
-
 
