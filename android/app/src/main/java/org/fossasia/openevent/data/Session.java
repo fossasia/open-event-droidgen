@@ -16,39 +16,67 @@ import java.util.Locale;
  */
 public class Session {
 
-    @SerializedName("abstract")
+    @SerializedName("short_abstract")
     String summary;
 
+    @SerializedName("long_abstract")
     String description;
 
-    @SerializedName("begin")
+    @SerializedName("start_time")
     String startTime;
 
-    @SerializedName("end")
+    @SerializedName("end_time")
     String endTime;
 
     int id;
 
+    @SerializedName("comments")
     String level;
 
-    @SerializedName("microlocation")
     int microlocations;
 
+    @SerializedName("title")
     String title;
 
     String subtitle;
 
-    @SerializedName("format")
+    @SerializedName("track")
+    Track track;
+
+    @SerializedName("slides")
     String type;
 
-    int track;
-
     String startDate;
+
+    int trackName;
+
+    public Session(String title,int id){
+        this.id = id;
+        this.title = title;
+    }
 
     public Session(int id, String title, String subtitle,
                    String summary, String description,
                    String startTime, String endTime, String type,
                    int track, String level, int microlocations
+    ) throws ParseException {
+        this.id = id;
+        this.title = title;
+        this.subtitle = subtitle;
+        this.summary = summary;
+        this.description = description;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.type = type;
+        this.trackName = track;
+        this.level = level;
+        this.microlocations = microlocations;
+    }
+
+    public Session(int id, String title, String subtitle,
+                   String summary, String description,
+                   String startTime, String endTime, String type,
+                   Track track, String level, int microlocations
     ) throws ParseException {
         this.id = id;
         this.title = title;
@@ -66,7 +94,7 @@ public class Session {
     public Session(int id, String title, String subtitle,
                    String summary, String description,
                    String startTime, String endTime, String startDate, String type,
-                   int track, String level, int microlocations
+                   Track track, String level, int microlocations
     ) throws ParseException {
         this.id = id;
         this.title = title;
@@ -81,6 +109,8 @@ public class Session {
         this.level = level;
         this.microlocations = microlocations;
     }
+
+
 
     public int getId() {
         return id;
@@ -146,11 +176,11 @@ public class Session {
         this.type = type;
     }
 
-    public int getTrack() {
+    public Track getTrack() {
         return track;
     }
 
-    public void setTrack(int track) {
+    public void setTrack(Track track) {
         this.track = track;
     }
 
@@ -192,7 +222,7 @@ public class Session {
                 DatabaseUtils.sqlEscapeString(StringUtils.optionalString(endTime)),
                 DatabaseUtils.sqlEscapeString(StringUtils.optionalString(startDate)),
                 DatabaseUtils.sqlEscapeString(StringUtils.optionalString(type)),
-                track,
+                track.getId(),
                 DatabaseUtils.sqlEscapeString(StringUtils.optionalString(level)),
                 microlocations);
     }
