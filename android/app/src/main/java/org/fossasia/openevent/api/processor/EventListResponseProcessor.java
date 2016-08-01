@@ -22,7 +22,7 @@ import timber.log.Timber;
  * Date: 27-05-2015
  */
 public class EventListResponseProcessor implements Callback<Event> {
-    private static final String TAG = "Events";
+    private static final String TAG = "Event";
     int counterRequests;
 
     @Override
@@ -57,7 +57,7 @@ public class EventListResponseProcessor implements Callback<Event> {
                             DataDownloadManager download = DataDownloadManager.getInstance();
                             if (dbSingleton.getVersionIds().getEventVer() != version.getEventVer()) {
                                 download.downloadEvents();
-                                Timber.d("Downloading Events");
+                                Timber.d("Downloading Event");
                                 counterRequests++;
                             }
                             if (dbSingleton.getVersionIds().getSpeakerVer() != version.getSpeakerVer()) {

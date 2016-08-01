@@ -35,6 +35,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
@@ -42,15 +43,7 @@ import com.squareup.picasso.Picasso;
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.api.Urls;
-import org.fossasia.openevent.api.protocol.EventDatesResponseList;
-import org.fossasia.openevent.api.protocol.EventResponseList;
-import org.fossasia.openevent.api.protocol.MicrolocationResponseList;
-import org.fossasia.openevent.api.protocol.SessionResponseList;
-import org.fossasia.openevent.api.protocol.SpeakerResponseList;
-import org.fossasia.openevent.api.protocol.SponsorResponseList;
-import org.fossasia.openevent.api.protocol.TrackResponseList;
 import org.fossasia.openevent.data.Event;
-import org.fossasia.openevent.data.EventDates;
 import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.SessionSpeakersMapping;
@@ -88,7 +81,9 @@ import org.fossasia.openevent.widget.DialogFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -447,7 +442,7 @@ public class MainActivity extends BaseActivity {
         builder.show();
     }
 
-    //Subscribe Events
+    //Subscribe Event
     @Subscribe
     public void onCounterReceiver(CounterEvent event) {
         counter = event.getRequestsCount();
@@ -595,23 +590,19 @@ public class MainActivity extends BaseActivity {
     }
 
     @Subscribe
-    public void handleJsonEvent(JsonReadEvent jsonReadEvent) {
+    public void handleJsonEvent(final JsonReadEvent jsonReadEvent) {
         final String name = jsonReadEvent.getName();
         final String json = jsonReadEvent.getJson();
         CommonTaskLoop.getInstance().post(new Runnable() {
             @Override
             public void run() {
                 final Gson gson = new Gson();
-                if (name.equals(ConstantStrings.Events)) {
+                if (name.equals(ConstantStrings.Event)) {
                     CommonTaskLoop.getInstance().post(new Runnable() {
                         @Override
                         public void run() {
-                            EventResponseList eventResponseList = gson.fromJson(json, EventResponseList.class);
-                            ArrayList<String> queries = new ArrayList<String>();
-                            for (Event current : eventResponseList.event) {
-                                queries.add(current.generateSql());
-                            }
-                            DbSingleton.getInstance().insertQueries(queries);
+                            Event event = gson.fromJson(json, Event.class);
+                            DbSingleton.getInstance().insertQuery(event.generateSql());
                             OpenEventApp.postEventOnUIThread(new EventDownloadEvent(true));
                         }
                     });
@@ -619,9 +610,10 @@ public class MainActivity extends BaseActivity {
                     CommonTaskLoop.getInstance().post(new Runnable() {
                         @Override
                         public void run() {
-                            TrackResponseList trackResponseList = gson.fromJson(json, TrackResponseList.class);
+                            Type listType = new TypeToken<List<Track>>(){}.getType();
+                            List<Track> tracks = gson.fromJson(json, listType);
                             ArrayList<String> queries = new ArrayList<String>();
-                            for (Track current : trackResponseList.tracks) {
+                            for (Track current : tracks) {
                                 queries.add(current.generateSql());
                             }
                             DbSingleton.getInstance().insertQueries(queries);
@@ -629,10 +621,11 @@ public class MainActivity extends BaseActivity {
                         }
                     });
                 } else if (name.equals(ConstantStrings.Sessions)) {
+                    Type listType = new TypeToken<List<Session>>(){}.getType();
+                    List<Session> sessions = gson.fromJson(json, listType);
 
-                    SessionResponseList sessionResponseList = gson.fromJson(json, SessionResponseList.class);
                     ArrayList<String> queries = new ArrayList<String>();
-                    for (Session current : sessionResponseList.sessions) {
+                    for (Session current : sessions) {
                         current.setStartDate(current.getStartTime().split("T")[0]);
                         queries.add(current.generateSql());
                     }
@@ -640,10 +633,11 @@ public class MainActivity extends BaseActivity {
                     OpenEventApp.postEventOnUIThread(new SessionDownloadEvent(true));
 
                 } else if (name.equals(ConstantStrings.Speakers)) {
+                    Type listType = new TypeToken<List<Speaker>>(){}.getType();
+                    List<Speaker> speakers = gson.fromJson(json, listType);
 
-                    SpeakerResponseList speakerResponseList = gson.fromJson(json, SpeakerResponseList.class);
                     ArrayList<String> queries = new ArrayList<String>();
-                    for (Speaker current : speakerResponseList.speakers) {
+                    for (Speaker current : speakers) {
                         for (int i = 0; i < current.getSession().size(); i++) {
                             SessionSpeakersMapping sessionSpeakersMapping = new SessionSpeakersMapping(current.getSession().get(i).getId(), current.getId());
                             String query_ss = sessionSpeakersMapping.generateSql();
@@ -655,26 +649,14 @@ public class MainActivity extends BaseActivity {
                     DbSingleton.getInstance().insertQueries(queries);
                     OpenEventApp.postEventOnUIThread(new SpeakerDownloadEvent(true));
 
-                } else if (name.equals(ConstantStrings.EventDates)) {
-                    CommonTaskLoop.getInstance().post(new Runnable() {
-                        @Override
-                        public void run() {
-                            EventDatesResponseList eventDatesResponseList = gson.fromJson(json, EventDatesResponseList.class);
-                            ArrayList<String> queries = new ArrayList<String>();
-                            for (EventDates current : eventDatesResponseList.event) {
-                                queries.add(current.generateSql());
-                            }
-                            DbSingleton.getInstance().insertQueries(queries);
-                            OpenEventApp.postEventOnUIThread(new EventDatesDownloadEvent(true));
-                        }
-                    });
                 } else if (name.equals(ConstantStrings.Sponsors)) {
                     CommonTaskLoop.getInstance().post(new Runnable() {
                         @Override
                         public void run() {
-                            SponsorResponseList sponsorResponseList = gson.fromJson(json, SponsorResponseList.class);
+                            Type listType = new TypeToken<List<Sponsor>>(){}.getType();
+                            List<Sponsor> sponsors = gson.fromJson(json, listType);
                             ArrayList<String> queries = new ArrayList<String>();
-                            for (Sponsor current : sponsorResponseList.sponsors) {
+                            for (Sponsor current : sponsors) {
                                 queries.add(current.generateSql());
                             }
                             DbSingleton.getInstance().insertQueries(queries);
@@ -685,9 +667,11 @@ public class MainActivity extends BaseActivity {
                     CommonTaskLoop.getInstance().post(new Runnable() {
                         @Override
                         public void run() {
-                            MicrolocationResponseList microlocationResponseList = gson.fromJson(json, MicrolocationResponseList.class);
+
+                            Type listType = new TypeToken<List<Microlocation>>(){}.getType();
+                            List<Microlocation> microlocations = gson.fromJson(json, listType);
                             ArrayList<String> queries = new ArrayList<String>();
-                            for (Microlocation current : microlocationResponseList.microlocations) {
+                            for (Microlocation current : microlocations) {
                                 queries.add(current.generateSql());
                             }
                             DbSingleton.getInstance().insertQueries(queries);
@@ -725,7 +709,7 @@ public class MainActivity extends BaseActivity {
     public void downloadFromAssets() {
         //TODO: Add and Take counter value from to config.json
         sharedPreferences.edit().putBoolean(ConstantStrings.DATABASE_RECORDS_EXIST, true).apply();
-        counter = 7;
+        counter = 6;
         readJsonAsset(Urls.EVENT);
         readJsonAsset(Urls.TRACKS);
         readJsonAsset(Urls.SPEAKERS);

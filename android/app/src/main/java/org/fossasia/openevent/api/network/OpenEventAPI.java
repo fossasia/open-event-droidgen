@@ -1,6 +1,5 @@
 package org.fossasia.openevent.api.network;
 
-import org.fossasia.openevent.api.protocol.EventDatesResponseList;
 import org.fossasia.openevent.data.Event;
 import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.data.Session;
@@ -37,8 +36,5 @@ public interface OpenEventAPI {
 
     @GET("tracks")
     Call<List<Track>> getTracks();
-
-    @GET("eventDates.json")
-    Call<EventDatesResponseList> getDates();
 
 }

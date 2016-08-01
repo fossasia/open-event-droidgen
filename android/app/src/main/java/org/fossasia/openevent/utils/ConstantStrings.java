@@ -43,7 +43,7 @@ public class ConstantStrings {
 
     public static final String Sponsors = "sponsors";
 
-    public static final String Events = "events";
+    public static final String Event = "event";
 
     public static final String DATABASE_RECORDS_EXIST = "database_records_exist" ;
 
