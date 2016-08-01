@@ -37,8 +37,8 @@ public class DatabaseTest extends AndroidTestCase {
         ArrayList<String> queries;
         queries = new ArrayList<>();
         db = new DbHelper(context, DbContract.DATABASE_NAME);
-        Event event = new Event(4, "foss", "a@b.com", "img.png", "2015-06-05T12:00:00",
-                "2015-06-06T12:00:00", 23.7f, 45.60f, "moscone centre", "www.event2.com");
+        Event event = new Event(4, "FOSSASIA", "a@b.com", "http://2016.fossasia.org/img/fossasia-dark.png",
+                "2016-03-18T00:00:00", "2016-03-22T00:00:00", 1.346f, 103.686f, "Singapore", "http://2016.fossasia.org");
         String eventQuery = event.generateSql();
         Timber.tag("Event").d(eventQuery);
         queries.add(eventQuery);
@@ -111,7 +111,6 @@ public class DatabaseTest extends AndroidTestCase {
         DbSingleton dbSingleton = DbSingleton.getInstance();
 
         assertNotNull(dbSingleton.getTrackList());
-        Timber.tag("TEST TRACKS").d(dbSingleton.getTrackList().size() + " ");
         assertTrue(dbSingleton.getTrackList().size() > 0);
     }
 

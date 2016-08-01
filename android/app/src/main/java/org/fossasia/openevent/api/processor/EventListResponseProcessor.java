@@ -36,9 +36,6 @@ public class EventListResponseProcessor implements Callback<Event> {
                     Event event = response.body();
                     String event_query = event.generateSql();
 
-                    Timber.d(event_query);
-
-                    dbSingleton.insertQuery(event_query);
                     Version version = response.body().getVersion();
                     counterRequests = 0;
 
@@ -56,9 +53,8 @@ public class EventListResponseProcessor implements Callback<Event> {
                         } else {
                             DataDownloadManager download = DataDownloadManager.getInstance();
                             if (dbSingleton.getVersionIds().getEventVer() != version.getEventVer()) {
-                                download.downloadEvents();
+                                dbSingleton.insertQuery(event_query);
                                 Timber.d("Downloading Event");
-                                counterRequests++;
                             }
                             if (dbSingleton.getVersionIds().getSpeakerVer() != version.getSpeakerVer()) {
                                 download.downloadSpeakers();

@@ -98,7 +98,7 @@ public class DatabaseOperations {
         //Should return only one due to UNIQUE constraint
         try {
             int microlocationId = cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.MICROLOCATION));
-            Microlocation microlocation = new Microlocation(id, getMicroLocationById(id, mDb).getName());
+            Microlocation microlocation = new Microlocation(microlocationId, getMicroLocationById(microlocationId, mDb).getName());
 
             session = new Session(
                     cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.ID)),
@@ -132,8 +132,12 @@ public class DatabaseOperations {
                 null,
                 null
         );
+        Timber.tag("MICRO").d(cursor.getCount()+"");
+
         org.fossasia.openevent.data.Microlocation location = null;
-        if (cursor.moveToFirst()) {
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+
             //Should return only one due to UNIQUE constraint
             location = new org.fossasia.openevent.data.Microlocation(
                     cursor.getInt(cursor.getColumnIndex(DbContract.Microlocation.ID)),
@@ -142,6 +146,7 @@ public class DatabaseOperations {
                     cursor.getFloat(cursor.getColumnIndex(DbContract.Microlocation.LONGITUDE)),
                     cursor.getInt(cursor.getColumnIndex(DbContract.Microlocation.FLOOR))
             );
+            cursor.moveToNext();
         }
         cursor.close();
 
@@ -443,7 +448,7 @@ public class DatabaseOperations {
             db.beginTransaction();
             for (String query : queries) {
                 db.execSQL(query);
-                Timber.d(query);
+//                Timber.d(query);
             }
             db.setTransactionSuccessful();
             db.endTransaction();
@@ -620,6 +625,7 @@ public class DatabaseOperations {
                 null
         );
 
+        Timber.tag("Event").d(cursor.getCount()+"");
         if (cursor != null && cursor.moveToFirst()) {
             event = new Event(
                     cursor.getInt(cursor.getColumnIndex(DbContract.Event.ID)),
@@ -917,7 +923,7 @@ public class DatabaseOperations {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         db.beginTransaction();
         db.execSQL(query);
-
+        Timber.d(query);
         db.setTransactionSuccessful();
         db.endTransaction();
     }

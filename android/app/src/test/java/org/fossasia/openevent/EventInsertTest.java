@@ -10,8 +10,8 @@ import org.fossasia.openevent.data.Event;
 import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.dbutils.DbHelper;
 import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.utils.readJson;
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,9 +19,6 @@ import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -49,33 +46,30 @@ public class EventInsertTest {
     }
 
     @Test
-    public void testEventDbInsertionHttp() throws JSONException {
+    public void testEventDbInsertion() throws JSONException {
 
         Gson gson = new Gson();
-        try {
-            JSONObject json = new JSONObject(Urls.EVENT);
 
-            Event event = gson.fromJson(String.valueOf(json), Event.class);
+        Event event = gson.fromJson(readJson.readJsonAsset(Urls.EVENT, mActivity), Event.class);
 
-            String query = event.generateSql();
-            DbSingleton instance = new DbSingleton(mActivity);
-            instance.clearTable(DbContract.Event.TABLE_NAME);
-            instance.insertQuery(query);
+        String query = event.generateSql();
+        DbSingleton instance = new DbSingleton(mActivity);
+        instance.clearTable(DbContract.Event.TABLE_NAME);
+        instance.insertQuery(query);
 
-            Event eventDetails = instance.getEventDetails();
-            assertNotNull(eventDetails);
-            assertEquals(event.getEmail(), eventDetails.getEmail());
-            assertEquals(event.getLogo(), eventDetails.getLogo());
-            assertEquals(event.getStart(), eventDetails.getStart());
-            assertEquals(event.getEnd(), eventDetails.getEnd());
-            assertEquals(event.getLocationName(), eventDetails.getLocationName());
-            assertEquals(event.getUrl(), eventDetails.getUrl());
-            assertEquals(event.getId(), eventDetails.getId());
-            assertEquals(event.getLatitude(), eventDetails.getLatitude(), 0.001);
-            assertEquals(event.getLongitude(), eventDetails.getLongitude(), 0.001);
+        Event eventDetails = instance.getEventDetails();
+        assertNotNull(eventDetails);
+        assertEquals(event.getEmail(), eventDetails.getEmail());
+        assertEquals(event.getLogo(), eventDetails.getLogo());
+        assertEquals(event.getStart(), eventDetails.getStart());
+        assertEquals(event.getEnd(), eventDetails.getEnd());
+        assertEquals(event.getLocationName(), eventDetails.getLocationName());
+        assertEquals(event.getUrl(), eventDetails.getUrl());
+        assertEquals(event.getId(), eventDetails.getId());
+        assertEquals(event.getLatitude(), eventDetails.getLatitude(), 0.001);
+        assertEquals(event.getLongitude(), eventDetails.getLongitude(), 0.001);
 
-        } catch (JSONException e) {
-        }
+
     }
 
     @After
@@ -84,25 +78,5 @@ public class EventInsertTest {
         db.close();
     }
 
-    public String readJsonAsset(final String name) {
-        String json = null;
-
-        try {
-            InputStream inputStream = mActivity.getAssets().open(name + ".json");
-            int size = inputStream.available();
-            byte[] buffer = new byte[size];
-            inputStream.read(buffer);
-            inputStream.close();
-            json = new String(buffer, "UTF-8");
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-
-
-        }
-
-        return json;
-    }
 
 }
