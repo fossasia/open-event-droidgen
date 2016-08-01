@@ -27,7 +27,7 @@
         ], 
         "start_time": "2016-03-18T01:30:00", 
         "state": "pending", 
-        "subtitle": null, 
+        "subtitle": "subtitle",
         "timezone": "UTC", 
         "title": "Grand Opening", 
         "track": {

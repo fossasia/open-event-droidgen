@@ -20,7 +20,6 @@ public class Event {
 
     String email;
 
-
     String logo;
 
     @SerializedName("start_time")

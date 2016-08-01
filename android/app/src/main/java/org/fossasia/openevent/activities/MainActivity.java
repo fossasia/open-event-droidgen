@@ -597,87 +597,100 @@ public class MainActivity extends BaseActivity {
             @Override
             public void run() {
                 final Gson gson = new Gson();
-                if (name.equals(ConstantStrings.Event)) {
-                    CommonTaskLoop.getInstance().post(new Runnable() {
-                        @Override
-                        public void run() {
-                            Event event = gson.fromJson(json, Event.class);
-                            DbSingleton.getInstance().insertQuery(event.generateSql());
-                            OpenEventApp.postEventOnUIThread(new EventDownloadEvent(true));
-                        }
-                    });
-                } else if (name.equals(ConstantStrings.Tracks)) {
-                    CommonTaskLoop.getInstance().post(new Runnable() {
-                        @Override
-                        public void run() {
-                            Type listType = new TypeToken<List<Track>>(){}.getType();
-                            List<Track> tracks = gson.fromJson(json, listType);
-                            ArrayList<String> queries = new ArrayList<String>();
-                            for (Track current : tracks) {
-                                queries.add(current.generateSql());
+                switch (name) {
+                    case ConstantStrings.Event:
+                        CommonTaskLoop.getInstance().post(new Runnable() {
+                            @Override
+                            public void run() {
+                                Event event = gson.fromJson(json, Event.class);
+                                DbSingleton.getInstance().insertQuery(event.generateSql());
+                                OpenEventApp.postEventOnUIThread(new EventDownloadEvent(true));
                             }
-                            DbSingleton.getInstance().insertQueries(queries);
-                            OpenEventApp.postEventOnUIThread(new TracksDownloadEvent(true));
+                        });
+                        break;
+                    case ConstantStrings.Tracks:
+                        CommonTaskLoop.getInstance().post(new Runnable() {
+                            @Override
+                            public void run() {
+                                Type listType = new TypeToken<List<Track>>() {
+                                }.getType();
+                                List<Track> tracks = gson.fromJson(json, listType);
+                                ArrayList<String> queries = new ArrayList<String>();
+                                for (Track current : tracks) {
+                                    queries.add(current.generateSql());
+                                }
+                                DbSingleton.getInstance().insertQueries(queries);
+                                OpenEventApp.postEventOnUIThread(new TracksDownloadEvent(true));
+                            }
+                        });
+                        break;
+                    case ConstantStrings.Sessions: {
+                        Type listType = new TypeToken<List<Session>>() {
+                        }.getType();
+                        List<Session> sessions = gson.fromJson(json, listType);
+                        ArrayList<String> queries = new ArrayList<>();
+                        for (Session current : sessions) {
+                            current.setStartDate(current.getStartTime().split("T")[0]);
+                            queries.add(current.generateSql());
                         }
-                    });
-                } else if (name.equals(ConstantStrings.Sessions)) {
-                    Type listType = new TypeToken<List<Session>>(){}.getType();
-                    List<Session> sessions = gson.fromJson(json, listType);
+                        DbSingleton.getInstance().insertQueries(queries);
+                        OpenEventApp.postEventOnUIThread(new SessionDownloadEvent(true));
 
-                    ArrayList<String> queries = new ArrayList<String>();
-                    for (Session current : sessions) {
-                        current.setStartDate(current.getStartTime().split("T")[0]);
-                        queries.add(current.generateSql());
+                        break;
                     }
-                    DbSingleton.getInstance().insertQueries(queries);
-                    OpenEventApp.postEventOnUIThread(new SessionDownloadEvent(true));
+                    case ConstantStrings.Speakers: {
+                        Type listType = new TypeToken<List<Speaker>>() {
+                        }.getType();
+                        List<Speaker> speakers = gson.fromJson(json, listType);
 
-                } else if (name.equals(ConstantStrings.Speakers)) {
-                    Type listType = new TypeToken<List<Speaker>>(){}.getType();
-                    List<Speaker> speakers = gson.fromJson(json, listType);
+                        ArrayList<String> queries = new ArrayList<String>();
+                        for (Speaker current : speakers) {
+                            for (int i = 0; i < current.getSession().size(); i++) {
+                                SessionSpeakersMapping sessionSpeakersMapping = new SessionSpeakersMapping(current.getSession().get(i).getId(), current.getId());
+                                String query_ss = sessionSpeakersMapping.generateSql();
+                                queries.add(query_ss);
+                            }
 
-                    ArrayList<String> queries = new ArrayList<String>();
-                    for (Speaker current : speakers) {
-                        for (int i = 0; i < current.getSession().size(); i++) {
-                            SessionSpeakersMapping sessionSpeakersMapping = new SessionSpeakersMapping(current.getSession().get(i).getId(), current.getId());
-                            String query_ss = sessionSpeakersMapping.generateSql();
-                            queries.add(query_ss);
+                            queries.add(current.generateSql());
                         }
+                        DbSingleton.getInstance().insertQueries(queries);
+                        OpenEventApp.postEventOnUIThread(new SpeakerDownloadEvent(true));
 
-                        queries.add(current.generateSql());
+                        break;
                     }
-                    DbSingleton.getInstance().insertQueries(queries);
-                    OpenEventApp.postEventOnUIThread(new SpeakerDownloadEvent(true));
-
-                } else if (name.equals(ConstantStrings.Sponsors)) {
-                    CommonTaskLoop.getInstance().post(new Runnable() {
-                        @Override
-                        public void run() {
-                            Type listType = new TypeToken<List<Sponsor>>(){}.getType();
-                            List<Sponsor> sponsors = gson.fromJson(json, listType);
-                            ArrayList<String> queries = new ArrayList<String>();
-                            for (Sponsor current : sponsors) {
-                                queries.add(current.generateSql());
+                    case ConstantStrings.Sponsors:
+                        CommonTaskLoop.getInstance().post(new Runnable() {
+                            @Override
+                            public void run() {
+                                Type listType = new TypeToken<List<Sponsor>>() {
+                                }.getType();
+                                List<Sponsor> sponsors = gson.fromJson(json, listType);
+                                ArrayList<String> queries = new ArrayList<String>();
+                                for (Sponsor current : sponsors) {
+                                    queries.add(current.generateSql());
+                                }
+                                DbSingleton.getInstance().insertQueries(queries);
+                                OpenEventApp.postEventOnUIThread(new SponsorDownloadEvent(true));
                             }
-                            DbSingleton.getInstance().insertQueries(queries);
-                            OpenEventApp.postEventOnUIThread(new SponsorDownloadEvent(true));
-                        }
-                    });
-                } else if (name.equals(ConstantStrings.Microlocations)) {
-                    CommonTaskLoop.getInstance().post(new Runnable() {
-                        @Override
-                        public void run() {
+                        });
+                        break;
+                    case ConstantStrings.Microlocations:
+                        CommonTaskLoop.getInstance().post(new Runnable() {
+                            @Override
+                            public void run() {
 
-                            Type listType = new TypeToken<List<Microlocation>>(){}.getType();
-                            List<Microlocation> microlocations = gson.fromJson(json, listType);
-                            ArrayList<String> queries = new ArrayList<String>();
-                            for (Microlocation current : microlocations) {
-                                queries.add(current.generateSql());
+                                Type listType = new TypeToken<List<Microlocation>>() {
+                                }.getType();
+                                List<Microlocation> microlocations = gson.fromJson(json, listType);
+                                ArrayList<String> queries = new ArrayList<String>();
+                                for (Microlocation current : microlocations) {
+                                    queries.add(current.generateSql());
+                                }
+                                DbSingleton.getInstance().insertQueries(queries);
+                                OpenEventApp.postEventOnUIThread(new MicrolocationDownloadEvent(true));
                             }
-                            DbSingleton.getInstance().insertQueries(queries);
-                            OpenEventApp.postEventOnUIThread(new MicrolocationDownloadEvent(true));
-                        }
-                    });
+                        });
+                        break;
                 }
             }
         });

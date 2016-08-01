@@ -2,18 +2,17 @@ package org.fossasia.openevent;
 
 import android.app.Activity;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
-import org.fossasia.openevent.api.Urls;
-import org.fossasia.openevent.data.Session;
+import org.fossasia.openevent.data.Sponsor;
 import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.dbutils.DbHelper;
 import org.fossasia.openevent.dbutils.DbSingleton;
-import org.json.JSONArray;
+import org.fossasia.openevent.utils.ConstantStrings;
+import org.fossasia.openevent.utils.readJson;
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,12 +21,8 @@ import org.robolectric.Robolectric;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.lang.reflect.Type;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -56,72 +51,26 @@ public class SponsorInsertTest {
     }
 
     @Test
-    public void testSessionDbInsertionHttp() throws JSONException {
+    public void testSponsorDbInsertion() throws JSONException {
 
-        HttpURLConnection urlConnection = null;
-        BufferedReader reader = null;
-        String jsonStr = null;
-
-        try {
-            final String BASE_URL = Urls.BASE_GET_URL_ALT + "event/" + Urls.EVENT_ID + "/" + Urls.SESSIONS;
-
-            Uri builtUri = Uri.parse(BASE_URL).buildUpon().build();
-            URL url = new URL(builtUri.toString());
-            urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setRequestMethod("GET");
-            urlConnection.connect();
-            InputStream inputStream = urlConnection.getInputStream();
-            StringBuffer buffer = new StringBuffer();
-            if (inputStream == null) {
-                return;
-            }
-            reader = new BufferedReader(new InputStreamReader(inputStream));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                buffer.append(line + "\n");
-            }
-            if (buffer.length() == 0) {
-                return;
-            }
-            jsonStr = buffer.toString();
-        } catch (IOException e) {
-            return;
-        } finally {
-            if (urlConnection != null) {
-                urlConnection.disconnect();
-            }
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (final IOException e) {
-                }
-            }
-        }
         Gson gson = new Gson();
-        try {
-            JSONObject json = new JSONObject(jsonStr);
-            JSONArray eventJsonArray = json.getJSONArray(Urls.SESSIONS);
-            if (eventJsonArray.length() > 0) {
+        Type listType = new TypeToken<List<Sponsor>>() {
+        }.getType();
+        List<Sponsor> sponsors = gson.fromJson(readJson.readJsonAsset(ConstantStrings.Sponsors, mActivity), listType);
+        if (sponsors.size() > 0) {
 
-                JSONObject eventJsonObject = eventJsonArray.getJSONObject(0);
-                Session session = gson.fromJson(String.valueOf(eventJsonObject), Session.class);
+            Sponsor sponsor = sponsors.get(0);
 
-                String query = session.generateSql();
-                DbSingleton instance = new DbSingleton(mActivity);
-                instance.clearTable(DbContract.Sessions.TABLE_NAME);
-                instance.insertQuery(query);
+            String query = sponsor.generateSql();
+            DbSingleton instance = new DbSingleton(mActivity);
+            instance.clearTable(DbContract.Sponsors.TABLE_NAME);
+            instance.insertQuery(query);
 
-                Session sessionDetails = instance.getSessionById(session.getId());
-                assertNotNull(sessionDetails);
-                assertEquals(session.getDescription(), sessionDetails.getDescription());
-                assertEquals(session.getSummary(), sessionDetails.getSummary());
-                assertEquals(session.getStartTime(), sessionDetails.getStartTime());
-                assertEquals(session.getEndTime(), sessionDetails.getEndTime());
-                assertEquals(session.getMicrolocation(), sessionDetails.getMicrolocation());
-                assertEquals(session.getTitle(), sessionDetails.getTitle());
-                assertEquals(session.getTrack(), sessionDetails.getTrack());
-            }
-        } catch (JSONException e) {
+            Sponsor firstSponsor = instance.getSponsorList().get(0);
+            assertNotNull(firstSponsor);
+            assertEquals(sponsor.getId(), firstSponsor.getId());
+            assertEquals(sponsor.getName(), firstSponsor.getName());
+            assertEquals(sponsor.getUrl(), firstSponsor.getUrl());
         }
     }
 

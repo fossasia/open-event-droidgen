@@ -55,7 +55,7 @@ public class MicrolocationInsertTest {
     }
 
     @Test
-    public void testSpeakerDbInsertionHttp() throws JSONException {
+    public void testSpeakerDbInsertion() throws JSONException {
 
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
