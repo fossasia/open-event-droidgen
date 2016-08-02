@@ -10,15 +10,29 @@
 
 Open Event Android consists of 2 main parts : <br>
 
-1. [App Generator](https://github.com/fossasia/open-event-android/blob/master/docs/ApkGenerator.md) hosted on a server
-2. [Android client](https://github.com/fossasia/open-event-android/blob/master/docs/AndroidApp.md) that is can be installed on any Android device for browsing any event
+1. [App Generator](https://github.com/the-dagger/open-event-android/tree/docs/apk-generator) hosted on [DigitalOcean](https://www.digitalocean.com/).
+2. [Android client](https://github.com/the-dagger/open-event-android/tree/docs/android) that is can be installed on any Android device for browsing any event
 
-Follow the HyperLinks above for documentation on how to setup the server and android app.
+##Using the App Generator
+The app generator can be accessed in 2 ways,
 
-###Video Walkthrough
+###[Via the App Genrator Web-Page](http://192.241.232.231/)
+Runs on an APACHE server hosted on DigitalOcean.
+
+###[Via POST API](http://192.241.232.231/api/api.php)
+The POST API takes input in form of a JSON and then creates and emails you the app.<br>
+
+Sending a POST Request <br>
+
+You can use [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop?hl=en) for Chrome or [RESTClient](https://addons.mozilla.org/de/firefox/addon/restclient/) for Firefox for making API calls easily.
+
+Input to the API should be of the following format <br>
+```{ "email": "example@example.com", "app_name": "Name", "endpoint": "http://valid-endpoint.com/" } ```
+
+##Video Walkthrough
 [![FOSSASIA](https://img.youtube.com/vi/n5G4yw3t--U/0.jpg)](https://www.youtube.com/watch?v=n5G4yw3t--U)
 
-### Screenshots  
+## Screenshots  
 ![alt-tag](android/screenshots/ss2.PNG)
 
 ![alt-tag](android/screenshots/ss1.PNG)
@@ -29,7 +43,7 @@ Follow the HyperLinks above for documentation on how to setup the server and and
 
 ## Documentation
 
-You can find the apk generator docs [here](docs/AndroidApp.md) and the android app docs [here](docs/ApkGenerator.md)
+You can find the apk generator docs [here](docs/ApkGenerator.md) and the android app docs [here](docs/AndroidApp.md)
 
 ## Branches and Contribution policy
 We have the following branches   
