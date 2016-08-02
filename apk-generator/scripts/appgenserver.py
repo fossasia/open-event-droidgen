@@ -47,14 +47,12 @@ if not os.path.exists(directory):
     os.makedirs(directory)
 
 subprocess.call(['/var/www/html/clone.sh', directory])
-# subprocess.call(['/var/www/html/setPerm.sh', directory])
 with open(directory+"/open-event-android/android/app/src/main/assets/config.json", "wb") as fo:
     fo.write(jsonData)
 
 absDirectory = directory + "/open-event-android/android/"
-# subprocess.call(['./setPerm.sh', directory])
 replace(directory+"/open-event-android/android/app/build.gradle", '"org.fossasia.openevent"', '"org.fossasia.openevent.'+app_name.split()[0]+'"')
-replace(directory+"/open-event-android/android/app/src/main/res/values/strings.xml", 'OpenEvent', app_name.split()[0])
+replace(directory+"/open-event-android/android/app/src/main/res/values/strings.xml", 'OpenEvent', app_name)
 
 #TODO: Add zip path
 zip_ref = zipfile.ZipFile(path_to_zip_file, 'r')
