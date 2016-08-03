@@ -10,8 +10,8 @@
 
 Open Event Android consists of 2 main parts : <br>
 
-1. [App Generator](https://github.com/the-dagger/open-event-android/tree/docs/apk-generator) hosted on [DigitalOcean](https://www.digitalocean.com/).
-2. [Android client](https://github.com/the-dagger/open-event-android/tree/docs/android) that is can be installed on any Android device for browsing any event
+1. [App Generator](https://github.com/fossasia/open-event-android/tree/development/apk-generator) hosted on [DigitalOcean](https://www.digitalocean.com/).
+2. [Android client](https://github.com/fossasia/open-event-android/tree/development/android) that is can be installed on any Android device for browsing any event
 
 ##Using the App Generator
 The app generator can be accessed in 2 ways,
