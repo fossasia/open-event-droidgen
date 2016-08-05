@@ -27,7 +27,9 @@ Sending a POST Request <br>
 You can use [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop?hl=en) for Chrome or [RESTClient](https://addons.mozilla.org/de/firefox/addon/restclient/) for Firefox for making API calls easily.
 
 Input to the API should be of the following format <br>
-```{ "email": "example@example.com", "app_name": "Name", "endpoint": "http://valid-endpoint.com/" } ```
+```{ "email": "example@example.com", "app_name": "Name", "endpoint": "http://valid-endpoint.com/" } ```<br>
+
+After taking the request through the POST API, the app will be generated and emailed to the email address provided in the request body.
 
 ##Video Walkthrough
 [![FOSSASIA](https://img.youtube.com/vi/n5G4yw3t--U/0.jpg)](https://www.youtube.com/watch?v=n5G4yw3t--U)
