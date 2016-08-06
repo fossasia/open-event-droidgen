@@ -81,6 +81,23 @@ For the API part, we are not using Firebase for sending data to the server, inst
 Digging deeper in the code of `api.php`, first we check for a valid request (GET/POST) and throw an error if it is invalid.<br>
 Next up, for a valid request we store the body into a variable and then execute a followup script as per our needs using data from this response.
 
+Generating the app
+======
+###[Via the App Genrator Web-Page](http://192.241.232.231/)
+Runs on an APACHE server hosted on DigitalOcean.
+
+###[Via POST API](http://192.241.232.231/api/api.php)
+The POST API takes input in form of a JSON and then creates and emails you the app.<br>
+
+Sending a POST Request <br>
+
+You can use [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop?hl=en) for Chrome or [RESTClient](https://addons.mozilla.org/de/firefox/addon/restclient/) for Firefox for making API calls easily.
+
+Input to the API should be of the following format <br>
+```{ "email": "example@example.com", "app_name": "Name", "endpoint": "http://valid-endpoint.com/" } ```<br>
+
+After taking the request through the POST API, the app will be generated and emailed to the email address provided in the request body.
+
 Screenshots
 ======
 
