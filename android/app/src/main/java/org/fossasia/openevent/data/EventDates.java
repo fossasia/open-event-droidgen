@@ -23,7 +23,7 @@ public class EventDates {
     }
 
     public String generateSql() {
-        String insertQuery = "INSERT INTO %s VALUES ('%s');";
+        String insertQuery = "INSERT OR IGNORE INTO %s VALUES ('%s');";
         return String.format(Locale.ENGLISH,
                 insertQuery,
                 DbContract.EventDates.TABLE_NAME,
