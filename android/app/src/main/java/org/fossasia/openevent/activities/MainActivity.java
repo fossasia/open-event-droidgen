@@ -35,6 +35,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
@@ -42,15 +43,7 @@ import com.squareup.picasso.Picasso;
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.api.Urls;
-import org.fossasia.openevent.api.protocol.EventDatesResponseList;
-import org.fossasia.openevent.api.protocol.EventResponseList;
-import org.fossasia.openevent.api.protocol.MicrolocationResponseList;
-import org.fossasia.openevent.api.protocol.SessionResponseList;
-import org.fossasia.openevent.api.protocol.SpeakerResponseList;
-import org.fossasia.openevent.api.protocol.SponsorResponseList;
-import org.fossasia.openevent.api.protocol.TrackResponseList;
 import org.fossasia.openevent.data.Event;
-import org.fossasia.openevent.data.EventDates;
 import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.SessionSpeakersMapping;
@@ -88,7 +81,9 @@ import org.fossasia.openevent.widget.DialogFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -447,11 +442,11 @@ public class MainActivity extends BaseActivity {
         builder.show();
     }
 
-    //Subscribe Events
+    //Subscribe Event
     @Subscribe
     public void onCounterReceiver(CounterEvent event) {
         counter = event.getRequestsCount();
-        Timber.tag(COUNTER_TAG).d(counter + "");
+        Timber.tag(COUNTER_TAG).d(counter + " counter" );
         if (counter == 0) {
             syncComplete();
         }
@@ -461,7 +456,7 @@ public class MainActivity extends BaseActivity {
     public void onTracksDownloadDone(TracksDownloadEvent event) {
         if (event.isState()) {
             eventsDone++;
-            Timber.tag(COUNTER_TAG).d(eventsDone + " " + counter);
+            Timber.tag(COUNTER_TAG).d(eventsDone + " tracks " + counter);
             if (counter == eventsDone) {
                 syncComplete();
             }
@@ -474,7 +469,7 @@ public class MainActivity extends BaseActivity {
     public void onSponsorsDownloadDone(SponsorDownloadEvent event) {
         if (event.isState()) {
             eventsDone++;
-            Timber.tag(COUNTER_TAG).d(eventsDone + " " + counter);
+            Timber.tag(COUNTER_TAG).d(eventsDone + " sponsors " + counter);
             if (counter == eventsDone) {
                 syncComplete();
             }
@@ -488,7 +483,7 @@ public class MainActivity extends BaseActivity {
     public void onSpeakersDownloadDone(SpeakerDownloadEvent event) {
         if (event.isState()) {
             eventsDone++;
-            Timber.tag(COUNTER_TAG).d(eventsDone + " " + counter);
+            Timber.tag(COUNTER_TAG).d(eventsDone + " speakers " + counter);
             if (counter == eventsDone) {
                 syncComplete();
             }
@@ -502,7 +497,7 @@ public class MainActivity extends BaseActivity {
     public void onSessionDownloadDone(SessionDownloadEvent event) {
         if (event.isState()) {
             eventsDone++;
-            Timber.tag(COUNTER_TAG).d(eventsDone + " " + counter);
+            Timber.tag(COUNTER_TAG).d(eventsDone + " session " + counter);
             if (counter == eventsDone) {
                 syncComplete();
             }
@@ -521,7 +516,7 @@ public class MainActivity extends BaseActivity {
     public void onEventsDownloadDone(EventDownloadEvent event) {
         if (event.isState()) {
             eventsDone++;
-            Timber.tag(COUNTER_TAG).d(eventsDone + " " + counter);
+            Timber.tag(COUNTER_TAG).d(eventsDone + " events " + counter);
             if (counter == eventsDone) {
                 syncComplete();
             }
@@ -535,7 +530,7 @@ public class MainActivity extends BaseActivity {
     public void onMicrolocationsDownloadDone(MicrolocationDownloadEvent event) {
         if (event.isState()) {
             eventsDone++;
-            Timber.tag(COUNTER_TAG).d(eventsDone + " " + counter);
+            Timber.tag(COUNTER_TAG).d(eventsDone + " microlocation " + counter);
             if (counter == eventsDone) {
                 syncComplete();
             }
@@ -575,11 +570,12 @@ public class MainActivity extends BaseActivity {
     }
 
     @Subscribe
+
     public void downloadData(DataDownloadEvent event) {
         if (Urls.getBaseUrl().equals(Urls.INVALID_LINK)) {
             showErrorDialog("Invalid Api", "Api link doesn't seem to be valid");
         } else {
-            DataDownloadManager.getInstance().downloadVersions();
+            DataDownloadManager.getInstance().downloadEvents();
         }
         downloadProgress.setVisibility(View.VISIBLE);
         Timber.d("Download has started");
@@ -594,105 +590,107 @@ public class MainActivity extends BaseActivity {
     }
 
     @Subscribe
-    public void handleJsonEvent(JsonReadEvent jsonReadEvent) {
+    public void handleJsonEvent(final JsonReadEvent jsonReadEvent) {
         final String name = jsonReadEvent.getName();
         final String json = jsonReadEvent.getJson();
         CommonTaskLoop.getInstance().post(new Runnable() {
             @Override
             public void run() {
                 final Gson gson = new Gson();
-                if (name.equals(ConstantStrings.Events)) {
-                    CommonTaskLoop.getInstance().post(new Runnable() {
-                        @Override
-                        public void run() {
-                            EventResponseList eventResponseList = gson.fromJson(json, EventResponseList.class);
-                            ArrayList<String> queries = new ArrayList<String>();
-                            for (Event current : eventResponseList.event) {
-                                queries.add(current.generateSql());
+                switch (name) {
+                    case ConstantStrings.Event:
+                        CommonTaskLoop.getInstance().post(new Runnable() {
+                            @Override
+                            public void run() {
+                                Event event = gson.fromJson(json, Event.class);
+                                DbSingleton.getInstance().insertQuery(event.generateSql());
+                                OpenEventApp.postEventOnUIThread(new EventDownloadEvent(true));
                             }
-                            DbSingleton.getInstance().insertQueries(queries);
-                            OpenEventApp.postEventOnUIThread(new EventDownloadEvent(true));
-                        }
-                    });
-                } else if (name.equals(ConstantStrings.Tracks)) {
-                    CommonTaskLoop.getInstance().post(new Runnable() {
-                        @Override
-                        public void run() {
-                            TrackResponseList trackResponseList = gson.fromJson(json, TrackResponseList.class);
-                            ArrayList<String> queries = new ArrayList<String>();
-                            for (Track current : trackResponseList.tracks) {
-                                queries.add(current.generateSql());
+                        });
+                        break;
+                    case ConstantStrings.Tracks:
+                        CommonTaskLoop.getInstance().post(new Runnable() {
+                            @Override
+                            public void run() {
+                                Type listType = new TypeToken<List<Track>>() {
+                                }.getType();
+                                List<Track> tracks = gson.fromJson(json, listType);
+                                ArrayList<String> queries = new ArrayList<String>();
+                                for (Track current : tracks) {
+                                    queries.add(current.generateSql());
+                                }
+                                DbSingleton.getInstance().insertQueries(queries);
+                                OpenEventApp.postEventOnUIThread(new TracksDownloadEvent(true));
                             }
-                            DbSingleton.getInstance().insertQueries(queries);
-                            OpenEventApp.postEventOnUIThread(new TracksDownloadEvent(true));
+                        });
+                        break;
+                    case ConstantStrings.Sessions: {
+                        Type listType = new TypeToken<List<Session>>() {
+                        }.getType();
+                        List<Session> sessions = gson.fromJson(json, listType);
+                        ArrayList<String> queries = new ArrayList<>();
+                        for (Session current : sessions) {
+                            current.setStartDate(current.getStartTime().split("T")[0]);
+                            queries.add(current.generateSql());
                         }
-                    });
-                } else if (name.equals(ConstantStrings.Sessions)) {
+                        DbSingleton.getInstance().insertQueries(queries);
+                        OpenEventApp.postEventOnUIThread(new SessionDownloadEvent(true));
 
-                    SessionResponseList sessionResponseList = gson.fromJson(json, SessionResponseList.class);
-                    ArrayList<String> queries = new ArrayList<String>();
-                    for (Session current : sessionResponseList.sessions) {
-                        current.setStartDate(current.getStartTime().split("T")[0]);
-                        queries.add(current.generateSql());
+                        break;
                     }
-                    DbSingleton.getInstance().insertQueries(queries);
-                    OpenEventApp.postEventOnUIThread(new SessionDownloadEvent(true));
+                    case ConstantStrings.Speakers: {
+                        Type listType = new TypeToken<List<Speaker>>() {
+                        }.getType();
+                        List<Speaker> speakers = gson.fromJson(json, listType);
 
-                } else if (name.equals(ConstantStrings.Speakers)) {
+                        ArrayList<String> queries = new ArrayList<String>();
+                        for (Speaker current : speakers) {
+                            for (int i = 0; i < current.getSession().size(); i++) {
+                                SessionSpeakersMapping sessionSpeakersMapping = new SessionSpeakersMapping(current.getSession().get(i).getId(), current.getId());
+                                String query_ss = sessionSpeakersMapping.generateSql();
+                                queries.add(query_ss);
+                            }
 
-                    SpeakerResponseList speakerResponseList = gson.fromJson(json, SpeakerResponseList.class);
-                    ArrayList<String> queries = new ArrayList<String>();
-                    for (Speaker current : speakerResponseList.speakers) {
-                        for (int i = 0; i < current.getSession().length; i++) {
-                            SessionSpeakersMapping sessionSpeakersMapping = new SessionSpeakersMapping(current.getSession()[i], current.getId());
-                            String query_ss = sessionSpeakersMapping.generateSql();
-                            queries.add(query_ss);
+                            queries.add(current.generateSql());
                         }
+                        DbSingleton.getInstance().insertQueries(queries);
+                        OpenEventApp.postEventOnUIThread(new SpeakerDownloadEvent(true));
 
-                        queries.add(current.generateSql());
+                        break;
                     }
-                    DbSingleton.getInstance().insertQueries(queries);
-                    OpenEventApp.postEventOnUIThread(new SpeakerDownloadEvent(true));
+                    case ConstantStrings.Sponsors:
+                        CommonTaskLoop.getInstance().post(new Runnable() {
+                            @Override
+                            public void run() {
+                                Type listType = new TypeToken<List<Sponsor>>() {
+                                }.getType();
+                                List<Sponsor> sponsors = gson.fromJson(json, listType);
+                                ArrayList<String> queries = new ArrayList<String>();
+                                for (Sponsor current : sponsors) {
+                                    queries.add(current.generateSql());
+                                }
+                                DbSingleton.getInstance().insertQueries(queries);
+                                OpenEventApp.postEventOnUIThread(new SponsorDownloadEvent(true));
+                            }
+                        });
+                        break;
+                    case ConstantStrings.Microlocations:
+                        CommonTaskLoop.getInstance().post(new Runnable() {
+                            @Override
+                            public void run() {
 
-                } else if (name.equals(ConstantStrings.EventDates)) {
-                    CommonTaskLoop.getInstance().post(new Runnable() {
-                        @Override
-                        public void run() {
-                            EventDatesResponseList eventDatesResponseList = gson.fromJson(json, EventDatesResponseList.class);
-                            ArrayList<String> queries = new ArrayList<String>();
-                            for (EventDates current : eventDatesResponseList.event) {
-                                queries.add(current.generateSql());
+                                Type listType = new TypeToken<List<Microlocation>>() {
+                                }.getType();
+                                List<Microlocation> microlocations = gson.fromJson(json, listType);
+                                ArrayList<String> queries = new ArrayList<String>();
+                                for (Microlocation current : microlocations) {
+                                    queries.add(current.generateSql());
+                                }
+                                DbSingleton.getInstance().insertQueries(queries);
+                                OpenEventApp.postEventOnUIThread(new MicrolocationDownloadEvent(true));
                             }
-                            DbSingleton.getInstance().insertQueries(queries);
-                            OpenEventApp.postEventOnUIThread(new EventDatesDownloadEvent(true));
-                        }
-                    });
-                } else if (name.equals(ConstantStrings.Sponsors)) {
-                    CommonTaskLoop.getInstance().post(new Runnable() {
-                        @Override
-                        public void run() {
-                            SponsorResponseList sponsorResponseList = gson.fromJson(json, SponsorResponseList.class);
-                            ArrayList<String> queries = new ArrayList<String>();
-                            for (Sponsor current : sponsorResponseList.sponsors) {
-                                queries.add(current.generateSql());
-                            }
-                            DbSingleton.getInstance().insertQueries(queries);
-                            OpenEventApp.postEventOnUIThread(new SponsorDownloadEvent(true));
-                        }
-                    });
-                } else if (name.equals(ConstantStrings.Microlocations)) {
-                    CommonTaskLoop.getInstance().post(new Runnable() {
-                        @Override
-                        public void run() {
-                            MicrolocationResponseList microlocationResponseList = gson.fromJson(json, MicrolocationResponseList.class);
-                            ArrayList<String> queries = new ArrayList<String>();
-                            for (Microlocation current : microlocationResponseList.microlocations) {
-                                queries.add(current.generateSql());
-                            }
-                            DbSingleton.getInstance().insertQueries(queries);
-                            OpenEventApp.postEventOnUIThread(new MicrolocationDownloadEvent(true));
-                        }
-                    });
+                        });
+                        break;
                 }
             }
         });
@@ -724,14 +722,13 @@ public class MainActivity extends BaseActivity {
     public void downloadFromAssets() {
         //TODO: Add and Take counter value from to config.json
         sharedPreferences.edit().putBoolean(ConstantStrings.DATABASE_RECORDS_EXIST, true).apply();
-        counter = 7;
-        readJsonAsset("events");
-        readJsonAsset("tracks");
-        readJsonAsset("speakers");
-        readJsonAsset("eventDates");
-        readJsonAsset("sessions");
-        readJsonAsset("sponsors");
-        readJsonAsset("microlocations");
+        counter = 6;
+        readJsonAsset(Urls.EVENT);
+        readJsonAsset(Urls.TRACKS);
+        readJsonAsset(Urls.SPEAKERS);
+        readJsonAsset(Urls.SESSIONS);
+        readJsonAsset(Urls.SPONSORS);
+        readJsonAsset(Urls.MICROLOCATIONS);
 
     }
 

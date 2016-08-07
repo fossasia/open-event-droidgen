@@ -35,7 +35,6 @@ public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, ViewHolder.Viewh
         View view = layoutInflater.inflate(R.layout.item_sponsor, parent, false);
         ViewHolder.Viewholder viewholder = new ViewHolder.Viewholder(view);
         viewholder.setImgView1((ImageView) view.findViewById(R.id.sponsor_image));
-
         return viewholder;
     }
 
@@ -60,4 +59,3 @@ public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, ViewHolder.Viewh
 
     }
 }
-

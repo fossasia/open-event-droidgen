@@ -1,0 +1,91 @@
+{
+    "background_url": null, 
+    "call_for_papers": {
+        "announcement": "<p>Wanna speak at our prestigious event. Send us a proposal</p>",
+        "end_date": "2016-03-16T20:30:00",
+        "privacy": "public",
+        "start_date": "2016-03-10T19:30:00",
+        "timezone": "UTC"
+    },
+    "closing_datetime": "2016-03-21T00:00:00", 
+    "code_of_conduct": "", 
+    "copyright": {
+        "holder": null, 
+        "holder_url": null, 
+        "licence": null, 
+        "licence_url": null, 
+        "logo": null, 
+        "year": null
+    }, 
+    "creator": {
+        "email": "s@g.com", 
+        "id": 1
+    }, 
+    "description": "FOSSASIA is the premier Free and Open Source technology event in Asia for developers, start-ups, and contributors. Projects at FOSSASIA range from open hardware, to design, graphics and software. FOSSASIA was established in 2009. Previous events took place in Cambodia and Vietnam.", 
+    "email": "contact@fossasia.org", 
+    "end_time": "2016-03-22T00:00:00", 
+    "event_url": "http://2016.fossasia.org/", 
+    "id": 1, 
+    "latitude": 1.346, 
+    "location_name": "Singapore", 
+    "logo": "http://2016.fossasia.org/img/fossasia-dark.png", 
+    "longitude": 103.686, 
+    "name": "FOSSASIA 2016", 
+    "organizer_description": "The Internet of Things for Me at Asia's Premier Open Technology Event", 
+    "organizer_name": "FOSSASIA", 
+    "privacy": "public", 
+    "schedule_published_on": "2016-03-18T00:00:00", 
+    "searchable_location_name": null, 
+    "social_links": [
+        {
+            "id": 1, 
+            "link": "https://twitter.com/fossasia", 
+            "name": "Twitter"
+        }, 
+        {
+            "id": 2, 
+            "link": "https://github.com/fossasia", 
+            "name": "Github"
+        }, 
+        {
+            "id": 3, 
+            "link": "https://www.facebook.com/fossasia", 
+            "name": "Facebook"
+        }, 
+        {
+            "id": 4, 
+            "link": "https://www.flickr.com/photos/fossasia", 
+            "name": "Flickr"
+        }, 
+        {
+            "id": 5, 
+            "link": "https://plus.google.com/108920596016838318216", 
+            "name": "Google Plus"
+        }, 
+        {
+            "id": 6, 
+            "link": "https://www.youtube.com/channel/UCQprMsG-raCIMlBudm20iLQ", 
+            "name": "YouTube"
+        }, 
+        {
+            "id": 7, 
+            "link": "https://www.linkedin.com/groups/FOSSASIA-3762811", 
+            "name": "Linkedin"
+        }
+    ], 
+    "start_time": "2016-03-18T00:00:00", 
+    "state": "Completed", 
+    "sub_topic": null, 
+    "ticket_url": null, 
+    "timezone": "UTC", 
+    "topic": "Science & Technology", 
+    "type": "Conference", 
+    "version": {
+        "event_ver": 1, 
+        "microlocations_ver": 2, 
+        "sessions_ver": 3, 
+        "speakers_ver": 2, 
+        "sponsors_ver": 3, 
+        "tracks_ver": 4
+    }
+}
