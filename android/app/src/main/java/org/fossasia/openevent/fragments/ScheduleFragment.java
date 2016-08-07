@@ -37,6 +37,11 @@ public class ScheduleFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
     private void setupViewPager(ViewPager viewPager) {
         ScheduleViewPagerAdapter adapter = new ScheduleViewPagerAdapter(getFragmentManager());
         DbSingleton dbSingleton = DbSingleton.getInstance();
