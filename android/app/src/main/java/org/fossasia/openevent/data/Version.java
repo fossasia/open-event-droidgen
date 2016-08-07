@@ -92,7 +92,6 @@ public class Version {
 
     public String generateSql() {
         String query_normal = "INSERT INTO %s VALUES ('%d', '%d', '%d', '%d', '%d', '%d');";
-        Timber.d(query_normal);
         String query = String.format(Locale.ENGLISH,
                 query_normal,
                 DbContract.Versions.TABLE_NAME,

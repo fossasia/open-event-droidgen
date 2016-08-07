@@ -10,8 +10,8 @@ import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Sponsor;
-import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.data.Version;
+import org.fossasia.openevent.data.parsingExtras.Track;
 import org.fossasia.openevent.dbutils.DatabaseOperations;
 import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.dbutils.DbHelper;
@@ -60,7 +60,7 @@ public class DatabaseTest extends AndroidTestCase {
         Timber.tag("Micro").d(microlocationQuery);
         queries.add(microlocationQuery);
         Session session = new Session(5, "abcd", "abc", "abcdefgh", "sdfjs dsjfnjs",
-                "2015-06-05T00:00:00", "2015-06-06T00:00:00", "abcde", new Track(1, "kids", "ABCd", "img.png"), "1", new org.fossasia.openevent.data.parsingExtras.Microlocation(4, "moscone centre"));
+                "2015-06-05T00:00:00", "2015-06-06T00:00:00", "abcde", "", new Track(6, "android"), "1", new org.fossasia.openevent.data.parsingExtras.Microlocation(4, "moscone centre"));
 
         String sessionQuery = session.generateSql();
         Timber.tag("Session").d(sessionQuery);
@@ -70,7 +70,7 @@ public class DatabaseTest extends AndroidTestCase {
         String versionQuery = version.generateSql();
         Timber.tag("Version").d(versionQuery);
         queries.add(versionQuery);
-        Track track = new Track(6, "android", "open source mobile os by google", "https://farm8.staticflickr.com/7575/15355329014_3cb3eb0c74_b.jpg");
+        org.fossasia.openevent.data.Track track = new org.fossasia.openevent.data.Track(6, "android", "open source mobile os by google", "https://farm8.staticflickr.com/7575/15355329014_3cb3eb0c74_b.jpg");
         String trackQuery = track.generateSql();
         Timber.tag("Track").d(trackQuery);
         queries.add(trackQuery);

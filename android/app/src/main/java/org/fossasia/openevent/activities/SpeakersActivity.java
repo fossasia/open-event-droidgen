@@ -33,6 +33,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import timber.log.Timber;
+
 /**
  * Created by MananWason on 30-06-2015.
  */
@@ -138,6 +140,7 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
 
                 Session model = sessionsListAdapter.getItem(position);
                 String sessionName = model.getTitle();
+                Timber.d(model.getSubtitle());
                 Track track = dbSingleton.getTrackbyId(model.getTrack().getId());
                 String trackName = track.getName();
                 Intent intent = new Intent(getApplicationContext(), SessionDetailActivity.class);

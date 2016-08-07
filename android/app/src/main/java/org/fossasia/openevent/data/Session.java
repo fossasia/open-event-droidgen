@@ -5,6 +5,7 @@ import android.database.DatabaseUtils;
 import com.google.gson.annotations.SerializedName;
 
 import org.fossasia.openevent.data.parsingExtras.Microlocation;
+import org.fossasia.openevent.data.parsingExtras.Track;
 import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.utils.StringUtils;
 
@@ -42,60 +43,18 @@ public class Session {
     String subtitle;
 
     @SerializedName("track")
-    Track track;
+    org.fossasia.openevent.data.parsingExtras.Track track;
 
     @SerializedName("slides")
     String type;
 
     String startDate;
 
-    int trackName;
-
-    public Session(String title, int id) {
-        this.id = id;
-        this.title = title;
-    }
-
-    public Session(int id, String title, String subtitle,
-                   String summary, String description,
-                   String startTime, String endTime, String type,
-                   int track, String level, Microlocation microlocation
-    ) throws ParseException {
-        this.id = id;
-        this.title = title;
-        this.subtitle = subtitle;
-        this.summary = summary;
-        this.description = description;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.type = type;
-        this.trackName = track;
-        this.level = level;
-        this.microlocation = microlocation;
-    }
-
-    public Session(int id, String title, String subtitle,
-                   String summary, String description,
-                   String startTime, String endTime, String type,
-                   Track track, String level, Microlocation microlocation
-    ) throws ParseException {
-        this.id = id;
-        this.title = title;
-        this.subtitle = subtitle;
-        this.summary = summary;
-        this.description = description;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.type = type;
-        this.track = track;
-        this.level = level;
-        this.microlocation = microlocation;
-    }
 
     public Session(int id, String title, String subtitle,
                    String summary, String description,
                    String startTime, String endTime, String startDate, String type,
-                   Track track, String level, Microlocation microlocation
+                   org.fossasia.openevent.data.parsingExtras.Track track, String level, Microlocation microlocation
     ) throws ParseException {
         this.id = id;
         this.title = title;
@@ -176,7 +135,7 @@ public class Session {
         this.type = type;
     }
 
-    public Track getTrack() {
+    public org.fossasia.openevent.data.parsingExtras.Track getTrack() {
         return track;
     }
 

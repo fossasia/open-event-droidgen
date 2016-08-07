@@ -192,6 +192,7 @@ public class DbContract {
                 DESCRIPTION,
                 START_TIME,
                 END_TIME,
+                START_DATE,
                 TYPE,
                 TRACK,
                 LEVEL,
