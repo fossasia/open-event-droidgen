@@ -52,15 +52,13 @@ if (!array_key_exists('email', $body) || !array_key_exists('app_name', $body) ||
 
 $uid = mt_rand(1000,9999). "_" .time();
 
-
-
 $email = escapeshellcmd($body['email']);
 
 $appName = escapeshellcmd($body["app_name"]);
 
 $endpoint = escapeshellcmd($body["endpoint"]);
 
-
+$appName = preg_replace('/\s+/', '_', $appName);
 
 exec("sudo python /var/www/html/api/appgenserver.py $email $appName $endpoint");
 

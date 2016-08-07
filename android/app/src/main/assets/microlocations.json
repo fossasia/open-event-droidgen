@@ -1,32 +1,138 @@
-{
-  "microlocations": [
+[
     {
-      "id": 0,
-      "name": "Stage 7",
-      "latitude": "75.12312",
-      "longitude": "123.11212",
-      "floor": 2
-    },
+        "floor": null, 
+        "id": 1, 
+        "latitude": null, 
+        "longitude": null, 
+        "name": "Level 3, Level 3, Dalton Hall", 
+        "room": null
+    }, 
     {
-      "id": 1,
-      "name": "Hall 3",
-      "latitude": "75.12312",
-      "longitude": "123.11212",
-      "floor": 1
-    },
+        "floor": null, 
+        "id": 2, 
+        "latitude": null, 
+        "longitude": null, 
+        "name": "Level 3, Lewis Lab", 
+        "room": null
+    }, 
     {
-      "id": 2,
-      "name": "Stage 2",
-      "latitude": "75.12212",
-      "longitude": "123.14512",
-      "floor": 1
-    },
-
-    { "floor": 1,
-      "id": 3,
-      "latitude": 27.0,
-      "longitude": -122.400546,
-      "name": "moscone"
+        "floor": null, 
+        "id": 3, 
+        "latitude": null, 
+        "longitude": null, 
+        "name": "Level 1, Digital Design Studio", 
+        "room": null
+    }, 
+    {
+        "floor": null, 
+        "id": 4, 
+        "latitude": null, 
+        "longitude": null, 
+        "name": "Level 1, Digital Design Studio", 
+        "room": null
+    }, 
+    {
+        "floor": null, 
+        "id": 5, 
+        "latitude": null, 
+        "longitude": null, 
+        "name": "Level 1, Observatory Room", 
+        "room": null
+    }, 
+    {
+        "floor": null, 
+        "id": 6, 
+        "latitude": null, 
+        "longitude": null, 
+        "name": "Level 1, Eco Garden Lab", 
+        "room": null
+    }, 
+    {
+        "floor": null, 
+        "id": 7, 
+        "latitude": null, 
+        "longitude": null, 
+        "name": "Level 3, Planck Lab", 
+        "room": null
+    }, 
+    {
+        "floor": null, 
+        "id": 8, 
+        "latitude": null, 
+        "longitude": null, 
+        "name": "Level 3, Faraday Lab", 
+        "room": null
+    }, 
+    {
+        "floor": null, 
+        "id": 9, 
+        "latitude": null, 
+        "longitude": null, 
+        "name": "Level 3, Pauling Lab", 
+        "room": null
+    }, 
+    {
+        "floor": null, 
+        "id": 10, 
+        "latitude": null, 
+        "longitude": null, 
+        "name": "Level 3, Fermi Lab", 
+        "room": null
+    }, 
+    {
+        "floor": null, 
+        "id": 11, 
+        "latitude": null, 
+        "longitude": null, 
+        "name": "Level 2, Herschel Lab", 
+        "room": null
+    }, 
+    {
+        "floor": null, 
+        "id": 12, 
+        "latitude": null, 
+        "longitude": null, 
+        "name": "Level 2, Einstein Room", 
+        "room": null
+    }, 
+    {
+        "floor": null, 
+        "id": 13, 
+        "latitude": null, 
+        "longitude": null, 
+        "name": "Level 2, Einstein Hall", 
+        "room": null
+    }, 
+    {
+        "floor": null, 
+        "id": 14, 
+        "latitude": null, 
+        "longitude": null, 
+        "name": "Level 1, Tinkering Studio", 
+        "room": null
+    }, 
+    {
+        "floor": null, 
+        "id": 15, 
+        "latitude": null, 
+        "longitude": null, 
+        "name": "Level 1, Observatory Room", 
+        "room": null
+    }, 
+    {
+        "floor": null, 
+        "id": 16, 
+        "latitude": null, 
+        "longitude": null, 
+        "name": "Level 1, Eco Garden Lab", 
+        "room": null
+    }, 
+    {
+        "floor": null, 
+        "id": 17, 
+        "latitude": null, 
+        "longitude": null, 
+        "name": "Level 1, Ground Floor, Scientist For a day, Hall A", 
+        "room": null
     }
-  ]
-}
+]

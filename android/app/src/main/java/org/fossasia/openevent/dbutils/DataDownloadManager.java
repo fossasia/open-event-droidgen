@@ -1,15 +1,12 @@
 package org.fossasia.openevent.dbutils;
 
 import org.fossasia.openevent.api.APIClient;
-import org.fossasia.openevent.api.Urls;
-import org.fossasia.openevent.api.processor.EventDatesListResponseProcessor;
 import org.fossasia.openevent.api.processor.EventListResponseProcessor;
 import org.fossasia.openevent.api.processor.MicrolocationListResponseProcessor;
 import org.fossasia.openevent.api.processor.SessionListResponseProcessor;
 import org.fossasia.openevent.api.processor.SpeakerListResponseProcessor;
 import org.fossasia.openevent.api.processor.SponsorListResponseProcessor;
 import org.fossasia.openevent.api.processor.TrackListResponseProcessor;
-import org.fossasia.openevent.api.processor.VersionApiProcessor;
 
 /**
  * User: MananWason
@@ -37,31 +34,23 @@ public final class DataDownloadManager {
     }
 
     public void downloadSpeakers() {
-        client.getOpenEventAPI().getSpeakers(Urls.EVENT_ID).enqueue(new SpeakerListResponseProcessor());
+        client.getOpenEventAPI().getSpeakers().enqueue(new SpeakerListResponseProcessor());
     }
 
     public void downloadSponsors() {
-        client.getOpenEventAPI().getSponsors(Urls.EVENT_ID).enqueue(new SponsorListResponseProcessor());
+        client.getOpenEventAPI().getSponsors().enqueue(new SponsorListResponseProcessor());
     }
 
     public void downloadSession() {
-        client.getOpenEventAPI().getSessions(Urls.EVENT_ID).enqueue(new SessionListResponseProcessor());
+        client.getOpenEventAPI().getSessions().enqueue(new SessionListResponseProcessor());
     }
 
     public void downloadTracks() {
-        client.getOpenEventAPI().getTracks(Urls.EVENT_ID).enqueue(new TrackListResponseProcessor());
+        client.getOpenEventAPI().getTracks().enqueue(new TrackListResponseProcessor());
     }
 
     public void downloadMicrolocations() {
-        client.getOpenEventAPI().getMicrolocations(Urls.EVENT_ID).enqueue(new MicrolocationListResponseProcessor());
-    }
-
-    public void downloadVersions() {
-        client.getOpenEventAPI().getVersion(Urls.EVENT_ID).enqueue(new VersionApiProcessor());
-    }
-
-    public void downloadEventDates() {
-        client.getOpenEventAPI().getDates(Urls.EVENT_ID).enqueue(new EventDatesListResponseProcessor());
+        client.getOpenEventAPI().getMicrolocations().enqueue(new MicrolocationListResponseProcessor());
     }
 
 
