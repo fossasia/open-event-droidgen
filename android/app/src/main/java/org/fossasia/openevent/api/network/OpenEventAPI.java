@@ -1,17 +1,16 @@
 package org.fossasia.openevent.api.network;
 
-import org.fossasia.openevent.api.protocol.EventDatesResponseList;
-import org.fossasia.openevent.api.protocol.EventResponseList;
-import org.fossasia.openevent.api.protocol.MicrolocationResponseList;
-import org.fossasia.openevent.api.protocol.SessionResponseList;
-import org.fossasia.openevent.api.protocol.SpeakerResponseList;
-import org.fossasia.openevent.api.protocol.SponsorResponseList;
-import org.fossasia.openevent.api.protocol.TrackResponseList;
-import org.fossasia.openevent.api.protocol.VersionResponseList;
+import org.fossasia.openevent.data.Event;
+import org.fossasia.openevent.data.Microlocation;
+import org.fossasia.openevent.data.Session;
+import org.fossasia.openevent.data.Speaker;
+import org.fossasia.openevent.data.Sponsor;
+import org.fossasia.openevent.data.Track;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
-import retrofit2.http.Path;
 
 /**
  * User: mohit
@@ -19,30 +18,23 @@ import retrofit2.http.Path;
  */
 public interface OpenEventAPI {
 
-    @GET("event/{id}/speakers")
-    Call<SpeakerResponseList> getSpeakers(@Path("id") int id);
+    @GET("speakers")
+    Call<List<Speaker>> getSpeakers();
 
-    @GET("event/{id}/sponsors")
-    Call<SponsorResponseList> getSponsors(@Path("id") int id);
+    @GET("sponsors")
+    Call<List<Sponsor>> getSponsors();
 
-    @GET("event/{id}/sessions")
-    Call<SessionResponseList> getSessions(@Path("id") int id);
+    @GET("sessions")
+    Call<List<Session>> getSessions();
 
     //TODO:Correct event api url to server's
-    @GET("event/event")
-    Call<EventResponseList> getEvents();
+    @GET("event")
+    Call<Event> getEvents();
 
-    @GET("event/{id}/microlocations")
-    Call<MicrolocationResponseList> getMicrolocations(@Path("id") int id);
+    @GET("microlocations")
+    Call<List<Microlocation>> getMicrolocations();
 
-    @GET("event/{id}/tracks")
-    Call<TrackResponseList> getTracks(@Path("id") int id);
-
-    //https://raw.githubusercontent.com/fossasia/open-event/master/testapi/event/1/version
-    @GET("event/{id}/version")
-    Call<VersionResponseList> getVersion(@Path("id") int id);
-
-    @GET("event/{id}/eventDates")
-    Call<EventDatesResponseList> getDates(@Path("id") int id);
+    @GET("tracks")
+    Call<List<Track>> getTracks();
 
 }

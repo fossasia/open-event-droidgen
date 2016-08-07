@@ -21,11 +21,13 @@ public class Sponsor {
 
     String logo;
 
+    String preUrl = "https://raw.githubusercontent.com/fossasia/open-event/master/sample/FOSSASIA16";
+
     public Sponsor(int id, String name, String url, String logo) {
         this.id = id;
         this.name = name;
         this.url = url;
-        this.logo = logo;
+        this.logo = preUrl + logo;
     }
 
     public int getId() {
