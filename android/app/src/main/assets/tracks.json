@@ -1,95 +1,2153 @@
-
-{
-  "tracks": [
+[
     {
-      "description": "Innovation generally refers to changing or creating more effective processes, products and ideas, and can increase the likelihood of a business succeeding. Businesses that innovate create more efficient work processes and have better productivity and performance.",
-      "id": 1,
-      "name": "Business & Innovation",
-      "track_image_url": "http://thumbs.dreamstime.com/x/business-innovation-letters-13721449.jpg"
-    },
+        "color": "#3DC8C3", 
+        "description": "OpenTech and IoT", 
+        "id": 1, 
+        "location": "Level 3, Level 3, Dalton Hall", 
+        "name": "OpenTech and IoT", 
+        "sessions": [
+            {
+                "id": 1, 
+                "title": "Grand Opening"
+            }, 
+            {
+                "id": 2, 
+                "title": "The story of FOSSASIA 2016, The Internet of Things and Me"
+            }, 
+            {
+                "id": 3, 
+                "title": "Welcome at the Centre of Science Education in Singapore"
+            }, 
+            {
+                "id": 4, 
+                "title": "A Funny Thing Happened On My Way To The Science Centre"
+            }, 
+            {
+                "id": 5, 
+                "title": "Sex, Circuits, and Deep House"
+            }, 
+            {
+                "id": 6, 
+                "title": "Rethinking Drone Delivery with Open Source"
+            }, 
+            {
+                "id": 7, 
+                "title": "Tea and Coffee Break"
+            }, 
+            {
+                "id": 8, 
+                "title": "UNESCO YouthMobile"
+            }, 
+            {
+                "id": 9, 
+                "title": "Science and Open Source Program at Google"
+            }, 
+            {
+                "id": 10, 
+                "title": "#NefertitiHack and Cultural Commons \"The Other Nefertiti\""
+            }, 
+            {
+                "id": 11, 
+                "title": "Lunch"
+            }, 
+            {
+                "id": 12, 
+                "title": "Managing A Healthy GitHub Community"
+            }, 
+            {
+                "id": 13, 
+                "title": "What's new in systemd in 2016?"
+            }, 
+            {
+                "id": 14, 
+                "title": "Legalese.io: smart contracts, dumb lawyers, and you"
+            }, 
+            {
+                "id": 15, 
+                "title": "BBC micro:bit - Next generation teaching tools"
+            }, 
+            {
+                "id": 16, 
+                "title": "Going through era of IoT with MySQL 5.7"
+            }, 
+            {
+                "id": 17, 
+                "title": "IOT with Espert"
+            }, 
+            {
+                "id": 50, 
+                "title": "Open Event Orga Server Project"
+            }, 
+            {
+                "id": 18, 
+                "title": "ExpEYES: Pocket Science Lab - Developing Open Source Science Experiments with FOSSASIA  "
+            }, 
+            {
+                "id": 19, 
+                "title": "End of Sessions"
+            }, 
+            {
+                "id": 20, 
+                "title": "Pub Crawl at Clarke Quay"
+            }, 
+            {
+                "id": 21, 
+                "title": "Google Summer of Code and Google Code-In "
+            }, 
+            {
+                "id": 22, 
+                "title": "You got Design with that? Design Thinking for your projects"
+            }, 
+            {
+                "id": 23, 
+                "title": "Linking the word's languages in the Open Multilingual Wordnet"
+            }, 
+            {
+                "id": 24, 
+                "title": "Big Data with Short Messages"
+            }, 
+            {
+                "id": 25, 
+                "title": "Code Review for DevOps"
+            }, 
+            {
+                "id": 26, 
+                "title": "Group Photo"
+            }, 
+            {
+                "id": 27, 
+                "title": "Lunch"
+            }, 
+            {
+                "id": 28, 
+                "title": "OpenTech Lightning Talks"
+            }, 
+            {
+                "id": 29, 
+                "title": "Distributed Multi Dimensional Anomaly Detection in OpenStack Logs"
+            }, 
+            {
+                "id": 30, 
+                "title": "Become an OAuth2 provider using Spring Security"
+            }, 
+            {
+                "id": 31, 
+                "title": "Continuous Integration and Continuous Delivery for Open Source and Free Software Development"
+            }, 
+            {
+                "id": 32, 
+                "title": "LabPlot, interactive graphing and analysis of scientific data"
+            }, 
+            {
+                "id": 33, 
+                "title": "FarmMind Technologies"
+            }, 
+            {
+                "id": 34, 
+                "title": "PyData Singapore"
+            }, 
+            {
+                "id": 35, 
+                "title": "Building Real time Tracking System using IoT and Django"
+            }, 
+            {
+                "id": 36, 
+                "title": "PipaJS - a module for ExpressJS"
+            }, 
+            {
+                "id": 37, 
+                "title": " GoG(gas-o-gauge) - A smart IoT based solution for tracking fuel levels and Kitchen Intelligence"
+            }, 
+            {
+                "id": 38, 
+                "title": "Contributing to F/OSS Project with Inkscape"
+            }, 
+            {
+                "id": 39, 
+                "title": "Loklak - Building the twitter integration to Distributed tweet search server and endless possibilities"
+            }, 
+            {
+                "id": 40, 
+                "title": "Have you met Pike?"
+            }, 
+            {
+                "id": 41, 
+                "title": "Open Source and Free Software"
+            }, 
+            {
+                "id": 61, 
+                "title": "Tips for successful app monetization for developers"
+            }, 
+            {
+                "id": 42, 
+                "title": "Data Science in Financial Institutes"
+            }, 
+            {
+                "id": 43, 
+                "title": "My journey in FOSS with Pharo & FOSSASIA"
+            }, 
+            {
+                "id": 44, 
+                "title": "JSPM is the javascript package manager from future"
+            }, 
+            {
+                "id": 45, 
+                "title": "Spatial Data Mining"
+            }, 
+            {
+                "id": 46, 
+                "title": "Meet MariaDB Server 10.1"
+            }, 
+            {
+                "id": 47, 
+                "title": "Modular vs Monolith \u2013 The Structure of Node.JS Applications"
+            }, 
+            {
+                "id": 48, 
+                "title": "A trip to Pluto with OpenSpace"
+            }, 
+            {
+                "id": 49, 
+                "title": "Network of networks in the OpenMRS medical records platform"
+            }, 
+            {
+                "id": 51, 
+                "title": "Free Communication with Free Software"
+            }, 
+            {
+                "id": 52, 
+                "title": "End of Sessions and Social Event (Invitation Only)"
+            }, 
+            {
+                "id": 53, 
+                "title": "Creative Confidence "
+            }, 
+            {
+                "id": 54, 
+                "title": "Yes we Cone"
+            }, 
+            {
+                "id": 55, 
+                "title": "QA in the Open"
+            }, 
+            {
+                "id": 56, 
+                "title": "#NEWPALMYRA, #FREEBASSEL, and the Preservation of Cultural Heritage"
+            }, 
+            {
+                "id": 57, 
+                "title": "Lunch"
+            }, 
+            {
+                "id": 58, 
+                "title": "LibreOffice 5 and beyond"
+            }, 
+            {
+                "id": 59, 
+                "title": "Open Source Imaging Mass Spectrometry Software"
+            }, 
+            {
+                "id": 60, 
+                "title": "Hyperledger - The Open Source Blockchain"
+            }, 
+            {
+                "id": 62, 
+                "title": "How I left my word processor and embraced Asciidoc"
+            }, 
+            {
+                "id": 63, 
+                "title": "Successfully Managing Distributed Teams"
+            }, 
+            {
+                "id": 64, 
+                "title": "Science Hack Day - Winning teams announced & given awards/medals in main hall"
+            }, 
+            {
+                "id": 65, 
+                "title": "Rebuildling Cultural Heritage with #NEWPALMYRA"
+            }, 
+            {
+                "id": 66, 
+                "title": "Creating patterns is like mapping the night sky"
+            }, 
+            {
+                "id": 67, 
+                "title": "DIY Circuit Board Workshop"
+            }, 
+            {
+                "id": 68, 
+                "title": "ExpEYES: Pocket Science Lab  "
+            }, 
+            {
+                "id": 69, 
+                "title": "#NefertitiHack and Cultural Commons \"The Other Nefertiti\""
+            }, 
+            {
+                "id": 70, 
+                "title": "#NefertitiHack and Cultural Commons \"The Other Nefertiti\""
+            }, 
+            {
+                "id": 71, 
+                "title": "Closing Notes of FOSSASIA 2016"
+            }
+        ], 
+        "track_image_url": "http://lorempixel.com/400/200"
+    }, 
     {
-      "description": "",
-      "id": 2,
-      "name": "City Of The Future",
-      "track_image_url": null
-    },
+        "color": "#3DC8C3", 
+        "description": "OpenTech Workshops", 
+        "id": 2, 
+        "location": "Level 3, Lewis Lab", 
+        "name": "OpenTech Workshops", 
+        "sessions": [
+            {
+                "id": 80, 
+                "title": "Procedural Content Generation with Clojure"
+            }, 
+            {
+                "id": 81, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 72, 
+                "title": "Deep Learning: From Inception to Dreams"
+            }, 
+            {
+                "id": 73, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 74, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 75, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 76, 
+                "title": "Group Photo"
+            }, 
+            {
+                "id": 77, 
+                "title": "Lunch"
+            }, 
+            {
+                "id": 78, 
+                "title": "Writing Plugins for IntelliJ IDEA"
+            }, 
+            {
+                "id": 79, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 82, 
+                "title": "Build your own IoT Empire - From Games to MQTT and Back"
+            }, 
+            {
+                "id": 83, 
+                "title": "Build your own IoT Empire - From Games to MQTT and Back"
+            }, 
+            {
+                "id": 84, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 85, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 86, 
+                "title": "End of Sessions and Social Event (Invitation Only)"
+            }, 
+            {
+                "id": 87, 
+                "title": "GitHub Workshop"
+            }, 
+            {
+                "id": 88, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 89, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 90, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 91, 
+                "title": "Lunch"
+            }, 
+            {
+                "id": 92, 
+                "title": "Building Truly Native Apps with NativeScript"
+            }, 
+            {
+                "id": 93, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 94, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 95, 
+                "title": "Practical Computerized Home Automation"
+            }, 
+            {
+                "id": 96, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 97, 
+                "title": "Closing Notes"
+            }
+        ], 
+        "track_image_url": "http://lorempixel.com/400/200"
+    }, 
     {
-      "description": "",
-      "id": 3,
-      "name": "Culture",
-      "track_image_url": null
-    },
+        "color": "#3DC8C3", 
+        "description": "Tech Kids I", 
+        "id": 3, 
+        "location": "Level 1, Digital Design Studio", 
+        "name": "Tech Kids I", 
+        "sessions": [
+            {
+                "id": 114, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 113, 
+                "title": "Mobile development for students"
+            }, 
+            {
+                "id": 98, 
+                "title": "Mobile development for students"
+            }, 
+            {
+                "id": 99, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 100, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 101, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 102, 
+                "title": "Workshop: Make Your First Android App"
+            }, 
+            {
+                "id": 103, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 104, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 105, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 106, 
+                "title": "Group Photo"
+            }, 
+            {
+                "id": 107, 
+                "title": "Lunch"
+            }, 
+            {
+                "id": 108, 
+                "title": "Building a mind-mapping application in smalltalk using roassal"
+            }, 
+            {
+                "id": 109, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 110, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 111, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 112, 
+                "title": "End of Sessions"
+            }, 
+            {
+                "id": 115, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 116, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 117, 
+                "title": "Lunch"
+            }, 
+            {
+                "id": 118, 
+                "title": "Creative Confidence"
+            }, 
+            {
+                "id": 119, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 120, 
+                "title": "Pocket Science Lab  - Learn Science by Exploring and Experimenting "
+            }, 
+            {
+                "id": 121, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 122, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 123, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 124, 
+                "title": "Closing Notes in Main Hall (Level 3, Dalton Hall)"
+            }
+        ], 
+        "track_image_url": "http://lorempixel.com/400/200"
+    }, 
     {
-      "description": "",
-      "id": 4,
-      "name": "Fashiontech",
-      "track_image_url": null
-    },
+        "color": "#3DC8C3", 
+        "description": "Tech Kids II", 
+        "id": 4, 
+        "location": "Level 1, Digital Design Studio", 
+        "name": "Tech Kids II", 
+        "sessions": [
+            {
+                "id": 125, 
+                "title": "Design Making Program"
+            }, 
+            {
+                "id": 126, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 127, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 128, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 129, 
+                "title": "3D Modeling for Kids"
+            }, 
+            {
+                "id": 130, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 131, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 132, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 133, 
+                "title": "Group Photo"
+            }, 
+            {
+                "id": 134, 
+                "title": "Lunch"
+            }, 
+            {
+                "id": 135, 
+                "title": "IoT for kids"
+            }, 
+            {
+                "id": 136, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 137, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 138, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 139, 
+                "title": "End of Sessions"
+            }, 
+            {
+                "id": 140, 
+                "title": "Introduction to the Raspberry Pi for total Newbies"
+            }, 
+            {
+                "id": 141, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 142, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 143, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 144, 
+                "title": "Lunch"
+            }, 
+            {
+                "id": 145, 
+                "title": "Physical Open Source  Gaming - How to Build Your own Customized Game Controller for Multiplayer Fun"
+            }, 
+            {
+                "id": 146, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 147, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 148, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 149, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 150, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 151, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 152, 
+                "title": "Hong Phuc Dang"
+            }
+        ], 
+        "track_image_url": "http://lorempixel.com/400/200"
+    }, 
     {
-      "description": "",
-      "id": 5,
-      "name": "Global Innovation Gathering",
-      "track_image_url": null
-    },
+        "color": "#3DC8C3", 
+        "description": "Tech Kids III", 
+        "id": 5, 
+        "location": "Level 1, Observatory Room", 
+        "name": "Tech Kids III", 
+        "sessions": [
+            {
+                "id": 153, 
+                "title": "Digital Fabrication For Kids"
+            }, 
+            {
+                "id": 154, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 155, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 156, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 157, 
+                "title": "Group Photo"
+            }, 
+            {
+                "id": 158, 
+                "title": "Lunch"
+            }, 
+            {
+                "id": 159, 
+                "title": "Electronics Made Easy"
+            }, 
+            {
+                "id": 160, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 161, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 162, 
+                "title": "Scratch 4 Arduino"
+            }, 
+            {
+                "id": 163, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 164, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 165, 
+                "title": "End of Sessions"
+            }
+        ], 
+        "track_image_url": "http://lorempixel.com/400/200"
+    }, 
     {
-      "description": "",
-      "id": 6,
-      "name": "Media",
-      "track_image_url": null
-    },
+        "color": "#3DC8C3", 
+        "description": "Hardware and IoT", 
+        "id": 6, 
+        "location": "Level 1, Eco Garden Lab", 
+        "name": "Hardware and IoT", 
+        "sessions": [
+            {
+                "id": 187, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 166, 
+                "title": "Ambient Dynamix: Adaptive gateway to IoT"
+            }, 
+            {
+                "id": 167, 
+                "title": "Open Source Drones"
+            }, 
+            {
+                "id": 168, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 169, 
+                "title": "Unleash the potential of NVDIMM Namespaces"
+            }, 
+            {
+                "id": 170, 
+                "title": "Treasure Hunts, Indoor Navigation and the Physical Web: Adventures in JavaScript and Bluetooth Beacons"
+            }, 
+            {
+                "id": 188, 
+                "title": "Javascript and IOT"
+            }, 
+            {
+                "id": 171, 
+                "title": "BBC micro:bit and Python"
+            }, 
+            {
+                "id": 172, 
+                "title": "End of Sessions"
+            }, 
+            {
+                "id": 173, 
+                "title": "Pub Crawl at Clarke Quay"
+            }, 
+            {
+                "id": 174, 
+                "title": "Smart guidance for blind"
+            }, 
+            {
+                "id": 175, 
+                "title": "Machine Tools: How companies like Apple, Xiaomi and Samsung manufacture at scale?"
+            }, 
+            {
+                "id": 176, 
+                "title": "#IoT REX: Kinetic Origami"
+            }, 
+            {
+                "id": 177, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 178, 
+                "title": "Group Photo"
+            }, 
+            {
+                "id": 179, 
+                "title": "Lunch"
+            }, 
+            {
+                "id": 180, 
+                "title": "Building an open-source satellite tracker to talk via satellites"
+            }, 
+            {
+                "id": 181, 
+                "title": "Hacking with ARM devices on Linux"
+            }, 
+            {
+                "id": 182, 
+                "title": "Tizen - An open platform for consumer electronics - What is it & what do you want it to be"
+            }, 
+            {
+                "id": 183, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 184, 
+                "title": "Open Source Voice synthesizer and DIY Pop music in Japan"
+            }, 
+            {
+                "id": 185, 
+                "title": "Project Zygote - Lego for the Internet of Things"
+            }, 
+            {
+                "id": 186, 
+                "title": "Open Source Hardware and Software for Radiation Physics"
+            }, 
+            {
+                "id": 189, 
+                "title": "Making Interactive Circuits with GPIO and Raspberry Pi"
+            }, 
+            {
+                "id": 190, 
+                "title": "End of Sessions and Social Event (Invitation Only)"
+            }
+        ], 
+        "track_image_url": "http://lorempixel.com/400/200"
+    }, 
     {
-      "description": "",
-      "id": 7,
-      "name": "Media Convention",
-      "track_image_url": null
-    },
+        "color": "#3DC8C3", 
+        "description": "DevOps", 
+        "id": 7, 
+        "location": "Level 3, Planck Lab", 
+        "name": "DevOps", 
+        "sessions": [
+            {
+                "id": 191, 
+                "title": "Technologies developed by Red Hat"
+            }, 
+            {
+                "id": 192, 
+                "title": "oVirt Integration With Foreman And Katello - Bringing Your Virtualized Data-Center Into The Next Level"
+            }, 
+            {
+                "id": 193, 
+                "title": "Comparing virtualization and containers"
+            }, 
+            {
+                "id": 194, 
+                "title": "Globalizing your software"
+            }, 
+            {
+                "id": 195, 
+                "title": "Containers and systemd"
+            }, 
+            {
+                "id": 196, 
+                "title": "The Julia Programming Language"
+            }, 
+            {
+                "id": 197, 
+                "title": "End of Sessions"
+            }, 
+            {
+                "id": 198, 
+                "title": "Pub Crawl at Clarke Quay"
+            }, 
+            {
+                "id": 199, 
+                "title": "Orchestrating Cloud infrastructure using Terraform"
+            }, 
+            {
+                "id": 200, 
+                "title": "7 Tips to design  web-centric, high performance applications: A DB Architect\u2019s Perspective"
+            }, 
+            {
+                "id": 220, 
+                "title": "Concurrency & Parallelism  in Ruby"
+            }, 
+            {
+                "id": 201, 
+                "title": "coala - Code Analysis Made Simple"
+            }, 
+            {
+                "id": 202, 
+                "title": "Group Photo"
+            }, 
+            {
+                "id": 203, 
+                "title": "Lunch"
+            }, 
+            {
+                "id": 204, 
+                "title": "oVirt - Development of shared storage management system in the virualization world"
+            }, 
+            {
+                "id": 205, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 206, 
+                "title": "The oVirt Way - General Product Overview"
+            }, 
+            {
+                "id": 207, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 208, 
+                "title": "Let Builder write the Jenkins Jobs (JJB)"
+            }, 
+            {
+                "id": 209, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 210, 
+                "title": "End of Sessions and Social Event (Invitation Only)"
+            }, 
+            {
+                "id": 211, 
+                "title": "Ansible 101"
+            }, 
+            {
+                "id": 212, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 213, 
+                "title": "Scalable Datastores for a Containerized World: Crate"
+            }, 
+            {
+                "id": 214, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 215, 
+                "title": "Lunch"
+            }, 
+            {
+                "id": 216, 
+                "title": "Introduction to Modern DevOps with Docker"
+            }, 
+            {
+                "id": 217, 
+                "title": "Introduction to Kubernetes"
+            }, 
+            {
+                "id": 218, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 219, 
+                "title": "Agile Application delivery with Containers & Cloud-Native tools"
+            }, 
+            {
+                "id": 221, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 222, 
+                "title": "Closing Notes in Main Hall (Level 3, Dalton Hall)"
+            }
+        ], 
+        "track_image_url": "http://lorempixel.com/400/200"
+    }, 
     {
-      "description": "",
-      "id": 8,
-      "name": "Other",
-      "track_image_url": null
-    },
+        "color": "#3DC8C3", 
+        "description": "WebTech", 
+        "id": 8, 
+        "location": "Level 3, Faraday Lab", 
+        "name": "WebTech", 
+        "sessions": [
+            {
+                "id": 240, 
+                "title": "Joerg Henning"
+            }, 
+            {
+                "id": 241, 
+                "title": "Sebastiaan Deckers"
+            }, 
+            {
+                "id": 223, 
+                "title": "Introduction to webcompat.com"
+            }, 
+            {
+                "id": 224, 
+                "title": "A look at FOSSASIA API"
+            }, 
+            {
+                "id": 225, 
+                "title": "Firefox OS, WebAPI and Hybrid Application"
+            }, 
+            {
+                "id": 226, 
+                "title": "How open source ERP is slowly changing the business world"
+            }, 
+            {
+                "id": 227, 
+                "title": "Group Photo"
+            }, 
+            {
+                "id": 228, 
+                "title": "Lunch"
+            }, 
+            {
+                "id": 229, 
+                "title": "Mozilla on Connected Devices, MozVR & Firefox Developer Tools"
+            }, 
+            {
+                "id": 230, 
+                "title": "Chat bots "
+            }, 
+            {
+                "id": 231, 
+                "title": "Free Real-time Communications (SIP, XMPP, WebRTC)"
+            }, 
+            {
+                "id": 232, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 233, 
+                "title": "Introduction to GraphQL (or How I Learned To Stop Worrying about REST APIs)"
+            }, 
+            {
+                "id": 234, 
+                "title": "Go Apitest - test and document that!"
+            }, 
+            {
+                "id": 235, 
+                "title": "Introduction to React JavaScript Framework"
+            }, 
+            {
+                "id": 236, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 237, 
+                "title": "Firefox OS - Fast Track to IoT"
+            }, 
+            {
+                "id": 238, 
+                "title": "End of Sessions and Social Event (Invitation Only)"
+            }, 
+            {
+                "id": 239, 
+                "title": "NodeSchool"
+            }, 
+            {
+                "id": 242, 
+                "title": "Tim Oxley"
+            }, 
+            {
+                "id": 243, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 244, 
+                "title": "Nodeschool"
+            }, 
+            {
+                "id": 245, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 246, 
+                "title": "NodeSchool"
+            }, 
+            {
+                "id": 247, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 248, 
+                "title": "WebAudio School"
+            }, 
+            {
+                "id": 249, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 250, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 251, 
+                "title": "Closing Notes in Main Hall (Level 3, Dalton Hall)"
+            }
+        ], 
+        "track_image_url": "http://lorempixel.com/400/200"
+    }, 
     {
-      "description": "",
-      "id": 9,
-      "name": "Politics & Society",
-      "track_image_url": null
-    },
+        "color": "#3DC8C3", 
+        "description": "Python", 
+        "id": 9, 
+        "location": "Level 3, Pauling Lab", 
+        "name": "Python", 
+        "sessions": [
+            {
+                "id": 252, 
+                "title": "Python at FOSSASIA 2016"
+            }, 
+            {
+                "id": 253, 
+                "title": "Test driven development with pytest"
+            }, 
+            {
+                "id": 254, 
+                "title": "Dive deep into Fedora Infra"
+            }, 
+            {
+                "id": 255, 
+                "title": "Tunir the simple CI"
+            }, 
+            {
+                "id": 256, 
+                "title": "Group Photo"
+            }, 
+            {
+                "id": 257, 
+                "title": "Lunch"
+            }, 
+            {
+                "id": 258, 
+                "title": "Command Line Application Design in Python"
+            }, 
+            {
+                "id": 259, 
+                "title": "Using Python Client to talk with Zanata Server"
+            }, 
+            {
+                "id": 260, 
+                "title": "Python in my Science Classroom"
+            }, 
+            {
+                "id": 261, 
+                "title": "Building a proper UI/UX for the wiki engine (GSoC'15 Project) "
+            }, 
+            {
+                "id": 262, 
+                "title": "ircb - A versatile, scalable IRC Bouncer, as a service, for humans"
+            }, 
+            {
+                "id": 263, 
+                "title": "Python 3 101"
+            }, 
+            {
+                "id": 264, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 265, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 266, 
+                "title": "End of Sessions and Social Event (Invitation Only)"
+            }, 
+            {
+                "id": 267, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 268, 
+                "title": "Leveraging Telegram API and nltk to implement interactive user interfaces for businesses"
+            }, 
+            {
+                "id": 269, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 270, 
+                "title": "Building user centric applications using the Loklak and Twitter API - An example of Complaint registrations"
+            }, 
+            {
+                "id": 271, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 272, 
+                "title": "Lunch"
+            }, 
+            {
+                "id": 273, 
+                "title": "Openess in Quality: Migrating testing framework from bash to pytest"
+            }, 
+            {
+                "id": 274, 
+                "title": "Multibody Dynamics and Control with Python"
+            }, 
+            {
+                "id": 275, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 276, 
+                "title": "Symbolic Computation with Python using SymPy"
+            }, 
+            {
+                "id": 277, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 278, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 279, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 280, 
+                "title": "Closing Notes in Main Hall (Level 3, Dalton Hall)"
+            }
+        ], 
+        "track_image_url": "http://lorempixel.com/400/200"
+    }, 
     {
-      "description": "",
-      "id": 10,
-      "name": "re:cord Musicday",
-      "track_image_url": null
-    },
+        "color": "#3DC8C3", 
+        "description": "Big Data/Open Data", 
+        "id": 10, 
+        "location": "Level 3, Fermi Lab", 
+        "name": "Big Data/Open Data", 
+        "sessions": [
+            {
+                "id": 281, 
+                "title": "opendetection.com"
+            }, 
+            {
+                "id": 282, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 283, 
+                "title": "Collaborative Spelling Dictionary"
+            }, 
+            {
+                "id": 284, 
+                "title": "Uncovering of a heavily obfuscated public API by Singapore Government"
+            }, 
+            {
+                "id": 285, 
+                "title": "Ask Me Anything about Search Engines History and Future (altavista -> Google -> Bing -> Wolfram Alpha -> Social Graph -> ?)"
+            }, 
+            {
+                "id": 286, 
+                "title": "End of Sessions"
+            }, 
+            {
+                "id": 287, 
+                "title": "Pub Crawl"
+            }, 
+            {
+                "id": 288, 
+                "title": "Wikilore"
+            }, 
+            {
+                "id": 289, 
+                "title": "Mining public large-scale datasets \\w open-source tools: Apache Zeppelin (incubating), Spark and Juju"
+            }, 
+            {
+                "id": 290, 
+                "title": "Streaming anomaly detection for Big Data/Internet of Things"
+            }, 
+            {
+                "id": 291, 
+                "title": "Introduction about Apache Solr, standalone enterprise search server with a REST-like API"
+            }, 
+            {
+                "id": 292, 
+                "title": "Group Photo"
+            }, 
+            {
+                "id": 293, 
+                "title": "Lunch"
+            }, 
+            {
+                "id": 294, 
+                "title": "HOT Export Tool"
+            }, 
+            {
+                "id": 295, 
+                "title": "Open Source Geospatial - Projects and Possibilities"
+            }, 
+            {
+                "id": 296, 
+                "title": "How to setup, make and build clients for open Twitter data"
+            }, 
+            {
+                "id": 297, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 298, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 299, 
+                "title": "Elasticsearch: You know, for search! and more!"
+            }, 
+            {
+                "id": 300, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 301, 
+                "title": "End of Sessions and Social Event (Invitation Only)"
+            }, 
+            {
+                "id": 302, 
+                "title": "Content Translation on Wikipedia"
+            }, 
+            {
+                "id": 303, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 304, 
+                "title": "Developing for Open Event"
+            }, 
+            {
+                "id": 305, 
+                "title": "Manan Wason"
+            }, 
+            {
+                "id": 306, 
+                "title": "Lunch"
+            }, 
+            {
+                "id": 307, 
+                "title": "How to develop app based using the loklak API"
+            }, 
+            {
+                "id": 308, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 309, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 310, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 311, 
+                "title": "Voice Programming in Java"
+            }, 
+            {
+                "id": 312, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 313, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 314, 
+                "title": "Closing Notes in Main Hall (Level 3, Dalton Hall)"
+            }
+        ], 
+        "track_image_url": "http://lorempixel.com/400/200"
+    }, 
     {
-      "description": "",
-      "id": 11,
-      "name": "re:health",
-      "track_image_url": null
-    },
+        "color": "#3DC8C3", 
+        "description": "Databases", 
+        "id": 11, 
+        "location": "Level 2, Herschel Lab", 
+        "name": "Databases", 
+        "sessions": [
+            {
+                "id": 315, 
+                "title": "Migration from Oracle to PostgreSQL - The problems and the solutions -"
+            }, 
+            {
+                "id": 316, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 317, 
+                "title": "Data Warehouse in a PG / Greenplum / Vitesse DB environment"
+            }, 
+            {
+                "id": 318, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 319, 
+                "title": "Group Photo"
+            }, 
+            {
+                "id": 320, 
+                "title": "Lunch"
+            }, 
+            {
+                "id": 321, 
+                "title": "Tales from Production with PostgreSQL at Scale"
+            }, 
+            {
+                "id": 322, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 323, 
+                "title": "Hadoop and PostgreSQL -- An Odd Job?"
+            }, 
+            {
+                "id": 324, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 325, 
+                "title": "Data Warehousing on PostgreSQL"
+            }, 
+            {
+                "id": 326, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 327, 
+                "title": "(Ab)using 4D indexing in PostGIS 2.2 with Postgres 9.5 to give you the perfect match"
+            }, 
+            {
+                "id": 328, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 329, 
+                "title": "PostgreSQL fun at Lightning Talks"
+            }, 
+            {
+                "id": 330, 
+                "title": "End of Sessions and Social Event for Speakers, Volunteers, Partners in Movie Studio"
+            }, 
+            {
+                "id": 331, 
+                "title": "End of Sessions and Social Event (Invitation Only)"
+            }, 
+            {
+                "id": 332, 
+                "title": "MySQL Performance Schema - A great insight of MySQL server execution"
+            }, 
+            {
+                "id": 333, 
+                "title": "Unlocking New Big Data Insights with Hadoop & MySQL "
+            }, 
+            {
+                "id": 334, 
+                "title": "Enhanced High Availability using MySQL Group Replication"
+            }, 
+            {
+                "id": 335, 
+                "title": "Metadata Storage for Transactional Databases"
+            }, 
+            {
+                "id": 336, 
+                "title": "Lunch"
+            }, 
+            {
+                "id": 337, 
+                "title": "Crash course in Graph Databases"
+            }, 
+            {
+                "id": 338, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 339, 
+                "title": "Powering IoT with MySQL & JSON"
+            }, 
+            {
+                "id": 340, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 341, 
+                "title": "Closing Notes in Main Hall (Level 3, Dalton Hall)"
+            }
+        ], 
+        "track_image_url": "http://lorempixel.com/400/200"
+    }, 
     {
-      "description": "",
-      "id": 12,
-      "name": "re:publica",
-      "track_image_url": null
-    },
+        "color": "#3DC8C3", 
+        "description": "Internet, Society, Community", 
+        "id": 12, 
+        "location": "Level 2, Einstein Room", 
+        "name": "Internet, Society, Community", 
+        "sessions": [
+            {
+                "id": 350, 
+                "title": "Journey as a Freelance Web Developer"
+            }, 
+            {
+                "id": 351, 
+                "title": "Opening up yourself"
+            }, 
+            {
+                "id": 352, 
+                "title": "How to be an IETF champion"
+            }, 
+            {
+                "id": 353, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 354, 
+                "title": "Group Photo"
+            }, 
+            {
+                "id": 355, 
+                "title": "Lunch"
+            }, 
+            {
+                "id": 342, 
+                "title": "Why are we (Still) wasting food? How technology can help"
+            }, 
+            {
+                "id": 343, 
+                "title": "The Smart City - Where mammals and computers live together in mutually programming harmony like pure water touching clear sky"
+            }, 
+            {
+                "id": 344, 
+                "title": "Who owns my notebook? or why I want to run coreboot on every device"
+            }, 
+            {
+                "id": 345, 
+                "title": "Adoption of open standards and FLOS Software in the public sector"
+            }, 
+            {
+                "id": 346, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 347, 
+                "title": "The FOSS ecosystem and business development in Vietnam"
+            }, 
+            {
+                "id": 348, 
+                "title": "End of Sessions"
+            }, 
+            {
+                "id": 349, 
+                "title": "Pub Crawl at Clarke Quay"
+            }, 
+            {
+                "id": 356, 
+                "title": "Curating the open community of developers, designers and makers"
+            }, 
+            {
+                "id": 357, 
+                "title": "India's fight for Netneutrality and Open Internet"
+            }, 
+            {
+                "id": 358, 
+                "title": "Ensuring Patent Non-Aggression in Linux and OSS Projects"
+            }, 
+            {
+                "id": 359, 
+                "title": "Anatomy of a Software Patent for a foss developer"
+            }, 
+            {
+                "id": 360, 
+                "title": "How we work together to reduce the patent risk on open source"
+            }, 
+            {
+                "id": 361, 
+                "title": "How to Share Open Source"
+            }, 
+            {
+                "id": 362, 
+                "title": "FOSS in Indonesia Election"
+            }, 
+            {
+                "id": 363, 
+                "title": "What's next?"
+            }, 
+            {
+                "id": 364, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 365, 
+                "title": "End of Sessions and Social Event (Invitation Only)"
+            }
+        ], 
+        "track_image_url": "http://lorempixel.com/400/200"
+    }, 
     {
-      "description": "",
-      "id": 13,
-      "name": "re:think Mobility",
-      "track_image_url": null
-    },
+        "color": "#3DC8C3", 
+        "description": "Privacy and Security", 
+        "id": 13, 
+        "location": "Level 2, Einstein Hall", 
+        "name": "Privacy and Security", 
+        "sessions": [
+            {
+                "id": 366, 
+                "title": "Functionality, Security, Usability: Choose any two. Or GNOME. "
+            }, 
+            {
+                "id": 367, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 368, 
+                "title": "Not all security flaws are born equal"
+            }, 
+            {
+                "id": 369, 
+                "title": "Privly - Share Privately"
+            }, 
+            {
+                "id": 370, 
+                "title": "Lunch"
+            }, 
+            {
+                "id": 371, 
+                "title": "Ring a decentralized and secure communication platform"
+            }, 
+            {
+                "id": 372, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 373, 
+                "title": "Intrusion Detection with AIDE"
+            }, 
+            {
+                "id": 374, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 375, 
+                "title": "Closing Notes in Main Hall (Level 3, Dalton Hall)"
+            }
+        ], 
+        "track_image_url": "http://lorempixel.com/400/200"
+    }, 
     {
-      "description": "",
-      "id": 14,
-      "name": "Research & Education",
-      "track_image_url": null
-    },
+        "color": "#3DC8C3", 
+        "description": "Science Hack Day", 
+        "id": 14, 
+        "location": "Level 1, Tinkering Studio", 
+        "name": "Science Hack Day", 
+        "sessions": [
+            {
+                "id": 376, 
+                "title": "Breakfast Snacks"
+            }, 
+            {
+                "id": 377, 
+                "title": "Welcome and Introduction from Science Centre"
+            }, 
+            {
+                "id": 378, 
+                "title": "Science Hack Day in Asia"
+            }, 
+            {
+                "id": 379, 
+                "title": "Lightning talks - Participants present their hacking ideas and call for co-workers"
+            }, 
+            {
+                "id": 380, 
+                "title": "Rebuildling Cultural Heritage with #NEWPALMYRA"
+            }, 
+            {
+                "id": 381, 
+                "title": "Creating patterns is like mapping the night sky"
+            }, 
+            {
+                "id": 382, 
+                "title": "DIY Circuit Board Workshop"
+            }, 
+            {
+                "id": 383, 
+                "title": "ExpEYES: Pocket Science Lab  "
+            }, 
+            {
+                "id": 384, 
+                "title": "#NefertitiHack and Cultural Commons \"The Other Nefertiti\""
+            }, 
+            {
+                "id": 385, 
+                "title": "#NefertitiHack and Cultural Commons \"The Other Nefertiti\""
+            }, 
+            {
+                "id": 386, 
+                "title": "Groups - Participants form groups to work on hacking ideas"
+            }, 
+            {
+                "id": 387, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 388, 
+                "title": "Group Photo"
+            }, 
+            {
+                "id": 389, 
+                "title": "Lunch"
+            }, 
+            {
+                "id": 390, 
+                "title": "Science Hack Begins"
+            }, 
+            {
+                "id": 391, 
+                "title": "Rebuildling Cultural Heritage with #NEWPALMYRA"
+            }, 
+            {
+                "id": 392, 
+                "title": "Creating patterns is like mapping the night sky"
+            }, 
+            {
+                "id": 393, 
+                "title": "DIY Circuit Board Workshop"
+            }, 
+            {
+                "id": 394, 
+                "title": "ExpEYES: Pocket Science Lab  "
+            }, 
+            {
+                "id": 395, 
+                "title": "#NefertitiHack and Cultural Commons \"The Other Nefertiti\""
+            }, 
+            {
+                "id": 396, 
+                "title": "#NefertitiHack and Cultural Commons \"The Other Nefertiti\""
+            }, 
+            {
+                "id": 397, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 398, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 399, 
+                "title": "End of Sessions and Social Event (Invitation Only)"
+            }, 
+            {
+                "id": 400, 
+                "title": "Breakfast"
+            }, 
+            {
+                "id": 401, 
+                "title": "Science Hack Day continues"
+            }, 
+            {
+                "id": 402, 
+                "title": "Rebuildling Cultural Heritage with #NEWPALMYRA"
+            }, 
+            {
+                "id": 403, 
+                "title": "Creating patterns is like mapping the night sky"
+            }, 
+            {
+                "id": 404, 
+                "title": "DIY Circuit Board Workshop"
+            }, 
+            {
+                "id": 405, 
+                "title": "ExpEYES: Pocket Science Lab  "
+            }, 
+            {
+                "id": 406, 
+                "title": "#NefertitiHack and Cultural Commons \"The Other Nefertiti\""
+            }, 
+            {
+                "id": 407, 
+                "title": "#NefertitiHack and Cultural Commons \"The Other Nefertiti\""
+            }, 
+            {
+                "id": 408, 
+                "title": "Lunch"
+            }, 
+            {
+                "id": 409, 
+                "title": "Science Hack continues"
+            }, 
+            {
+                "id": 410, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 411, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 412, 
+                "title": "Hack stops"
+            }, 
+            {
+                "id": 413, 
+                "title": "Hack demos begin"
+            }, 
+            {
+                "id": 414, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 415, 
+                "title": "Science Hackers move to Main Hall"
+            }, 
+            {
+                "id": 416, 
+                "title": "Winning teams announced & given awards/medals in Main Hall"
+            }, 
+            {
+                "id": 417, 
+                "title": "Closing Notes in Main Hall (Level 3, Dalton Hall)"
+            }
+        ], 
+        "track_image_url": "http://lorempixel.com/400/200"
+    }, 
     {
-      "description": "",
-      "id": 15,
-      "name": "Science & Technology",
-      "track_image_url": null
+        "color": "#3DC8C3", 
+        "description": "Linux and MiniDebConf", 
+        "id": 15, 
+        "location": "Level 1, Observatory Room", 
+        "name": "Linux and MiniDebConf", 
+        "sessions": [
+            {
+                "id": 425, 
+                "title": "Linux Btrfs"
+            }, 
+            {
+                "id": 426, 
+                "title": "Tracing With ftrace"
+            }, 
+            {
+                "id": 427, 
+                "title": "Closing Notes in Main Hall (Level 3, Dalton Hall)"
+            }, 
+            {
+                "id": 418, 
+                "title": "Let's talk systemd!"
+            }, 
+            {
+                "id": 419, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 420, 
+                "title": "Using the systemd Journal for Your Daily Work"
+            }, 
+            {
+                "id": 421, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 422, 
+                "title": "GNOME 3.20 - Get it while it's fresh!"
+            }, 
+            {
+                "id": 423, 
+                "title": "Lunch"
+            }, 
+            {
+                "id": 424, 
+                "title": "Reproducible Builds - fulfilling the original promise of free software"
+            }
+        ], 
+        "track_image_url": "http://lorempixel.com/400/200"
+    }, 
+    {
+        "color": "#3DC8C3", 
+        "description": "Design, VR, 3D", 
+        "id": 16, 
+        "location": "Level 1, Eco Garden Lab", 
+        "name": "Design, VR, 3D", 
+        "sessions": [
+            {
+                "id": 428, 
+                "title": "Processing - Learn to code by art"
+            }, 
+            {
+                "id": 429, 
+                "title": "Aware User Interface"
+            }, 
+            {
+                "id": 430, 
+                "title": "Open Source WebVR development"
+            }, 
+            {
+                "id": 431, 
+                "title": "Open Source Design \u2013 how we do it in ownCloud"
+            }, 
+            {
+                "id": 432, 
+                "title": "Lunch"
+            }, 
+            {
+                "id": 433, 
+                "title": "Exploring the beauty of algorithms with generative art"
+            }, 
+            {
+                "id": 434, 
+                "title": "Automating android games using image processing"
+            }, 
+            {
+                "id": 435, 
+                "title": "Exploring how designer can contribute to Open Source"
+            }, 
+            {
+                "id": 436, 
+                "title": "Demo Session"
+            }, 
+            {
+                "id": 437, 
+                "title": "Closing Notes in Main Hall (Level 3, Dalton Hall)"
+            }
+        ], 
+        "track_image_url": "http://lorempixel.com/400/200"
+    }, 
+    {
+        "color": "#3DC8C3", 
+        "description": "Exhibition", 
+        "id": 17, 
+        "location": "Level 1, Ground Floor, Scientist For a day, Hall A", 
+        "name": "Exhibition", 
+        "sessions": [
+            {
+                "id": 438, 
+                "title": "ChorusText open assistive device"
+            }, 
+            {
+                "id": 439, 
+                "title": "ESPresso Lite"
+            }, 
+            {
+                "id": 440, 
+                "title": "ESPresso Lite"
+            }, 
+            {
+                "id": 441, 
+                "title": "Science Hacks with PSL@Fossasia"
+            }, 
+            {
+                "id": 442, 
+                "title": "Free Real-time communications lounge"
+            }, 
+            {
+                "id": 443, 
+                "title": "Ring a decentralized and secure communication platform"
+            }, 
+            {
+                "id": 444, 
+                "title": "FOSSASIA"
+            }, 
+            {
+                "id": 445, 
+                "title": "Deepin Desktop System Demo"
+            }, 
+            {
+                "id": 446, 
+                "title": "Developers looking for designers? Show off your project!"
+            }, 
+            {
+                "id": 447, 
+                "title": "coala"
+            }, 
+            {
+                "id": 448, 
+                "title": "RedHat"
+            }, 
+            {
+                "id": 449, 
+                "title": "MySQL"
+            }, 
+            {
+                "id": 450, 
+                "title": "UNESCO YouthMobile"
+            }, 
+            {
+                "id": 451, 
+                "title": "Creative Confidence"
+            }, 
+            {
+                "id": 452, 
+                "title": "Enriching Student Experience"
+            }, 
+            {
+                "id": 453, 
+                "title": "Master of Science Technopreneurship & Innovation Programme (MSc TIP)"
+            }, 
+            {
+                "id": 454, 
+                "title": "End of Exhibition"
+            }, 
+            {
+                "id": 455, 
+                "title": "Pub Crawl at Clarke Quay"
+            }, 
+            {
+                "id": 456, 
+                "title": "ChorusText open assistive device"
+            }, 
+            {
+                "id": 457, 
+                "title": "Introduction to ESPresso Lite"
+            }, 
+            {
+                "id": 458, 
+                "title": "ESPresso Lite"
+            }, 
+            {
+                "id": 459, 
+                "title": "Science Hacks with PSL@Fossasia"
+            }, 
+            {
+                "id": 460, 
+                "title": "Free Real-time communications lounge"
+            }, 
+            {
+                "id": 461, 
+                "title": "Ring a decentralized and secure communication platform"
+            }, 
+            {
+                "id": 462, 
+                "title": "FOSSASIA"
+            }, 
+            {
+                "id": 463, 
+                "title": "Deepin Desktop System Demo"
+            }, 
+            {
+                "id": 464, 
+                "title": "CryptoParty and/or key signing event"
+            }, 
+            {
+                "id": 465, 
+                "title": "Developers looking for designers? Show off your project!"
+            }, 
+            {
+                "id": 466, 
+                "title": "coala"
+            }, 
+            {
+                "id": 467, 
+                "title": "RedHat"
+            }, 
+            {
+                "id": 468, 
+                "title": "MySQL"
+            }, 
+            {
+                "id": 469, 
+                "title": "UNESCO YouthMobile"
+            }, 
+            {
+                "id": 470, 
+                "title": "Creative Confidence"
+            }, 
+            {
+                "id": 471, 
+                "title": "Enriching Student Experience"
+            }, 
+            {
+                "id": 472, 
+                "title": "Master of Science Technopreneurship & Innovation Programme (MSc TIP)"
+            }, 
+            {
+                "id": 473, 
+                "title": "End of Exhibition"
+            }, 
+            {
+                "id": 474, 
+                "title": "Social Event"
+            }, 
+            {
+                "id": 475, 
+                "title": "ChorusText open assistive device"
+            }, 
+            {
+                "id": 476, 
+                "title": "Introduction to ESPresso Lite"
+            }, 
+            {
+                "id": 477, 
+                "title": "ESPresso Lite"
+            }, 
+            {
+                "id": 478, 
+                "title": "Science Hacks with PSL@Fossasia"
+            }, 
+            {
+                "id": 479, 
+                "title": "Free Real-time communications lounge"
+            }, 
+            {
+                "id": 480, 
+                "title": "Ring a decentralized and secure communication platform"
+            }, 
+            {
+                "id": 481, 
+                "title": "FOSSASIA"
+            }, 
+            {
+                "id": 482, 
+                "title": "Deepin Desktop System Demo"
+            }, 
+            {
+                "id": 483, 
+                "title": "CryptoParty and/or key signing event"
+            }, 
+            {
+                "id": 484, 
+                "title": "Developers looking for designers? Show off your project!"
+            }, 
+            {
+                "id": 485, 
+                "title": "coala"
+            }, 
+            {
+                "id": 486, 
+                "title": "RedHat"
+            }, 
+            {
+                "id": 487, 
+                "title": "MySQL"
+            }, 
+            {
+                "id": 488, 
+                "title": "UNESCO YouthMobile"
+            }, 
+            {
+                "id": 489, 
+                "title": "Creative Confidence"
+            }, 
+            {
+                "id": 490, 
+                "title": "Enriching Student Experience"
+            }, 
+            {
+                "id": 491, 
+                "title": "Master of Science Technopreneurship & Innovation Programme (MSc TIP)"
+            }, 
+            {
+                "id": 492, 
+                "title": "End of Exhibition"
+            }, 
+            {
+                "id": 493, 
+                "title": "FOSSASIA 2016 Closes"
+            }
+        ], 
+        "track_image_url": "http://lorempixel.com/400/200"
+    }, 
+    {
+        "color": "#3DC8C3", 
+        "description": "Social Event", 
+        "id": 18, 
+        "location": "Level 2, Newton ", 
+        "name": "Social Event", 
+        "sessions": [], 
+        "track_image_url": "http://lorempixel.com/400/200"
     }
-  ]
-}
+]

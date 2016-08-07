@@ -69,7 +69,7 @@ public class SessionDetailActivity extends BaseActivity {
         final List<Speaker> speakers = dbSingleton.getSpeakersbySessionName(title);
         session = dbSingleton.getSessionbySessionname(title);
 
-        text_room1.setText((dbSingleton.getMicrolocationById(session.getMicrolocations())).getName());
+        text_room1.setText((dbSingleton.getMicrolocationById(session.getMicrolocation().getId())).getName());
 
         text_title.setText(title);
         text_subtitle.setText(session.getSubtitle());
@@ -77,7 +77,6 @@ public class SessionDetailActivity extends BaseActivity {
 
         String start = ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(session.getStartTime()));
         String end = ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(session.getEndTime()));
-
 
         if (TextUtils.isEmpty(start) && TextUtils.isEmpty(end)) {
             text_time.setText(R.string.time_not_specified);
@@ -180,5 +179,4 @@ public class SessionDetailActivity extends BaseActivity {
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         alarmManager.set(AlarmManager.RTC, calendar.getTimeInMillis(), pendingIntent);
     }
-
 }

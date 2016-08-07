@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -73,7 +74,8 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
 
                 Session model = sessionsListAdapter.getItem(position);
                 String sessionName = model.getTitle();
-                Track track = dbSingleton.getTrackbyId(model.getTrack());
+                Log.d("ABC" ,model.getTitle());
+                Track track = dbSingleton.getTrackbyId(model.getTrack().getId());
                 String trackName = track.getName();
                 Intent intent = new Intent(getApplicationContext(), SessionDetailActivity.class);
                 intent.putExtra(ConstantStrings.SESSION, sessionName);
