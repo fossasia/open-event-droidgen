@@ -1,0 +1,7 @@
+{
+    "name": "root/api",
+    "require": {
+        "cekurte/environment": "^0.3.0",
+        "sendgrid/sendgrid": "^5.0"
+    }
+}

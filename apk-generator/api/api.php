@@ -16,7 +16,7 @@ function sendResponse($data) {
 
 if ($_SERVER['REQUEST_METHOD'] != 'POST') {
 
-    sendResponse([
+        sendResponse([
 
         "status"=>"error",
 
@@ -50,7 +50,7 @@ if (!array_key_exists('email', $body) || !array_key_exists('app_name', $body) ||
 
 
 
-$uid = mt_rand(1000,9999). "_" .time();
+$uid = mt_rand(1000,9999).time();
 
 $email = escapeshellcmd($body['email']);
 
@@ -60,8 +60,4 @@ $endpoint = escapeshellcmd($body["endpoint"]);
 
 $appName = preg_replace('/\s+/', '_', $appName);
 
-exec("sudo python /var/www/html/api/appgenserver.py $email $appName $endpoint");
-
-
-
-
+exec("sudo python /var/www/html/api/appgenserver.py $email $appName $endpoint $uid");

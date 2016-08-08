@@ -8,8 +8,6 @@ import subprocess
 from tempfile import mkstemp
 from shutil import move
 from os import remove, close
-import zipfile
-from shutil import copyfile
 
 def replace(file_path, pattern, subst):
     #Create temp file
@@ -26,7 +24,7 @@ def replace(file_path, pattern, subst):
 
 arg = sys.argv[1]
 # Path to be created
-path = "/var/www/html/files/"+str(arg)
+path = "/var/www/files/"+str(arg)
 print path
 if not os.path.exists(path):
     os.makedirs(path)
@@ -34,18 +32,27 @@ if not os.path.exists(path):
 firebase = firebase.FirebaseApplication('https://app-generator.firebaseio.com', None)
 result = firebase.get('/users', str(arg))
 jsonData = json.dumps(result)
-email = json.dumps(result['email'])
+email = json.dumps(result['Email'])
 email = email.replace('"', '')
-app_name = json.dumps(result['name'])
+app_name = json.dumps(result['App_Name'])
 app_name = app_name.replace('"', '')
 print app_name
 print email
 directory = path + "/" + email
 print directory
 
+with open('/var/www/config.json') as json_data:
+    config = json.load(json_data)
+
+conApi = config["api"]
+conSender = config["sender"]
+conTitle = config["title"]
+conBody = config["body"]
+
+
 if not os.path.exists(directory):
     os.makedirs(directory)
-
+print conApi
 subprocess.call(['/var/www/html/clone.sh', directory])
 with open(directory+"/open-event-android/android/app/src/main/assets/config.json", "wb") as fo:
     fo.write(jsonData)
@@ -53,20 +60,8 @@ with open(directory+"/open-event-android/android/app/src/main/assets/config.json
 absDirectory = directory + "/open-event-android/android/"
 replace(directory+"/open-event-android/android/app/build.gradle", '"org.fossasia.openevent"', '"org.fossasia.openevent.'+app_name.split()[0]+'"')
 replace(directory+"/open-event-android/android/app/src/main/res/values/strings.xml", 'OpenEvent', app_name)
-
-#TODO: Add zip path
-zip_ref = zipfile.ZipFile(path_to_zip_file, 'r')
-zip_ref.extractall(directory)
-zip_ref.close()
-#TODO: Change path here
-for f in os.listdir(directory+ "/zip"):
-	if f.endswith('.json'):
-		copyfile(f, directoy + "open-event-android/android/app/src/main/assets/"+f)
-	elif f.endswith('.png'):
-		copyfile(f, directory + "open-event-android/android/app/src/main/res/drawable"+f)
-replace(directory+"/open-event-android/android/app/src/main/res/values/strings.xml", 'mipmap/ic_launcher', 'drawable/' + f)
 subprocess.call(['/var/www/html/buildApk.sh', directory])
-subprocess.call(['/var/www/html/email.sh', directory, email])
 subprocess.call(['/var/www/html/copyApk.sh', absDirectory, arg])
-
+#subprocess.call(['/var/www/html/email.sh', directory, email, conBody, conTitle, arg])  #use this with mutt
+subprocess.call(['/var/www/html/passapi.sh', arg, email])  #use this for sending the UID and email to php file for sendgrid
 print "Script End"
