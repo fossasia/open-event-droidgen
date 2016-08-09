@@ -35,13 +35,7 @@ After taking the request through the POST API, the app will be generated and ema
 [![FOSSASIA](https://img.youtube.com/vi/n5G4yw3t--U/0.jpg)](https://www.youtube.com/watch?v=n5G4yw3t--U)
 
 ## Screenshots  
-![alt-tag](android/screenshots/ss2.PNG)
-
-![alt-tag](android/screenshots/ss1.PNG)
-
-![alt-tag](android/screenshots/ss3.PNG)
-
-![alt-tag](android/screenshots/ss4.PNG)
+![alt-tag](docs/screenshots/ss.png)
 
 ## Documentation
 
