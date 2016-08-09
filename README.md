@@ -31,6 +31,13 @@ Input to the API should be of the following format <br>
 
 After taking the request through the POST API, the app will be generated and emailed to the email address provided in the request body.
 
+## Maintainers
+The project is maintained by
+- Harshit Dwivedi ([@the-dagger](https://github.com/the-dagger))
+- Manan Wason ([@mananwason](https://github.com/mananwason))
+- Mario Behling ([@mariobehling](http://github.com/mariobehling))
+- Justin Lee ([@juslee](http://github.com/juslee))
+
 ##Video Walkthrough
 [![FOSSASIA](https://img.youtube.com/vi/n5G4yw3t--U/0.jpg)](https://www.youtube.com/watch?v=n5G4yw3t--U)
 
