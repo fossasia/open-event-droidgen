@@ -31,17 +31,18 @@ Input to the API should be of the following format <br>
 
 After taking the request through the POST API, the app will be generated and emailed to the email address provided in the request body.
 
+## Maintainers
+The project is maintained by
+- Harshit Dwivedi ([@the-dagger](https://github.com/the-dagger))
+- Manan Wason ([@mananwason](https://github.com/mananwason))
+- Mario Behling ([@mariobehling](http://github.com/mariobehling))
+- Justin Lee ([@juslee](http://github.com/juslee))
+
 ##Video Walkthrough
 [![FOSSASIA](https://img.youtube.com/vi/n5G4yw3t--U/0.jpg)](https://www.youtube.com/watch?v=n5G4yw3t--U)
 
 ## Screenshots  
-![alt-tag](android/screenshots/ss2.PNG)
-
-![alt-tag](android/screenshots/ss1.PNG)
-
-![alt-tag](android/screenshots/ss3.PNG)
-
-![alt-tag](android/screenshots/ss4.PNG)
+![alt-tag](docs/screenshots/ss.png)
 
 ## Documentation
 
@@ -58,7 +59,7 @@ We have the following branches
 	 All tagged commits on _master_ branch will automatically generate a release on Github with a copy of ***fDroid-debug*** and ***GooglePlay-debug*** apks.
 
 ## A note about Codestyle
-Please read our [CODESTYLE](CODESTYLE.md) carefully. Pull requests that do not match the style will be rejected.
+Please read our [CODESTYLE](docs/CODESTYLE.md) carefully. Pull requests that do not match the style will be rejected.
 
 ## License
-This project is currently licensed under the GNU General Public License v3. A copy of LICENSE.md should be present along with the source code. To obtain the software under a different license, please contact FOSSASIA.
+This project is currently licensed under the GNU General Public License v3. A copy of [LICENSE](LICENSE.md) is to be present along with the source code. To obtain the software under a different license, please contact FOSSASIA.
