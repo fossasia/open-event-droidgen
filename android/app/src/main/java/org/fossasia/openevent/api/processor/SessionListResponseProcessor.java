@@ -1,6 +1,7 @@
 package org.fossasia.openevent.api.processor;
 
 import org.fossasia.openevent.OpenEventApp;
+import org.fossasia.openevent.data.EventDates;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.dbutils.DbSingleton;
@@ -33,11 +34,11 @@ public class SessionListResponseProcessor implements Callback<List<Session>> {
                     ArrayList<String> queries = new ArrayList<String>();
 
                     for (Session session : response.body()) {
-//                        Timber.d(session.getMicrolocations().getId()+"");
-
 
                         session.setStartDate(session.getStartTime().split("T")[0]);
-//                        Timber.d(session.getMicrolocations()+"");
+                        EventDates eventDates = new EventDates(session.getStartDate());
+                        dbSingleton.insertQuery(eventDates.generateSql());
+
                         String query = session.generateSql();
                         queries.add(query);
                         Timber.d(query);
@@ -47,8 +48,6 @@ public class SessionListResponseProcessor implements Callback<List<Session>> {
                     dbSingleton.insertQueries(queries);
                     OpenEventApp.postEventOnUIThread(new SessionDownloadEvent(true));
                 }
-
-
             });
         } else {
             OpenEventApp.getEventBus().post(new SessionDownloadEvent(false));

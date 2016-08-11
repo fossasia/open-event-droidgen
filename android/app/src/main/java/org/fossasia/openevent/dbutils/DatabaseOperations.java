@@ -8,9 +8,9 @@ import org.fossasia.openevent.data.Event;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Sponsor;
-import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.data.Version;
 import org.fossasia.openevent.data.parsingExtras.Microlocation;
+import org.fossasia.openevent.data.parsingExtras.Track;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -35,6 +35,8 @@ public class DatabaseOperations {
 
     private static final String LIKE = " LIKE ";
 
+    private static final String ORDERBY = " ORDER BY ";
+
     Event event;
 
     public ArrayList<Session> getSessionList(SQLiteDatabase mDb) {
@@ -56,8 +58,11 @@ public class DatabaseOperations {
         cur.moveToFirst();
         while (!cur.isAfterLast()) {
             try {
-                int id = cur.getInt(cur.getColumnIndex(DbContract.Sessions.MICROLOCATION));
-                Microlocation microlocation = new Microlocation(id, getMicroLocationById(id, mDb).getName());
+                int microlocationId = cur.getInt(cur.getColumnIndex(DbContract.Sessions.MICROLOCATION));
+                Microlocation microlocation = new Microlocation(microlocationId, getMicroLocationById(microlocationId, mDb).getName());
+                int trackId = cur.getInt(cur.getColumnIndex(DbContract.Sessions.TRACK));
+                Track track = new Track(trackId, getTracksbyTracksId(trackId, mDb).getName());
+
                 s = new Session(
                         cur.getInt(cur.getColumnIndex(DbContract.Sessions.ID)),
                         cur.getString(cur.getColumnIndex(DbContract.Sessions.TITLE)),
@@ -66,8 +71,9 @@ public class DatabaseOperations {
                         cur.getString(cur.getColumnIndex(DbContract.Sessions.DESCRIPTION)),
                         cur.getString(cur.getColumnIndex(DbContract.Sessions.START_TIME)),
                         cur.getString(cur.getColumnIndex(DbContract.Sessions.END_TIME)),
+                        cur.getString(cur.getColumnIndex(DbContract.Sessions.START_DATE)),
                         cur.getString(cur.getColumnIndex(DbContract.Sessions.TYPE)),
-                        cur.getInt(cur.getColumnIndex(DbContract.Sessions.TRACK)),
+                        track,
                         cur.getString(cur.getColumnIndex(DbContract.Sessions.LEVEL)),
                         microlocation
 
@@ -99,6 +105,8 @@ public class DatabaseOperations {
         try {
             int microlocationId = cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.MICROLOCATION));
             Microlocation microlocation = new Microlocation(microlocationId, getMicroLocationById(microlocationId, mDb).getName());
+            int trackId = cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.TRACK));
+            Track track = new Track(trackId, getTracksbyTracksId(trackId, mDb).getName());
 
             session = new Session(
                     cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.ID)),
@@ -108,8 +116,9 @@ public class DatabaseOperations {
                     cursor.getString(cursor.getColumnIndex(DbContract.Sessions.DESCRIPTION)),
                     cursor.getString(cursor.getColumnIndex(DbContract.Sessions.START_TIME)),
                     cursor.getString(cursor.getColumnIndex(DbContract.Sessions.END_TIME)),
+                    cursor.getString(cursor.getColumnIndex(DbContract.Sessions.START_DATE)),
                     cursor.getString(cursor.getColumnIndex(DbContract.Sessions.TYPE)),
-                    cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.TRACK)),
+                    track,
                     cursor.getString(cursor.getColumnIndex(DbContract.Sessions.LEVEL)),
                     microlocation
             );
@@ -132,7 +141,6 @@ public class DatabaseOperations {
                 null,
                 null
         );
-        Timber.tag("MICRO").d(cursor.getCount()+"");
 
         org.fossasia.openevent.data.Microlocation location = null;
         cursor.moveToFirst();
@@ -154,7 +162,6 @@ public class DatabaseOperations {
     }
 
     public List<Speaker> getSpeakerList(SQLiteDatabase mDb, String sortBy) {
-        //getReadOnlyDatabase();
 
         String sortOrder = sortBy + ASCENDING;
         Cursor cur = mDb.query(
@@ -198,7 +205,6 @@ public class DatabaseOperations {
     }
 
     public Version getVersionIds(SQLiteDatabase mDb) {
-        //getReadOnlyDatabase();
 
         Cursor cursor = mDb.query(
                 DbContract.Versions.TABLE_NAME,
@@ -230,7 +236,7 @@ public class DatabaseOperations {
         }
     }
 
-    public List<Track> getTrackList(SQLiteDatabase mDb) {
+    public List<org.fossasia.openevent.data.Track> getTrackList(SQLiteDatabase mDb) {
         String sortOrder = DbContract.Tracks.ID + ASCENDING;
         Cursor cursor = mDb.query(
                 DbContract.Tracks.TABLE_NAME,
@@ -241,12 +247,12 @@ public class DatabaseOperations {
                 null,
                 sortOrder
         );
-        List<Track> tracks = new ArrayList<>();
-        Track track;
+        List<org.fossasia.openevent.data.Track> tracks = new ArrayList<>();
+        org.fossasia.openevent.data.Track track;
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            track = new Track(
+            track = new org.fossasia.openevent.data.Track(
                     cursor.getInt(cursor.getColumnIndex(DbContract.Tracks.ID)),
                     cursor.getString(cursor.getColumnIndex(DbContract.Tracks.NAME)),
                     cursor.getString(cursor.getColumnIndex(DbContract.Tracks.DESCRIPTION)),
@@ -261,7 +267,6 @@ public class DatabaseOperations {
 
 
     public ArrayList<Sponsor> getSponsorList(SQLiteDatabase mDb) {
-        //getReadOnlyDatabase();
         String sortOrder = DbContract.Sponsors.NAME + ASCENDING;
         Cursor cursor = mDb.query(
                 DbContract.Sponsors.TABLE_NAME,
@@ -362,8 +367,10 @@ public class DatabaseOperations {
         //Should return only one due to UNIQUE constraint
         while (!sessionCursor.isAfterLast()) {
             try {
-                int id = sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.MICROLOCATION));
-                Microlocation microlocation = new Microlocation(id, getMicroLocationById(id, mDb).getName());
+                int microlocationId = sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.MICROLOCATION));
+                Microlocation microlocation = new Microlocation(microlocationId, getMicroLocationById(microlocationId, mDb).getName());
+                int trackId = sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.TRACK));
+                Track track = new Track(trackId, getTracksbyTracksId(trackId, mDb).getName());
 
                 session = new Session(
                         sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.ID)),
@@ -373,8 +380,9 @@ public class DatabaseOperations {
                         sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.DESCRIPTION)),
                         sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.START_TIME)),
                         sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.END_TIME)),
+                        sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.START_DATE)),
                         sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.TYPE)),
-                        sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.TRACK)),
+                        track,
                         sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.LEVEL)),
                         microlocation
                 );
@@ -389,7 +397,7 @@ public class DatabaseOperations {
         return sessions;
     }
 
-    public Track getTracksbyTracksname(String trackName, SQLiteDatabase mDb) {
+    public org.fossasia.openevent.data.Track getTracksbyTracksname(String trackName, SQLiteDatabase mDb) {
         String tracksColumnSelection = DbContract.Tracks.NAME + EQUAL + DatabaseUtils.sqlEscapeString(trackName);
 
         Cursor tracksCursor = mDb.query(
@@ -404,7 +412,7 @@ public class DatabaseOperations {
 
         tracksCursor.moveToFirst();
 
-        Track selected = new Track(
+        org.fossasia.openevent.data.Track selected = new org.fossasia.openevent.data.Track(
                 tracksCursor.getInt(tracksCursor.getColumnIndex(DbContract.Tracks.ID)),
                 tracksCursor.getString(tracksCursor.getColumnIndex(DbContract.Tracks.NAME)),
                 tracksCursor.getString(tracksCursor.getColumnIndex(DbContract.Tracks.DESCRIPTION)),
@@ -415,7 +423,7 @@ public class DatabaseOperations {
 
     }
 
-    public Track getTracksbyTracksId(int id, SQLiteDatabase mDb) {
+    public org.fossasia.openevent.data.Track getTracksbyTracksId(int id, SQLiteDatabase mDb) {
         String tracksColumnSelection = DbContract.Tracks.ID + EQUAL + DatabaseUtils.sqlEscapeString(String.valueOf(id));
 
         Cursor tracksCursor = mDb.query(
@@ -430,7 +438,7 @@ public class DatabaseOperations {
 
         tracksCursor.moveToFirst();
 
-        Track selected = new Track(
+        org.fossasia.openevent.data.Track selected = new org.fossasia.openevent.data.Track(
                 tracksCursor.getInt(tracksCursor.getColumnIndex(DbContract.Tracks.ID)),
                 tracksCursor.getString(tracksCursor.getColumnIndex(DbContract.Tracks.NAME)),
                 tracksCursor.getString(tracksCursor.getColumnIndex(DbContract.Tracks.DESCRIPTION)),
@@ -448,7 +456,7 @@ public class DatabaseOperations {
             db.beginTransaction();
             for (String query : queries) {
                 db.execSQL(query);
-//                Timber.d(query);
+                Timber.d(query);
             }
             db.setTransactionSuccessful();
             db.endTransaction();
@@ -551,8 +559,10 @@ public class DatabaseOperations {
             Session session;
             if (sessionTableCursor != null && sessionTableCursor.moveToFirst()) {
                 try {
-                    int id = sessionTableCursor.getInt(sessionTableCursor.getColumnIndex(DbContract.Sessions.MICROLOCATION));
-                    Microlocation microlocation = new Microlocation(id, getMicroLocationById(id, mDb).getName());
+                    int microlocationId = sessionTableCursor.getInt(sessionTableCursor.getColumnIndex(DbContract.Sessions.MICROLOCATION));
+                    Microlocation microlocation = new Microlocation(microlocationId, getMicroLocationById(microlocationId, mDb).getName());
+                    int trackId = sessionTableCursor.getInt(sessionTableCursor.getColumnIndex(DbContract.Sessions.TRACK));
+                    Track track = new Track(trackId, getTracksbyTracksId(trackId, mDb).getName());
 
                     session = new Session(
                             sessionTableCursor.getInt(sessionTableCursor.getColumnIndex(DbContract.Sessions.ID)),
@@ -562,8 +572,9 @@ public class DatabaseOperations {
                             sessionTableCursor.getString(sessionTableCursor.getColumnIndex(DbContract.Sessions.DESCRIPTION)),
                             sessionTableCursor.getString(sessionTableCursor.getColumnIndex(DbContract.Sessions.START_TIME)),
                             sessionTableCursor.getString(sessionTableCursor.getColumnIndex(DbContract.Sessions.END_TIME)),
+                            sessionTableCursor.getString(sessionTableCursor.getColumnIndex(DbContract.Sessions.START_DATE)),
                             sessionTableCursor.getString(sessionTableCursor.getColumnIndex(DbContract.Sessions.TYPE)),
-                            sessionTableCursor.getInt(sessionTableCursor.getColumnIndex(DbContract.Sessions.TRACK)),
+                            track,
                             sessionTableCursor.getString(sessionTableCursor.getColumnIndex(DbContract.Sessions.LEVEL)),
                             microlocation
                     );
@@ -625,7 +636,6 @@ public class DatabaseOperations {
                 null
         );
 
-        Timber.tag("Event").d(cursor.getCount()+"");
         if (cursor != null && cursor.moveToFirst()) {
             event = new Event(
                     cursor.getInt(cursor.getColumnIndex(DbContract.Event.ID)),
@@ -708,8 +718,10 @@ public class DatabaseOperations {
         if (cursor.getCount() > 0) {
             while (!sessionCursor.isAfterLast()) {
                 try {
-                    int id = sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.MICROLOCATION));
-                    Microlocation microlocation = new Microlocation(id, getMicroLocationById(id, mDb).getName());
+                    int microlocationId = sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.MICROLOCATION));
+                    Microlocation microlocation = new Microlocation(microlocationId, getMicroLocationById(microlocationId, mDb).getName());
+                    int trackId = sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.TRACK));
+                    Track track = new Track(trackId, getTracksbyTracksId(trackId, mDb).getName());
 
                     s = new Session(
                             sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.ID)),
@@ -719,8 +731,9 @@ public class DatabaseOperations {
                             sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.DESCRIPTION)),
                             sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.START_TIME)),
                             sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.END_TIME)),
+                            sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.START_DATE)),
                             sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.TYPE)),
-                            sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.TRACK)),
+                            track,
                             sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.LEVEL)),
                             microlocation
                     );
@@ -869,8 +882,10 @@ public class DatabaseOperations {
         Session session = null;
         cursor.moveToFirst();
         try {
-            int id = cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.MICROLOCATION));
-            Microlocation microlocation = new Microlocation(id, getMicroLocationById(id, mDb).getName());
+            int microlocationId = cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.MICROLOCATION));
+            Microlocation microlocation = new Microlocation(microlocationId, getMicroLocationById(microlocationId, mDb).getName());
+            int trackId = cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.TRACK));
+            Track track = new Track(trackId, getTracksbyTracksId(trackId, mDb).getName());
 
             session = new Session(
                     cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.ID)),
@@ -880,8 +895,9 @@ public class DatabaseOperations {
                     cursor.getString(cursor.getColumnIndex(DbContract.Sessions.DESCRIPTION)),
                     cursor.getString(cursor.getColumnIndex(DbContract.Sessions.START_TIME)),
                     cursor.getString(cursor.getColumnIndex(DbContract.Sessions.END_TIME)),
+                    cursor.getString(cursor.getColumnIndex(DbContract.Sessions.START_DATE)),
                     cursor.getString(cursor.getColumnIndex(DbContract.Sessions.TYPE)),
-                    cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.TRACK)),
+                    track,
                     cursor.getString(cursor.getColumnIndex(DbContract.Sessions.LEVEL)),
                     microlocation
 
@@ -966,8 +982,10 @@ public class DatabaseOperations {
         sessionCursor.moveToFirst();
         while (!sessionCursor.isAfterLast()) {
             try {
-                int id = sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.MICROLOCATION));
-                Microlocation microlocation = new Microlocation(id, getMicroLocationById(id, mDb).getName());
+                int microlocationId = sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.MICROLOCATION));
+                Microlocation microlocation = new Microlocation(microlocationId, getMicroLocationById(microlocationId, mDb).getName());
+                int trackId = sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.TRACK));
+                Track track = new Track(trackId, getTracksbyTracksId(trackId, mDb).getName());
 
                 session = new Session(
                         sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.ID)),
@@ -977,8 +995,9 @@ public class DatabaseOperations {
                         sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.DESCRIPTION)),
                         sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.START_TIME)),
                         sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.END_TIME)),
+                        sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.START_DATE)),
                         sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.TYPE)),
-                        sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.TRACK)),
+                        track,
                         sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.LEVEL)),
                         microlocation
                 );
@@ -994,10 +1013,9 @@ public class DatabaseOperations {
     }
 
     public List<String> getDateList(SQLiteDatabase mDb) {
-        Cursor cursor = mDb.rawQuery("SELECT * FROM " + DbContract.EventDates.TABLE_NAME + " ORDER BY strftime('%s'," + DbContract.EventDates.DATE + ");", null);
+        Cursor cursor = mDb.rawQuery("SELECT * FROM " + DbContract.EventDates.TABLE_NAME + ORDERBY + DbContract.EventDates.DATE + ASCENDING + ";", null);
         List<String> dates = new ArrayList<>();
         String date;
-
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             date = cursor.getString(cursor.getColumnIndex(DbContract.EventDates.DATE));

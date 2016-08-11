@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,18 +18,23 @@ import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
 
+import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.activities.SessionDetailActivity;
 import org.fossasia.openevent.adapters.DayScheduleAdapter;
 import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Track;
+import org.fossasia.openevent.dbutils.DataDownloadManager;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.RefreshUiEvent;
 import org.fossasia.openevent.events.SessionDownloadEvent;
 import org.fossasia.openevent.utils.ConstantStrings;
+import org.fossasia.openevent.utils.NetworkUtils;
 
 import java.util.List;
+
+import timber.log.Timber;
 
 /**
  * Created by Manan Wason on 17/06/16.
@@ -52,7 +56,6 @@ public class DayScheduleFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        date = getArguments().getString(ConstantStrings.EVENT_DAY, "");
 
     }
 
@@ -74,9 +77,9 @@ public class DayScheduleFragment extends Fragment {
         dayScheduleAdapter.setOnClickListener(new DayScheduleAdapter.SetOnClickListener() {
             @Override
             public void onItemClick(int position, View view) {
-                Log.d("CLICKED", "SESSIONS");
                 Session model = dayScheduleAdapter.getItem(position);
                 String sessionName = model.getTitle();
+                Timber.d(sessionName);
                 Track track = dbSingleton.getTrackbyId(model.getTrack().getId());
                 String trackName = track.getName();
                 Intent intent = new Intent(getContext(), SessionDetailActivity.class);
@@ -89,16 +92,16 @@ public class DayScheduleFragment extends Fragment {
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.schedule_swipe_refresh);
         //TODO: Uncomment this when eventDates.json version is added to versions.json
 
-//        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                if (NetworkUtils.haveNetworkConnection(getContext())) {
-//                    DataDownloadManager.getInstance().downloadEventDates();
-//                } else {
-//                    OpenEventApp.getEventBus().post(new SessionDownloadEvent(false));
-//                }
-//            }
-//        });
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if (NetworkUtils.haveNetworkConnection(getContext())) {
+                    DataDownloadManager.getInstance().downloadSession();
+                } else {
+                    OpenEventApp.getEventBus().post(new SessionDownloadEvent(false));
+                }
+            }
+        });
 
         dayRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 

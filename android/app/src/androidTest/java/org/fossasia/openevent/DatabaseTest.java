@@ -47,7 +47,6 @@ public class DatabaseTest extends AndroidTestCase {
         String sponsorQuery = sponsor.generateSql();
         Timber.tag("Sponsor").d(sponsorQuery);
         queries.add(sponsorQuery);
-
         Speaker speaker = new Speaker(5, "manan", "manan.png", "manan wason", "IIITD",
                 "mananwason.me", "twitter.com/mananwason", "facebook.com/mananwason",
                 "github.com/mananwason", "linkedin.com/mananwason", "fossasia", "gsoc student", null, "india");
@@ -60,7 +59,7 @@ public class DatabaseTest extends AndroidTestCase {
         Timber.tag("Micro").d(microlocationQuery);
         queries.add(microlocationQuery);
         Session session = new Session(5, "abcd", "abc", "abcdefgh", "sdfjs dsjfnjs",
-                "2015-06-05T00:00:00", "2015-06-06T00:00:00", "abcde", new Track(1, "kids", "ABCd", "img.png"), "1", new org.fossasia.openevent.data.parsingExtras.Microlocation(4, "moscone centre"));
+                "2015-06-05T00:00:00", "2015-06-06T00:00:00", "2015-06-06", "1", new org.fossasia.openevent.data.parsingExtras.Track(6, "kids"), "0", new org.fossasia.openevent.data.parsingExtras.Microlocation(4, "moscone centre"));
 
         String sessionQuery = session.generateSql();
         Timber.tag("Session").d(sessionQuery);
