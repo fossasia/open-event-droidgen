@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import org.fossasia.openevent.R;
+import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.CircleTransform;
@@ -84,7 +85,7 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, ViewHolder.Viewh
 
         viewholder.setImgView1((ImageView) view.findViewById(R.id.speaker_image));
         viewholder.setTxtView1((TextView) view.findViewById(R.id.speaker_name));
-        viewholder.setTxtView2((TextView) view.findViewById(R.id.speaker_designation));
+        viewholder.setTxtView2((TextView) view.findViewById(R.id.speaker_info));
 
         return viewholder;
     }
@@ -93,11 +94,14 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, ViewHolder.Viewh
     public void onBindViewHolder(ViewHolder.Viewholder holder, int position) {
         Speaker current = getItem(position);
 
-        Uri uri = Uri.parse(current.getPhoto());
+        StringBuilder photoUri = new StringBuilder();
+        photoUri.append(Urls.getBaseUrl()).append(current.getPhoto());
+        Uri uri = Uri.parse(photoUri.toString());
+
         Picasso.with(holder.getImgView1().getContext()).load(uri)
                 .placeholder(R.drawable.ic_account_circle_grey_24dp).transform(new CircleTransform()).into(holder.getImgView1());
 
-        holder.getTxtView2().setText(current.getPosition());
+        holder.getTxtView2().setText(String.format("%s %s", current.getPosition(), current.getOrganisation()));
         holder.getTxtView1().setText(TextUtils.isEmpty(current.getName()) ? "" : current.getName());
 
         holder.setItemClickListener(listener);

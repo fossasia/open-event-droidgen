@@ -34,10 +34,12 @@
             android:textColor="#de000000" />
 
         <TextView
-            android:id="@+id/speaker_designation"
+            android:id="@+id/speaker_info"
             style="@style/TextAppearance.AppCompat.Body1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:textColor="#8a000000" />
 
     </LinearLayout>
