@@ -66,8 +66,7 @@ public class TracksListAdapter extends BaseRVAdapter<Track, ViewHolder.Viewholde
         ViewHolder.Viewholder viewholder = new ViewHolder.Viewholder(view);
         viewholder.setTxtView1((TextView) view.findViewById(R.id.track_title));
         viewholder.setTxtView2((TextView) view.findViewById(R.id.track_description));
-        viewholder.setView1(view.findViewById(R.id.track_top));
-        viewholder.setView2(view.findViewById(R.id.track_bottom));
+
 
         return viewholder;
     }
@@ -79,17 +78,6 @@ public class TracksListAdapter extends BaseRVAdapter<Track, ViewHolder.Viewholde
         holder.getTxtView2().setText(current.getDescription());
         holder.setItemClickListener(listener);
 
-        if (position == 0) {
-            holder.getView1().setVisibility(View.INVISIBLE);
-        } else {
-            holder.getView1().setVisibility(View.VISIBLE);
-        }
-
-        if (position == getItemCount() - 1) {
-            holder.getView2().setVisibility(View.INVISIBLE);
-        } else {
-            holder.getView2().setVisibility(View.VISIBLE);
-        }
     }
 
     public void refresh() {

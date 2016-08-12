@@ -34,7 +34,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(DbContract.Versions.CREATE_TABLE);
         db.execSQL(DbContract.Bookmarks.CREATE_TABLE);
         db.execSQL(DbContract.EventDates.CREATE_TABLE);
-        Timber.tag(TAG).d("==== onCreate DB ====");
+        Timber.tag(TAG).d("==== onCreate DB Completed ====");
     }
 
     @Override
