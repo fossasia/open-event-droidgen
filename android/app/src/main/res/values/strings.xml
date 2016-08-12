@@ -101,7 +101,7 @@
     <string name="facebook_icon">Facebook Icon</string>
     <string name="github_icon">Github Icon</string>
     <string name="web_icon">Web Icon</string>
-    <string name="download_assets">Do you want to download all assets right now?</string>
+    <string name="download_assets">Do you want to update to the latest schedule now?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="noSessions">No Sessions yet!</string>
@@ -110,4 +110,5 @@
     <string name="noSpeakers">No Speakers yet!</string>
     <string name="noSponsors">No Sponsors yet!</string>
     <string name="noTracks">No Tracks yet!</string>
+    <string name="charges_warning">Data charges may apply</string>
 </resources>

@@ -172,7 +172,7 @@ public class MainActivity extends BaseActivity {
         if (NetworkUtils.haveNetworkConnection(this)) {
             if (!sharedPreferences.getBoolean(ConstantStrings.IS_DOWNLOAD_DONE, false)) {
                 AlertDialog.Builder downloadDialog = new AlertDialog.Builder(this);
-                downloadDialog.setTitle(R.string.download_assets);
+                downloadDialog.setTitle(R.string.download_assets).setMessage(R.string.charges_warning);
                 downloadDialog.setIcon(R.drawable.ic_file_download_black_24dp);
                 downloadDialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
