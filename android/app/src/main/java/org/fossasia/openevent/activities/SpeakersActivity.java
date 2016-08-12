@@ -3,6 +3,7 @@ package org.fossasia.openevent.activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -71,11 +72,29 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
 
         selectedSpeaker = dbSingleton.getSpeakerbySpeakersname(speaker);
 
-        CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        collapsingToolbarLayout.setTitle(selectedSpeaker.getName());
-        collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedAppBar);
+        final CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.appbar);
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            boolean isShow = false;
+            int scrollRange = -1;
 
-
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (scrollRange == -1) {
+                    scrollRange = appBarLayout.getTotalScrollRange();
+                }
+                if (scrollRange + verticalOffset == 0) {
+                    collapsingToolbarLayout.setTitle(selectedSpeaker.getName());
+                    collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedAppBar);
+                    isShow = true;
+                } else if(isShow) {
+                    collapsingToolbarLayout.setTitle(" ");
+                    isShow = false;
+                }
+            }
+        });
+        TextView speakerName = (TextView) findViewById(R.id.speaker_name_title);
+        speakerName.setText(selectedSpeaker.getName());
         final TextView biography = (TextView) findViewById(R.id.speaker_bio);
         ImageView linkedin = (ImageView) findViewById(R.id.imageView_linkedin);
         ImageView twitter = (ImageView) findViewById(R.id.imageView_twitter);
