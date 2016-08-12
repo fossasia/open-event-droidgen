@@ -41,6 +41,8 @@ public class EventListResponseProcessor implements Callback<Event> {
 
                         if ((dbSingleton.getVersionIds() == null)) {
                             queries.add(version.generateSql());
+                            queries.add(event_query);
+                            Timber.d(event_query);
                             dbSingleton.insertQueries(queries);
                             DataDownloadManager download = DataDownloadManager.getInstance();
                             download.downloadSpeakers();
