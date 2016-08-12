@@ -7,6 +7,7 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
+        app:elevation="0dp"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
         android:theme="@style/AppTheme.AppBarOverlay">
@@ -18,8 +19,11 @@
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
             app:expandedTitleMarginEnd="64dp"
+            app:expandedTitleMarginTop="23dp"
+            app:expandedTitleTextAppearance="@android:style/TextAppearance.DeviceDefault.WindowTitle"
             app:expandedTitleMarginStart="48dp"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:expandedTitleGravity="bottom|center_horizontal">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -30,16 +34,26 @@
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:layout_centerHorizontal="true"
+                    android:layout_marginRight="@dimen/speaker_margin"
+                    android:layout_marginLeft="@dimen/speaker_margin"
                     android:layout_marginBottom="@dimen/speaker_margin"
                     android:layout_marginTop="?attr/actionBarSize"
                     android:contentDescription="@string/speaker_image"
                     app:layout_collapseMode="parallax" />
 
                 <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
+                    android:id="@+id/speaker_name_title"
+                    android:layout_below="@id/speaker_image" />
+
+                <TextView
                     android:id="@+id/speaker_bio"
+                    android:layout_below="@id/speaker_name_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/speaker_image"
                     android:layout_marginBottom="60dp"
                     android:layout_marginTop="@dimen/speaker_margin"
                     android:gravity="center"
@@ -52,10 +66,10 @@
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar_speakers"
+                style="@style/ToolbarTheme"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
-                style="@style/ToolbarTheme"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
@@ -70,6 +84,25 @@
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imageView_fb"
+            android:layout_width="@dimen/social_image_icon"
+            android:layout_height="@dimen/social_image_icon"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="@dimen/speaker_margin"
+            android:layout_marginStart="@dimen/speaker_margin"
+            android:layout_marginTop="5dp"
+            android:adjustViewBounds="true"
+            android:clickable="true"
+            android:contentDescription="@string/facebook_icon"
+            android:src="@drawable/facebook"
+            android:tag="@string/fb" />
+
         <ImageView
             android:id="@+id/imageView_linkedin"
             android:layout_width="@dimen/social_image_icon"
@@ -78,8 +111,6 @@
             android:layout_marginLeft="@dimen/speaker_margin"
             android:layout_marginStart="@dimen/speaker_margin"
             android:layout_marginTop="5dp"
-            android:layout_toLeftOf="@+id/imageView_twitter"
-            android:layout_toStartOf="@+id/imageView_twitter"
             android:adjustViewBounds="true"
             android:clickable="true"
             android:contentDescription="@string/linkedin_icon"
@@ -94,28 +125,11 @@
             android:layout_marginLeft="@dimen/speaker_margin"
             android:layout_marginStart="@dimen/speaker_margin"
             android:layout_marginTop="5dp"
-            android:layout_toLeftOf="@+id/imageView_fb"
-            android:layout_toStartOf="@+id/imageView_fb"
             android:adjustViewBounds="true"
             android:clickable="true"
             android:contentDescription="@string/twitter_icon"
             android:src="@drawable/twitter"
             android:tag="@string/twitter" />
-
-        <ImageView
-            android:id="@+id/imageView_fb"
-            android:layout_width="@dimen/social_image_icon"
-            android:layout_height="@dimen/social_image_icon"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="@dimen/speaker_margin"
-            android:layout_marginStart="@dimen/speaker_margin"
-            android:layout_marginTop="5dp"
-            android:adjustViewBounds="true"
-            android:clickable="true"
-            android:contentDescription="@string/facebook_icon"
-            android:src="@drawable/facebook"
-            android:tag="@string/fb" />
 
         <ImageView
             android:id="@+id/imageView_github"
@@ -125,8 +139,6 @@
             android:layout_marginLeft="@dimen/speaker_margin"
             android:layout_marginStart="@dimen/speaker_margin"
             android:layout_marginTop="5dp"
-            android:layout_toEndOf="@+id/imageView_fb"
-            android:layout_toRightOf="@+id/imageView_fb"
             android:adjustViewBounds="true"
             android:clickable="true"
             android:contentDescription="@string/github_icon"
@@ -141,14 +153,12 @@
             android:layout_marginLeft="@dimen/speaker_margin"
             android:layout_marginStart="@dimen/speaker_margin"
             android:layout_marginTop="5dp"
-            android:layout_toEndOf="@+id/imageView_github"
-            android:layout_toRightOf="@+id/imageView_github"
             android:adjustViewBounds="true"
             android:clickable="true"
             android:contentDescription="@string/web_icon"
             android:src="@drawable/ic_domain_black_24dp"
             android:tag="@string/website" />
-
+        </LinearLayout>
         <View
             android:id="@+id/view"
             android:layout_width="match_parent"
@@ -157,7 +167,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView_speakers"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_below="@+id/view"
             android:background="#fff"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />

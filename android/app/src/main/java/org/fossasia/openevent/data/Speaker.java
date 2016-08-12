@@ -4,6 +4,7 @@ import android.database.DatabaseUtils;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.utils.StringUtils;
 
@@ -55,7 +56,7 @@ public class Speaker {
                    String position, int[] session, String country) {
         this.id = id;
         this.name = name;
-        this.photo = photo;
+        this.photo = Urls.BASE_URL + photo;
         this.bio = bio;
         this.email = email;
         this.website = web;
