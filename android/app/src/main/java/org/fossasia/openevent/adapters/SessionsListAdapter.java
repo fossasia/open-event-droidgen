@@ -1,6 +1,5 @@
 package org.fossasia.openevent.adapters;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,7 +82,6 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, ViewHolder.Viewh
         viewholder.setTxtView4 ((TextView) view.findViewById(R.id.session_date));
         viewholder.setTxtView5 ((TextView) view.findViewById(R.id.session_start_time));
         viewholder.setTxtView6((TextView) view.findViewById(R.id.session_location));
-        viewholder.setTxtView7((TextView) view.findViewById(R.id.session_speaker));
         return viewholder;
     }
 
@@ -91,8 +89,6 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, ViewHolder.Viewh
     public void onBindViewHolder(ViewHolder.Viewholder holder, int position) {
         Session current = getItem(position);
         String title = current.getTitle();
-        int speakerId = DbSingleton.getInstance().getSpeakerIdBySessionId(current.getId());
-        Log.e("SpeakerID", String.valueOf(speakerId));
         String summary = current.getSummary();
         String date = ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(current.getStartTime())).split(",")[0] + ", " + ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(current.getStartTime())).split(",")[1];
         holder.getTxtView1().setText(title);
@@ -101,7 +97,6 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, ViewHolder.Viewh
         holder.getTxtView4().setText(date);
         holder.getTxtView5().setText(ISO8601Date.getTime(ISO8601Date.getDateObject(current.getStartTime())));
         holder.getTxtView6().setText(current.getMicrolocation().getName());
-        holder.getTxtView7().setText(DbSingleton.getInstance().getSpeakerId(speakerId).getName());
         holder.setItemClickListener(listener);
     }
 
