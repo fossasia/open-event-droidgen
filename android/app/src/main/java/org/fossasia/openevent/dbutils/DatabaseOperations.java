@@ -161,29 +161,6 @@ public class DatabaseOperations {
         return location;
     }
 
-    public List<Integer> getSpeakerIdbySessionId(int id, SQLiteDatabase mDb) {
-        String selection = DbContract.Sessionsspeakers.SESSION_ID + EQUAL + id;
-        Cursor cur = mDb.query(
-                DbContract.Sessionsspeakers.TABLE_NAME,
-                DbContract.Sessionsspeakers.FULL_PROJECTION,
-                selection,
-                null,
-                null,
-                null,
-                null
-        );
-
-        List<Integer> speakerId = null;
-        cur.moveToFirst();
-        while (!cur.isAfterLast()) {
-            speakerId.add(cur.getInt(cur.getColumnIndex(DbContract.Sessionsspeakers.SPEAKER_ID)));
-            cur.moveToNext();
-        }
-        cur.close();
-
-        return speakerId;
-    }
-
     public List<Speaker> getSpeakerList(SQLiteDatabase mDb, String sortBy) {
 
         String sortOrder = sortBy + ASCENDING;

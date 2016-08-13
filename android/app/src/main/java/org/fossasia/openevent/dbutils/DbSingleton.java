@@ -159,10 +159,6 @@ public class DbSingleton {
         return databaseOperations.getTracksbyTracksId(id, mDb);
     }
 
-    public List<Integer> getSpeakerIdBySessionId(int id) {
-        return databaseOperations.getSpeakerIdbySessionId(id, mDb);
-    }
-
 
     public Speaker getSpeakerbySpeakersname(String speakerName) {
         return databaseOperations.getSpeakerbySpeakersname(speakerName, mDb);
