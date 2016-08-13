@@ -46,7 +46,7 @@ public class MapsFragment extends SupportMapFragment
         Event event = DbSingleton.getInstance().getEventDetails();
         float latitude = event.getLatitude();
         float longitude = event.getLongitude();
-        String location_title = event.getName();
+        String location_title = event.getLocationName();
 
         location = new LatLng(latitude, longitude);
 
