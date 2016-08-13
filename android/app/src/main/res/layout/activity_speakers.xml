@@ -14,6 +14,7 @@
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
+            android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
@@ -27,7 +28,6 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
                 <ImageView
                     android:id="@+id/speaker_image"
                     android:layout_width="150dp"
@@ -37,6 +37,7 @@
                     android:layout_marginLeft="@dimen/speaker_margin"
                     android:layout_marginBottom="@dimen/speaker_margin"
                     android:layout_marginTop="?attr/actionBarSize"
+                    android:paddingTop="@dimen/speaker_margin"
                     android:contentDescription="@string/speaker_image"
                     app:layout_collapseMode="parallax" />
 
@@ -44,6 +45,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
+                    android:textColor="@color/primary_text"
                     android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
                     android:id="@+id/speaker_name_title"
                     android:layout_below="@id/speaker_image" />
@@ -53,8 +55,8 @@
                     android:layout_below="@id/speaker_name_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:maxLines="10"
                     android:ellipsize="end"
+                    android:textColor="@color/primary_text"
                     android:layout_marginBottom="60dp"
                     android:layout_marginTop="@dimen/speaker_margin"
                     android:gravity="center"
@@ -81,7 +83,7 @@
         android:id="@+id/infoLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/color_primary"
+        android:background="@color/white"
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 

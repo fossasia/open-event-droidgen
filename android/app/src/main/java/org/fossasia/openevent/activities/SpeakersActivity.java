@@ -2,12 +2,10 @@ package org.fossasia.openevent.activities;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.graphics.Palette;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,12 +14,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.github.florent37.picassopalette.PicassoPalette;
 import com.squareup.picasso.Picasso;
 
 import org.fossasia.openevent.R;
@@ -110,25 +105,7 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
                 .load(Uri.parse(selectedSpeaker.getPhoto()))
                 .placeholder(R.drawable.ic_account_circle_grey_24dp)
                 .transform(new CircleTransform())
-                .into((ImageView) findViewById(R.id.speaker_image), PicassoPalette
-                        .with(String.valueOf(Uri.parse(selectedSpeaker.getPhoto())),(ImageView) findViewById(R.id.speaker_image))
-                        .use(PicassoPalette.Profile.MUTED)
-                        .intoBackground(collapsingToolbarLayout)
-                        .intoBackground(appBarLayout)
-                        .intoBackground(findViewById(R.id.infoLinearLayout))
-                        .intoBackground(toolbar)
-                        .use(PicassoPalette.Profile.MUTED_DARK)
-                        .intoCallBack(new PicassoPalette.CallBack() {
-                            @Override
-                            public void onPaletteLoaded(Palette palette) {
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                    Window window = getWindow();
-                                    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                                    window.setStatusBarColor(palette.getDarkMutedColor(PicassoPalette.Profile.MUTED_DARK));
-                                }
-                            }
-                        })
-                        );
+                .into((ImageView) findViewById(R.id.speaker_image));
 
         final SpeakerIntent speakerIntent = new SpeakerIntent(selectedSpeaker);
 
