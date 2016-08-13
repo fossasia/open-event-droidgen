@@ -161,6 +161,29 @@ public class DatabaseOperations {
         return location;
     }
 
+    public int getSpeakerIdbySessionId(int id, SQLiteDatabase mDb) {
+        String selection = DbContract.Sessionsspeakers.SESSION_ID + EQUAL + id;
+        Cursor cur = mDb.query(
+                DbContract.Sessionsspeakers.TABLE_NAME,
+                DbContract.Sessionsspeakers.FULL_PROJECTION,
+                selection,
+                null,
+                null,
+                null,
+                null
+        );
+
+        int speakerId = 0;
+        cur.moveToFirst();
+        while (!cur.isAfterLast()) {
+            speakerId = cur.getInt(cur.getColumnIndex(DbContract.Sessionsspeakers.SPEAKER_ID));
+            cur.moveToNext();
+        }
+        cur.close();
+
+        return speakerId;
+    }
+
     public List<Speaker> getSpeakerList(SQLiteDatabase mDb, String sortBy) {
 
         String sortOrder = sortBy + ASCENDING;
@@ -621,6 +644,40 @@ public class DatabaseOperations {
 
         );
 
+        speakersCursor.close();
+        return speaker;
+    }
+
+    public Speaker getSpeakerId(int id, SQLiteDatabase mDb) {
+        String speakerColumnSelection = DbContract.Speakers.ID + EQUAL + id;
+        Cursor speakersCursor = mDb.query(
+                DbContract.Speakers.TABLE_NAME,
+                DbContract.Speakers.FULL_PROJECTION,
+                speakerColumnSelection,
+                null,
+                null,
+                null,
+                null
+        );
+        Speaker speaker = null;
+        speakersCursor.moveToFirst();
+            speaker = new Speaker(
+                    speakersCursor.getInt(speakersCursor.getColumnIndex(DbContract.Speakers.ID)),
+                    speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.NAME)),
+                    speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.PHOTO)),
+                    speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.BIO)),
+                    speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.EMAIL)),
+                    speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.WEB)),
+                    speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.TWITTER)),
+                    speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.FACEBOOK)),
+                    speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.GITHUB)),
+                    speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.LINKEDIN)),
+                    speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.ORGANISATION)),
+                    speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.POSITION)),
+                    null,
+                    speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.COUNTRY))
+
+            );
         speakersCursor.close();
         return speaker;
     }

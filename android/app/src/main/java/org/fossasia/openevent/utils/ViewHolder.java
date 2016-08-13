@@ -26,6 +26,11 @@ public class ViewHolder {
         private TextView txtView1;
         private TextView txtView2;
         private TextView txtView3;
+        private TextView txtView4;
+        private TextView txtView5;
+        private TextView txtView6;
+        private TextView txtView7;
+        private TextView txtView8;
         private ImageView imgView1;
         private View view1;
         private View view2;
@@ -61,6 +66,10 @@ public class ViewHolder {
 
         public TextView getTxtView2() {
             return txtView2;
+        }
+
+        public TextView getTxtView4() {
+            return txtView4;
         }
 
         public void setTxtView2(TextView txtView2) {
@@ -103,5 +112,42 @@ public class ViewHolder {
         public void setTxtView3(TextView txtView3) {
             this.txtView3 = txtView3;
         }
+
+        public void setTxtView4(TextView txtView4) {
+            this.txtView4 = txtView4;
+        }
+
+        public TextView getTxtView5() {
+            return txtView5;
+        }
+
+        public void setTxtView5(TextView txtView5) {
+            this.txtView5 = txtView5;
+        }
+
+        public TextView getTxtView6() {
+            return txtView6;
+        }
+
+        public void setTxtView6(TextView txtView6) {
+            this.txtView6 = txtView6;
+        }
+
+        public TextView getTxtView7() {
+            return txtView7;
+        }
+
+        public void setTxtView7(TextView txtView7) {
+            this.txtView7 = txtView7;
+        }
+
+        public TextView getTxtView8() {
+            return txtView8;
+        }
+
+        public void setTxtView8(TextView txtView8) {
+            this.txtView8 = txtView8;
+        }
     }
 }
+

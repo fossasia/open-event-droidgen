@@ -17,6 +17,7 @@
     <dimen name="sponsor_padding">10dp</dimen>
     <dimen name="speaker_margin">20dp</dimen>
     <dimen name="social_image_icon">40dp</dimen>
+    <dimen name="track_title_margin">4dp</dimen>
     <item name="body_1_spacing" format="float" type="dimen">1.22448979592</item>
 
 </resources>

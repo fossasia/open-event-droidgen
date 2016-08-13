@@ -1,5 +1,6 @@
 package org.fossasia.openevent.adapters;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.utils.ISO8601Date;
 import org.fossasia.openevent.utils.ViewHolder;
 
 import java.util.ArrayList;
@@ -77,7 +79,11 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, ViewHolder.Viewh
         ViewHolder.Viewholder viewholder = new ViewHolder.Viewholder(view);
         viewholder.setTxtView1((TextView) view.findViewById(R.id.session_title));
         viewholder.setTxtView2((TextView) view.findViewById(R.id.session_abstract));
-
+        viewholder.setTxtView3 ((TextView) view.findViewById(R.id.session_track));
+        viewholder.setTxtView4 ((TextView) view.findViewById(R.id.session_date));
+        viewholder.setTxtView5 ((TextView) view.findViewById(R.id.session_start_time));
+        viewholder.setTxtView6((TextView) view.findViewById(R.id.session_location));
+        viewholder.setTxtView7((TextView) view.findViewById(R.id.session_speaker));
         return viewholder;
     }
 
@@ -85,9 +91,17 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, ViewHolder.Viewh
     public void onBindViewHolder(ViewHolder.Viewholder holder, int position) {
         Session current = getItem(position);
         String title = current.getTitle();
+        int speakerId = DbSingleton.getInstance().getSpeakerIdBySessionId(current.getId());
+        Log.e("SpeakerID", String.valueOf(speakerId));
         String summary = current.getSummary();
+        String date = ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(current.getStartTime())).split(",")[0] + ", " + ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(current.getStartTime())).split(",")[1];
         holder.getTxtView1().setText(title);
         holder.getTxtView2().setText(summary);
+        holder.getTxtView3().setText(current.getTrack().getName());
+        holder.getTxtView4().setText(date);
+        holder.getTxtView5().setText(ISO8601Date.getTime(ISO8601Date.getDateObject(current.getStartTime())));
+        holder.getTxtView6().setText(current.getMicrolocation().getName());
+        holder.getTxtView7().setText(DbSingleton.getInstance().getSpeakerId(speakerId).getName());
         holder.setItemClickListener(listener);
     }
 
