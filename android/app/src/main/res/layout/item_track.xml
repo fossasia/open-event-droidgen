@@ -6,44 +6,15 @@
     android:orientation="horizontal">
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp">
-
-        <View
-            android:id="@+id/track_top"
-            android:layout_width="3dp"
-            android:layout_height="0dp"
-            android:layout_weight="0.5"
-            android:background="#8a000000" />
-
-        <View
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_gravity="center"
-            android:background="@drawable/track_circle"
-            android:clickable="true"
-            android:padding="16dp" />
-
-        <View
-            android:id="@+id/track_bottom"
-            android:layout_width="3dp"
-            android:layout_height="0dp"
-            android:layout_weight="0.5"
-            android:background="#8a000000" />
-    </LinearLayout>
-
-    <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginEnd="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
         android:layout_weight="1"
         android:orientation="vertical">
 
