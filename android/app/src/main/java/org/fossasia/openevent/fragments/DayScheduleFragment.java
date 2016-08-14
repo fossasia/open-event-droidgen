@@ -90,7 +90,6 @@ public class DayScheduleFragment extends Fragment {
         });
         dayScheduleAdapter.setEventDate(date);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.schedule_swipe_refresh);
-        //TODO: Uncomment this when eventDates.json version is added to versions.json
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -111,6 +110,18 @@ public class DayScheduleFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
+    }
+
+    @Override
+    public void onStart() {
+        OpenEventApp.getEventBus().register(this);
+        super.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        OpenEventApp.getEventBus().unregister(this);
+        super.onStop();
     }
 
     @Override

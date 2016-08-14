@@ -77,8 +77,8 @@ public class BookmarkWidgetRemoteViewsService extends RemoteViewsService {
 
                     for (Integer id : bookmarkedIds) {
                         Session session = dbSingleton.getSessionById(id);
-                        String start = ISO8601Date.getTime(ISO8601Date.getDateObject(session.getStartTime()));
-                        String end = ISO8601Date.getTime(ISO8601Date.getDateObject(session.getEndTime()));
+                        String start = ISO8601Date.get12HourTime(ISO8601Date.getDateObject(session.getStartTime()));
+                        String end = ISO8601Date.get12HourTime(ISO8601Date.getDateObject(session.getEndTime()));
                         data.addRow(new Object[]{id, session.getTitle(), start, end});
                     }
                 } catch (Exception e) {

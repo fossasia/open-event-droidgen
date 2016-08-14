@@ -72,17 +72,19 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, ViewHolder.Viewho
         ViewHolder.Viewholder viewholder = new ViewHolder.Viewholder(view);
         viewholder.setTxtView1((TextView) view.findViewById(R.id.start_time));
         viewholder.setTxtView2((TextView) view.findViewById(R.id.slot_title));
-        viewholder.setTxtView3((TextView) view.findViewById(R.id.slot_description));
+        viewholder.setTxtView3((TextView) view.findViewById(R.id.timings));
         return viewholder;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder.Viewholder holder, int position) {
         Session currentSession = getItem(position);
+        String startTime = ISO8601Date.get12HourTime(ISO8601Date.getDateObject(currentSession.getStartTime()));
+        String endTime = ISO8601Date.get12HourTime(ISO8601Date.getDateObject(currentSession.getEndTime()));
 
-        holder.getTxtView1().setText(ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(currentSession.getStartTime())));
+        holder.getTxtView1().setText(startTime);
         holder.getTxtView2().setText(currentSession.getTitle());
-        holder.getTxtView3().setText(currentSession.getDescription());
+        holder.getTxtView3().setText(String.format("%s - %s", startTime, endTime));
         holder.setItemClickListener(listener);
 
     }

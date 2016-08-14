@@ -18,6 +18,7 @@
             android:paddingRight="72dp"
             android:textColor="@color/cardview_dark_background"
             android:textSize="18sp"
+            android:textStyle="bold"
             tools:text="start_time" />
 
         <LinearLayout
@@ -54,10 +55,11 @@
                     android:ellipsize="end"
                     android:textColor="@color/cardview_dark_background"
                     android:textSize="14sp"
+                    android:textStyle="bold"
                     tools:text="Title" />
 
                 <TextView
-                    android:id="@+id/slot_description"
+                    android:id="@+id/timings"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
