@@ -40,7 +40,6 @@ public final class ISO8601Date {
         SimpleDateFormat dateFormat = new SimpleDateFormat("EE, dd MMM yyyy, HH:mm, z");
         dateFormat.setTimeZone(TimeZone.getDefault());
         String DateToStr = dateFormat.format(date);
-        Timber.tag("counter").d(DateToStr);
         return DateToStr;
     }
 
@@ -49,24 +48,29 @@ public final class ISO8601Date {
         SimpleDateFormat dateFormat = new SimpleDateFormat("EE, dd MMM yyyy, HH:mm, z");
         dateFormat.setTimeZone(TimeZone.getDefault());
         String DateToStr = dateFormat.format(date);
-        Timber.tag("counter").d(DateToStr);
         return date;
     }
 
-    public static String getTime(final Date date) {
+    public static String get24HourTime(final Date date) {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm ");
-        String timeToStr = dateFormat.format(date);
 
-        return timeToStr;
+        return dateFormat.format(date);
     }
+
+    public static String get12HourTime(final Date date) {
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("KK:mm a");
+
+        return dateFormat.format(date);
+    }
+
 
     public static Date getDateObject(final String iso8601String) {
 
         StringBuilder s = new StringBuilder();
         s.append(iso8601String).append("Z");
         String final1 = s.toString();
-        Timber.tag("time").d(final1);
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
         format.setTimeZone(TimeZone.getTimeZone("GMT"));
