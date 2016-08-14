@@ -14,5 +14,5 @@ git add -f .
   # git remote rm origin
   # git remote add origin https://the-dagger:$GITHUB_API_KEY@github.com/the-dagger/open-event-android
   git add -f .
-  git commit -m "Travis build $TRAVIS_BUILD_NUMBER pushed to development [skip ci]"
+  git commit -m "Update Sample Apk [skip ci]"
   git push origin development > /dev/null
