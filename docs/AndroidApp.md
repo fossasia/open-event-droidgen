@@ -4,10 +4,12 @@ This is a generic app that has two parts:
 1.A standard configuration file, that sets the details of the app (e.g. color scheme, logo of event, link to JSON app data)<br>
 2.This app uses the json api provided by a server maintained [here](https://github.com/fossasia/open-event-orga-server).
 
-## Development Setup
+Development Setup
+======
 Before you begin, you should already have the Android Studio SDK downloaded and set up correctly. You can find a guide on how to do this here: [Setting up Android Studio](http://developer.android.com/sdk/installing/index.html?pkg=studio)
 
-### Setting up the Android Project
+Setting up the Android Project
+======
 1. Download the *open-event-android* project source. You can do this either by forking and cloning the repository (recommended if you plan on pushing changes) or by downloading it as a ZIP file and extracting it.
 
 2. Open Android Studio, you will see a **Welcome to Android** window. Under Quick Start, select *Import Project (Eclipse ADT, Gradle, etc.)*
@@ -24,7 +26,8 @@ Before you begin, you should already have the Android Studio SDK downloaded and 
 
 7. If the app was built succesfully, you can test it by running it on either a real device or an emulated one by going to *Run>Run 'app'* or presing the Run icon in the toolbar.
 
-### Configuring the app
+Configuring the app
+======
 
 **Configuring Server and Web-App Urls**
 - Browse the project directories and open (with Android Studio): *app/src/main/java/org/fossasia/openevent/api/Urls.java*
@@ -66,14 +69,16 @@ Before you begin, you should already have the Android Studio SDK downloaded and 
 	* */app/src/main/res/values-v21/*
 	* */app/src/main/res/values-w820dp/*
 
-## Data retrieval
+Data retrieval
+======
 - The orga-server provides the data which is stored in its backend database in a json format.
 - The app on startup picks up data from a json file in it's assets folder if the version number of data is -1 which happens when there is no internet connection
 - If there is a valid internet connection, the data download starts from the server.
 - Also there is a check on the version of data already there in the app's database. If data is stale then only it is downloaded.
 - If database is empty then firstly json file in assets is accessed but if internet is available , latest data is downloaded.
 
-## Libraries used and their documentation
+Libraries used and their documentation
+======
 - Otto [Docs](http://square.github.io/otto/1.x/otto/)
 - Retrofit [Docs](http://square.github.io/retrofit/2.x/retrofit/)
 - ButterKnife [Docs](http://jakewharton.github.io/butterknife/javadoc/)
@@ -81,3 +86,13 @@ Before you begin, you should already have the Android Studio SDK downloaded and 
 - Google Gson [Docs](http://www.javadoc.io/doc/com.google.code.gson/gson/2.7)
 - LeakCanary [Docs](https://github.com/square/leakcanary)
 - Picasso [Docs](http://square.github.io/picasso/2.x/picasso/)
+
+Devices tested on
+======
+| Device        | Android Version           | Skin/ROM      |
+| ------------- |:-------------|-------------|
+| OnePlus 3     | Android 6.0  | OxygenOS |
+| Nexus 5X    | Android 7.0      |  AOSP |
+| Nexus 5X    | Android 6.0      |  CyanogenMod 13 |
+| Nexus 5    | Android 4.4      |  AOSP |
+| Redmi Note 3 | Android 5.0  | MIUI|
