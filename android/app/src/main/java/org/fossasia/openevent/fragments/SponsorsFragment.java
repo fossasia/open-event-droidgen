@@ -7,8 +7,8 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -64,12 +64,12 @@ public class SponsorsFragment extends Fragment {
         });
         sponsorsListAdapter = new SponsorsListAdapter(dbSingleton.getSponsorList());
         sponsorsRecyclerView.setAdapter(sponsorsListAdapter);
-        sponsorsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        sponsorsRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         sponsorsRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(view.getContext(), new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View itemView, int position) {
                 String sponsorUrl = dbSingleton.getSponsorList().get(position).getUrl();
-                if (!sponsorUrl.startsWith("http") || !sponsorUrl.startsWith("https")) {
+                if (!sponsorUrl.startsWith("http") && !sponsorUrl.startsWith("https")) {
                     sponsorUrl = "http://" + sponsorUrl;
                 }
                 if (Patterns.WEB_URL.matcher(sponsorUrl).matches()) {
@@ -77,6 +77,7 @@ public class SponsorsFragment extends Fragment {
                     startActivity(sponsorsIntent);
                 } else {
                     Snackbar.make(view, R.string.invalid_url, Snackbar.LENGTH_LONG).show();
+                    Timber.d(sponsorUrl);
                 }
             }
         }));

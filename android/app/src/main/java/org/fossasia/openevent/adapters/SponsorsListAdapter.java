@@ -1,6 +1,7 @@
 package org.fossasia.openevent.adapters;
 
 import android.net.Uri;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
 
 import org.fossasia.openevent.R;
+import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Sponsor;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.ViewHolder;
@@ -40,9 +42,19 @@ public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, ViewHolder.Viewh
 
     @Override
     public void onBindViewHolder(ViewHolder.Viewholder holder, int position) {
+        DisplayMetrics displayMetrics = holder.getImgView1().getContext().getResources().getDisplayMetrics();
+
         Sponsor currentSponsor = getItem(position);
-        Uri uri = Uri.parse(currentSponsor.getLogo());
-        Picasso.with(holder.getImgView1().getContext()).load(uri).into(holder.getImgView1());
+        int width = displayMetrics.widthPixels;
+        int height = displayMetrics.heightPixels;
+        Uri uri;
+        if (!currentSponsor.getLogo().startsWith("https://")) {
+            uri = Uri.parse(Urls.getBaseUrl() + currentSponsor.getLogo());
+        } else {
+            uri = Uri.parse(currentSponsor.getLogo());
+
+        }
+        Picasso.with(holder.getImgView1().getContext()).load(uri).resize(width, (height / 6)).centerInside().into(holder.getImgView1());
     }
 
     public void refresh() {
