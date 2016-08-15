@@ -1,0 +1,21 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/sponsor_padding">
+    <View
+        android:id="@+id/separator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/cardview_dark_background" />
+
+    <TextView
+        android:id="@+id/sponsor_category"
+        android:layout_width="79dp"
+        android:layout_height="match_parent"
+        android:textStyle="bold|italic"
+        android:textSize="18sp"
+        android:layout_gravity="center" />
+
+</LinearLayout>

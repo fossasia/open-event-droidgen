@@ -20,7 +20,7 @@ import timber.log.Timber;
  * Created by MananWason on 27-05-2015.
  */
 public class TrackListResponseProcessor implements Callback<List<Track>> {
-    private static final String TAG = "Tracks";
+    private static final String TAG = "TRACKS";
 
     @Override
     public void onResponse(Call<List<Track>> call, final Response<List<Track>> response) {

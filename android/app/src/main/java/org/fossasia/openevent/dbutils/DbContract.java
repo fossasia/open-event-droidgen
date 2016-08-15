@@ -267,12 +267,15 @@ public class DbContract {
 
         public static final String TYPE = "type";
 
+        public static final String LEVEL = "level";
+
         public static final String[] FULL_PROJECTION = {
                 ID,
                 NAME,
                 URL,
                 LOGO_URL,
-                TYPE
+                TYPE,
+                LEVEL
         };
 
         public static final String CREATE_TABLE =
@@ -282,7 +285,8 @@ public class DbContract {
                         + NAME + TEXT_TYPE + COMMA_SEP
                         + URL + TEXT_TYPE + COMMA_SEP
                         + LOGO_URL + TEXT_TYPE + COMMA_SEP
-                        + TYPE + TEXT_TYPE
+                        + TYPE + TEXT_TYPE + COMMA_SEP
+                        + LEVEL + INT_TYPE
                         + " );";
 
         public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;

@@ -1,6 +1,7 @@
 package org.fossasia.openevent;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
@@ -42,6 +43,8 @@ public class OpenEventApp extends Application {
 
     SharedPreferences sharedPreferences;
 
+    private static Context context;
+
     public static Bus getEventBus() {
         if (eventBus == null) {
             eventBus = new Bus();
@@ -62,7 +65,9 @@ public class OpenEventApp extends Application {
     public void onCreate() {
         super.onCreate();
         handler = new Handler(Looper.getMainLooper());
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        OpenEventApp.context = getApplicationContext();
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getAppContext());
 
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
@@ -104,6 +109,11 @@ public class OpenEventApp extends Application {
 
 
     }
+
+    public static Context getAppContext() {
+        return OpenEventApp.context;
+    }
+
 
     @Subscribe
     public void onConnectionChangeReact(ConnectionCheckEvent event) {

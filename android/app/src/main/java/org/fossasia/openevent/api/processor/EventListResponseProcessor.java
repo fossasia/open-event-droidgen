@@ -22,7 +22,7 @@ import timber.log.Timber;
  * Date: 27-05-2015
  */
 public class EventListResponseProcessor implements Callback<Event> {
-    private static final String TAG = "Event";
+    private static final String TAG = "EVENT";
     int counterRequests;
 
     @Override
@@ -56,11 +56,11 @@ public class EventListResponseProcessor implements Callback<Event> {
                             DataDownloadManager download = DataDownloadManager.getInstance();
                             if (dbSingleton.getVersionIds().getEventVer() != version.getEventVer()) {
                                 dbSingleton.insertQuery(event_query);
-                                Timber.d("Downloading Event");
+                                Timber.d("Downloading EVENT");
                             }
                             if (dbSingleton.getVersionIds().getSpeakerVer() != version.getSpeakerVer()) {
                                 download.downloadSpeakers();
-                                Timber.d("Downloading Speakers");
+                                Timber.d("Downloading SPEAKERS");
                                 counterRequests++;
 
                             }
@@ -73,14 +73,14 @@ public class EventListResponseProcessor implements Callback<Event> {
                             if (dbSingleton.getVersionIds().getTracksVer() != version.getTracksVer()) {
                                 download.downloadTracks();
 
-                                Timber.d("Downloading Tracks");
+                                Timber.d("Downloading TRACKS");
                                 counterRequests++;
 
                             }
                             if (dbSingleton.getVersionIds().getSessionVer() != version.getSessionVer()) {
                                 download.downloadSession();
 
-                                Timber.d("Downloading Sessions");
+                                Timber.d("Downloading SESSIONS");
                                 counterRequests++;
 
                             }

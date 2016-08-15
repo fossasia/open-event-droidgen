@@ -29,7 +29,7 @@ public class SponsorListResponseProcessor implements Callback<List<Sponsor>> {
                     ArrayList<String> queries = new ArrayList<>();
 
                     for (Sponsor sponsor : response.body()) {
-                        sponsor.setSponsorType();
+                        sponsor.changeSponsorTypeToInt(sponsor.getType());
                         String query = sponsor.generateSql();
                         queries.add(query);
                         Timber.d(query);

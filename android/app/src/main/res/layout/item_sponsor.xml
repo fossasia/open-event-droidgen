@@ -7,8 +7,24 @@
     <ImageView
         android:id="@+id/sponsor_image"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="@dimen/sponsor_image_margin"
         android:contentDescription="@string/sponsor_image" />
+
+    <TextView
+        android:id="@+id/sponsor_type"
+        android:layout_width="79dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:textStyle="bold|italic" />
+
+    <View
+        android:id="@+id/separator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/cardview_dark_background" />
 
 </LinearLayout>

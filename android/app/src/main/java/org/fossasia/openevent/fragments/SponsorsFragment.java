@@ -7,8 +7,8 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,11 +23,14 @@ import com.squareup.otto.Subscribe;
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.SponsorsListAdapter;
+import org.fossasia.openevent.data.Sponsor;
 import org.fossasia.openevent.dbutils.DataDownloadManager;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.SponsorDownloadEvent;
 import org.fossasia.openevent.utils.NetworkUtils;
 import org.fossasia.openevent.utils.RecyclerItemClickListener;
+
+import java.util.List;
 
 import timber.log.Timber;
 
@@ -64,11 +67,13 @@ public class SponsorsFragment extends Fragment {
         });
         sponsorsListAdapter = new SponsorsListAdapter(dbSingleton.getSponsorList());
         sponsorsRecyclerView.setAdapter(sponsorsListAdapter);
-        sponsorsRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        sponsorsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         sponsorsRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(view.getContext(), new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View itemView, int position) {
-                String sponsorUrl = dbSingleton.getSponsorList().get(position).getUrl();
+                List<Sponsor> objects = dbSingleton.getSponsorList();
+                Sponsor sponsor = objects.get(position);
+                String sponsorUrl = sponsor.getUrl();
                 if (!sponsorUrl.startsWith("http") && !sponsorUrl.startsWith("https")) {
                     sponsorUrl = "http://" + sponsorUrl;
                 }
@@ -79,15 +84,23 @@ public class SponsorsFragment extends Fragment {
                     Snackbar.make(view, R.string.invalid_url, Snackbar.LENGTH_LONG).show();
                     Timber.d(sponsorUrl);
                 }
+
             }
-        }));
-        if (sponsorsListAdapter.getItemCount() != 0) {
+        }
+
+        ));
+        if (sponsorsListAdapter.getItemCount() != 0)
+
+        {
             noSponsorsView.setVisibility(View.GONE);
             sponsorsRecyclerView.setVisibility(View.VISIBLE);
-        } else {
+        } else
+
+        {
             noSponsorsView.setVisibility(View.VISIBLE);
             sponsorsRecyclerView.setVisibility(View.GONE);
         }
+
         return view;
     }
 
