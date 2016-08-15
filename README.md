@@ -7,7 +7,7 @@
 [![Mailing List](https://img.shields.io/badge/Mailing%20List-FOSSASIA-blue.svg)](mailto: fossasia@googlegroups.com)
 <br>
 [![Get it on GPlay](http://i.imgur.com/rZYxvAo.png)](https://play.google.com/store/apps/details?id=org.fossasia.openevent&hl=en) <br>
-[![Hosted on DigitalOcean](http://i.imgur.com/dfRvhAG.png)](http://192.241.232.231/)
+[![Hosted on DigitalOcean](http://i.imgur.com/dfRvhAG.png)](http://45.55.58.149/)
 ## Open Event Android 
 
 Open Event Android consists of 2 main parts : <br>
@@ -18,10 +18,10 @@ Open Event Android consists of 2 main parts : <br>
 ##Using the App Generator
 The app generator can be accessed in 2 ways,
 
-###[Via the App Genrator Web-Page](http://192.241.232.231/)
+###[Via the App Genrator Web-Page](http://45.55.58.149/)
 Runs on an APACHE server hosted on DigitalOcean.
 
-###[Via POST API](http://192.241.232.231/api/api.php)
+###[Via POST API](http://45.55.58.149/api/api.php)
 The POST API takes input in form of a JSON and then creates and emails you the app.<br>
 
 Sending a POST Request <br>
@@ -48,7 +48,7 @@ The project is maintained by
 
 ## Documentation
 
-You can find the apk generator docs [here](docs/ApkGenerator.md) and the android app docs [here](docs/AndroidApp.md)
+You can find the apk generator docs [here](docs/ServerSetup.md) and the android app docs [here](docs/AndroidApp.md)
 
 ## Branches and Contribution policy
 We have the following branches   
