@@ -54,9 +54,9 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
 
     private View windowFrame;
 
-    private static TextView noTracksView;
+    private TextView noTracksView;
 
-    private static RecyclerView tracksRecyclerView;
+    private RecyclerView tracksRecyclerView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -103,7 +103,7 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
         return view;
     }
 
-    public static void setVisibility(Boolean isDownloadDone) {
+    public void setVisibility(Boolean isDownloadDone) {
         if (isDownloadDone) {
             noTracksView.setVisibility(View.GONE);
             tracksRecyclerView.setVisibility(View.VISIBLE);
@@ -167,7 +167,7 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
 
     @Subscribe
     public void RefreshData(RefreshUiEvent event) {
-
+        setVisibility(true);
         if (searchText.length() == 0) {
             tracksListAdapter.refresh();
         }

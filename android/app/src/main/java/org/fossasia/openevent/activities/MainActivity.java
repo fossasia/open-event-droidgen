@@ -170,37 +170,59 @@ public class MainActivity extends BaseActivity {
 
         downloadProgress.setVisibility(View.VISIBLE);
         downloadProgress.setIndeterminate(true);
-        this.findViewById(android.R.id.content).setBackgroundColor(Color.LTGRAY);
+        this.findViewById(android.R.id.content).setBackgroundColor(Color.WHITE);
         if (NetworkUtils.haveNetworkConnection(this)) {
             if (!sharedPreferences.getBoolean(ConstantStrings.IS_DOWNLOAD_DONE, false)) {
                 AlertDialog.Builder downloadDialog = new AlertDialog.Builder(this);
                 downloadDialog.setTitle(R.string.download_assets).setMessage(R.string.charges_warning);
                 downloadDialog.setIcon(R.drawable.ic_file_download_black_24dp);
                 downloadDialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        DbSingleton.getInstance().clearDatabase();
-                        OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
-                        sharedPreferences.edit().putBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true).apply();
-                        TracksFragment.setVisibility(true);
-                    }
-                });
-                downloadDialog.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        downloadFromAssets();
-                    }
-                });
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                DbSingleton.getInstance().clearDatabase();
+                                Boolean preference = sharedPreferences.getBoolean(SettingsActivity.INTERNET_MODE, true);
+                                if (preference) {
+                                    if (NetworkUtils.haveWifiConnection(MainActivity.this)) {
+                                        OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
+                                        sharedPreferences.edit().putBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true).apply();
+
+                                    } else {
+                                        final Snackbar snackbar = Snackbar.make(mainFrame, R.string.internet_preference_warning, Snackbar.LENGTH_INDEFINITE);
+                                        snackbar.setAction(R.string.yes, new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                downloadFromAssets();
+                                            }
+                                        });
+                                        snackbar.show();
+                                    }
+                                } else {
+                                    OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
+                                }
+
+                            }
+                        }
+
+                );
+                downloadDialog.setNegativeButton(R.string.no, new DialogInterface.OnClickListener()
+
+                        {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                downloadFromAssets();
+
+                            }
+                        }
+
+                );
                 downloadDialog.show();
+            } else {
+                downloadFromAssets();
             }
-            else {
-                OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
-            }
-        } else if (!sharedPreferences.getBoolean(ConstantStrings.DATABASE_RECORDS_EXIST, false)) {
-            downloadFromAssets();
         } else {
-            //TODO : Add some feedback on the error
-            downloadProgress.setVisibility(View.GONE);
+            final Snackbar snackbar = Snackbar.make(mainFrame, R.string.display_offline_schedule, Snackbar.LENGTH_LONG);
+            snackbar.show();
+            downloadFromAssets();
         }
         if (savedInstanceState == null) {
             currentMenuItemId = R.id.nav_tracks;
@@ -458,7 +480,7 @@ public class MainActivity extends BaseActivity {
     @Subscribe
     public void onCounterReceiver(CounterEvent event) {
         counter = event.getRequestsCount();
-        Timber.tag(COUNTER_TAG).d(counter + " counter" );
+        Timber.tag(COUNTER_TAG).d(counter + " counter");
         if (counter == 0) {
             syncComplete();
         }
@@ -732,16 +754,21 @@ public class MainActivity extends BaseActivity {
     }
 
     public void downloadFromAssets() {
-        //TODO: Add and Take counter value from to config.json
-        sharedPreferences.edit().putBoolean(ConstantStrings.DATABASE_RECORDS_EXIST, true).apply();
-        counter = 6;
-        readJsonAsset(Urls.EVENT);
-        readJsonAsset(Urls.TRACKS);
-        readJsonAsset(Urls.SPEAKERS);
-        readJsonAsset(Urls.SESSIONS);
-        readJsonAsset(Urls.SPONSORS);
-        readJsonAsset(Urls.MICROLOCATIONS);
 
+        if (!sharedPreferences.getBoolean(ConstantStrings.DATABASE_RECORDS_EXIST, false)) {
+            //TODO: Add and Take counter value from to config.json
+            sharedPreferences.edit().putBoolean(ConstantStrings.DATABASE_RECORDS_EXIST, true).apply();
+            counter = 6;
+            readJsonAsset(Urls.EVENT);
+            readJsonAsset(Urls.TRACKS);
+            readJsonAsset(Urls.SPEAKERS);
+            readJsonAsset(Urls.SESSIONS);
+            readJsonAsset(Urls.SPONSORS);
+            readJsonAsset(Urls.MICROLOCATIONS);
+        }
+        else {
+            downloadProgress.setVisibility(View.GONE);
+        }
     }
 
     public void readJsonAsset(final String name) {

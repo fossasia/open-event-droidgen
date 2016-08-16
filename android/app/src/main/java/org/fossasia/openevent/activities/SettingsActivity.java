@@ -2,11 +2,11 @@ package org.fossasia.openevent.activities;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
+import android.preference.SwitchPreference;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,16 +18,18 @@ import android.view.MenuItem;
 
 import org.fossasia.openevent.R;
 
+import timber.log.Timber;
+
 /**
  * User: manan
  * Date: 21-05-2015
  */
 public class SettingsActivity extends PreferenceActivity implements Preference.OnPreferenceChangeListener {
 
-    private static final String API_PREF_MODE = "serverurlmode";
+    public static final String INTERNET_MODE = "internet_mode";
 
-    private static final String NOTIFICATION_PREF_MODE = "notification";
-    ListPreference listPreference;
+    public static final String NOTIFICATION_PREF_MODE = "notification";
+    private SwitchPreference internetPreference;
     private Preference prefNotification;
     private SharedPreferences preferences;
     private AppCompatDelegate mDelegate;
@@ -42,16 +44,23 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
         setContentView(R.layout.activity_settings);
         setToolbar();
         PreferenceScreen preferenceScreen = getPreferenceScreen();
-        listPreference = (ListPreference) preferenceScreen.findPreference(API_PREF_MODE);
-        listPreference.setDefaultValue(getResources().getString(R.string.default_mode_api));
-        listPreference.setOnPreferenceChangeListener(this);
-        prefNotification = findPreference(getString(R.string.notification_key));
+        internetPreference = (SwitchPreference) preferenceScreen.findPreference(INTERNET_MODE);
+        internetPreference.setDefaultValue(getResources().getString(R.string.default_mode_api));
+        internetPreference.setOnPreferenceChangeListener(this);
+        prefNotification = findPreference(NOTIFICATION_PREF_MODE);
 
     }
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object o) {
-
+        if (preference.getKey().equals(INTERNET_MODE)) {
+            Timber.d(o.toString());
+            if (o.equals(false)) {
+                internetPreference.setChecked(false);
+            } else if (o.equals(true)) {
+                internetPreference.setChecked(true);
+            }
+        }
         return false;
     }
 
