@@ -2,10 +2,12 @@
 [![codecov.io](https://codecov.io/github/fossasia/open-event-android/coverage.svg?branch=development)](https://codecov.io/github/fossasia/open-event-android?branch=development)
 [![todofy badge](https://todofy.org/b/fossasia/open-event-android)](https://todofy.org/r/fossasia/open-event-android)
 [![Join the chat at https://gitter.im/fossasia/open-event-android](https://badges.gitter.im/fossasia/open-event-android.svg)](https://gitter.im/fossasia/open-event-android?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Preview the app](http://i.imgur.com/iuWpLuX.png)](https://appetize.io/app/2rfx5pavny47jnb1qzwg204fr8)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d32f87844a9346d09f3e8ad09600d3e1)](https://www.codacy.com/app/dev_19/open-event-android?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=fossasia/open-event-android&amp;utm_campaign=Badge_Grade) <br>
+[![Preview the app](https://img.shields.io/badge/Preview-Appetize.io-orange.svg)](https://appetize.io/app/2rfx5pavny47jnb1qzwg204fr8)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d32f87844a9346d09f3e8ad09600d3e1)](https://www.codacy.com/app/dev_19/open-event-android?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=fossasia/open-event-android&amp;utm_campaign=Badge_Grade) 
+[![Mailing List](https://img.shields.io/badge/Mailing%20List-FOSSASIA-blue.svg)](mailto: fossasia@googlegroups.com)
+<br>
 [![Get it on GPlay](http://i.imgur.com/rZYxvAo.png)](https://play.google.com/store/apps/details?id=org.fossasia.openevent&hl=en) <br>
-[![Hosted on DigitalOcean](http://i.imgur.com/dfRvhAG.png)](http://192.241.232.231/)
+[![Hosted on DigitalOcean](http://i.imgur.com/dfRvhAG.png)](http://45.55.58.149/)
 ## Open Event Android 
 
 Open Event Android consists of 2 main parts : <br>
@@ -16,10 +18,10 @@ Open Event Android consists of 2 main parts : <br>
 ##Using the App Generator
 The app generator can be accessed in 2 ways,
 
-###[Via the App Genrator Web-Page](http://192.241.232.231/)
+###[Via the App Genrator Web-Page](http://45.55.58.149/)
 Runs on an APACHE server hosted on DigitalOcean.
 
-###[Via POST API](http://192.241.232.231/api/api.php)
+###[Via POST API](http://45.55.58.149/api/api.php)
 The POST API takes input in form of a JSON and then creates and emails you the app.<br>
 
 Sending a POST Request <br>
@@ -46,7 +48,7 @@ The project is maintained by
 
 ## Documentation
 
-You can find the apk generator docs [here](docs/ApkGenerator.md) and the android app docs [here](docs/AndroidApp.md)
+You can find the apk generator docs [here](docs/ServerSetup.md) and the android app docs [here](docs/AndroidApp.md)
 
 ## Branches and Contribution policy
 We have the following branches   

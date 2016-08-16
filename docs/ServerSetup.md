@@ -1,4 +1,4 @@
-#[Open Event Android App Generator](http://192.241.232.231)
+#[Open Event Android App Generator](http://45.55.58.149)
 
 Glosarry
 ======
@@ -43,26 +43,27 @@ Code Required
 Server Setup
 ======
 1. Navigate to server's ```/var/www/``` and install the Android SDK here.
+2. You can do that by following this [thread](http://stackoverflow.com/questions/17963508/how-to-install-android-sdk-build-tools-on-the-command-line/) on stackoverflow.
 2. Edit the .bashrc file located in /root to reference to the SDK you have just installed
 
    To do this, type in ```nano /root/.bashrc``` and press enter. <br>
    Navigae to the bottom of the file that opens and add following code there <br> ```export ANDROID_HOME=/var/www/android-sdk-linux ```<br>
    ```export PATH=${PATH}:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools```
-
 3. Move all the files mentioned in the **Code required** section (Except runPy.php and index.html) into ```/root/scripts```.
-4. Move runPy.php and index.html to ```/var/www/html```
-5. Next, modify your sudoers list to allow www-data to run the runPy.php script as root
+4. Move `runPy.php`, `upload.php`, `uploadHelper.php` and `index.html` to ```/var/www/html```
+5. [Install and setup](https://www.digitalocean.com/community/tutorials/how-to-install-java-with-apt-get-on-ubuntu-16-04) JAVA on your machine.
+6. Next, install PHP.THis can be done by simply writing `sudo apt-get install php` in your terminal. 
+7. Next, modify your sudoers list to allow www-data to run the runPy.php script as root
    You can do this by typing the following command ```sudo visudo``` and hitting enter <br>
    Next scroll to the bottom of the file and add ```www-data ALL = NOPASSWD: /var/www/html/runPy.php```
-6. Create a [firebase account](firebase.google.com) and add your API key to index.html <br>
-
+8. Create a [firebase account](firebase.google.com) and add your API key to index.html <br>
    Navigate to your Account and then create a new project (Name it whatever you want) <br>
    Open this newly created project and click the Pink colored button saying *"Add Firebase to your web app"* <br>
    Copy the code listed there and paste it to [index.html](https://github.com/fossasia/open-event-android/blob/master/apk-generator/index.html#L76)
    Also add your server's IP address to trusted sources in the [Firebase console](https://console.firebase.google.com/project/app-generator/authentication/providers) by clicking on *Add Domain*
-7. Create another folder in your public-html named ```api``` and move api.php here.    
+9. Create another folder in your public-html named ```api``` and move api.php here.    
    
-8. Everything is set up perfectly fine, refer to the next section to get a hang about the working of the server and see it in action.
+10. Everything is set up perfectly fine, refer to the next section to get a hang about the working of the server and see it in action.
 
 Working Principle 
 ======
@@ -83,10 +84,10 @@ Next up, for a valid request we store the body into a variable and then execute 
 
 Generating the app
 ======
-###[Via the App Genrator Web-Page](http://192.241.232.231/)
+###[Via the App Genrator Web-Page](http://45.55.58.149)
 Runs on an APACHE server hosted on DigitalOcean.
 
-###[Via POST API](http://192.241.232.231/api/api.php)
+###[Via POST API]http://45.55.58.149/api/api.php)
 The POST API takes input in form of a JSON and then creates and emails you the app.<br>
 
 Sending a POST Request <br>
