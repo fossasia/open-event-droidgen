@@ -42,7 +42,7 @@ print directory
 
 jsonData = " { \n"+'"Email"'+": " + '"' + sys.argv[1] + '",\n'+'"App_Name"'+": "+'"' +sys.argv[2]+'",\n'+'"Api_Link"'+": " + '"' + sys.argv[3] + '"\n }'
 
-subprocess.call(['/var/www/html/clone.sh', directory])
+subprocess.call(['/var/www/scripts/clone.sh', directory])
 with open(directory+"/open-event-android/android/app/src/main/assets/config.json", "wb") as fo:
     fo.write(jsonData)
 
@@ -58,8 +58,7 @@ conSender = config["sender"]
 conTitle = config["title"]
 conBody = config["body"]
 
-subprocess.call(['/var/www/html/buildApk.sh', directory])
-subprocess.call(['/var/www/html/copyApk.sh', absDirectory, arg])
-subprocess.call(['/var/www/html/email.sh', directory, email, conBody, conTitle, arg])
-subprocess.call(['/var/www/html/api/delete.sh', email])
+subprocess.call(['/var/www/scripts/buildApk.sh', directory])
+subprocess.call(['/var/www/scripts/copyApk.sh', absDirectory, arg])
+subprocess.call(['/var/www/scripts/passapi.sh', arg, email])
 print "Script End"
