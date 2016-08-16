@@ -53,15 +53,15 @@ conBody = config["body"]
 if not os.path.exists(directory):
     os.makedirs(directory)
 print conApi
-subprocess.call(['/var/www/html/clone.sh', directory])
+subprocess.call(['/var/www/scripts/clone.sh', directory])
 with open(directory+"/open-event-android/android/app/src/main/assets/config.json", "wb") as fo:
     fo.write(jsonData)
 
 absDirectory = directory + "/open-event-android/android/"
 replace(directory+"/open-event-android/android/app/build.gradle", '"org.fossasia.openevent"', '"org.fossasia.openevent.'+app_name.split()[0]+'"')
 replace(directory+"/open-event-android/android/app/src/main/res/values/strings.xml", 'OpenEvent', app_name)
-subprocess.call(['/var/www/html/buildApk.sh', directory])
-subprocess.call(['/var/www/html/copyApk.sh', absDirectory, arg])
-#subprocess.call(['/var/www/html/email.sh', directory, email, conBody, conTitle, arg])  #use this with mutt
-subprocess.call(['/var/www/html/passapi.sh', arg, email])  #use this for sending the UID and email to php file for sendgrid
+subprocess.call(['/var/www/scripts/buildApk.sh', directory])
+subprocess.call(['/var/www/scripts/copyApk.sh', absDirectory, arg])
+#subprocess.call(['/var/www/scripts/email.sh', directory, email, conBody, conTitle, arg])  #use this with mutt
+subprocess.call(['/var/www/scripts/passapi.sh', arg, email])  #use this for sending the UID and email to php file for sendgrid
 print "Script End"
