@@ -18,7 +18,7 @@ Open Event Android consists of 2 main parts : <br>
 ##Using the App Generator
 The app generator can be accessed in 2 ways,
 
-###[Via the App Genrator Web-Page](http://45.55.58.149/)
+###[Via the App Generator Web-Page](http://45.55.58.149/)
 Runs on an APACHE server hosted on DigitalOcean.
 
 ###[Via POST API](http://45.55.58.149/api/api.php)
