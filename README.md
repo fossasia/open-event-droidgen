@@ -72,12 +72,11 @@ Please find info about the set up of the Android app in your development environ
 
 ## 2. App Generator
 
-The App Generator is a simple One Pager HTML webpage that allows the user to input details related to the App that he/she wants to be generated.<br>
-These details include:
+The App Generator is a simple One Pager HTML webpage that allows the user to input details and upload or link to the required event data to automatically build the Android application. The user needs to provide the following:
 
 1. App's Name
-2. API Link from where the json files needed for the App will be fetched
-3. E-Mail address where the generated app will be sent to
+2. E-Mail address where the generated app will be sent to
+3. a) Either a zip with all event data including JSON data and binary image and audio files or b) an API Link providing the same information as the zip file
 
 The Generator needs to be hosted on a server backed up by PHP script which in turn executes python and Bash scripts which start the app's build process. After the app is generated, it is emailed to the user using [Mutt](http://www.mutt.org/) and [MSMTP](http://msmtp.sourceforge.net/). 
 
