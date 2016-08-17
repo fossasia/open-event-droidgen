@@ -7,7 +7,7 @@
 [![Preview the app](https://img.shields.io/badge/Preview-Appetize.io-orange.svg)](https://appetize.io/app/2rfx5pavny47jnb1qzwg204fr8)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/d32f87844a9346d09f3e8ad09600d3e1)](https://www.codacy.com/app/dev_19/open-event-android?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=fossasia/open-event-android&amp;utm_campaign=Badge_Grade) 
 [![Mailing List](https://img.shields.io/badge/Mailing%20List-FOSSASIA-blue.svg)](mailto: fossasia@googlegroups.com)
-[![Hosted on DigitalOcean](/docs/badges/digitalocean.png)](http://45.55.58.149/)
+[![Hosted on DigitalOcean](/docs/badges/digitalocean.png)](http://digitalocean.com)
 
 
 The Open Event Android project consists of two parts:
@@ -30,6 +30,10 @@ This is a generic app that has two parts:
 A) A standard configuration file, that sets the details of the app (e.g. color scheme, logo of event, link to JSON app data). A sample of the JSON format is maintained in the [Open Event Repository](http://github.com/fossasia/open-event).
 
 B) And the app uses the JSON API provided by open event orga servers server (Code maintained [here](https://github.com/fossasia/open-event-orga-server)).
+
+### Sample App
+
+A sample app for testing purposes is automatically build after commits in the repository. Please [download and test the app here](/sample-apk).
 
 ### Screenshots of a sample Android app
 
