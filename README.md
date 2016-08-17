@@ -12,8 +12,8 @@
 
 The Open Event Android project consists of two parts:
 
-1. The App Generator is hosted on a server and generates an event Android app from a zip with JSON files ([examples here](http://github.com/fossasia/open-event)) or through an API.
-2. The resulting Android app can be installed on any Android device for browsing information about the event. Updates can be made automatically if there are API endpoints defined in the provided event zip with the JSON files. The app has a standard configuration file, that sets the details of the app (e.g. color scheme, logo of event, link to JSON app data). Secondly, the app uses the json api provided by a server maintained [here](https://github.com/fossasia/open-event-orga-server).
+A) The App Generator is hosted on a server and generates an event Android app from a zip with JSON files ([examples here](http://github.com/fossasia/open-event)) or through an API.
+B) The resulting Android app can be installed on any Android device for browsing information about the event. Updates can be made automatically if there are API endpoints defined in the provided event zip with the JSON files. The app has a standard configuration file, that sets the details of the app (e.g. color scheme, logo of event, link to JSON app data). Secondly, the app uses the json api provided by a server maintained [here](https://github.com/fossasia/open-event-orga-server).
 
 ##Communication
 
@@ -26,9 +26,9 @@ Our chat channel is on gitter here: https://gitter.im/fossasia/open-event-androi
 
 This is a generic app that has two parts:
 
-A. A standard configuration file, that sets the details of the app (e.g. color scheme, logo of event, link to JSON app data). A sample of the JSON format is maintained in the [Open Event Repository](http://github.com/fossasia/open-event).
+A) A standard configuration file, that sets the details of the app (e.g. color scheme, logo of event, link to JSON app data). A sample of the JSON format is maintained in the [Open Event Repository](http://github.com/fossasia/open-event).
 
-B. And the app uses the JSON API provided by open event orga servers server (Code maintained [here](https://github.com/fossasia/open-event-orga-server)).
+B) And the app uses the JSON API provided by open event orga servers server (Code maintained [here](https://github.com/fossasia/open-event-orga-server)).
 
 ### Screenshots of a sample Android app
 
