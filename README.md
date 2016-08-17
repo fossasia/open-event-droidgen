@@ -58,6 +58,10 @@ Please check out [the documentation here](/docs/INSTALLATION.md).
 
 Please check out [the documentation here](/docs/INSTALLATION_LOCAL.md).
 
+#### How do I install Web App Generator on Google Cloud
+
+To install the system on Google Cloud please refer to the [Google Cloud installation readme](/docs/INSTALLATION_Google.md).
+
 #### How do I install Web App Generator on AWS
 
 To install the system on AWS please refer to the [AWS installation readme](/docs/INSTALLATION_AWS.md).
