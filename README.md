@@ -27,6 +27,10 @@ This is a generic app that has two parts:
 1. A standard configuration file, that sets the details of the app (e.g. color scheme, logo of event, link to JSON app data)<br>
 2. This app uses the json api provided by a server maintained [here](https://github.com/fossasia/open-event-orga-server).
 
+### Screenshots of a sample Android app
+
+![alt-tag](docs/screenshots/ss.png)
+
 ### Android App Development Set up
 
 Please find info about the set up of the Android app in your development environment [here](ANDROID_APP_Setup.md).
@@ -59,7 +63,7 @@ Please find info about the set up of the Android app in your development environ
 | Nexus 5    | Android 4.4      |  AOSP |
 | Redmi Note 3 | Android 5.0  | MIUI|
 
-<br><br>
+<br>
 
 ##App Generator
 
@@ -90,7 +94,7 @@ Please check out [the documentation here](/docs/INSTALLATION_LOCAL.md).
 
 #### How do I install Web App Generator on Google Cloud
 
-To install the system on Google Cloud please refer to the [Google Cloud installation readme](/docs/INSTALLATION_Google.md).
+To install the system on Google Cloud please refer to the [Google Cloud installation readme](/docs/INSTALLATION_GOOGLE.md).
 
 #### How do I install Web App Generator on AWS
 
@@ -98,7 +102,7 @@ To install the system on AWS please refer to the [AWS installation readme](/docs
 
 #### How do I install Web App Generator on Digital Ocean
 
-To install the system on Digital Ocean please refer to the [Digital Ocean installation readme](/docs/INSTALLATION_DigitalOcean.md).
+To install the system on Digital Ocean please refer to the [Digital Ocean installation readme](/docs/INSTALLATION_DIGITALOCENA.md).
 
 #### How do I install Web App Generator on Docker
 
@@ -133,11 +137,6 @@ After taking the request through the POST API, the app will be generated and ema
 * **[uploadhelper.php](https://github.com/fossasia/open-event-android/blob/development/apk-generator/scripts/uploadHelper.php)** Takes in the timestamp of user as input and moves the uploaded script to a unique location for each user.
 * **[api.php](https://github.com/fossasia/open-event-android/blob/development/apk-generator/api/api.php)** A php script that serves as an API and handles incoming requests to the server.
 * **[copyapk.sh](https://github.com/fossasia/open-event-android/blob/development/apk-generator/scripts/copyApk.sh)** A bash script that will copy the generated and signed apk to the release folder in `public-html` of the server.
-
-## Screenshots
-
-### Screenshots of a sample Android app
-![alt-tag](docs/screenshots/ss.png)
 
 ### Screenshots of the app generator web page
 **Server's Landing Page** <br>
