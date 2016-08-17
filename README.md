@@ -31,6 +31,36 @@ This is a generic app that has two parts:
 
 Please find info about the set up of the Android app in your development environment [here](ANDROID_APP_Setup.md).
 
+### Data retrieval
+
+- The orga-server provides the data which is stored in its backend database in a json format.
+- The app on startup picks up data from a json file in it's assets folder if the version number of data is -1 which happens when there is no internet connection
+- If there is a valid internet connection, the data download starts from the server.
+- Also there is a check on the version of data already there in the app's database. If data is stale then only it is downloaded.
+- If database is empty then firstly json file in assets is accessed but if internet is available , latest data is downloaded.
+
+### Libraries used and their documentation
+
+- Otto [Docs](http://square.github.io/otto/1.x/otto/)
+- Retrofit [Docs](http://square.github.io/retrofit/2.x/retrofit/)
+- ButterKnife [Docs](http://jakewharton.github.io/butterknife/javadoc/)
+- Timber [Docs](http://jakewharton.github.io/timber/)
+- Google Gson [Docs](http://www.javadoc.io/doc/com.google.code.gson/gson/2.7)
+- LeakCanary [Docs](https://github.com/square/leakcanary)
+- Picasso [Docs](http://square.github.io/picasso/2.x/picasso/)
+
+### Devices tested on
+
+| Device        | Android Version           | Skin/ROM      |
+| ------------- |:-------------|-------------|
+| OnePlus 3     | Android 6.0  | OxygenOS |
+| Nexus 5X    | Android 7.0      |  AOSP |
+| Nexus 5X    | Android 6.0      |  CyanogenMod 13 |
+| Nexus 5    | Android 4.4      |  AOSP |
+| Redmi Note 3 | Android 5.0  | MIUI|
+
+<br><br>
+
 ##App Generator
 
 The App Generator is a simple One Pager HTML webpage that allows the user to input details related to the App that he/she wants to be generated.<br>
