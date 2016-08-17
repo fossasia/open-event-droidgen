@@ -1,18 +1,5 @@
 #[Open Event Android App Generator](http://45.55.58.149)
 
-Glosarry
-======
-| Term        | Meaning           |
-| ------------- |:-------------|
-| Build Server     | Backend which generates the app when your details are submitted on the app-generator website  |
-| Script    | Executable files containing code which help in compiling the app      |
-| Root User | User who is currently accessing the build server directly      | 
-| www-data  | Public user who accesses the server via the webpage  |
-| Terminal | Tool for accessing the computer remotely  |
-| Mutt/MSMTP | Tools used for sending the email from terminal to the user  |
-| var/www | Your server's public directory (Anyone can read the stuff placed here)  |
-| Firebase | An online data storage service used for storing the data input by the user and later retrieving it at the server|
-
 Build Server Specs 
 ======
 Hosted on [DigitalOcean.com](https://www.digitalocean.com) <br>
@@ -114,3 +101,16 @@ Screenshots
 **Received email with the compiled app**
 
 ![image](http://i.imgur.com/ONrOrtk.png)
+
+Glosarry
+======
+| Term        | Meaning           |
+| ------------- |:-------------|
+| Build Server     | Backend which generates the app when your details are submitted on the app-generator website  |
+| Script    | Executable files containing code which help in compiling the app      |
+| Root User | User who is currently accessing the build server directly      | 
+| www-data  | Public user who accesses the server via the webpage  |
+| Terminal | Tool for accessing the computer remotely  |
+| Mutt/MSMTP | Tools used for sending the email from terminal to the user  |
+| var/www | Your server's public directory (Anyone can read the stuff placed here)  |
+| Firebase | An online data storage service used for storing the data input by the user and later retrieving it at the server|
