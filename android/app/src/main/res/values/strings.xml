@@ -117,4 +117,19 @@
     <string name="end_time">End Time :</string>
     <string name="location">Location :</string>
     <string name="speakers">Speaker :</string>
+
+    <!-- Sponsor types strings-->
+    <string name="platinum">Platinum</string>
+    <string name="diamond">Diamond</string>
+    <string name="gold">Gold</string>
+    <string name="silver">Silver</string>
+    <string name="bronze">Bronze</string>
+
+    <!-- Sponsor types int strings-->
+    <string name="platinumInt">1</string>
+    <string name="diamondInt">2</string>
+    <string name="goldInt">3</string>
+    <string name="silverInt">4</string>
+    <string name="bronzeInt">5</string>
+
 </resources>

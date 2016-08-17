@@ -267,7 +267,7 @@ public class DatabaseOperations {
 
 
     public ArrayList<Sponsor> getSponsorList(SQLiteDatabase mDb) {
-        String sortOrder = DbContract.Sponsors.NAME + ASCENDING;
+        String sortOrder = DbContract.Sponsors.LEVEL + ASCENDING + ", " + DbContract.Sponsors.NAME + ASCENDING;
         Cursor cursor = mDb.query(
                 DbContract.Sponsors.TABLE_NAME,
                 DbContract.Sponsors.FULL_PROJECTION,
@@ -282,13 +282,20 @@ public class DatabaseOperations {
         Sponsor sponsor;
 
         cursor.moveToFirst();
+
         while (!cursor.isAfterLast()) {
             sponsor = new Sponsor(
                     cursor.getInt(cursor.getColumnIndex(DbContract.Sponsors.ID)),
                     cursor.getString(cursor.getColumnIndex(DbContract.Sponsors.NAME)),
                     cursor.getString(cursor.getColumnIndex(DbContract.Sponsors.URL)),
-                    cursor.getString(cursor.getColumnIndex(DbContract.Sponsors.LOGO_URL))
+                    cursor.getString(cursor.getColumnIndex(DbContract.Sponsors.LOGO_URL)),
+                    cursor.getString(cursor.getColumnIndex(DbContract.Sponsors.TYPE)),
+                    cursor.getInt(cursor.getColumnIndex(DbContract.Sponsors.LEVEL))
+
             );
+            sponsor.changeSponsorTypeToString(cursor.getString(cursor.getColumnIndex(DbContract.Sponsors.TYPE)));
+
+            Timber.d(sponsor.getName());
             sponsors.add(sponsor);
             cursor.moveToNext();
         }

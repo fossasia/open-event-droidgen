@@ -11,7 +11,7 @@ public abstract class Urls {
     public static final String API_VERSION = "v1";
 
     /**
-     * Change Event Id Here *
+     * Change EVENT Id Here *
      */
     public static final int EVENT_ID = 1;
 

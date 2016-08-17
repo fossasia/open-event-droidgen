@@ -52,7 +52,7 @@ public class DbContract {
         public static final String CREATE_TABLE =
                 "CREATE TABLE " + TABLE_NAME
                         + " ("
-                        + VER_EVENT + INT_TYPE  + COMMA_SEP
+                        + VER_EVENT + INT_TYPE + COMMA_SEP
                         + VER_TRACKS + INT_TYPE + COMMA_SEP
                         + VER_SESSIONS + INT_TYPE + COMMA_SEP
                         + VER_SPONSORS + INT_TYPE + COMMA_SEP
@@ -265,11 +265,17 @@ public class DbContract {
 
         public static final String LOGO_URL = "logo_url";
 
+        public static final String TYPE = "type";
+
+        public static final String LEVEL = "level";
+
         public static final String[] FULL_PROJECTION = {
                 ID,
                 NAME,
                 URL,
-                LOGO_URL
+                LOGO_URL,
+                TYPE,
+                LEVEL
         };
 
         public static final String CREATE_TABLE =
@@ -278,7 +284,9 @@ public class DbContract {
                         + ID + INT_TYPE + PRIMARY_KEY + COMMA_SEP
                         + NAME + TEXT_TYPE + COMMA_SEP
                         + URL + TEXT_TYPE + COMMA_SEP
-                        + LOGO_URL + TEXT_TYPE
+                        + LOGO_URL + TEXT_TYPE + COMMA_SEP
+                        + TYPE + TEXT_TYPE + COMMA_SEP
+                        + LEVEL + INT_TYPE
                         + " );";
 
         public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;

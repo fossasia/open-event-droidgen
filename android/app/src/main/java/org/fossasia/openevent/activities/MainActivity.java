@@ -442,7 +442,7 @@ public class MainActivity extends BaseActivity {
         builder.show();
     }
 
-    //Subscribe Event
+    //Subscribe EVENT
     @Subscribe
     public void onCounterReceiver(CounterEvent event) {
         counter = event.getRequestsCount();
@@ -598,7 +598,7 @@ public class MainActivity extends BaseActivity {
             public void run() {
                 final Gson gson = new Gson();
                 switch (name) {
-                    case ConstantStrings.Event:
+                    case ConstantStrings.EVENT:
                         CommonTaskLoop.getInstance().post(new Runnable() {
                             @Override
                             public void run() {
@@ -608,7 +608,7 @@ public class MainActivity extends BaseActivity {
                             }
                         });
                         break;
-                    case ConstantStrings.Tracks:
+                    case ConstantStrings.TRACKS:
                         CommonTaskLoop.getInstance().post(new Runnable() {
                             @Override
                             public void run() {
@@ -624,7 +624,7 @@ public class MainActivity extends BaseActivity {
                             }
                         });
                         break;
-                    case ConstantStrings.Sessions: {
+                    case ConstantStrings.SESSIONS: {
                         Type listType = new TypeToken<List<Session>>() {
                         }.getType();
                         List<Session> sessions = gson.fromJson(json, listType);
@@ -638,7 +638,7 @@ public class MainActivity extends BaseActivity {
 
                         break;
                     }
-                    case ConstantStrings.Speakers: {
+                    case ConstantStrings.SPEAKERS: {
                         Type listType = new TypeToken<List<Speaker>>() {
                         }.getType();
                         List<Speaker> speakers = gson.fromJson(json, listType);
@@ -658,7 +658,7 @@ public class MainActivity extends BaseActivity {
 
                         break;
                     }
-                    case ConstantStrings.Sponsors:
+                    case ConstantStrings.SPONSORS:
                         CommonTaskLoop.getInstance().post(new Runnable() {
                             @Override
                             public void run() {
@@ -674,7 +674,7 @@ public class MainActivity extends BaseActivity {
                             }
                         });
                         break;
-                    case ConstantStrings.Microlocations:
+                    case ConstantStrings.MICROLOCATIONS:
                         CommonTaskLoop.getInstance().post(new Runnable() {
                             @Override
                             public void run() {
