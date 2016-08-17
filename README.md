@@ -108,7 +108,7 @@ To install the system on Digital Ocean please refer to the [Digital Ocean instal
 
 To install system with Docker please refer to the [Docker installation readme](/docs/INSTALLATION_DOCKER.md).
 
-#### How do I deploy Web App Generator with Heroku?
+#### How do I deploy Web App Generator with Heroku
 
 Please read how to deploy to [Heroku here](/docs/HEROKU.md)
 
