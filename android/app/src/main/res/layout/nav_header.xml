@@ -9,6 +9,7 @@
 
     <ImageView
         android:id="@+id/headerDrawer"
+        android:layout_margin="11dp"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:contentDescription="@string/header_image"

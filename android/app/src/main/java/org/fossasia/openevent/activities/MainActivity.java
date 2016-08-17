@@ -100,7 +100,9 @@ public class MainActivity extends BaseActivity {
 
     private static final String BOOKMARK = "bookmarks";
 
-    private final String FRAGMENT_TAG = "FTAG";
+    private final String FRAGMENT_TAG_TRACKS = "FTAGT";
+
+    private final String FRAGMENT_TAG_REST = "FTAGR";
 
     private String errorType;
 
@@ -212,7 +214,7 @@ public class MainActivity extends BaseActivity {
             }
         }
 
-        if (getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG) == null) {
+        if (getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_TRACKS) == null && getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_REST) == null) {
             doMenuAction(currentMenuItemId);
         }
     }
@@ -260,15 +262,6 @@ public class MainActivity extends BaseActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(navigationView)) {
-            drawerLayout.closeDrawer(navigationView);
-        } else {
-            super.onBackPressed();
         }
     }
 
@@ -336,14 +329,14 @@ public class MainActivity extends BaseActivity {
         switch (menuItemId) {
             case R.id.nav_tracks:
                 fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, new TracksFragment(), FRAGMENT_TAG).commit();
+                        .replace(R.id.content_frame, new TracksFragment(), FRAGMENT_TAG_TRACKS).commit();
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle(R.string.menu_tracks);
                 }
                 break;
             case R.id.nav_schedule:
                 fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, new ScheduleFragment(), FRAGMENT_TAG).commit();
+                        .replace(R.id.content_frame, new ScheduleFragment(), FRAGMENT_TAG_REST).commit();
                 addShadowToAppBar(false);
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle(R.string.menu_schedule);
@@ -353,7 +346,7 @@ public class MainActivity extends BaseActivity {
                 DbSingleton dbSingleton = DbSingleton.getInstance();
                 if (!dbSingleton.isBookmarksTableEmpty()) {
                     fragmentManager.beginTransaction()
-                            .replace(R.id.content_frame, new BookmarksFragment(), FRAGMENT_TAG).commit();
+                            .replace(R.id.content_frame, new BookmarksFragment(), FRAGMENT_TAG_REST).commit();
                     if (getSupportActionBar() != null) {
                         getSupportActionBar().setTitle(R.string.menu_bookmarks);
                     }
@@ -363,21 +356,21 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.nav_speakers:
                 fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, new SpeakerFragment(), FRAGMENT_TAG).commit();
+                        .replace(R.id.content_frame, new SpeakerFragment(), FRAGMENT_TAG_REST).commit();
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle(R.string.menu_speakers);
                 }
                 break;
             case R.id.nav_sponsors:
                 fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, new SponsorsFragment(), FRAGMENT_TAG).commit();
+                        .replace(R.id.content_frame, new SponsorsFragment(), FRAGMENT_TAG_REST).commit();
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle(R.string.menu_sponsor);
                 }
                 break;
             case R.id.nav_locations:
                 fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, new LocationsFragment(), FRAGMENT_TAG).commit();
+                        .replace(R.id.content_frame, new LocationsFragment(), FRAGMENT_TAG_REST).commit();
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle(R.string.menu_locations);
                 }
@@ -389,7 +382,7 @@ public class MainActivity extends BaseActivity {
                         ((OpenEventApp) getApplication())
                                 .getMapModuleFactory()
                                 .provideMapModule()
-                                .provideMapFragment(), FRAGMENT_TAG).commit();
+                                .provideMapFragment(), FRAGMENT_TAG_REST).commit();
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle(R.string.menu_map);
                 }
@@ -419,6 +412,25 @@ public class MainActivity extends BaseActivity {
         currentMenuItemId = menuItemId;
         drawerLayout.closeDrawers();
     }
+
+    @Override
+    public void onBackPressed() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        android.support.v4.app.Fragment fragment = fragmentManager.findFragmentByTag(FRAGMENT_TAG_TRACKS);
+            if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }
+            else if (fragment != null && fragment.isVisible()) {
+                super.onBackPressed();
+            }
+            else {
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_frame, new TracksFragment(), FRAGMENT_TAG_TRACKS).commit();
+                if (getSupportActionBar() != null) {
+                    getSupportActionBar().setTitle(R.string.menu_tracks);
+                }
+            }
+         }
 
     public void addShadowToAppBar(boolean addShadow) {
         if (addShadow) {
