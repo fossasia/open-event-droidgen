@@ -7,7 +7,7 @@
 [![Preview the app](https://img.shields.io/badge/Preview-Appetize.io-orange.svg)](https://appetize.io/app/2rfx5pavny47jnb1qzwg204fr8)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/d32f87844a9346d09f3e8ad09600d3e1)](https://www.codacy.com/app/dev_19/open-event-android?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=fossasia/open-event-android&amp;utm_campaign=Badge_Grade) 
 [![Mailing List](https://img.shields.io/badge/Mailing%20List-FOSSASIA-blue.svg)](mailto: fossasia@googlegroups.com)
-[![Hosted on DigitalOcean](/docs/badges/digitalocean)](http://45.55.58.149/)
+[![Hosted on DigitalOcean](/docs/badges/digitalocean.png)](http://45.55.58.149/)
 
 
 The Open Event Android project consists of two parts:
