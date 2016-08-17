@@ -12,7 +12,7 @@
 
 The Open Event Android project consists of two parts:
 
-1. The App Generator is hosted on a server and generates an event Android app from a zip with JSON files or through an API.
+1. The App Generator is hosted on a server and generates an event Android app from a zip with JSON files ([examples here](http://github.com/fossasia/open-event)) or through an API.
 2. The resulting Android app can be installed on any Android device for browsing information about the event. Updates can be made automatically if there are API endpoints defined in the provided event zip with the JSON files. The app has a standard configuration file, that sets the details of the app (e.g. color scheme, logo of event, link to JSON app data). Secondly, the app uses the json api provided by a server maintained [here](https://github.com/fossasia/open-event-orga-server).
 
 ##Communication
@@ -20,12 +20,15 @@ The Open Event Android project consists of two parts:
 Please join our mailing list to discuss questions regarding the project: https://groups.google.com/forum/#!forum/open-event
 Our chat channel is on gitter here: https://gitter.im/fossasia/open-event-android
 
-## Android App
+<br>
+
+## 1. Android App
 
 This is a generic app that has two parts:
 
-1. A standard configuration file, that sets the details of the app (e.g. color scheme, logo of event, link to JSON app data)<br>
-2. This app uses the json api provided by a server maintained [here](https://github.com/fossasia/open-event-orga-server).
+A. A standard configuration file, that sets the details of the app (e.g. color scheme, logo of event, link to JSON app data). A sample of the JSON format is maintained in the [Open Event Repository](http://github.com/fossasia/open-event).
+
+B. And the app uses the JSON API provided by open event orga servers server (Code maintained [here](https://github.com/fossasia/open-event-orga-server)).
 
 ### Screenshots of a sample Android app
 
@@ -65,14 +68,14 @@ Please find info about the set up of the Android app in your development environ
 
 <br>
 
-##App Generator
+## 2. App Generator
 
 The App Generator is a simple One Pager HTML webpage that allows the user to input details related to the App that he/she wants to be generated.<br>
 These details include:
 
 1. App's Name
 2. API Link from where the json files needed for the App will be fetched
-3. E-Mail address where the generated app will be sent.
+3. E-Mail address where the generated app will be sent to
 
 The Generator needs to be hosted on a server backed up by PHP script which in turn executes python and Bash scripts which start the app's build process. After the app is generated, it is emailed to the user using [Mutt](http://www.mutt.org/) and [MSMTP](http://msmtp.sourceforge.net/). 
 
@@ -80,7 +83,7 @@ For the API part, the app is not using Firebase for sending data to the server, 
 
 ### Sample app
 
-A sample installation of the app generator web-page is [here](http://45.55.58.149/). For the access to the API please use http://45.55.58.149/api/api.php
+A sample installation of the app generator web-page is [here](http://45.55.58.149/). For the access to the API please use http://45.55.58.149/api/api.php. You can use a sample of the JSON format from the [Open Event Repository](http://github.com/fossasia/open-event).
 
 ### Installation of the Web App Generator
 
