@@ -1,8 +1,9 @@
-#Android client 
+# How to set up the Android app in your development environment
+
 This is a generic app that has two parts:
 
-1.A standard configuration file, that sets the details of the app (e.g. color scheme, logo of event, link to JSON app data)<br>
-2.This app uses the json api provided by a server maintained [here](https://github.com/fossasia/open-event-orga-server).
+1. A standard configuration file, that sets the details of the app (e.g. color scheme, logo of event, link to JSON app data)<br>
+2. This app uses the json api provided by a server maintained [here](https://github.com/fossasia/open-event-orga-server).
 
 Development Setup
 ======

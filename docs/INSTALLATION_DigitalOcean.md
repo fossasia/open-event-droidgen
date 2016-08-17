@@ -1,9 +1,6 @@
-#[Open Event Android App Generator](http://45.55.58.149)
+# How to install the Open Event Android App Generator on [DigitalOcean.com](https://www.digitalocean.com) 
 
-Build Server Specs 
-======
-Hosted on [DigitalOcean.com](https://www.digitalocean.com) <br>
-A server with 2GB RAM, 4 Core CPU and 40GB of storage space is recommended <br>
+As sample set up is installed [here](http://45.55.58.149)
 
 Build Server Requirements
 ======
@@ -13,9 +10,10 @@ Build Server Requirements
 * Mutt and MSMTP [installed and configured](https://opev.wordpress.com/2016/06/15/sending-e-mail-from-linux-terminal/)
 * Python 2.7 or 3.4 [installed](http://askubuntu.com/questions/350751/install-and-run-python-3-at-the-same-time-than-python-2)
 * [Python-Firebase interface](https://pypi.python.org/pypi/python-firebase/1.2)
+* Recommended: A server with 2GB RAM, 4 Core CPU and 40GB of storage space is recommended <br>
 
-Code Required
-======
+## Required Components
+
 * **[index.html](https://github.com/fossasia/open-event-android/blob/master/apk-generator/index.html)** A html file which can server as the landing page for your server.
 * **[runPy.php](https://github.com/fossasia/open-event-android/blob/master/apk-generator/scripts/runPy.php)** A php script that will launch python script by taking input from index.html.
 * **[appgenserver.py](https://github.com/fossasia/open-event-android/blob/master/apk-generator/scripts/appgenserver.py)** A python script containg commands to compile and generate the app
@@ -27,8 +25,8 @@ Code Required
 * **[api.php](https://github.com/fossasia/open-event-android/blob/development/apk-generator/api/api.php)** A php script that serves as an API and handles incoming requests to the server.
 * **[copyapk.sh](https://github.com/fossasia/open-event-android/blob/development/apk-generator/scripts/copyApk.sh)** A bash script that will copy the generated and signed apk to the release folder in `public-html` of the server.
 
-Server Setup
-======
+## Server Setup
+
 1. Navigate to server's ```/var/www/``` and install the Android SDK here.
 2. You can do that by following this [thread](http://stackoverflow.com/questions/17963508/how-to-install-android-sdk-build-tools-on-the-command-line/) on stackoverflow.
 2. Edit the .bashrc file located in /root to reference to the SDK you have just installed
@@ -52,58 +50,8 @@ Server Setup
    
 10. Everything is set up perfectly fine, refer to the next section to get a hang about the working of the server and see it in action.
 
-Working Principle 
-======
-The App Generator is a simple One Pager HTML webpage that allows the user to input details related to the App that he/she wants to be generated.<br>
-These details include :
+## Glosarry
 
-1. App's Name
-2. API Link from where the json files needed for the App will be fetched
-3. E-Mail address where the generated app will be sent.
-
-The Generator is hosted on a server and is backed up by PHP script which in turn executes python and Bash scripts which start the app's build process. <br>
-After the app is generated,it is emailed to the user using [Mutt](http://www.mutt.org/) and [MSMTP](http://msmtp.sourceforge.net/) <br>
-
-For the API part, we are not using Firebase for sending data to the server, instead we are directly sending data to `api.php` in the API call.
-
-Digging deeper in the code of `api.php`, first we check for a valid request (GET/POST) and throw an error if it is invalid.<br>
-Next up, for a valid request we store the body into a variable and then execute a followup script as per our needs using data from this response.
-
-Generating the app
-======
-###[Via the App Genrator Web-Page](http://45.55.58.149)
-Runs on an APACHE server hosted on DigitalOcean.
-
-###[Via POST API]http://45.55.58.149/api/api.php)
-The POST API takes input in form of a JSON and then creates and emails you the app.<br>
-
-Sending a POST Request <br>
-
-You can use [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop?hl=en) for Chrome or [RESTClient](https://addons.mozilla.org/de/firefox/addon/restclient/) for Firefox for making API calls easily.
-
-Input to the API should be of the following format <br>
-```{ "email": "example@example.com", "app_name": "Name", "endpoint": "http://valid-endpoint.com/" } ```<br>
-
-After taking the request through the POST API, the app will be generated and emailed to the email address provided in the request body.
-
-Screenshots
-======
-
-**Server's Landing Page** <br>
-![image](http://i.imgur.com/tuP47wE.png) <br>
-
-
-**Firebase Data Storage model** <br>
-
-![image](http://i.imgur.com/jGVuOxS.png)
-
-
-**Received email with the compiled app**
-
-![image](http://i.imgur.com/ONrOrtk.png)
-
-Glosarry
-======
 | Term        | Meaning           |
 | ------------- |:-------------|
 | Build Server     | Backend which generates the app when your details are submitted on the app-generator website  |
