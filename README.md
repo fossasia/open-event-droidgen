@@ -64,7 +64,7 @@ To install the system on AWS please refer to the [AWS installation readme](/docs
 
 #### How do I install Web App Generator on Digital Ocean
 
-To install the system on AWS please refer to the [Digital Ocean installation readme](/docs/INSTALLATION_DigitalOcean.md).
+To install the system on Digital Ocean please refer to the [Digital Ocean installation readme](/docs/INSTALLATION_DigitalOcean.md).
 
 #### How do I install Web App Generator on Docker
 
