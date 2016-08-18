@@ -17,12 +17,14 @@ import java.util.Arrays;
 /**
  * Created by championswimmer on 21/6/16.
  */
-public class NetworkUtils  extends BroadcastReceiver{
+public class NetworkUtils extends BroadcastReceiver {
 
     public static boolean haveNetworkConnection(Context ctx) {
-        boolean haveConnectedWifi = false;
-        boolean haveConnectedMobile = false;
 
+        return haveWifiConnection(ctx) || haveMobileConnection(ctx);
+    }
+
+    public static boolean haveWifiConnection(Context ctx) {
         ConnectivityManager cm = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
         ArrayList<NetworkInfo> netInfos = new ArrayList<>();
 
@@ -37,17 +39,38 @@ public class NetworkUtils  extends BroadcastReceiver{
         for (NetworkInfo ni : netInfos) {
             if (ni.getTypeName().equalsIgnoreCase("WIFI"))
                 if (ni.isConnected())
-                    haveConnectedWifi = true;
+                    return true;
+        }
+        return false;
+
+    }
+
+
+    public static boolean haveMobileConnection(Context ctx) {
+        ConnectivityManager cm = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
+        ArrayList<NetworkInfo> netInfos = new ArrayList<>();
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            for (Network net : cm.getAllNetworks()) {
+                netInfos.add(cm.getNetworkInfo(net));
+            }
+        } else {
+            netInfos = new ArrayList<>(Arrays.asList(cm.getAllNetworkInfo()));
+        }
+        for (NetworkInfo ni : netInfos) {
             if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
                 if (ni.isConnected())
-                    haveConnectedMobile = true;
+                    return true;
         }
-        return haveConnectedWifi || haveConnectedMobile;
+        return false;
+
     }
+
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if(haveNetworkConnection(context)){
+        if (haveNetworkConnection(context)) {
             OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
         }
     }

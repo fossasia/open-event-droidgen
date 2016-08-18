@@ -48,13 +48,15 @@ public class LocationsFragment extends Fragment implements SearchView.OnQueryTex
 
     private SearchView searchView;
 
+    private TextView noMicrolocationsView;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.list_locations, container, false);
         OpenEventApp.getEventBus().register(this);
         locationsRecyclerView = (RecyclerView) view.findViewById(R.id.list_locations);
-        TextView noMicrolocationsView = (TextView) view.findViewById(R.id.txt_no_microlocations);
+        noMicrolocationsView  = (TextView) view.findViewById(R.id.txt_no_microlocations);
         final DbSingleton dbSingleton = DbSingleton.getInstance();
         locationsListAdapter = new LocationsListAdapter(dbSingleton.getMicrolocationsList());
         locationsRecyclerView.setAdapter(locationsListAdapter);
@@ -92,6 +94,17 @@ public class LocationsFragment extends Fragment implements SearchView.OnQueryTex
         }
         return view;
     }
+
+    public void setVisibility(Boolean isDownloadDone) {
+        if (isDownloadDone) {
+            noMicrolocationsView.setVisibility(View.GONE);
+            locationsRecyclerView.setVisibility(View.VISIBLE);
+        } else {
+            noMicrolocationsView.setVisibility(View.VISIBLE);
+            locationsRecyclerView.setVisibility(View.GONE);
+        }
+    }
+
 
     @Override
     public void onSaveInstanceState(Bundle bundle) {
@@ -139,6 +152,7 @@ public class LocationsFragment extends Fragment implements SearchView.OnQueryTex
 
     @Subscribe
     public void onDataRefreshed(RefreshUiEvent event) {
+        setVisibility(true);
         if (TextUtils.isEmpty(searchText)) {
             locationsListAdapter.refresh();
         }
