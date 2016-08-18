@@ -1,11 +1,11 @@
-# Open Event Android 
+# Open Event Android
 
 [![Build Status](https://travis-ci.org/fossasia/open-event-android.svg?branch=development)](https://travis-ci.org/fossasia/open-event-android?branch=development)
 [![codecov.io](https://codecov.io/github/fossasia/open-event-android/coverage.svg?branch=development)](https://codecov.io/github/fossasia/open-event-android?branch=development)
 [![todofy badge](https://todofy.org/b/fossasia/open-event-android)](https://todofy.org/r/fossasia/open-event-android)
 [![Join the chat at https://gitter.im/fossasia/open-event-android](https://badges.gitter.im/fossasia/open-event-android.svg)](https://gitter.im/fossasia/open-event-android?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Preview the app](https://img.shields.io/badge/Preview-Appetize.io-orange.svg)](https://appetize.io/app/2rfx5pavny47jnb1qzwg204fr8)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d32f87844a9346d09f3e8ad09600d3e1)](https://www.codacy.com/app/dev_19/open-event-android?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=fossasia/open-event-android&amp;utm_campaign=Badge_Grade) 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d32f87844a9346d09f3e8ad09600d3e1)](https://www.codacy.com/app/dev_19/open-event-android?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=fossasia/open-event-android&amp;utm_campaign=Badge_Grade)
 [![Mailing List](https://img.shields.io/badge/Mailing%20List-FOSSASIA-blue.svg)](mailto: fossasia@googlegroups.com)
 [![Hosted on DigitalOcean](/docs/badges/digitalocean.png)](http://digitalocean.com)
 
@@ -78,7 +78,7 @@ The App Generator is a simple One Pager HTML webpage that allows the user to inp
 2. E-Mail address where the generated app will be sent to
 3. a) Either a zip with all event data including JSON data and binary image and audio files or b) an API Link providing the same information as the zip file
 
-The Generator needs to be hosted on a server backed up by PHP script which in turn executes python and Bash scripts which start the app's build process. After the app is generated, it is emailed to the user using [Mutt](http://www.mutt.org/) and [MSMTP](http://msmtp.sourceforge.net/). 
+The Generator needs to be hosted on a server backed up by PHP script which in turn executes python and Bash scripts which start the app's build process. After the app is generated, it is emailed to the user using [Mutt](http://www.mutt.org/) and [MSMTP](http://msmtp.sourceforge.net/).
 
 For the API part, the app is not using Firebase for sending data to the server, instead the app is directly sending data to `api.php` in the API call. Digging deeper in the code of `api.php`, first the app checks for a valid request (GET/POST) and throws an error if it is invalid. Next, for a valid request the app stores the body into a variable and then executes a follow-up script.
 
@@ -144,7 +144,7 @@ After taking the request through the POST API, the app will be generated and ema
 
 ### Screenshots of the app generator web page
 **Server's Landing Page** <br>
-![image](http://i.imgur.com/tuP47wE.png) <br>
+![image](docs/screenshots/generator-preview.gif) <br>
 
 **Firebase Data Storage model** <br>
 
@@ -153,7 +153,7 @@ After taking the request through the POST API, the app will be generated and ema
 
 **Received email with the compiled app**
 
-![image](http://i.imgur.com/ONrOrtk.png)
+![image](docs/screenshots/email.png)
 
 ## Contributions, Bug Reports, Feature Requests
 
