@@ -86,6 +86,7 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, ViewHolder.Viewh
         viewholder.setImgView1((ImageView) view.findViewById(R.id.speaker_image));
         viewholder.setTxtView1((TextView) view.findViewById(R.id.speaker_name));
         viewholder.setTxtView2((TextView) view.findViewById(R.id.speaker_info));
+        viewholder.setTxtView3((TextView) view.findViewById(R.id.speaker_info_country));
 
         return viewholder;
     }
@@ -103,7 +104,7 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, ViewHolder.Viewh
 
         holder.getTxtView2().setText(String.format("%s %s", current.getPosition(), current.getOrganisation()));
         holder.getTxtView1().setText(TextUtils.isEmpty(current.getName()) ? "" : current.getName());
-
+        holder.getTxtView3().setText(String.format("%s %s", current.getPosition(), current.getCountry()));
         holder.setItemClickListener(listener);
     }
 
