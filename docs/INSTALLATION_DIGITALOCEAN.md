@@ -20,7 +20,7 @@ Build Server Requirements
 * **[clone.sh](https://github.com/fossasia/open-event-android/blob/master/apk-generator/scripts/clone.sh)** A bash script used for cloning the source code for android app onto the server.
 * **[buildApk.sh](https://github.com/fossasia/open-event-android/blob/master/apk-generator/scripts/buildApk.sh)** A bash script used for initiating the app's build and signing it once the app has been generated.
 * **[email.php](https://github.com/fossasia/open-event-android/blob/master/apk-generator/api/email.sh)** A php script used to send the email containing the generated app as an attachment.
-* **[upload.php](https://github.com/fossasia/open-event-android/blob/development/apk-generator/scripts/upload.php)** A php script that will upload the json zip that is chosed by the user into a unique folder based on his timestamp.<br>  **[api.php](https://github.com/fossasia/open-event-android/blob/development/apk-generator/api/api.php)** A php script that serves as an API and handles incoming requests to the server.
+* **[upload.php](https://github.com/fossasia/open-event-android/blob/development/apk-generator/scripts/upload.php)** A php script that will upload the json zip that is chosen by the user into a unique folder based on his timestamp.<br>  **[api.php](https://github.com/fossasia/open-event-android/blob/development/apk-generator/api/api.php)** A php script that serves as an API and handles incoming requests to the server.
 * **[copyapk.sh](https://github.com/fossasia/open-event-android/blob/development/apk-generator/scripts/copyApk.sh)** A bash script that will copy the generated and signed apk to the release folder in `public-html` of the server.
 
 ## Server Setup
@@ -35,7 +35,7 @@ Build Server Requirements
 3. Move all the files mentioned in the `scripts` folder (Except `runPy.php`, `upload.php` and `index.html`) into ```/root/scripts```.
 4. Move `runPy.php`, `upload.php`, and `index.html` to ```/var/www/html```
 5. [Install and setup](https://www.digitalocean.com/community/tutorials/how-to-install-java-with-apt-get-on-ubuntu-16-04) JAVA on your machine.
-6. Next, install PHP.THis can be done by simply writing `sudo apt-get install php` in your terminal.<br>
+6. Next, install PHP.This can be done by simply writing `sudo apt-get install php` in your terminal.<br>
 Now [modify the maximum upload limit of php](http://stackoverflow.com/questions/2184513/php-change-the-maximum-upload-file-size) to atleast `500MB`. (Default is 2MB)
 7. Mdify your sudoers list to allow www-data to run the runPy.php script as root
    You can do this by typing the following command ```sudo visudo``` and hitting enter <br>
@@ -45,10 +45,9 @@ Now [modify the maximum upload limit of php](http://stackoverflow.com/questions/
    Open this newly created project and click the Pink colored button saying *"Add Firebase to your web app"* <br>
    Copy the code listed there and paste it to [index.html](https://github.com/fossasia/open-event-android/blob/master/apk-generator/index.html#L76)
    Also add your server's IP address to trusted sources in the [Firebase console](https://console.firebase.google.com/project/app-generator/authentication/providers) by clicking on *Add Domain*
-9. Create another folder in your public-html named ```api``` and move contents of the folder `api` here.  
+9. Create another folder in your public-html named ```api``` and move contents of the folder `api` here.    
 11. The sender's address, message title and the body of email is defined in `conig.json` inside `apk-generator/scripts`.
 Changing this will affect the email that is sent.
-
 
 ## Glosarry
 
