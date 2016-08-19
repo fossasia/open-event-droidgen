@@ -1,0 +1,6 @@
+{
+    "api": "sendgrid_api_key",
+    "sender": "manasbagula@gmail.com",
+    "title": "Test Email",
+    "body": "Your Android App has been generated.\nYou can either download it from the attachment or use the link given below.\nThank you for using Open Event Android App Generator :)\nThe link to the app is "
+}

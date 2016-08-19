@@ -1,0 +1,19 @@
+{
+  "biography": "Anna works with the Fab Lab network\u00a0and Autodesk to promote creativity\u00a0and sustainable development through the global Maker Movement. A graduate of the Massachusetts Institute of Technology, she received a Fulbright fellowship\u00a0to research grassroots manufacturing at the Kwame Nkrumah University of Science and Technology in Ghana. She has taught science and engineering in Ghana, Peru, the United States, and Saudi Arabia, and led design thinking workshops in India and Taiwan. She was a co-organizer for the 10th annual Global Fab Lab conference in Barcelona, and is helping organize the 11th conference in Boston, US for next year.",
+  "country": "",
+  "email": "",
+  "facebook": null,
+  "github": null,
+  "id": 3,
+  "linkedin": null,
+  "name": "Anna Waldman-Brown",
+  "organisation": "Ananse Group",
+  "photo": "https://re-publica.de/sites/re-publica.de/files/styles/speaker_profile/public/media/pictures/annawb.png",
+  "position": null,
+  "sessions": [
+    2,
+    4
+  ],
+  "twitter": null,
+  "web": "https://re-publica.de/member/3577#profile-speaker"
+}

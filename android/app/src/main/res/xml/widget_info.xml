@@ -1,0 +1,13 @@
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:initialKeyguardLayout="@layout/bookmark_widget"
+    android:initialLayout="@layout/bookmark_widget"
+    android:minHeight="@dimen/widget_default_height"
+    android:minResizeHeight="@dimen/widget_default_height"
+    android:minResizeWidth="@dimen/widget_min_resize_width"
+    android:minWidth="@dimen/widget_min_resize_width"
+    android:previewImage="@drawable/widget_preview"
+    android:resizeMode="horizontal|vertical"
+    android:updatePeriodMillis="0"
+    android:widgetCategory="home_screen|keyguard"
+    tools:ignore="UnusedAttribute" />
