@@ -48,15 +48,6 @@
                 <br>
                 <div id="status"></div>
                 <br>
-                <section>
-                    <br>
-                    <div class="progress" style="display:none;">
-                        <div class="progress-bar" role="progressbar" id="generator-progress" style="width:0%; height: 20px;">
-                            <span id="generator-progress-val">0%</span>
-                        </div>
-                    </div>
-                    <br>
-                </section>
                 <tr>
                     <td colspan="5" style="text-align:center">
                         <button type="submit">Generate and Download app</button>
@@ -92,17 +83,15 @@
             var timestamp = Number(new Date());
             var form = document.querySelector("form");
             var config = {
-                apiKey: "API-KEY",
-                authDomain: "APP-ID.firebaseapp.com",
-                databaseURL: "https://APP-ID.firebaseio.com",
-                storageBucket: "APP-ID.appspot.com",
+                apiKey: "API_KEY",
+                authDomain: "APP_ID.firebaseapp.com",
+                databaseURL: "https://APP_ID.firebaseio.com",
+                storageBucket: "APP_ID.appspot.com",
             };
             firebase.initializeApp(config);
             var database = firebase.database();
             form.addEventListener("submit", function(event) {
                 event.preventDefault();
-                $('.progress').css('display', 'block');
-                $('#generator-progress').css('display', 'block')
                 var ary = $(form).serializeArray();
                 var obj = {};
                 for (var a = 0; a < ary.length; a++) obj[ary[a].name] = ary[a].value;
@@ -129,7 +118,6 @@
                             type: "POST",
                             success: function(php_script_response) {
                                 ajaxCall1();
-                                updatePercent(10);
                             }
                         });
 
@@ -141,14 +129,12 @@
                                     timestamp: timestamp
                                 },
                                 success: function(response) {
-                                    updatePercent(20);
                                     ajaxCall2();
                                 }
                             });
                         }
 
                         function ajaxCall2() {
-                            updatePercent(50);
                             $.ajax({
                                 type: "POST",
                                 url: "/runPy.php",
@@ -157,17 +143,8 @@
                                 },
                                 success: function(response) {
                                     console.log("Success", response);
-                                    updatePercent(100);
                                     window.location = response;
                                 }
-                            });
-                        }
-
-                        function updatePercent(perc) {
-                            $('#generator-progress').animate({
-                                'width': perc + '%'
-                            }, function() {
-                                $('#generator-progress-val').html(perc + '%');
                             });
                         }
                     });
