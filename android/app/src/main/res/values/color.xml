@@ -11,4 +11,6 @@
     <color name="translucent_grey">#0c000000</color>
     <color name="grey">#E0E0E0</color>
     <color name="white">#FFFFFF</color>
+    <color name="speakers_listview_primary">#de000000</color>
+    <color name="speakers_listview_secondary">#8a000000</color>
 </resources>
