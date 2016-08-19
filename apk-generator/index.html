@@ -48,6 +48,15 @@
                 <br>
                 <div id="status"></div>
                 <br>
+                <section>
+                    <br>
+                    <div class="progress" style="display:none;">
+                        <div class="progress-bar" role="progressbar" id="generator-progress" style="width:0%; height: 20px;">
+                            <span id="generator-progress-val">0%</span>
+                        </div>
+                    </div>
+                    <br>
+                </section>
                 <tr>
                     <td colspan="5" style="text-align:center">
                         <button type="submit">Generate and Download app</button>
@@ -83,15 +92,17 @@
             var timestamp = Number(new Date());
             var form = document.querySelector("form");
             var config = {
-                apiKey: "API_KEY",
-                authDomain: "APP_ID.firebaseapp.com",
-                databaseURL: "https://APP_ID.firebaseio.com",
-                storageBucket: "APP_ID.appspot.com",
+                apiKey: "API-KEY",
+                authDomain: "APP-ID.firebaseapp.com",
+                databaseURL: "https://APP-ID.firebaseio.com",
+                storageBucket: "APP-ID.appspot.com",
             };
             firebase.initializeApp(config);
             var database = firebase.database();
             form.addEventListener("submit", function(event) {
                 event.preventDefault();
+                $('.progress').css('display', 'block');
+                $('#generator-progress').css('display', 'block')
                 var ary = $(form).serializeArray();
                 var obj = {};
                 for (var a = 0; a < ary.length; a++) obj[ary[a].name] = ary[a].value;
@@ -107,9 +118,9 @@
                     firebase.database().ref('users/' + timestamp).set(obj);
                     database.ref('users/' + timestamp).once('value').then(function(snapshot) {
                         console.log("Received value", snapshot.val());
+                        updatePercent(10);
                         var file_data = $('#uploadZip').prop('files')[0];
                         $.ajax({
-
                             url: "/upload.php", // point to server-side PHP script
                             cache: false,
                             contentType: false,
@@ -117,24 +128,13 @@
                             data: form_data,
                             type: "POST",
                             success: function(php_script_response) {
+                                updatePercent(20);
                                 ajaxCall1();
-                            }
+
                         });
 
                         function ajaxCall1() {
-                            $.ajax({
-                                type: "POST",
-                                url: "/uploadHelper.php",
-                                data: {
-                                    timestamp: timestamp
-                                },
-                                success: function(response) {
-                                    ajaxCall2();
-                                }
-                            });
-                        }
-
-                        function ajaxCall2() {
+                            updatePercent(40);
                             $.ajax({
                                 type: "POST",
                                 url: "/runPy.php",
@@ -143,8 +143,17 @@
                                 },
                                 success: function(response) {
                                     console.log("Success", response);
+                                    updatePercent(100);
                                     window.location = response;
                                 }
+                            });
+                        }
+
+                        function updatePercent(perc) {
+                            $('#generator-progress').animate({
+                                'width': perc + '%'
+                            }, function() {
+                                $('#generator-progress-val').html(perc + '%');
                             });
                         }
                     });

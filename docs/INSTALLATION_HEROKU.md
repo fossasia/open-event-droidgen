@@ -1,6 +1,4 @@
-# How to install the Open Event Android App Generator on [DigitalOcean.com](https://www.digitalocean.com)
-
-As sample set up is installed [here](http://45.55.58.149)
+# How to install the Open Event Android App Generator on HEROKU
 
 Build Server Requirements
 ======
