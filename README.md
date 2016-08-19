@@ -143,7 +143,7 @@ After taking the request through the POST API, the app will be generated and ema
 * **[copyapk.sh](https://github.com/fossasia/open-event-android/blob/development/apk-generator/scripts/copyApk.sh)** A bash script that will copy the generated and signed apk to the release folder in `public-html` of the server.
 
 ### Screenshots of the app generator web page
-**Server's Landing Page** <br>
+**See it in action** <br>
 ![image](docs/screenshots/generator-preview.gif) <br>
 
 **Firebase Data Storage model** <br>
