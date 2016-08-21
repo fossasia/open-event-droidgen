@@ -37,7 +37,7 @@ import timber.log.Timber;
 /**
  * Created by MananWason on 05-06-2015.
  */
-public class SponsorsFragment extends Fragment {
+public class SponsorsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private SponsorsListAdapter sponsorsListAdapter;
 
@@ -55,16 +55,7 @@ public class SponsorsFragment extends Fragment {
         final DbSingleton dbSingleton = DbSingleton.getInstance();
 
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.sponsor_swipe_refresh);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                if (NetworkUtils.haveNetworkConnection(getActivity())) {
-                    DataDownloadManager.getInstance().downloadSponsors();
-                } else {
-                    OpenEventApp.getEventBus().post(new SponsorDownloadEvent(true));
-                }
-            }
-        });
+        swipeRefreshLayout.setOnRefreshListener(this);
         sponsorsListAdapter = new SponsorsListAdapter(dbSingleton.getSponsorList());
         sponsorsRecyclerView.setAdapter(sponsorsListAdapter);
         sponsorsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -115,10 +106,15 @@ public class SponsorsFragment extends Fragment {
 
         } else {
             if (getActivity() != null) {
-                Snackbar.make(getView(), getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).show();
+                Snackbar.make(getView(), getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG)
+                        .setAction(R.string.retry_download, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                onRefresh();
+                            }
+                        }).show();
             }
             Timber.d("Refresh not done");
-
         }
     }
 
@@ -126,5 +122,14 @@ public class SponsorsFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear();
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public void onRefresh() {
+        if (NetworkUtils.haveNetworkConnection(getActivity())) {
+            DataDownloadManager.getInstance().downloadSponsors();
+        } else {
+            OpenEventApp.getEventBus().post(new SponsorDownloadEvent(true));
+        }
     }
 }
