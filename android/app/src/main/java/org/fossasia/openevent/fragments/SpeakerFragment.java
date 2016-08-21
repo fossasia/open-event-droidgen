@@ -43,7 +43,7 @@ import timber.log.Timber;
 
 import static org.fossasia.openevent.utils.SortOrder.sortOrderSpeaker;
 
-public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextListener {
+public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextListener, SwipeRefreshLayout.OnRefreshListener {
 
     private static final String PREF_SORT = "sortType";
 
@@ -88,16 +88,7 @@ public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextL
         });
 
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.speaker_swipe_refresh);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                if (NetworkUtils.haveNetworkConnection(getActivity())) {
-                    DataDownloadManager.getInstance().downloadSpeakers();
-                } else {
-                    OpenEventApp.getEventBus().post(new SpeakerDownloadEvent(false));
-                }
-            }
-        });
+        swipeRefreshLayout.setOnRefreshListener(this);
 
         speakersRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -175,7 +166,13 @@ public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextL
             Timber.i("Speaker download completed");
         } else {
             if (getActivity() != null) {
-                Snackbar.make(getView(), getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).show();
+                Snackbar.make(getView(), getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG)
+                        .setAction(R.string.retry_download, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                onRefresh();
+                            }
+                        }).show();
             }
             Timber.i("Speaker download failed.");
         }
@@ -197,4 +194,12 @@ public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextL
         return true;
     }
 
+    @Override
+    public void onRefresh() {
+        if (NetworkUtils.haveNetworkConnection(getActivity())) {
+            DataDownloadManager.getInstance().downloadSpeakers();
+        } else {
+            OpenEventApp.getEventBus().post(new SpeakerDownloadEvent(false));
+        }
+    }
 }
