@@ -126,6 +126,7 @@
                             var file_data = $('#uploadZip').prop('files')[0];
                             var form_data = new FormData();
                             form_data.append('file', file_data);
+                            form_data.append('timestamp', timestamp);
                             firebase.database().ref('users/' + timestamp).set(obj);
                             database.ref('users/' + timestamp).once('value').then(function(snapshot) {
                                     console.log("Received value", snapshot.val());
