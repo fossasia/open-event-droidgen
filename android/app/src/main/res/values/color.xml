@@ -4,6 +4,7 @@
     <color name="color_primary_dark">#D32F2F</color>
     <color name="color_accent">#C62828</color>
 
+    <color name="actv_dropdown_color">#BBC62828</color>
     <color name="window_background">#E0E0E0</color>
     <color name="coordinator_background">#D32F2F</color>
     <color name="primary_text">#212121</color>
