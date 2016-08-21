@@ -5,7 +5,7 @@ package org.fossasia.openevent.events;
  * Base event for all download events.
  */
 
-class DownloadEvent {
+public class DownloadEvent {
     private boolean state;
 
     DownloadEvent(boolean state) {
