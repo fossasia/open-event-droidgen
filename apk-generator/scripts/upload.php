@@ -4,7 +4,7 @@
         echo 'Error: ' . $_FILES['file']['error'] . '<br>';
     }
     else {
-        move_uploaded_file($_FILES['file']['tmp_name'], "/var/www/html/uploads/upload.zip");
+        mkdir("/var/www/html/uploads/".$_POST['timestamp'], 0700);
+        move_uploaded_file($_FILES['file']['tmp_name'], "/var/www/html/uploads/".$_POST['timestamp']."/json.zip");
     }
 ?>
-
