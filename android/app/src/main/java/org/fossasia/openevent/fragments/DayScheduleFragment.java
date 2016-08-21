@@ -37,7 +37,7 @@ import java.util.List;
 /**
  * Created by Manan Wason on 17/06/16.
  */
-public class DayScheduleFragment extends Fragment {
+public class DayScheduleFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -90,16 +90,7 @@ public class DayScheduleFragment extends Fragment {
         dayScheduleAdapter.setEventDate(date);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.schedule_swipe_refresh);
 
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                if (NetworkUtils.haveNetworkConnection(getContext())) {
-                    DataDownloadManager.getInstance().downloadSession();
-                } else {
-                    OpenEventApp.getEventBus().post(new SessionDownloadEvent(false));
-                }
-            }
-        });
+        swipeRefreshLayout.setOnRefreshListener(this);
 
         dayRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 
@@ -159,9 +150,23 @@ public class DayScheduleFragment extends Fragment {
 
         } else {
             if (getActivity() != null) {
-                Snackbar.make(getView(), getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).show();
+                Snackbar.make(getView(), getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG)
+                        .setAction(R.string.retry_download, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                onRefresh();
+                            }
+                        }).show();
             }
         }
     }
 
+    @Override
+    public void onRefresh() {
+        if (NetworkUtils.haveNetworkConnection(getContext())) {
+            DataDownloadManager.getInstance().downloadSession();
+        } else {
+            OpenEventApp.getEventBus().post(new SessionDownloadEvent(false));
+        }
+    }
 }
