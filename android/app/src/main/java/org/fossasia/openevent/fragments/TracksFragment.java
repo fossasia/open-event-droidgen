@@ -40,7 +40,7 @@ import java.util.List;
  * User: MananWason
  * Date: 05-06-2015
  */
-public class TracksFragment extends Fragment implements SearchView.OnQueryTextListener {
+public class TracksFragment extends Fragment implements SearchView.OnQueryTextListener,SwipeRefreshLayout.OnRefreshListener {
 
     final private String SEARCH = "searchText";
 
@@ -82,18 +82,7 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
             }
         });
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.tracks_swipe_refresh);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                if (NetworkUtils.haveNetworkConnection(getActivity())) {
-                    DataDownloadManager.getInstance().downloadTracks();
-                    setVisibility(true);
-                } else {
-                    OpenEventApp.getEventBus().post(new TracksDownloadEvent(false));
-                    setVisibility(false);
-                }
-            }
-        });
+        swipeRefreshLayout.setOnRefreshListener(this);
 
         tracksRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 
@@ -182,9 +171,25 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
 
         } else {
             if (getActivity() != null) {
-                Snackbar.make(windowFrame, getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).show();
+                Snackbar.make(windowFrame, getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG)
+                        .setAction(R.string.retry_download, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        onRefresh();
+                    }
+                }).show();
             }
         }
     }
 
+    @Override
+    public void onRefresh() {
+        if (NetworkUtils.haveNetworkConnection(getActivity())) {
+            DataDownloadManager.getInstance().downloadTracks();
+            setVisibility(true);
+        } else {
+            OpenEventApp.getEventBus().post(new TracksDownloadEvent(false));
+            setVisibility(false);
+        }
+    }
 }
