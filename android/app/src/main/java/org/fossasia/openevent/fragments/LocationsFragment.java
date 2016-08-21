@@ -35,7 +35,7 @@ import org.fossasia.openevent.utils.ConstantStrings;
  * User: MananWason
  * Date: 8/18/2015
  */
-public class LocationsFragment extends Fragment implements SearchView.OnQueryTextListener {
+public class LocationsFragment extends Fragment implements SearchView.OnQueryTextListener, SwipeRefreshLayout.OnRefreshListener {
     final private String SEARCH = "searchText";
 
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -73,12 +73,7 @@ public class LocationsFragment extends Fragment implements SearchView.OnQueryTex
         });
 
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.locations_swipe_refresh);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                DataDownloadManager.getInstance().downloadMicrolocations();
-            }
-        });
+        swipeRefreshLayout.setOnRefreshListener(this);
 
         locationsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 
@@ -167,8 +162,19 @@ public class LocationsFragment extends Fragment implements SearchView.OnQueryTex
 
         } else {
             if (getActivity() != null) {
-                Snackbar.make(getView(), getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).show();
+                Snackbar.make(getView(), getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG)
+                        .setAction(R.string.retry_download, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                onRefresh();
+                            }
+                        }).show();
             }
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        DataDownloadManager.getInstance().downloadMicrolocations();
     }
 }
