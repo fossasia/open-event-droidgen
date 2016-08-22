@@ -34,8 +34,6 @@ import org.fossasia.openevent.utils.NetworkUtils;
 
 import java.util.List;
 
-import timber.log.Timber;
-
 /**
  * Created by Manan Wason on 17/06/16.
  */
@@ -51,11 +49,13 @@ public class DayScheduleFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         date = getArguments().getString(ConstantStrings.EVENT_DAY, "");
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        refreshData(new RefreshUiEvent());
 
     }
 
@@ -64,9 +64,9 @@ public class DayScheduleFragment extends Fragment {
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.list_schedule, container, false);
         RecyclerView dayRecyclerView = (RecyclerView) view.findViewById(R.id.list_schedule);
-        final DbSingleton dbSingleton = DbSingleton.getInstance();
         TextView noSchedule = (TextView) view.findViewById(R.id.txt_no_schedule);
-        List<Session> sortedSessions = dbSingleton.getSessionbyDate(date);
+        List<Session> sortedSessions = DbSingleton.getInstance().getSessionbyDate(date);
+
         if (!sortedSessions.isEmpty()) {
             noSchedule.setVisibility(View.GONE);
         } else {
@@ -79,8 +79,7 @@ public class DayScheduleFragment extends Fragment {
             public void onItemClick(int position, View view) {
                 Session model = dayScheduleAdapter.getItem(position);
                 String sessionName = model.getTitle();
-                Timber.d(sessionName);
-                Track track = dbSingleton.getTrackbyId(model.getTrack().getId());
+                Track track = DbSingleton.getInstance().getTrackbyId(model.getTrack().getId());
                 String trackName = track.getName();
                 Intent intent = new Intent(getContext(), SessionDetailActivity.class);
                 intent.putExtra(ConstantStrings.SESSION, sessionName);
@@ -140,7 +139,6 @@ public class DayScheduleFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear();
-        inflater.inflate(R.menu.menu_schedule, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 

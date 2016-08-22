@@ -103,7 +103,7 @@ public class APITest extends AndroidTestCase {
     public void testSessionAPIResponse() throws Exception {
         APIClient client = new APIClient();
         final CountDownLatch latch = new CountDownLatch(1);
-        client.getOpenEventAPI().getSessions().enqueue(new Callback<List<Session>>() {
+        client.getOpenEventAPI().getSessions("start_time.asc").enqueue(new Callback<List<Session>>() {
             @Override
             public void onResponse(Call<List<Session>> call, Response<List<Session>> response) {
                 if (response.isSuccessful()) {

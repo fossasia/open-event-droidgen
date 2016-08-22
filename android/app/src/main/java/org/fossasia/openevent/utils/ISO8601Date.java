@@ -51,6 +51,11 @@ public final class ISO8601Date {
         return fromCalendar(GregorianCalendar.getInstance());
     }
 
+    public static String dateFromCalendar(Calendar currentDate ) {
+        return fromCalendar(currentDate).split("T")[0];
+    }
+
+
 
     public static String getTimeZoneDateString(final Date date) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("EE, dd MMM yyyy, HH:mm, z");

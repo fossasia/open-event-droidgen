@@ -32,13 +32,13 @@ public class ScheduleFragment extends Fragment {
         setupViewPager(viewPager);
         TabLayout scheduleTabLayout = (TabLayout) view.findViewById(R.id.tabLayout);
         scheduleTabLayout.setupWithViewPager(viewPager);
-
         return view;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
     }
 
@@ -63,11 +63,8 @@ public class ScheduleFragment extends Fragment {
         for (int i = 0; i < daysofEvent; i++) {
             adapter.addFragment(new DayScheduleFragment(), Days.values()[i].toString(), i);
         }
-
         viewPager.setAdapter(adapter);
     }
-
-
 
 
 }
