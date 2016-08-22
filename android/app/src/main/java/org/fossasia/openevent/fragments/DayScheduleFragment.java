@@ -89,15 +89,10 @@ public class DayScheduleFragment extends Fragment {
         });
         dayScheduleAdapter.setEventDate(date);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.schedule_swipe_refresh);
-
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if (NetworkUtils.haveNetworkConnection(getContext())) {
-                    DataDownloadManager.getInstance().downloadSession();
-                } else {
-                    OpenEventApp.getEventBus().post(new SessionDownloadEvent(false));
-                }
+                refresh();
             }
         });
 
@@ -159,9 +154,22 @@ public class DayScheduleFragment extends Fragment {
 
         } else {
             if (getActivity() != null) {
-                Snackbar.make(getView(), getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).show();
+                Snackbar.make(getView(), getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG)
+                        .setAction(R.string.retry_download, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                refresh();
+                            }
+                        }).show();
             }
         }
     }
 
+    public void refresh() {
+        if (NetworkUtils.haveNetworkConnection(getContext())) {
+            DataDownloadManager.getInstance().downloadSession();
+        } else {
+            OpenEventApp.getEventBus().post(new SessionDownloadEvent(false));
+        }
+    }
 }

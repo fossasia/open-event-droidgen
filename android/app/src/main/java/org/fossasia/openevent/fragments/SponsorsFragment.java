@@ -58,13 +58,10 @@ public class SponsorsFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if (NetworkUtils.haveNetworkConnection(getActivity())) {
-                    DataDownloadManager.getInstance().downloadSponsors();
-                } else {
-                    OpenEventApp.getEventBus().post(new SponsorDownloadEvent(true));
-                }
+                refresh();
             }
         });
+
         sponsorsListAdapter = new SponsorsListAdapter(dbSingleton.getSponsorList());
         sponsorsRecyclerView.setAdapter(sponsorsListAdapter);
         sponsorsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -115,10 +112,15 @@ public class SponsorsFragment extends Fragment {
 
         } else {
             if (getActivity() != null) {
-                Snackbar.make(getView(), getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).show();
+                Snackbar.make(getView(), getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG)
+                        .setAction(R.string.retry_download, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                refresh();
+                            }
+                        }).show();
             }
             Timber.d("Refresh not done");
-
         }
     }
 
@@ -126,5 +128,13 @@ public class SponsorsFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear();
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    public void refresh() {
+        if (NetworkUtils.haveNetworkConnection(getActivity())) {
+            DataDownloadManager.getInstance().downloadSponsors();
+        } else {
+            OpenEventApp.getEventBus().post(new SponsorDownloadEvent(true));
+        }
     }
 }
