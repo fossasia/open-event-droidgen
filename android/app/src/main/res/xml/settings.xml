@@ -4,14 +4,17 @@
     android:layout_height="match_parent">
 
 
-    <PreferenceCategory android:title="@string/settings_mode_api">
-        <SwitchPreference
-            android:key="internet_mode"
-            android:title="Download updates only on wifi"
-            android:summary="If switched on app will not use Mobile Data to update schedule"
-            android:defaultValue="true"/>
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="@string/download_mode_key"
+        android:summary="@string/summary_mode_download"
+        android:title="@string/settings_mode_download" />
 
-    </PreferenceCategory>
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="@string/timezone_mode_key"
+        android:summary="@string/summary_mode_timezone"
+        android:title="@string/settings_mode_timezone" />
 
     <PreferenceCategory android:title="@string/settings_mode_notification">
 

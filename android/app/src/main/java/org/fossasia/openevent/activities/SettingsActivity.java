@@ -18,18 +18,15 @@ import android.view.MenuItem;
 
 import org.fossasia.openevent.R;
 
-import timber.log.Timber;
-
 /**
  * User: manan
  * Date: 21-05-2015
  */
 public class SettingsActivity extends PreferenceActivity implements Preference.OnPreferenceChangeListener {
 
-    public static final String INTERNET_MODE = "internet_mode";
-
     public static final String NOTIFICATION_PREF_MODE = "notification";
     private SwitchPreference internetPreference;
+    private SwitchPreference timezonePreference;
     private Preference prefNotification;
     private SharedPreferences preferences;
     private AppCompatDelegate mDelegate;
@@ -44,21 +41,29 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
         setContentView(R.layout.activity_settings);
         setToolbar();
         PreferenceScreen preferenceScreen = getPreferenceScreen();
-        internetPreference = (SwitchPreference) preferenceScreen.findPreference(INTERNET_MODE);
-        internetPreference.setDefaultValue(getResources().getString(R.string.default_mode_api));
+        internetPreference = (SwitchPreference) preferenceScreen.findPreference(getResources().getString(R.string.download_mode_key));
         internetPreference.setOnPreferenceChangeListener(this);
+        timezonePreference = (SwitchPreference) preferenceScreen.findPreference(getResources().getString(R.string.timezone_mode_key));
+        timezonePreference.setOnPreferenceChangeListener(this);
+
         prefNotification = findPreference(NOTIFICATION_PREF_MODE);
 
     }
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object o) {
-        if (preference.getKey().equals(INTERNET_MODE)) {
-            Timber.d(o.toString());
+
+        if (preference.getKey().equals(getResources().getString(R.string.download_mode_key))) {
             if (o.equals(false)) {
                 internetPreference.setChecked(false);
             } else if (o.equals(true)) {
                 internetPreference.setChecked(true);
+            }
+        } else if (preference.getKey().equals(getResources().getString(R.string.timezone_mode_key))) {
+            if (o.equals(false)) {
+                timezonePreference.setChecked(false);
+            } else if (o.equals(true)) {
+                timezonePreference.setChecked(true);
             }
         }
         return false;

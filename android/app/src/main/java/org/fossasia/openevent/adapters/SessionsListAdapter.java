@@ -95,7 +95,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, ViewHolder.Viewh
         holder.getTxtView2().setText(summary);
         holder.getTxtView3().setText(current.getTrack().getName());
         holder.getTxtView4().setText(date);
-        holder.getTxtView5().setText(ISO8601Date.get24HourTime(ISO8601Date.getDateObject(current.getStartTime())));
+        holder.getTxtView5().setText(ISO8601Date.get12HourTime(ISO8601Date.getDateObject(current.getStartTime())));
         holder.getTxtView6().setText(current.getMicrolocation().getName());
         holder.setItemClickListener(listener);
     }

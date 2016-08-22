@@ -180,7 +180,7 @@ public class MainActivity extends BaseActivity {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 DbSingleton.getInstance().clearDatabase();
-                                Boolean preference = sharedPreferences.getBoolean(SettingsActivity.INTERNET_MODE, true);
+                                Boolean preference = sharedPreferences.getBoolean(getResources().getString(R.string.download_mode_key), true);
                                 if (preference) {
                                     if (NetworkUtils.haveWifiConnection(MainActivity.this)) {
                                         OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
@@ -439,20 +439,18 @@ public class MainActivity extends BaseActivity {
     public void onBackPressed() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         android.support.v4.app.Fragment fragment = fragmentManager.findFragmentByTag(FRAGMENT_TAG_TRACKS);
-            if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-                drawerLayout.closeDrawer(GravityCompat.START);
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else if (fragment != null && fragment.isVisible()) {
+            super.onBackPressed();
+        } else {
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, new TracksFragment(), FRAGMENT_TAG_TRACKS).commit();
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setTitle(R.string.menu_tracks);
             }
-            else if (fragment != null && fragment.isVisible()) {
-                super.onBackPressed();
-            }
-            else {
-                fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, new TracksFragment(), FRAGMENT_TAG_TRACKS).commit();
-                if (getSupportActionBar() != null) {
-                    getSupportActionBar().setTitle(R.string.menu_tracks);
-                }
-            }
-         }
+        }
+    }
 
     public void addShadowToAppBar(boolean addShadow) {
         if (addShadow) {
@@ -765,8 +763,7 @@ public class MainActivity extends BaseActivity {
             readJsonAsset(Urls.SESSIONS);
             readJsonAsset(Urls.SPONSORS);
             readJsonAsset(Urls.MICROLOCATIONS);
-        }
-        else {
+        } else {
             downloadProgress.setVisibility(View.GONE);
         }
     }
