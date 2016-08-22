@@ -40,7 +40,7 @@ import java.util.List;
  * User: MananWason
  * Date: 05-06-2015
  */
-public class TracksFragment extends Fragment implements SearchView.OnQueryTextListener,SwipeRefreshLayout.OnRefreshListener {
+public class TracksFragment extends Fragment implements SearchView.OnQueryTextListener {
 
     final private String SEARCH = "searchText";
 
@@ -82,7 +82,12 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
             }
         });
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.tracks_swipe_refresh);
-        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refresh();
+            }
+        });
 
         tracksRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 
@@ -175,15 +180,14 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
                         .setAction(R.string.retry_download, new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        onRefresh();
+                        refresh();
                     }
                 }).show();
             }
         }
     }
 
-    @Override
-    public void onRefresh() {
+    public void refresh() {
         if (NetworkUtils.haveNetworkConnection(getActivity())) {
             DataDownloadManager.getInstance().downloadTracks();
             setVisibility(true);

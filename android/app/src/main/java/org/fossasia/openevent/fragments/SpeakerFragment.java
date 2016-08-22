@@ -43,7 +43,7 @@ import timber.log.Timber;
 
 import static org.fossasia.openevent.utils.SortOrder.sortOrderSpeaker;
 
-public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextListener, SwipeRefreshLayout.OnRefreshListener {
+public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextListener {
 
     private static final String PREF_SORT = "sortType";
 
@@ -88,7 +88,12 @@ public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextL
         });
 
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.speaker_swipe_refresh);
-        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refresh();
+            }
+        });
 
         speakersRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -170,7 +175,7 @@ public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextL
                         .setAction(R.string.retry_download, new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                onRefresh();
+                                refresh();
                             }
                         }).show();
             }
@@ -194,8 +199,7 @@ public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextL
         return true;
     }
 
-    @Override
-    public void onRefresh() {
+    public void refresh() {
         if (NetworkUtils.haveNetworkConnection(getActivity())) {
             DataDownloadManager.getInstance().downloadSpeakers();
         } else {
