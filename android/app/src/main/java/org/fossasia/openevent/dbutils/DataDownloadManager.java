@@ -42,7 +42,7 @@ public final class DataDownloadManager {
     }
 
     public void downloadSession() {
-        client.getOpenEventAPI().getSessions().enqueue(new SessionListResponseProcessor());
+        client.getOpenEventAPI().getSessions("start_time.asc").enqueue(new SessionListResponseProcessor());
     }
 
     public void downloadTracks() {

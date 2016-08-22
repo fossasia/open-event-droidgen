@@ -92,6 +92,7 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, ViewHolder.Viewho
     public void refresh() {
         DbSingleton dbSingleton = DbSingleton.getInstance();
         clear();
+        Timber.d(dbSingleton.getSessionbyDate(eventDate).size()+"");
         animateTo(dbSingleton.getSessionbyDate(eventDate));
     }
 

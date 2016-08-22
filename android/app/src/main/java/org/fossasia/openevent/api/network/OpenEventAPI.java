@@ -11,6 +11,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Query;
 
 /**
  * User: mohit
@@ -25,7 +26,7 @@ public interface OpenEventAPI {
     Call<List<Sponsor>> getSponsors();
 
     @GET("sessions")
-    Call<List<Session>> getSessions();
+    Call<List<Session>> getSessions(@Query("order_by") String orderBy);
 
     //TODO:Correct event api url to server's
     @GET("event")

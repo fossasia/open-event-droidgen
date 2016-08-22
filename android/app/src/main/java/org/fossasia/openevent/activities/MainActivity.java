@@ -44,6 +44,7 @@ import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Event;
+import org.fossasia.openevent.data.EventDates;
 import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.SessionSpeakersMapping;
@@ -54,7 +55,6 @@ import org.fossasia.openevent.dbutils.DataDownloadManager;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.CounterEvent;
 import org.fossasia.openevent.events.DataDownloadEvent;
-import org.fossasia.openevent.events.EventDatesDownloadEvent;
 import org.fossasia.openevent.events.EventDownloadEvent;
 import org.fossasia.openevent.events.JsonReadEvent;
 import org.fossasia.openevent.events.MicrolocationDownloadEvent;
@@ -75,6 +75,7 @@ import org.fossasia.openevent.fragments.SponsorsFragment;
 import org.fossasia.openevent.fragments.TracksFragment;
 import org.fossasia.openevent.utils.CommonTaskLoop;
 import org.fossasia.openevent.utils.ConstantStrings;
+import org.fossasia.openevent.utils.ISO8601Date;
 import org.fossasia.openevent.utils.NetworkUtils;
 import org.fossasia.openevent.utils.SmoothActionBarDrawerToggle;
 import org.fossasia.openevent.widget.DialogFactory;
@@ -83,6 +84,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import butterknife.Bind;
@@ -180,7 +184,7 @@ public class MainActivity extends BaseActivity {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 DbSingleton.getInstance().clearDatabase();
-                                Boolean preference = sharedPreferences.getBoolean(SettingsActivity.INTERNET_MODE, true);
+                                Boolean preference = sharedPreferences.getBoolean(getResources().getString(R.string.download_mode_key), true);
                                 if (preference) {
                                     if (NetworkUtils.haveWifiConnection(MainActivity.this)) {
                                         OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
@@ -310,6 +314,9 @@ public class MainActivity extends BaseActivity {
 
     private void syncComplete() {
         downloadProgress.setVisibility(View.GONE);
+        Event currentEvent = DbSingleton.getInstance().getEventDetails();
+        getDaysBetweenDates(ISO8601Date.getDateObject(currentEvent.getStart()), ISO8601Date.getDateObject(currentEvent.getEnd()));
+
         Bus bus = OpenEventApp.getEventBus();
         bus.post(new RefreshUiEvent());
         DbSingleton dbSingleton = DbSingleton.getInstance();
@@ -439,20 +446,18 @@ public class MainActivity extends BaseActivity {
     public void onBackPressed() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         android.support.v4.app.Fragment fragment = fragmentManager.findFragmentByTag(FRAGMENT_TAG_TRACKS);
-            if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-                drawerLayout.closeDrawer(GravityCompat.START);
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else if (fragment != null && fragment.isVisible()) {
+            super.onBackPressed();
+        } else {
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, new TracksFragment(), FRAGMENT_TAG_TRACKS).commit();
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setTitle(R.string.menu_tracks);
             }
-            else if (fragment != null && fragment.isVisible()) {
-                super.onBackPressed();
-            }
-            else {
-                fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, new TracksFragment(), FRAGMENT_TAG_TRACKS).commit();
-                if (getSupportActionBar() != null) {
-                    getSupportActionBar().setTitle(R.string.menu_tracks);
-                }
-            }
-         }
+        }
+    }
 
     public void addShadowToAppBar(boolean addShadow) {
         if (addShadow) {
@@ -576,19 +581,6 @@ public class MainActivity extends BaseActivity {
     }
 
     @Subscribe
-    public void onEventDatesDownloadDone(EventDatesDownloadEvent event) {
-        if (event.isState()) {
-            eventsDone++;
-            Timber.tag(COUNTER_TAG).d(eventsDone + " " + counter);
-            if (counter == eventsDone) {
-                syncComplete();
-            }
-        } else {
-            downloadFailed();
-        }
-    }
-
-    @Subscribe
     public void showNetworkDialog(ShowNetworkDialogEvent event) {
         downloadProgress.setVisibility(View.GONE);
         DialogFactory.createSimpleActionDialog(this,
@@ -669,7 +661,6 @@ public class MainActivity extends BaseActivity {
                         }
                         DbSingleton.getInstance().insertQueries(queries);
                         OpenEventApp.postEventOnUIThread(new SessionDownloadEvent(true));
-
                         break;
                     }
                     case ConstantStrings.SPEAKERS: {
@@ -765,8 +756,7 @@ public class MainActivity extends BaseActivity {
             readJsonAsset(Urls.SESSIONS);
             readJsonAsset(Urls.SPONSORS);
             readJsonAsset(Urls.MICROLOCATIONS);
-        }
-        else {
+        } else {
             downloadProgress.setVisibility(View.GONE);
         }
     }
@@ -789,11 +779,28 @@ public class MainActivity extends BaseActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
 
-
                 }
                 OpenEventApp.postEventOnUIThread(new JsonReadEvent(name, json));
 
             }
         });
     }
+
+    public static void getDaysBetweenDates(Date startdate, Date enddate) {
+        ArrayList<String> dates = new ArrayList<String>();
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(startdate);
+
+        while (calendar.getTime().before(enddate)) {
+            Date result = calendar.getTime();
+            Calendar calendar1 = Calendar.getInstance();
+            calendar1.setTime(result);
+            dates.add(new EventDates(ISO8601Date.dateFromCalendar(calendar1)).generateSql());
+            calendar.add(Calendar.DATE, 1);
+        }
+
+        DbSingleton.getInstance().insertQueries(dates);
+
+    }
+
 }

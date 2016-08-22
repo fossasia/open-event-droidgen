@@ -15,11 +15,10 @@ import java.util.List;
  * Created by Manan Wason on 16/06/16.
  */
 public class ScheduleViewPagerAdapter extends FragmentPagerAdapter {
-    private final List<Fragment> mFragmentList = new ArrayList<>();
-    private final List<String> mFragmentTitleList = new ArrayList<>();
-    private final DbSingleton dbSingleton = DbSingleton.getInstance();
+    private List<Fragment> mFragmentList = new ArrayList<>();
+    private List<String> mFragmentTitleList = new ArrayList<>();
 
-    private final List<String> event_days = dbSingleton.getDateList();
+    private List<String> event_days = DbSingleton.getInstance().getDateList();
 
 
     public ScheduleViewPagerAdapter(FragmentManager manager) {
@@ -37,7 +36,7 @@ public class ScheduleViewPagerAdapter extends FragmentPagerAdapter {
     }
 
     public void addFragment(Fragment fragment, String title, int day) {
-
+        event_days = DbSingleton.getInstance().getDateList();
         Bundle bundle = new Bundle();
         String dayString = event_days.get(day);
         bundle.putString(ConstantStrings.EVENT_DAY, dayString);
