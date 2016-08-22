@@ -36,6 +36,50 @@
             {
                 "id": 481, 
                 "title": "FOSSASIA"
+            }, 
+            {
+                "id": 71, 
+                "title": "Closing Notes of FOSSASIA 2016"
+            }, 
+            {
+                "id": 97, 
+                "title": "Closing Notes"
+            }, 
+            {
+                "id": 222, 
+                "title": "Closing Notes in Main Hall (Level 3, Dalton Hall)"
+            }, 
+            {
+                "id": 251, 
+                "title": "Closing Notes in Main Hall (Level 3, Dalton Hall)"
+            }, 
+            {
+                "id": 280, 
+                "title": "Closing Notes in Main Hall (Level 3, Dalton Hall)"
+            }, 
+            {
+                "id": 314, 
+                "title": "Closing Notes in Main Hall (Level 3, Dalton Hall)"
+            }, 
+            {
+                "id": 341, 
+                "title": "Closing Notes in Main Hall (Level 3, Dalton Hall)"
+            }, 
+            {
+                "id": 375, 
+                "title": "Closing Notes in Main Hall (Level 3, Dalton Hall)"
+            }, 
+            {
+                "id": 427, 
+                "title": "Closing Notes in Main Hall (Level 3, Dalton Hall)"
+            }, 
+            {
+                "id": 417, 
+                "title": "Closing Notes in Main Hall (Level 3, Dalton Hall)"
+            }, 
+            {
+                "id": 437, 
+                "title": "Closing Notes in Main Hall (Level 3, Dalton Hall)"
             }
         ], 
         "short_biography": "", 
@@ -138,7 +182,7 @@
         "github": "https://github.com/bleongcw", 
         "id": 6, 
         "linkedin": "https://www.linkedin.com/in/bleongcw", 
-        "long_biography": "Dr Bernard Leong is the Head of Digital Services for Singapore Post Pte Ltd, overseeing the Group\u2019s digital, mobile &amp; social media strategy, along products and innovation across the organization with the recent authenticated drone delivery system that received world wide coverage. When not donning his corporate hat, Dr Leong plays a key role in the Southeast Asia\u2019s entrepreneurial ecosystem, serving as Entrepreneur-in-Residence at INSEAD Business School and mentor for <a href=\"http://JFDI.Asia\" rel=\"nofollow\" target=\"_blank\">JFDI.Asia</a>, the region\u2019s leading startup incubator. He is the founder of a weekly podcast called <a href=\"http://Analyse.Asia\" rel=\"nofollow\" target=\"_blank\">Analyse.Asia</a> where he discussed the latest trends in business, technology and media in Asia.", 
+        "long_biography": "Dr Bernard Leong is the Head of Digital Services for Singapore Post Pte Ltd, overseeing the Group’s digital, mobile &amp; social media strategy, along products and innovation across the organization with the recent authenticated drone delivery system that received world wide coverage. When not donning his corporate hat, Dr Leong plays a key role in the Southeast Asia’s entrepreneurial ecosystem, serving as Entrepreneur-in-Residence at INSEAD Business School and mentor for <a href=\"http://JFDI.Asia\" rel=\"nofollow\" target=\"_blank\">JFDI.Asia</a>, the region’s leading startup incubator. He is the founder of a weekly podcast called <a href=\"http://Analyse.Asia\" rel=\"nofollow\" target=\"_blank\">Analyse.Asia</a> where he discussed the latest trends in business, technology and media in Asia.", 
         "mobile": null, 
         "name": "Bernard Leong", 
         "organisation": "Singapore Post", 
@@ -161,7 +205,7 @@
         "github": "", 
         "id": 7, 
         "linkedin": "https://www.linkedin.com/company/unesco", 
-        "long_biography": "WHO BENEFITS FROM YOUTHMOBILE?  \u00bbYouth and Youth organizations Informal learning opportunities for youth to engage in society and earn livelihoods as mobile app entrepreneurs. ICT-enabled youth organizations creating a sustainable pool of trainers, support staff, and mentors.  \u00bbSecondary School Students Acquiring high-level 21st century skills and confidence to develop/promote mobile apps to resolve local issues of sustainable development.  \u00bbTeachers and Principals Teaching a new, innovative course in mobile apps development, acquiring ICT-pedagogy skills, connecting the school to other schools nationally and globally.  \u00bb By gathering training materials to teach young people to develop mobile apps. The materials will be high-level and open-licensed for translation, localization, and innovations. Training materials will be pedagogically accurate for accreditation and employer recognition.  \u00bb By training teachers to teach the students. UNESCO will be identifying all schools worldwide with existing programs for advanced computer studies.  \u00bb By linking the learners to mobile app competitions, through the creation of the first global list of app competitors: encouraging trained students to submit apps for prizes, recognition, and employment opportunities; and let them meet and learn from those who made it.", 
+        "long_biography": "WHO BENEFITS FROM YOUTHMOBILE?  »Youth and Youth organizations Informal learning opportunities for youth to engage in society and earn livelihoods as mobile app entrepreneurs. ICT-enabled youth organizations creating a sustainable pool of trainers, support staff, and mentors.  »Secondary School Students Acquiring high-level 21st century skills and confidence to develop/promote mobile apps to resolve local issues of sustainable development.  »Teachers and Principals Teaching a new, innovative course in mobile apps development, acquiring ICT-pedagogy skills, connecting the school to other schools nationally and globally.  » By gathering training materials to teach young people to develop mobile apps. The materials will be high-level and open-licensed for translation, localization, and innovations. Training materials will be pedagogically accurate for accreditation and employer recognition.  » By training teachers to teach the students. UNESCO will be identifying all schools worldwide with existing programs for advanced computer studies.  » By linking the learners to mobile app competitions, through the creation of the first global list of app competitors: encouraging trained students to submit apps for prizes, recognition, and employment opportunities; and let them meet and learn from those who made it.", 
         "mobile": null, 
         "name": "Davide Storti, ITO Misako", 
         "organisation": "UNESCO", 
@@ -188,7 +232,7 @@
         "mobile": null, 
         "name": "Cat Allman", 
         "organisation": "Google", 
-        "photo": "/images/speakers/photo_8.jpg", 
+        "photo": "/images/speakers/CatAllman_8.jpg", 
         "position": null, 
         "sessions": [
             {
@@ -207,11 +251,11 @@
         "github": "", 
         "id": 9, 
         "linkedin": "", 
-        "long_biography": "Jan Nikolai Nelles is a multi-disciplinary artist based in Berlin. He graduated from Offenbach University of Art and Design in 2011. \u2028\u2028His work oscillates between visual and media art. In the past he founded an independent art gallery in Offenbach, Germany, and co-founded a photography magazine. Since 2009, he also collaborates with Nora Al-Badri on several artistic interventions.", 
+        "long_biography": "Jan Nikolai Nelles is a multi-disciplinary artist based in Berlin. He graduated from Offenbach University of Art and Design in 2011.   His work oscillates between visual and media art. In the past he founded an independent art gallery in Offenbach, Germany, and co-founded a photography magazine. Since 2009, he also collaborates with Nora Al-Badri on several artistic interventions.", 
         "mobile": null, 
         "name": "Jan Nikolai Nelles", 
         "organisation": "Artist of \"The Other Nefertiti\"", 
-        "photo": "/images/speakers/photo_9.jpg", 
+        "photo": "/images/speakers/JanNikolaiNelles_9.jpg", 
         "position": null, 
         "sessions": [
             {
@@ -250,7 +294,7 @@
         "mobile": null, 
         "name": "Mike McQuaid", 
         "organisation": "GitHub/Homebrew", 
-        "photo": "/images/speakers/photo_10", 
+        "photo": "/images/speakers/MikeMcquaid_10", 
         "position": null, 
         "sessions": [
             {
@@ -273,7 +317,7 @@
         "mobile": null, 
         "name": "Lennart Poettering", 
         "organisation": "Red Hat", 
-        "photo": "/images/speakers/photo_11.jpg", 
+        "photo": "/images/speakers/LennartPoettering_11.jpg", 
         "position": null, 
         "sessions": [
             {
@@ -304,7 +348,7 @@
         "github": "", 
         "id": 13, 
         "linkedin": "https://www.linkedin.com/in/davidcrellin", 
-        "long_biography": "David was educated at Bristol, and Cambridge Universities. In 1982 He joined PA\u2019s, Technology division where he was responsible for managing a number of major electronic product development projects. In 1986 David set up his own business (Abington Partners). Abington originated data-logging software and hardware for schools. The company has won three SMART awards. In 2011 Abington Partners transferred the educational datalogging products business was to a new company. ScienceScope Ltd with David as CEO. The range and extent of the educational datalogging products range has grown to be one of the most innovative and comprehensive available. In 2013 ScienceScope won an \u00a3800,000 Technology Strategy Board funded project (DISTANCE) to develop an Internet of School Things (IOST) demonstrator. Partners in the project include Intel, xively and three UK universities, University College London , The Open University and Birmingham. ScienceScope is currently working with the IDA in Singapore to carry out a proof of concept project for the IOST. ScienceScope is also a key partner of the BBC in delivering the micro:bit project. The micro:bit is a nano computer designed to inspire kids to get involved in coding. Every student aged 11 in the UK will get a free micro:bit at the beginning of 2016. David lives with his wife in Bath.", 
+        "long_biography": "David was educated at Bristol, and Cambridge Universities. In 1982 He joined PA’s, Technology division where he was responsible for managing a number of major electronic product development projects. In 1986 David set up his own business (Abington Partners). Abington originated data-logging software and hardware for schools. The company has won three SMART awards. In 2011 Abington Partners transferred the educational datalogging products business was to a new company. ScienceScope Ltd with David as CEO. The range and extent of the educational datalogging products range has grown to be one of the most innovative and comprehensive available. In 2013 ScienceScope won an £800,000 Technology Strategy Board funded project (DISTANCE) to develop an Internet of School Things (IOST) demonstrator. Partners in the project include Intel, xively and three UK universities, University College London , The Open University and Birmingham. ScienceScope is currently working with the IDA in Singapore to carry out a proof of concept project for the IOST. ScienceScope is also a key partner of the BBC in delivering the micro:bit project. The micro:bit is a nano computer designed to inspire kids to get involved in coding. Every student aged 11 in the UK will get a free micro:bit at the beginning of 2016. David lives with his wife in Bath.", 
         "mobile": null, 
         "name": "David Crellin", 
         "organisation": "ScienceScope Ltd", 
@@ -478,11 +522,11 @@
         "github": "github.com/wavicles", 
         "id": 16, 
         "linkedin": "", 
-        "long_biography": "A Physics Teacher and a free software enthusiast. FOSSASIA GSoC student alumnus and GCI mentor. Working on ExpEYES: Pocket Science Lab,  Involved in FOSS training programs for science teachers and students. E-content developer for National Repository of Open Educational Resources (NROER) for School Education and member of committee for \u201cDevelopment of ICT Refresher Course for students and teachers\u201dby Central Institute of Education Technology (CIET), NCERT, New Delhi. Talks at International Events: FOSSASIA - 2014 at Phnom Penh, Cambodia RMLL-2014 at Montpellier, France  FOSSASIA -2015 at NUS Singapore PyCon Sg at Singapore", 
+        "long_biography": "A Physics Teacher and a free software enthusiast. FOSSASIA GSoC student alumnus and GCI mentor. Working on ExpEYES: Pocket Science Lab,  Involved in FOSS training programs for science teachers and students. E-content developer for National Repository of Open Educational Resources (NROER) for School Education and member of committee for “Development of ICT Refresher Course for students and teachers”by Central Institute of Education Technology (CIET), NCERT, New Delhi. Talks at International Events: FOSSASIA - 2014 at Phnom Penh, Cambodia RMLL-2014 at Montpellier, France  FOSSASIA -2015 at NUS Singapore PyCon Sg at Singapore", 
         "mobile": null, 
         "name": "Praveen Patil", 
         "organisation": "ExpEYES", 
-        "photo": "/images/speakers/photo_16.jpg", 
+        "photo": "/images/speakers/PraveenPatil_16.jpg", 
         "position": null, 
         "sessions": [
             {
@@ -525,7 +569,7 @@
         "mobile": null, 
         "name": "Francis Bond", 
         "organisation": "Nanyang Technological University", 
-        "photo": "/images/speakers/photo_19", 
+        "photo": "/images/speakers/FrancisBond_19", 
         "position": null, 
         "sessions": [
             {
@@ -548,7 +592,7 @@
         "mobile": null, 
         "name": "Michael Christen", 
         "organisation": "YaCy.net", 
-        "photo": "/images/speakers/photo_20.jpg", 
+        "photo": "/images/speakers/MichaelChristen_20.jpg", 
         "position": null, 
         "sessions": [
             {
@@ -575,7 +619,7 @@
         "mobile": null, 
         "name": "Elizabeth Joseph", 
         "organisation": "Hewlett Packard Enterprise", 
-        "photo": "/images/speakers/photo_21.png", 
+        "photo": "/images/speakers/ElizabethJoseph_21.png", 
         "position": null, 
         "sessions": [
             {
@@ -640,7 +684,7 @@
         "github": "https://github.com/rajatu", 
         "id": 28, 
         "linkedin": "https://www.linkedin.com/in/rajatu", 
-        "long_biography": "I am an undergraduate student of National Institute of Technology Warangal, majoring in Computer Science. I am passionate about computers, technologies, open source and love to work on Projects which make a difference in people\u2019s day to day life and make it easier and I am glad, I had worked on a project during my undergraduate which impacts half a million of people\u2019s life everyday. These things apart I love watching cartoons, travelling and eating good food.", 
+        "long_biography": "I am an undergraduate student of National Institute of Technology Warangal, majoring in Computer Science. I am passionate about computers, technologies, open source and love to work on Projects which make a difference in people’s day to day life and make it easier and I am glad, I had worked on a project during my undergraduate which impacts half a million of people’s life everyday. These things apart I love watching cartoons, travelling and eating good food.", 
         "mobile": null, 
         "name": "Rajat Ujawane", 
         "organisation": "National Institute of Technology Warangal", 
@@ -782,7 +826,7 @@
         "mobile": null, 
         "name": "Damini Satya Kammakomati", 
         "organisation": "Kony, Inc.", 
-        "photo": "/images/speakers/photo_26", 
+        "photo": "/images/speakers/DaminiSatyaKammakomati_26", 
         "position": null, 
         "sessions": [
             {
@@ -805,7 +849,7 @@
         "mobile": null, 
         "name": "Faris Muhamad Ali Fadloli", 
         "organisation": "CryoWerx", 
-        "photo": "/images/speakers/photo_29", 
+        "photo": "/images/speakers/FarisMuhamadAliFadloli_29", 
         "position": null, 
         "sessions": [
             {
@@ -828,7 +872,7 @@
         "mobile": null, 
         "name": "Kranthi Kiran Guduru", 
         "organisation": "Thinkbroad", 
-        "photo": "/images/speakers/photo_30", 
+        "photo": "/images/speakers/KranthiKiranGuduru_30", 
         "position": null, 
         "sessions": [
             {
@@ -855,7 +899,7 @@
         "mobile": null, 
         "name": "Sudheesh Singanamalla", 
         "organisation": "Loklak / National Institute of Technology Warangal", 
-        "photo": "/images/speakers/photo_32", 
+        "photo": "/images/speakers/SudheeshSinganamalla_32", 
         "position": null, 
         "sessions": [
             {
@@ -959,7 +1003,7 @@
         "mobile": null, 
         "name": "Carter Emmart", 
         "organisation": "Astrovisualization at the American Museum of Natural History", 
-        "photo": "http://localhost:5000/serve_static/media/events/112/speakers/2218/photo.jpg?quality=89&w=800", 
+        "photo": "", 
         "position": null, 
         "sessions": [
             {
@@ -1005,12 +1049,12 @@
         "mobile": null, 
         "name": "Tim Oxley", 
         "organisation": "CampJS", 
-        "photo": "/images/speakers/photo_40.png", 
+        "photo": "/images/speakers/TimOxley_40.png", 
         "position": null, 
         "sessions": [
             {
                 "id": 47, 
-                "title": "Modular vs Monolith \u2013 The Structure of Node.JS Applications"
+                "title": "Modular vs Monolith – The Structure of Node.JS Applications"
             }
         ], 
         "short_biography": "", 
@@ -1028,7 +1072,7 @@
         "mobile": null, 
         "name": "Saptarshi Purkayastha", 
         "organisation": "OpenMRS", 
-        "photo": "/images/speakers/photo_42.jpg", 
+        "photo": "/images/speakers/SaptarshiPurkayastha_42.jpg", 
         "position": null, 
         "sessions": [
             {
@@ -1051,7 +1095,7 @@
         "mobile": null, 
         "name": "Barry Threw, Jon Phillips", 
         "organisation": "#NEWPALMYRA", 
-        "photo": "/images/speakers/photo_56.jpg", 
+        "photo": "/images/speakers/BarryThrew,JonPhillips_56.jpg", 
         "position": null, 
         "sessions": [
             {
@@ -1070,7 +1114,7 @@
         "github": "", 
         "id": 45, 
         "linkedin": "", 
-        "long_biography": "I have a very curious mind and I strive to integrate design, technology and learning in all my endeavors. I\u2019m currently the Lead Curriculum Developer for OneMaker Group and my main objective is to help makers of all ages build up their creative confidence by breaking the barriers of the mind, and show that everybody have the potential to be a maker and a designer. Before joining OMG, I worked at Autodesk for over 9 years in Singapore as a Learning Content Developer. I hold a B.A in Architecture from the Monterrey Institute of Technology and Higher Education and has worked as a 3D modeler and Graphic Designer in Mexico, USA and Canada. She is actively involved in the Singapore Maker community.", 
+        "long_biography": "I have a very curious mind and I strive to integrate design, technology and learning in all my endeavors. I’m currently the Lead Curriculum Developer for OneMaker Group and my main objective is to help makers of all ages build up their creative confidence by breaking the barriers of the mind, and show that everybody have the potential to be a maker and a designer. Before joining OMG, I worked at Autodesk for over 9 years in Singapore as a Learning Content Developer. I hold a B.A in Architecture from the Monterrey Institute of Technology and Higher Education and has worked as a 3D modeler and Graphic Designer in Mexico, USA and Canada. She is actively involved in the Singapore Maker community.", 
         "mobile": null, 
         "name": "Elda Webb", 
         "organisation": "One Maker Group", 
@@ -1159,7 +1203,7 @@
         "github": "https://github.com/juslee", 
         "id": 51, 
         "linkedin": "https://linkedin.com/in/triplez", 
-        "long_biography": "Justin Lee is the IBM Cloud Technical Evangelist and Developer Relations for the IBM Cloud Ecosystem Development team. In this role, he is responsible for all developer and academic outreach, community engagements, ecosystem partnerships and technical enablement for all developers from individuals, to \"born on the cloud\" to corporate.   Justin Lee has been a developer since young, dabbling in everything from C++ to C#, from web development to mobile development. He graduated from University of Waterloo, Bachelor in Computer Science (BCS) with Honours. He\u2019s also an active contributor to the technical community, organising community-led events like GeekcampSG and FOSSASIA.", 
+        "long_biography": "Justin Lee is the IBM Cloud Technical Evangelist and Developer Relations for the IBM Cloud Ecosystem Development team. In this role, he is responsible for all developer and academic outreach, community engagements, ecosystem partnerships and technical enablement for all developers from individuals, to \"born on the cloud\" to corporate.   Justin Lee has been a developer since young, dabbling in everything from C++ to C#, from web development to mobile development. He graduated from University of Waterloo, Bachelor in Computer Science (BCS) with Honours. He’s also an active contributor to the technical community, organising community-led events like GeekcampSG and FOSSASIA.", 
         "mobile": null, 
         "name": "Justin Lee", 
         "organisation": "IBM", 
@@ -1205,7 +1249,7 @@
         "github": "https://github.com/michael-cannon/", 
         "id": 54, 
         "linkedin": "https://www.linkedin.com/in/michaelcannon", 
-        "long_biography": "Michael considers Taiwan home, but can also be found on a farm in Italy or watching sunsets outside of Seattle with his family. He\u2019s an avid cyclist, open source event photographer, serious world traveler, and voracious science fiction reader. A slow year to him is a few thousand kilometers ridden, 10 countries visited, and a 100 books read. Don\u2019t ask about normal years.", 
+        "long_biography": "Michael considers Taiwan home, but can also be found on a farm in Italy or watching sunsets outside of Seattle with his family. He’s an avid cyclist, open source event photographer, serious world traveler, and voracious science fiction reader. A slow year to him is a few thousand kilometers ridden, 10 countries visited, and a 100 books read. Don’t ask about normal years.", 
         "mobile": null, 
         "name": "Michael Cannon", 
         "organisation": "Axelerant", 
@@ -1253,9 +1297,9 @@
         "linkedin": "https://www.linkedin.com/in/fcartegnie", 
         "long_biography": "VideoLAN member and one of the VLC main developers. Started as a contributor in 2009, he has mostly worked on its demultiplexers, aiming for full playback of various media formats and, more recently, on a new adaptive streaming stack.", 
         "mobile": null, 
-        "name": "Fran\u00e7ois Cartegnie", 
+        "name": "François Cartegnie", 
         "organisation": "VideoLAN", 
-        "photo": "/images/speakers/photo_46.jpg", 
+        "photo": "/images/speakers/FrançoisCartegnie_46.jpg", 
         "position": null, 
         "sessions": [
             {
@@ -1278,7 +1322,7 @@
         "mobile": null, 
         "name": "Barry Threw", 
         "organisation": "#NEWPALMYRA", 
-        "photo": "/images/speakers/photo_48.jpg", 
+        "photo": "/images/speakers/BarryThrew_48.jpg", 
         "position": null, 
         "sessions": [
             {
@@ -1299,9 +1343,9 @@
         "linkedin": "", 
         "long_biography": "I'm a software engineer from Maribor, Slovenia. I started working on LibreOffice as volunteer in 2012 and later joined Collabora Productivity to hack on LibreOffice as my full-time job.", 
         "mobile": null, 
-        "name": "Toma\u017e Vajngerl", 
+        "name": "Tomaž Vajngerl", 
         "organisation": "Collabora Productivity", 
-        "photo": "/images/speakers/photo_49.jpeg", 
+        "photo": "/images/speakers/TomažVajngerl_49.jpeg", 
         "position": null, 
         "sessions": [
             {
@@ -1324,7 +1368,7 @@
         "mobile": null, 
         "name": "George Goh", 
         "organisation": "Red Hat", 
-        "photo": "/images/speakers/photo_53.jpg", 
+        "photo": "/images/speakers/GeorgeGoh_53.jpg", 
         "position": null, 
         "sessions": [
             {
@@ -1347,7 +1391,7 @@
         "mobile": null, 
         "name": "Susan Spencer", 
         "organisation": "Valentina", 
-        "photo": "/images/speakers/photo_57.jpg", 
+        "photo": "/images/speakers/SusanSpencer_57.jpg", 
         "position": null, 
         "sessions": [
             {
@@ -1407,69 +1451,6 @@
         "website": "http://gylim78.blogspot.sg"
     }, 
     {
-        "country": "Not available", 
-        "email": "email@domain.com", 
-        "facebook": null, 
-        "github": "", 
-        "id": 60, 
-        "linkedin": "", 
-        "long_biography": "Hong Phuc, originally from Vietnam, has lived in the US, Singapore and Berlin. She was a speaker at the Chaos Communication Congress presenting the latest advances in Open Fashion and Technology. She is also the founder of FOSSASIA, the Asia organization bringing together an inspiring community across borders and ages to form a better future with Open Technologies and ICT. Hong Phuc organizes events like the annual FOSSASIA summit since 2009 and puts together Science Hackdays across the region in Vietnam, Dubai and China.", 
-        "mobile": null, 
-        "name": "Hong Phuc DANG", 
-        "organisation": "FOSSASIA", 
-        "photo": "", 
-        "position": null, 
-        "sessions": [
-            {
-                "id": 71, 
-                "title": "Closing Notes of FOSSASIA 2016"
-            }, 
-            {
-                "id": 97, 
-                "title": "Closing Notes"
-            }, 
-            {
-                "id": 222, 
-                "title": "Closing Notes in Main Hall (Level 3, Dalton Hall)"
-            }, 
-            {
-                "id": 251, 
-                "title": "Closing Notes in Main Hall (Level 3, Dalton Hall)"
-            }, 
-            {
-                "id": 280, 
-                "title": "Closing Notes in Main Hall (Level 3, Dalton Hall)"
-            }, 
-            {
-                "id": 314, 
-                "title": "Closing Notes in Main Hall (Level 3, Dalton Hall)"
-            }, 
-            {
-                "id": 341, 
-                "title": "Closing Notes in Main Hall (Level 3, Dalton Hall)"
-            }, 
-            {
-                "id": 375, 
-                "title": "Closing Notes in Main Hall (Level 3, Dalton Hall)"
-            }, 
-            {
-                "id": 427, 
-                "title": "Closing Notes in Main Hall (Level 3, Dalton Hall)"
-            }, 
-            {
-                "id": 417, 
-                "title": "Closing Notes in Main Hall (Level 3, Dalton Hall)"
-            }, 
-            {
-                "id": 437, 
-                "title": "Closing Notes in Main Hall (Level 3, Dalton Hall)"
-            }
-        ], 
-        "short_biography": "", 
-        "twitter": "", 
-        "website": ""
-    }, 
-    {
         "country": "England", 
         "email": "email@domain.com", 
         "facebook": null, 
@@ -1526,7 +1507,7 @@
         "mobile": null, 
         "name": "Martin Andrews", 
         "organisation": "Red Cat Labs", 
-        "photo": "/images/speakers/photo_61.jpg", 
+        "photo": "/images/speakers/MartinAndrews_61.jpg", 
         "position": null, 
         "sessions": [
             {
@@ -1549,7 +1530,7 @@
         "mobile": null, 
         "name": "Ulrich Norbisrath", 
         "organisation": "ulno.net", 
-        "photo": "/images/speakers/photo_64.jpg", 
+        "photo": "/images/speakers/UlrichNorbisrath_64.jpg", 
         "position": null, 
         "sessions": [
             {
@@ -1588,7 +1569,7 @@
         "mobile": null, 
         "name": "Mike McQuaid, Sahil Bajaj", 
         "organisation": "GitHub/Homebrew/Grumpy Gits", 
-        "photo": "/images/speakers/photo_65", 
+        "photo": "/images/speakers/MikeMcquaid,SahilBajaj_65", 
         "position": null, 
         "sessions": [
             {
@@ -1611,7 +1592,7 @@
         "mobile": null, 
         "name": "Bruce Momjian", 
         "organisation": "EnterpriseDB", 
-        "photo": "/images/speakers/photo_67.jpg", 
+        "photo": "/images/speakers/BruceMomjian_67.jpg", 
         "position": null, 
         "sessions": [
             {
@@ -1634,7 +1615,7 @@
         "mobile": null, 
         "name": "Manan Wason", 
         "organisation": "IIIT Delhi", 
-        "photo": "/images/speakers/photo_68", 
+        "photo": "/images/speakers/MananWason_68", 
         "position": null, 
         "sessions": [
             {
@@ -1657,9 +1638,9 @@
         "github": "", 
         "id": 69, 
         "linkedin": "", 
-        "long_biography": "Martin B\u00e4hr is using and developing Free Software and Open Source for more than 20 years because he believes that knowledge should not be owned by a few people but freely shared with everyone and contribute to the advancement of civilization.  He is a contributor to the Pike programming language, the Foresight Linux distribution and several other Free Software Projects.  He co-edited a book on Pike and organized developer conferences.  Throughout his career Martin focused on developing and advocating Free Software. He likes to learn new programming languages, currently Smalltalk and Common Lisp.  He is born in Europe and has lived and worked in several countries around our planet Earth.  He came to china in 2008.  He is currently the CTO at eKita, a startup in Bangkok, and the General Manager at Realsoftservice, a Linux service firm in Beijing.  He is also serving as the secretary of the Beijing GNU/Linux User Group.", 
+        "long_biography": "Martin Bähr is using and developing Free Software and Open Source for more than 20 years because he believes that knowledge should not be owned by a few people but freely shared with everyone and contribute to the advancement of civilization.  He is a contributor to the Pike programming language, the Foresight Linux distribution and several other Free Software Projects.  He co-edited a book on Pike and organized developer conferences.  Throughout his career Martin focused on developing and advocating Free Software. He likes to learn new programming languages, currently Smalltalk and Common Lisp.  He is born in Europe and has lived and worked in several countries around our planet Earth.  He came to china in 2008.  He is currently the CTO at eKita, a startup in Bangkok, and the General Manager at Realsoftservice, a Linux service firm in Beijing.  He is also serving as the secretary of the Beijing GNU/Linux User Group.", 
         "mobile": null, 
-        "name": "Martin B\u00e4hr", 
+        "name": "Martin Bähr", 
         "organisation": "BLUG", 
         "photo": "", 
         "position": null, 
@@ -1849,7 +1830,7 @@
         "mobile": null, 
         "name": "Jamen Loh", 
         "organisation": "OneMaker Group", 
-        "photo": "/images/speakers/photo_71.jpg", 
+        "photo": "/images/speakers/JamenLoh_71.jpg", 
         "position": null, 
         "sessions": [
             {
@@ -1872,7 +1853,7 @@
         "mobile": null, 
         "name": "Shivam Verma", 
         "organisation": "Ambient Dynamix/National University of Singapore", 
-        "photo": "/images/speakers/photo_76.jpg", 
+        "photo": "/images/speakers/ShivamVerma_76.jpg", 
         "position": null, 
         "sessions": [
             {
@@ -1895,7 +1876,7 @@
         "mobile": null, 
         "name": "Kushal Das", 
         "organisation": "Fedora Project", 
-        "photo": "/images/speakers/photo_80.jpg", 
+        "photo": "/images/speakers/KushalDas_80.jpg", 
         "position": null, 
         "sessions": [
             {
@@ -2141,7 +2122,7 @@
         "mobile": null, 
         "name": "Carsten Haitzler", 
         "organisation": "Samsung Electronics", 
-        "photo": "/images/speakers/photo_86.jpg", 
+        "photo": "/images/speakers/CarstenHaitzler_86.jpg", 
         "position": null, 
         "sessions": [
             {
@@ -2164,7 +2145,7 @@
         "mobile": null, 
         "name": "Akhil Pandey", 
         "organisation": "Mozilla", 
-        "photo": "/images/speakers/photo_90", 
+        "photo": "/images/speakers/AkhilPandey_90", 
         "position": null, 
         "sessions": [
             {
@@ -2187,7 +2168,7 @@
         "mobile": null, 
         "name": "Viral B. Shah", 
         "organisation": "Julia Computing", 
-        "photo": "/images/speakers/photo_96.jpg", 
+        "photo": "/images/speakers/ViralB.Shah_96.jpg", 
         "position": null, 
         "sessions": [
             {
@@ -2210,7 +2191,7 @@
         "mobile": null, 
         "name": "Rahul Mahale", 
         "organisation": "BigBinary", 
-        "photo": "/images/speakers/photo_97.jpg", 
+        "photo": "/images/speakers/RahulMahale_97.jpg", 
         "position": null, 
         "sessions": [
             {
@@ -2233,7 +2214,7 @@
         "mobile": null, 
         "name": "Breandan Considine", 
         "organisation": "JetBrains", 
-        "photo": "/images/speakers/photo_142.png", 
+        "photo": "/images/speakers/BreandanConsidine_142.png", 
         "position": null, 
         "sessions": [
             {
@@ -2439,7 +2420,7 @@
         "long_biography": "DANG Hai An is a computer engineering student in Toulouse, France. He participated in the development of FOSSASIA API during Google Summer of Code 2015, and really enjoyed the experience. He hopes to see the expansion of open-source organisations and projects all over ASIA.", 
         "mobile": null, 
         "name": "Hai An DANG", 
-        "organisation": "Institut National des Sciences Appliqu\u00e9es de Toulouse", 
+        "organisation": "Institut National des Sciences Appliquées de Toulouse", 
         "photo": "", 
         "position": null, 
         "sessions": [
@@ -2459,7 +2440,7 @@
         "github": "github.com/ariestiyansyah", 
         "id": 110, 
         "linkedin": "http://linkedin.com/in/ariestiyansyah", 
-        "long_biography": "Hola, my name is Rizky Ariestiyansyah and I\u2019m a Full Stack Developer &amp; Business Strategist with equal parts interest in business, tax, management development, and writing. Now I am active as Mozilla Representative and Mozilla Tech Speaker", 
+        "long_biography": "Hola, my name is Rizky Ariestiyansyah and I’m a Full Stack Developer &amp; Business Strategist with equal parts interest in business, tax, management development, and writing. Now I am active as Mozilla Representative and Mozilla Tech Speaker", 
         "mobile": null, 
         "name": "Rizky Ariestiyansyah", 
         "organisation": "Mozilla Tech Speaker", 
@@ -2486,7 +2467,7 @@
         "mobile": null, 
         "name": "Udayan Tandon", 
         "organisation": "coala-analyzer", 
-        "photo": "/images/speakers/photo_99.jpg", 
+        "photo": "/images/speakers/UdayanTandon_99.jpg", 
         "position": null, 
         "sessions": [
             {
@@ -2509,7 +2490,7 @@
         "mobile": null, 
         "name": "Nils Magnus", 
         "organisation": "LinuxTag Association", 
-        "photo": "/images/speakers/photo_103.jpg", 
+        "photo": "/images/speakers/NilsMagnus_103.jpg", 
         "position": null, 
         "sessions": [
             {
@@ -2775,7 +2756,7 @@
         "mobile": null, 
         "name": "Robert Reyes", 
         "organisation": "Mozilla Philippines Community", 
-        "photo": "/images/speakers/photo_112.JPG", 
+        "photo": "/images/speakers/RobertReyes_112.JPG", 
         "position": null, 
         "sessions": [
             {
@@ -2798,7 +2779,7 @@
         "mobile": null, 
         "name": "Dan Tran", 
         "organisation": "GrabTaxi", 
-        "photo": "/images/speakers/photo_113.jpg", 
+        "photo": "/images/speakers/DanTran_113.jpg", 
         "position": null, 
         "sessions": [
             {
@@ -2821,7 +2802,7 @@
         "mobile": null, 
         "name": "Hafiz Ismail", 
         "organisation": "WEHAVEFACES", 
-        "photo": "/images/speakers/photo_114.jpeg", 
+        "photo": "/images/speakers/HafizIsmail_114.jpeg", 
         "position": null, 
         "sessions": [
             {
@@ -2844,7 +2825,7 @@
         "mobile": null, 
         "name": "Sayan Chowdhury", 
         "organisation": "Fedora Project", 
-        "photo": "/images/speakers/photo_123.jpg", 
+        "photo": "/images/speakers/SayanChowdhury_123.jpg", 
         "position": null, 
         "sessions": [
             {
@@ -2890,7 +2871,7 @@
         "github": "https://github.com/ankitashukla", 
         "id": 131, 
         "linkedin": "https://www.linkedin.com/in/ankitashukla707", 
-        "long_biography": "Ankita is a Computer Science senior at Indian Institute of Technology, Roorkee. She has been a contributor to FOSS for almost 3 years now. In 2014, she interned with Wikimedia under Gnome\u2019s Outreach Program for Women (now Outreachy) on a project entitled \u201cCollaborative Spelling Dictionary\u201d.  Ankita mentored for Mediawiki projects this year at Google Code In 2015 and Gnome Outreachy. She\u2019s also guiding two high-school mentees under the #include fellowship program this year.", 
+        "long_biography": "Ankita is a Computer Science senior at Indian Institute of Technology, Roorkee. She has been a contributor to FOSS for almost 3 years now. In 2014, she interned with Wikimedia under Gnome’s Outreach Program for Women (now Outreachy) on a project entitled “Collaborative Spelling Dictionary”.  Ankita mentored for Mediawiki projects this year at Google Code In 2015 and Gnome Outreachy. She’s also guiding two high-school mentees under the #include fellowship program this year.", 
         "mobile": null, 
         "name": "Ankita Shukla", 
         "organisation": "IIT Roorkee", 
@@ -3036,7 +3017,7 @@
         "mobile": null, 
         "name": "Amit Kumar JHA", 
         "organisation": "SymPy", 
-        "photo": "/images/speakers/photo_129", 
+        "photo": "/images/speakers/AmitKumarJha_129", 
         "position": null, 
         "sessions": [
             {
@@ -3059,7 +3040,7 @@
         "mobile": null, 
         "name": "U-Zyn Chua", 
         "organisation": "Zynesis", 
-        "photo": "/images/speakers/photo_132.jpg", 
+        "photo": "/images/speakers/U-ZynChua_132.jpg", 
         "position": null, 
         "sessions": [
             {
@@ -3082,7 +3063,7 @@
         "mobile": null, 
         "name": "Satdeep Gill", 
         "organisation": "Punjabi Wikimedians", 
-        "photo": "/images/speakers/photo_133.JPG", 
+        "photo": "/images/speakers/SatdeepGill_133.JPG", 
         "position": null, 
         "sessions": [
             {
@@ -3109,7 +3090,7 @@
         "mobile": null, 
         "name": "Alexander Bezzubov", 
         "organisation": "NFLabs Inc, Apache Software Foundation", 
-        "photo": "/images/speakers/photo_134.png", 
+        "photo": "/images/speakers/AlexanderBezzubov_134.png", 
         "position": null, 
         "sessions": [
             {
@@ -3132,7 +3113,7 @@
         "mobile": null, 
         "name": "Mhairi O'Hara", 
         "organisation": "Humanitarian OpenStreetMap Team", 
-        "photo": "/images/speakers/photo_137.png", 
+        "photo": "/images/speakers/MhairiO'Hara_137.png", 
         "position": null, 
         "sessions": [
             {
@@ -3155,7 +3136,7 @@
         "mobile": null, 
         "name": "Ganeshkumar Shanmugam", 
         "organisation": "GeoICON Pte. Ltd", 
-        "photo": "/images/speakers/photo_138.jpg", 
+        "photo": "/images/speakers/GaneshkumarShanmugam_138.jpg", 
         "position": null, 
         "sessions": [
             {
@@ -3384,7 +3365,7 @@
         "long_biography": "herr flupke  explains machines to humans and humans to machines. His work involves security and privacy, community and ethics.", 
         "mobile": null, 
         "name": "Herr Flupke", 
-        "organisation": "\ud83d\udc30", 
+        "organisation": "🐰", 
         "photo": "", 
         "position": null, 
         "sessions": [
@@ -3427,7 +3408,7 @@
         "github": "", 
         "id": 157, 
         "linkedin": "https://www.linkedin.com/in/norvanvogt", 
-        "long_biography": "Norvan is passionate about open source technology and using ICT to make a difference in the world. At age 18, Norvan co-founded an open source software company in Canberra. In 2004, he was responsible for leading the campaign that concluded with the Australian Capital Territory (ACT) legislative assembly changing legislation, where they are preferencing open source software during procurement. Furthermore, Norvan has spent at least five years working internationally on ICT projects, creating open source solutions through community development methodologies, for the United Nations, AusAID and the World Bank, in Vanuatu, Cambodia and Guatemala. Norvan has served in a range of high level advisory roles, such as the Prime Minister\u2019s Youth Roundtable,  Defence Reserves Support Council and the United Nations International Symposium on Volunteering. He is currently employed by Townsville Hospital as the Chief Information Officer for the health district and is also studying a PhD part-time at James Cook University.", 
+        "long_biography": "Norvan is passionate about open source technology and using ICT to make a difference in the world. At age 18, Norvan co-founded an open source software company in Canberra. In 2004, he was responsible for leading the campaign that concluded with the Australian Capital Territory (ACT) legislative assembly changing legislation, where they are preferencing open source software during procurement. Furthermore, Norvan has spent at least five years working internationally on ICT projects, creating open source solutions through community development methodologies, for the United Nations, AusAID and the World Bank, in Vanuatu, Cambodia and Guatemala. Norvan has served in a range of high level advisory roles, such as the Prime Minister’s Youth Roundtable,  Defence Reserves Support Council and the United Nations International Symposium on Volunteering. He is currently employed by Townsville Hospital as the Chief Information Officer for the health district and is also studying a PhD part-time at James Cook University.", 
         "mobile": null, 
         "name": "Norvan Vogt", 
         "organisation": "Queensland Health", 
@@ -3454,7 +3435,7 @@
         "mobile": null, 
         "name": "Manish Kumar", 
         "organisation": "Oracle India Pvt. Ltd.", 
-        "photo": "/images/speakers/photo_151.JPG", 
+        "photo": "/images/speakers/ManishKumar_151.JPG", 
         "position": null, 
         "sessions": [
             {
@@ -3477,7 +3458,7 @@
         "mobile": null, 
         "name": "Oren Golan", 
         "organisation": "Sanguine", 
-        "photo": "/images/speakers/photo_153", 
+        "photo": "/images/speakers/OrenGolan_153", 
         "position": null, 
         "sessions": [
             {
@@ -3611,7 +3592,7 @@
         "github": "", 
         "id": 166, 
         "linkedin": "", 
-        "long_biography": "I have a strong passion in dealing problems in an efficient way. No matter how much time it takes, I like to try things to benefit the society.  I am willing to devote myself to spend thousands of hours to help others save an hour for their work. I believe the environment must be changed to make it a better world for us to do things effectively. Apart from the efficiency, I am interested in joining a community because it gives me an opportunity to acquire both determination and selflessness. Working together in the community makes me feel a part of something bigger; it teaches me not to only make decision from my perspective view but to take the whole community into consideration. Although practicing coding takes sweat, I am still willing to devote myself to help others finish the projects. Not until I overcome one failure after another can I learn that the turning points are meant to trigger your potential ability. Every obstacle happened in community is a chance for me to cultivate skills and enhance competitiveness.  As the two main points mentioned above, with the ambition to challenge myself and to venture into the unknown, I would like to grab the chance to join FOSSASIA 2016. To wake myself up under the sleepy eyes of ignoring the cruel facts of the world, it\u2019s necessary to be stimulated by the diversity. To gain more information and get to know more people, it is a great opportunity for me to face challenges and receive suggestions. I know I am still lack for experience and knowledge, so I hope, by joining FOSSASIA 2016, I can get more inspiration and innovation to make my project even better.  And...  One reason why I want to attend this program is because of my ambition for promoting the open source software. I am a sophomore at Cheng Kung University in Tainan the southern city in Taiwan. I am usually buried under a heavy load of homework during the week. So I usually try to take an adventure to try new software programs for making my work more convenient. \u201cTechnology happens when imagination meets need.\u201d With the development of the technology, I can use open sources, such as Inkscape, Amara and Gimp online. One of the most terrifying assignment that I have ever had)was assigned by Professor Yung for the course \u201celectrical circuit\u201d. We had to read through papers about the electricity and find out what we can probe from our class materials, like noise filters or common base amplifiers. Moreover, I had to make an English presentation to give my proposal in this class.  So when I finally have some free time on weekends, I can surf the internet to check out the latest information for open source. I easily use Inskape to redesign picture forms Openclipart to make eye-popping slides. Also as a English learner, I use Amara to translate video like Emma Watson\u2019s speech in the EU from youtube. From this, I practice not only my listening skills, but also how to boost my impact of my communication in English. Simply put, I want to deliver the convince which I gain from the open source software. Open source software has changed the way I see my world, and now I want it to change the world that I see and live in.", 
+        "long_biography": "I have a strong passion in dealing problems in an efficient way. No matter how much time it takes, I like to try things to benefit the society.  I am willing to devote myself to spend thousands of hours to help others save an hour for their work. I believe the environment must be changed to make it a better world for us to do things effectively. Apart from the efficiency, I am interested in joining a community because it gives me an opportunity to acquire both determination and selflessness. Working together in the community makes me feel a part of something bigger; it teaches me not to only make decision from my perspective view but to take the whole community into consideration. Although practicing coding takes sweat, I am still willing to devote myself to help others finish the projects. Not until I overcome one failure after another can I learn that the turning points are meant to trigger your potential ability. Every obstacle happened in community is a chance for me to cultivate skills and enhance competitiveness.  As the two main points mentioned above, with the ambition to challenge myself and to venture into the unknown, I would like to grab the chance to join FOSSASIA 2016. To wake myself up under the sleepy eyes of ignoring the cruel facts of the world, it’s necessary to be stimulated by the diversity. To gain more information and get to know more people, it is a great opportunity for me to face challenges and receive suggestions. I know I am still lack for experience and knowledge, so I hope, by joining FOSSASIA 2016, I can get more inspiration and innovation to make my project even better.  And...  One reason why I want to attend this program is because of my ambition for promoting the open source software. I am a sophomore at Cheng Kung University in Tainan the southern city in Taiwan. I am usually buried under a heavy load of homework during the week. So I usually try to take an adventure to try new software programs for making my work more convenient. “Technology happens when imagination meets need.” With the development of the technology, I can use open sources, such as Inkscape, Amara and Gimp online. One of the most terrifying assignment that I have ever had)was assigned by Professor Yung for the course “electrical circuit”. We had to read through papers about the electricity and find out what we can probe from our class materials, like noise filters or common base amplifiers. Moreover, I had to make an English presentation to give my proposal in this class.  So when I finally have some free time on weekends, I can surf the internet to check out the latest information for open source. I easily use Inskape to redesign picture forms Openclipart to make eye-popping slides. Also as a English learner, I use Amara to translate video like Emma Watson’s speech in the EU from youtube. From this, I practice not only my listening skills, but also how to boost my impact of my communication in English. Simply put, I want to deliver the convince which I gain from the open source software. Open source software has changed the way I see my world, and now I want it to change the world that I see and live in.", 
         "mobile": null, 
         "name": "Menghsuan Tsai", 
         "organisation": "National Cheng Kung University", 
@@ -3711,7 +3692,7 @@
         "mobile": null, 
         "name": "Huiren Woo", 
         "organisation": "Fedora Project", 
-        "photo": "/images/speakers/photo_160.jpg", 
+        "photo": "/images/speakers/HuirenWoo_160.jpg", 
         "position": null, 
         "sessions": [
             {
@@ -3981,11 +3962,11 @@
         "github": "", 
         "id": 171, 
         "linkedin": "", 
-        "long_biography": "Alexandre has been working as a free software consultant at Savoir-faire Linux in Montr\u00e9al since 2013. He has developped a wide panel of mobile apps, from sport statistics collection, to industrial metal testing. End of 2014, he joined the Ring team to port Ring on Mac OSX, working on low level video development (libav/ffmpeg), packaging, and UI/UX.", 
+        "long_biography": "Alexandre has been working as a free software consultant at Savoir-faire Linux in Montréal since 2013. He has developped a wide panel of mobile apps, from sport statistics collection, to industrial metal testing. End of 2014, he joined the Ring team to port Ring on Mac OSX, working on low level video development (libav/ffmpeg), packaging, and UI/UX.", 
         "mobile": null, 
         "name": "Alexandre Lision", 
         "organisation": "Ring developped by Savoir-faire Linux", 
-        "photo": "/images/speakers/photo_171.jpg", 
+        "photo": "/images/speakers/AlexandreLision_171.jpg", 
         "position": null, 
         "sessions": [
             {
@@ -4020,7 +4001,7 @@
         "mobile": null, 
         "name": "Michael Rebultan", 
         "organisation": "Equinix", 
-        "photo": "/images/speakers/photo_172.jpg", 
+        "photo": "/images/speakers/MichaelRebultan_172.jpg", 
         "position": null, 
         "sessions": [
             {
@@ -4039,11 +4020,11 @@
         "github": "https://github.com/zaknuces", 
         "id": 180, 
         "linkedin": "https://sg.linkedin.com/in/owaiszahid", 
-        "long_biography": "Owais Zahid joined the Autodesk PLM 360 engineering team in 2014 as a Senior User Interface Developer. He is a certified Scrum Master. He divides his time between working as his team\u2019s Scrum Master and developing the next generation user interface of PLM 360. Owais has over 10 years\u2019 programming experience developing software in multiple programming languages. He holds a Master of Science degree from National University of Computer and Emerging Sciences. When not creating the next PLM UI, Owais is a frequent contributor to the Autodesk Engineering blogs and spends his free time programming in the genre of 3D game programming and augmented reality.", 
+        "long_biography": "Owais Zahid joined the Autodesk PLM 360 engineering team in 2014 as a Senior User Interface Developer. He is a certified Scrum Master. He divides his time between working as his team’s Scrum Master and developing the next generation user interface of PLM 360. Owais has over 10 years’ programming experience developing software in multiple programming languages. He holds a Master of Science degree from National University of Computer and Emerging Sciences. When not creating the next PLM UI, Owais is a frequent contributor to the Autodesk Engineering blogs and spends his free time programming in the genre of 3D game programming and augmented reality.", 
         "mobile": null, 
         "name": "Owais Zahid", 
         "organisation": "Autodesk", 
-        "photo": "/images/speakers/photo_180", 
+        "photo": "/images/speakers/OwaisZahid_180", 
         "position": null, 
         "sessions": [
             {
@@ -4062,16 +4043,16 @@
         "github": "https://github.com/jancborchardt", 
         "id": 182, 
         "linkedin": "", 
-        "long_biography": "Jan-Christoph Borchardt is an open source designer, currently focused on ownCloud and <a href=\"http://opensourcedesign.net\" rel=\"nofollow\" target=\"_blank\">opensourcedesign.net</a> He worked with several open source software projects including Unhosted, Terms of Service; Didn\u2019t Read, Litewrite, Diaspora and more. Jan also regularly collaborates with design universities to get students involved in open source.", 
+        "long_biography": "Jan-Christoph Borchardt is an open source designer, currently focused on ownCloud and <a href=\"http://opensourcedesign.net\" rel=\"nofollow\" target=\"_blank\">opensourcedesign.net</a> He worked with several open source software projects including Unhosted, Terms of Service; Didn’t Read, Litewrite, Diaspora and more. Jan also regularly collaborates with design universities to get students involved in open source.", 
         "mobile": null, 
         "name": "Jan-Christoph Borchardt", 
         "organisation": "ownCloud, Open Source Design", 
-        "photo": "/images/speakers/photo_182.jpg", 
+        "photo": "/images/speakers/Jan-ChristophBorchardt_182.jpg", 
         "position": null, 
         "sessions": [
             {
                 "id": 431, 
-                "title": "Open Source Design \u2013 how we do it in ownCloud"
+                "title": "Open Source Design – how we do it in ownCloud"
             }
         ], 
         "short_biography": "", 
@@ -4089,7 +4070,7 @@
         "mobile": null, 
         "name": "Victoria Bondarchuk", 
         "organisation": "Seoul Tech Society, Dmajor", 
-        "photo": "/images/speakers/photo_184.jpg", 
+        "photo": "/images/speakers/VictoriaBondarchuk_184.jpg", 
         "position": null, 
         "sessions": [
             {
@@ -4124,7 +4105,7 @@
         "mobile": null, 
         "name": "David Effendi", 
         "organisation": "ChorusText", 
-        "photo": "/images/speakers/photo_185.jpeg", 
+        "photo": "/images/speakers/DavidEffendi_185.jpeg", 
         "position": null, 
         "sessions": [
             {
@@ -4151,7 +4132,7 @@
         "github": "", 
         "id": 187, 
         "linkedin": "https://www.linkedin.com/company/unesco", 
-        "long_biography": "WHO BENEFITS FROM YOUTHMOBILE?  \u00bbYouth and Youth organizations Informal learning opportunities for youth to engage in society and earn livelihoods as mobile app entrepreneurs. ICT-enabled youth organizations creating a sustainable pool of trainers, support staff, and mentors.  \u00bbSecondary School Students Acquiring high-level 21st century skills and confidence to develop/promote mobile apps to resolve local issues of sustainable development.  \u00bbTeachers and Principals Teaching a new, innovative course in mobile apps development, acquiring ICT-pedagogy skills, connecting the school to other schools nationally and globally.  \u00bb By gathering training materials to teach young people to develop mobile apps. The materials will be high-level and open-licensed for translation, localization, and innovations. Training materials will be pedagogically accurate for accreditation and employer recognition.  \u00bb By training teachers to teach the students. UNESCO will be identifying all schools worldwide with existing programs for advanced computer studies.  \u00bb By linking the learners to mobile app competitions, through the creation of the first global list of app competitors: encouraging trained students to submit apps for prizes, recognition, and employment opportunities; and let them meet and learn from those who made it.", 
+        "long_biography": "WHO BENEFITS FROM YOUTHMOBILE?  »Youth and Youth organizations Informal learning opportunities for youth to engage in society and earn livelihoods as mobile app entrepreneurs. ICT-enabled youth organizations creating a sustainable pool of trainers, support staff, and mentors.  »Secondary School Students Acquiring high-level 21st century skills and confidence to develop/promote mobile apps to resolve local issues of sustainable development.  »Teachers and Principals Teaching a new, innovative course in mobile apps development, acquiring ICT-pedagogy skills, connecting the school to other schools nationally and globally.  » By gathering training materials to teach young people to develop mobile apps. The materials will be high-level and open-licensed for translation, localization, and innovations. Training materials will be pedagogically accurate for accreditation and employer recognition.  » By training teachers to teach the students. UNESCO will be identifying all schools worldwide with existing programs for advanced computer studies.  » By linking the learners to mobile app competitions, through the creation of the first global list of app competitors: encouraging trained students to submit apps for prizes, recognition, and employment opportunities; and let them meet and learn from those who made it.", 
         "mobile": null, 
         "name": "Misako Ito", 
         "organisation": "UNESCO", 
@@ -4275,7 +4256,7 @@
         "mobile": null, 
         "name": "Bunnie Huang", 
         "organisation": "Sutajio Ko-Usagi PTE LTD", 
-        "photo": "/images/speakers/photo_5.jpg", 
+        "photo": "/images/speakers/BunnieHuang_5.jpg", 
         "position": null, 
         "sessions": [
             {
@@ -4294,11 +4275,11 @@
         "github": "github.com/mengwong", 
         "id": 12, 
         "linkedin": "https://www.linkedin.com/in/mengwong", 
-        "long_biography": "Meng started and exited two startups in the US. Returning to Singapore, he perpetuated the cycle of abuse as an angel investor and mentor at <a href=\"http://JFDI.Asia\" rel=\"nofollow\" target=\"_blank\">JFDI.Asia</a>. At JFDI, in the course of developing a portfolio of 60+ startups, Meng had to help draft and execute dozens of legal agreements for each startup. To his horror he discovered startup financing is currently\u00a0a manual process involving corporate secretaries and expensive lawyers, hence a ripe opportunity for software innovation and the basis for an opensource startup serving a global market. Meng programs in Perl and Javascript, and is now learning Prolog, Clojure, and Haskell.", 
+        "long_biography": "Meng started and exited two startups in the US. Returning to Singapore, he perpetuated the cycle of abuse as an angel investor and mentor at <a href=\"http://JFDI.Asia\" rel=\"nofollow\" target=\"_blank\">JFDI.Asia</a>. At JFDI, in the course of developing a portfolio of 60+ startups, Meng had to help draft and execute dozens of legal agreements for each startup. To his horror he discovered startup financing is currently a manual process involving corporate secretaries and expensive lawyers, hence a ripe opportunity for software innovation and the basis for an opensource startup serving a global market. Meng programs in Perl and Javascript, and is now learning Prolog, Clojure, and Haskell.", 
         "mobile": null, 
         "name": "Meng Weng Wong", 
         "organisation": "Legalese.io", 
-        "photo": "/images/speakers/photo_12.JPG", 
+        "photo": "/images/speakers/MengWengWong_12.JPG", 
         "position": null, 
         "sessions": [
             {
@@ -4321,7 +4302,7 @@
         "mobile": null, 
         "name": "Mayank Sharma", 
         "organisation": "OpenMRS", 
-        "photo": "/images/speakers/photo_23.png", 
+        "photo": "/images/speakers/MayankSharma_23.png", 
         "position": null, 
         "sessions": [
             {
@@ -4340,11 +4321,11 @@
         "github": "", 
         "id": 150, 
         "linkedin": "https://www.linkedin.com/in/mayank-prasad-27751b13", 
-        "long_biography": "I am working in Oracle as Principal Member Technical Staff and work in MySQL\u2013Performance Schema development. I have been working in database development since 2006. Prior to Oracle, I was working in IBM software Labs in DB2 development for around four and half years. I have two patents and one published disclosure on my name and two of them are in database technology. I also have an ieee research paper in ICIP (International conference of Image Processing), in field of Image processing.  I have presented MySQL Performance Schema on different conferences and platforms. To name few :  1. FOSSASIA, 2015, Singapore. 2. Oracle Open World - Oct 2015. San Franscisco. 3. Oracle Open World - Oct 2014. San Franscisco. 4. \"Open Source India Conference\", 2015, Bangalore. 5. \"Open Source India Conference\", 2013, Bangalore. 6. \"Open Source India Conference\", 2012, Bangalore. 7. MySQL User Camp, 2012, Bangalore.", 
+        "long_biography": "I am working in Oracle as Principal Member Technical Staff and work in MySQL–Performance Schema development. I have been working in database development since 2006. Prior to Oracle, I was working in IBM software Labs in DB2 development for around four and half years. I have two patents and one published disclosure on my name and two of them are in database technology. I also have an ieee research paper in ICIP (International conference of Image Processing), in field of Image processing.  I have presented MySQL Performance Schema on different conferences and platforms. To name few :  1. FOSSASIA, 2015, Singapore. 2. Oracle Open World - Oct 2015. San Franscisco. 3. Oracle Open World - Oct 2014. San Franscisco. 4. \"Open Source India Conference\", 2015, Bangalore. 5. \"Open Source India Conference\", 2013, Bangalore. 6. \"Open Source India Conference\", 2012, Bangalore. 7. MySQL User Camp, 2012, Bangalore.", 
         "mobile": null, 
         "name": "Mayank Prasad", 
         "organisation": "MySQL, Oracle India Private Limited", 
-        "photo": "/images/speakers/photo_150.jpg", 
+        "photo": "/images/speakers/MayankPrasad_150.jpg", 
         "position": null, 
         "sessions": [
             {
@@ -4367,7 +4348,7 @@
         "mobile": null, 
         "name": "Garvit Khatri", 
         "organisation": "KDE", 
-        "photo": "/images/speakers/photo_25.png", 
+        "photo": "/images/speakers/GarvitKhatri_25.png", 
         "position": null, 
         "sessions": [
             {
@@ -4386,11 +4367,11 @@
         "github": "https://github.com/kepta", 
         "id": 37, 
         "linkedin": "", 
-        "long_biography": "I was working as a remote full stack developer at Playpower Labs, during my 5th semester of college. <a href=\"https://lyearnreact.herokuapp.com\" rel=\"nofollow\" target=\"_blank\">https://lyearnreact.herokuapp.com</a>  I am an active contributor to OpenStreetMaps, JSCS, Electron, Cesium and Firefox. <a href=\"https://github.com/kepta\" rel=\"nofollow\" target=\"_blank\">https://github.com/kepta</a> | <a href=\"https://bugzilla.mozilla.org/user_profile?login=0o3ko0%40gmail.com\" rel=\"nofollow\" target=\"_blank\">https://bugzilla.mozilla.org/user_profile?login=0o3ko0%40gmail.com</a>  My atom plugin has got 58 stars on github. <a href=\"https://github.com/kepta/atom-css-to-inline\" rel=\"nofollow\" target=\"_blank\">https://github.com/kepta/atom-css-to-inline</a>  I created my college\u2019s lecture portal. <a href=\"https://daintranet.com\" rel=\"nofollow\" target=\"_blank\">https://daintranet.com</a> | <a href=\"https://github.com/kepta/daintranet\" rel=\"nofollow\" target=\"_blank\">https://github.com/kepta/daintranet</a>  I am currently in top 1% of India leaderboard at hacker rank. <a href=\"http://hackerrank.com/kepta\" rel=\"nofollow\" target=\"_blank\">http://hackerrank.com/kepta</a>  Created my college\u2019s annual festival website", 
+        "long_biography": "I was working as a remote full stack developer at Playpower Labs, during my 5th semester of college. <a href=\"https://lyearnreact.herokuapp.com\" rel=\"nofollow\" target=\"_blank\">https://lyearnreact.herokuapp.com</a>  I am an active contributor to OpenStreetMaps, JSCS, Electron, Cesium and Firefox. <a href=\"https://github.com/kepta\" rel=\"nofollow\" target=\"_blank\">https://github.com/kepta</a> | <a href=\"https://bugzilla.mozilla.org/user_profile?login=0o3ko0%40gmail.com\" rel=\"nofollow\" target=\"_blank\">https://bugzilla.mozilla.org/user_profile?login=0o3ko0%40gmail.com</a>  My atom plugin has got 58 stars on github. <a href=\"https://github.com/kepta/atom-css-to-inline\" rel=\"nofollow\" target=\"_blank\">https://github.com/kepta/atom-css-to-inline</a>  I created my college’s lecture portal. <a href=\"https://daintranet.com\" rel=\"nofollow\" target=\"_blank\">https://daintranet.com</a> | <a href=\"https://github.com/kepta/daintranet\" rel=\"nofollow\" target=\"_blank\">https://github.com/kepta/daintranet</a>  I am currently in top 1% of India leaderboard at hacker rank. <a href=\"http://hackerrank.com/kepta\" rel=\"nofollow\" target=\"_blank\">http://hackerrank.com/kepta</a>  Created my college’s annual festival website", 
         "mobile": null, 
         "name": "Kushan Kushan Joshi", 
         "organisation": "DA-IICT", 
-        "photo": "/images/speakers/photo_37", 
+        "photo": "/images/speakers/KushanKushanJoshi_37", 
         "position": null, 
         "sessions": [
             {
@@ -4413,7 +4394,7 @@
         "mobile": null, 
         "name": "Daniel Pocock", 
         "organisation": "Debian", 
-        "photo": "/images/speakers/photo_44.png", 
+        "photo": "/images/speakers/DanielPocock_44.png", 
         "position": null, 
         "sessions": [
             {
@@ -4448,11 +4429,11 @@
         "github": "", 
         "id": 59, 
         "linkedin": "", 
-        "long_biography": "Nora Al-Badri is a multi-disciplinary artist with a German-Iraqi background working in different mediums such as sculpture and installation, photography and film. Her pieces deal with issues arising through hegemonic and neocolonial power structures and representations between the so called global South and North as well as with the various faces of war. Al-Badri lives and works in Berlin. She studied political sciences at Johann Wolfgang Goethe University in Frankfurt/Main and visual communications at Offenbach University of Art and Design. Her works got granted by several institutions like Goethe-Institut, Institut f\u00fcr Auslandsbeziehungen (IfA), German Federal Foreign Office and European Cultural Foundation (ECF). Since 2009 she also collaborates with Jan Nikolai Nelles as a collective.", 
+        "long_biography": "Nora Al-Badri is a multi-disciplinary artist with a German-Iraqi background working in different mediums such as sculpture and installation, photography and film. Her pieces deal with issues arising through hegemonic and neocolonial power structures and representations between the so called global South and North as well as with the various faces of war. Al-Badri lives and works in Berlin. She studied political sciences at Johann Wolfgang Goethe University in Frankfurt/Main and visual communications at Offenbach University of Art and Design. Her works got granted by several institutions like Goethe-Institut, Institut für Auslandsbeziehungen (IfA), German Federal Foreign Office and European Cultural Foundation (ECF). Since 2009 she also collaborates with Jan Nikolai Nelles as a collective.", 
         "mobile": null, 
         "name": "Nora Al-Badri", 
         "organisation": "Artist of \"The Other Nefertiti\"", 
-        "photo": "/images/speakers/photo_59.jpg", 
+        "photo": "/images/speakers/NoraAl-Badri_59.jpg", 
         "position": null, 
         "sessions": [
             {
@@ -4483,11 +4464,11 @@
         "github": "https://github.com/ishan1604", 
         "id": 62, 
         "linkedin": "https://www.linkedin.com/in/ishankhanna", 
-        "long_biography": "I am a passionate product enthusiast and self-taught developer who loves open source technologies, tech conferences, and hackathons.  I successfully graduated as a Google Summer of Code Intern in 2014 under Mifos and in 2015 under XMPP Standards Foundation.  I manage the source code for the Android Client Project at Mifos as an open source contributor.  Previously - -&gt; I conducted this workshop at Droidcon'15 in Bangalore, India held on 17-18 December, 2015 -&gt; I have spoken at Global Mifos Summit in Sharjah, U.A.E (March, 2015) on \u201cMifos Android Client - Architecture, and how to leverage the app to develop features for your organisation (Mifos Partners).\u201d -&gt; I have given two talks (2014) at Jamia Milia Islamia and Jaypee Institute of Information Technology on \u201cHow to use open source android libraries to increase productivity while developing android apps.\u201d -&gt; I gave a Talk at Delhi Technological University (January, 2015) on \u201cHow to get into Google Summer of Code\u201d", 
+        "long_biography": "I am a passionate product enthusiast and self-taught developer who loves open source technologies, tech conferences, and hackathons.  I successfully graduated as a Google Summer of Code Intern in 2014 under Mifos and in 2015 under XMPP Standards Foundation.  I manage the source code for the Android Client Project at Mifos as an open source contributor.  Previously - -&gt; I conducted this workshop at Droidcon'15 in Bangalore, India held on 17-18 December, 2015 -&gt; I have spoken at Global Mifos Summit in Sharjah, U.A.E (March, 2015) on “Mifos Android Client - Architecture, and how to leverage the app to develop features for your organisation (Mifos Partners).” -&gt; I have given two talks (2014) at Jamia Milia Islamia and Jaypee Institute of Information Technology on “How to use open source android libraries to increase productivity while developing android apps.” -&gt; I gave a Talk at Delhi Technological University (January, 2015) on “How to get into Google Summer of Code”", 
         "mobile": null, 
         "name": "Ishan Khanna", 
         "organisation": "Mifos Initiative", 
-        "photo": "/images/speakers/photo_62", 
+        "photo": "/images/speakers/IshanKhanna_62", 
         "position": null, 
         "sessions": [
             {
@@ -4506,11 +4487,11 @@
         "github": "https://github.com/wavicles", 
         "id": 70, 
         "linkedin": "", 
-        "long_biography": "A Physics Teacher and a free software enthusiast. FOSSASIA GSoC student alumnus and GCI mentor. Working on ExpEYES: Pocket Science Lab,  Involved in FOSS training programs for science teachers and students. E-content developer for National Repository of Open Educational Resources (NROER) for School Education and member of committee for \u201cDevelopment of ICT Refresher Course for students and teachers\u201dby Central Institute of Education Technology (CIET), NCERT, New Delhi. Talks at International Events: FOSSASIA - 2014 at Phnom Penh, Cambodia RMLL-2014 at Montpellier, France  FOSSASIA -2015 at NUS Singapore PyCon Sg at Singapore", 
+        "long_biography": "A Physics Teacher and a free software enthusiast. FOSSASIA GSoC student alumnus and GCI mentor. Working on ExpEYES: Pocket Science Lab,  Involved in FOSS training programs for science teachers and students. E-content developer for National Repository of Open Educational Resources (NROER) for School Education and member of committee for “Development of ICT Refresher Course for students and teachers”by Central Institute of Education Technology (CIET), NCERT, New Delhi. Talks at International Events: FOSSASIA - 2014 at Phnom Penh, Cambodia RMLL-2014 at Montpellier, France  FOSSASIA -2015 at NUS Singapore PyCon Sg at Singapore", 
         "mobile": null, 
         "name": "Praveen (Gnovi) Patil", 
         "organisation": "ExpEYES", 
-        "photo": "/images/speakers/photo_70.jpg", 
+        "photo": "/images/speakers/Praveen(Gnovi)Patil_70.jpg", 
         "position": null, 
         "sessions": [
             {
@@ -4541,11 +4522,11 @@
         "github": "", 
         "id": 81, 
         "linkedin": "https://lk.linkedin.com/in/jaminy-prabaharan-3a393672", 
-        "long_biography": "I am currently studying in third year of B.Tech in Electronic and communication Engineering in National Institute of Technology,Warangal under Rajiv Ghandhi Memorial scholarship scheme(provide by ICCR). Awards, achievements and certificates  Awarded certificate of merit (High Distinction) for Australian National Chemistry Quiz conducted by Royal Australian Chemical Institute in 2009. Awarded certificate  of merit (Distinction) for Australian National Chemistry Quiz conducted by Royal Australian Chemical Institute in 2011 Awarded certificate of merit in the Essay Competition 2007 (English Medium) conducted by the Sri Lanka-Thailand Society in association with the Royal Thai Embassy. Awarded certificate of Distinction for Sri Lankan Mathematical Olympiad 2010 conducted by Sri Lanka Olympiad Mathematics Foundation.  Projects Worked Developed VHDL model for \u201cJewellery Lock\u201d and MIPS and implemented on FPGA board. Developed Line following robot for National Robotic Competition. Designed our own microcontroller board within 24 hours of time for Hackathon 3.0 organized by Lakshya Foundation. Developed Bluetooth controlled temperature indicator using Galileo board. Developed password controlled door lock model within 12 hours of time for Electronic weekend. Worked on \u201cSmart Bin\u201d for Hackathon organized by GHCI (Grass Hopper Celebration in India). Developed the basic prototype for sensor based wireless valve controller. This project was selected for pitch talk in AugustFest-India\u2019s largest startup conference. Conferences attended  Developed the basic prototype for sensor based wireless valve controller. This project was selected for pitch talk in AugustFest-India\u2019s largest startup conference.  Other qualification Able to work with C programming language, photoshop, MATLAB &amp; AutoCAD. Have good knowledge in working with Arduino UNO, Galileo board, FPGA board. Capable of completing project within the time limits. Capable of learning new languages easily Languages Proficiency \u2013 English, Tamil, Sinhala, Telugu", 
+        "long_biography": "I am currently studying in third year of B.Tech in Electronic and communication Engineering in National Institute of Technology,Warangal under Rajiv Ghandhi Memorial scholarship scheme(provide by ICCR). Awards, achievements and certificates  Awarded certificate of merit (High Distinction) for Australian National Chemistry Quiz conducted by Royal Australian Chemical Institute in 2009. Awarded certificate  of merit (Distinction) for Australian National Chemistry Quiz conducted by Royal Australian Chemical Institute in 2011 Awarded certificate of merit in the Essay Competition 2007 (English Medium) conducted by the Sri Lanka-Thailand Society in association with the Royal Thai Embassy. Awarded certificate of Distinction for Sri Lankan Mathematical Olympiad 2010 conducted by Sri Lanka Olympiad Mathematics Foundation.  Projects Worked Developed VHDL model for “Jewellery Lock” and MIPS and implemented on FPGA board. Developed Line following robot for National Robotic Competition. Designed our own microcontroller board within 24 hours of time for Hackathon 3.0 organized by Lakshya Foundation. Developed Bluetooth controlled temperature indicator using Galileo board. Developed password controlled door lock model within 12 hours of time for Electronic weekend. Worked on “Smart Bin” for Hackathon organized by GHCI (Grass Hopper Celebration in India). Developed the basic prototype for sensor based wireless valve controller. This project was selected for pitch talk in AugustFest-India’s largest startup conference. Conferences attended  Developed the basic prototype for sensor based wireless valve controller. This project was selected for pitch talk in AugustFest-India’s largest startup conference.  Other qualification Able to work with C programming language, photoshop, MATLAB &amp; AutoCAD. Have good knowledge in working with Arduino UNO, Galileo board, FPGA board. Capable of completing project within the time limits. Capable of learning new languages easily Languages Proficiency – English, Tamil, Sinhala, Telugu", 
         "mobile": null, 
         "name": "Jaminy Prabaharan", 
         "organisation": "Smart guidance for blind", 
-        "photo": "/images/speakers/photo_81.jpg", 
+        "photo": "/images/speakers/JaminyPrabaharan_81.jpg", 
         "position": null, 
         "sessions": [
             {
@@ -4568,7 +4549,7 @@
         "mobile": null, 
         "name": "Roland Turner", 
         "organisation": "FOSSASIA", 
-        "photo": "/images/speakers/photo_84.jpeg", 
+        "photo": "/images/speakers/RolandTurner_84.jpeg", 
         "position": null, 
         "sessions": [
             {
@@ -4591,7 +4572,7 @@
         "mobile": null, 
         "name": "Dr. Udaykumar Khadke", 
         "organisation": "Department of Physics, BKIT, Bhalki, Karnataka, INDIA", 
-        "photo": "/images/speakers/photo_89.jpg", 
+        "photo": "/images/speakers/Dr.UdaykumarKhadke_89.jpg", 
         "position": null, 
         "sessions": [
             {
@@ -4614,12 +4595,12 @@
         "mobile": null, 
         "name": "Sameer Kumar", 
         "organisation": "Ashnik Pte Ltd", 
-        "photo": "/images/speakers/photo_98.jpg", 
+        "photo": "/images/speakers/SameerKumar_98.jpg", 
         "position": null, 
         "sessions": [
             {
                 "id": 200, 
-                "title": "7 Tips to design  web-centric, high performance applications: A DB Architect\u2019s Perspective"
+                "title": "7 Tips to design  web-centric, high performance applications: A DB Architect’s Perspective"
             }
         ], 
         "short_biography": "", 
@@ -4637,7 +4618,7 @@
         "mobile": null, 
         "name": "Hans Bakker", 
         "organisation": "AntWebsystems Co.,Ltd", 
-        "photo": "/images/speakers/photo_111.gif", 
+        "photo": "/images/speakers/HansBakker_111.jpg", 
         "position": null, 
         "sessions": [
             {
@@ -4660,7 +4641,7 @@
         "mobile": null, 
         "name": "Sahil Shekhawat", 
         "organisation": "SymPy / PyDy", 
-        "photo": "/images/speakers/photo_128.svg", 
+        "photo": "/images/speakers/SahilShekhawat_128.jpg", 
         "position": null, 
         "sessions": [
             {
@@ -4679,11 +4660,11 @@
         "github": "https://github.com/marcoag", 
         "id": 130, 
         "linkedin": "https://www.linkedin.com/in/marcoagutierrez", 
-        "long_biography": "Marco A. Guti\u00e9rrez is a PhD student in cognitive vision for robotics systems at the Robotics and Artificial Vision Laboratory (RoboLab) from the University of Extremadura, Spain since 2011. He is currently holding an A*STAR Research Attachment Programme (ARAP) scholarship in the Human Language Technology Department at I2R, A*STAR, Singapore. He has contributed to several open-source robotics and computer vision related projects like RoboComp and the Point Cloud Library as organization administrator and mentor (respectively) for several editions of the Google Summer of Code programme (2013, 2014 and 2015).", 
+        "long_biography": "Marco A. Gutiérrez is a PhD student in cognitive vision for robotics systems at the Robotics and Artificial Vision Laboratory (RoboLab) from the University of Extremadura, Spain since 2011. He is currently holding an A*STAR Research Attachment Programme (ARAP) scholarship in the Human Language Technology Department at I2R, A*STAR, Singapore. He has contributed to several open-source robotics and computer vision related projects like RoboComp and the Point Cloud Library as organization administrator and mentor (respectively) for several editions of the Google Summer of Code programme (2013, 2014 and 2015).", 
         "mobile": null, 
-        "name": "Marco A. Guti\u00e9rrez", 
+        "name": "Marco A. Gutiérrez", 
         "organisation": "Robolab, University of Extremadura, Spain", 
-        "photo": "/images/speakers/photo_130.jpg", 
+        "photo": "/images/speakers/MarcoA.Gutiérrez_130.jpg", 
         "position": null, 
         "sessions": [
             {
@@ -4706,7 +4687,7 @@
         "mobile": null, 
         "name": "Zion Ng", 
         "organisation": "intZone.com", 
-        "photo": "/images/speakers/photo_159.jpg", 
+        "photo": "/images/speakers/ZionNg_159.jpg", 
         "position": null, 
         "sessions": [
             {
@@ -4729,7 +4710,7 @@
         "mobile": null, 
         "name": "Anivar Ammanath Aravind", 
         "organisation": "Mozilla India", 
-        "photo": "/images/speakers/photo_162.jpg", 
+        "photo": "/images/speakers/AnivarAmmanathAravind_162.jpg", 
         "position": null, 
         "sessions": [
             {
@@ -4752,7 +4733,7 @@
         "mobile": null, 
         "name": "Barry Threw Jon Phillips", 
         "organisation": "#NEWPALMYRA", 
-        "photo": "/images/speakers/photo_175.jpg", 
+        "photo": "/images/speakers/BarryThrewJonPhillips_175.jpg", 
         "position": null, 
         "sessions": [
             {
@@ -4783,7 +4764,7 @@
         "mobile": null, 
         "name": "Ankit -", 
         "organisation": "coala", 
-        "photo": "/images/speakers/photo_186.svg", 
+        "photo": "/images/speakers/Ankit-_186.jpg", 
         "position": null, 
         "sessions": [
             {

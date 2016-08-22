@@ -200,7 +200,7 @@
             }, 
             {
                 "id": 47, 
-                "title": "Modular vs Monolith \u2013 The Structure of Node.JS Applications"
+                "title": "Modular vs Monolith – The Structure of Node.JS Applications"
             }, 
             {
                 "id": 48, 
@@ -291,10 +291,10 @@
                 "title": "Closing Notes of FOSSASIA 2016"
             }
         ], 
-        "track_image_url": "http://lorempixel.com/400/200"
+        "track_image_url": null
     }, 
     {
-        "color": "#3DC8C3", 
+        "color": "#1485CC", 
         "description": "OpenTech Workshops", 
         "id": 2, 
         "location": "Level 3, Lewis Lab", 
@@ -405,10 +405,10 @@
                 "title": "Closing Notes"
             }
         ], 
-        "track_image_url": "http://lorempixel.com/400/200"
+        "track_image_url": null
     }, 
     {
-        "color": "#3DC8C3", 
+        "color": "#B21212", 
         "description": "Tech Kids I", 
         "id": 3, 
         "location": "Level 1, Digital Design Studio", 
@@ -523,10 +523,10 @@
                 "title": "Closing Notes in Main Hall (Level 3, Dalton Hall)"
             }
         ], 
-        "track_image_url": "http://lorempixel.com/400/200"
+        "track_image_url": null
     }, 
     {
-        "color": "#3DC8C3", 
+        "color": "#9EFF56", 
         "description": "Tech Kids II", 
         "id": 4, 
         "location": "Level 1, Digital Design Studio", 
@@ -645,10 +645,10 @@
                 "title": "Hong Phuc Dang"
             }
         ], 
-        "track_image_url": "http://lorempixel.com/400/200"
+        "track_image_url": null
     }, 
     {
-        "color": "#3DC8C3", 
+        "color": "#E8782C", 
         "description": "Tech Kids III", 
         "id": 5, 
         "location": "Level 1, Observatory Room", 
@@ -707,10 +707,10 @@
                 "title": "End of Sessions"
             }
         ], 
-        "track_image_url": "http://lorempixel.com/400/200"
+        "track_image_url": null
     }, 
     {
-        "color": "#3DC8C3", 
+        "color": "#FF3046", 
         "description": "Hardware and IoT", 
         "id": 6, 
         "location": "Level 1, Eco Garden Lab", 
@@ -817,10 +817,10 @@
                 "title": "End of Sessions and Social Event (Invitation Only)"
             }
         ], 
-        "track_image_url": "http://lorempixel.com/400/200"
+        "track_image_url": null
     }, 
     {
-        "color": "#3DC8C3", 
+        "color": "#BF532E", 
         "description": "DevOps", 
         "id": 7, 
         "location": "Level 3, Planck Lab", 
@@ -864,7 +864,7 @@
             }, 
             {
                 "id": 200, 
-                "title": "7 Tips to design  web-centric, high performance applications: A DB Architect\u2019s Perspective"
+                "title": "7 Tips to design  web-centric, high performance applications: A DB Architect’s Perspective"
             }, 
             {
                 "id": 220, 
@@ -955,10 +955,10 @@
                 "title": "Closing Notes in Main Hall (Level 3, Dalton Hall)"
             }
         ], 
-        "track_image_url": "http://lorempixel.com/400/200"
+        "track_image_url": null
     }, 
     {
-        "color": "#3DC8C3", 
+        "color": "#FFF22A", 
         "description": "WebTech", 
         "id": 8, 
         "location": "Level 3, Faraday Lab", 
@@ -1081,10 +1081,10 @@
                 "title": "Closing Notes in Main Hall (Level 3, Dalton Hall)"
             }
         ], 
-        "track_image_url": "http://lorempixel.com/400/200"
+        "track_image_url": null
     }, 
     {
-        "color": "#3DC8C3", 
+        "color": "#1C9ECC", 
         "description": "Python", 
         "id": 9, 
         "location": "Level 3, Pauling Lab", 
@@ -1207,10 +1207,10 @@
                 "title": "Closing Notes in Main Hall (Level 3, Dalton Hall)"
             }
         ], 
-        "track_image_url": "http://lorempixel.com/400/200"
+        "track_image_url": null
     }, 
     {
-        "color": "#3DC8C3", 
+        "color": "#E0331F", 
         "description": "Big Data/Open Data", 
         "id": 10, 
         "location": "Level 3, Fermi Lab", 
@@ -1353,10 +1353,10 @@
                 "title": "Closing Notes in Main Hall (Level 3, Dalton Hall)"
             }
         ], 
-        "track_image_url": "http://lorempixel.com/400/200"
+        "track_image_url": null
     }, 
     {
-        "color": "#3DC8C3", 
+        "color": "#B062A1", 
         "description": "Databases", 
         "id": 11, 
         "location": "Level 2, Herschel Lab", 
@@ -1471,10 +1471,10 @@
                 "title": "Closing Notes in Main Hall (Level 3, Dalton Hall)"
             }
         ], 
-        "track_image_url": "http://lorempixel.com/400/200"
+        "track_image_url": null
     }, 
     {
-        "color": "#3DC8C3", 
+        "color": "#1CCCC5", 
         "description": "Internet, Society, Community", 
         "id": 12, 
         "location": "Level 2, Einstein Room", 
@@ -1577,10 +1577,10 @@
                 "title": "End of Sessions and Social Event (Invitation Only)"
             }
         ], 
-        "track_image_url": "http://lorempixel.com/400/200"
+        "track_image_url": null
     }, 
     {
-        "color": "#3DC8C3", 
+        "color": "#5972B0", 
         "description": "Privacy and Security", 
         "id": 13, 
         "location": "Level 2, Einstein Hall", 
@@ -1627,10 +1627,10 @@
                 "title": "Closing Notes in Main Hall (Level 3, Dalton Hall)"
             }
         ], 
-        "track_image_url": "http://lorempixel.com/400/200"
+        "track_image_url": null
     }, 
     {
-        "color": "#3DC8C3", 
+        "color": "#FF3C11", 
         "description": "Science Hack Day", 
         "id": 14, 
         "location": "Level 1, Tinkering Studio", 
@@ -1805,10 +1805,10 @@
                 "title": "Closing Notes in Main Hall (Level 3, Dalton Hall)"
             }
         ], 
-        "track_image_url": "http://lorempixel.com/400/200"
+        "track_image_url": null
     }, 
     {
-        "color": "#3DC8C3", 
+        "color": "#84CC12", 
         "description": "Linux and MiniDebConf", 
         "id": 15, 
         "location": "Level 1, Observatory Room", 
@@ -1855,10 +1855,10 @@
                 "title": "Reproducible Builds - fulfilling the original promise of free software"
             }
         ], 
-        "track_image_url": "http://lorempixel.com/400/200"
+        "track_image_url": null
     }, 
     {
-        "color": "#3DC8C3", 
+        "color": "#CC8312", 
         "description": "Design, VR, 3D", 
         "id": 16, 
         "location": "Level 1, Eco Garden Lab", 
@@ -1878,7 +1878,7 @@
             }, 
             {
                 "id": 431, 
-                "title": "Open Source Design \u2013 how we do it in ownCloud"
+                "title": "Open Source Design – how we do it in ownCloud"
             }, 
             {
                 "id": 432, 
@@ -1905,10 +1905,10 @@
                 "title": "Closing Notes in Main Hall (Level 3, Dalton Hall)"
             }
         ], 
-        "track_image_url": "http://lorempixel.com/400/200"
+        "track_image_url": null
     }, 
     {
-        "color": "#3DC8C3", 
+        "color": "#992EFF", 
         "description": "Exhibition", 
         "id": 17, 
         "location": "Level 1, Ground Floor, Scientist For a day, Hall A", 
@@ -2139,15 +2139,15 @@
                 "title": "FOSSASIA 2016 Closes"
             }
         ], 
-        "track_image_url": "http://lorempixel.com/400/200"
+        "track_image_url": null
     }, 
     {
-        "color": "#3DC8C3", 
+        "color": "#59B077", 
         "description": "Social Event", 
         "id": 18, 
         "location": "Level 2, Newton ", 
         "name": "Social Event", 
         "sessions": [], 
-        "track_image_url": "http://lorempixel.com/400/200"
+        "track_image_url": null
     }
 ]
