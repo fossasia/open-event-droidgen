@@ -768,7 +768,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void run() {
                 try {
-                    InputStream inputStream = getAssets().open(name + ".json");
+                    InputStream inputStream = getAssets().open(name);
                     int size = inputStream.available();
                     byte[] buffer = new byte[size];
                     inputStream.read(buffer);

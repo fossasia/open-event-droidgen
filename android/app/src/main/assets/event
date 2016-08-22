@@ -1,34 +1,31 @@
 {
-    "background_url": null, 
+    "background_image": "/images/fossasia16.jpg", 
     "call_for_papers": {
-        "announcement": "<p>Wanna speak at our prestigious event. Send us a proposal</p>",
-        "end_date": "2016-03-16T20:30:00",
-        "privacy": "public",
-        "start_date": "2016-03-10T19:30:00",
+        "announcement": "<p>Wanna speak at our prestigious event. Send us a proposal</p>", 
+        "end_date": "2016-03-16T20:30:00", 
+        "privacy": "public", 
+        "start_date": "2016-03-10T19:30:00", 
         "timezone": "UTC"
-    },
-    "closing_datetime": "2016-03-21T00:00:00", 
+    }, 
     "code_of_conduct": "", 
     "copyright": {
-        "holder": null, 
-        "holder_url": null, 
-        "licence": null, 
-        "licence_url": null, 
-        "logo": null, 
-        "year": null
+        "holder": "FOSSASIA", 
+        "holder_url": "http://fossasia.org/contact/", 
+        "licence": "Creative Commons Attribution License", 
+        "licence_url": "http://creativecommons.org/licenses/by/4.0/", 
+        "logo": "https://i.creativecommons.org/l/by/4.0/80x15.png", 
+        "year": 2016
     }, 
     "creator": {
-        "email": "s@g.com", 
-        "id": 1
+        "email": "s@g.com"
     }, 
     "description": "FOSSASIA is the premier Free and Open Source technology event in Asia for developers, start-ups, and contributors. Projects at FOSSASIA range from open hardware, to design, graphics and software. FOSSASIA was established in 2009. Previous events took place in Cambodia and Vietnam.", 
     "email": "contact@fossasia.org", 
-    "end_time": "2016-03-22T00:00:00", 
-    "event_url": "http://2016.fossasia.org/", 
+    "end_time": "2016-03-20T09:30:00", 
     "id": 1, 
     "latitude": 1.346, 
-    "location_name": "Singapore", 
-    "logo": "http://2016.fossasia.org/img/fossasia-dark.png", 
+    "location_name": "15 Science Centre Rd, Singapore 609081", 
+    "logo": "/images/fossasia-dark.png", 
     "longitude": 103.686, 
     "name": "FOSSASIA 2016", 
     "organizer_description": "The Internet of Things for Me at Asia's Premier Open Technology Event", 
@@ -71,9 +68,14 @@
             "id": 7, 
             "link": "https://www.linkedin.com/groups/FOSSASIA-3762811", 
             "name": "Linkedin"
+        }, 
+        {
+            "id": 8, 
+            "link": "http://2016.fossasia.org/", 
+            "name": "External Event URL"
         }
     ], 
-    "start_time": "2016-03-18T00:00:00", 
+    "start_time": "2016-03-18T01:30:00", 
     "state": "Completed", 
     "sub_topic": null, 
     "ticket_url": null, 
