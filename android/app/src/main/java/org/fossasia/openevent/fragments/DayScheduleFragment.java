@@ -39,7 +39,7 @@ import timber.log.Timber;
 /**
  * Created by Manan Wason on 17/06/16.
  */
-public class DayScheduleFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class DayScheduleFragment extends Fragment {
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -90,8 +90,12 @@ public class DayScheduleFragment extends Fragment implements SwipeRefreshLayout.
         });
         dayScheduleAdapter.setEventDate(date);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.schedule_swipe_refresh);
-
-        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refresh();
+            }
+        });
 
         dayRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 
@@ -156,15 +160,14 @@ public class DayScheduleFragment extends Fragment implements SwipeRefreshLayout.
                         .setAction(R.string.retry_download, new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                onRefresh();
+                                refresh();
                             }
                         }).show();
             }
         }
     }
 
-    @Override
-    public void onRefresh() {
+    public void refresh() {
         if (NetworkUtils.haveNetworkConnection(getContext())) {
             DataDownloadManager.getInstance().downloadSession();
         } else {

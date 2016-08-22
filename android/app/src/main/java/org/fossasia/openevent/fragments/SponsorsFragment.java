@@ -37,7 +37,7 @@ import timber.log.Timber;
 /**
  * Created by MananWason on 05-06-2015.
  */
-public class SponsorsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class SponsorsFragment extends Fragment {
 
     private SponsorsListAdapter sponsorsListAdapter;
 
@@ -55,7 +55,13 @@ public class SponsorsFragment extends Fragment implements SwipeRefreshLayout.OnR
         final DbSingleton dbSingleton = DbSingleton.getInstance();
 
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.sponsor_swipe_refresh);
-        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refresh();
+            }
+        });
+
         sponsorsListAdapter = new SponsorsListAdapter(dbSingleton.getSponsorList());
         sponsorsRecyclerView.setAdapter(sponsorsListAdapter);
         sponsorsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -110,7 +116,7 @@ public class SponsorsFragment extends Fragment implements SwipeRefreshLayout.OnR
                         .setAction(R.string.retry_download, new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                onRefresh();
+                                refresh();
                             }
                         }).show();
             }
@@ -124,8 +130,7 @@ public class SponsorsFragment extends Fragment implements SwipeRefreshLayout.OnR
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-    @Override
-    public void onRefresh() {
+    public void refresh() {
         if (NetworkUtils.haveNetworkConnection(getActivity())) {
             DataDownloadManager.getInstance().downloadSponsors();
         } else {

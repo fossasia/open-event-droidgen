@@ -35,7 +35,7 @@ import org.fossasia.openevent.utils.ConstantStrings;
  * User: MananWason
  * Date: 8/18/2015
  */
-public class LocationsFragment extends Fragment implements SearchView.OnQueryTextListener, SwipeRefreshLayout.OnRefreshListener {
+public class LocationsFragment extends Fragment implements SearchView.OnQueryTextListener {
     final private String SEARCH = "searchText";
 
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -73,7 +73,12 @@ public class LocationsFragment extends Fragment implements SearchView.OnQueryTex
         });
 
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.locations_swipe_refresh);
-        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refresh();
+            }
+        });
 
         locationsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 
@@ -166,15 +171,14 @@ public class LocationsFragment extends Fragment implements SearchView.OnQueryTex
                         .setAction(R.string.retry_download, new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                onRefresh();
+                                refresh();
                             }
                         }).show();
             }
         }
     }
 
-    @Override
-    public void onRefresh() {
+    public void refresh() {
         DataDownloadManager.getInstance().downloadMicrolocations();
     }
 }
