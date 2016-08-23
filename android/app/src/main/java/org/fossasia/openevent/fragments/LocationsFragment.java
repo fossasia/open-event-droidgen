@@ -76,7 +76,7 @@ public class LocationsFragment extends Fragment implements SearchView.OnQueryTex
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                DataDownloadManager.getInstance().downloadMicrolocations();
+                refresh();
             }
         });
 
@@ -167,8 +167,17 @@ public class LocationsFragment extends Fragment implements SearchView.OnQueryTex
 
         } else {
             if (getActivity() != null) {
-                Snackbar.make(getView(), getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).show();
+                Snackbar.make(getView(), getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        refresh();
+                    }
+                }).show();
             }
         }
+    }
+
+    private void refresh() {
+        DataDownloadManager.getInstance().downloadMicrolocations();
     }
 }

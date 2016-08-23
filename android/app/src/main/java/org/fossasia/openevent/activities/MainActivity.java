@@ -55,6 +55,7 @@ import org.fossasia.openevent.dbutils.DataDownloadManager;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.CounterEvent;
 import org.fossasia.openevent.events.DataDownloadEvent;
+import org.fossasia.openevent.events.DownloadEvent;
 import org.fossasia.openevent.events.EventDownloadEvent;
 import org.fossasia.openevent.events.JsonReadEvent;
 import org.fossasia.openevent.events.MicrolocationDownloadEvent;
@@ -107,28 +108,19 @@ public class MainActivity extends BaseActivity {
     private final String FRAGMENT_TAG_TRACKS = "FTAGT";
 
     private final String FRAGMENT_TAG_REST = "FTAGR";
-
-    private String errorType;
-
-    private String errorDesc;
-
-    private SharedPreferences sharedPreferences;
-
     @Bind(R.id.toolbar)
     Toolbar toolbar;
-
     @Bind(R.id.nav_view)
     NavigationView navigationView;
-
     @Bind(R.id.progress)
     ProgressBar downloadProgress;
-
     @Bind(R.id.layout_main)
     CoordinatorLayout mainFrame;
-
     @Bind(R.id.drawer)
     DrawerLayout drawerLayout;
-
+    private String errorType;
+    private String errorDesc;
+    private SharedPreferences sharedPreferences;
     private int counter;
 
     private int eventsDone;
@@ -141,6 +133,23 @@ public class MainActivity extends BaseActivity {
     public static Intent createLaunchFragmentIntent(Context context) {
         return new Intent(context, MainActivity.class)
                 .putExtra(NAV_ITEM, BOOKMARK);
+    }
+
+    public static void getDaysBetweenDates(Date startdate, Date enddate) {
+        ArrayList<String> dates = new ArrayList<String>();
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(startdate);
+
+        while (calendar.getTime().before(enddate)) {
+            Date result = calendar.getTime();
+            Calendar calendar1 = Calendar.getInstance();
+            calendar1.setTime(result);
+            dates.add(new EventDates(ISO8601Date.dateFromCalendar(calendar1)).generateSql());
+            calendar.add(Calendar.DATE, 1);
+        }
+
+        DbSingleton.getInstance().insertQueries(dates);
+
     }
 
     @Override
@@ -333,9 +342,20 @@ public class MainActivity extends BaseActivity {
         Timber.d("Download done");
     }
 
-    private void downloadFailed() {
+    private void downloadFailed(final DownloadEvent event) {
         downloadProgress.setVisibility(View.GONE);
-        Snackbar.make(mainFrame, getString(R.string.download_failed), Snackbar.LENGTH_LONG).show();
+        Snackbar.make(mainFrame, getString(R.string.download_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (event == null) {
+                    Timber.d("no internet.");
+                    OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
+                } else {
+                    Timber.tag(COUNTER_TAG).d(event.getClass().getSimpleName());
+                    OpenEventApp.postEventOnUIThread(event);
+                }
+            }
+        }).show();
 
     }
 
@@ -500,7 +520,7 @@ public class MainActivity extends BaseActivity {
                 syncComplete();
             }
         } else {
-            downloadFailed();
+            downloadFailed(event);
         }
     }
 
@@ -514,7 +534,7 @@ public class MainActivity extends BaseActivity {
             }
         } else {
 
-            downloadFailed();
+            downloadFailed(event);
         }
     }
 
@@ -528,7 +548,7 @@ public class MainActivity extends BaseActivity {
             }
         } else {
 
-            downloadFailed();
+            downloadFailed(event);
         }
     }
 
@@ -542,13 +562,13 @@ public class MainActivity extends BaseActivity {
             }
         } else {
 
-            downloadFailed();
+            downloadFailed(event);
         }
     }
 
     @Subscribe
     public void noInternet(NoInternetEvent event) {
-        downloadFailed();
+        downloadFailed(null);
     }
 
     @Subscribe
@@ -561,7 +581,7 @@ public class MainActivity extends BaseActivity {
             }
         } else {
 
-            downloadFailed();
+            downloadFailed(event);
         }
     }
 
@@ -575,7 +595,7 @@ public class MainActivity extends BaseActivity {
             }
         } else {
 
-            downloadFailed();
+            downloadFailed(event);
         }
 
     }
@@ -784,23 +804,6 @@ public class MainActivity extends BaseActivity {
 
             }
         });
-    }
-
-    public static void getDaysBetweenDates(Date startdate, Date enddate) {
-        ArrayList<String> dates = new ArrayList<String>();
-        Calendar calendar = new GregorianCalendar();
-        calendar.setTime(startdate);
-
-        while (calendar.getTime().before(enddate)) {
-            Date result = calendar.getTime();
-            Calendar calendar1 = Calendar.getInstance();
-            calendar1.setTime(result);
-            dates.add(new EventDates(ISO8601Date.dateFromCalendar(calendar1)).generateSql());
-            calendar.add(Calendar.DATE, 1);
-        }
-
-        DbSingleton.getInstance().insertQueries(dates);
-
     }
 
 }
