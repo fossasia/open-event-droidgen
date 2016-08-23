@@ -3,18 +3,9 @@ package org.fossasia.openevent.events;
 /**
  * Created by MananWason on 8/5/2015.
  */
-public class SponsorDownloadEvent {
-    private boolean state;
+public class SponsorDownloadEvent extends DownloadEvent {
 
     public SponsorDownloadEvent(boolean state) {
-        this.state = state;
-    }
-
-    public boolean isState() {
-        return state;
-    }
-
-    public void setState(boolean state) {
-        this.state = state;
+        super(state);
     }
 }

@@ -4,18 +4,10 @@ package org.fossasia.openevent.events;
  * User: MananWason
  * Date: 8/4/2015
  */
-public class SpeakerDownloadEvent {
-    private boolean state;
+public class SpeakerDownloadEvent extends DownloadEvent {
 
     public SpeakerDownloadEvent(boolean state) {
-        this.state = state;
+        super(state);
     }
 
-    public boolean isState() {
-        return state;
-    }
-
-    public void setState(boolean state) {
-        this.state = state;
-    }
 }
