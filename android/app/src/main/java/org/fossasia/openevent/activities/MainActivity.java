@@ -230,7 +230,7 @@ public class MainActivity extends BaseActivity {
                 );
                 downloadDialog.show();
             } else {
-                downloadFromAssets();
+                downloadProgress.setVisibility(View.GONE);
             }
         } else {
             final Snackbar snackbar = Snackbar.make(mainFrame, R.string.display_offline_schedule, Snackbar.LENGTH_LONG);
