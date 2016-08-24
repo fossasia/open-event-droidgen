@@ -21,8 +21,6 @@ android:
   - build-tools-$ANDROID_BUILD_TOOLS_VERSION
   - "$ANDROID_TARGET"
   - android-24
-  - extra-google-google_play_services
-  - extra-android-support
   - extra-google-m2repository
   - extra-android-m2repository
   - sys-img-armeabi-v7a-$ANDROID_TARGET
