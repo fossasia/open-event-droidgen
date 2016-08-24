@@ -51,15 +51,16 @@
                 <section>
                     <br>
                     <div class="progress" style="display:none;">
-                        <div class="progress-bar" role="progressbar" id="generator-progress" style="width:0%; height: 20px;">
-                            <span id="generator-progress-val">0%</span>
+                        <div class="progress-bar" role="progressbar" id="upload-progress" style="width:0%; height: 20px;">
+                            <span id="upload-progress-val">0%</span>
                         </div>
                     </div>
                     <br>
                 </section>
+                <h3 id="status"></h3>
                 <tr>
                     <td colspan="5" style="text-align:center">
-                        <button type="submit">Generate and Download app</button>
+                        <button id="submit" type="submit">Generate and Download app</button>
                     </td>
                 </tr>
                 </table>
@@ -92,7 +93,7 @@
             var timestamp = Number(new Date());
             var form = document.querySelector("form");
             var config = {
-                apiKey: "API-KEY",
+                apiKey: "FIREBASE-API",
                 authDomain: "APP-ID.firebaseapp.com",
                 databaseURL: "https://APP-ID.firebaseio.com",
                 storageBucket: "APP-ID.appspot.com",
@@ -103,6 +104,10 @@
                 var ext = this.value.match(/\.([^\.]+)$/)[1];
                 switch (ext) {
                     case 'zip':
+                        $('.progress').show();
+                        $('#upload-progress').show();
+                        $('#submit').hide();
+                        uploadFile();
                         break;
                     default:
                         alert('Only zip files are allowed');
@@ -111,66 +116,77 @@
             };
             var database = firebase.database();
             form.addEventListener("submit", function(event) {
-                        event.preventDefault();
-                        $('.progress').css('display', 'block');
-                        $('#generator-progress').css('display', 'block')
-                        var ary = $(form).serializeArray();
-                        var obj = {};
-                        for (var a = 0; a < ary.length; a++) obj[ary[a].name] = ary[a].value;
-                        console.log("JSON", obj);
-                        if (obj.Email == "" || obj.App_Name == "") {
-                            alert("It seems like you forgot to fill up your email address or app's name");
-                            setTimeout("location.reload(true);", 1);
-                        } else {
-                            alert("Please wait while we generate the app, meanwhile you can stick around to directly download it.The app will also be emailed to you.");
-                            var file_data = $('#uploadZip').prop('files')[0];
-                            var form_data = new FormData();
-                            form_data.append('file', file_data);
-                            form_data.append('timestamp', timestamp);
-                            firebase.database().ref('users/' + timestamp).set(obj);
-                            database.ref('users/' + timestamp).once('value').then(function(snapshot) {
-                                    console.log("Received value", snapshot.val());
-                                    updatePercent(10);
-                                    var file_data = $('#uploadZip').prop('files')[0];
-                                    $.ajax({
-                                            url: "/upload.php", // point to server-side PHP script
-                                            cache: false,
-                                            contentType: false,
-                                            processData: false,
-                                            data: form_data,
-                                            type: "POST",
-                                            success: function(php_script_response) {
-                                                updatePercent(20);
-                                                ajaxCall1();
+                event.preventDefault();
+                $('.progress').css('display', 'block');
+                $('#generator-progress').css('display', 'block')
+                $('#upload-progress').css('display', 'block')
+                var ary = $(form).serializeArray();
+                var obj = {};
+                updatePercentUpload(10);
+                for (var a = 0; a < ary.length; a++) obj[ary[a].name] = ary[a].value;
+                console.log("JSON", obj);
+                if (obj.Email == "" || obj.App_Name == "") {
+                    alert("It seems like you forgot to fill up your email address or app's name");
+                    setTimeout("location.reload(true);", 1);
+                } else {
+                    var file_data = $('#uploadZip').prop('files')[0];
+                    var form_data = new FormData();
+                    form_data.append('file', file_data);
+                    firebase.database().ref('users/' + timestamp).set(obj);
+                    database.ref('users/' + timestamp).once('value').then(function(snapshot) {
+                        updatePercentUpload(10);
+                        console.log("Received value", snapshot.val());
+                        document.getElementById("status").innerHTML = "Building the app. This might take a while...";
+                        ajaxCall1();
 
-                                            });
+                        function ajaxCall1() {
+                            updatePercentUpload(35);
+                            $.ajax({
+                                type: "POST",
+                                url: "/runPy.php",
+                                data: {
+                                    timestamp: timestamp
+                                },
+                                success: function(response) {
+                                    console.log("Success", response);
+                                    updatePercentUpload(100);
+                                    window.location = response;
+                                    document.getElementById("status").innerHTML = "App build completed!";
+                                }
+                            });
+                        }
+                    });
+                }
+            }); //after this
+            function updatePercentUpload(perc) {
+                $('#upload-progress').css('width', perc + '%');
+                $('#upload-progress').html(parseInt(perc) + '%');
+            }
 
-                                        function ajaxCall1() {
-                                            updatePercent(40);
-                                            $.ajax({
-                                                type: "POST",
-                                                url: "/runPy.php",
-                                                data: {
-                                                    timestamp: timestamp
-                                                },
-                                                success: function(response) {
-                                                    console.log("Success", response);
-                                                    updatePercent(100);
-                                                    window.location = response;
-                                                }
-                                            });
-                                        }
+            function uploadFile() {
 
-                                        function updatePercent(perc) {
-                                            $('#generator-progress').animate({
-                                                'width': perc + '%'
-                                            }, function() {
-                                                $('#generator-progress-val').html(perc + '%');
-                                            });
-                                        }
-                                    });
-                            }
-                        });
+                var file_data = $('#uploadZip').prop('files')[0];
+                var form_data = new FormData();
+                form_data.append('file', file_data);
+                form_data.append('timestamp', timestamp);
+                var ajax = new XMLHttpRequest();
+                ajax.upload.addEventListener("progress", progressHandler, false);
+                ajax.addEventListener("load", completeHandler, false);
+                ajax.open("POST", "upload.php");
+                ajax.send(form_data);
+
+            }
+
+            function progressHandler(event) {
+                var percent = (event.loaded / event.total) * 100;
+                updatePercentUpload(Math.round(percent))
+                document.getElementById("status").innerHTML = Math.round(percent) + "% uploaded... please wait";
+            }
+
+            function completeHandler(event) {
+                document.getElementById("status").innerHTML = "Upload Complete, click on the button below to build your app";
+                $('#submit').show();
+            }
         </script>
     </div>
 </body>
