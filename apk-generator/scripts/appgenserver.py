@@ -55,6 +55,7 @@ print email
 directory = path + "/" + email
 print directory
 
+
 with open('/var/www/config.json') as json_data:
     config = json.load(json_data)
 
@@ -69,6 +70,9 @@ if not os.path.exists(directory):
 print conApi
 subprocess.call(['/var/www/scripts/clone.sh', directory])
 # subprocess.call(['/var/www/html/setPerm.sh', directory])
+
+subprocess.call(["/var/www/scripts/deleteAssets.sh", directory])
+
 with open(directory + "/open-event-android/android/app/src/main/assets/config.json", "wb") as fo:
     fo.write(jsonData)
 
@@ -144,7 +148,7 @@ replace(directory + "/open-event-android/android/app/build.gradle",
         '"org.fossasia.openevent"', '"org.fossasia.openevent.' + app_name.replace(" ", "") + '"')
 for f in os.listdir(directory + "/zip"):
     #       print "no" + f
-    if os.path.isfile(f):
+    if os.path.isfile(os.path.join(directory + "/zip", f)):
         copyfile(directory + "/zip/" + f, directory +
                  "/open-event-android/android/app/src/main/assets/" + f)
         # print f
