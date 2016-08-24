@@ -63,31 +63,43 @@ public class DayScheduleFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.list_schedule, container, false);
-        RecyclerView dayRecyclerView = (RecyclerView) view.findViewById(R.id.list_schedule);
-        TextView noSchedule = (TextView) view.findViewById(R.id.txt_no_schedule);
-        List<Session> sortedSessions = DbSingleton.getInstance().getSessionbyDate(date);
-
-        if (!sortedSessions.isEmpty()) {
-            noSchedule.setVisibility(View.GONE);
-        } else {
-            noSchedule.setVisibility(View.VISIBLE);
-        }
-        dayScheduleAdapter = new DayScheduleAdapter(sortedSessions);
-        dayRecyclerView.setAdapter(dayScheduleAdapter);
-        dayScheduleAdapter.setOnClickListener(new DayScheduleAdapter.SetOnClickListener() {
+        final RecyclerView dayRecyclerView = (RecyclerView) view.findViewById(R.id.list_schedule);
+        final TextView noSchedule = (TextView) view.findViewById(R.id.txt_no_schedule);
+        /**
+         * Loading data in background to improve performance.
+         * */
+        new Thread(new Runnable() {
             @Override
-            public void onItemClick(int position, View view) {
-                Session model = dayScheduleAdapter.getItem(position);
-                String sessionName = model.getTitle();
-                Track track = DbSingleton.getInstance().getTrackbyId(model.getTrack().getId());
-                String trackName = track.getName();
-                Intent intent = new Intent(getContext(), SessionDetailActivity.class);
-                intent.putExtra(ConstantStrings.SESSION, sessionName);
-                intent.putExtra(ConstantStrings.TRACK, trackName);
-                startActivity(intent);
+            public void run() {
+                final List<Session> sortedSessions = DbSingleton.getInstance().getSessionbyDate(date);
+                dayRecyclerView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (!sortedSessions.isEmpty()) {
+                            noSchedule.setVisibility(View.GONE);
+                        } else {
+                            noSchedule.setVisibility(View.VISIBLE);
+                        }
+                        dayScheduleAdapter = new DayScheduleAdapter(sortedSessions);
+                        dayRecyclerView.setAdapter(dayScheduleAdapter);
+                        dayScheduleAdapter.setOnClickListener(new DayScheduleAdapter.SetOnClickListener() {
+                            @Override
+                            public void onItemClick(int position, View view) {
+                                Session model = dayScheduleAdapter.getItem(position);
+                                String sessionName = model.getTitle();
+                                Track track = DbSingleton.getInstance().getTrackbyId(model.getTrack().getId());
+                                String trackName = track.getName();
+                                Intent intent = new Intent(getContext(), SessionDetailActivity.class);
+                                intent.putExtra(ConstantStrings.SESSION, sessionName);
+                                intent.putExtra(ConstantStrings.TRACK, trackName);
+                                startActivity(intent);
+                            }
+                        });
+                        dayScheduleAdapter.setEventDate(date);
+                    }
+                });
             }
-        });
-        dayScheduleAdapter.setEventDate(date);
+        }).start();
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.schedule_swipe_refresh);
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -141,8 +153,11 @@ public class DayScheduleFragment extends Fragment {
 
     @Subscribe
     public void refreshData(RefreshUiEvent event) {
-
-        dayScheduleAdapter.refresh();
+        /**
+         * if adapter has not initialised, no point in refreshing it.
+         * */
+        if (dayScheduleAdapter != null)
+            dayScheduleAdapter.refresh();
 
     }
 
@@ -151,7 +166,8 @@ public class DayScheduleFragment extends Fragment {
 
         swipeRefreshLayout.setRefreshing(false);
         if (event.isState()) {
-            dayScheduleAdapter.refresh();
+            if (dayScheduleAdapter != null)
+                dayScheduleAdapter.refresh();
 
         } else {
             if (getActivity() != null) {
