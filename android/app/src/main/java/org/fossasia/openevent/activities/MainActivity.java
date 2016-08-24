@@ -477,6 +477,7 @@ public class MainActivity extends BaseActivity {
             if (getSupportActionBar() != null) {
                 getSupportActionBar().setTitle(R.string.menu_tracks);
             }
+            navigationView.setCheckedItem(R.id.nav_tracks);
         }
     }
 
