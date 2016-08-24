@@ -103,8 +103,9 @@ print app_name
 
 logo_path = eventJson['logo']
 # logo_path = logo_path.strip("/")
-
-if logo_path.startswith("/"):
+if logo_path == "":
+    print "No logo specified"
+elif logo_path.startswith("/"):
     logo = directory + "/zip" + logo_path
     copyfile(logo, directory +
              "/open-event-android/android/app/src/main/res/mipmap-hdpi/ic_launcher.png")
@@ -116,7 +117,7 @@ if logo_path.startswith("/"):
              "/open-event-android/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png")
     copyfile(logo, directory +
              "/open-event-android/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png")
-elif logo_path != " ":
+elif logo_path != "":
     print logo_path
     urllib.urlretrieve(logo_path, directory + "/ic_launcher.png")
     copyfile(directory + "/ic_launcher.png", directory +
