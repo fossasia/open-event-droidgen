@@ -967,11 +967,11 @@ public class DatabaseOperations {
 
     }
 
-    public ArrayList<Session> getSessionbyDate(String date, SQLiteDatabase mDb) {
+    public ArrayList<Session> getSessionbyDate(String date, String sortOrder, SQLiteDatabase mDb) {
 
         String sessionColumnSelection = DbContract.Sessions.START_DATE + EQUAL + DatabaseUtils.sqlEscapeString(date);
 
-        String sortOrder = DbContract.Sessions.ID + ASCENDING;
+        String order = sortOrder + ASCENDING;
 
         Cursor sessionCursor = mDb.query(
                 DbContract.Sessions.TABLE_NAME,
@@ -980,7 +980,7 @@ public class DatabaseOperations {
                 null,
                 null,
                 null,
-                sortOrder
+                order
         );
 
 

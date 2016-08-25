@@ -133,8 +133,8 @@ public class DbSingleton {
     }
 
 
-    public ArrayList<Session> getSessionbyDate(String date) {
-        return databaseOperations.getSessionbyDate(date, mDb);
+    public ArrayList<Session> getSessionbyDate(String date, String sortOrder) {
+        return databaseOperations.getSessionbyDate(date, sortOrder, mDb);
     }
 
     public ArrayList<Session> getSessionbySpeakersName(String speakerName) {
