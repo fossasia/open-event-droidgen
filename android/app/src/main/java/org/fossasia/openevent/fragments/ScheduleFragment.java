@@ -54,7 +54,7 @@ public class ScheduleFragment extends Fragment {
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        ScheduleViewPagerAdapter adapter = new ScheduleViewPagerAdapter(getFragmentManager());
+        ScheduleViewPagerAdapter adapter = new ScheduleViewPagerAdapter(getChildFragmentManager());
         DbSingleton dbSingleton = DbSingleton.getInstance();
 
         List<String> event_days = dbSingleton.getDateList();
