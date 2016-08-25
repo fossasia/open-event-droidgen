@@ -1,5 +1,6 @@
 package org.fossasia.openevent.adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import org.fossasia.openevent.R;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.ISO8601Date;
+import org.fossasia.openevent.utils.SortOrder;
 import org.fossasia.openevent.utils.ViewHolder;
 
 import java.util.ArrayList;
@@ -22,12 +24,14 @@ import timber.log.Timber;
  * Created by Manan Wason on 17/06/16.
  */
 public class DayScheduleAdapter extends BaseRVAdapter<Session, ViewHolder.Viewholder> {
+
+    private Context context;
     @SuppressWarnings("all")
     Filter filter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             DbSingleton instance = DbSingleton.getInstance();
-            List<Session> sessionList = instance.getSessionbyDate(eventDate);
+            List<Session> sessionList = instance.getSessionbyDate(eventDate, SortOrder.sortOrderSchedule(context));
             final ArrayList<Session> filteredSessionsList = new ArrayList<>();
             String query = constraint.toString().toLowerCase(Locale.getDefault());
             for (Session session : sessionList) {
@@ -53,8 +57,9 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, ViewHolder.Viewho
 
     private String eventDate;
 
-    public DayScheduleAdapter(List<Session> sessions) {
+    public DayScheduleAdapter(List<Session> sessions, Context context) {
         super(sessions);
+        this.context = context;
     }
 
     public void setOnClickListener(ViewHolder.SetOnClickListener clickListener) {
@@ -92,8 +97,7 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, ViewHolder.Viewho
     public void refresh() {
         DbSingleton dbSingleton = DbSingleton.getInstance();
         clear();
-        Timber.d(dbSingleton.getSessionbyDate(eventDate).size()+"");
-        animateTo(dbSingleton.getSessionbyDate(eventDate));
+        animateTo(dbSingleton.getSessionbyDate(eventDate, SortOrder.sortOrderSchedule(context)));
     }
 
     /**

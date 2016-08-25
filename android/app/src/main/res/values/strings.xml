@@ -93,10 +93,16 @@
     <string name="menu_speaker_sort">Sort</string>
     <string name="dialog_sort_title">Sort By</string>
 
-    <!--Sort Dialog text-->
+    <!--Speaker Sort Dialog text-->
     <string name="dialog_sort_organisation">Organisation</string>
     <string name="dialog_sort_country">Country</string>
     <string name="dialog_sort_name">Speaker Name</string>
+
+    <!--Session Sort Dialog text-->
+    <string name="dialog_sort_tracks">Tracks</string>
+    <string name="dialog_sort_sessions">Start Time</string>
+
+
     <string name="launcher_icon">Launcher Icon</string>
     <string name="sponsor_image">Sponsor Image</string>
     <string name="header_image">Header Image</string>
