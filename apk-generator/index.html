@@ -18,11 +18,6 @@
             <label for="name">Email</label>
             <input type="email" class="form-control" id="Email" name="Email">
             <br>
-            <input type="hidden" id="theme" name="theme" value="light">
-
-            <label for="name">App's Name</label>
-            <input type="text" class="form-control" id="App_Name" name="App_Name">
-            <br>
             <label> Choose your data source </label>
             <ul style="list-style-type:none">
                 <li>
@@ -91,14 +86,15 @@
                     }
                 });
             var $ = jQuery;
+            var data = "false";
             var ajax = new XMLHttpRequest();
             var timestamp = Number(new Date());
             var form = document.querySelector("form");
             var config = {
-                apiKey: "FIREBASE-API",
-                authDomain: "APP-ID.firebaseapp.com",
-                databaseURL: "https://APP-ID.firebaseio.com",
-                storageBucket: "APP-ID.appspot.com",
+                apiKey: "api-key",
+                authDomain: "app-id.firebaseapp.com",
+                databaseURL: "https://app-id.firebaseio.com",
+                storageBucket: "app-id.appspot.com",
             };
             firebase.initializeApp(config);
             var file = document.getElementById('uploadZip');
@@ -109,7 +105,7 @@
                         ajax.abort();
                         $('.progress').show();
                         $('#upload-progress').show();
-                        $('#submit').hide();
+                        data = "true";
                         uploadFile();
                         break;
                     default:
@@ -127,8 +123,12 @@
                 var obj = {};
                 for (var a = 0; a < ary.length; a++) obj[ary[a].name] = ary[a].value;
                 console.log("JSON", obj);
-                if (obj.Email == "" || obj.App_Name == "") {
-                    alert("It seems like you forgot to fill up your email address or app's name");
+                if (obj.Api_Link != "") {
+                    data = "true"
+                }
+
+                if (obj.Email == "" || data == "false") {
+                    alert("It seems like you forgot to fill up your email or data source");
                     setTimeout("location.reload(true);", 1);
                 } else {
                     updatePercentUpload(20)
