@@ -157,6 +157,33 @@ public class DbContract {
         public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
     }
 
+    public static abstract class ServerSessionIdMapping implements BaseColumns {
+        public static final String TABLE_NAME = "serversessionid";
+
+        public static final String _ID = "_id";
+
+        public static final String SERVER_ID = "serverid";
+
+        public static final String LOCAL_ID = "localid";
+
+
+        public static final String[] FULL_PROJECTION = {
+                SERVER_ID,
+                LOCAL_ID
+        };
+
+        public static final String CREATE_TABLE =
+                "CREATE TABLE IF NOT EXISTS " + TABLE_NAME
+                        + " ("
+                        + _ID + INT_TYPE + PRIMARY_KEY + COMMA_SEP
+                        + SERVER_ID + INT_TYPE + COMMA_SEP
+                        + LOCAL_ID + INT_TYPE
+                        + " );";
+
+        public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
+    }
+
+
     public static abstract class Sessions implements BaseColumns {
         public static final String TABLE_NAME = "sessions";
 
