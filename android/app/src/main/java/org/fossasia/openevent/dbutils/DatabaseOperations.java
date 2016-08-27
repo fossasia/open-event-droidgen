@@ -295,7 +295,6 @@ public class DatabaseOperations {
             );
             sponsor.changeSponsorTypeToString(cursor.getString(cursor.getColumnIndex(DbContract.Sponsors.TYPE)));
 
-            Timber.d(sponsor.getName());
             sponsors.add(sponsor);
             cursor.moveToNext();
         }
@@ -528,7 +527,6 @@ public class DatabaseOperations {
 
         //Order
         String[] columns1 = {DbContract.Sessionsspeakers.SESSION_ID};
-
         Cursor sessionCursor = mDb.query(
                 DbContract.Sessionsspeakers.TABLE_NAME,
                 columns1,
@@ -539,18 +537,41 @@ public class DatabaseOperations {
                 null
         );
 
-        ArrayList<Integer> sessionIds = new ArrayList<>();
+        ArrayList<Integer> sortedSessionIds = new ArrayList<>();
         sessionCursor.moveToFirst();
         //Should return only one due to UNIQUE constraint
         while (!sessionCursor.isAfterLast()) {
-            sessionIds.add(sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessionsspeakers.SESSION_ID)));
+            sortedSessionIds.add(sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessionsspeakers.SESSION_ID)));
             sessionCursor.moveToNext();
         }
 
         sessionCursor.close();
+        String mappingSelection = DbContract.ServerSessionIdMapping.SERVER_ID + EQUAL + speakerSelected;
+        ArrayList<Integer> sessionIds = new ArrayList<>();
+
+        for (int i = 0; i < sortedSessionIds.size(); i++) {
+            Cursor mappingCursor = mDb.query(
+                    DbContract.ServerSessionIdMapping.TABLE_NAME,
+                    DbContract.ServerSessionIdMapping.FULL_PROJECTION,
+                    mappingSelection,
+                    null,
+                    null,
+                    null,
+                    null
+            );
+
+            mappingCursor.moveToFirst();
+            //Should return only one due to UNIQUE constraint
+            while (!mappingCursor.isAfterLast()) {
+                sessionIds.add(mappingCursor.getInt(mappingCursor.getColumnIndex(DbContract.ServerSessionIdMapping.LOCAL_ID)));
+                mappingCursor.moveToNext();
+            }
+
+            mappingCursor.close();
+        }
+
 
         ArrayList<Session> sessions = new ArrayList<>();
-
         for (int i = 0; i < sessionIds.size(); i++) {
             String sessionTableColumnSelection = DbContract.Sessions.ID + EQUAL + sessionIds.get(i);
             Cursor sessionTableCursor = mDb.query(
@@ -591,6 +612,7 @@ public class DatabaseOperations {
                 }
                 sessionTableCursor.moveToNext();
                 sessionTableCursor.close();
+
             }
         }
 
