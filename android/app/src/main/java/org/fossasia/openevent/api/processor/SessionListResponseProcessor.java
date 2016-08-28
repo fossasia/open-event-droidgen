@@ -32,7 +32,6 @@ public class SessionListResponseProcessor implements Callback<List<Session>> {
                 public void run() {
                     DbSingleton dbSingleton = DbSingleton.getInstance();
                     ArrayList<String> queries = new ArrayList<String>();
-
                     for (int i = 0; i < response.body().size(); i++) {
                         Session session = response.body().get(i);
                         session.setStartDate(session.getStartTime().split("T")[0]);

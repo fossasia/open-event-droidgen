@@ -50,8 +50,11 @@ public abstract class Urls {
 
     public static void setBaseUrl(String baseUrl) {
         if (URLUtil.isValidUrl(baseUrl)) {
-            BASE_URL = baseUrl;
-
+            if (!baseUrl.endsWith("/")) {
+                BASE_URL = baseUrl + "/";
+            } else {
+                BASE_URL = baseUrl;
+            }
         } else {
             BASE_URL = "http://abc//";
 

@@ -41,7 +41,6 @@ public final class APIClient {
                 .build();
 
         openEventAPI = retrofit.create(OpenEventAPI.class);
-//        openEventAPI.getVersion(Urls.EVENT_ID).cancel();
     }
 
     public OpenEventAPI getOpenEventAPI() {

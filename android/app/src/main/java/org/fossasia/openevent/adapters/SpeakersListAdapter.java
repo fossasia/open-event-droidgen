@@ -97,7 +97,6 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, ViewHolder.Viewh
         StringBuilder photoUri = new StringBuilder();
         photoUri.append(Urls.getBaseUrl()).append(current.getPhoto());
         Uri uri = Uri.parse(photoUri.toString());
-
         Picasso.with(holder.getImgView1().getContext()).load(uri)
                 .placeholder(R.drawable.ic_account_circle_grey_24dp).transform(new CircleTransform()).into(holder.getImgView1());
 
