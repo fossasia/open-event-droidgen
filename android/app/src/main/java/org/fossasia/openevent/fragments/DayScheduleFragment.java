@@ -38,11 +38,14 @@ import org.fossasia.openevent.utils.SortOrder;
 
 import java.util.List;
 
+import butterknife.Bind;
+
 /**
  * Created by Manan Wason on 17/06/16.
  */
 public class DayScheduleFragment extends Fragment {
 
+    @Bind(R.id.schedule_swipe_refresh)
     private SwipeRefreshLayout swipeRefreshLayout;
 
     private DayScheduleAdapter dayScheduleAdapter;
@@ -52,6 +55,12 @@ public class DayScheduleFragment extends Fragment {
     private int sortType;
 
     private SharedPreferences sharedPreferences;
+
+    @Bind(R.id.list_schedule)
+    RecyclerView dayRecyclerView;
+
+    @Bind(R.id.txt_no_schedule)
+    TextView noSchedule;
 
 
     @Override
@@ -75,8 +84,6 @@ public class DayScheduleFragment extends Fragment {
         sortType = sharedPreferences.getInt(ConstantStrings.PREF_SORT, 0);
 
         View view = inflater.inflate(R.layout.list_schedule, container, false);
-        final RecyclerView dayRecyclerView = (RecyclerView) view.findViewById(R.id.list_schedule);
-        final TextView noSchedule = (TextView) view.findViewById(R.id.txt_no_schedule);
         /**
          * Loading data in background to improve performance.
          * */
@@ -112,7 +119,6 @@ public class DayScheduleFragment extends Fragment {
                 });
             }
         }).start();
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.schedule_swipe_refresh);
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

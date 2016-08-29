@@ -36,6 +36,8 @@ import org.fossasia.openevent.utils.NetworkUtils;
 
 import java.util.List;
 
+import butterknife.Bind;
+
 /**
  * User: MananWason
  * Date: 05-06-2015
@@ -44,6 +46,7 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
 
     final private String SEARCH = "searchText";
 
+    @Bind(R.id.tracks_swipe_refresh)
     private SwipeRefreshLayout swipeRefreshLayout;
 
     private TracksListAdapter tracksListAdapter;
@@ -52,10 +55,13 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
 
     private SearchView searchView;
 
+    @Bind(R.id.tracks_frame)
     private View windowFrame;
 
+    @Bind(R.id.txt_no_tracks)
     private TextView noTracksView;
 
+    @Bind(R.id.list_tracks)
     private RecyclerView tracksRecyclerView;
 
     @Override
@@ -63,11 +69,8 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.list_tracks, container, false);
         OpenEventApp.getEventBus().register(this);
-        tracksRecyclerView = (RecyclerView) view.findViewById(R.id.list_tracks);
-        noTracksView = (TextView) view.findViewById(R.id.txt_no_tracks);
         DbSingleton dbSingleton = DbSingleton.getInstance();
         List<Track> mTracks = dbSingleton.getTrackList();
-        windowFrame = view.findViewById(R.id.tracks_frame);
         tracksListAdapter = new TracksListAdapter(mTracks);
         tracksRecyclerView.setAdapter(tracksListAdapter);
         setVisibility(PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true));
@@ -81,7 +84,6 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
                 startActivity(intent);
             }
         });
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.tracks_swipe_refresh);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

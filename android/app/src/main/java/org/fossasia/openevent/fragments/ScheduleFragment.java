@@ -17,10 +17,17 @@ import org.fossasia.openevent.utils.Days;
 
 import java.util.List;
 
+import butterknife.Bind;
+
 /**
  * Created by Manan Wason on 16/06/16.
  */
 public class ScheduleFragment extends Fragment {
+    @Bind(R.id.viewpager)
+    ViewPager viewPager;
+
+    @Bind(R.id.tabLayout)
+    TabLayout scheduleTabLayout;
 
     @Nullable
     @Override
@@ -28,9 +35,7 @@ public class ScheduleFragment extends Fragment {
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.fragment_schedule, container, false);
         OpenEventApp.getEventBus().register(true);
-        ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewpager);
         setupViewPager(viewPager);
-        TabLayout scheduleTabLayout = (TabLayout) view.findViewById(R.id.tabLayout);
         scheduleTabLayout.setupWithViewPager(viewPager);
         return view;
     }

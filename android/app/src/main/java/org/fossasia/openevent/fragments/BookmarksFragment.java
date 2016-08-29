@@ -29,6 +29,7 @@ import org.fossasia.openevent.widget.DialogFactory;
 import java.text.ParseException;
 import java.util.ArrayList;
 
+import butterknife.Bind;
 import timber.log.Timber;
 
 /**
@@ -38,9 +39,14 @@ import timber.log.Timber;
 public class BookmarksFragment extends Fragment {
 
     private final String FRAGMENT_TAG = "FTAG";
+
     SessionsListAdapter sessionsListAdapter;
+
+    @Bind(R.id.list_bookmarks)
     RecyclerView bookmarkedTracks;
+
     View view;
+
     ArrayList<Integer> bookmarkedIds;
 
     @Override
@@ -83,7 +89,6 @@ public class BookmarksFragment extends Fragment {
         Timber.i("Bookmarks Fragment create view");
         setHasOptionsMenu(true);
         view = inflater.inflate(R.layout.fragment_bookmarks, container, false);
-        bookmarkedTracks = (RecyclerView) view.findViewById(R.id.list_bookmarks);
         final DbSingleton dbSingleton = DbSingleton.getInstance();
 
         try {

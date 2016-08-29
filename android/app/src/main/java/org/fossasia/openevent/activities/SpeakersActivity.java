@@ -34,6 +34,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import butterknife.Bind;
+
 /**
  * Created by MananWason on 30-06-2015.
  */
@@ -50,7 +52,41 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
 
     private List<Session> mSessions;
 
+    @Bind(R.id.recyclerView_speakers)
     private RecyclerView sessionRecyclerView;
+
+    @Bind(R.id.appbar)
+    AppBarLayout appBarLayout;
+
+    @Bind(R.id.toolbar_speakers)
+    Toolbar toolbar;
+
+    @Bind(R.id.txt_no_sessions)
+    TextView noSessionsView;
+
+    @Bind(R.id.speaker_name_title)
+    TextView speakerName;
+
+    @Bind(R.id.speaker_bio)
+    TextView biography;
+
+    @Bind(R.id.imageView_linkedin)
+    ImageView linkedin;
+
+    @Bind(R.id.imageView_twitter)
+    ImageView twitter;
+
+    @Bind(R.id.imageView_github)
+    ImageView github;
+
+    @Bind(R.id.imageView_fb)
+    ImageView fb;
+
+    @Bind(R.id.imageView_web)
+    ImageView website;
+
+    @Bind(R.id.collapsing_toolbar)
+    CollapsingToolbarLayout collapsingToolbarLayout;
 
     private String speaker;
 
@@ -62,8 +98,6 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
         setContentView(R.layout.activity_speakers);
         final DbSingleton dbSingleton = DbSingleton.getInstance();
         speaker = getIntent().getStringExtra(Speaker.SPEAKER);
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_speakers);
-        TextView noSessionsView = (TextView) findViewById(R.id.txt_no_sessions);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(null);
@@ -72,8 +106,6 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
 
         selectedSpeaker = dbSingleton.getSpeakerbySpeakersname(speaker);
 
-        final CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.appbar);
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean isShow = false;
             int scrollRange = -1;
@@ -87,20 +119,13 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
                     collapsingToolbarLayout.setTitle(selectedSpeaker.getName());
                     collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedAppBar);
                     isShow = true;
-                } else if(isShow) {
+                } else if (isShow) {
                     collapsingToolbarLayout.setTitle(" ");
                     isShow = false;
                 }
             }
         });
-        TextView speakerName = (TextView) findViewById(R.id.speaker_name_title);
         speakerName.setText(selectedSpeaker.getName());
-        final TextView biography = (TextView) findViewById(R.id.speaker_bio);
-        ImageView linkedin = (ImageView) findViewById(R.id.imageView_linkedin);
-        ImageView twitter = (ImageView) findViewById(R.id.imageView_twitter);
-        ImageView github = (ImageView) findViewById(R.id.imageView_github);
-        ImageView fb = (ImageView) findViewById(R.id.imageView_fb);
-        ImageView website = (ImageView) findViewById(R.id.imageView_web);
         Picasso.with(this)
                 .load(Uri.parse(selectedSpeaker.getPhoto()))
                 .placeholder(R.drawable.ic_account_circle_grey_24dp)
@@ -146,7 +171,6 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
 
         biography.setText(selectedSpeaker.getBio());
 
-        sessionRecyclerView = (RecyclerView) findViewById(R.id.recyclerView_speakers);
         mSessions = dbSingleton.getSessionbySpeakersName(speaker);
         sessionsListAdapter = new SessionsListAdapter(mSessions);
         sessionRecyclerView.setLayoutManager(new LinearLayoutManager(this));
