@@ -38,11 +38,12 @@ public class Event {
     @SerializedName("event_url")
     String url;
 
+    String timezone;
 
     Version version;
 
     public Event(int id, String name, String email, String logo, String start,
-                 String end, float latitude, float longitude, String locationName, String url) {
+                 String end, float latitude, float longitude, String locationName, String url, String timezone) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -53,6 +54,7 @@ public class Event {
         this.longitude = longitude;
         this.locationName = locationName;
         this.url = url;
+        this.timezone = timezone;
     }
 
     public String getEmail() {
@@ -145,8 +147,16 @@ public class Event {
         this.version = version;
     }
 
+    public String getTimezone() {
+        return timezone;
+    }
+
+    public void setTimezone(String timezone) {
+        this.timezone = timezone;
+    }
+
     public String generateSql() {
-        String insertQuery = "INSERT INTO %s VALUES ('%d', %s, %s, %s, %s, %s, '%f', '%f', %s, %s);";
+        String insertQuery = "INSERT INTO %s VALUES ('%d', %s, %s, %s, %s, %s, '%f', '%f', %s, %s, %s);";
         return String.format(Locale.ENGLISH,
                 insertQuery,
                 DbContract.Event.TABLE_NAME,
@@ -159,6 +169,8 @@ public class Event {
                 latitude,
                 longitude,
                 DatabaseUtils.sqlEscapeString(StringUtils.optionalString(locationName)),
-                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(url)));
+                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(url)),
+                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(timezone))
+                );
     }
 }

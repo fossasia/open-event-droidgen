@@ -1,22 +1,16 @@
 package org.fossasia.openevent.utils;
 
-import android.location.Address;
-import android.location.Geocoder;
 import android.preference.PreferenceManager;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.data.Event;
 import org.fossasia.openevent.dbutils.DbSingleton;
 
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.Locale;
 import java.util.TimeZone;
 
 import timber.log.Timber;
@@ -51,10 +45,9 @@ public final class ISO8601Date {
         return fromCalendar(GregorianCalendar.getInstance());
     }
 
-    public static String dateFromCalendar(Calendar currentDate ) {
+    public static String dateFromCalendar(Calendar currentDate) {
         return fromCalendar(currentDate).split("T")[0];
     }
-
 
 
     public static String getTimeZoneDateString(final Date date) {
@@ -124,25 +117,7 @@ public final class ISO8601Date {
     public static void setEventTimezone() {
         if (eventTimezone.isEmpty()) {
             Event event = DbSingleton.getInstance().getEventDetails();
-            String[] tzIds = TimeZone.getAvailableIDs();
-            List<String> timeZones = new ArrayList<String>();
-
-            Geocoder geocoder = new Geocoder(OpenEventApp.getAppContext(), Locale.getDefault());
-            try {
-                List<Address> addresses = geocoder.getFromLocation(event.getLatitude(), event.getLongitude(), 1);
-                for (String timeZoneId : tzIds) {
-
-                    if (timeZoneId.endsWith(addresses.get(0).getCountryName())) {
-                        timeZones.add(timeZoneId);
-                    }
-                }
-                ISO8601Date.eventTimezone = (timeZones.get(1));
-
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
+            ISO8601Date.eventTimezone = (event.getTimezone());
         }
     }
 }

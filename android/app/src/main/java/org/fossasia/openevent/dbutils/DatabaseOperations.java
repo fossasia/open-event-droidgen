@@ -676,7 +676,8 @@ public class DatabaseOperations {
                     cursor.getFloat(cursor.getColumnIndex(DbContract.Event.LATITUDE)),
                     cursor.getFloat(cursor.getColumnIndex(DbContract.Event.LONGITUDE)),
                     cursor.getString(cursor.getColumnIndex(DbContract.Event.LOCATION_NAME)),
-                    cursor.getString(cursor.getColumnIndex(DbContract.Event.EVENT_URL)));
+                    cursor.getString(cursor.getColumnIndex(DbContract.Event.EVENT_URL)),
+                    cursor.getString(cursor.getColumnIndex(DbContract.Event.TIMEZONE)));
             cursor.close();
         }
         return event;
