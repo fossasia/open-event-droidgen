@@ -108,16 +108,28 @@ public class MainActivity extends BaseActivity {
     private final String FRAGMENT_TAG_TRACKS = "FTAGT";
 
     private final String FRAGMENT_TAG_REST = "FTAGR";
+
     @Bind(R.id.toolbar)
     Toolbar toolbar;
+
     @Bind(R.id.nav_view)
     NavigationView navigationView;
+
     @Bind(R.id.progress)
     ProgressBar downloadProgress;
+
     @Bind(R.id.layout_main)
     CoordinatorLayout mainFrame;
+
     @Bind(R.id.drawer)
     DrawerLayout drawerLayout;
+
+    @Bind(R.id.appbar)
+    private AppBarLayout appBarLayout;
+
+    @Bind(R.id.headerDrawer)
+    private ImageView headerDrawer;
+
     private String errorType;
     private String errorDesc;
     private SharedPreferences sharedPreferences;
@@ -128,7 +140,6 @@ public class MainActivity extends BaseActivity {
     private int currentMenuItemId;
 
     private SmoothActionBarDrawerToggle smoothActionBarToggle;
-    private AppBarLayout appBarLayout;
 
     public static Intent createLaunchFragmentIntent(Context context) {
         return new Intent(context, MainActivity.class)
@@ -176,7 +187,6 @@ public class MainActivity extends BaseActivity {
         eventsDone = 0;
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        appBarLayout = (AppBarLayout) findViewById(R.id.appbar);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         setUpToolbar();
         setUpNavDrawer();
@@ -331,7 +341,6 @@ public class MainActivity extends BaseActivity {
         DbSingleton dbSingleton = DbSingleton.getInstance();
         try {
             if (!(dbSingleton.getEventDetails().getLogo().isEmpty())) {
-                ImageView headerDrawer = (ImageView) findViewById(R.id.headerDrawer);
                 Picasso.with(getApplicationContext()).load(dbSingleton.getEventDetails().getLogo()).into(headerDrawer);
             }
         } catch (Exception e) {

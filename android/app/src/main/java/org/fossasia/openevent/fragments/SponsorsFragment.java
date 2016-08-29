@@ -32,6 +32,7 @@ import org.fossasia.openevent.utils.RecyclerItemClickListener;
 
 import java.util.List;
 
+import butterknife.Bind;
 import timber.log.Timber;
 
 /**
@@ -41,7 +42,15 @@ public class SponsorsFragment extends Fragment {
 
     private SponsorsListAdapter sponsorsListAdapter;
 
+    @Bind(R.id.sponsor_swipe_refresh)
     private SwipeRefreshLayout swipeRefreshLayout;
+
+    @Bind(R.id.list_sponsors)
+    RecyclerView sponsorsRecyclerView;
+
+    @Bind(R.id.txt_no_speakers)
+    TextView noSponsorsView;
+
 
     @Nullable
     @Override
@@ -50,11 +59,8 @@ public class SponsorsFragment extends Fragment {
         final View view = inflater.inflate(R.layout.list_sponsors, container, false);
         Bus bus = OpenEventApp.getEventBus();
         bus.register(this);
-        RecyclerView sponsorsRecyclerView = (RecyclerView) view.findViewById(R.id.list_sponsors);
-        TextView noSponsorsView = (TextView) view.findViewById(R.id.txt_no_sponsors);
         final DbSingleton dbSingleton = DbSingleton.getInstance();
 
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.sponsor_swipe_refresh);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

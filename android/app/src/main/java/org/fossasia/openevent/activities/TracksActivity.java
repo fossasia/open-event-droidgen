@@ -26,6 +26,8 @@ import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.ConstantStrings;
 
+import butterknife.Bind;
+
 /**
  * User: MananWason
  * Date: 14-06-2015
@@ -42,23 +44,37 @@ public class TracksActivity extends BaseActivity implements SearchView.OnQueryTe
 
     private SearchView searchView;
 
+    @Bind(R.id.toolbar)
+     Toolbar toolbar;
+
+    @Bind(R.id.collapsing_toolbar)
+    CollapsingToolbarLayout collapsingToolbar;
+
+    @Bind(R.id.recyclerView)
+    RecyclerView sessionsRecyclerView;
+
+    @Bind(R.id.txt_no_sessions)
+    TextView noSessionsView;
+
+    @Bind(R.id.share_fab)
+    FloatingActionButton shareFab;
+
+    @Bind(R.id.backdrop)
+    ImageView backdrop;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tracks);
         DbSingleton dbSingleton = DbSingleton.getInstance();
         track = getIntent().getStringExtra(ConstantStrings.TRACK);
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if(getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
         loadImage();
-        CollapsingToolbarLayout collapsingToolbar =
-                (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbar.setTitle(track);
-        RecyclerView sessionsRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        TextView noSessionsView = (TextView) findViewById(R.id.txt_no_sessions);
         sessionsListAdapter = new SessionsListAdapter(dbSingleton.getSessionbyTracksname(track));
 
         sessionsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -76,7 +92,6 @@ public class TracksActivity extends BaseActivity implements SearchView.OnQueryTe
         });
         sessionsRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        FloatingActionButton shareFab = (FloatingActionButton) findViewById(R.id.share_fab);
         shareFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -112,9 +127,8 @@ public class TracksActivity extends BaseActivity implements SearchView.OnQueryTe
         DbSingleton dbSingleton = DbSingleton.getInstance();
         Track current = dbSingleton.getTrackbyName(track);
 
-        ImageView backdrop1 = (ImageView) findViewById(R.id.backdrop);
         if (current.getImage().length() != 0) {
-            Picasso.with(getApplicationContext()).load(current.getImage()).into(backdrop1);
+            Picasso.with(getApplicationContext()).load(current.getImage()).into(backdrop);
 
         }
     }

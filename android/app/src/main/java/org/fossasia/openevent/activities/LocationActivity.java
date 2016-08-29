@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import butterknife.Bind;
 import timber.log.Timber;
 
 /**
@@ -38,6 +39,10 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
 
     private List<Session> mSessions;
 
+    @Bind(R.id.txt_no_sessions)
+    TextView noSessionsView;
+
+    @Bind(R.id.recyclerView_locations)
     private RecyclerView sessionRecyclerView;
 
     private String location;
@@ -46,22 +51,22 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
 
     private SearchView searchView;
 
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_locations);
         final DbSingleton dbSingleton = DbSingleton.getInstance();
         location = getIntent().getStringExtra(ConstantStrings.MICROLOCATIONS);
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_locations);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
         Microlocation selectedLocation = dbSingleton.getLocationByLocationname(location);
 
-
-        sessionRecyclerView = (RecyclerView) findViewById(R.id.recyclerView_locations);
-        TextView noSessionsView = (TextView) findViewById(R.id.txt_no_sessions);
         mSessions = dbSingleton.getSessionbyLocationName(location);
 
         sessionsListAdapter = new SessionsListAdapter(mSessions);
@@ -74,7 +79,7 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
 
                 Session model = sessionsListAdapter.getItem(position);
                 String sessionName = model.getTitle();
-                Log.d("ABC" ,model.getTitle());
+                Log.d("ABC", model.getTitle());
                 Track track = dbSingleton.getTrackbyId(model.getTrack().getId());
                 String trackName = track.getName();
                 Intent intent = new Intent(getApplicationContext(), SessionDetailActivity.class);

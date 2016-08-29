@@ -39,6 +39,7 @@ import org.fossasia.openevent.utils.NetworkUtils;
 
 import java.util.List;
 
+import butterknife.Bind;
 import timber.log.Timber;
 
 import static org.fossasia.openevent.utils.SortOrder.sortOrderSpeaker;
@@ -51,6 +52,7 @@ public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextL
 
     private SharedPreferences prefsSort;
 
+    @Bind(R.id.speaker_swipe_refresh)
     private SwipeRefreshLayout swipeRefreshLayout;
 
     private SpeakersListAdapter speakersListAdapter;
@@ -58,6 +60,13 @@ public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextL
     private String searchText = "";
 
     private SearchView searchView;
+
+    @Bind(R.id.rv_speakers)
+    RecyclerView speakersRecyclerView;
+
+    @Bind(R.id.txt_no_speakers)
+    TextView noSpeakersView;
+
 
     private int sortType;
 
@@ -67,8 +76,6 @@ public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextL
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.list_speakers, container, false);
         OpenEventApp.getEventBus().register(this);
-        RecyclerView speakersRecyclerView = (RecyclerView) view.findViewById(R.id.rv_speakers);
-        TextView noSpeakersView = (TextView) view.findViewById(R.id.txt_no_speakers);
         final DbSingleton dbSingleton = DbSingleton.getInstance();
         List<Speaker> mSpeakers = dbSingleton.getSpeakerList(sortOrderSpeaker(getActivity()));
         prefsSort = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -87,7 +94,6 @@ public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextL
             }
         });
 
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.speaker_swipe_refresh);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

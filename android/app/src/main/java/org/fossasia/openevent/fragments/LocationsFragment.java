@@ -31,6 +31,8 @@ import org.fossasia.openevent.events.MicrolocationDownloadEvent;
 import org.fossasia.openevent.events.RefreshUiEvent;
 import org.fossasia.openevent.utils.ConstantStrings;
 
+import butterknife.Bind;
+
 /**
  * User: MananWason
  * Date: 8/18/2015
@@ -40,6 +42,7 @@ public class LocationsFragment extends Fragment implements SearchView.OnQueryTex
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
+    @Bind(R.id.list_locations)
     private RecyclerView locationsRecyclerView;
 
     private LocationsListAdapter locationsListAdapter;
@@ -48,6 +51,7 @@ public class LocationsFragment extends Fragment implements SearchView.OnQueryTex
 
     private SearchView searchView;
 
+    @Bind(R.id.txt_no_microlocations)
     private TextView noMicrolocationsView;
 
     @Override
@@ -55,8 +59,6 @@ public class LocationsFragment extends Fragment implements SearchView.OnQueryTex
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.list_locations, container, false);
         OpenEventApp.getEventBus().register(this);
-        locationsRecyclerView = (RecyclerView) view.findViewById(R.id.list_locations);
-        noMicrolocationsView  = (TextView) view.findViewById(R.id.txt_no_microlocations);
         final DbSingleton dbSingleton = DbSingleton.getInstance();
         locationsListAdapter = new LocationsListAdapter(dbSingleton.getMicrolocationsList());
         locationsRecyclerView.setAdapter(locationsListAdapter);
@@ -72,7 +74,6 @@ public class LocationsFragment extends Fragment implements SearchView.OnQueryTex
             }
         });
 
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.locations_swipe_refresh);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
