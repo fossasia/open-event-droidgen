@@ -182,4 +182,6 @@ subprocess.call(['/var/www/scripts/buildApk.sh', directory])
 subprocess.call(['/var/www/scripts/copyApk.sh', absDirectory, arg])
 subprocess.call(['/var/www/scripts/passapi.sh', arg, email])
 subprocess.call(['python', '/var/www/scripts/sendNotif.py', email, arg])
+shutil.rmtree(directory)
+
 print "Script End"
