@@ -100,9 +100,18 @@ else:
 
 app_name = str(eventJson['name'])
 print app_name
-
+back_image = str(object=eventJson['background_image'])
 logo_path = eventJson['logo']
 # logo_path = logo_path.strip("/")
+if back_image.startswith("/"):
+    background = directory + "/zip" + back_image
+    copyfile(background, directory +
+             "/open-event-android/android/app/src/main/res/drawable/background.png")
+elif back_image != "":
+    print back_image
+    urllib.urlretrieve(back_image, directory + "/background.png")
+    copyfile(directory + "/background.png", directory +
+             "/open-event-android/android/app/src/main/res/drawable/background.png")
 if logo_path == "":
     print "No logo specified"
     copyfile("/var/www/ic_launcher.png", directory +
@@ -155,6 +164,8 @@ absDirectory = directory + "/open-event-android/android/"
 # subprocess.call(['./setPerm.sh', directory])
 replace(directory + "/open-event-android/android/app/src/main/res/values/strings.xml",
         'OpenEvent', app_name)
+replace(directory + "/open-event-android/android/app/src/main/res/layout/nav_header.xml",
+        'twitter', "background")
 replace(directory + "/open-event-android/android/app/build.gradle",
         '"org.fossasia.openevent"', '"org.fossasia.openevent.' + app_name.replace(" ", "") + '"')
 for f in os.listdir(directory + "/zip"):
