@@ -38,24 +38,21 @@ if not os.path.exists(path):
 firebase = firebase.FirebaseApplication(
     'https://app-generator.firebaseio.com', None)
 result = firebase.get('/users', str(arg))
-#firebase2 = firebase.FirebaseApplication('gs://app-generator.appspot.com', None)
-#resulted = firebase.get(str(arg),None)
-# print resulted
-jsonData = json.dumps(result)
+
 email = json.dumps(result['Email'])
 email = email.replace('"', '')
 api = json.dumps(result['Api_Link'])
 api = api.replace('"', '')
-# app_name = json.dumps(result['App_Name'])
-# app_name = app_name.replace('"', '')
 mode = json.dumps(result['datasource'])
 mode = mode.replace('"', '')
 print mode
 print email
 directory = path + "/" + email
 print directory
+if mode == "jsonupload" :
+    result['Api_Link'] = "https://www.test.com" #Set API link to null in case a zip was uploaded
 
-
+jsonData = json.dumps(result)
 with open('/var/www/config.json') as json_data:
     config = json.load(json_data)
 
@@ -69,7 +66,6 @@ if not os.path.exists(directory):
     os.makedirs(directory)
 print conApi
 subprocess.call(['/var/www/scripts/clone.sh', directory])
-# subprocess.call(['/var/www/html/setPerm.sh', directory])
 
 subprocess.call(["/var/www/scripts/deleteAssets.sh", directory])
 
@@ -81,8 +77,6 @@ if not os.path.exists(extractPath):
     os.makedirs(extractPath)
 print "/var/www/html/uploads/" + str(arg) + "/json.zip"
 if os.path.exists("/var/www/html/uploads/" + str(arg) + "/json.zip"):
-    #zip = zipfile.ZipFile(str("/var/www/html/uploads/" + str(arg) + "/json.zip"))
-    # zip.extractall(str(extractPath))
     subprocess.call(['/var/www/scripts/extractZip.sh',
                      "/var/www/html/uploads/" + str(arg) + "/json.zip", extractPath])
 
@@ -102,7 +96,6 @@ app_name = str(eventJson['name'])
 print app_name
 back_image = str(object=eventJson['background_image'])
 logo_path = eventJson['logo']
-# logo_path = logo_path.strip("/")
 if back_image.startswith("/"):
     background = directory + "/zip" + back_image
     copyfile(background, directory +
@@ -149,19 +142,8 @@ elif logo_path != "":
              "/open-event-android/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png")
     copyfile(directory + "/ic_launcher.png", directory +
              "/open-event-android/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png")
-# if mode == "eventapi":
-#     logo_url = api + logo_path
-#     print logo_url
-#     f = urllib2.urlopen(logo_url)
-#     with open("ic_launcher.png", "wb") as code:
-#         code.write(f.read())
-# else :
-#     logo_location = directory + "/zip/" + logo_path
-#     copyfile(logo_location,directory+"/open-event-android/android/app/src/main/assets/ic_launcher.png")
-#
 
 absDirectory = directory + "/open-event-android/android/"
-# subprocess.call(['./setPerm.sh', directory])
 replace(directory + "/open-event-android/android/app/src/main/res/values/strings.xml",
         'OpenEvent', app_name)
 replace(directory + "/open-event-android/android/app/src/main/res/layout/nav_header.xml",
@@ -169,15 +151,9 @@ replace(directory + "/open-event-android/android/app/src/main/res/layout/nav_hea
 replace(directory + "/open-event-android/android/app/build.gradle",
         '"org.fossasia.openevent"', '"org.fossasia.openevent.' + app_name.replace(" ", "") + '"')
 for f in os.listdir(directory + "/zip"):
-    #       print "no" + f
     if os.path.isfile(os.path.join(directory + "/zip", f)):
         copyfile(directory + "/zip/" + f, directory +
                  "/open-event-android/android/app/src/main/assets/" + f)
-        # print f
-    # elif f.endswith('.png'):
-    #       copyfile(f, directory + "open-event-android/android/app/src/main/res/drawable"+f)
-    # replace(directory+"/open-event-android/android/app/src/main/res/values/strings.xml", 'mipmap/ic_launcher', 'drawable/' + f)
-
 subprocess.call(['/var/www/scripts/buildApk.sh', directory])
 subprocess.call(['/var/www/scripts/copyApk.sh', absDirectory, arg])
 subprocess.call(['/var/www/scripts/passapi.sh', arg, email])
