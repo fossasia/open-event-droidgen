@@ -13,7 +13,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".activities.MainActivity">
-
+        <FrameLayout
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:id="@+id/content_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            style="@style/WindowBackground"/>
         <android.support.design.widget.AppBarLayout
             android:id="@+id/appbar"
             android:layout_width="match_parent"
@@ -25,17 +30,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 style="@style/ToolbarTheme"
-                app:popupTheme="@style/PopupOverlay" />
+                app:popupTheme="@style/PopupOverlay"
+                app:layout_scrollFlags="scroll|enterAlways"/>
 
         </android.support.design.widget.AppBarLayout>
 
-
-        <FrameLayout
-            android:id="@+id/content_frame"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="?attr/actionBarSize"
-            style="@style/WindowBackground"/>
 
         <ProgressBar
             android:id="@+id/progress"
