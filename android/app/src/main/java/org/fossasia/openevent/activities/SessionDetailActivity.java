@@ -11,6 +11,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -99,7 +100,7 @@ public class SessionDetailActivity extends BaseActivity {
             });
         }
         summary.setText(session.getSummary());
-        descrip.setText(session.getDescription());
+        descrip.setText(Html.fromHtml(session.getDescription()));
 
         adapter = new SpeakersListAdapter(speakers, this);
 
