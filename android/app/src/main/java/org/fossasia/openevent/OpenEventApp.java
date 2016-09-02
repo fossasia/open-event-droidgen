@@ -35,15 +35,14 @@ import timber.log.Timber;
  */
 public class OpenEventApp extends Application {
 
+    public static final String API_LINK = "Api_Link";
+    public static final String EMAIL = "Email";
+    public static final String APP_NAME = "App_Name";
     static Handler handler;
-
     private static Bus eventBus;
-
-    MapModuleFactory mapModuleFactory;
-
-    SharedPreferences sharedPreferences;
-
     private static Context context;
+    MapModuleFactory mapModuleFactory;
+    SharedPreferences sharedPreferences;
 
     public static Bus getEventBus() {
         if (eventBus == null) {
@@ -59,6 +58,10 @@ public class OpenEventApp extends Application {
                 getEventBus().post(event);
             }
         });
+    }
+
+    public static Context getAppContext() {
+        return OpenEventApp.context;
     }
 
     @Override
@@ -93,9 +96,9 @@ public class OpenEventApp extends Application {
         }
         try {
             JSONObject jsonObject = new JSONObject(json);
-            String email = jsonObject.getString("Email");
-            String app_name = jsonObject.getString("App_Name");
-            String api_link = jsonObject.getString("Api_Link");
+            String email = jsonObject.has(EMAIL) ? jsonObject.getString(EMAIL) : "";
+            String app_name = jsonObject.has(APP_NAME) ? jsonObject.getString(APP_NAME) : "";
+            String api_link = jsonObject.has(API_LINK) ? jsonObject.getString(API_LINK) : "";
 
             Urls.setBaseUrl(api_link);
 
@@ -109,11 +112,6 @@ public class OpenEventApp extends Application {
 
 
     }
-
-    public static Context getAppContext() {
-        return OpenEventApp.context;
-    }
-
 
     @Subscribe
     public void onConnectionChangeReact(ConnectionCheckEvent event) {
