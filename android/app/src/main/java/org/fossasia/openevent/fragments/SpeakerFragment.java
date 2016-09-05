@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 import com.squareup.otto.Subscribe;
 
 import org.fossasia.openevent.OpenEventApp;
@@ -67,7 +68,11 @@ public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextL
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.list_speakers, container, false);
         OpenEventApp.getEventBus().register(this);
-        RecyclerView speakersRecyclerView = (RecyclerView) view.findViewById(R.id.rv_speakers);
+        FastScrollRecyclerView speakersRecyclerView = (FastScrollRecyclerView) view.findViewById(R.id.rv_speakers);
+
+        speakersRecyclerView.setThumbColor(getResources().getColor(R.color.color_primary));
+        speakersRecyclerView.setPopupBgColor(getResources().getColor(R.color.color_primary));
+
         TextView noSpeakersView = (TextView) view.findViewById(R.id.txt_no_speakers);
         final DbSingleton dbSingleton = DbSingleton.getInstance();
         List<Speaker> mSpeakers = dbSingleton.getSpeakerList(sortOrderSpeaker(getActivity()));

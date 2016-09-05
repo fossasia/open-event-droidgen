@@ -1,7 +1,10 @@
 package org.fossasia.openevent.adapters;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +13,7 @@ import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 import com.squareup.picasso.Picasso;
 
 import org.fossasia.openevent.R;
@@ -31,7 +35,7 @@ import static org.fossasia.openevent.utils.SortOrder.sortOrderSpeaker;
  * User: MananWason
  * Date: 11-06-2015
  */
-public class SpeakersListAdapter extends BaseRVAdapter<Speaker, ViewHolder.Viewholder> {
+public class SpeakersListAdapter extends BaseRVAdapter<Speaker, ViewHolder.Viewholder> implements FastScrollRecyclerView.SectionedAdapter{
 
     private Activity activity;
 
@@ -120,5 +124,23 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, ViewHolder.Viewh
      */
     public interface SetOnClickListener extends ViewHolder.SetOnClickListener {
         void onItemClick(int position, View itemView);
+    }
+
+    @NonNull
+    @Override
+    public String getSectionName(int position) {
+        Speaker sp=getItem(position);
+        SharedPreferences prefsSort;
+        prefsSort = PreferenceManager.getDefaultSharedPreferences(activity);
+        switch (prefsSort.getInt("sortType", 0)) {
+            case 0:
+                return ""+sp.getName().charAt(0);
+            case 1:
+                return ""+sp.getOrganisation().charAt(0);
+            case 2:
+                return ""+sp.getCountry().charAt(0);
+            default:
+                return ""+sp.getName().charAt(0);
+        }
     }
 }
