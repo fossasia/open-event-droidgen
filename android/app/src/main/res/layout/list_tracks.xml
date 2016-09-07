@@ -3,7 +3,7 @@
     android:id="@+id/tracks_frame"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/selectableItemBackground">
+    >
 
     <TextView
         android:id="@+id/txt_no_tracks"
