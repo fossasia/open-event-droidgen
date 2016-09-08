@@ -31,6 +31,8 @@ import org.fossasia.openevent.widget.BookmarkWidgetProvider;
 import java.util.Calendar;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import timber.log.Timber;
 
 /**
@@ -46,26 +48,30 @@ public class SessionDetailActivity extends BaseActivity {
 
     private String timings;
 
+    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.title_session) TextView text_title;
+    @BindView(R.id.subtitle_session) TextView text_subtitle;
+    @BindView(R.id.tv_time) TextView text_time;
+    @BindView(R.id.track) TextView text_track;
+    @BindView(R.id.tv_location) TextView text_room1;
+    @BindView(R.id.tv_abstract_text) TextView summary;
+    @BindView(R.id.tv_description) TextView descrip;
+    @BindView(R.id.list_speakerss) RecyclerView speakersRecyclerView;
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sessions_detail);
+
+        ButterKnife.bind(this);
+
         DbSingleton dbSingleton = DbSingleton.getInstance();
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         final String title = getIntent().getStringExtra(ConstantStrings.SESSION);
         String trackName = getIntent().getStringExtra(ConstantStrings.TRACK);
         Timber.tag(TAG).d(title);
-        TextView text_title = (TextView) findViewById(R.id.title_session);
-        TextView text_subtitle = (TextView) findViewById(R.id.subtitle_session);
-        TextView text_time = (TextView) findViewById(R.id.tv_time);
-        TextView text_track = (TextView) findViewById(R.id.track);
-        TextView text_room1 = (TextView) findViewById(R.id.tv_location);
-        TextView summary = (TextView) findViewById(R.id.tv_abstract_text);
-        TextView descrip = (TextView) findViewById(R.id.tv_description);
-
-        RecyclerView speakersRecyclerView = (RecyclerView) findViewById(R.id.list_speakerss);
 
         final List<Speaker> speakers = dbSingleton.getSpeakersbySessionName(title);
         session = dbSingleton.getSessionbySessionname(title);

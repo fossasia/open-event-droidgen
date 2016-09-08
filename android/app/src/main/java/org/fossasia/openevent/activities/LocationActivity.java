@@ -25,6 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import timber.log.Timber;
 
 /**
@@ -38,7 +40,9 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
 
     private List<Session> mSessions;
 
-    private RecyclerView sessionRecyclerView;
+    @BindView(R.id.recyclerView_locations) RecyclerView sessionRecyclerView;
+    @BindView(R.id.txt_no_sessions) TextView noSessionsView;
+    @BindView(R.id.toolbar_locations) Toolbar toolbar;
 
     private String location;
 
@@ -50,18 +54,16 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_locations);
+        ButterKnife.bind(this);
+
         final DbSingleton dbSingleton = DbSingleton.getInstance();
         location = getIntent().getStringExtra(ConstantStrings.MICROLOCATIONS);
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_locations);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
         Microlocation selectedLocation = dbSingleton.getLocationByLocationname(location);
 
-
-        sessionRecyclerView = (RecyclerView) findViewById(R.id.recyclerView_locations);
-        TextView noSessionsView = (TextView) findViewById(R.id.txt_no_sessions);
         mSessions = dbSingleton.getSessionbyLocationName(location);
 
         sessionsListAdapter = new SessionsListAdapter(mSessions);

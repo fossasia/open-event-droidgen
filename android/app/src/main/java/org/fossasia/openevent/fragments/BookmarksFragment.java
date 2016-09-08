@@ -29,6 +29,9 @@ import org.fossasia.openevent.widget.DialogFactory;
 import java.text.ParseException;
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import timber.log.Timber;
 
 /**
@@ -39,7 +42,11 @@ public class BookmarksFragment extends Fragment {
 
     private final String FRAGMENT_TAG = "FTAG";
     SessionsListAdapter sessionsListAdapter;
-    RecyclerView bookmarkedTracks;
+
+    @BindView(R.id.list_bookmarks) RecyclerView bookmarkedTracks;
+
+    private Unbinder unbinder;
+
     View view;
     ArrayList<Integer> bookmarkedIds;
 
@@ -83,7 +90,9 @@ public class BookmarksFragment extends Fragment {
         Timber.i("Bookmarks Fragment create view");
         setHasOptionsMenu(true);
         view = inflater.inflate(R.layout.fragment_bookmarks, container, false);
-        bookmarkedTracks = (RecyclerView) view.findViewById(R.id.list_bookmarks);
+
+        unbinder = ButterKnife.bind(this,view);
+
         final DbSingleton dbSingleton = DbSingleton.getInstance();
 
         try {
@@ -140,5 +149,11 @@ public class BookmarksFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
         inflater.inflate(R.menu.menu_bookmarks, menu);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 }

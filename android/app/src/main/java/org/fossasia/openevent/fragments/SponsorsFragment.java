@@ -32,6 +32,9 @@ import org.fossasia.openevent.utils.RecyclerItemClickListener;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import timber.log.Timber;
 
 /**
@@ -41,20 +44,23 @@ public class SponsorsFragment extends Fragment {
 
     private SponsorsListAdapter sponsorsListAdapter;
 
-    private SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.txt_no_sponsors) TextView noSponsorsView;
+    @BindView(R.id.sponsor_swipe_refresh) SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.list_sponsors) RecyclerView sponsorsRecyclerView;
+
+    private Unbinder unbinder;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         final View view = inflater.inflate(R.layout.list_sponsors, container, false);
+        unbinder = ButterKnife.bind(this,view);
+
         Bus bus = OpenEventApp.getEventBus();
         bus.register(this);
-        RecyclerView sponsorsRecyclerView = (RecyclerView) view.findViewById(R.id.list_sponsors);
-        TextView noSponsorsView = (TextView) view.findViewById(R.id.txt_no_sponsors);
         final DbSingleton dbSingleton = DbSingleton.getInstance();
 
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.sponsor_swipe_refresh);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -98,6 +104,12 @@ public class SponsorsFragment extends Fragment {
         }
 
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 
 

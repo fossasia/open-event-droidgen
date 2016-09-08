@@ -38,6 +38,10 @@ import org.fossasia.openevent.utils.SortOrder;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 /**
  * Created by Manan Wason on 17/06/16.
  */
@@ -45,7 +49,12 @@ public class DayScheduleFragment extends Fragment {
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
+    @BindView(R.id.list_schedule) RecyclerView dayRecyclerView;
+    @BindView(R.id.txt_no_schedule) TextView noSchedule;
+
     private DayScheduleAdapter dayScheduleAdapter;
+
+    private Unbinder unbinder;
 
     private String date;
 
@@ -75,8 +84,8 @@ public class DayScheduleFragment extends Fragment {
         sortType = sharedPreferences.getInt(ConstantStrings.PREF_SORT, 0);
 
         View view = inflater.inflate(R.layout.list_schedule, container, false);
-        final RecyclerView dayRecyclerView = (RecyclerView) view.findViewById(R.id.list_schedule);
-        final TextView noSchedule = (TextView) view.findViewById(R.id.txt_no_schedule);
+        unbinder = ButterKnife.bind(this,view);
+
         /**
          * Loading data in background to improve performance.
          * */
@@ -174,6 +183,12 @@ public class DayScheduleFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+
 
     @Subscribe
     public void refreshData(RefreshUiEvent event) {
@@ -212,4 +227,6 @@ public class DayScheduleFragment extends Fragment {
             OpenEventApp.getEventBus().post(new SessionDownloadEvent(false));
         }
     }
+
+
 }
