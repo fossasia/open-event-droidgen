@@ -51,7 +51,7 @@
         <activity
             android:name=".activities.LocationActivity"
             android:label="@string/title_section_location"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar.Alternate" />
         <activity
             android:name=".activities.SpeakersActivity"
             android:label="@string/title_section_speakerlist"

@@ -90,7 +90,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
@@ -108,16 +108,14 @@ public class MainActivity extends BaseActivity {
     private final String FRAGMENT_TAG_TRACKS = "FTAGT";
 
     private final String FRAGMENT_TAG_REST = "FTAGR";
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
-    @Bind(R.id.nav_view)
-    NavigationView navigationView;
-    @Bind(R.id.progress)
-    ProgressBar downloadProgress;
-    @Bind(R.id.layout_main)
-    CoordinatorLayout mainFrame;
-    @Bind(R.id.drawer)
-    DrawerLayout drawerLayout;
+
+    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.nav_view) NavigationView navigationView;
+    @BindView(R.id.progress) ProgressBar downloadProgress;
+    @BindView(R.id.layout_main) CoordinatorLayout mainFrame;
+    @BindView(R.id.drawer) DrawerLayout drawerLayout;
+    @BindView(R.id.appbar) AppBarLayout appBarLayout;
+
     private String errorType;
     private String errorDesc;
     private SharedPreferences sharedPreferences;
@@ -128,7 +126,6 @@ public class MainActivity extends BaseActivity {
     private int currentMenuItemId;
 
     private SmoothActionBarDrawerToggle smoothActionBarToggle;
-    private AppBarLayout appBarLayout;
 
     public static Intent createLaunchFragmentIntent(Context context) {
         return new Intent(context, MainActivity.class)
@@ -175,12 +172,15 @@ public class MainActivity extends BaseActivity {
         counter = 0;
         eventsDone = 0;
         setContentView(R.layout.activity_main);
+
         ButterKnife.bind(this);
-        appBarLayout = (AppBarLayout) findViewById(R.id.appbar);
+        ButterKnife.setDebug(true);
+
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         setUpToolbar();
         setUpNavDrawer();
 
+        ProgressBar downloadProgress = (ProgressBar) findViewById(R.id.progress);
         downloadProgress.setVisibility(View.VISIBLE);
         downloadProgress.setIndeterminate(true);
         this.findViewById(android.R.id.content).setBackgroundColor(Color.WHITE);

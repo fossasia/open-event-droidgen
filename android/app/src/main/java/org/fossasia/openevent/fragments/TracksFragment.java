@@ -36,6 +36,10 @@ import org.fossasia.openevent.utils.NetworkUtils;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 /**
  * User: MananWason
  * Date: 05-06-2015
@@ -44,30 +48,30 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
 
     final private String SEARCH = "searchText";
 
-    private SwipeRefreshLayout swipeRefreshLayout;
-
     private TracksListAdapter tracksListAdapter;
+
+    @BindView(R.id.tracks_swipe_refresh) SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.txt_no_tracks) TextView noTracksView;
+    @BindView(R.id.list_tracks) RecyclerView tracksRecyclerView;
+    @BindView(R.id.tracks_frame) View windowFrame;
+
+    private Unbinder unbinder;
 
     private String searchText = "";
 
     private SearchView searchView;
 
-    private View windowFrame;
 
-    private TextView noTracksView;
-
-    private RecyclerView tracksRecyclerView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.list_tracks, container, false);
+        unbinder = ButterKnife.bind(this,view);
+
         OpenEventApp.getEventBus().register(this);
-        tracksRecyclerView = (RecyclerView) view.findViewById(R.id.list_tracks);
-        noTracksView = (TextView) view.findViewById(R.id.txt_no_tracks);
         DbSingleton dbSingleton = DbSingleton.getInstance();
         List<Track> mTracks = dbSingleton.getTrackList();
-        windowFrame = view.findViewById(R.id.tracks_frame);
         tracksListAdapter = new TracksListAdapter(mTracks);
         tracksRecyclerView.setAdapter(tracksListAdapter);
         setVisibility(PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true));
@@ -81,7 +85,6 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
                 startActivity(intent);
             }
         });
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.tracks_swipe_refresh);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -105,6 +108,12 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
             noTracksView.setVisibility(View.VISIBLE);
             tracksRecyclerView.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 
     @Override

@@ -1,12 +1,13 @@
 apply plugin: 'com.android.application'
 apply plugin: 'jacoco-everywhere'
+apply plugin: 'android-apt'
 
 def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
 def buildTime = new Date().format("yyyy-MM-dd'T'HH:mm'Z'", TimeZone.getTimeZone("UTC"))
 
 def isTravis = "true".equals(System.getenv("TRAVIS"))
 def preDexEnabled = "true".equals(System.getProperty("pre-dex", "true"))
-def SUPPORT_LIB_VERSION = "24.0.0"
+def SUPPORT_LIB_VERSION = "24.2.0"
 
 android {
     compileSdkVersion 24
@@ -60,6 +61,7 @@ android {
     // https://stackoverflow.com/questions/36833606/android-support-library-error-after-updating-to-23-3-0
     configurations.all {
         resolutionStrategy {
+            force "com.android.support:support-annotation:${SUPPORT_LIB_VERSION}"
             force "com.android.support:appcompat-v7:${SUPPORT_LIB_VERSION}"
             force "com.android.support:support-v4:${SUPPORT_LIB_VERSION}"
             force "com.android.support:recyclerview-v7:${SUPPORT_LIB_VERSION}"
@@ -83,7 +85,8 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.squareup:otto:1.3.8'
     compile 'com.jakewharton.timber:timber:4.1.0'
-    compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'com.jakewharton:butterknife:8.4.0'
+    apt 'com.jakewharton:butterknife-compiler:8.4.0'
 
     // Googleplay Variant
     googleplayCompile 'com.google.android.gms:play-services-maps:9.2.0'
