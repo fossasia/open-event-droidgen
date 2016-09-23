@@ -23,6 +23,7 @@ import timber.log.Timber;
  * Created by MananWason on 24-06-2015.
  */
 public class DatabaseOperations {
+    public static final String TAG=DatabaseOperations.class.getSimpleName();
     private static final String ASCENDING = " ASC";
 
     private static final String DESCENDING = " DESC";
@@ -36,6 +37,8 @@ public class DatabaseOperations {
     private static final String LIKE = " LIKE ";
 
     private static final String ORDERBY = " ORDER BY ";
+
+    private static final String IN= " IN ";
 
     Event event;
 
@@ -546,10 +549,16 @@ public class DatabaseOperations {
         }
 
         sessionCursor.close();
-        String mappingSelection = DbContract.ServerSessionIdMapping.SERVER_ID + EQUAL + speakerSelected;
+        StringBuilder builder= new StringBuilder(DbContract.ServerSessionIdMapping.SERVER_ID + IN+"( ");
+        for (Integer integer:sortedSessionIds){
+            builder.append(integer).append(',');
+        }
+        builder.deleteCharAt(builder.length()-1);
+        builder.append(')');
+        String mappingSelection = builder.toString();
         ArrayList<Integer> sessionIds = new ArrayList<>();
 
-        for (int i = 0; i < sortedSessionIds.size(); i++) {
+
             Cursor mappingCursor = mDb.query(
                     DbContract.ServerSessionIdMapping.TABLE_NAME,
                     DbContract.ServerSessionIdMapping.FULL_PROJECTION,
@@ -566,14 +575,17 @@ public class DatabaseOperations {
                 sessionIds.add(mappingCursor.getInt(mappingCursor.getColumnIndex(DbContract.ServerSessionIdMapping.LOCAL_ID)));
                 mappingCursor.moveToNext();
             }
-
             mappingCursor.close();
-        }
 
 
         ArrayList<Session> sessions = new ArrayList<>();
-        for (int i = 0; i < sessionIds.size(); i++) {
-            String sessionTableColumnSelection = DbContract.Sessions.ID + EQUAL + sessionIds.get(i);
+        builder=new StringBuilder(DbContract.Sessions.ID + IN +"( ");
+        for (Integer sessionId:sessionIds){
+            builder.append(sessionId).append(',');
+        }
+        builder.deleteCharAt(builder.length()-1);
+        builder.append(')');
+            String sessionTableColumnSelection = builder.toString();
             Cursor sessionTableCursor = mDb.query(
                     DbContract.Sessions.TABLE_NAME,
                     DbContract.Sessions.FULL_PROJECTION,
@@ -586,34 +598,34 @@ public class DatabaseOperations {
 
             Session session;
             if (sessionTableCursor != null && sessionTableCursor.moveToFirst()) {
-                try {
-                    int microlocationId = sessionTableCursor.getInt(sessionTableCursor.getColumnIndex(DbContract.Sessions.MICROLOCATION));
-                    Microlocation microlocation = new Microlocation(microlocationId, getMicroLocationById(microlocationId, mDb).getName());
-                    int trackId = sessionTableCursor.getInt(sessionTableCursor.getColumnIndex(DbContract.Sessions.TRACK));
-                    Track track = new Track(trackId, getTracksbyTracksId(trackId, mDb).getName());
+                do {
+                    try {
+                        int microlocationId = sessionTableCursor.getInt(sessionTableCursor.getColumnIndex(DbContract.Sessions.MICROLOCATION));
+                        Microlocation microlocation = new Microlocation(microlocationId, getMicroLocationById(microlocationId, mDb).getName());
+                        int trackId = sessionTableCursor.getInt(sessionTableCursor.getColumnIndex(DbContract.Sessions.TRACK));
+                        Track track = new Track(trackId, getTracksbyTracksId(trackId, mDb).getName());
 
-                    session = new Session(
-                            sessionTableCursor.getInt(sessionTableCursor.getColumnIndex(DbContract.Sessions.ID)),
-                            sessionTableCursor.getString(sessionTableCursor.getColumnIndex(DbContract.Sessions.TITLE)),
-                            sessionTableCursor.getString(sessionTableCursor.getColumnIndex(DbContract.Sessions.SUBTITLE)),
-                            sessionTableCursor.getString(sessionTableCursor.getColumnIndex(DbContract.Sessions.SUMMARY)),
-                            sessionTableCursor.getString(sessionTableCursor.getColumnIndex(DbContract.Sessions.DESCRIPTION)),
-                            sessionTableCursor.getString(sessionTableCursor.getColumnIndex(DbContract.Sessions.START_TIME)),
-                            sessionTableCursor.getString(sessionTableCursor.getColumnIndex(DbContract.Sessions.END_TIME)),
-                            sessionTableCursor.getString(sessionTableCursor.getColumnIndex(DbContract.Sessions.START_DATE)),
-                            sessionTableCursor.getString(sessionTableCursor.getColumnIndex(DbContract.Sessions.TYPE)),
-                            track,
-                            sessionTableCursor.getString(sessionTableCursor.getColumnIndex(DbContract.Sessions.LEVEL)),
-                            microlocation
-                    );
-                    sessions.add(session);
-                } catch (ParseException e) {
-                    Timber.e("Parsing Error Occurred at DatabaseOperations::getSessionbySpeakersname.");
-                }
-                sessionTableCursor.moveToNext();
+                        session = new Session(
+                                sessionTableCursor.getInt(sessionTableCursor.getColumnIndex(DbContract.Sessions.ID)),
+                                sessionTableCursor.getString(sessionTableCursor.getColumnIndex(DbContract.Sessions.TITLE)),
+                                sessionTableCursor.getString(sessionTableCursor.getColumnIndex(DbContract.Sessions.SUBTITLE)),
+                                sessionTableCursor.getString(sessionTableCursor.getColumnIndex(DbContract.Sessions.SUMMARY)),
+                                sessionTableCursor.getString(sessionTableCursor.getColumnIndex(DbContract.Sessions.DESCRIPTION)),
+                                sessionTableCursor.getString(sessionTableCursor.getColumnIndex(DbContract.Sessions.START_TIME)),
+                                sessionTableCursor.getString(sessionTableCursor.getColumnIndex(DbContract.Sessions.END_TIME)),
+                                sessionTableCursor.getString(sessionTableCursor.getColumnIndex(DbContract.Sessions.START_DATE)),
+                                sessionTableCursor.getString(sessionTableCursor.getColumnIndex(DbContract.Sessions.TYPE)),
+                                track,
+                                sessionTableCursor.getString(sessionTableCursor.getColumnIndex(DbContract.Sessions.LEVEL)),
+                                microlocation
+                        );
+                        sessions.add(session);
+                    } catch (ParseException e) {
+                        Timber.e("Parsing Error Occurred at DatabaseOperations::getSessionbySpeakersname.");
+                    }
+                }while (sessionTableCursor.moveToNext());
                 sessionTableCursor.close();
 
-            }
         }
 
         return sessions;
