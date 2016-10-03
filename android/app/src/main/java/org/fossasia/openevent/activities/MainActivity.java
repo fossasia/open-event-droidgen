@@ -365,7 +365,6 @@ public class MainActivity extends BaseActivity {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         int id = menuItem.getItemId();
-                        menu.clear();
                         doMenuAction(id);
                         return true;
                     }
