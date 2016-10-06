@@ -110,6 +110,7 @@
                     android:layout_height="wrap_content"
                     android:padding="@dimen/content_margin"
                     android:textIsSelectable="true"
+                    android:autoLink="web"
                     tools:text="Open Event!" />
             </LinearLayout>
 
