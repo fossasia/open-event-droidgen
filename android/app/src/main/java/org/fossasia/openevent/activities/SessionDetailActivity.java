@@ -63,9 +63,6 @@ public class SessionDetailActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sessions_detail);
-
-        ButterKnife.bind(this);
 
         DbSingleton dbSingleton = DbSingleton.getInstance();
         setSupportActionBar(toolbar);
@@ -132,6 +129,11 @@ public class SessionDetailActivity extends BaseActivity {
             }
         });
         speakersRecyclerView.setItemAnimator(new DefaultItemAnimator());
+    }
+
+    @Override
+    protected int getLayoutResource() {
+        return R.layout.activity_sessions_detail;
     }
 
     @Override

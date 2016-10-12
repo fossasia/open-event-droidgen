@@ -26,7 +26,6 @@ import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.ConstantStrings;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -63,9 +62,6 @@ public class TracksActivity extends BaseActivity implements SearchView.OnQueryTe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tracks);
-
-        ButterKnife.bind(this);
 
         DbSingleton dbSingleton = DbSingleton.getInstance();
         track = getIntent().getStringExtra(ConstantStrings.TRACK);
@@ -101,6 +97,11 @@ public class TracksActivity extends BaseActivity implements SearchView.OnQueryTe
             noSessionsView.setVisibility(View.VISIBLE);
             sessionsRecyclerView.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    protected int getLayoutResource() {
+        return R.layout.activity_tracks;
     }
 
     @Override

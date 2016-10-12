@@ -9,7 +9,6 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -26,7 +25,6 @@ import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import timber.log.Timber;
 
 /**
@@ -53,8 +51,6 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_locations);
-        ButterKnife.bind(this);
 
         final DbSingleton dbSingleton = DbSingleton.getInstance();
         location = getIntent().getStringExtra(ConstantStrings.MICROLOCATIONS);
@@ -97,6 +93,11 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
             noSessionsView.setVisibility(View.VISIBLE);
             sessionRecyclerView.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    protected int getLayoutResource() {
+        return R.layout.activity_locations;
     }
 
     @Override

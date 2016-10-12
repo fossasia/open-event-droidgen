@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -35,7 +34,6 @@ import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Created by MananWason on 30-06-2015.
@@ -74,9 +72,6 @@ public class SpeakersActivity extends BaseActivity implements SearchView.OnQuery
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_speakers);
-
-        ButterKnife.bind(this);
 
         final DbSingleton dbSingleton = DbSingleton.getInstance();
         speaker = getIntent().getStringExtra(Speaker.SPEAKER);
@@ -182,6 +177,11 @@ public class SpeakersActivity extends BaseActivity implements SearchView.OnQuery
             noSessionsView.setVisibility(View.VISIBLE);
             sessionRecyclerView.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    protected int getLayoutResource() {
+        return R.layout.activity_speakers;
     }
 
     @Override
