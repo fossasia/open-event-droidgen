@@ -40,7 +40,7 @@ import butterknife.ButterKnife;
 /**
  * Created by MananWason on 30-06-2015.
  */
-public class SpeakersActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
+public class SpeakersActivity extends BaseActivity implements SearchView.OnQueryTextListener {
     final private String SEARCH = "searchText";
 
     private SessionsListAdapter sessionsListAdapter;
@@ -195,9 +195,6 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
             case R.id.share_speakers_url:
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
