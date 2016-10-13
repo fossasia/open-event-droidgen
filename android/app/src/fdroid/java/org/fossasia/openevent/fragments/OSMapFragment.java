@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import org.fossasia.openevent.BuildConfig;
 import org.fossasia.openevent.R;
@@ -33,6 +35,8 @@ import org.osmdroid.views.overlay.OverlayItem;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+
 public class OSMapFragment extends Fragment {
 
     private static double DESTINATION_LATITUDE = 0;
@@ -43,8 +47,7 @@ public class OSMapFragment extends Fragment {
 
     private static final int PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE_RESULT = 100;
 
-    MapView mapView;
-    View rootView;
+    private View rootView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,24 +61,15 @@ public class OSMapFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         rootView = inflater.inflate(R.layout.fragment_map, null);
-        Activity activity = getActivity();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(activity,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                        PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE_RESULT);
-            } else {
-                populateMap();
-            }
-        } else {
-            populateMap();
-        }
         return rootView;
     }
 
     private void populateMap() {
-        mapView = (MapView) rootView.findViewById(R.id.mapview);
+
+        if (!mayRequestStorageForOfflineMap())
+            return;
+
+        MapView mapView = (MapView) rootView.findViewById(R.id.mapview);
         mapView.setBuiltInZoomControls(true);
         mapView.setMultiTouchControls(true);
         Event event = DbSingleton.getInstance().getEventDetails();
@@ -113,14 +107,13 @@ public class OSMapFragment extends Fragment {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     populateMap();
-                    Snackbar.make(rootView.findViewById(R.id.map), "Permissions Given!", Snackbar.LENGTH_LONG)
-                            .show();
-
                 } else {
-                    Snackbar.make(rootView.findViewById(R.id.map), "Insufficient Permissions!", Snackbar.LENGTH_LONG)
-                            .show();
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), WRITE_EXTERNAL_STORAGE)) {
+                        showPermissionRationaleSnackBar();
+                    } else {
+                        Toast.makeText(getContext(), getString(R.string.permissions_insufficient), Toast.LENGTH_LONG).show();
+                    }
                 }
-                return;
             }
         }
     }
@@ -128,6 +121,8 @@ public class OSMapFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        populateMap();
 
     }
 
@@ -157,10 +152,6 @@ public class OSMapFragment extends Fragment {
         startActivity(intent);
     }
 
-    private void get_Latlng() {
-
-    }
-
     public static double getDestinationLatitude() {
         return DESTINATION_LATITUDE;
     }
@@ -183,5 +174,37 @@ public class OSMapFragment extends Fragment {
 
     public static void setDestinationName(String destinationName) {
         DESTINATION_NAME = destinationName;
+    }
+
+    private boolean mayRequestStorageForOfflineMap() {
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            return true;
+        }
+
+        if (ContextCompat.checkSelfPermission(getActivity(), WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            return true;
+        }
+
+        if (shouldShowRequestPermissionRationale(WRITE_EXTERNAL_STORAGE)) {
+            showPermissionRationaleSnackBar();
+        } else {
+            requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE_RESULT);
+        }
+
+        return false;
+    }
+
+    private void showPermissionRationaleSnackBar() {
+        Snackbar.make(rootView.findViewById(R.id.map), getString(R.string.storage_permission_rationale),
+                Snackbar.LENGTH_INDEFINITE).setAction(getString(android.R.string.ok).toUpperCase(), new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Request the permission
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE_RESULT);
+            }
+        }).show();
+
     }
 }
