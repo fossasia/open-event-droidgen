@@ -1,7 +1,6 @@
 package org.fossasia.openevent.fragments;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -49,6 +48,7 @@ public class OSMapFragment extends Fragment {
 
     private View rootView;
 
+    private Snackbar snackbar;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,6 +132,14 @@ public class OSMapFragment extends Fragment {
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (snackbar!=null && snackbar.isShown())
+            snackbar.dismiss();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         /*switch (item.getItemId()) {
             case R.id.directions:
@@ -196,7 +204,7 @@ public class OSMapFragment extends Fragment {
     }
 
     private void showPermissionRationaleSnackBar() {
-        Snackbar.make(rootView.findViewById(R.id.map), getString(R.string.storage_permission_rationale),
+        snackbar = Snackbar.make(rootView.findViewById(R.id.map), getString(R.string.storage_permission_rationale),
                 Snackbar.LENGTH_INDEFINITE).setAction(getString(android.R.string.ok).toUpperCase(), new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -204,7 +212,8 @@ public class OSMapFragment extends Fragment {
                 requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                         PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE_RESULT);
             }
-        }).show();
+        });
+        snackbar.show();
 
     }
 }
