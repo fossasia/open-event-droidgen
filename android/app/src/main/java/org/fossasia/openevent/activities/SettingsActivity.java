@@ -82,6 +82,16 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void setContentView(@LayoutRes int layoutResID) {
         getDelegate().setContentView(layoutResID);
     }

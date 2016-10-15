@@ -12,7 +12,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
-import android.text.Spanned;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -63,6 +62,9 @@ public class SessionDetailActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_sessions_detail);
+
+        ButterKnife.bind(this);
 
         DbSingleton dbSingleton = DbSingleton.getInstance();
         setSupportActionBar(toolbar);
@@ -104,14 +106,7 @@ public class SessionDetailActivity extends BaseActivity {
             });
         }
         summary.setText(session.getSummary());
-
-        Spanned result;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            result = Html.fromHtml(session.getDescription(),Html.FROM_HTML_MODE_LEGACY);
-        } else {
-            result = Html.fromHtml(session.getDescription());
-        }
-        descrip.setText(result);
+        descrip.setText(Html.fromHtml(session.getDescription()));
 
         adapter = new SpeakersListAdapter(speakers, this);
 
@@ -132,13 +127,11 @@ public class SessionDetailActivity extends BaseActivity {
     }
 
     @Override
-    protected int getLayoutResource() {
-        return R.layout.activity_sessions_detail;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
             case R.id.bookmark_status:
                 DbSingleton dbSingleton = DbSingleton.getInstance();
                 if (dbSingleton.isBookmarked(session.getId())) {

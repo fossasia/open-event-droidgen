@@ -4,20 +4,21 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Window;
 
 import org.fossasia.openevent.OpenEventApp;
+import org.fossasia.openevent.R;
 
 /**
  * Created by MananWason on 10-06-2015.
  */
 public class SplashActivity extends Activity {
+    private final int SPLASH_DISPLAY_LENGTH = 1000;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         OpenEventApp.getEventBus().register(this);
-
-        final int SPLASH_DISPLAY_LENGTH = 1000;
 
         new Handler().postDelayed(new Runnable() {
             @Override

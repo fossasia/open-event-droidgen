@@ -3,9 +3,7 @@ package org.fossasia.openevent.activities;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
 
-import butterknife.ButterKnife;
 import timber.log.Timber;
 
 /**
@@ -14,19 +12,14 @@ import timber.log.Timber;
  * The purpose of this activity is to be able to log some output based on
  * Activity life-cycle
  */
-public abstract class BaseActivity extends AppCompatActivity {
+public class BaseActivity extends AppCompatActivity {
     static int count = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         Timber.i("Activity onCreate: total instances %d", ++count);
         super.onCreate(savedInstanceState);
-
-        setContentView(getLayoutResource());
-        ButterKnife.bind(this);
     }
-
-    protected abstract int getLayoutResource();
 
     @Override
     protected void onDestroy() {
@@ -44,14 +37,5 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onResume() {
         Timber.i("Activity onResume");
         super.onResume();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-        }
-        return super.onOptionsItemSelected(item);
     }
 }

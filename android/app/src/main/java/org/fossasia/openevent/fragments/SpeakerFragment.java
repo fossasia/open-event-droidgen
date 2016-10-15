@@ -10,10 +10,10 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -78,8 +78,8 @@ public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextL
 
         OpenEventApp.getEventBus().register(this);
 
-        speakersRecyclerView.setThumbColor(ContextCompat.getColor(getContext(), R.color.color_primary));
-        speakersRecyclerView.setPopupBgColor(ContextCompat.getColor(getContext(), R.color.color_primary));
+        speakersRecyclerView.setThumbColor(getResources().getColor(R.color.color_primary));
+        speakersRecyclerView.setPopupBgColor(getResources().getColor(R.color.color_primary));
 
         final DbSingleton dbSingleton = DbSingleton.getInstance();
         List<Speaker> mSpeakers = dbSingleton.getSpeakerList(sortOrderSpeaker(getActivity()));

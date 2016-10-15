@@ -3,6 +3,7 @@ package org.fossasia.openevent.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,6 +27,7 @@ import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.ConstantStrings;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -62,6 +64,9 @@ public class TracksActivity extends BaseActivity implements SearchView.OnQueryTe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_tracks);
+
+        ButterKnife.bind(this);
 
         DbSingleton dbSingleton = DbSingleton.getInstance();
         track = getIntent().getStringExtra(ConstantStrings.TRACK);
@@ -100,11 +105,6 @@ public class TracksActivity extends BaseActivity implements SearchView.OnQueryTe
     }
 
     @Override
-    protected int getLayoutResource() {
-        return R.layout.activity_tracks;
-    }
-
-    @Override
     public void onSaveInstanceState(Bundle bundle) {
         if (searchView != null) {
             bundle.putString(SEARCH, searchText);
@@ -125,6 +125,9 @@ public class TracksActivity extends BaseActivity implements SearchView.OnQueryTe
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
             case R.id.action_search_sessions:
                 return true;
         }
