@@ -63,11 +63,11 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
     @BindView(R.id.collapsing_toolbar) CollapsingToolbarLayout collapsingToolbarLayout;
     @BindView(R.id.imageView_linkedin) ImageView linkedin;
     @BindView(R.id.imageView_fb) ImageView fb;
-    @BindView(R.id.imageView_github) private ImageView github;
+    @BindView(R.id.imageView_github) ImageView github;
     @BindView(R.id.imageView_twitter) ImageView twitter;
     @BindView(R.id.imageView_web) ImageView website;
     @BindView(R.id.speaker_name_title) TextView speakerName;
-    @BindView(R.id.speaker_bio) private TextView biography;
+    @BindView(R.id.speaker_bio) TextView biography;
 
     @BindView(R.id.recyclerView_speakers) RecyclerView sessionRecyclerView;
 
@@ -219,7 +219,9 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
                 sendIntent.putExtra(Intent.EXTRA_TEXT, message.toString());
                 sendIntent.setType("text/plain");
                 startActivity(Intent.createChooser(sendIntent, selectedSpeaker.getEmail()));
-
+                return true;
+            default:
+                //do nothing
         }
         return super.onOptionsItemSelected(item);
     }
@@ -245,7 +247,7 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
         DbSingleton dbSingleton = DbSingleton.getInstance();
 
         mSessions = dbSingleton.getSessionbySpeakersName(speaker);
-        final List<Session> filteredModelList = filter(mSessions, query);
+        final List<Session> filteredModelList = filter(mSessions, query.toLowerCase(Locale.getDefault()));
 
         sessionsListAdapter.animateTo(filteredModelList);
         sessionRecyclerView.scrollToPosition(0);
@@ -255,7 +257,6 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
     }
 
     private List<Session> filter(List<Session> sessions, String query) {
-        query = query.toLowerCase(Locale.getDefault());
 
         final List<Session> filteredTracksList = new ArrayList<>();
         for (Session session : sessions) {

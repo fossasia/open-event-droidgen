@@ -145,6 +145,7 @@ public class SessionDetailActivity extends BaseActivity {
                     createNotification();
                 }
                 sendBroadcast(new Intent(BookmarkWidgetProvider.ACTION_UPDATE));
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }

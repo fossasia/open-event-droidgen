@@ -41,7 +41,7 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
     private List<Session> mSessions;
 
     @BindView(R.id.recyclerView_locations) RecyclerView sessionRecyclerView;
-    @BindView(R.id.txt_no_sessions) private TextView noSessionsView;
+    @BindView(R.id.txt_no_sessions) TextView noSessionsView;
     @BindView(R.id.toolbar_locations) Toolbar toolbar;
 
     private String location;
@@ -140,7 +140,7 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
         DbSingleton dbSingleton = DbSingleton.getInstance();
 
         mSessions = dbSingleton.getSessionbyLocationName(location);
-        final List<Session> filteredModelList = filter(mSessions, query);
+        final List<Session> filteredModelList = filter(mSessions, query.toLowerCase(Locale.getDefault()));
         Timber.tag("xyz").d(mSessions.size() + " " + filteredModelList.size());
 
         sessionsListAdapter.animateTo(filteredModelList);

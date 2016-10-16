@@ -137,6 +137,8 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
                 intent.setType("text/plain");
                 startActivity(Intent.createChooser(intent, getResources().getString(R.string.share_links)));
                 return true;
+            default:
+                //do nothing
         }
         return super.onOptionsItemSelected(item);
     }

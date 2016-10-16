@@ -4,8 +4,8 @@ package org.fossasia.openevent.events;
  * Created by Manan Wason on 13/07/16.
  */
 public class JsonReadEvent {
-    String name;
-    String json;
+    private String name;
+    private String json;
 
     public JsonReadEvent(String name, String json) {
         this.name = name;

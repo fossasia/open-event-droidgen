@@ -22,7 +22,7 @@ public class ViewHolder {
      * generic ViewHolder
      */
     public static class Viewholder extends RecyclerView.ViewHolder {
-        SetOnClickListener listener;
+        private SetOnClickListener listener;
         private TextView txtView1;
         private TextView txtView2;
         private TextView txtView3;

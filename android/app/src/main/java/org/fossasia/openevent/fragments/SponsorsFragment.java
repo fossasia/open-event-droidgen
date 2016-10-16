@@ -17,7 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
 import org.fossasia.openevent.OpenEventApp;

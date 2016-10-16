@@ -20,9 +20,9 @@ public final class APIClient {
      * Or Build Config
      */
 
-    static final int CONNECT_TIMEOUT_MILLIS = 20 * 1000; // 15s
+    private static final int CONNECT_TIMEOUT_MILLIS = 20 * 1000; // 15s
 
-    static final int READ_TIMEOUT_MILLIS = 50 * 1000; // 20s
+    private static final int READ_TIMEOUT_MILLIS = 50 * 1000; // 20s
 
     private final OpenEventAPI openEventAPI;
 

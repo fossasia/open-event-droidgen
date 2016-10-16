@@ -1,6 +1,5 @@
 package org.fossasia.openevent.fragments;
 
-import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -110,6 +109,9 @@ public class OSMapFragment extends Fragment {
                     }
                 }
             }
+            break;
+            default:
+                //do nothing
         }
     }
 
@@ -204,7 +206,7 @@ public class OSMapFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 // Request the permission
-                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE},
                         PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE_RESULT);
             }
         });

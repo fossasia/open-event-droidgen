@@ -23,7 +23,7 @@ import timber.log.Timber;
  */
 public class EventListResponseProcessor implements Callback<Event> {
     private static final String TAG = "EVENT";
-    int counterRequests;
+    private int counterRequests;
 
     @Override
     public void onResponse(Call<Event> call, final Response<Event> response) {

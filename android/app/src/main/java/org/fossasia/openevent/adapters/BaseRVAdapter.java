@@ -16,9 +16,9 @@ import java.util.List;
  */
 public abstract class BaseRVAdapter<T, V extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<V> implements Filterable {
 
-    List<T> dataList;
+    private List<T> dataList;
 
-    public BaseRVAdapter(List<T> dataList) {
+    BaseRVAdapter(List<T> dataList) {
         this.dataList = dataList;
     }
 
@@ -40,7 +40,7 @@ public abstract class BaseRVAdapter<T, V extends RecyclerView.ViewHolder> extend
         notifyItemInserted(position);
     }
 
-    public void moveItem(int fromPosition, int toPosition) {
+    private void moveItem(int fromPosition, int toPosition) {
         final T data = dataList.remove(fromPosition);
         dataList.add(toPosition, data);
         notifyItemMoved(fromPosition, toPosition);
@@ -106,7 +106,7 @@ public abstract class BaseRVAdapter<T, V extends RecyclerView.ViewHolder> extend
     /**
      * Removes an item from position
      */
-    public T removeItem(int position) {
+    private T removeItem(int position) {
         final T speaker = dataList.remove(position);
         notifyItemRemoved(position);
         return speaker;

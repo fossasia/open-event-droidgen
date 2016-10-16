@@ -28,23 +28,23 @@ import timber.log.Timber;
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class BookmarkWidgetRemoteViewsService extends RemoteViewsService {
 
-    static final int INDEX_BOOKMARK_ID = 0;
+    private static final int INDEX_BOOKMARK_ID = 0;
 
-    static final int INDEX_BOOKMARK_TITLE = 1;
+    private static final int INDEX_BOOKMARK_TITLE = 1;
 
-    static final int INDEX_BOOKMARK_START_TIME = 2;
+    private static final int INDEX_BOOKMARK_START_TIME = 2;
 
-    static final int INDEX_BOOKMARK_END_TIME = 3;
+    private static final int INDEX_BOOKMARK_END_TIME = 3;
 
-    final String ID = "id";
+    private final String ID = "id";
 
-    final String TITLE = "title";
+    private final String TITLE = "title";
 
-    final String START_TIME = "startTime";
+    private final String START_TIME = "startTime";
 
-    final String END_TIME = "endTime";
+    private final String END_TIME = "endTime";
 
-    ArrayList<Integer> bookmarkedIds;
+    private ArrayList<Integer> bookmarkedIds;
 
     private int LESS_DETAIL_SIZE = 300;
 

@@ -735,6 +735,8 @@ public class MainActivity extends BaseActivity {
                             }
                         });
                         break;
+                    default:
+                        //do nothing
                 }
             }
         });
