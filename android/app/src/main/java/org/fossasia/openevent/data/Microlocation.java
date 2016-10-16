@@ -13,15 +13,15 @@ import java.util.Locale;
  * Created by MananWason on 26-05-2015.
  */
 public class Microlocation {
-    int id;
+    private int id;
 
-    String name;
+    private String name;
 
-    float latitude;
+    private float latitude;
 
-    float longitude;
+    private float longitude;
 
-    int floor;
+    private int floor;
 
     public Microlocation(int id, String name, float latitude,
                          float longitude, int floor) {

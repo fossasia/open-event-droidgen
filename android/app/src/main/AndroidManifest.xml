@@ -67,10 +67,10 @@
         </activity>
 
         <service
-            android:name=".Services.BookmarkAlarmService"
+            android:name=".services.BookmarkAlarmService"
             android:enabled="true" />
 
-        <receiver android:name=".Receivers.NotificationAlarmReceiver" />
+        <receiver android:name=".receivers.NotificationAlarmReceiver" />
 
         <receiver
             android:name=".widget.BookmarkWidgetProvider"

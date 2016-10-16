@@ -75,6 +75,8 @@ public class MapsFragment extends SupportMapFragment
                 intent.setType("text/plain");
                 startActivity(Intent.createChooser(intent, "Share URL"));
                 break;
+            default:
+            	//do nothing
         }
         return super.onOptionsItemSelected(item);
     }
@@ -84,7 +86,7 @@ public class MapsFragment extends SupportMapFragment
 
     }
 
-    private void get_Latlng() {
+    private void getLatlng() {
         // do nothing
     }
 

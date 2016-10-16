@@ -20,7 +20,7 @@ import timber.log.Timber;
  */
 public class MicrolocationListResponseProcessor implements Callback<List<Microlocation>> {
 
-    ArrayList<String> queries = new ArrayList<>();
+    private ArrayList<String> queries = new ArrayList<>();
 
     @Override
     public void onResponse(Call<List<Microlocation>> call, final Response<List<Microlocation>> response) {

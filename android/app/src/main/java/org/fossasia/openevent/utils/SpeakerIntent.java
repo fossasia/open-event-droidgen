@@ -15,7 +15,7 @@ import java.net.URLDecoder;
  */
 public class SpeakerIntent {
     public String url = "dummy", reurl = "dummy", error = "none";
-    Speaker speaker;
+    private Speaker speaker;
 
     public SpeakerIntent(Speaker speaker) {
         this.speaker = speaker;

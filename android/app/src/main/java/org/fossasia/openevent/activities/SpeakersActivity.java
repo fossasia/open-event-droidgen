@@ -219,7 +219,9 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
                 sendIntent.putExtra(Intent.EXTRA_TEXT, message.toString());
                 sendIntent.setType("text/plain");
                 startActivity(Intent.createChooser(sendIntent, selectedSpeaker.getEmail()));
-
+                return true;
+            default:
+                //do nothing
         }
         return super.onOptionsItemSelected(item);
     }
@@ -245,7 +247,7 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
         DbSingleton dbSingleton = DbSingleton.getInstance();
 
         mSessions = dbSingleton.getSessionbySpeakersName(speaker);
-        final List<Session> filteredModelList = filter(mSessions, query);
+        final List<Session> filteredModelList = filter(mSessions, query.toLowerCase(Locale.getDefault()));
 
         sessionsListAdapter.animateTo(filteredModelList);
         sessionRecyclerView.scrollToPosition(0);
@@ -255,7 +257,6 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
     }
 
     private List<Session> filter(List<Session> sessions, String query) {
-        query = query.toLowerCase(Locale.getDefault());
 
         final List<Session> filteredTracksList = new ArrayList<>();
         for (Session session : sessions) {

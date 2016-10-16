@@ -9,7 +9,7 @@ public class MapModuleFactory implements MapModuleProvider {
     /**
      * We can cache here to only initialize the module during startup
      */
-    static GoogleMapModule instance;
+    private static GoogleMapModule instance;
 
     @Override
     public MapModule provideMapModule() {
