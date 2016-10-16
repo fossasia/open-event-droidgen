@@ -1,14 +1,14 @@
-package org.fossasia.openevent.data.parsingExtras;
+package org.fossasia.openevent.data.parsingextras;
 
 /**
- * Created by Manan Wason on 27/07/16.
+ * Created by Manan Wason on 09/08/16.
  */
-public class Microlocation {
+public class Track {
     int id;
 
     String name;
 
-    public Microlocation(int id, String name) {
+    public Track(int id, String name) {
         this.id = id;
         this.name = name;
     }

@@ -1,4 +1,4 @@
-package org.fossasia.openevent.Services;
+package org.fossasia.openevent.services;
 
 import android.app.IntentService;
 import android.app.NotificationManager;

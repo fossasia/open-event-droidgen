@@ -1,4 +1,4 @@
-package org.fossasia.openevent.Receivers;
+package org.fossasia.openevent.receivers;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

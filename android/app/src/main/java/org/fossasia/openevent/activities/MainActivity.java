@@ -243,10 +243,8 @@ public class MainActivity extends BaseActivity {
             currentMenuItemId = savedInstanceState.getInt(STATE_FRAGMENT);
         }
 
-        if (getIntent().hasExtra(NAV_ITEM)) {
-            if (getIntent().getStringExtra(NAV_ITEM).equalsIgnoreCase(BOOKMARK)) {
+        if (getIntent().hasExtra(NAV_ITEM) && getIntent().getStringExtra(NAV_ITEM).equalsIgnoreCase(BOOKMARK)) {
                 currentMenuItemId = R.id.nav_bookmarks;
-            }
         }
 
         if (getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_TRACKS) == null && getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_REST) == null) {

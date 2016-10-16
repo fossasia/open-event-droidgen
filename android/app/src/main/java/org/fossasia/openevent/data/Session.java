@@ -4,8 +4,8 @@ import android.database.DatabaseUtils;
 
 import com.google.gson.annotations.SerializedName;
 
-import org.fossasia.openevent.data.parsingExtras.Microlocation;
-import org.fossasia.openevent.data.parsingExtras.Track;
+import org.fossasia.openevent.data.parsingextras.Microlocation;
+import org.fossasia.openevent.data.parsingextras.Track;
 import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.utils.StringUtils;
 
@@ -43,7 +43,7 @@ public class Session {
     private String subtitle;
 
     @SerializedName("track")
-    private org.fossasia.openevent.data.parsingExtras.Track track;
+    private org.fossasia.openevent.data.parsingextras.Track track;
 
     @SerializedName("slides")
     private String type;
@@ -54,7 +54,7 @@ public class Session {
     public Session(int id, String title, String subtitle,
                    String summary, String description,
                    String startTime, String endTime, String startDate, String type,
-                   org.fossasia.openevent.data.parsingExtras.Track track, String level, Microlocation microlocation
+                   org.fossasia.openevent.data.parsingextras.Track track, String level, Microlocation microlocation
     ) throws ParseException {
         this.id = id;
         this.title = title;
@@ -151,7 +151,7 @@ public class Session {
         this.microlocation = microlocation;
     }
 
-    public org.fossasia.openevent.data.parsingExtras.Track getTrack() {
+    public org.fossasia.openevent.data.parsingextras.Track getTrack() {
         return track;
     }
 

@@ -1,10 +1,10 @@
-package org.fossasia.openevent.Receivers;
+package org.fossasia.openevent.receivers;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import org.fossasia.openevent.Services.BookmarkAlarmService;
+import org.fossasia.openevent.services.BookmarkAlarmService;
 import org.fossasia.openevent.utils.ConstantStrings;
 
 /**

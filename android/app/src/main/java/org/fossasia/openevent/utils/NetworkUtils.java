@@ -59,8 +59,7 @@ public class NetworkUtils extends BroadcastReceiver {
             netInfos = new ArrayList<>(Arrays.asList(cm.getAllNetworkInfo()));
         }
         for (NetworkInfo ni : netInfos) {
-            if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
-                if (ni.isConnected())
+            if (ni.getTypeName().equalsIgnoreCase("MOBILE") && ni.isConnected())
                     return true;
         }
         return false;
