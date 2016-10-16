@@ -41,7 +41,7 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
     private List<Session> mSessions;
 
     @BindView(R.id.recyclerView_locations) RecyclerView sessionRecyclerView;
-    @BindView(R.id.txt_no_sessions) TextView noSessionsView;
+    @BindView(R.id.txt_no_sessions) private TextView noSessionsView;
     @BindView(R.id.toolbar_locations) Toolbar toolbar;
 
     private String location;

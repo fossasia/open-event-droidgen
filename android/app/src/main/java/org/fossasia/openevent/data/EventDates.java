@@ -8,7 +8,7 @@ import java.util.Locale;
  * Created by Manan Wason on 18/06/16.
  */
 public class EventDates {
-    String date;
+    private String date;
 
     public EventDates(String date) {
         this.date = date;

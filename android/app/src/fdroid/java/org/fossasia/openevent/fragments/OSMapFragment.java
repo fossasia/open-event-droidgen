@@ -2,9 +2,7 @@ package org.fossasia.openevent.fragments;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -31,7 +29,6 @@ import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.OverlayItem;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class OSMapFragment extends Fragment {
 
@@ -44,7 +41,7 @@ public class OSMapFragment extends Fragment {
     private static final int PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE_RESULT = 100;
 
     MapView mapView;
-    View rootView;
+    private View rootView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -120,7 +117,6 @@ public class OSMapFragment extends Fragment {
                     Snackbar.make(rootView.findViewById(R.id.map), "Insufficient Permissions!", Snackbar.LENGTH_LONG)
                             .show();
                 }
-                return;
             }
         }
     }
@@ -146,20 +142,20 @@ public class OSMapFragment extends Fragment {
         return false;
     }
 
-    private void launchDirections() {
-        // Build intent to start Google Maps directions
-        String uri = String.format(Locale.US,
-                "https://www.google.com/maps/search/%1$s/@%2$f,%3$f,17z",
-                DESTINATION_NAME, DESTINATION_LATITUDE, DESTINATION_LONGITUDE);
+//    private void launchDirections() {
+//        // Build intent to start Google Maps directions
+//        String uri = String.format(Locale.US,
+//                "https://www.google.com/maps/search/%1$s/@%2$f,%3$f,17z",
+//                DESTINATION_NAME, DESTINATION_LATITUDE, DESTINATION_LONGITUDE);
+//
+//        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+//
+//        startActivity(intent);
+//    }
 
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-
-        startActivity(intent);
-    }
-
-    private void get_Latlng() {
-
-    }
+//    private void get_Latlng() {
+//
+//    }
 
     public static double getDestinationLatitude() {
         return DESTINATION_LATITUDE;

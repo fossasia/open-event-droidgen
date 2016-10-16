@@ -26,21 +26,21 @@ public class DatabaseOperations {
     public static final String TAG=DatabaseOperations.class.getSimpleName();
     private static final String ASCENDING = " ASC";
 
-    private static final String DESCENDING = " DESC";
-
-    private static final String SELECT_ALL = "SELECT * FROM ";
-
-    private static final String WHERE = " WHERE ";
+//    private static final String DESCENDING = " DESC";
+//
+//    private static final String SELECT_ALL = "SELECT * FROM ";
+//
+//    private static final String WHERE = " WHERE ";
 
     private static final String EQUAL = " == ";
 
-    private static final String LIKE = " LIKE ";
+//    private static final String LIKE = " LIKE ";
 
     private static final String ORDERBY = " ORDER BY ";
 
     private static final String IN= " IN ";
 
-    Event event;
+    private Event event;
 
     public ArrayList<Session> getSessionList(SQLiteDatabase mDb) {
 
