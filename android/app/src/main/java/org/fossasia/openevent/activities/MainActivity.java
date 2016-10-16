@@ -171,7 +171,9 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         counter = 0;
         eventsDone = 0;
+        setContentView(R.layout.activity_main);
 
+        ButterKnife.bind(this);
         ButterKnife.setDebug(true);
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -253,11 +255,6 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    protected int getLayoutResource() {
-        return R.layout.activity_main;
-    }
-
-    @Override
     protected void onPause() {
         super.onPause();
         OpenEventApp.getEventBus().unregister(this);
@@ -285,6 +282,22 @@ public class MainActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_tracks, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Will close the drawer if the home button is pressed
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.home:
+                drawerLayout.openDrawer(GravityCompat.START);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void setUpToolbar() {

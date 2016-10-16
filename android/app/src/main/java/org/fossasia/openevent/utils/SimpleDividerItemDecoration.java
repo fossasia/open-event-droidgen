@@ -1,10 +1,8 @@
 package org.fossasia.openevent.utils;
 
-import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -16,8 +14,8 @@ import org.fossasia.openevent.R;
 public class SimpleDividerItemDecoration extends RecyclerView.ItemDecoration {
     private Drawable mDivider;
 
-    public SimpleDividerItemDecoration(Context context, Resources resources) {
-        mDivider = ContextCompat.getDrawable(context, R.drawable.line_divider);
+    public SimpleDividerItemDecoration(Resources resources) {
+        mDivider = resources.getDrawable(R.drawable.line_divider);
     }
 
     public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {

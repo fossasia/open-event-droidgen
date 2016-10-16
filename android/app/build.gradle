@@ -7,17 +7,11 @@ def buildTime = new Date().format("yyyy-MM-dd'T'HH:mm'Z'", TimeZone.getTimeZone(
 
 def isTravis = "true".equals(System.getenv("TRAVIS"))
 def preDexEnabled = "true".equals(System.getProperty("pre-dex", "true"))
-
-def SUPPORT_LIB_VERSION = "24.2.1"
-def BUTTER_KNIFE_VERSION = "8.4.0"
-def RETROFIT_VERSION = "2.1.0"
-def LEAK_CANARY_VERSION = "1.3.1"
-def ESPRESSO_VERSION = "2.2.2"
-def SUPPORT_TEST_LIB_VERSION = "0.5"
+def SUPPORT_LIB_VERSION = "24.2.0"
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "24.0.3"
+    buildToolsVersion "24.0.2"
 
     dexOptions {
         // Skip pre-dexing when running on Travis CI or when disabled via -Dpre-dex=false.
@@ -76,24 +70,26 @@ android {
     }
 }
 
+
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile "com.android.support:appcompat-v7:${SUPPORT_LIB_VERSION}"
     compile "com.android.support:support-v4:${SUPPORT_LIB_VERSION}"
     compile "com.android.support:cardview-v7:${SUPPORT_LIB_VERSION}"
     compile "com.android.support:recyclerview-v7:${SUPPORT_LIB_VERSION}"
-    compile "com.android.support:design:${RETROFIT_VERSION}"
-    compile "com.squareup.retrofit2:retrofit:${RETROFIT_VERSION}"
-    compile "com.squareup.retrofit2:converter-gson:${RETROFIT_VERSION}"
+    compile "com.android.support:design:${SUPPORT_LIB_VERSION}"
+    compile 'com.squareup.retrofit2:retrofit:2.0.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.0.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.2.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.squareup:otto:1.3.8'
     compile 'com.jakewharton.timber:timber:4.1.0'
-    compile "com.jakewharton:butterknife:${BUTTER_KNIFE_VERSION}"
-    apt "com.jakewharton:butterknife-compiler:${BUTTER_KNIFE_VERSION}"
+    compile 'com.jakewharton:butterknife:8.4.0'
+    apt 'com.jakewharton:butterknife-compiler:8.4.0'
 
     // Googleplay Variant
-    googleplayCompile 'com.google.android.gms:play-services-maps:9.6.1'
+    googleplayCompile 'com.google.android.gms:play-services-maps:9.2.0'
 
     // Fdroid Variant
     fdroidCompile 'org.osmdroid:osmdroid-android:5.1'
@@ -106,16 +102,16 @@ dependencies {
 
     //Instrumentation Test
     androidTestCompile "com.android.support:support-annotations:${SUPPORT_LIB_VERSION}"
-    androidTestCompile "com.android.support.test.espresso:espresso-core:${ESPRESSO_VERSION}"
-    androidTestCompile "com.android.support.test.espresso:espresso-contrib:${ESPRESSO_VERSION}"
-    androidTestCompile "com.android.support.test:runner:${SUPPORT_TEST_LIB_VERSION}"
-    androidTestCompile "com.android.support.test:rules:${SUPPORT_TEST_LIB_VERSION}"
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
+    androidTestCompile 'com.android.support.test.espresso:espresso-contrib:2.2.2'
+    androidTestCompile 'com.android.support.test:runner:0.5'
+    androidTestCompile 'com.android.support.test:rules:0.5'
     androidTestCompile "org.mockito:mockito-core:1.10.19"
 
     // Catch all the leaks
-    debugCompile "com.squareup.leakcanary:leakcanary-android:${LEAK_CANARY_VERSION}" // or 1.4-beta1
-    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:${LEAK_CANARY_VERSION}" // or 1.4-beta1
-    testCompile "com.squareup.leakcanary:leakcanary-android-no-op:${LEAK_CANARY_VERSION}" // or 1.4-beta1
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.3.1' // or 1.4-beta1
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.3.1' // or 1.4-beta1
+    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.3.1' // or 1.4-beta1
 
     //fast scroll
     compile 'com.simplecityapps:recyclerview-fastscroll:1.0.9'
