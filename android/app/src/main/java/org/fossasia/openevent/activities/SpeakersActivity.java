@@ -63,11 +63,11 @@ public class SpeakersActivity extends AppCompatActivity implements SearchView.On
     @BindView(R.id.collapsing_toolbar) CollapsingToolbarLayout collapsingToolbarLayout;
     @BindView(R.id.imageView_linkedin) ImageView linkedin;
     @BindView(R.id.imageView_fb) ImageView fb;
-    @BindView(R.id.imageView_github) ImageView github;
+    @BindView(R.id.imageView_github) private ImageView github;
     @BindView(R.id.imageView_twitter) ImageView twitter;
     @BindView(R.id.imageView_web) ImageView website;
     @BindView(R.id.speaker_name_title) TextView speakerName;
-    @BindView(R.id.speaker_bio) TextView biography;
+    @BindView(R.id.speaker_bio) private TextView biography;
 
     @BindView(R.id.recyclerView_speakers) RecyclerView sessionRecyclerView;
 

@@ -18,36 +18,35 @@ public class Speaker {
 
     public static final String SPEAKER = "speaker";
 
-    int id;
+    private int id;
 
-    String name;
+    private String name;
 
-    String photo;
+    private String photo;
 
     @SerializedName("long_biography")
-    String bio;
+    private String bio;
 
-    String email;
+    private String email;
 
-    String website;
+    private String website;
 
-    String twitter;
+    private String twitter;
 
-    String facebook;
+    private String facebook;
 
-    String github;
+    private String github;
 
-    String linkedin;
+    private String linkedin;
 
-    String organisation;
+    private String organisation;
 
-    String position;
+    private String position;
 
     @SerializedName("sessions")
-    ArrayList<Session> sessionArrayList;
+    private ArrayList<Session> sessionArrayList;
 
-
-    String country;
+    private String country;
 
     public Speaker(int id, String name, String photo,
                    String bio, String email, String web,

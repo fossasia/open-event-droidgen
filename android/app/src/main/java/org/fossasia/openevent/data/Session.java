@@ -19,36 +19,36 @@ import java.util.Locale;
 public class Session {
 
     @SerializedName("short_abstract")
-    String summary;
+    private String summary;
 
     @SerializedName("long_abstract")
-    String description;
+    private String description;
 
     @SerializedName("start_time")
-    String startTime;
+    private String startTime;
 
     @SerializedName("end_time")
-    String endTime;
+    private String endTime;
 
-    int id;
+    private int id;
 
     @SerializedName("comments")
-    String level;
+    private String level;
 
-    Microlocation microlocation;
+    private Microlocation microlocation;
 
     @SerializedName("title")
-    String title;
+    private String title;
 
-    String subtitle;
+    private String subtitle;
 
     @SerializedName("track")
-    org.fossasia.openevent.data.parsingExtras.Track track;
+    private org.fossasia.openevent.data.parsingExtras.Track track;
 
     @SerializedName("slides")
-    String type;
+    private String type;
 
-    String startDate;
+    private String startDate;
 
 
     public Session(int id, String title, String subtitle,

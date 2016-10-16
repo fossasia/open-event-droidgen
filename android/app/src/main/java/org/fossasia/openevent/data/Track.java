@@ -15,14 +15,14 @@ import java.util.Locale;
  */
 public class Track {
 
-    int id;
+    private int id;
 
-    String name;
+    private String name;
 
-    String description;
+    private String description;
 
     @SerializedName("track_image_url")
-    String image;
+    private String image;
 
     public Track(int id, String name, String description, String image) {
         this.id = id;

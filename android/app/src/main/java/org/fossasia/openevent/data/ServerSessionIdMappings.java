@@ -8,9 +8,9 @@ import java.util.Locale;
  * Created by Manan Wason on 27/08/16.
  */
 public class ServerSessionIdMappings {
-    int serverId;
+    private int serverId;
 
-    int sortedId;
+    private int sortedId;
 
     public ServerSessionIdMappings(int serverId, int sortedId) {
         this.serverId = serverId;

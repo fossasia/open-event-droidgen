@@ -17,19 +17,19 @@ import java.util.Locale;
  */
 public class Sponsor {
 
-    int id;
+    private int id;
 
-    String name;
+    private String name;
 
-    String url;
+    private String url;
 
-    String logo;
+    private String logo;
 
     @SerializedName("sponsor_type")
-    String type;
+    private String type;
 
     @SerializedName("level")
-    int level;
+    private int level;
 
     public Sponsor(int id, String name, String url, String logo, String type, int level) {
         this.id = id;

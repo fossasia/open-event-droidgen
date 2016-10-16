@@ -41,7 +41,7 @@ public class OpenEventApp extends Application {
     static Handler handler;
     private static Bus eventBus;
     private static Context context;
-    MapModuleFactory mapModuleFactory;
+    private MapModuleFactory mapModuleFactory;
     SharedPreferences sharedPreferences;
 
     public static Bus getEventBus() {

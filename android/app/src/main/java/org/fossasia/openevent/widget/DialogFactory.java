@@ -15,7 +15,7 @@ public final class DialogFactory {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(context)
                 .setTitle(title)
                 .setMessage(message)
-                .setNeutralButton(R.string.dialog_action_ok, null);
+                .setNeutralButton(context.getString(android.R.string.ok).toUpperCase(), null);
         return alertDialog.create();
     }
 
@@ -35,7 +35,7 @@ public final class DialogFactory {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(context)
                 .setTitle(context.getString(titleResource))
                 .setMessage(context.getString(messageResource))
-                .setNeutralButton(R.string.dialog_action_ok, listener);
+                .setNeutralButton(context.getString(android.R.string.ok).toUpperCase(), listener);
         return alertDialog.create();
     }
 
@@ -43,7 +43,7 @@ public final class DialogFactory {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(context)
                 .setTitle(context.getString(R.string.dialog_error_title))
                 .setMessage(message)
-                .setNeutralButton(R.string.dialog_action_ok, null);
+                .setNeutralButton(context.getString(android.R.string.ok).toUpperCase(), null);
         return alertDialog.create();
     }
 

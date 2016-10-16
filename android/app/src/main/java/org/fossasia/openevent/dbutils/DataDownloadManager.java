@@ -15,9 +15,9 @@ import org.fossasia.openevent.api.processor.TrackListResponseProcessor;
  * A singleton to keep track of download
  */
 public final class DataDownloadManager {
-    static DataDownloadManager instance;
+    private static DataDownloadManager instance;
 
-    APIClient client = new APIClient();
+    private APIClient client = new APIClient();
 
     private DataDownloadManager() {
     }
