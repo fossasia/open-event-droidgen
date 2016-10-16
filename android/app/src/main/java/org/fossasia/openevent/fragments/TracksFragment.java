@@ -113,6 +113,7 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        OpenEventApp.getEventBus().unregister(this);
         unbinder.unbind();
     }
 

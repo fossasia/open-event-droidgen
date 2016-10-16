@@ -57,8 +57,7 @@ public class SponsorsFragment extends Fragment {
         final View view = inflater.inflate(R.layout.list_sponsors, container, false);
         unbinder = ButterKnife.bind(this,view);
 
-        Bus bus = OpenEventApp.getEventBus();
-        bus.register(this);
+        OpenEventApp.getEventBus().register(this);
         final DbSingleton dbSingleton = DbSingleton.getInstance();
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -110,6 +109,7 @@ public class SponsorsFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        OpenEventApp.getEventBus().unregister(this);
     }
 
 

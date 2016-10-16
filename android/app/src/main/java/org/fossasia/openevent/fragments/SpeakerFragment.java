@@ -125,6 +125,7 @@ public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextL
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        OpenEventApp.getEventBus().unregister(this);
     }
 
     @Override
