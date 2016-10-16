@@ -148,4 +148,7 @@
 
     <string name="display_offline_schedule">No Internet connection, displaying old schedule</string>
     <string name="retry_download">Retry</string>
+    <string name="permissions_given">Permissions Given!</string>
+    <string name="storage_permission_rationale">Storage permission is needed for saving map data for offline availability.</string>
+    <string name="permissions_insufficient">Go to settings and enable permission!</string>
 </resources>
