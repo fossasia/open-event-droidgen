@@ -3,6 +3,9 @@ package org.fossasia.openevent.data;
 
 import android.database.DatabaseUtils;
 
+import com.google.android.gms.maps.model.LatLng;
+import com.google.maps.android.clustering.ClusterItem;
+
 import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.utils.StringUtils;
 
@@ -12,7 +15,7 @@ import java.util.Locale;
 /**
  * Created by MananWason on 26-05-2015.
  */
-public class Microlocation {
+public class Microlocation implements ClusterItem {
     int id;
 
     String name;
@@ -84,5 +87,10 @@ public class Microlocation {
                 latitude,
                 longitude,
                 floor);
+    }
+
+    @Override
+    public LatLng getPosition() {
+        return new LatLng(latitude,longitude);
     }
 }
