@@ -15,22 +15,22 @@ import timber.log.Timber;
 public class Version {
 
     @SerializedName("event_ver")
-    int eventVer;
+    private int eventVer;
 
     @SerializedName("microlcations_ver")
-    int microlocationsVer;
+    private int microlocationsVer;
 
     @SerializedName("session_ver")
-    int sessionVer;
+    private int sessionVer;
 
     @SerializedName("sponsors_ver")
-    int sponsorVer;
+    private int sponsorVer;
 
     @SerializedName("speakers_ver")
-    int speakerVer;
+    private int speakerVer;
 
     @SerializedName("tracks_ver")
-    int tracksVer;
+    private int tracksVer;
 
     public Version( int eventVer, int tracksVer, int sessionVer, int sponsorVer, int speakerVer, int microlocationsVer) {
         this.eventVer = eventVer;

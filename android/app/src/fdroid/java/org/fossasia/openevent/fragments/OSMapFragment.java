@@ -1,9 +1,6 @@
 package org.fossasia.openevent.fragments;
 
-import android.Manifest;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,8 +10,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +27,6 @@ import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.OverlayItem;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
@@ -115,6 +109,9 @@ public class OSMapFragment extends Fragment {
                     }
                 }
             }
+            break;
+            default:
+                //do nothing
         }
     }
 
@@ -126,10 +123,10 @@ public class OSMapFragment extends Fragment {
 
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-
-    }
+//    @Override
+//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+//
+//    }
 
     @Override
     public void onDestroy() {
@@ -149,16 +146,16 @@ public class OSMapFragment extends Fragment {
         return false;
     }
 
-    private void launchDirections() {
-        // Build intent to start Google Maps directions
-        String uri = String.format(Locale.US,
-                "https://www.google.com/maps/search/%1$s/@%2$f,%3$f,17z",
-                DESTINATION_NAME, DESTINATION_LATITUDE, DESTINATION_LONGITUDE);
-
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-
-        startActivity(intent);
-    }
+//    private void launchDirections() {
+//        // Build intent to start Google Maps directions
+//        String uri = String.format(Locale.US,
+//                "https://www.google.com/maps/search/%1$s/@%2$f,%3$f,17z",
+//                DESTINATION_NAME, DESTINATION_LATITUDE, DESTINATION_LONGITUDE);
+//
+//        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+//
+//        startActivity(intent);
+//    }
 
     public static double getDestinationLatitude() {
         return DESTINATION_LATITUDE;
@@ -209,7 +206,7 @@ public class OSMapFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 // Request the permission
-                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE},
                         PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE_RESULT);
             }
         });

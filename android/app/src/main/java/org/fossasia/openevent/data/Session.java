@@ -4,8 +4,8 @@ import android.database.DatabaseUtils;
 
 import com.google.gson.annotations.SerializedName;
 
-import org.fossasia.openevent.data.parsingExtras.Microlocation;
-import org.fossasia.openevent.data.parsingExtras.Track;
+import org.fossasia.openevent.data.parsingextras.Microlocation;
+import org.fossasia.openevent.data.parsingextras.Track;
 import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.utils.StringUtils;
 
@@ -19,42 +19,42 @@ import java.util.Locale;
 public class Session {
 
     @SerializedName("short_abstract")
-    String summary;
+    private String summary;
 
     @SerializedName("long_abstract")
-    String description;
+    private String description;
 
     @SerializedName("start_time")
-    String startTime;
+    private String startTime;
 
     @SerializedName("end_time")
-    String endTime;
+    private String endTime;
 
-    int id;
+    private int id;
 
     @SerializedName("comments")
-    String level;
+    private String level;
 
-    Microlocation microlocation;
+    private Microlocation microlocation;
 
     @SerializedName("title")
-    String title;
+    private String title;
 
-    String subtitle;
+    private String subtitle;
 
     @SerializedName("track")
-    org.fossasia.openevent.data.parsingExtras.Track track;
+    private Track track;
 
     @SerializedName("slides")
-    String type;
+    private String type;
 
-    String startDate;
+    private String startDate;
 
 
     public Session(int id, String title, String subtitle,
                    String summary, String description,
                    String startTime, String endTime, String startDate, String type,
-                   org.fossasia.openevent.data.parsingExtras.Track track, String level, Microlocation microlocation
+                   Track track, String level, Microlocation microlocation
     ) throws ParseException {
         this.id = id;
         this.title = title;
@@ -151,7 +151,7 @@ public class Session {
         this.microlocation = microlocation;
     }
 
-    public org.fossasia.openevent.data.parsingExtras.Track getTrack() {
+    public org.fossasia.openevent.data.parsingextras.Track getTrack() {
         return track;
     }
 

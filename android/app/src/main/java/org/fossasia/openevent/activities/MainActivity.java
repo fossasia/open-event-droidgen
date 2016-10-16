@@ -243,10 +243,8 @@ public class MainActivity extends BaseActivity {
             currentMenuItemId = savedInstanceState.getInt(STATE_FRAGMENT);
         }
 
-        if (getIntent().hasExtra(NAV_ITEM)) {
-            if (getIntent().getStringExtra(NAV_ITEM).equalsIgnoreCase(BOOKMARK)) {
+        if (getIntent().hasExtra(NAV_ITEM) && getIntent().getStringExtra(NAV_ITEM).equalsIgnoreCase(BOOKMARK)) {
                 currentMenuItemId = R.id.nav_bookmarks;
-            }
         }
 
         if (getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_TRACKS) == null && getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_REST) == null) {
@@ -274,7 +272,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(final Menu menu) {
-        setupDrawerContent(navigationView, menu);
+        setupDrawerContent(navigationView);
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -359,7 +357,7 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    private void setupDrawerContent(NavigationView navigationView, final Menu menu) {
+    private void setupDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -451,7 +449,7 @@ public class MainActivity extends BaseActivity {
                         new AlertDialog.Builder(this);
                 builder.setTitle(String.format("%1$s", getString(R.string.app_name)));
                 builder.setMessage(getResources().getText(R.string.about_text));
-                builder.setPositiveButton("OK", null);
+                builder.setPositiveButton(android.R.string.ok, null);
                 builder.setIcon(R.mipmap.ic_launcher);
                 AlertDialog welcomeAlert = builder.create();
                 welcomeAlert.show();
@@ -737,6 +735,8 @@ public class MainActivity extends BaseActivity {
                             }
                         });
                         break;
+                    default:
+                        //do nothing
                 }
             }
         });

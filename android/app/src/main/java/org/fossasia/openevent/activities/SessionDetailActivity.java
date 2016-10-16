@@ -19,7 +19,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.fossasia.openevent.R;
-import org.fossasia.openevent.Receivers.NotificationAlarmReceiver;
+import org.fossasia.openevent.receivers.NotificationAlarmReceiver;
 import org.fossasia.openevent.adapters.SpeakersListAdapter;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
@@ -145,6 +145,7 @@ public class SessionDetailActivity extends BaseActivity {
                     createNotification();
                 }
                 sendBroadcast(new Intent(BookmarkWidgetProvider.ACTION_UPDATE));
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }

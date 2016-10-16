@@ -10,9 +10,9 @@ import java.util.Locale;
  */
 public class SessionSpeakersMapping {
 
-    int sessionId;
+    private int sessionId;
 
-    int speakerId;
+    private int speakerId;
 
     public SessionSpeakersMapping(int sessionId, int speakerId) {
         this.sessionId = sessionId;

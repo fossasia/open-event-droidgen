@@ -140,6 +140,9 @@ public class BookmarksFragment extends Fragment {
                 intent.putExtra(Intent.EXTRA_SUBJECT, R.string.share_links);
                 intent.setType("text/plain");
                 startActivity(Intent.createChooser(intent, getResources().getString(R.string.share_links)));
+                break;
+            default:
+                //do nothing
         }
         return super.onOptionsItemSelected(item);
     }

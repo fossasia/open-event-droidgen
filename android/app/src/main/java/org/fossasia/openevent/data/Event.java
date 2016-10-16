@@ -14,33 +14,33 @@ import java.util.Locale;
  */
 public class Event {
 
-    int id;
+    private int id;
 
-    String name;
+    private String name;
 
-    String email;
+    private String email;
 
-    String logo;
+    private String logo;
 
     @SerializedName("start_time")
-    String start;
+    private String start;
 
     @SerializedName("end_time")
-    String end;
+    private String end;
 
-    float latitude;
+    private float latitude;
 
-    float longitude;
+    private float longitude;
 
     @SerializedName("location_name")
-    String locationName;
+    private String locationName;
 
     @SerializedName("event_url")
-    String url;
+    private String url;
 
-    String timezone;
+    private String timezone;
 
-    Version version;
+    private Version version;
 
     public Event(int id, String name, String email, String logo, String start,
                  String end, float latitude, float longitude, String locationName, String url, String timezone) {

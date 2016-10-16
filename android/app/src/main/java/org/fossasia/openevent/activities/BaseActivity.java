@@ -13,7 +13,7 @@ import timber.log.Timber;
  * Activity life-cycle
  */
 public class BaseActivity extends AppCompatActivity {
-    static int count = 0;
+    private static int count = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

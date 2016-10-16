@@ -140,7 +140,7 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
         DbSingleton dbSingleton = DbSingleton.getInstance();
 
         mSessions = dbSingleton.getSessionbyLocationName(location);
-        final List<Session> filteredModelList = filter(mSessions, query);
+        final List<Session> filteredModelList = filter(mSessions, query.toLowerCase(Locale.getDefault()));
         Timber.tag("xyz").d(mSessions.size() + " " + filteredModelList.size());
 
         sessionsListAdapter.animateTo(filteredModelList);
