@@ -179,7 +179,7 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
 
     @Subscribe
     public void onTrackDownloadDone(TracksDownloadEvent event) {
-
+         if(swipeRefreshLayout!=null)
         swipeRefreshLayout.setRefreshing(false);
         if (event.isState()) {
             tracksListAdapter.refresh();
