@@ -113,6 +113,7 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        OpenEventApp.getEventBus().unregister(this);
         unbinder.unbind();
     }
 
@@ -179,7 +180,7 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
 
     @Subscribe
     public void onTrackDownloadDone(TracksDownloadEvent event) {
-
+         if(swipeRefreshLayout!=null)
         swipeRefreshLayout.setRefreshing(false);
         if (event.isState()) {
             tracksListAdapter.refresh();

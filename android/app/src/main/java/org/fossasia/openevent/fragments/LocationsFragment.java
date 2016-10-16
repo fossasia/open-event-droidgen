@@ -165,6 +165,7 @@ public class LocationsFragment extends Fragment implements SearchView.OnQueryTex
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        OpenEventApp.getEventBus().unregister(this);
     }
 
     @Subscribe
