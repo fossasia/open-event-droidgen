@@ -497,7 +497,7 @@ public class MainActivity extends BaseActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.error)
                 .setMessage(errorType + ": " + errorDesc)
-                .setNeutralButton(R.string.ok, null)
+                .setNeutralButton(android.R.string.ok, null)
                 .create();
         builder.show();
     }

@@ -62,9 +62,7 @@
     <!--Error Titles-->
     <string name="net_unavailable">Network not available</string>
     <string name="turn_on">Turn on WiFi or Mobile data in Settings</string>
-    <string name="cancel">Cancel</string>
     <string name="error">Error</string>
-    <string name="ok">OK</string>
 
     <string name="empty_list">No Bookmarks Available</string>
     <string name="bullet">"•"</string>
@@ -87,7 +85,6 @@
 \n
     </string>
     <string name="invalid_url">Invalid Url</string>
-    <string name="dialog_action_ok">OK</string>
     <string name="dialog_error_title">Error</string>
     <string name="website">website</string>
     <string name="menu_speaker_sort">Sort</string>
