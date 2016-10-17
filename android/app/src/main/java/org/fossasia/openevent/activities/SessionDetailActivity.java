@@ -19,11 +19,11 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.fossasia.openevent.R;
-import org.fossasia.openevent.receivers.NotificationAlarmReceiver;
 import org.fossasia.openevent.adapters.SpeakersListAdapter;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.receivers.NotificationAlarmReceiver;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.ISO8601Date;
 import org.fossasia.openevent.widget.BookmarkWidgetProvider;
@@ -129,9 +129,6 @@ public class SessionDetailActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
             case R.id.bookmark_status:
                 DbSingleton dbSingleton = DbSingleton.getInstance();
                 if (dbSingleton.isBookmarked(session.getId())) {
