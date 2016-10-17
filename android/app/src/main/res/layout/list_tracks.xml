@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/tracks_frame"
+    android:layout_margin="@dimen/content_margin"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/txt_no_tracks"
@@ -23,6 +24,7 @@
             android:id="@+id/list_tracks"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            tools:listitem="@layout/item_track"
             android:clipToPadding="false"
             android:scrollbars="vertical" />
     </android.support.v4.widget.SwipeRefreshLayout>
