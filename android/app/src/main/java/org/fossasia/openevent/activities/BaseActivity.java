@@ -3,6 +3,7 @@ package org.fossasia.openevent.activities;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 
 import timber.log.Timber;
 
@@ -37,5 +38,14 @@ public class BaseActivity extends AppCompatActivity {
     protected void onResume() {
         Timber.i("Activity onResume");
         super.onResume();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -9,7 +9,6 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -106,18 +105,6 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
         }
         super.onSaveInstanceState(bundle);
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
