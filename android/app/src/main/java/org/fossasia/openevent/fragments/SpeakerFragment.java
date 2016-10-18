@@ -14,6 +14,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -37,6 +38,8 @@ import org.fossasia.openevent.dbutils.DataDownloadManager;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.SpeakerDownloadEvent;
 import org.fossasia.openevent.utils.NetworkUtils;
+import org.fossasia.openevent.views.AutofitGridRecyclerView;
+import org.fossasia.openevent.views.MarginDecoration;
 
 import java.util.List;
 
@@ -57,7 +60,7 @@ public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextL
 
     @BindView(R.id.speaker_swipe_refresh) SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.txt_no_speakers)  TextView noSpeakersView;
-    @BindView(R.id.rv_speakers) FastScrollRecyclerView speakersRecyclerView;
+    @BindView(R.id.rv_speakers) RecyclerView speakersRecyclerView;
 
     private Unbinder unbinder;
 
@@ -78,14 +81,14 @@ public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextL
 
         OpenEventApp.getEventBus().register(this);
 
-        speakersRecyclerView.setThumbColor(ContextCompat.getColor(getContext(), R.color.color_primary));
-        speakersRecyclerView.setPopupBgColor(ContextCompat.getColor(getContext(), R.color.color_primary));
-
         final DbSingleton dbSingleton = DbSingleton.getInstance();
         List<Speaker> mSpeakers = dbSingleton.getSpeakerList(sortOrderSpeaker(getActivity()));
         prefsSort = PreferenceManager.getDefaultSharedPreferences(getActivity());
         sortType = prefsSort.getInt(PREF_SORT, 0);
+
         speakersListAdapter = new SpeakersListAdapter(mSpeakers, getActivity());
+        speakersRecyclerView.addItemDecoration(new MarginDecoration(getContext()));
+        speakersRecyclerView.setHasFixedSize(true);
         speakersRecyclerView.setAdapter(speakersListAdapter);
 
         speakersListAdapter.setOnClickListener(new SpeakersListAdapter.SetOnClickListener() {
@@ -105,8 +108,6 @@ public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextL
                 refresh();
             }
         });
-
-        speakersRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
             searchText = savedInstanceState.getString(SEARCH);

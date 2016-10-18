@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ll_speakers"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -17,14 +17,18 @@
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/speaker_swipe_refresh"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
+        <org.fossasia.openevent.views.AutofitGridRecyclerView
             android:id="@+id/rv_speakers"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:fastScrollAutoHide="true"
-            app:fastScrollAutoHideDelay="1500" />
+            android:clipToPadding="false"
+            tools:listitem="@layout/item_speaker"
+            android:columnWidth="@dimen/speakers_entry_width"
+            android:padding="@dimen/item_margin"
+            android:visibility="gone"
+            tools:visibility="visible"/>
 
     </android.support.v4.widget.SwipeRefreshLayout>
 </RelativeLayout>
