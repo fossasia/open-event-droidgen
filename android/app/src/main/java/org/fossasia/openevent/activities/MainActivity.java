@@ -71,7 +71,7 @@ import org.fossasia.openevent.events.TracksDownloadEvent;
 import org.fossasia.openevent.fragments.BookmarksFragment;
 import org.fossasia.openevent.fragments.LocationsFragment;
 import org.fossasia.openevent.fragments.ScheduleFragment;
-import org.fossasia.openevent.fragments.SpeakerFragment;
+import org.fossasia.openevent.fragments.SpeakersListFragment;
 import org.fossasia.openevent.fragments.SponsorsFragment;
 import org.fossasia.openevent.fragments.TracksFragment;
 import org.fossasia.openevent.utils.CommonTaskLoop;
@@ -387,7 +387,7 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.nav_speakers:
                 fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, new SpeakerFragment(), FRAGMENT_TAG_REST).commit();
+                        .replace(R.id.content_frame, new SpeakersListFragment(), FRAGMENT_TAG_REST).commit();
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle(R.string.menu_speakers);
                 }

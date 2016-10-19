@@ -126,7 +126,7 @@ public class SessionDetailActivity extends BaseActivity {
 
                 Speaker model = adapter.getItem(position);
                 String speakerName = model.getName();
-                Intent intent = new Intent(getApplicationContext(), SpeakersActivity.class);
+                Intent intent = new Intent(getApplicationContext(), SpeakerDetailsActivity.class);
                 intent.putExtra(Speaker.SPEAKER, speakerName);
                 startActivity(intent);
             }

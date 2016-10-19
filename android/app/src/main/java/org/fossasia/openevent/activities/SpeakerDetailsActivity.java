@@ -39,7 +39,7 @@ import butterknife.ButterKnife;
 /**
  * Created by MananWason on 30-06-2015.
  */
-public class SpeakersActivity extends BaseActivity implements SearchView.OnQueryTextListener {
+public class SpeakerDetailsActivity extends BaseActivity implements SearchView.OnQueryTextListener {
     final private String SEARCH = "searchText";
 
     private SessionsListAdapter sessionsListAdapter;
