@@ -10,10 +10,8 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
@@ -25,12 +23,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 import com.squareup.otto.Subscribe;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
-import org.fossasia.openevent.activities.SpeakersActivity;
+import org.fossasia.openevent.activities.SpeakerDetailsActivity;
 import org.fossasia.openevent.adapters.SpeakersListAdapter;
 import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Speaker;
@@ -38,7 +35,6 @@ import org.fossasia.openevent.dbutils.DataDownloadManager;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.SpeakerDownloadEvent;
 import org.fossasia.openevent.utils.NetworkUtils;
-import org.fossasia.openevent.views.AutofitGridRecyclerView;
 import org.fossasia.openevent.views.MarginDecoration;
 
 import java.util.List;
@@ -50,7 +46,7 @@ import timber.log.Timber;
 
 import static org.fossasia.openevent.utils.SortOrder.sortOrderSpeaker;
 
-public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextListener {
+public class SpeakersListFragment extends Fragment implements SearchView.OnQueryTextListener {
 
     private static final String PREF_SORT = "sortType";
 
@@ -96,7 +92,7 @@ public class SpeakerFragment extends Fragment implements SearchView.OnQueryTextL
             public void onItemClick(int position, View view) {
                 Speaker model = speakersListAdapter.getItem(position);
                 String speakerName = model.getName();
-                Intent intent = new Intent(getContext(), SpeakersActivity.class);
+                Intent intent = new Intent(getContext(), SpeakerDetailsActivity.class);
                 intent.putExtra(Speaker.SPEAKER, speakerName);
                 startActivity(intent);
             }

@@ -53,7 +53,7 @@
             android:label="@string/title_section_location"
             android:theme="@style/AppTheme.NoActionBar.Alternate" />
         <activity
-            android:name=".activities.SpeakersActivity"
+            android:name=".activities.SpeakerDetailsActivity"
             android:label="@string/title_section_speakerlist"
             android:theme="@style/AppTheme.NoActionBar.Alternate" />
 
