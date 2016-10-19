@@ -20,7 +20,6 @@ import org.fossasia.openevent.R;
 import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.dbutils.DbSingleton;
-import org.fossasia.openevent.utils.CircleTransform;
 import org.fossasia.openevent.utils.ViewHolder;
 
 import java.util.ArrayList;
@@ -87,10 +86,10 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, ViewHolder.Viewh
         View view = layoutInflater.inflate(R.layout.item_speaker, parent, false);
         ViewHolder.Viewholder viewholder = new ViewHolder.Viewholder(view);
 
-        viewholder.setImgView1((ImageView) view.findViewById(R.id.speaker_image));
-        viewholder.setTxtView1((TextView) view.findViewById(R.id.speaker_name));
-        viewholder.setTxtView2((TextView) view.findViewById(R.id.speaker_info));
-        viewholder.setTxtView3((TextView) view.findViewById(R.id.speaker_info_country));
+        viewholder.setImgView1((ImageView) view.findViewById(R.id.speakers_list_image));
+        viewholder.setTxtView1((TextView) view.findViewById(R.id.speakers_list_name));
+        viewholder.setTxtView2((TextView) view.findViewById(R.id.speakers_list_designation));
+        viewholder.setTxtView3((TextView) view.findViewById(R.id.speakers_list_country));
 
         return viewholder;
     }
@@ -103,12 +102,11 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, ViewHolder.Viewh
         photoUri.append(Urls.getBaseUrl()).append(current.getPhoto());
         Uri uri = Uri.parse(photoUri.toString());
         Picasso.with(holder.getImgView1().getContext()).load(uri)
-                .placeholder(R.drawable.ic_account_circle_grey_24dp).transform(new CircleTransform()).into(holder.getImgView1());
+                .placeholder(R.drawable.ic_account_circle_grey_24dp).into(holder.getImgView1());
 
-        holder.getTxtView2().setText(String.format("%s%s", current.getPosition(), current.getOrganisation()));
         holder.getTxtView1().setText(TextUtils.isEmpty(current.getName()) ? "" : current.getName());
+        holder.getTxtView2().setText(String.format("%s%s", current.getPosition(), current.getOrganisation()));
         holder.getTxtView3().setText(String.format("%s",current.getCountry()));
-
 
         holder.setItemClickListener(listener);
     }

@@ -20,4 +20,10 @@
     <dimen name="track_title_margin">4dp</dimen>
     <item name="body_1_spacing" format="float" type="dimen">1.22448979592</item>
 
+    <!--Margin decoration -->
+    <dimen name="item_margin">4dp</dimen>
+
+    <!-- Speakers -->
+    <dimen name="speakers_entry_width">180dp</dimen>
+    <dimen name="speakers_entry_height">170dp</dimen>
 </resources>
