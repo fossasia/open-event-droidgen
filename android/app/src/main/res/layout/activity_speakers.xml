@@ -89,10 +89,9 @@
 
             <TextView
                 android:id="@+id/speaker_bio"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:gravity="center"
                 android:paddingEnd="@dimen/content_margin"
                 android:paddingLeft="@dimen/content_margin"
                 android:paddingRight="@dimen/content_margin"
