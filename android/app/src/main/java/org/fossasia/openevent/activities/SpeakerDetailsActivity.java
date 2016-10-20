@@ -10,9 +10,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,9 +28,9 @@ import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DbSingleton;
-import org.fossasia.openevent.utils.CircleTransform;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.SpeakerIntent;
+import org.fossasia.openevent.utils.Views;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,8 +57,6 @@ public class SpeakerDetailsActivity extends BaseActivity implements SearchView.O
 
     private String speaker;
 
-    private boolean flagSocial = false;
-
     @BindView(R.id.toolbar_speakers) Toolbar toolbar;
     @BindView(R.id.txt_no_sessions) TextView noSessionsView;
     @BindView(R.id.appbar) AppBarLayout appBarLayout;
@@ -65,10 +66,11 @@ public class SpeakerDetailsActivity extends BaseActivity implements SearchView.O
     @BindView(R.id.imageView_github) ImageView github;
     @BindView(R.id.imageView_twitter) ImageView twitter;
     @BindView(R.id.imageView_web) ImageView website;
-    @BindView(R.id.speaker_name_title) TextView speakerName;
+    @BindView(R.id.speaker_details_title) TextView speakerName;
     @BindView(R.id.speaker_bio) TextView biography;
-
+    @BindView(R.id.speaker_details_header) ViewGroup header;
     @BindView(R.id.recyclerView_speakers) RecyclerView sessionRecyclerView;
+    @BindView(R.id.session_details_designation) TextView speakerDesignation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,73 +89,64 @@ public class SpeakerDetailsActivity extends BaseActivity implements SearchView.O
 
         selectedSpeaker = dbSingleton.getSpeakerbySpeakersname(speaker);
 
-        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            boolean isShow = false;
-            int scrollRange = -1;
-
+        header.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if (scrollRange == -1) {
-                    scrollRange = appBarLayout.getTotalScrollRange();
-                }
-                if (scrollRange + verticalOffset == 0) {
-                    collapsingToolbarLayout.setTitle(selectedSpeaker.getName());
-                    collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedAppBar);
-                    isShow = true;
-                } else if(isShow) {
-                    collapsingToolbarLayout.setTitle(" ");
-                    isShow = false;
+            public void onGlobalLayout() {
+                int height = header.getHeight();
+                if (height != 0) {
+                    Views.removeOnGlobalLayoutListener(header.getViewTreeObserver(), this);
+                    int toolbarHeight = height + Views.getActionBarSize(SpeakerDetailsActivity.this);
+                    toolbar.getLayoutParams().height = toolbarHeight;
+                    toolbar.requestLayout();
+                    collapsingToolbarLayout.getLayoutParams().height = Math.round(2.25f * (toolbarHeight));
+                    collapsingToolbarLayout.requestLayout();
+
+                    if (!TextUtils.isEmpty(selectedSpeaker.getPhoto())) {
+                        Picasso.with(SpeakerDetailsActivity.this)
+                                .load(Uri.parse(selectedSpeaker.getPhoto()))
+                                .into((ImageView) findViewById(R.id.speaker_image));
+                    }
                 }
             }
         });
+
         speakerName.setText(selectedSpeaker.getName());
-        Picasso.with(this)
-                .load(Uri.parse(selectedSpeaker.getPhoto()))
-                .placeholder(R.drawable.ic_account_circle_grey_24dp)
-                .transform(new CircleTransform())
-                .into((ImageView) findViewById(R.id.speaker_image));
+        speakerDesignation.setText(String.format("%s%s", selectedSpeaker.getPosition(), selectedSpeaker.getOrganisation()));
 
         final SpeakerIntent speakerIntent = new SpeakerIntent(selectedSpeaker);
 
-        if (selectedSpeaker.getLinkedin() == null || selectedSpeaker.getLinkedin().isEmpty()) {
-            linkedin.setVisibility(View.GONE);
-        } else {
-            flagSocial = true;
+        if (!TextUtils.isEmpty(selectedSpeaker.getLinkedin())) {
             speakerIntent.clickedImage(linkedin);
-        }
-        if (selectedSpeaker.getTwitter() == null || selectedSpeaker.getTwitter().isEmpty()) {
-            twitter.setVisibility(View.GONE);
         } else {
-            flagSocial = true;
-            speakerIntent.clickedImage(twitter);
-        }
-        if (selectedSpeaker.getGithub() == null || selectedSpeaker.getGithub().isEmpty()) {
-            github.setVisibility(View.GONE);
-        } else {
-            flagSocial = true;
-            speakerIntent.clickedImage(github);
-        }
-        if (selectedSpeaker.getFacebook() == null || selectedSpeaker.getFacebook().isEmpty()) {
-            fb.setVisibility(View.GONE);
-        } else {
-            flagSocial = true;
-            speakerIntent.clickedImage(fb);
-        }
-        if (selectedSpeaker.getWebsite() == null || selectedSpeaker.getWebsite().isEmpty()) {
-            website.setVisibility(View.GONE);
-        } else {
-            flagSocial = true;
-            speakerIntent.clickedImage(website);
+            linkedin.setVisibility(View.GONE);
         }
 
-        if (!flagSocial) {
-            findViewById(R.id.view).setVisibility(View.GONE);
+        if (!TextUtils.isEmpty(selectedSpeaker.getTwitter())) {
+            speakerIntent.clickedImage(twitter);
+        } else {
+            twitter.setVisibility(View.GONE);
+        }
+        if (!TextUtils.isEmpty(selectedSpeaker.getGithub())) {
+            speakerIntent.clickedImage(github);
+        } else {
+            github.setVisibility(View.GONE);
+        }
+        if (!TextUtils.isEmpty(selectedSpeaker.getFacebook())) {
+            speakerIntent.clickedImage(fb);
+        } else {
+            fb.setVisibility(View.GONE);
+        }
+        if (!TextUtils.isEmpty(selectedSpeaker.getWebsite())) {
+            speakerIntent.clickedImage(website);
+        } else {
+            website.setVisibility(View.GONE);
         }
 
         biography.setText(selectedSpeaker.getBio());
 
         mSessions = dbSingleton.getSessionbySpeakersName(speaker);
         sessionsListAdapter = new SessionsListAdapter(mSessions);
+        sessionRecyclerView.setNestedScrollingEnabled(false);
         sessionRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         sessionRecyclerView.setAdapter(sessionsListAdapter);
         sessionsListAdapter.setOnClickListener(new SessionsListAdapter.SetOnClickListener() {
