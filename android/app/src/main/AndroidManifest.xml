@@ -55,7 +55,7 @@
         <activity
             android:name=".activities.SpeakerDetailsActivity"
             android:label="@string/title_section_speakerlist"
-            android:theme="@style/AppTheme.NoActionBar.Alternate" />
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
             android:name=".activities.SessionDetailActivity"
