@@ -3,7 +3,6 @@ package org.fossasia.openevent.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -32,21 +31,18 @@ import org.fossasia.openevent.events.RefreshUiEvent;
 import org.fossasia.openevent.utils.ConstantStrings;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 /**
  * User: MananWason
  * Date: 8/18/2015
  */
-public class LocationsFragment extends Fragment implements SearchView.OnQueryTextListener {
+public class LocationsFragment extends BaseFragment implements SearchView.OnQueryTextListener {
     final private String SEARCH = "searchText";
 
     @BindView(R.id.locations_swipe_refresh) SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.list_locations) RecyclerView locationsRecyclerView;
     @BindView(R.id.txt_no_microlocations) TextView noMicrolocationsView;
 
-    private Unbinder unbinder;
     private LocationsListAdapter locationsListAdapter;
 
     private String searchText = "";
@@ -56,8 +52,8 @@ public class LocationsFragment extends Fragment implements SearchView.OnQueryTex
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        View view = inflater.inflate(R.layout.list_locations, container, false);
-        unbinder = ButterKnife.bind(this,view);
+
+        View view = super.onCreateView(inflater, container, savedInstanceState);
 
         OpenEventApp.getEventBus().register(this);
 
@@ -96,6 +92,11 @@ public class LocationsFragment extends Fragment implements SearchView.OnQueryTex
             locationsRecyclerView.setVisibility(View.GONE);
         }
         return view;
+    }
+
+    @Override
+    protected int getLayoutResource() {
+        return R.layout.list_locations;
     }
 
     public void setVisibility(Boolean isDownloadDone) {
@@ -164,7 +165,6 @@ public class LocationsFragment extends Fragment implements SearchView.OnQueryTex
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
         OpenEventApp.getEventBus().unregister(this);
     }
 

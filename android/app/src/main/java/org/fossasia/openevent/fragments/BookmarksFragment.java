@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -30,22 +29,18 @@ import java.text.ParseException;
 import java.util.ArrayList;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import timber.log.Timber;
 
 /**
  * User: manan
  * Date: 22-05-2015
  */
-public class BookmarksFragment extends Fragment {
+public class BookmarksFragment extends BaseFragment {
 
     private final String FRAGMENT_TAG = "FTAG";
     SessionsListAdapter sessionsListAdapter;
 
     @BindView(R.id.list_bookmarks) RecyclerView bookmarkedTracks;
-
-    private Unbinder unbinder;
 
     View view;
     ArrayList<Integer> bookmarkedIds;
@@ -89,9 +84,8 @@ public class BookmarksFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Timber.i("Bookmarks Fragment create view");
         setHasOptionsMenu(true);
-        view = inflater.inflate(R.layout.fragment_bookmarks, container, false);
 
-        unbinder = ButterKnife.bind(this,view);
+        View view = super.onCreateView(inflater, container, savedInstanceState);
 
         final DbSingleton dbSingleton = DbSingleton.getInstance();
 
@@ -132,6 +126,11 @@ public class BookmarksFragment extends Fragment {
     }
 
     @Override
+    protected int getLayoutResource() {
+        return R.layout.fragment_bookmarks;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.share_bookmarks_url:
@@ -152,11 +151,5 @@ public class BookmarksFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
         inflater.inflate(R.menu.menu_bookmarks, menu);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
     }
 }

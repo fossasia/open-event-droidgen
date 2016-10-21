@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -39,13 +38,11 @@ import org.fossasia.openevent.utils.SortOrder;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 /**
  * Created by Manan Wason on 17/06/16.
  */
-public class DayScheduleFragment extends Fragment {
+public class DayScheduleFragment extends BaseFragment {
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -53,8 +50,6 @@ public class DayScheduleFragment extends Fragment {
     @BindView(R.id.txt_no_schedule) TextView noSchedule;
 
     private DayScheduleAdapter dayScheduleAdapter;
-
-    private Unbinder unbinder;
 
     private String date;
 
@@ -83,8 +78,7 @@ public class DayScheduleFragment extends Fragment {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         sortType = sharedPreferences.getInt(ConstantStrings.PREF_SORT, 0);
 
-        View view = inflater.inflate(R.layout.list_schedule, container, false);
-        unbinder = ButterKnife.bind(this,view);
+        View view = super.onCreateView(inflater, container, savedInstanceState);
 
         /**
          * Loading data in background to improve performance.
@@ -136,8 +130,8 @@ public class DayScheduleFragment extends Fragment {
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
+    protected int getLayoutResource() {
+        return R.layout.list_schedule;
     }
 
     @Override
@@ -182,13 +176,6 @@ public class DayScheduleFragment extends Fragment {
         inflater.inflate(R.menu.menu_schedule, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
-
 
     @Subscribe
     public void refreshData(RefreshUiEvent event) {

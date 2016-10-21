@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -32,14 +31,12 @@ import org.fossasia.openevent.utils.RecyclerItemClickListener;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import timber.log.Timber;
 
 /**
  * Created by MananWason on 05-06-2015.
  */
-public class SponsorsFragment extends Fragment {
+public class SponsorsFragment extends BaseFragment {
 
     private SponsorsListAdapter sponsorsListAdapter;
 
@@ -47,14 +44,12 @@ public class SponsorsFragment extends Fragment {
     @BindView(R.id.sponsor_swipe_refresh) SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.list_sponsors) RecyclerView sponsorsRecyclerView;
 
-    private Unbinder unbinder;
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        final View view = inflater.inflate(R.layout.list_sponsors, container, false);
-        unbinder = ButterKnife.bind(this,view);
+
+        final View view = super.onCreateView(inflater, container, savedInstanceState);
 
         OpenEventApp.getEventBus().register(this);
         final DbSingleton dbSingleton = DbSingleton.getInstance();
@@ -105,12 +100,15 @@ public class SponsorsFragment extends Fragment {
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-        OpenEventApp.getEventBus().unregister(this);
+    protected int getLayoutResource() {
+        return R.layout.list_sponsors;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        OpenEventApp.getEventBus().unregister(this);
+    }
 
     @Subscribe
     public void sponsorDownloadDone(SponsorDownloadEvent event) {

@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
@@ -40,13 +39,11 @@ import org.fossasia.openevent.views.MarginDecoration;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import timber.log.Timber;
 
 import static org.fossasia.openevent.utils.SortOrder.sortOrderSpeaker;
 
-public class SpeakersListFragment extends Fragment implements SearchView.OnQueryTextListener {
+public class SpeakersListFragment extends BaseFragment implements SearchView.OnQueryTextListener {
 
     private static final String PREF_SORT = "sortType";
 
@@ -57,8 +54,6 @@ public class SpeakersListFragment extends Fragment implements SearchView.OnQuery
     @BindView(R.id.speaker_swipe_refresh) SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.txt_no_speakers)  TextView noSpeakersView;
     @BindView(R.id.rv_speakers) RecyclerView speakersRecyclerView;
-
-    private Unbinder unbinder;
 
     private SpeakersListAdapter speakersListAdapter;
 
@@ -72,8 +67,8 @@ public class SpeakersListFragment extends Fragment implements SearchView.OnQuery
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        View view = inflater.inflate(R.layout.list_speakers, container, false);
-        unbinder = ButterKnife.bind(this,view);
+
+        View view = super.onCreateView(inflater, container, savedInstanceState);
 
         OpenEventApp.getEventBus().register(this);
 
@@ -119,9 +114,13 @@ public class SpeakersListFragment extends Fragment implements SearchView.OnQuery
     }
 
     @Override
+    protected int getLayoutResource() {
+        return R.layout.list_speakers;
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
         OpenEventApp.getEventBus().unregister(this);
     }
 
