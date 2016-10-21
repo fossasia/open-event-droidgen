@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import timber.log.Timber;
 
 /**
@@ -52,8 +51,6 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_locations);
-        ButterKnife.bind(this);
 
         final DbSingleton dbSingleton = DbSingleton.getInstance();
         location = getIntent().getStringExtra(ConstantStrings.MICROLOCATIONS);
@@ -96,6 +93,12 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
             noSessionsView.setVisibility(View.VISIBLE);
             sessionRecyclerView.setVisibility(View.GONE);
         }
+    }
+
+
+    @Override
+    protected int getLayoutResource() {
+        return R.layout.activity_locations;
     }
 
     @Override

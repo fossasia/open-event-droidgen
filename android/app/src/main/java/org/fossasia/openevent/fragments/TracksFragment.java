@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -37,14 +36,12 @@ import org.fossasia.openevent.utils.NetworkUtils;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 /**
  * User: MananWason
  * Date: 05-06-2015
  */
-public class TracksFragment extends Fragment implements SearchView.OnQueryTextListener {
+public class TracksFragment extends BaseFragment implements SearchView.OnQueryTextListener {
 
     final private String SEARCH = "searchText";
 
@@ -55,19 +52,15 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
     @BindView(R.id.list_tracks) RecyclerView tracksRecyclerView;
     @BindView(R.id.tracks_frame) View windowFrame;
 
-    private Unbinder unbinder;
-
     private String searchText = "";
 
     private SearchView searchView;
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        View view = inflater.inflate(R.layout.list_tracks, container, false);
-        unbinder = ButterKnife.bind(this,view);
+
+        View view = super.onCreateView(inflater, container, savedInstanceState);
 
         OpenEventApp.getEventBus().register(this);
         DbSingleton dbSingleton = DbSingleton.getInstance();
@@ -111,10 +104,14 @@ public class TracksFragment extends Fragment implements SearchView.OnQueryTextLi
     }
 
     @Override
+    protected int getLayoutResource() {
+        return R.layout.list_tracks;
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         OpenEventApp.getEventBus().unregister(this);
-        unbinder.unbind();
     }
 
     @Override
