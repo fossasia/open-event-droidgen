@@ -37,7 +37,6 @@ import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Created by MananWason on 30-06-2015.
@@ -75,9 +74,6 @@ public class SpeakerDetailsActivity extends BaseActivity implements SearchView.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_speakers);
-
-        ButterKnife.bind(this);
 
         final DbSingleton dbSingleton = DbSingleton.getInstance();
         speaker = getIntent().getStringExtra(Speaker.SPEAKER);
@@ -174,6 +170,11 @@ public class SpeakerDetailsActivity extends BaseActivity implements SearchView.O
             noSessionsView.setVisibility(View.VISIBLE);
             sessionRecyclerView.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    protected int getLayoutResource() {
+        return R.layout.activity_speakers;
     }
 
     @Override

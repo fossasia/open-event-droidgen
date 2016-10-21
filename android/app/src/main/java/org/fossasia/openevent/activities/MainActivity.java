@@ -171,9 +171,6 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         counter = 0;
         eventsDone = 0;
-        setContentView(R.layout.activity_main);
-
-        ButterKnife.bind(this);
         ButterKnife.setDebug(true);
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -250,6 +247,11 @@ public class MainActivity extends BaseActivity {
         if (getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_TRACKS) == null && getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_REST) == null) {
             doMenuAction(currentMenuItemId);
         }
+    }
+
+    @Override
+    protected int getLayoutResource() {
+        return R.layout.activity_main;
     }
 
     @Override
