@@ -16,13 +16,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.fossasia.openevent.R;
-import org.fossasia.openevent.activities.SessionDetailActivity;
 import org.fossasia.openevent.adapters.SessionsListAdapter;
 import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Session;
-import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DbSingleton;
-import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.widget.DialogFactory;
 
 import java.text.ParseException;
@@ -96,7 +93,7 @@ public class BookmarksFragment extends BaseFragment {
             Timber.e("Parsing Error Occurred at BookmarksFragment::onCreateView.");
         }
         bookmarkedTracks.setVisibility(View.VISIBLE);
-        sessionsListAdapter = new SessionsListAdapter(new ArrayList<Session>());
+        sessionsListAdapter = new SessionsListAdapter(getContext(), new ArrayList<Session>());
         for (int i = 0; i < bookmarkedIds.size(); i++) {
             Integer id = bookmarkedIds.get(i);
             Session session = dbSingleton.getSessionById(id);
@@ -104,22 +101,6 @@ public class BookmarksFragment extends BaseFragment {
         }
 
         bookmarkedTracks.setAdapter(sessionsListAdapter);
-        sessionsListAdapter.setOnClickListener(new SessionsListAdapter.SetOnClickListener() {
-            @Override
-            public void onItemClick(int position, View view) {
-                Session model = sessionsListAdapter.getItem(position);
-                String sessionName = model.getTitle();
-                Timber.d(model.getTitle());
-                Track track = dbSingleton.getTrackbyId(model.getTrack().getId());
-                String trackName = track.getName();
-                Intent intent = new Intent(getContext(), SessionDetailActivity.class);
-                intent.putExtra(ConstantStrings.SESSION, sessionName);
-                intent.putExtra(ConstantStrings.TRACK, trackName);
-                startActivity(intent);
-            }
-        });
-
-
         bookmarkedTracks.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 
         return view;

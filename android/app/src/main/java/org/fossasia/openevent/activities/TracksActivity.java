@@ -20,7 +20,6 @@ import com.squareup.picasso.Picasso;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.SessionsListAdapter;
 import org.fossasia.openevent.api.Urls;
-import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.ConstantStrings;
@@ -71,20 +70,9 @@ public class TracksActivity extends BaseActivity implements SearchView.OnQueryTe
         }
         loadImage();
         collapsingToolbar.setTitle(track);
-        sessionsListAdapter = new SessionsListAdapter(dbSingleton.getSessionbyTracksname(track));
+        sessionsListAdapter = new SessionsListAdapter(this, dbSingleton.getSessionbyTracksname(track));
         sessionsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         sessionsRecyclerView.setAdapter(sessionsListAdapter);
-        sessionsListAdapter.setOnClickListener(new SessionsListAdapter.SetOnClickListener() {
-            @Override
-            public void onItemClick(int position, View view) {
-                Session model = sessionsListAdapter.getItem(position);
-                String sessionName = model.getTitle();
-                Intent intent = new Intent(getApplicationContext(), SessionDetailActivity.class);
-                intent.putExtra(ConstantStrings.SESSION, sessionName);
-                intent.putExtra(ConstantStrings.TRACK, track);
-                startActivity(intent);
-            }
-        });
         sessionsRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {

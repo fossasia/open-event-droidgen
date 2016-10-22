@@ -1,5 +1,8 @@
 package org.fossasia.openevent.adapters;
 
+import android.content.Context;
+import android.content.Intent;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,24 +10,30 @@ import android.widget.Filter;
 import android.widget.TextView;
 
 import org.fossasia.openevent.R;
+import org.fossasia.openevent.activities.SessionDetailActivity;
 import org.fossasia.openevent.data.Session;
+import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.ISO8601Date;
-import org.fossasia.openevent.utils.ViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import timber.log.Timber;
 
 /**
  * User: MananWason
  * Date: 26-06-2015
  */
-public class SessionsListAdapter extends BaseRVAdapter<Session, ViewHolder.Viewholder> {
+public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdapter.SessionViewHolder> {
 
     private String trackName;
+    private Context context;
+
     @SuppressWarnings("all")
     Filter filter = new Filter() {
         @Override
@@ -52,10 +61,10 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, ViewHolder.Viewh
             animateTo((List<Session>) results.values);
         }
     };
-    private ViewHolder.SetOnClickListener listener;
 
-    public SessionsListAdapter(List<Session> sessions) {
+    public SessionsListAdapter(Context context, List<Session> sessions) {
         super(sessions);
+        this.context = context;
     }
 
     public void setTrackName(String trackName) {
@@ -67,50 +76,74 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, ViewHolder.Viewh
         return filter;
     }
 
-    public void setOnClickListener(ViewHolder.SetOnClickListener clickListener) {
-        this.listener = clickListener;
-    }
-
     @Override
-    public ViewHolder.Viewholder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public SessionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.tracksactvity_item, parent, false);
-        ViewHolder.Viewholder viewholder = new ViewHolder.Viewholder(view);
-        viewholder.setTxtView1((TextView) view.findViewById(R.id.session_title));
-        viewholder.setTxtView2((TextView) view.findViewById(R.id.session_abstract));
-        viewholder.setTxtView3 ((TextView) view.findViewById(R.id.session_track));
-        viewholder.setTxtView4 ((TextView) view.findViewById(R.id.session_date));
-        viewholder.setTxtView5 ((TextView) view.findViewById(R.id.session_start_time));
-        viewholder.setTxtView6((TextView) view.findViewById(R.id.session_location));
-        return viewholder;
+        return new SessionViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder.Viewholder holder, int position) {
-        Session current = getItem(position);
-        String title = current.getTitle();
-        String summary = current.getSummary();
-        String date = ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(current.getStartTime())).split(",")[0] + ", " + ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(current.getStartTime())).split(",")[1];
-        holder.getTxtView1().setText(title);
-        holder.getTxtView2().setText(summary);
-        holder.getTxtView3().setText(current.getTrack().getName());
-        holder.getTxtView4().setText(date);
-        holder.getTxtView5().setText(ISO8601Date.get12HourTime(ISO8601Date.getDateObject(current.getStartTime())));
-        holder.getTxtView6().setText(current.getMicrolocation().getName());
-        holder.setItemClickListener(listener);
+    public void onBindViewHolder(SessionViewHolder holder, int position) {
+        final Session session = getItem(position);
+        String date = ISO8601Date.getTimeZoneDateString(
+                ISO8601Date.getDateObject(session.getStartTime())).split(",")[0] + ", "
+                + ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(session.getStartTime())).split(",")[1];
+
+        holder.sessionTitle.setText(session.getTitle());
+        holder.sessionAbstract.setText(session.getSummary());
+        holder.sessionTrack.setText(session.getTrack().getName());
+        holder.sessionDate.setText(date);
+        holder.sessionStartTime.setText(ISO8601Date.get12HourTime(ISO8601Date.getDateObject(session.getStartTime())));
+        holder.sessionLocation.setText(session.getMicrolocation().getName());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String sessionName = session.getTitle();
+                Timber.d(session.getTitle());
+                Track track = DbSingleton.getInstance().getTrackbyId(session.getTrack().getId());
+                String trackName = track.getName();
+                Intent intent = new Intent(context, SessionDetailActivity.class);
+                intent.putExtra(ConstantStrings.SESSION, sessionName);
+                intent.putExtra(ConstantStrings.TRACK, trackName);
+                context.startActivity(intent);
+            }
+        });
     }
 
     public void refresh() {
         Timber.d("Refreshing session List from db");
-        DbSingleton dbSingleton = DbSingleton.getInstance();
         clear();
-        animateTo(dbSingleton.getSessionbyTracksname(trackName));
+        animateTo(DbSingleton.getInstance().getSessionbyTracksname(trackName));
     }
 
-    /**
-     * to handle click listener
-     */
-    public interface SetOnClickListener extends ViewHolder.SetOnClickListener {
-        void onItemClick(int position, View itemView);
+    protected class SessionViewHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.session_title)
+        TextView sessionTitle;
+
+        @BindView(R.id.session_abstract)
+        TextView sessionAbstract;
+
+        @BindView(R.id.session_track)
+        TextView sessionTrack;
+
+        @BindView(R.id.session_date)
+        TextView sessionDate;
+
+        @BindView(R.id.session_start_time)
+        TextView sessionStartTime;
+
+        @BindView(R.id.session_location)
+        TextView sessionLocation;
+
+        public SessionViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+
     }
+
 }

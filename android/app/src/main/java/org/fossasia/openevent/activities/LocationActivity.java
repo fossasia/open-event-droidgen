@@ -1,13 +1,11 @@
 package org.fossasia.openevent.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
@@ -16,7 +14,6 @@ import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.SessionsListAdapter;
 import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.data.Session;
-import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.ConstantStrings;
 
@@ -62,25 +59,10 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
 
         mSessions = dbSingleton.getSessionbyLocationName(location);
 
-        sessionsListAdapter = new SessionsListAdapter(mSessions);
+        sessionsListAdapter = new SessionsListAdapter(this, mSessions);
 
         sessionRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         sessionRecyclerView.setAdapter(sessionsListAdapter);
-        sessionsListAdapter.setOnClickListener(new SessionsListAdapter.SetOnClickListener() {
-            @Override
-            public void onItemClick(int position, View view) {
-
-                Session model = sessionsListAdapter.getItem(position);
-                String sessionName = model.getTitle();
-                Log.d("ABC" ,model.getTitle());
-                Track track = dbSingleton.getTrackbyId(model.getTrack().getId());
-                String trackName = track.getName();
-                Intent intent = new Intent(getApplicationContext(), SessionDetailActivity.class);
-                intent.putExtra(ConstantStrings.SESSION, sessionName);
-                intent.putExtra(ConstantStrings.TRACK, trackName);
-                startActivity(intent);
-            }
-        });
         sessionRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
