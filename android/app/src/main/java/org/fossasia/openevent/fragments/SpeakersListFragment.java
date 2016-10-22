@@ -82,17 +82,6 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
         speakersRecyclerView.setHasFixedSize(true);
         speakersRecyclerView.setAdapter(speakersListAdapter);
 
-        speakersListAdapter.setOnClickListener(new SpeakersListAdapter.SetOnClickListener() {
-            @Override
-            public void onItemClick(int position, View view) {
-                Speaker model = speakersListAdapter.getItem(position);
-                String speakerName = model.getName();
-                Intent intent = new Intent(getContext(), SpeakerDetailsActivity.class);
-                intent.putExtra(Speaker.SPEAKER, speakerName);
-                startActivity(intent);
-            }
-        });
-
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

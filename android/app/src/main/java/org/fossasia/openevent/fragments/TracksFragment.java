@@ -65,19 +65,9 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
         OpenEventApp.getEventBus().register(this);
         DbSingleton dbSingleton = DbSingleton.getInstance();
         List<Track> mTracks = dbSingleton.getTrackList();
-        tracksListAdapter = new TracksListAdapter(mTracks);
+        tracksListAdapter = new TracksListAdapter(getContext(), mTracks);
         tracksRecyclerView.setAdapter(tracksListAdapter);
         setVisibility(PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true));
-        tracksListAdapter.setOnClickListener(new TracksListAdapter.SetOnClickListener() {
-            @Override
-            public void onItemClick(int position, View view) {
-                Track model = tracksListAdapter.getItem(position);
-                String trackTitle = model.getName();
-                Intent intent = new Intent(getContext(), TracksActivity.class);
-                intent.putExtra(ConstantStrings.TRACK, trackTitle);
-                startActivity(intent);
-            }
-        });
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

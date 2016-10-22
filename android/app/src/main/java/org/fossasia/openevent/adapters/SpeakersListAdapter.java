@@ -1,10 +1,9 @@
 package org.fossasia.openevent.adapters;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.net.Uri;
-import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,19 +12,20 @@ import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 import com.squareup.picasso.Picasso;
 
 import org.fossasia.openevent.R;
+import org.fossasia.openevent.activities.SpeakerDetailsActivity;
 import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.dbutils.DbSingleton;
-import org.fossasia.openevent.utils.ViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import timber.log.Timber;
 
 import static org.fossasia.openevent.utils.SortOrder.sortOrderSpeaker;
@@ -34,7 +34,7 @@ import static org.fossasia.openevent.utils.SortOrder.sortOrderSpeaker;
  * User: MananWason
  * Date: 11-06-2015
  */
-public class SpeakersListAdapter extends BaseRVAdapter<Speaker, ViewHolder.Viewholder> implements FastScrollRecyclerView.SectionedAdapter{
+public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakersListAdapter.RecyclerViewHolder> {
 
     private Activity activity;
 
@@ -64,7 +64,6 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, ViewHolder.Viewh
             animateTo((List<Speaker>) results.values);
         }
     };
-    private ViewHolder.SetOnClickListener listener;
 
     public SpeakersListAdapter(List<Speaker> speakers, Activity activity) {
         super(speakers);
@@ -76,69 +75,64 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, ViewHolder.Viewh
         return filter;
     }
 
-    public void setOnClickListener(ViewHolder.SetOnClickListener clickListener) {
-        this.listener = clickListener;
+    @Override
+    public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_speaker, parent, false);
+        return new RecyclerViewHolder(view);
     }
 
     @Override
-    public ViewHolder.Viewholder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.item_speaker, parent, false);
-        ViewHolder.Viewholder viewholder = new ViewHolder.Viewholder(view);
+    public void onBindViewHolder(RecyclerViewHolder holder, final int position) {
+        final Speaker current = getItem(position);
 
-        viewholder.setImgView1((ImageView) view.findViewById(R.id.speakers_list_image));
-        viewholder.setTxtView1((TextView) view.findViewById(R.id.speakers_list_name));
-        viewholder.setTxtView2((TextView) view.findViewById(R.id.speakers_list_designation));
-        viewholder.setTxtView3((TextView) view.findViewById(R.id.speakers_list_country));
+        String photoUri = Urls.getBaseUrl() + current.getPhoto();
+        Uri uri = Uri.parse(photoUri);
 
-        return viewholder;
-    }
+        Picasso.with(holder.speakerImage.getContext())
+                .load(uri)
+                .placeholder(R.drawable.ic_account_circle_grey_24dp)
+                .into(holder.speakerImage);
 
-    @Override
-    public void onBindViewHolder(ViewHolder.Viewholder holder, int position) {
-        Speaker current = getItem(position);
+        holder.speakerName.setText(TextUtils.isEmpty(current.getName()) ? "" : current.getName());
+        holder.speakerDesignation.setText(String.format("%s%s", current.getPosition(), current.getOrganisation()));
+        holder.speakerCountry.setText(String.format("%s", current.getCountry()));
 
-        StringBuilder photoUri = new StringBuilder();
-        photoUri.append(Urls.getBaseUrl()).append(current.getPhoto());
-        Uri uri = Uri.parse(photoUri.toString());
-        Picasso.with(holder.getImgView1().getContext()).load(uri)
-                .placeholder(R.drawable.ic_account_circle_grey_24dp).into(holder.getImgView1());
-
-        holder.getTxtView1().setText(TextUtils.isEmpty(current.getName()) ? "" : current.getName());
-        holder.getTxtView2().setText(String.format("%s%s", current.getPosition(), current.getOrganisation()));
-        holder.getTxtView3().setText(String.format("%s",current.getCountry()));
-
-        holder.setItemClickListener(listener);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String speakerName = current.getName();
+                Intent intent = new Intent(activity, SpeakerDetailsActivity.class);
+                intent.putExtra(Speaker.SPEAKER, speakerName);
+                activity.startActivity(intent);
+            }
+        });
     }
 
     public void refresh() {
-        DbSingleton dbSingleton = DbSingleton.getInstance();
         clear();
-        animateTo(dbSingleton.getSpeakerList(sortOrderSpeaker(activity)));
+        animateTo(DbSingleton.getInstance().getSpeakerList(sortOrderSpeaker(activity)));
     }
 
-    /**
-     * to handle click listener
-     */
-    public interface SetOnClickListener extends ViewHolder.SetOnClickListener {
-        void onItemClick(int position, View itemView);
-    }
+    protected class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
-    @NonNull
-    @Override
-    public String getSectionName(int position) {
-        Speaker sp=getItem(position);
-        SharedPreferences prefsSort;
-        prefsSort = PreferenceManager.getDefaultSharedPreferences(activity);
-        switch (prefsSort.getInt("sortType", 0)) {
-            case 0:
-                return ""+sp.getName().charAt(0);
-            case 1:
-                return ""+sp.getOrganisation().charAt(0);
-            case 2:
-                return ""+sp.getCountry().charAt(0);
-            default:
-                return ""+sp.getName().charAt(0);
+        @BindView(R.id.speakers_list_image)
+        ImageView speakerImage;
+
+        @BindView(R.id.speakers_list_name)
+        TextView speakerName;
+
+        @BindView(R.id.speakers_list_designation)
+        TextView speakerDesignation;
+
+        @BindView(R.id.speakers_list_country)
+        TextView speakerCountry;
+
+        public RecyclerViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
         }
+
     }
 }
