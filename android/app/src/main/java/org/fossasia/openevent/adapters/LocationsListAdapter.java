@@ -1,5 +1,8 @@
 package org.fossasia.openevent.adapters;
 
+import android.content.Context;
+import android.content.Intent;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,22 +10,33 @@ import android.widget.Filter;
 import android.widget.TextView;
 
 import org.fossasia.openevent.R;
+import org.fossasia.openevent.activities.LocationActivity;
 import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.dbutils.DbSingleton;
-import org.fossasia.openevent.utils.ViewHolder;
+import org.fossasia.openevent.utils.ConstantStrings;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import timber.log.Timber;
 
 /**
  * User: MananWason
  * Date: 8/18/2015
  */
-public class LocationsListAdapter extends BaseRVAdapter<Microlocation, ViewHolder.Viewholder> {
+public class LocationsListAdapter extends BaseRVAdapter<Microlocation, LocationsListAdapter.LocationViewHolder> {
+
+    private Context context;
+
+    public LocationsListAdapter(Context context, List<Microlocation> microLocations) {
+        super(microLocations);
+        this.context = context;
+    }
+
     @SuppressWarnings("all")
     Filter filter = new Filter() {
         @Override
@@ -49,53 +63,54 @@ public class LocationsListAdapter extends BaseRVAdapter<Microlocation, ViewHolde
             animateTo((List<Microlocation>) results.values);
         }
     };
-    private ViewHolder.SetOnClickListener listener;
-
-    public LocationsListAdapter(List<Microlocation> microlocations) {
-        super(microlocations);
-    }
 
     @Override
     public Filter getFilter() {
         return filter;
     }
 
-    public void setOnClickListener(ViewHolder.SetOnClickListener clickListener) {
-        this.listener = clickListener;
-    }
-
     @Override
-    public ViewHolder.Viewholder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public LocationViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.item_location, parent, false);
-        ViewHolder.Viewholder viewholder = new ViewHolder.Viewholder(view);
-
-        viewholder.setTxtView1((TextView) view.findViewById(R.id.location_name));
-        viewholder.setTxtView2((TextView) view.findViewById(R.id.location_floor));
-
-        return viewholder;
+        return new LocationViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder.Viewholder holder, int position) {
-        Microlocation current = getItem(position);
-        holder.getTxtView1().setText(current.getName());
-        holder.getTxtView2().setText(MessageFormat.format("{0}{1}",
+    public void onBindViewHolder(LocationViewHolder holder, int position) {
+        final Microlocation location = getItem(position);
+        holder.locationName.setText(location.getName());
+        holder.locationFloor.setText(MessageFormat.format("{0}{1}",
                 holder.itemView.getResources().getString(R.string.fmt_floor),
-                current.getFloor()));
-        holder.setItemClickListener(listener);
+                location.getFloor()));
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, LocationActivity.class);
+                intent.putExtra(ConstantStrings.MICROLOCATIONS, location.getName());
+                context.startActivity(intent);
+            }
+        });
     }
 
     public void refresh() {
-        DbSingleton dbSingleton = DbSingleton.getInstance();
         clear();
-        animateTo(dbSingleton.getMicrolocationsList());
+        animateTo(DbSingleton.getInstance().getMicrolocationsList());
     }
 
-    /**
-     * to handle click listener
-     */
-    public interface SetOnClickListener extends ViewHolder.SetOnClickListener {
-        void onItemClick(int position, View itemView);
+    protected class LocationViewHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.location_name)
+        TextView locationName;
+
+        @BindView(R.id.location_floor)
+        TextView locationFloor;
+
+        public LocationViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+
     }
 }

@@ -2,7 +2,6 @@ package org.fossasia.openevent.fragments;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -23,10 +22,8 @@ import com.squareup.otto.Subscribe;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
-import org.fossasia.openevent.activities.SessionDetailActivity;
 import org.fossasia.openevent.adapters.DayScheduleAdapter;
 import org.fossasia.openevent.data.Session;
-import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DataDownloadManager;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.RefreshUiEvent;
@@ -97,19 +94,6 @@ public class DayScheduleFragment extends BaseFragment {
                         }
                         dayScheduleAdapter = new DayScheduleAdapter(sortedSessions, getContext());
                         dayRecyclerView.setAdapter(dayScheduleAdapter);
-                        dayScheduleAdapter.setOnClickListener(new DayScheduleAdapter.SetOnClickListener() {
-                            @Override
-                            public void onItemClick(int position, View view) {
-                                Session model = dayScheduleAdapter.getItem(position);
-                                String sessionName = model.getTitle();
-                                Track track = DbSingleton.getInstance().getTrackbyId(model.getTrack().getId());
-                                String trackName = track.getName();
-                                Intent intent = new Intent(getContext(), SessionDetailActivity.class);
-                                intent.putExtra(ConstantStrings.SESSION, sessionName);
-                                intent.putExtra(ConstantStrings.TRACK, trackName);
-                                startActivity(intent);
-                            }
-                        });
                         dayScheduleAdapter.setEventDate(date);
                     }
                 });
