@@ -1,0 +1,188 @@
+<html>
+
+<head>
+    <title>Apk Generator</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,100' rel='stylesheet' type='text/css'>
+    <link href="css/main.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <br>
+        <br>
+        <form name="htmlform" id="form" enctype="multipart/form-data" class="col-md-offset-4 col-xs-offset-2 col-xs-8 col-md-4 form-group generator_form">
+            <label for="name">Email</label>
+            <input type="email" class="form-control" id="Email" name="Email">
+            <br>
+            <input type="hidden" id="theme" name="theme" value="light">
+
+            <label for="name">App's Name</label>
+            <input type="text" class="form-control" id="App_Name" name="App_Name">
+            <br>
+            <label> Choose your data source </label>
+            <ul style="list-style-type:none">
+                <li>
+                    <input type="radio" name="datasource" value="jsonupload"> Upload your own JSON files </input>
+                </li>
+                <li>
+                    <input type="radio" name="datasource" value="eventapi"> API endpoint of event on OpenEvent </input>
+                </li>
+            </ul>
+            <br>
+            <section id="eventapi-input" style="display:none;">
+                <label for="apiendpoint">Link to Open Event API endpoint</label>
+                <input type="url" class="form-control" id="Api_Link" name="Api_Link">
+            </section>
+            <br>
+            <section id="jsonupload-input" style="display:none;">
+                <input type="file" name="uploadZip" id="uploadZip" class="form-control" />
+                <br>
+            </section>
+            <br>
+            <input type="hidden" name="assetmode" value="download">
+            <center>
+                <br>
+                <div id="status"></div>
+                <br>
+                <section>
+                    <br>
+                    <div class="progress" style="display:none;">
+                        <div class="progress-bar" role="progressbar" id="generator-progress" style="width:0%; height: 20px;">
+                            <span id="generator-progress-val">0%</span>
+                        </div>
+                    </div>
+                    <br>
+                </section>
+                <tr>
+                    <td colspan="5" style="text-align:center">
+                        <button type="submit">Generate and Download app</button>
+                    </td>
+                </tr>
+                </table>
+        </form>
+        <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
+        <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+        <script>
+            $('input:radio[name="datasource"]').change(
+                function() {
+                    if ($(this).is(':checked')) {
+
+                        if ($(this).val() === 'mockjson') {
+                            $('#jsonupload-input').hide(100);
+                            $('#eventapi-input').hide(100);
+                        }
+
+                        if ($(this).val() === 'jsonupload') {
+                            $('#jsonupload-input').show(100);
+                            $('#eventapi-input').hide(100);
+                        }
+
+                        if ($(this).val() === 'eventapi') {
+                            $('#eventapi-input').show(100);
+                            $('#jsonupload-input').hide(100);
+                        }
+                    }
+                });
+            var $ = jQuery;
+            var timestamp = Number(new Date());
+            var form = document.querySelector("form");
+            var config = {
+      apiKey: "AIzaSyC_h1ca4ntwFr3j1Y56OwvTEj1geq3I-qQ",
+      authDomain: "fossasia-a729e.firebaseapp.com",
+      databaseURL: "https://fossasia-a729e.firebaseio.com",
+      storageBucket: "fossasia-a729e.appspot.com",
+    };
+
+            firebase.initializeApp(config);
+            var database = firebase.database();
+            database.ref('users/1471606817051').on('value',function(snap) {
+                console.log("enna")
+                console.log(snap.val())
+            })
+            form.addEventListener("submit", function(event) {
+                event.preventDefault();
+                $('.progress').css('display', 'block');
+                $('#generator-progress').css('display', 'block')
+                var ary = $(form).serializeArray();
+                var obj = {};
+                for (var a = 0; a < ary.length; a++) obj[ary[a].name] = ary[a].value;
+                console.log("JSON", obj);
+                if (obj.Email == "" || obj.App_Name == "") {
+                    alert("It seems like you forgot to fill up your email address or app's name");
+                    setTimeout("location.reload(true);", 1);
+                } else {
+                    alert("Please wait while we generate the app, meanwhile you can stick around to directly download it.The app will also be emailed to you.");
+                    var file_data = $('#uploadZip').prop('files')[0];
+                    var form_data = new FormData();
+                    form_data.append('file', file_data);
+                    firebase.database().ref('users/' + timestamp).set(obj);
+                    database.ref('users/' + timestamp).once('value').then(function(snapshot) {
+
+                        console.log("Received value", snapshot.val());
+                        var file_data = $('#uploadZip').prop('files')[0];
+                        $.ajax({
+
+                            url: "/upload", // point to server-side PHP script
+                            cache: false,
+                            contentType: false,
+                            processData: false,
+                            data: form_data,
+                            type: "POST",
+                            success: function(php_script_response) {
+                                ajaxCall1(php_script_response);
+                                updatePercent(10);
+                            }
+                        });
+
+                        function ajaxCall1(unique_name) {
+                          console.log(unique_name);
+                            $.ajax({
+                                type: "POST",
+                                url: "/uploadhelper",
+                                data: {
+                                    timestamp: timestamp,
+                                    filename:unique_name
+                                },
+                                success: function(response) {
+                                    updatePercent(20);
+                                    ajaxCall2();
+                                }
+                            });
+                        }
+
+                        function ajaxCall2() {
+                            updatePercent(50);
+                            $.ajax({
+                                type: "POST",
+                                url: "/build",
+                                data: {
+                                    timestamp: timestamp
+                                },
+                                success: function(response) {
+                                    console.log("Success", response);
+                                    updatePercent(100);
+                                    window.location = response;
+                                }
+                            });
+                        }
+
+                        function updatePercent(perc) {
+                            $('#generator-progress').animate({
+                                'width': perc + '%'
+                            }, function() {
+                                $('#generator-progress-val').html(perc + '%');
+                            });
+                        }
+                    });
+                }
+            });
+        </script>
+    </div>
+</body>
+
+</html>

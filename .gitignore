@@ -5,3 +5,5 @@
 /captures
 **/.idea/**
 **/*.iml
+/apk-generator/node_modules
+/android

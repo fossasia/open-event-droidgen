@@ -1,0 +1,21 @@
+{
+  "name": "appgenerator",
+  "version": "1.0.0",
+  "description": "node version of open event app generator",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "sch00lb0y",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "firebase": "^3.3.0",
+    "jsonfile": "^2.3.1",
+    "kefir": "^3.4.0",
+    "multer": "^1.2.0",
+    "mv": "^2.1.1",
+    "replace": "^0.3.0"
+  }
+}
