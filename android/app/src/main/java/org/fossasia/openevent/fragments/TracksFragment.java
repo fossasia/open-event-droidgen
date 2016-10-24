@@ -2,7 +2,6 @@ package org.fossasia.openevent.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -22,7 +21,6 @@ import com.squareup.otto.Subscribe;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
-import org.fossasia.openevent.activities.TracksActivity;
 import org.fossasia.openevent.adapters.TracksListAdapter;
 import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Track;
@@ -30,7 +28,6 @@ import org.fossasia.openevent.dbutils.DataDownloadManager;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.RefreshUiEvent;
 import org.fossasia.openevent.events.TracksDownloadEvent;
-import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.NetworkUtils;
 
 import java.util.List;
@@ -70,16 +67,6 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
         tracksListAdapter = new TracksListAdapter(getContext(), mTracks);
         tracksRecyclerView.setAdapter(tracksListAdapter);
         setVisibility();
-        tracksListAdapter.setOnClickListener(new TracksListAdapter.SetOnClickListener() {
-            @Override
-            public void onItemClick(int position, View view) {
-                Track model = tracksListAdapter.getItem(position);
-                String trackTitle = model.getName();
-                Intent intent = new Intent(getContext(), TracksActivity.class);
-                intent.putExtra(ConstantStrings.TRACK, trackTitle);
-                startActivity(intent);
-            }
-        });
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
