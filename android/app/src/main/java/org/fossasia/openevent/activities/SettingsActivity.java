@@ -14,6 +14,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import org.fossasia.openevent.R;
 
@@ -78,6 +79,16 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
     @Override
     public MenuInflater getMenuInflater() {
         return getDelegate().getMenuInflater();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
