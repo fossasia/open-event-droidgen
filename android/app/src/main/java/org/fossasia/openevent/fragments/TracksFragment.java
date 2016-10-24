@@ -56,6 +56,8 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
 
     private SearchView searchView;
 
+    private DbSingleton dbSingleton;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
@@ -63,11 +65,21 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
         OpenEventApp.getEventBus().register(this);
-        DbSingleton dbSingleton = DbSingleton.getInstance();
+        dbSingleton = DbSingleton.getInstance();
         List<Track> mTracks = dbSingleton.getTrackList();
         tracksListAdapter = new TracksListAdapter(getContext(), mTracks);
         tracksRecyclerView.setAdapter(tracksListAdapter);
-        setVisibility(PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true));
+        setVisibility();
+        tracksListAdapter.setOnClickListener(new TracksListAdapter.SetOnClickListener() {
+            @Override
+            public void onItemClick(int position, View view) {
+                Track model = tracksListAdapter.getItem(position);
+                String trackTitle = model.getName();
+                Intent intent = new Intent(getContext(), TracksActivity.class);
+                intent.putExtra(ConstantStrings.TRACK, trackTitle);
+                startActivity(intent);
+            }
+        });
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -83,8 +95,8 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
         return view;
     }
 
-    public void setVisibility(Boolean isDownloadDone) {
-        if (isDownloadDone) {
+    public void setVisibility() {
+        if (!dbSingleton.getTrackList().isEmpty()) {
             noTracksView.setVisibility(View.GONE);
             tracksRecyclerView.setVisibility(View.VISIBLE);
         } else {
@@ -161,7 +173,7 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
 
     @Subscribe
     public void RefreshData(RefreshUiEvent event) {
-        setVisibility(true);
+        setVisibility();
         if (searchText.length() == 0) {
             tracksListAdapter.refresh();
         }
@@ -169,8 +181,8 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
 
     @Subscribe
     public void onTrackDownloadDone(TracksDownloadEvent event) {
-         if(swipeRefreshLayout!=null)
-        swipeRefreshLayout.setRefreshing(false);
+        if(swipeRefreshLayout!=null)
+            swipeRefreshLayout.setRefreshing(false);
         if (event.isState()) {
             tracksListAdapter.refresh();
 
@@ -189,11 +201,10 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
     private void refresh() {
         if (NetworkUtils.haveNetworkConnection(getActivity())) {
             DataDownloadManager.getInstance().downloadTracks();
-            setVisibility(true);
         } else {
             OpenEventApp.getEventBus().post(new TracksDownloadEvent(false));
-            setVisibility(false);
         }
+        setVisibility();
     }
 
 }
