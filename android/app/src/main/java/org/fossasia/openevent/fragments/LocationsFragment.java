@@ -1,6 +1,5 @@
 package org.fossasia.openevent.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
@@ -21,14 +20,11 @@ import com.squareup.otto.Subscribe;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
-import org.fossasia.openevent.activities.LocationActivity;
 import org.fossasia.openevent.adapters.LocationsListAdapter;
-import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.dbutils.DataDownloadManager;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.MicrolocationDownloadEvent;
 import org.fossasia.openevent.events.RefreshUiEvent;
-import org.fossasia.openevent.utils.ConstantStrings;
 
 import butterknife.BindView;
 
@@ -58,19 +54,8 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
         OpenEventApp.getEventBus().register(this);
 
         final DbSingleton dbSingleton = DbSingleton.getInstance();
-        locationsListAdapter = new LocationsListAdapter(dbSingleton.getMicrolocationsList());
+        locationsListAdapter = new LocationsListAdapter(getContext(), dbSingleton.getMicrolocationsList());
         locationsRecyclerView.setAdapter(locationsListAdapter);
-        locationsListAdapter.setOnClickListener(new LocationsListAdapter.SetOnClickListener() {
-            @Override
-            public void onItemClick(int position, View view) {
-
-                Microlocation model = locationsListAdapter.getItem(position);
-                String title = model.getName();
-                Intent intent = new Intent(getActivity(), LocationActivity.class);
-                intent.putExtra(ConstantStrings.MICROLOCATIONS, title);
-                startActivity(intent);
-            }
-        });
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
