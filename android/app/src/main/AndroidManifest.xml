@@ -47,7 +47,7 @@
         <activity
             android:name=".activities.TracksActivity"
             android:label="@string/title_section_tracks"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar.Alternate"/>
         <activity
             android:name=".activities.LocationActivity"
             android:label="@string/title_section_location"

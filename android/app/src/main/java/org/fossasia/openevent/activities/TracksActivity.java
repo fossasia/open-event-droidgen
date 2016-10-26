@@ -2,7 +2,6 @@ package org.fossasia.openevent.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,20 +11,15 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.squareup.picasso.Picasso;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.SessionsListAdapter;
 import org.fossasia.openevent.api.Urls;
-import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.ConstantStrings;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
 /**
  * User: MananWason
@@ -45,18 +39,7 @@ public class TracksActivity extends BaseActivity implements SearchView.OnQueryTe
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.recyclerView) RecyclerView sessionsRecyclerView;
-    @BindView(R.id.collapsing_toolbar) CollapsingToolbarLayout collapsingToolbar;
     @BindView(R.id.txt_no_sessions) TextView noSessionsView;
-    @BindView(R.id.backdrop) ImageView backdrop1;
-
-    @OnClick(R.id.share_fab)
-    public void share(){
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_SEND);
-        intent.putExtra(Intent.EXTRA_TEXT, Urls.WEB_APP_URL_BASIC + Urls.SESSIONS);
-        intent.setType("text/plain");
-        startActivity(Intent.createChooser(intent, getString(R.string.share_links)));
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,12 +47,14 @@ public class TracksActivity extends BaseActivity implements SearchView.OnQueryTe
 
         DbSingleton dbSingleton = DbSingleton.getInstance();
         track = getIntent().getStringExtra(ConstantStrings.TRACK);
+
+        if (!TextUtils.isEmpty(track))
+            toolbar.setTitle(track);
+
         setSupportActionBar(toolbar);
         if(getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        loadImage();
-        collapsingToolbar.setTitle(track);
         sessionsListAdapter = new SessionsListAdapter(this, dbSingleton.getSessionbyTracksname(track));
         sessionsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         sessionsRecyclerView.setAdapter(sessionsListAdapter);
@@ -100,21 +85,19 @@ public class TracksActivity extends BaseActivity implements SearchView.OnQueryTe
         super.onSaveInstanceState(bundle);
     }
 
-    private void loadImage() {
-        DbSingleton dbSingleton = DbSingleton.getInstance();
-        Track current = dbSingleton.getTrackbyName(track);
-
-        if (current.getImage().length() != 0) {
-            Picasso.with(getApplicationContext()).load(current.getImage()).into(backdrop1);
-
-        }
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_search_sessions:
                 return true;
+
+            case R.id.action_share_sessions:
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_SEND);
+                intent.putExtra(Intent.EXTRA_TEXT, Urls.WEB_APP_URL_BASIC + Urls.SESSIONS);
+                intent.setType("text/plain");
+                startActivity(Intent.createChooser(intent, getString(R.string.share_links)));
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -123,8 +106,8 @@ public class TracksActivity extends BaseActivity implements SearchView.OnQueryTe
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.menu_sessions_activity, menu);
-        searchView = (SearchView) menu.findItem(R.id.action_search_sessions).getActionView();
+        getMenuInflater().inflate(R.menu.menu_tracks, menu);
+        searchView = (SearchView) menu.findItem(R.id.action_search_tracks).getActionView();
         searchView.setOnQueryTextListener(this);
         if (searchText != null) {
             searchView.setQuery(searchText, false);
