@@ -7,10 +7,12 @@
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/ToolbarTheme"
+        app:tabBackground="?attr/selectableItemBackground"
         app:tabGravity="center"
-        app:tabMode="scrollable" />
-
+        app:tabMode="scrollable"
+        android:clipToPadding="false"
+        android:background="?attr/selectableItemBackground"
+        app:tabSelectedTextColor="@android:color/white" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"
