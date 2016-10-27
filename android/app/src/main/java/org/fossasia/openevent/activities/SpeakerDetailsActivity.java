@@ -26,9 +26,7 @@ import org.fossasia.openevent.adapters.SessionsListAdapter;
 import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
-import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DbSingleton;
-import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.SpeakerIntent;
 import org.fossasia.openevent.utils.Views;
 
@@ -141,24 +139,10 @@ public class SpeakerDetailsActivity extends BaseActivity implements SearchView.O
         biography.setText(selectedSpeaker.getBio());
 
         mSessions = dbSingleton.getSessionbySpeakersName(speaker);
-        sessionsListAdapter = new SessionsListAdapter(mSessions);
+        sessionsListAdapter = new SessionsListAdapter(this, mSessions);
         sessionRecyclerView.setNestedScrollingEnabled(false);
         sessionRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         sessionRecyclerView.setAdapter(sessionsListAdapter);
-        sessionsListAdapter.setOnClickListener(new SessionsListAdapter.SetOnClickListener() {
-            @Override
-            public void onItemClick(int position, View view) {
-
-                Session model = sessionsListAdapter.getItem(position);
-                String sessionName = model.getTitle();
-                Track track = dbSingleton.getTrackbyId(model.getTrack().getId());
-                String trackName = track.getName();
-                Intent intent = new Intent(getApplicationContext(), SessionDetailActivity.class);
-                intent.putExtra(ConstantStrings.SESSION, sessionName);
-                intent.putExtra(ConstantStrings.TRACK, trackName);
-                startActivity(intent);
-            }
-        });
         sessionRecyclerView.setItemAnimator(new DefaultItemAnimator());
         if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
             searchText = savedInstanceState.getString(SEARCH);

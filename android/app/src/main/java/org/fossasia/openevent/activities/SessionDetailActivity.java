@@ -116,17 +116,6 @@ public class SessionDetailActivity extends BaseActivity {
 
         speakersRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         speakersRecyclerView.setAdapter(adapter);
-        adapter.setOnClickListener(new SpeakersListAdapter.SetOnClickListener() {
-            @Override
-            public void onItemClick(int position, View view) {
-
-                Speaker model = adapter.getItem(position);
-                String speakerName = model.getName();
-                Intent intent = new Intent(getApplicationContext(), SpeakerDetailsActivity.class);
-                intent.putExtra(Speaker.SPEAKER, speakerName);
-                startActivity(intent);
-            }
-        });
         speakersRecyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 

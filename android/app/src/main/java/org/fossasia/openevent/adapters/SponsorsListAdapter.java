@@ -1,7 +1,12 @@
 package org.fossasia.openevent.adapters;
 
+import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
+import android.support.design.widget.Snackbar;
+import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,94 +19,98 @@ import org.fossasia.openevent.R;
 import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Sponsor;
 import org.fossasia.openevent.dbutils.DbSingleton;
-import org.fossasia.openevent.utils.ViewHolder;
 
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import timber.log.Timber;
 
 /**
  * User: MananWason
  * Date: 09-06-2015
  */
-public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, ViewHolder.Viewholder> {
-    public static final int SPONSOR = 0;
+public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, RecyclerView.ViewHolder> {
 
+    public static final int SPONSOR = 0;
     public static final int CATEGORY = 1;
 
-    public SponsorsListAdapter(List<Sponsor> sponsors) {
-        super(sponsors);
-    }
+    private Context context;
 
-    public void setOnClickListener(ViewHolder.SetOnClickListener clickListener) {
-        ViewHolder.SetOnClickListener listener = clickListener;
+    public SponsorsListAdapter(Context context, List<Sponsor> sponsors) {
+        super(sponsors);
+        this.context = context;
     }
 
     @Override
-    public ViewHolder.Viewholder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        ViewHolder.Viewholder viewHolder;
-        switch (viewType) {
-            case SPONSOR:
-                View viewSponsors = layoutInflater.inflate(R.layout.item_sponsor, parent, false);
-                viewHolder = new ViewHolder.Viewholder(viewSponsors);
-                viewHolder.setImgView1((ImageView) viewSponsors.findViewById(R.id.sponsor_image));
-                viewHolder.setTxtView1((TextView) viewSponsors.findViewById(R.id.sponsor_type));
-                break;
-            case CATEGORY:
-                View viewCategory = layoutInflater.inflate(R.layout.item_sponsor_type, parent, false);
-                viewHolder = new ViewHolder.Viewholder(viewCategory);
-                viewHolder.setTxtView1((TextView) viewCategory.findViewById(R.id.sponsor_category));
-                break;
-            default:
-                View defaultView = layoutInflater.inflate(android.R.layout.simple_list_item_1, parent, false);
-                viewHolder = new ViewHolder.Viewholder(defaultView);
-                break;
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
+        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+        RecyclerView.ViewHolder viewHolder = null;
+
+        if (viewType == SPONSOR) {
+            View viewSponsors = layoutInflater.inflate(R.layout.item_sponsor, parent, false);
+            viewHolder = new SponsorViewHolder(viewSponsors);
+        } else if (viewType == CATEGORY) {
+            View viewCategory = layoutInflater.inflate(R.layout.item_sponsor_type, parent, false);
+            viewHolder = new CategoryViewHolder(viewCategory);
         }
+
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder.Viewholder holder, int position) {
-        ViewHolder.Viewholder viewHolder = (ViewHolder.Viewholder) holder;
-        switch (holder.getItemViewType()) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
-            case SPONSOR:
-                DisplayMetrics displayMetrics = holder.getImgView1().getContext().getResources().getDisplayMetrics();
-                int width = displayMetrics.widthPixels;
-                int height = displayMetrics.heightPixels;
-                Uri uri;
-                Sponsor currentSponsor = getItem(position);
-                if (!currentSponsor.getLogo().startsWith("https://")) {
-                    uri = Uri.parse(Urls.getBaseUrl() + currentSponsor.getLogo());
-                } else {
-                    uri = Uri.parse(currentSponsor.getLogo());
+        if (holder instanceof SponsorViewHolder) {
+
+            final SponsorViewHolder sponsorViewHolder = (SponsorViewHolder) holder;
+            DisplayMetrics displayMetrics = (sponsorViewHolder.sponsorImage.getContext().getResources().getDisplayMetrics());
+            int width = displayMetrics.widthPixels;
+            int height = displayMetrics.heightPixels;
+            Uri uri;
+            Sponsor currentSponsor = getItem(position);
+            if (!currentSponsor.getLogo().startsWith("https://")) {
+                uri = Uri.parse(Urls.getBaseUrl() + currentSponsor.getLogo());
+            } else {
+                uri = Uri.parse(currentSponsor.getLogo());
+            }
+            sponsorViewHolder.sponsorType.setText(currentSponsor.getType());
+
+            Picasso.with(sponsorViewHolder.sponsorImage.getContext())
+                    .load(uri)
+                    .resize(width, (height / 6))
+                    .centerInside()
+                    .into(sponsorViewHolder.sponsorImage);
+
+            sponsorViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    List<Sponsor> objects = DbSingleton.getInstance().getSponsorList();
+                    Sponsor sponsor = objects.get(sponsorViewHolder.getAdapterPosition());
+                    String sponsorUrl = sponsor.getUrl();
+                    if (!sponsorUrl.startsWith("http") && !sponsorUrl.startsWith("https")) {
+                        sponsorUrl = "http://" + sponsorUrl;
+                    }
+                    if (Patterns.WEB_URL.matcher(sponsorUrl).matches()) {
+                        Intent sponsorsIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(sponsorUrl));
+                        context.startActivity(sponsorsIntent);
+                    } else {
+                        Snackbar.make(v, R.string.invalid_url, Snackbar.LENGTH_LONG).show();
+                        Timber.d(sponsorUrl);
+                    }
                 }
-                viewHolder.getTxtView1().setText(currentSponsor.getType());
-                Picasso.with(holder.getImgView1().getContext()).load(uri).resize(width, (height / 6)).centerInside().into(holder.getImgView1());
-                break;
-            case CATEGORY:
-                viewHolder.getTxtView1().setText(getItem(position).toString());
-                break;
-            default:
-                viewHolder.getTxtView1().setText("NO VIEW");
-                break;
+            });
+        } else if (holder instanceof CategoryViewHolder) {
 
+            CategoryViewHolder categoryViewHolder = (CategoryViewHolder) holder;
+            categoryViewHolder.sponsorCategory.setText(getItem(position).toString());
         }
-
     }
 
     public void refresh() {
-        DbSingleton dbSingleton = DbSingleton.getInstance();
         clear();
-        animateTo(dbSingleton.getSponsorList());
-    }
-
-    /**
-     * to handle click listener
-     */
-    public interface SetOnClickListener extends ViewHolder.SetOnClickListener {
-        void onItemClick(int position, View itemView);
-
+        animateTo(DbSingleton.getInstance().getSponsorList());
     }
 
     @Override
@@ -110,4 +119,28 @@ public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, ViewHolder.Viewh
 
     }
 
+    protected class SponsorViewHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.sponsor_image)
+        ImageView sponsorImage;
+
+        @BindView(R.id.sponsor_type)
+        TextView sponsorType;
+
+        public SponsorViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+    }
+
+    protected class CategoryViewHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.sponsor_category)
+        TextView sponsorCategory;
+
+        public CategoryViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+    }
 }

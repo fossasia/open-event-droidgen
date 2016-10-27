@@ -1,6 +1,8 @@
 package org.fossasia.openevent.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,24 +10,30 @@ import android.widget.Filter;
 import android.widget.TextView;
 
 import org.fossasia.openevent.R;
+import org.fossasia.openevent.activities.SessionDetailActivity;
 import org.fossasia.openevent.data.Session;
+import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.ISO8601Date;
 import org.fossasia.openevent.utils.SortOrder;
-import org.fossasia.openevent.utils.ViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import timber.log.Timber;
 
 /**
  * Created by Manan Wason on 17/06/16.
  */
-public class DayScheduleAdapter extends BaseRVAdapter<Session, ViewHolder.Viewholder> {
+public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapter.DayScheduleViewHolder> {
 
     private Context context;
+    private String eventDate;
+
     @SuppressWarnings("all")
     Filter filter = new Filter() {
         @Override
@@ -53,17 +61,9 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, ViewHolder.Viewho
         }
     };
 
-    private ViewHolder.SetOnClickListener listener;
-
-    private String eventDate;
-
     public DayScheduleAdapter(List<Session> sessions, Context context) {
         super(sessions);
         this.context = context;
-    }
-
-    public void setOnClickListener(ViewHolder.SetOnClickListener clickListener) {
-        this.listener = clickListener;
     }
 
     public void setEventDate(String eventDate) {
@@ -71,40 +71,56 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, ViewHolder.Viewho
     }
 
     @Override
-    public ViewHolder.Viewholder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public DayScheduleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.item_schedule, parent, false);
-        ViewHolder.Viewholder viewholder = new ViewHolder.Viewholder(view);
-        viewholder.setTxtView1((TextView) view.findViewById(R.id.start_time));
-        viewholder.setTxtView2((TextView) view.findViewById(R.id.slot_title));
-        viewholder.setTxtView3((TextView) view.findViewById(R.id.timings));
-        return viewholder;
+        return new DayScheduleViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder.Viewholder holder, int position) {
-        Session currentSession = getItem(position);
+    public void onBindViewHolder(DayScheduleViewHolder holder, int position) {
+        final Session currentSession = getItem(position);
         String startTime = ISO8601Date.get12HourTime(ISO8601Date.getDateObject(currentSession.getStartTime()));
         String endTime = ISO8601Date.get12HourTime(ISO8601Date.getDateObject(currentSession.getEndTime()));
 
-        holder.getTxtView1().setText(startTime);
-        holder.getTxtView2().setText(currentSession.getTitle());
-        holder.getTxtView3().setText(String.format("%s - %s", startTime, endTime));
-        holder.setItemClickListener(listener);
+        holder.startTime.setText(startTime);
+        holder.slotTitle.setText(currentSession.getTitle());
+        holder.timings.setText(String.format("%s - %s", startTime, endTime));
 
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String sessionName = currentSession.getTitle();
+                Track track = DbSingleton.getInstance().getTrackbyId(currentSession.getTrack().getId());
+                String trackName = track.getName();
+                Intent intent = new Intent(context, SessionDetailActivity.class);
+                intent.putExtra(ConstantStrings.SESSION, sessionName);
+                intent.putExtra(ConstantStrings.TRACK, trackName);
+                context.startActivity(intent);
+            }
+        });
     }
 
     public void refresh() {
-        DbSingleton dbSingleton = DbSingleton.getInstance();
         clear();
-        animateTo(dbSingleton.getSessionbyDate(eventDate, SortOrder.sortOrderSchedule(context)));
+        animateTo(DbSingleton.getInstance().getSessionbyDate(eventDate, SortOrder.sortOrderSchedule(context)));
     }
 
-    /**
-     * to handle click listener
-     */
-    public interface SetOnClickListener extends ViewHolder.SetOnClickListener {
-        void onItemClick(int position, View itemView);
+    protected class DayScheduleViewHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.start_time)
+        TextView startTime;
+
+        @BindView(R.id.slot_title)
+        TextView slotTitle;
+
+        @BindView(R.id.timings)
+        TextView timings;
+
+        public DayScheduleViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
 
     }
 }

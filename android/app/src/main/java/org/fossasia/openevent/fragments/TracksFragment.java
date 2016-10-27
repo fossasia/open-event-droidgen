@@ -2,7 +2,6 @@ package org.fossasia.openevent.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -22,7 +21,6 @@ import com.squareup.otto.Subscribe;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
-import org.fossasia.openevent.activities.TracksActivity;
 import org.fossasia.openevent.adapters.TracksListAdapter;
 import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Track;
@@ -30,7 +28,6 @@ import org.fossasia.openevent.dbutils.DataDownloadManager;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.RefreshUiEvent;
 import org.fossasia.openevent.events.TracksDownloadEvent;
-import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.NetworkUtils;
 
 import java.util.List;
@@ -56,6 +53,8 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
 
     private SearchView searchView;
 
+    private DbSingleton dbSingleton;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
@@ -63,21 +62,11 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
         OpenEventApp.getEventBus().register(this);
-        DbSingleton dbSingleton = DbSingleton.getInstance();
+        dbSingleton = DbSingleton.getInstance();
         List<Track> mTracks = dbSingleton.getTrackList();
-        tracksListAdapter = new TracksListAdapter(mTracks);
+        tracksListAdapter = new TracksListAdapter(getContext(), mTracks);
         tracksRecyclerView.setAdapter(tracksListAdapter);
-        setVisibility(PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true));
-        tracksListAdapter.setOnClickListener(new TracksListAdapter.SetOnClickListener() {
-            @Override
-            public void onItemClick(int position, View view) {
-                Track model = tracksListAdapter.getItem(position);
-                String trackTitle = model.getName();
-                Intent intent = new Intent(getContext(), TracksActivity.class);
-                intent.putExtra(ConstantStrings.TRACK, trackTitle);
-                startActivity(intent);
-            }
-        });
+        setVisibility();
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -93,8 +82,8 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
         return view;
     }
 
-    public void setVisibility(Boolean isDownloadDone) {
-        if (isDownloadDone) {
+    public void setVisibility() {
+        if (!dbSingleton.getTrackList().isEmpty()) {
             noTracksView.setVisibility(View.GONE);
             tracksRecyclerView.setVisibility(View.VISIBLE);
         } else {
@@ -171,7 +160,7 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
 
     @Subscribe
     public void RefreshData(RefreshUiEvent event) {
-        setVisibility(true);
+        setVisibility();
         if (searchText.length() == 0) {
             tracksListAdapter.refresh();
         }
@@ -179,8 +168,8 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
 
     @Subscribe
     public void onTrackDownloadDone(TracksDownloadEvent event) {
-         if(swipeRefreshLayout!=null)
-        swipeRefreshLayout.setRefreshing(false);
+        if(swipeRefreshLayout!=null)
+            swipeRefreshLayout.setRefreshing(false);
         if (event.isState()) {
             tracksListAdapter.refresh();
 
@@ -199,11 +188,10 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
     private void refresh() {
         if (NetworkUtils.haveNetworkConnection(getActivity())) {
             DataDownloadManager.getInstance().downloadTracks();
-            setVisibility(true);
         } else {
             OpenEventApp.getEventBus().post(new TracksDownloadEvent(false));
-            setVisibility(false);
         }
+        setVisibility();
     }
 
 }

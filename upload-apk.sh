@@ -4,8 +4,8 @@ mkdir $HOME/daily/
 cp -R /home/travis/build/fossasia/open-event-android/android/app/build/outputs/apk/app-fdroid-debug.apk $HOME/daily/
 # go to home and setup git
 cd $HOME
-  git config --global user.email "harshithdwivedi@gmail.com"
-  git config --global user.name "the-dagger"
+  git config --global user.email "noreply@travis.com"
+  git config --global user.name "Travis-CI"
   
 git clone --quiet --branch=development https://the-dagger:$GITHUB_API_KEY@github.com/fossasia/open-event-android  development > /dev/null
 cd development

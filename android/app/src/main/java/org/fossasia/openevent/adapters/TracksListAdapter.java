@@ -1,5 +1,8 @@
 package org.fossasia.openevent.adapters;
 
+import android.content.Context;
+import android.content.Intent;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,21 +10,26 @@ import android.widget.Filter;
 import android.widget.TextView;
 
 import org.fossasia.openevent.R;
+import org.fossasia.openevent.activities.TracksActivity;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DbSingleton;
-import org.fossasia.openevent.utils.ViewHolder;
+import org.fossasia.openevent.utils.ConstantStrings;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import timber.log.Timber;
 
 /**
  * User: MananWason
  * Date: 07-06-2015
  */
-public class TracksListAdapter extends BaseRVAdapter<Track, ViewHolder.Viewholder> {
+public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.RecyclerViewHolder> {
+
+    private Context context;
 
     @SuppressWarnings("all")
     Filter filter = new Filter() {
@@ -49,42 +57,41 @@ public class TracksListAdapter extends BaseRVAdapter<Track, ViewHolder.Viewholde
             animateTo((List<Track>) results.values);
         }
     };
-    private ViewHolder.SetOnClickListener listener;
 
-    public TracksListAdapter(List<Track> tracks) {
+    public TracksListAdapter(Context context, List<Track> tracks) {
         super(tracks);
-    }
-
-    public void setOnClickListener(ViewHolder.SetOnClickListener clickListener) {
-        this.listener = clickListener;
+        this.context = context;
     }
 
     @Override
-    public ViewHolder.Viewholder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.item_track, parent, false);
-        ViewHolder.Viewholder viewholder = new ViewHolder.Viewholder(view);
-        viewholder.setTxtView1((TextView) view.findViewById(R.id.track_title));
-        viewholder.setTxtView2((TextView) view.findViewById(R.id.track_description));
-
-
-        return viewholder;
+        return new RecyclerViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder.Viewholder holder, int position) {
-        Track current = getItem(position);
-        holder.getTxtView1().setText(current.getName());
-        holder.getTxtView2().setText(current.getDescription());
-        holder.setItemClickListener(listener);
+    public void onBindViewHolder(RecyclerViewHolder holder, int position) {
+        final Track currentTrack = getItem(position);
 
+        holder.trackTitle.setText(currentTrack.getName());
+        holder.trackDescription.setText(currentTrack.getDescription());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String trackTitle = currentTrack.getName();
+                Intent intent = new Intent(context, TracksActivity.class);
+                intent.putExtra(ConstantStrings.TRACK, trackTitle);
+                context.startActivity(intent);
+            }
+        });
     }
 
     public void refresh() {
         Timber.d("Refreshing tracks from db");
-        DbSingleton dbSingleton = DbSingleton.getInstance();
         clear();
-        animateTo(dbSingleton.getTrackList());
+        animateTo(DbSingleton.getInstance().getTrackList());
     }
 
     @Override
@@ -92,10 +99,18 @@ public class TracksListAdapter extends BaseRVAdapter<Track, ViewHolder.Viewholde
         return filter;
     }
 
-    /**
-     * to handle click listener
-     */
-    public interface SetOnClickListener extends ViewHolder.SetOnClickListener {
-        void onItemClick(int position, View itemView);
+    protected class RecyclerViewHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.track_title)
+        TextView trackTitle;
+
+        @BindView(R.id.track_description)
+        TextView trackDescription;
+
+        public RecyclerViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+
     }
 }
