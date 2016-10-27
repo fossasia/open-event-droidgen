@@ -116,7 +116,7 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.share_tracks_url:
+            case R.id.action_share:
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.putExtra(Intent.EXTRA_TEXT, Urls.WEB_APP_URL_BASIC + Urls.TRACKS);
                 intent.putExtra(Intent.EXTRA_SUBJECT, R.string.share_links);

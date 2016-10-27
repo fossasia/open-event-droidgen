@@ -91,7 +91,7 @@ public class TracksActivity extends BaseActivity implements SearchView.OnQueryTe
             case R.id.action_search_sessions:
                 return true;
 
-            case R.id.action_share_sessions:
+            case R.id.action_share:
                 Intent intent = new Intent();
                 intent.setAction(Intent.ACTION_SEND);
                 intent.putExtra(Intent.EXTRA_TEXT, Urls.WEB_APP_URL_BASIC + Urls.SESSIONS);
