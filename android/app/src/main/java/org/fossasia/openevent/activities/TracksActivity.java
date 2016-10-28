@@ -97,7 +97,7 @@ public class TracksActivity extends BaseActivity implements SearchView.OnQueryTe
                 intent.putExtra(Intent.EXTRA_TEXT, Urls.WEB_APP_URL_BASIC + Urls.SESSIONS);
                 intent.setType("text/plain");
                 startActivity(Intent.createChooser(intent, getString(R.string.share_links)));
-                break;
+               break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -106,8 +106,8 @@ public class TracksActivity extends BaseActivity implements SearchView.OnQueryTe
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.menu_tracks, menu);
-        searchView = (SearchView) menu.findItem(R.id.action_search_tracks).getActionView();
+        getMenuInflater().inflate(R.menu.menu_tracks_activity, menu);
+        searchView = (SearchView) menu.findItem(R.id.action_search_sessions).getActionView();
         searchView.setOnQueryTextListener(this);
         if (searchText != null) {
             searchView.setQuery(searchText, false);
