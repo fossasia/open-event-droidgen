@@ -45,12 +45,12 @@ public final class SortOrder {
         switch (prefsSort.getInt(PREF_SORT, 0)) {
             case SORT_TYPE_ONE:
                 //By TRACKS
-                return DbContract.Sessions.TRACK;
+                return DbContract.Sessions.TITLE;
             case SORT_TYPE_SECOND:
                 //By START_TIME
-                return DbContract.Sessions.ID;
+                return DbContract.Sessions.START_TIME;
             default:
-                return DbContract.Sessions.ID;
+                return DbContract.Sessions.START_TIME;
         }
     }
 
