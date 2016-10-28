@@ -26,7 +26,6 @@ import com.squareup.otto.Subscribe;
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.DayScheduleAdapter;
-import org.fossasia.openevent.adapters.TracksListAdapter;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.dbutils.DataDownloadManager;
 import org.fossasia.openevent.dbutils.DbSingleton;
@@ -137,10 +136,8 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
 
     @Override
     public void onSaveInstanceState(Bundle bundle) {
-        if (isAdded()) {
-            if (searchView != null) {
+        if (isAdded() && searchView != null) {
                 bundle.putString(SEARCH, searchText);
-            }
         }
         super.onSaveInstanceState(bundle);
     }
