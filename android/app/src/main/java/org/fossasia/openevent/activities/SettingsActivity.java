@@ -65,6 +65,8 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
             } else if (o.equals(true)) {
                 timezonePreference.setChecked(true);
             }
+        } else if (preference.getKey().equals(getResources().getString(R.string.notification_key))) {
+            prefNotification.setSummary((String) o);
         }
         return false;
     }

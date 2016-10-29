@@ -31,7 +31,7 @@
 
 
     <string name="settings_mode_notification"> Notification Mode</string>
-    <string name="default_mode_notification">10</string>
+    <string name="default_mode_notification">10 mins</string>
     <string name="notification_key">notification</string>
 
     <string name="settings_mode_timezone"> Show Local Times</string>
