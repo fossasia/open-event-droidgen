@@ -166,7 +166,7 @@ public class SessionDetailActivity extends BaseActivity {
         calendar.setTime(ISO8601Date.getTimeZoneDate(ISO8601Date.getDateObject(session.getStartTime())));
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        Integer pref_result = Integer.parseInt(sharedPrefs.getString("notification", "10"));
+        Integer pref_result = Integer.parseInt(sharedPrefs.getString("notification", "10 mins").substring(0,2).trim());
         if (pref_result.equals(1)) {
             calendar.add(Calendar.HOUR, -1);
         } else if (pref_result.equals(12)) {

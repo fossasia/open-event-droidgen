@@ -21,7 +21,7 @@
         <ListPreference
             android:defaultValue="@string/default_mode_notification"
             android:dialogTitle="@string/settings_mode_notification"
-            android:entries="@array/notification_mode_strings"
+            android:entries="@array/notification_mode_values"
             android:entryValues="@array/notification_mode_values"
             android:key="@string/notification_key" />
     </PreferenceCategory>
