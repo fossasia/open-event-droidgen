@@ -106,6 +106,11 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
         animateTo(DbSingleton.getInstance().getSessionbyDate(eventDate, SortOrder.sortOrderSchedule(context)));
     }
 
+    @Override
+    public Filter getFilter() {
+        return filter;
+    }
+
     protected class DayScheduleViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.start_time)

@@ -7,9 +7,12 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -39,7 +42,13 @@ import butterknife.BindView;
 /**
  * Created by Manan Wason on 17/06/16.
  */
-public class DayScheduleFragment extends BaseFragment {
+public class DayScheduleFragment extends BaseFragment implements SearchView.OnQueryTextListener {
+
+    final private String SEARCH = "searchText";
+
+    private String searchText = "";
+
+    private SearchView searchView;
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -59,14 +68,6 @@ public class DayScheduleFragment extends BaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         date = getArguments().getString(ConstantStrings.EVENT_DAY, "");
-
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        refreshData(new RefreshUiEvent());
-
     }
 
     @Override
@@ -74,7 +75,6 @@ public class DayScheduleFragment extends BaseFragment {
         setHasOptionsMenu(true);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         sortType = sharedPreferences.getInt(ConstantStrings.PREF_SORT, 0);
-
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
         /**
@@ -110,6 +110,10 @@ public class DayScheduleFragment extends BaseFragment {
 
         dayRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 
+        if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
+            searchText = savedInstanceState.getString(SEARCH);
+        }
+
         return view;
     }
 
@@ -128,6 +132,14 @@ public class DayScheduleFragment extends BaseFragment {
     public void onStop() {
         OpenEventApp.getEventBus().unregister(this);
         super.onStop();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle bundle) {
+        if (isAdded() && searchView != null) {
+                bundle.putString(SEARCH, searchText);
+        }
+        super.onSaveInstanceState(bundle);
     }
 
     @Override
@@ -157,8 +169,32 @@ public class DayScheduleFragment extends BaseFragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear();
+        searchText = "";
         inflater.inflate(R.menu.menu_schedule, menu);
+        MenuItem item = menu.findItem(R.id.action_search_schedule);
+        searchView = (SearchView) MenuItemCompat.getActionView(item);
+        searchView.setOnQueryTextListener(this);
+        if (searchText != null) {
+            searchView.setQuery(searchText, false);
+        }
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onQueryTextChange(String query) {
+        if (!TextUtils.isEmpty(query)) {
+            searchText = query;
+            dayScheduleAdapter.getFilter().filter(searchText);
+        } else {
+            if(dayScheduleAdapter!=null)
+                dayScheduleAdapter.refresh();
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
     }
 
     @Subscribe

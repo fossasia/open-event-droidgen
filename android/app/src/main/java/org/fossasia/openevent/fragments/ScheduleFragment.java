@@ -58,6 +58,5 @@ public class ScheduleFragment extends BaseFragment {
         viewPager.setAdapter(adapter);
     }
 
-
 }
 
