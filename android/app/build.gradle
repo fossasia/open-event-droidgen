@@ -11,10 +11,10 @@ def SUPPORT_LIB_VERSION = "24.2.0"
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "24.0.0"
+    buildToolsVersion "24.0.2"
 
     dexOptions {
-         Skip pre-dexing when running on Travis CI or when disabled via -Dpre-dex=false.
+        // Skip pre-dexing when running on Travis CI or when disabled via -Dpre-dex=false.
         preDexLibraries = preDexEnabled && !isTravis
     }
 
