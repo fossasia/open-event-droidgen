@@ -91,7 +91,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
                 + ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(session.getStartTime())).split(",")[1];
 
         holder.sessionTitle.setText(session.getTitle());
-        holder.sessionAbstract.setText(session.getSummary());
+        //holder.sessionAbstract.setText(session.getSummary());
         holder.sessionTrack.setText(session.getTrack().getName());
         holder.sessionDate.setText(date);
         holder.sessionStartTime.setText(ISO8601Date.get12HourTime(ISO8601Date.getDateObject(session.getStartTime())));
@@ -124,8 +124,8 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
         @BindView(R.id.session_title)
         TextView sessionTitle;
 
-        @BindView(R.id.session_abstract)
-        TextView sessionAbstract;
+        //@BindView(R.id.session_abstract)
+        //TextView sessionAbstract;
 
         @BindView(R.id.session_track)
         TextView sessionTrack;

@@ -105,10 +105,12 @@
 
                 <TextView
                     android:id="@+id/tv_description"
-                    style="@style/TextAppearance.AppCompat.Body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/content_margin"
+                    android:padding="10dp"
+                    android:textSize="25sp"
+                    android:textColor="@android:color/black"
+                    android:gravity="center_horizontal"
                     android:textIsSelectable="true"
                     android:autoLink="web"
                     tools:text="Open Event!" />
@@ -116,10 +118,9 @@
 
 
             <TextView
-                style="@style/TextAppearance.AppCompat.Headline"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textIsSelectable="true" />
+                android:textIsSelectable="true"/>
         </LinearLayout>
     </ScrollView>
 
