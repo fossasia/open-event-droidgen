@@ -16,7 +16,7 @@
     <dimen name="sponsor_image_margin">3dp</dimen>
     <dimen name="sponsor_padding">10dp</dimen>
     <dimen name="speaker_margin">20dp</dimen>
-    <dimen name="heading_gap">10dp</dimen>
+    <dimen name="heading_gap">16dp</dimen>
     <dimen name="social_image_icon">20dp</dimen>
     <dimen name="track_title_margin">6dp</dimen>
     <dimen name="track_data_size">16sp</dimen>
