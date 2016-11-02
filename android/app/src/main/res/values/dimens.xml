@@ -3,7 +3,7 @@
     <dimen name="main_menu_item_height">48dp</dimen>
     <dimen name="content_margin">16dp</dimen>
     <dimen name="detail_backdrop_height">256dp</dimen>
-    <dimen name="heading_text_size">18sp</dimen>
+    <dimen name="heading_text_size">20sp</dimen>
     <dimen name="card_margin">16dp</dimen>
     <dimen name="card_margin_vertical">4dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
@@ -16,8 +16,10 @@
     <dimen name="sponsor_image_margin">3dp</dimen>
     <dimen name="sponsor_padding">10dp</dimen>
     <dimen name="speaker_margin">20dp</dimen>
+    <dimen name="heading_gap">16dp</dimen>
     <dimen name="social_image_icon">20dp</dimen>
-    <dimen name="track_title_margin">4dp</dimen>
+    <dimen name="track_title_margin">6dp</dimen>
+    <dimen name="track_data_size">16sp</dimen>
     <item name="body_1_spacing" format="float" type="dimen">1.22448979592</item>
 
     <!--Margin decoration -->
