@@ -59,6 +59,14 @@
         <item name="android:background">@color/coordinator_background</item>
     </style>
 
+    <style name="track_title" parent="android:Widget">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">@dimen/heading_text_size</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginBottom">@dimen/heading_gap</item>
+    </style>
+
 
     <style name="CardContent" parent="android:Widget">
         <item name="android:paddingLeft">16dp</item>
