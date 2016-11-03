@@ -46,7 +46,10 @@ public class SessionDetailActivity extends BaseActivity {
 
     private Session session;
 
+    private String location;
+    private String title;
     private String timings;
+    Spanned result;
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.title_session) TextView text_title;
@@ -66,14 +69,15 @@ public class SessionDetailActivity extends BaseActivity {
         DbSingleton dbSingleton = DbSingleton.getInstance();
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        final String title = getIntent().getStringExtra(ConstantStrings.SESSION);
+        title = getIntent().getStringExtra(ConstantStrings.SESSION);
         String trackName = getIntent().getStringExtra(ConstantStrings.TRACK);
         Timber.tag(TAG).d(title);
 
         final List<Speaker> speakers = dbSingleton.getSpeakersbySessionName(title);
         session = dbSingleton.getSessionbySessionname(title);
 
-        text_room1.setText((dbSingleton.getMicrolocationById(session.getMicrolocation().getId())).getName());
+        location = (dbSingleton.getMicrolocationById(session.getMicrolocation().getId())).getName().toString();
+        text_room1.setText(location);
 
         text_title.setText(title);
         text_subtitle.setText(session.getSubtitle());
@@ -104,7 +108,6 @@ public class SessionDetailActivity extends BaseActivity {
         }
         summary.setText(session.getSummary());
 
-        Spanned result;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             result = Html.fromHtml(session.getDescription(),Html.FROM_HTML_MODE_LEGACY);
         } else {
@@ -141,6 +144,15 @@ public class SessionDetailActivity extends BaseActivity {
                 }
                 sendBroadcast(new Intent(BookmarkWidgetProvider.ACTION_UPDATE));
                 return true;
+
+            case R.id.action_share_track:
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_SEND);
+                intent.putExtra(Intent.EXTRA_TEXT, "Title: " + title + "\n\nTime: " + timings + "\n\nLocation: " + location + "\n\nDescription: " + result.toString());
+                intent.setType("text/plain");
+                startActivity(Intent.createChooser(intent, getString(R.string.share_links)));
+                break;
+
         }
         return super.onOptionsItemSelected(item);
     }
