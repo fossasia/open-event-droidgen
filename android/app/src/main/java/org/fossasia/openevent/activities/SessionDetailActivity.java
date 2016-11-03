@@ -49,7 +49,7 @@ public class SessionDetailActivity extends BaseActivity {
     private String location;
     private String title;
     private String timings;
-    Spanned result;
+    private Spanned result;
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.title_session) TextView text_title;
