@@ -76,7 +76,7 @@ public class SessionDetailActivity extends BaseActivity {
         final List<Speaker> speakers = dbSingleton.getSpeakersbySessionName(title);
         session = dbSingleton.getSessionbySessionname(title);
 
-        location = (dbSingleton.getMicrolocationById(session.getMicrolocation().getId())).getName().toString();
+        location = (dbSingleton.getMicrolocationById(session.getMicrolocation().getId())).getName();
         text_room1.setText(location);
 
         text_title.setText(title);

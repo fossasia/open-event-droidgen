@@ -52,7 +52,6 @@
             android:id="@+id/widget_empty"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fontFamily="sans-serif-condensed"
             android:gravity="center"
             android:text="@string/empty_list"
             android:textAppearance="?android:textAppearanceMedium"
