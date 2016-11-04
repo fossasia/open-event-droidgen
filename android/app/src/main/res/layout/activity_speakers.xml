@@ -51,7 +51,6 @@
                     android:id="@+id/speaker_details_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-condensed"
                     android:paddingBottom="2dp"
                     android:textColor="@android:color/white"
                     android:textSize="18sp"
