@@ -113,6 +113,10 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            default:
+                return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
