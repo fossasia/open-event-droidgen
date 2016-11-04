@@ -141,6 +141,15 @@ public class SessionDetailActivity extends BaseActivity {
                 }
                 sendBroadcast(new Intent(BookmarkWidgetProvider.ACTION_UPDATE));
                 return true;
+
+            case R.id.action_share:
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                //sendIntent.putExtra(Intent.EXTRA_TEXT, message.toString());
+                sendIntent.setType("text/plain");
+                //startActivity(Intent.createChooser(sendIntent, selectedSpeaker.getEmail()));
+                return true;
+            default:
         }
         return super.onOptionsItemSelected(item);
     }
