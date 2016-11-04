@@ -145,9 +145,9 @@ public class SessionDetailActivity extends BaseActivity {
             case R.id.action_share:
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
-                //sendIntent.putExtra(Intent.EXTRA_TEXT, message.toString());
+                sendIntent.putExtra(Intent.EXTRA_TEXT, "essetial info to share");
                 sendIntent.setType("text/plain");
-                //startActivity(Intent.createChooser(sendIntent, selectedSpeaker.getEmail()));
+                startActivity(Intent.createChooser(sendIntent, getString(R.string.share_links)));
                 return true;
             default:
         }
