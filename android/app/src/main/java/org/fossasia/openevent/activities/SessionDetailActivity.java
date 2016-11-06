@@ -58,7 +58,7 @@ public class SessionDetailActivity extends BaseActivity {
     @BindView(R.id.tv_description) TextView descrip;
     @BindView(R.id.list_speakerss) RecyclerView speakersRecyclerView;
 
-    private String trackName,title,start,end;
+    private String trackName,title,startTime,endTime;
 
     private Spanned result;
 
@@ -82,13 +82,13 @@ public class SessionDetailActivity extends BaseActivity {
         text_subtitle.setText(session.getSubtitle());
         text_track.setText(trackName);
 
-        start = ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(session.getStartTime()));
-        end = ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(session.getEndTime()));
+        startTime = ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(session.getStartTime()));
+        endTime = ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(session.getEndTime()));
 
-        if (TextUtils.isEmpty(start) && TextUtils.isEmpty(end)) {
+        if (TextUtils.isEmpty(startTime) && TextUtils.isEmpty(endTime)) {
             text_time.setText(R.string.time_not_specified);
         } else {
-            timings = start + " - " + end;
+            timings = startTime + " - " + endTime;
             text_time.setText(timings);
             text_time.setOnClickListener(new View.OnClickListener() {
                 @Override
