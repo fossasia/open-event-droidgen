@@ -58,6 +58,9 @@ public class SessionDetailActivity extends BaseActivity {
     @BindView(R.id.tv_description) TextView descrip;
     @BindView(R.id.list_speakerss) RecyclerView speakersRecyclerView;
 
+    private String trackName,title,start,end;
+
+    private Spanned result;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,8 +69,8 @@ public class SessionDetailActivity extends BaseActivity {
         DbSingleton dbSingleton = DbSingleton.getInstance();
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        final String title = getIntent().getStringExtra(ConstantStrings.SESSION);
-        String trackName = getIntent().getStringExtra(ConstantStrings.TRACK);
+        title = getIntent().getStringExtra(ConstantStrings.SESSION);
+        trackName = getIntent().getStringExtra(ConstantStrings.TRACK);
         Timber.tag(TAG).d(title);
 
         final List<Speaker> speakers = dbSingleton.getSpeakersbySessionName(title);
@@ -79,8 +82,8 @@ public class SessionDetailActivity extends BaseActivity {
         text_subtitle.setText(session.getSubtitle());
         text_track.setText(trackName);
 
-        String start = ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(session.getStartTime()));
-        String end = ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(session.getEndTime()));
+        start = ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(session.getStartTime()));
+        end = ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(session.getEndTime()));
 
         if (TextUtils.isEmpty(start) && TextUtils.isEmpty(end)) {
             text_time.setText(R.string.time_not_specified);
@@ -104,7 +107,6 @@ public class SessionDetailActivity extends BaseActivity {
         }
         summary.setText(session.getSummary());
 
-        Spanned result;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             result = Html.fromHtml(session.getDescription(),Html.FROM_HTML_MODE_LEGACY);
         } else {
@@ -143,9 +145,10 @@ public class SessionDetailActivity extends BaseActivity {
                 return true;
 
             case R.id.action_share:
+                String share_text= "Track: " + trackName + "\nTitle: " + title + "\nTimings: "  + timings + "\nDescription: " + result.toString();
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
-                sendIntent.putExtra(Intent.EXTRA_TEXT, "essetial info to share");
+                sendIntent.putExtra(Intent.EXTRA_TEXT, share_text);
                 sendIntent.setType("text/plain");
                 startActivity(Intent.createChooser(sendIntent, getString(R.string.share_links)));
                 return true;
