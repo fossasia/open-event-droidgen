@@ -47,8 +47,6 @@ import timber.log.Timber;
 public class SessionDetailActivity extends BaseActivity {
     private static final String TAG = "Session Detail";
 
-    private FloatingActionButton floatingActionButton;
-
     private SpeakersListAdapter adapter;
 
     private Session session;
@@ -86,6 +84,7 @@ public class SessionDetailActivity extends BaseActivity {
 
         text_room1.setText((dbSingleton.getMicrolocationById(session.getMicrolocation().getId())).getName());
 
+        private FloatingActionButton floatingActionButton;
         floatingActionButton = (FloatingActionButton) findViewById(R.id.fab_session);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
