@@ -2,21 +2,21 @@ apply plugin: 'com.android.application'
 apply plugin: 'jacoco-everywhere'
 apply plugin: 'android-apt'
 
-def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
-def buildTime = new Date().format("yyyy-MM-dd'T'HH:mm'Z'", TimeZone.getTimeZone("UTC"))
+//def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
+//def buildTime = new Date().format("yyyy-MM-dd'T'HH:mm'Z'", TimeZone.getTimeZone("UTC"))
 
-def isTravis = "true".equals(System.getenv("TRAVIS"))
-def preDexEnabled = "true".equals(System.getProperty("pre-dex", "true"))
+//def isTravis = "true".equals(System.getenv("TRAVIS"))
+//def preDexEnabled = "true".equals(System.getProperty("pre-dex", "true"))
 def SUPPORT_LIB_VERSION = "24.2.0"
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "24.0.2"
+    buildToolsVersion "24.0.0"
 
-    dexOptions {
+    //dexOptions {
         // Skip pre-dexing when running on Travis CI or when disabled via -Dpre-dex=false.
-        preDexLibraries = preDexEnabled && !isTravis
-    }
+    //    preDexLibraries = preDexEnabled && !isTravis
+    //}
 
     testOptions {
         unitTests.returnDefaultValues = true
@@ -30,8 +30,8 @@ android {
         versionName "0.8.3"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        buildConfigField "String", "GIT_SHA", "\"${gitSha}\""
-        buildConfigField "String", "BUILD_TIME", "\"${buildTime}\""
+        //buildConfigField "String", "GIT_SHA", "\"${gitSha}\""
+        //buildConfigField "String", "BUILD_TIME", "\"${buildTime}\""
     }
     buildTypes {
         debug {
