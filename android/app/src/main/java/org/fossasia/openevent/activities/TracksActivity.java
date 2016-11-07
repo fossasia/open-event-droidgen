@@ -1,6 +1,5 @@
 package org.fossasia.openevent.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,7 +14,6 @@ import android.widget.TextView;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.SessionsListAdapter;
-import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.ConstantStrings;
 
@@ -90,14 +88,6 @@ public class TracksActivity extends BaseActivity implements SearchView.OnQueryTe
         switch (item.getItemId()) {
             case R.id.action_search_sessions:
                 return true;
-
-            case R.id.action_share:
-                Intent intent = new Intent();
-                intent.setAction(Intent.ACTION_SEND);
-                intent.putExtra(Intent.EXTRA_TEXT, Urls.WEB_APP_URL_BASIC + Urls.SESSIONS);
-                intent.setType("text/plain");
-                startActivity(Intent.createChooser(intent, getString(R.string.share_links)));
-                break;
         }
         return super.onOptionsItemSelected(item);
     }
