@@ -88,7 +88,7 @@ public class SessionDetailActivity extends BaseActivity {
         text_subtitle.setText(session.getSubtitle());
         text_track.setText(trackName);
 
-        FloatingActionButton floatingActionButton;
+        final FloatingActionButton floatingActionButton;
         floatingActionButton = (FloatingActionButton) findViewById(R.id.fab_session);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,6 +97,7 @@ public class SessionDetailActivity extends BaseActivity {
                 //displaying location on maps
                 ScrollView scrollView = (ScrollView) findViewById(R.id.scroll_session);
                 scrollView.setVisibility(View.INVISIBLE);
+                floatingActionButton.setVisibility(View.INVISIBLE);
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 

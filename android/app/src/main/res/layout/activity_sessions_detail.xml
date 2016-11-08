@@ -139,6 +139,7 @@
         android:layout_margin="@dimen/fab_margin"
         android:clickable="true"
         android:src="@drawable/ic_location_on_black_24dp"
+        android:tint="@android:color/white"
         android:layout_gravity="end|bottom"/>
 
     <!-- TODO: Fix this, RecyclerView is nerver shown, Hiding it until fixed -->
