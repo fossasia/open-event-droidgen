@@ -7,6 +7,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,8 +20,10 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
+import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.SpeakersListAdapter;
 import org.fossasia.openevent.data.Session;
@@ -47,6 +52,7 @@ public class SessionDetailActivity extends BaseActivity {
     private Session session;
 
     private String timings;
+    private String FRAGMENT_TAG_REST = "fgtr";
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.title_session) TextView text_title;
@@ -81,6 +87,31 @@ public class SessionDetailActivity extends BaseActivity {
         text_title.setText(title);
         text_subtitle.setText(session.getSubtitle());
         text_track.setText(trackName);
+
+        final FloatingActionButton floatingActionButton;
+        floatingActionButton = (FloatingActionButton) findViewById(R.id.fab_session);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //displaying location on maps
+                ScrollView scrollView = (ScrollView) findViewById(R.id.scroll_session);
+                scrollView.setVisibility(View.INVISIBLE);
+                floatingActionButton.setVisibility(View.INVISIBLE);
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                fragmentTransaction.replace(R.id.content_frame_session,
+                        ((OpenEventApp) getApplication())
+                                .getMapModuleFactory()
+                                .provideMapModule()
+                                .provideMapFragment(), FRAGMENT_TAG_REST).commit();
+                if (getSupportActionBar() != null) {
+                    getSupportActionBar().setTitle(R.string.menu_map);
+                }
+            }
+        });
+
 
         String startTime = ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(session.getStartTime()));
         String endTime = ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(session.getEndTime()));
