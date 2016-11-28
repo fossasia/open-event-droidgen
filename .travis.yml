@@ -7,7 +7,7 @@ env:
   - secure: H3OKJIuZrshnve+QZ9xmjqOcwYhe4a+JoETMGa7xzRsWy9xxjmsVuWfvrnKFmJRBEsqj9zZMCRWTWMjaLlIcvew8Db93cwSzYUp95g3yOhcTE3rsKDNn2oyn7oHVuZ4+sv8k1kxYJexHTzMYLmXN/J7vbCcw221oWfirUUMe6S4YDW/C0KMv4omSttRp5pKe/ShgNVSKEby08jA7CPCqS3OhkW5Zp4vvpGw7zQEjXrWUrWiS0LjHBLvuAB/MPY6ez2KhEaiuNuHpCCR/aDWBMlAjYyGWEIjXGqRBqpQthfmxRQ66KlqUfryGQ8ZOvWnCFrKiG+3t4qRoEkVNiU/NMD/t1AsiVaEFVsVYF7Q+tYa7dlZ6zvtP/NeZPmcbbZLPe6YCM/u668i9d3szCFlFYJNpkvHLi0SK+0ETTl4zu9Ji9BHfEdGCIO/npvGNdj9g6lgTp04gZaDGRPQuFtcwjtFFtZIWHTI2iignSej62fyam+Vv6E8V1s6JzeDBO/J1f0VcCQaA4ID2fjqZ4qqceilkGE9gekw26AZErXQkqU/6AVpQOTQ3JPZ60OAIzGbCxdpOM8JJ/z2uoddNOEgf4WfgbSpY1UCNpQr8+Tsmy5g0sDavz8TWkSLGggDHj+aWCvMj/R2EaFoVZa0IVXA8fHjfVoD0GZDW1i9zFSV6Acs=
   matrix:
   - ADB_INSTALL_TIMEOUT=15 ANDROID_BUILD_TOOLS_VERSION=24.0.2 ANDROID_TARGET=android-23
-    ANDROID_ABI=armeabi-v7a
+    ANDROID_ABI=armeabi-v7a ANDROID_TAG=google_apis
 cache:
   directories:
   - "${TRAVIS_BUILD_DIR}/android/gradle/caches/"
@@ -20,6 +20,7 @@ android:
   - tools
   - build-tools-$ANDROID_BUILD_TOOLS_VERSION
   - "$ANDROID_TARGET"
+  - tools
   - android-24
   - extra-google-m2repository
   - extra-android-m2repository
@@ -33,7 +34,7 @@ before_script:
   - cd android
 script:
   - ./gradlew build
-  - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
+  - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI --tag $ANDROID_TAG
   - emulator -avd test -no-skin -no-audio -no-window &
   - android-wait-for-emulator
   - adb shell setprop dalvik.vm.dexopt-flags v=n,o=v
