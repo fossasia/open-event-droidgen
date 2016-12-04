@@ -31,5 +31,7 @@
     <string name="net_unavailable">नेटवर्क उपलब्ध नहीं है</string>
     <string name="turn_on"> सेटिंग्स में वाईफाई या मोबाइल डेटा को चालू करें</string>
     <string name="invalid_url">अवैध यूआरएल</string>
+ <!--exit-->
+    <string name="double_press_exit">प्रेस फिर से वापस बाहर निकलने के लिए</string>
 
 </resources>
