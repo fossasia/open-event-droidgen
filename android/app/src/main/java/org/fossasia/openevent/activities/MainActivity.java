@@ -126,6 +126,8 @@ public class MainActivity extends BaseActivity {
     private int currentMenuItemId;
 
     private SmoothActionBarDrawerToggle smoothActionBarToggle;
+    
+    boolean exitDouble = false;//double press to exit
 
     public static Intent createLaunchFragmentIntent(Context context) {
         return new Intent(context, MainActivity.class)
@@ -445,9 +447,7 @@ public class MainActivity extends BaseActivity {
         currentMenuItemId = menuItemId;
         drawerLayout.closeDrawers();
     }
-    
-boolean exitDouble = false;
-
+   
     @Override
     public void onBackPressed() {
         FragmentManager fragmentManager = getSupportFragmentManager();
