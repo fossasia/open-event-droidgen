@@ -445,6 +445,8 @@ public class MainActivity extends BaseActivity {
         currentMenuItemId = menuItemId;
         drawerLayout.closeDrawers();
     }
+    
+boolean exitDouble = false;
 
     @Override
     public void onBackPressed() {
@@ -452,9 +454,11 @@ public class MainActivity extends BaseActivity {
         android.support.v4.app.Fragment fragment = fragmentManager.findFragmentByTag(FRAGMENT_TAG_TRACKS);
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
-        } else if (fragment != null && fragment.isVisible()) {
+        } else if (fragment != null && fragment.isVisible() &&  exitDouble) {
             super.onBackPressed();
         } else {
+            exitDouble = true;
+            Toast.makeText(this, R.string.double_press_exit, Toast.LENGTH_SHORT).show();
             fragmentManager.beginTransaction()
                     .replace(R.id.content_frame, new TracksFragment(), FRAGMENT_TAG_TRACKS).commit();
             if (getSupportActionBar() != null) {
