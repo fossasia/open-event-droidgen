@@ -127,7 +127,7 @@ public class MainActivity extends BaseActivity {
 
     private SmoothActionBarDrawerToggle smoothActionBarToggle;
     
-    boolean exitDouble = false;//double press to exit
+    private boolean exitDouble = false;//double press to exit
 
     public static Intent createLaunchFragmentIntent(Context context) {
         return new Intent(context, MainActivity.class)
