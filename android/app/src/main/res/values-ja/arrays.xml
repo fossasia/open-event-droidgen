@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="mode_strings">
+        <item>ユーザー</item>
+        <item>開発者</item>
+    </string-array>
+    <string-array name="mode_values">
+        <item>1 </item>
+        <item>2</item>
+    </string-array>
+    <string-array name="notification_mode_values">
+        <item>10 分</item>
+        <item>1 時間</item>
+        <item>12 時間</item>
+    </string-array>
+    <integer-array name="speaker_sort">
+        <item>@string/dialog_sort_name</item>
+        <item>@string/dialog_sort_organisation</item>
+        <item>@string/dialog_sort_country</item>
+    </integer-array>
+    <integer-array name="session_sort">
+        <item>@string/dialog_sort_tracks</item>
+        <item>@string/dialog_sort_sessions</item>
+    </integer-array>
+
+</resources>
