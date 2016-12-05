@@ -1,0 +1,144 @@
+<resources>
+    <string name="title_section_tracks">トラック</string>
+    <string name="title_section_speakerlist">スピーカー</string>
+    <string name="title_section_location">場所</string>
+
+    <!-- Main menu_speakers -->
+    <string name="menu_tracks">トラック</string>
+    <string name="menu_bookmarks">ブックマーク</string>
+    <string name="menu_speakers">スピーカー</string>
+    <string name="menu_sponsor">スポンサー</string>
+    <string name="menu_map">地図</string>
+    <string name="menu_locations">場所</string>
+    <string name="menu_settings">設定</string>
+    <string name="menu_about">私たちについて</string>
+    <string name="session">セッションの詳細</string>
+
+
+    <!--Navigation Drawer-->
+    <string name="navigation_drawer_open">ナビゲーションドロワーを開く</string>
+    <string name="navigation_drawer_close">ナビゲーションドロワーを閉じる</string>
+
+    <string name="action_settings">設定</string>
+
+    <!--Settings-->
+    <string name="settings_mode_download">WiFi でのみ更新をダウンロード</string>
+    <string name="summary_mode_download">オンにした場合、スケジュールの更新にモバイル通信を使用しません</string>
+    <string name="download_mode_key">internet_mode</string>
+
+
+    <string name="settings_mode_notification"> 通知モード</string>
+    <string name="default_mode_notification">10 分</string>
+    <string name="notification_key">notification</string>
+
+    <string name="settings_mode_timezone"> ローカル時間を表示</string>
+    <string name="summary_mode_timezone">カンファレンスのローカル時間の代わりに、あなたのローカル時間を使用します。</string>
+    <string name="timezone_mode_key">timezone_mode</string>
+
+
+
+    <!--Social-->
+
+    <!--Menu Titles-->
+    <string name="search">検索</string>
+    <string name="share">共有</string>
+
+
+    <!--Search Titles-->
+    <string name="search_hint_tracks"> トラックを検索</string>
+    <string name="refresh_failed">更新できませんでした</string>
+    <string name="download_failed">ダウンロードに失敗しました</string>
+    <string name="download_complete">ダウンロードが完了しました</string>
+    <string name="share_links">共有 URL</string>
+    <string name="time_not_specified">タイミングが指定されていません</string>
+
+    <!--Error Titles-->
+    <string name="net_unavailable">ネットワークが利用できません</string>
+    <string name="turn_on">設定で WiFi またはモバイル通信をオンにしてください</string>
+    <string name="error">エラー</string>
+
+    <string name="empty_list">ブックマークが利用できません</string>
+    <string name="bullet">"•"</string>
+    <string name="bookmarks">ブックマーク</string>
+
+    <!--Speaker-->
+    <string name="subject">スピーカーのプロフィール</string>
+    <string name="message_1"> が話しています </string>
+    <string name="message_2"> トピック: </string>
+    <string name="message_3"> 詳細情報はこのアプリを Google Play ストアでチェックしてください: </string>
+    <string name="fmt_floor">"フロア : "</string>
+    <string name="noBookmark">まだセッションがブックマークされていません !!</string>
+
+    <!--About us text-->
+    <string name="about_text">プログラム by <a href="https://github.com/fossasia/open-event-android/graphs/contributors">FOSSASIA 貢献者</a>.
+\n
+\nthe GNU General Public License v3 の下にライセンスされます. ソースは <a href="https://github.com/fossasia/open-event-android">GitHub</a> で利用可能です.
+\n
+\n問題があれば <a href="https://github.com/fossasia/open-event-android/issues/new">Github リポジトリ イシュートラッカー</a> で報告してください.
+\n
+    </string>
+    <string name="invalid_url">不正な Url</string>
+    <string name="dialog_error_title">エラー</string>
+    <string name="website">Webサイト</string>
+    <string name="menu_speaker_sort">並び替え</string>
+    <string name="dialog_sort_title">並び順</string>
+
+    <!--Speaker Sort Dialog text-->
+    <string name="dialog_sort_organisation">組織</string>
+    <string name="dialog_sort_country">国</string>
+    <string name="dialog_sort_name">スピーカー名</string>
+
+    <!--Session Sort Dialog text-->
+    <string name="dialog_sort_tracks">トラック</string>
+    <string name="dialog_sort_sessions">開始時刻</string>
+
+
+    <string name="launcher_icon">ランチャー アイコン</string>
+    <string name="sponsor_image">スポンサー画像</string>
+    <string name="header_image">ヘッダー画像</string>
+    <string name="speaker_image">スピーカーの画像</string>
+    <string name="logo_widget">ロゴ ウィジェット</string>
+    <string name="backdrop_image">バックドロップ画像</string>
+    <string name="linkedin_icon">Linkedin アイコン</string>
+    <string name="twitter_icon">Twitter アイコン</string>
+    <string name="facebook_icon">Facebook アイコン</string>
+    <string name="github_icon">Github アイコン</string>
+    <string name="web_icon">Web アイコン</string>
+    <string name="download_assets">今すぐ最新のスケジュールに更新しますか?</string>
+    <string name="internet_preference_warning">Wifi が利用できません。 オフラインのスケジュールを表示しますか? </string>
+    <string name="yes">はい</string>
+    <string name="no">いいえ</string>
+    <string name="noSessions">まだセッションはありません!</string>
+    <string name="noMicrolocations">まだマイクロロケーションはありません!</string>
+    <string name="noSchedule">まだスケジュールはありません!</string>
+    <string name="noSpeakers">まだスピーカーはありません!</string>
+    <string name="noSponsors">まだスポンサーはありません!</string>
+    <string name="noTracks">まだトラックはありません!</string>
+    <string name="charges_warning">通信料が発生することがあります</string>
+    <string name="tracks">トラック:</string>
+    <string name="date">日付:</string>
+    <string name="start_time">開始時刻:</string>
+    <string name="end_time">終了時刻:</string>
+    <string name="location">場所:</string>
+    <string name="speakers">スピーカー:</string>
+
+    <!-- Sponsor types strings-->
+    <string name="platinum">プラチナ</string>
+    <string name="diamond">ダイヤモンド</string>
+    <string name="gold">ゴールド</string>
+    <string name="silver">シルバー</string>
+    <string name="bronze">ブロンズ</string>
+
+    <!-- Sponsor types int strings-->
+    <string name="platinumInt">1</string>
+    <string name="diamondInt">2</string>
+    <string name="goldInt">3</string>
+    <string name="silverInt">4</string>
+    <string name="bronzeInt">5</string>
+
+    <string name="display_offline_schedule">インターネット接続がありません。古いスケジュールを表示します</string>
+    <string name="retry_download">再試行</string>
+    <string name="permissions_given">アクセス許可を付与してください!</string>
+    <string name="storage_permission_rationale">オフラインで使用できるように地図データを保存するには、ストレージのアクセス許可が必要です。</string>
+    <string name="permissions_insufficient">設定に移動して、アクセス許可を有効にしてください!</string>
+</resources>
