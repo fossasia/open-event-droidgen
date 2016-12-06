@@ -4,7 +4,7 @@
     <dimen name="content_margin">16dp</dimen>
     <dimen name="detail_backdrop_height">256dp</dimen>
     <dimen name="heading_text_size">20sp</dimen>
-    <dimen name="card_margin">16dp</dimen>
+    <dimen name="card_margin">8dp</dimen>
     <dimen name="card_margin_vertical">4dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="widget_margin">8dp</dimen>
