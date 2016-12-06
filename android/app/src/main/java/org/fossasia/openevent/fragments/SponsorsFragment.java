@@ -39,6 +39,8 @@ public class SponsorsFragment extends BaseFragment {
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.list_sponsors)
     RecyclerView sponsorsRecyclerView;
+    @BindView(R.id.window_frame)
+    View windowFrame;
 
     @Nullable
     @Override
@@ -106,7 +108,22 @@ public class SponsorsFragment extends BaseFragment {
 
     private void refresh() {
         if (NetworkUtils.haveNetworkConnection(getActivity())) {
-            DataDownloadManager.getInstance().downloadSponsors();
+            if (NetworkUtils.isActiveInternetPresent())
+            {
+                //Internet is working
+                DataDownloadManager.getInstance().downloadSponsors();
+            }else
+            {
+                //Device is connected to WI-FI or Mobile Data but Internet is not working
+                //show snackbar
+                //will be useful if user have blocked notification for this app
+                Snackbar.make(windowFrame,R.string.waiting_for_network,Snackbar.LENGTH_LONG).setAction("Refresh", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        refresh();
+                    }
+                }).show();
+            }
         } else {
             OpenEventApp.getEventBus().post(new SponsorDownloadEvent(true));
         }

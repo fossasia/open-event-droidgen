@@ -51,9 +51,14 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
 
     private SharedPreferences prefsSort;
 
-    @BindView(R.id.speaker_swipe_refresh) SwipeRefreshLayout swipeRefreshLayout;
-    @BindView(R.id.txt_no_speakers)  TextView noSpeakersView;
-    @BindView(R.id.rv_speakers) RecyclerView speakersRecyclerView;
+    @BindView(R.id.speaker_swipe_refresh)
+    SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.txt_no_speakers)
+    TextView noSpeakersView;
+    @BindView(R.id.rv_speakers)
+    RecyclerView speakersRecyclerView;
+    @BindView(R.id.ll_speakers)
+    View windowFrame;
 
     private SpeakersListAdapter speakersListAdapter;
 
@@ -187,7 +192,20 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
 
     private void refresh() {
         if (NetworkUtils.haveNetworkConnection(getActivity())) {
-            DataDownloadManager.getInstance().downloadSpeakers();
+            if (NetworkUtils.isActiveInternetPresent()) {
+                //Internet is working
+                DataDownloadManager.getInstance().downloadSpeakers();
+            } else {
+                //Device is connected to WI-FI or Mobile Data but Internet is not working
+                //show snackbar
+                //will be useful if user have blocked notification for this app
+                Snackbar.make(windowFrame, R.string.waiting_for_network, Snackbar.LENGTH_LONG).setAction("Refresh", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        refresh();
+                    }
+                }).show();
+            }
         } else {
             OpenEventApp.getEventBus().post(new SpeakerDownloadEvent(false));
         }

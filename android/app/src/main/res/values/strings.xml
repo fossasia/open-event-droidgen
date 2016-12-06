@@ -23,6 +23,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="waiting_for_network">Waiting for network</string>
 
     <!--Settings-->
     <string name="settings_mode_download">Download updates only on wifi</string>

@@ -7,8 +7,10 @@ import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkInfo;
 import android.os.Build;
+import android.widget.Toast;
 
 import org.fossasia.openevent.OpenEventApp;
+import org.fossasia.openevent.R;
 import org.fossasia.openevent.events.DataDownloadEvent;
 
 import java.util.ArrayList;
@@ -82,7 +84,17 @@ public class NetworkUtils extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         if (haveNetworkConnection(context)) {
-            OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
+            if (isActiveInternetPresent())
+            {
+                //Internet is working
+                OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
+            }else
+            {
+                //Device is connected to WI-FI or Mobile Data but Internet is not working
+                //show toast
+                //will be useful if user have blocked notification for this app
+                Toast.makeText(context, R.string.waiting_for_network,Toast.LENGTH_LONG).show();
+            }
         }
     }
 }

@@ -52,8 +52,12 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
-    @BindView(R.id.list_schedule) RecyclerView dayRecyclerView;
-    @BindView(R.id.txt_no_schedule) TextView noSchedule;
+    @BindView(R.id.list_schedule)
+    RecyclerView dayRecyclerView;
+    @BindView(R.id.txt_no_schedule)
+    TextView noSchedule;
+    @BindView(R.id.window_frame)
+    View windowFrame;
 
     private DayScheduleAdapter dayScheduleAdapter;
 
@@ -137,7 +141,7 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
     @Override
     public void onSaveInstanceState(Bundle bundle) {
         if (isAdded() && searchView != null) {
-                bundle.putString(SEARCH, searchText);
+            bundle.putString(SEARCH, searchText);
         }
         super.onSaveInstanceState(bundle);
     }
@@ -186,7 +190,7 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
             searchText = query;
             dayScheduleAdapter.getFilter().filter(searchText);
         } else {
-            if(dayScheduleAdapter!=null)
+            if (dayScheduleAdapter != null)
                 dayScheduleAdapter.refresh();
         }
         return true;
@@ -229,7 +233,20 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
 
     private void refresh() {
         if (NetworkUtils.haveNetworkConnection(getContext())) {
-            DataDownloadManager.getInstance().downloadSession();
+            if (NetworkUtils.isActiveInternetPresent()) {
+                //Internet is working
+                DataDownloadManager.getInstance().downloadSession();
+            } else {
+                //Device is connected to WI-FI or Mobile Data but Internet is not working
+                //show snackbar
+                //will be useful if user have blocked notification for this app
+                Snackbar.make(windowFrame, R.string.waiting_for_network, Snackbar.LENGTH_LONG).setAction("Refresh", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        refresh();
+                    }
+                }).show();
+            }
         } else {
             OpenEventApp.getEventBus().post(new SessionDownloadEvent(false));
         }
