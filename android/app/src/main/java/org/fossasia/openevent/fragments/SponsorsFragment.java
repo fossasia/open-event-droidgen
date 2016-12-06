@@ -22,6 +22,7 @@ import org.fossasia.openevent.dbutils.DataDownloadManager;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.SponsorDownloadEvent;
 import org.fossasia.openevent.utils.NetworkUtils;
+import org.fossasia.openevent.utils.ShowNotification;
 
 import butterknife.BindView;
 import timber.log.Timber;
@@ -39,6 +40,9 @@ public class SponsorsFragment extends BaseFragment {
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.list_sponsors)
     RecyclerView sponsorsRecyclerView;
+    @BindView(R.id.window_frame)
+    View windowFrame;
+    private Snackbar snackbar;
 
     @Nullable
     @Override
@@ -106,7 +110,26 @@ public class SponsorsFragment extends BaseFragment {
 
     private void refresh() {
         if (NetworkUtils.haveNetworkConnection(getActivity())) {
-            DataDownloadManager.getInstance().downloadSponsors();
+            if (NetworkUtils.isActiveInternetPresent()) {
+                //Internet is working
+                DataDownloadManager.getInstance().downloadSponsors();
+            } else {
+                //Device is connected to WI-FI or Mobile Data but Internet is not working
+                //show snackbar
+                //will be useful if user have blocked notification for this app
+                snackbar = Snackbar.make(windowFrame, R.string.waiting_for_network, Snackbar.LENGTH_INDEFINITE).setAction(R.string.snackbar_refresh_action,
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                swipeRefreshLayout.setRefreshing(true);
+                                snackbar.dismiss();
+                                refresh();
+                            }
+                        });
+                snackbar.show();
+                //show notification
+                new ShowNotification(getContext());
+            }
         } else {
             OpenEventApp.getEventBus().post(new SponsorDownloadEvent(true));
         }

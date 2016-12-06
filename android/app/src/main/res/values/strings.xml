@@ -23,6 +23,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="waiting_for_network">Waiting for network</string>
 
     <!--Settings-->
     <string name="settings_mode_download">Download updates only on wifi</string>
@@ -148,4 +149,7 @@
     <string name="permissions_given">Permissions Given!</string>
     <string name="storage_permission_rationale">Storage permission is needed for saving map data for offline availability.</string>
     <string name="permissions_insufficient">Go to settings and enable permission!</string>
+    <string name="check_connection">Check Connection</string>
+    <string name="open_your_web_brower_to_finish_connection_setting">Open your web browser to finish connection setting</string>
+    <string name="snackbar_refresh_action">Refresh</string>
 </resources>
