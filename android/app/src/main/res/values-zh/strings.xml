@@ -25,4 +25,6 @@
     <string name="time_not_specified">沒有指定時間</string>
     <string name="navigation_drawer_close">關閉導覽列</string>
     <string name="navigation_drawer_open">開啟導覽列</string>
+    <!--exit-->
+    <string name="double_press_exit">再次按返回退出</string>
 </resources>
