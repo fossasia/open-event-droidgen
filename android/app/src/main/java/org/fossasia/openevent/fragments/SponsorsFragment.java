@@ -22,6 +22,7 @@ import org.fossasia.openevent.dbutils.DataDownloadManager;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.SponsorDownloadEvent;
 import org.fossasia.openevent.utils.NetworkUtils;
+import org.fossasia.openevent.utils.ShowNotification;
 
 import butterknife.BindView;
 import timber.log.Timber;
@@ -41,6 +42,7 @@ public class SponsorsFragment extends BaseFragment {
     RecyclerView sponsorsRecyclerView;
     @BindView(R.id.window_frame)
     View windowFrame;
+    private Snackbar snackbar;
 
     @Nullable
     @Override
@@ -108,21 +110,25 @@ public class SponsorsFragment extends BaseFragment {
 
     private void refresh() {
         if (NetworkUtils.haveNetworkConnection(getActivity())) {
-            if (NetworkUtils.isActiveInternetPresent())
-            {
+            if (NetworkUtils.isActiveInternetPresent()) {
                 //Internet is working
                 DataDownloadManager.getInstance().downloadSponsors();
-            }else
-            {
+            } else {
                 //Device is connected to WI-FI or Mobile Data but Internet is not working
                 //show snackbar
                 //will be useful if user have blocked notification for this app
-                Snackbar.make(windowFrame,R.string.waiting_for_network,Snackbar.LENGTH_LONG).setAction("Refresh", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        refresh();
-                    }
-                }).show();
+                snackbar = Snackbar.make(windowFrame, R.string.waiting_for_network, Snackbar.LENGTH_INDEFINITE).setAction(R.string.snackbar_refresh_action,
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                swipeRefreshLayout.setRefreshing(true);
+                                snackbar.dismiss();
+                                refresh();
+                            }
+                        });
+                snackbar.show();
+                //show notification
+                new ShowNotification(getContext());
             }
         } else {
             OpenEventApp.getEventBus().post(new SponsorDownloadEvent(true));

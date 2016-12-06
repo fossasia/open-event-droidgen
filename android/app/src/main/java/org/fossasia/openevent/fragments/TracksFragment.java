@@ -27,6 +27,7 @@ import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.RefreshUiEvent;
 import org.fossasia.openevent.events.TracksDownloadEvent;
 import org.fossasia.openevent.utils.NetworkUtils;
+import org.fossasia.openevent.utils.ShowNotification;
 
 import java.util.List;
 
@@ -42,10 +43,14 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
 
     private TracksListAdapter tracksListAdapter;
 
-    @BindView(R.id.tracks_swipe_refresh) SwipeRefreshLayout swipeRefreshLayout;
-    @BindView(R.id.txt_no_tracks) TextView noTracksView;
-    @BindView(R.id.list_tracks) RecyclerView tracksRecyclerView;
-    @BindView(R.id.tracks_frame) View windowFrame;
+    @BindView(R.id.tracks_swipe_refresh)
+    SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.txt_no_tracks)
+    TextView noTracksView;
+    @BindView(R.id.list_tracks)
+    RecyclerView tracksRecyclerView;
+    @BindView(R.id.tracks_frame)
+    View windowFrame;
 
     private String searchText = "";
 
@@ -156,7 +161,7 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
 
     @Subscribe
     public void onTrackDownloadDone(TracksDownloadEvent event) {
-        if(swipeRefreshLayout!=null)
+        if (swipeRefreshLayout != null)
             swipeRefreshLayout.setRefreshing(false);
         if (event.isState()) {
             tracksListAdapter.refresh();
@@ -175,33 +180,32 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
 
     private void refresh() {
         if (NetworkUtils.haveNetworkConnection(getActivity())) {
-            if (NetworkUtils.isActiveInternetPresent())
-            {
+            if (NetworkUtils.isActiveInternetPresent()) {
                 //Internet is working
                 DataDownloadManager.getInstance().downloadTracks();
-            }else
-            {
+            } else {
                 //set is refreshing false as let user to login
-                if (swipeRefreshLayout.isRefreshing())
-                {
+                if (swipeRefreshLayout.isRefreshing()) {
                     swipeRefreshLayout.setRefreshing(false);
                 }
                 //Device is connected to WI-FI or Mobile Data but Internet is not working
                 //show snackbar
                 //will be useful if user have blocked notification for this app
-                snackbar = Snackbar.make(windowFrame,R.string.waiting_for_network,Snackbar.LENGTH_INDEFINITE).setAction("Refresh", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        swipeRefreshLayout.setRefreshing(true);
-                        refresh();
-                        snackbar.dismiss();
-                    }
-                });
+                snackbar = Snackbar.make(windowFrame, R.string.waiting_for_network, Snackbar.LENGTH_INDEFINITE).setAction(R.string.snackbar_refresh_action,
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                swipeRefreshLayout.setRefreshing(true);
+                                snackbar.dismiss();
+                                refresh();
+                            }
+                        });
                 snackbar.show();
+                //show notification
+                new ShowNotification(getContext());
             }
         } else {
-            if (snackbar.isShown())
-            {
+            if (snackbar.isShown()) {
                 snackbar.dismiss();
             }
             OpenEventApp.getEventBus().post(new TracksDownloadEvent(false));

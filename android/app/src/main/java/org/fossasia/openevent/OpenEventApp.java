@@ -13,13 +13,13 @@ import android.util.Log;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
-import org.fossasia.openevent.receivers.NetworkConnectivityChangeReceiver;
 import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.ConnectionCheckEvent;
 import org.fossasia.openevent.events.DataDownloadEvent;
 import org.fossasia.openevent.events.ShowNetworkDialogEvent;
 import org.fossasia.openevent.modules.MapModuleFactory;
+import org.fossasia.openevent.receivers.NetworkConnectivityChangeReceiver;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.json.JSONException;
 import org.json.JSONObject;

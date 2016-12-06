@@ -78,6 +78,7 @@ import org.fossasia.openevent.utils.CommonTaskLoop;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.ISO8601Date;
 import org.fossasia.openevent.utils.NetworkUtils;
+import org.fossasia.openevent.utils.ShowNotification;
 import org.fossasia.openevent.utils.SmoothActionBarDrawerToggle;
 import org.fossasia.openevent.widget.DialogFactory;
 
@@ -239,6 +240,7 @@ public class MainActivity extends BaseActivity {
                 }
             } else {
                 //Device is connected to WI-FI or Mobile Data but Internet is not working
+                new ShowNotification(MainActivity.this);
             }
         } else {
             final Snackbar snackbar = Snackbar.make(mainFrame, R.string.display_offline_schedule, Snackbar.LENGTH_LONG);

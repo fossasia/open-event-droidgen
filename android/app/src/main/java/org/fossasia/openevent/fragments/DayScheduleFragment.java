@@ -33,6 +33,7 @@ import org.fossasia.openevent.events.RefreshUiEvent;
 import org.fossasia.openevent.events.SessionDownloadEvent;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.NetworkUtils;
+import org.fossasia.openevent.utils.ShowNotification;
 import org.fossasia.openevent.utils.SortOrder;
 
 import java.util.List;
@@ -66,6 +67,7 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
     private int sortType;
 
     private SharedPreferences sharedPreferences;
+    private Snackbar snackbar;
 
 
     @Override
@@ -240,12 +242,18 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
                 //Device is connected to WI-FI or Mobile Data but Internet is not working
                 //show snackbar
                 //will be useful if user have blocked notification for this app
-                Snackbar.make(windowFrame, R.string.waiting_for_network, Snackbar.LENGTH_LONG).setAction("Refresh", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        refresh();
-                    }
-                }).show();
+                snackbar = Snackbar.make(windowFrame, R.string.waiting_for_network, Snackbar.LENGTH_INDEFINITE).setAction(R.string.snackbar_refresh_action,
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                swipeRefreshLayout.setRefreshing(true);
+                                snackbar.dismiss();
+                                refresh();
+                            }
+                        });
+                snackbar.show();
+                //show notification
+                new ShowNotification(getContext());
             }
         } else {
             OpenEventApp.getEventBus().post(new SessionDownloadEvent(false));
