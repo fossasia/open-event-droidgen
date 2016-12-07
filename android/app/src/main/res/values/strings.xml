@@ -148,4 +148,5 @@
     <string name="permissions_given">Permissions Given!</string>
     <string name="storage_permission_rationale">Storage permission is needed for saving map data for offline availability.</string>
     <string name="permissions_insufficient">Go to settings and enable permission!</string>
+    <string name="press_back_again">Tap back again to exit.</string>
 </resources>
