@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="title_section_tracks">ট্র্যাক</string>
+    <string name="title_section_speakerlist">বক্তা</string>
+    <string name="title_section_location">অবস্থান</string>
+
+    <!-- Main menu_speakers -->
+    <string name="menu_tracks">ট্র্যাক</string>
+    <string name="menu_bookmarks">বুকমার্ক</string>
+    <string name="menu_speakers">বক্তা</string>
+    <string name="menu_sponsor">স্পনসর</string>
+    <string name="menu_map">মানচিত্র</string>
+    <string name="menu_locations">অবস্থান</string>
+    <string name="menu_settings">সেটিংস</string>
+    <string name="menu_about">আমাদের সম্পর্কে</string>
+    <string name="session">সেশন বিস্তারিত</string>
+
+
+    <!--Navigation Drawer-->
+    <string name="navigation_drawer_open">নেভিগেশান ড্রয়ার খুলুন</string>
+    <string name="navigation_drawer_close">নেভিগেশান ড্রয়ার বন্ধ করুন</string>
+
+    <string name="action_settings">সেটিংস</string>
+
+    <!--Settings-->
+    <string name="settings_mode_download">শুধুমাত্র ওয়াইফাই থাকতে আপডেট ডাউনলোড করবেন</string>
+    <string name="summary_mode_download">অ্যাপ্লিকেশন জাগ্রত অবস্থায় যদি সময়সূচী আপডেট করতে হয় তাহলে মোবাইল ডেটা ব্যবহার করবে না</string>
+    <string name="download_mode_key">ইন্টারনেট মোড</string>
+
+
+    <string name="settings_mode_notification"> প্রজ্ঞাপন মোড</string>
+    <string name="default_mode_notification">১০ মিনিট</string>
+    <string name="notification_key">প্রজ্ঞাপন</string>
+
+    <string name="settings_mode_timezone">স্থানীয় সময় দেখাও</string>
+    <string name="summary_mode_timezone">সম্মেলনের সময়ের পরিবর্তে স্থানীও সময় ব্যাবহার করবে</string>
+    <string name="timezone_mode_key">সময় জোন মোডe</string>
+
+
+    <!--Menu Titles-->
+    <string name="search">অনুসন্ধান</string>
+    <string name="share">ভাগ</string>
+
+
+    <!--Search Titles-->
+    <string name="search_hint_tracks">অনুসন্ধান ট্র্যাক</string>
+    <string name="refresh_failed">রিফ্রেশ করা যায়নি</string>
+    <string name="download_failed">ডাউনলোড ব্যর্থ হয়েছে</string>
+    <string name="download_complete">ডাউনলোড সম্পন্ন</string>
+    <string name="share_links">URL ভাগ</string>
+    <string name="time_not_specified">সময়সূচি নির্দিষ্ট নয়</string>
+
+    <!--Error Titles-->
+    <string name="net_unavailable">নেটওয়ার্ক পাওয়া যায় না</string>
+    <string name="turn_on">সেটিংস মধ্যে ওয়াইফাই বা মোবাইল ডেটা চালু</string>
+    <string name="error">ভুল</string>
+
+    <string name="empty_list">কোন বুকমার্ক নেই</string>
+    <string name="bullet">"•"</string>
+    <string name="bookmarks">বুকমার্কগুল</string>
+
+    <!--Speaker-->
+    <string name="subject">বক্তার পরিলেখ</string>
+    <string name="message_1"> এ কথা বলছেন</string>
+    <string name="message_2"> বিষয়ের উপর: </string>
+    <string name="message_3"> আরো তথ্য জানার জন্য গুগল প্লে স্টরে এই এপ দেখতে পারেন: </string>
+    <string name="fmt_floor">"মেঝে : "</string>
+    <string name="noBookmark">এখনও কোন বুকমার্ক নেই!!</string>
+
+    <!--About us text-->
+    <string name="about_text"><a href="https://github.com/fossasia/open-event-android/graphs/contributors">FOSSASIA অবদানকারীদের</a>দ্বারা প্রোগ্রাম।
+\n
+\nঅধীন লাইসেন্সপ্রাপ্ত GNU General Public License v3.<a href="https://github.com/fossasia/open-event-android">GitHub</a>-এ উত্স পাওয়া যাবে।
+\n
+\nকন বিষয় নিয়ে রিপোর্ট করতে হলে এখানে যাবেনঃ <a href="https://github.com/fossasia/open-event-android/issues/new">Github Repository Issue Tracker</a>.
+\n
+    </string>
+    <string name="invalid_url">অবৈধ Url</string>
+    <string name="dialog_error_title">ভুল</string>
+    <string name="website">ওয়েবসাইট</string>
+    <string name="menu_speaker_sort">সাজান</string>
+    <string name="dialog_sort_title">ক্রমানুসার</string>
+
+    <!--Speaker Sort Dialog text-->
+    <string name="dialog_sort_organisation">সংগঠন</string>
+    <string name="dialog_sort_country">দেশ</string>
+    <string name="dialog_sort_name">বক্তার নাম</string>
+
+    <!--Session Sort Dialog text-->
+    <string name="dialog_sort_tracks">ট্রাক</string>
+    <string name="dialog_sort_sessions">সময় শুরু</string>
+
+
+    <string name="launcher_icon">লঞ্চার আইকন</string>
+    <string name="sponsor_image">স্পনসরের ছবি</string>
+    <string name="header_image">উপরেরছবি</string>
+    <string name="speaker_image">স্পিকারের চিত্র</string>
+    <string name="logo_widget">লোগো উইজেট</string>
+    <string name="backdrop_image">ব্যাকড্রপ চিত্র</string>
+    <string name="linkedin_icon">লিঙ্কেদিন আইকন</string>
+    <string name="twitter_icon">টুইটার আইকন</string>
+    <string name="facebook_icon">ফেইসবুক আইকন</string>
+    <string name="github_icon">গিটহাব আইকন</string>
+    <string name="web_icon">ওয়েব আইকন</string>
+    <string name="download_assets">আপনি কি সর্বশেষ সময়সূচি তে আপগ্রেড করতে চান?</string>
+    <string name="internet_preference_warning">ওয়াইফাই পাওয়া যায় না, আপনি কি অফলাইন সময়সূচী প্রদর্শন করতে চান? </string>
+    <string name="yes">হে</string>
+    <string name="no">না</string>
+    <string name="noSessions">এখনো কোনো সেশন নেই!</string>
+    <string name="noMicrolocations">এখনও কোন মাইক্রো অবস্থানগুলো নেই!</string>
+    <string name="noSchedule">এখনও কোন সময়সূচি নেই!</string>
+    <string name="noSpeakers">এখনও কোন স্পিকার নেই!</string>
+    <string name="noSponsors">এখনও কোন স্পন্সর নেই!</string>
+    <string name="noTracks">এখনও কোন ট্রাক নেই!</string>
+    <string name="charges_warning">ডেটা চার্জ প্রযোজ্য হতে পারে</string>
+    <string name="tracks">ট্রাক:</string>
+    <string name="date">তারিখ:</string>
+    <string name="start_time">সময় শুরু:</string>
+    <string name="end_time">সময় শেষ:</string>
+    <string name="location">অবস্থান:</string>
+    <string name="speakers">বক্তা:</string>
+
+    <!-- Sponsor types strings-->
+    <string name="platinum">প্লাটিনাম</string>
+    <string name="diamond">হীরা</string>
+    <string name="gold">স্বর্ণ</string>
+    <string name="silver">রূপা</string>
+    <string name="bronze">ব্রোঞ্জ</string>
+
+    <!-- Sponsor types int strings-->
+    <string name="platinumInt">১</string>
+    <string name="diamondInt">২</string>
+    <string name="goldInt">৩</string>
+    <string name="silverInt">৪</string>
+    <string name="bronzeInt">৫</string>
+
+    <string name="display_offline_schedule">ইন্টারনেট নেই, পুরনো সময়সূচী দেখানো হচ্ছে</string>
+    <string name="retry_download">পুনরায় চেষ্টা করা</string>
+    <string name="permissions_given">অনুমতিসমূহ প্রদত্ত!</string>
+    <string name="storage_permission_rationale">নেটওয়ার্ক ছাড়া মানচিত্র সংরক্ষণের জন্য সংরক্ষণ স্থলের অনুমতি প্রয়োজন.</string>
+    <string name="permissions_insufficient">সেটিংস এ যান এবং অনুমতি সক্ষম করুন!</string>
+    <string name="press_back_again">বের হতে আবার পিছুনে চাপুন.</string>
+</resources>

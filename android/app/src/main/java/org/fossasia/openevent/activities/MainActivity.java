@@ -10,6 +10,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.design.widget.AppBarLayout;
@@ -120,11 +121,10 @@ public class MainActivity extends BaseActivity {
     private String errorDesc;
     private SharedPreferences sharedPreferences;
     private int counter;
-
+    private boolean atHome = true;
+    private boolean backPressedOnce = false;
     private int eventsDone;
-
     private int currentMenuItemId;
-
     private SmoothActionBarDrawerToggle smoothActionBarToggle;
 
     public static Intent createLaunchFragmentIntent(Context context) {
@@ -241,7 +241,7 @@ public class MainActivity extends BaseActivity {
         }
 
         if (getIntent().hasExtra(NAV_ITEM) && getIntent().getStringExtra(NAV_ITEM).equalsIgnoreCase(BOOKMARK)) {
-                currentMenuItemId = R.id.nav_bookmarks;
+            currentMenuItemId = R.id.nav_bookmarks;
         }
 
         if (getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_TRACKS) == null && getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_REST) == null) {
@@ -360,6 +360,7 @@ public class MainActivity extends BaseActivity {
         addShadowToAppBar(true);
         switch (menuItemId) {
             case R.id.nav_tracks:
+                atHome = true;
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_frame, new TracksFragment(), FRAGMENT_TAG_TRACKS).commit();
                 if (getSupportActionBar() != null) {
@@ -367,6 +368,7 @@ public class MainActivity extends BaseActivity {
                 }
                 break;
             case R.id.nav_schedule:
+                atHome = false;
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_frame, new ScheduleFragment(), FRAGMENT_TAG_REST).commit();
                 addShadowToAppBar(false);
@@ -377,6 +379,7 @@ public class MainActivity extends BaseActivity {
             case R.id.nav_bookmarks:
                 DbSingleton dbSingleton = DbSingleton.getInstance();
                 if (!dbSingleton.isBookmarksTableEmpty()) {
+                    atHome = false;
                     fragmentManager.beginTransaction()
                             .replace(R.id.content_frame, new BookmarksFragment(), FRAGMENT_TAG_REST).commit();
                     if (getSupportActionBar() != null) {
@@ -388,6 +391,7 @@ public class MainActivity extends BaseActivity {
                 }
                 break;
             case R.id.nav_speakers:
+                atHome = false;
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_frame, new SpeakersListFragment(), FRAGMENT_TAG_REST).commit();
                 if (getSupportActionBar() != null) {
@@ -395,6 +399,7 @@ public class MainActivity extends BaseActivity {
                 }
                 break;
             case R.id.nav_sponsors:
+                atHome = false;
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_frame, new SponsorsFragment(), FRAGMENT_TAG_REST).commit();
                 if (getSupportActionBar() != null) {
@@ -402,6 +407,7 @@ public class MainActivity extends BaseActivity {
                 }
                 break;
             case R.id.nav_locations:
+                atHome = false;
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_frame, new LocationsFragment(), FRAGMENT_TAG_REST).commit();
                 if (getSupportActionBar() != null) {
@@ -409,6 +415,7 @@ public class MainActivity extends BaseActivity {
                 }
                 break;
             case R.id.nav_map:
+                atHome = false;
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
                 fragmentTransaction.replace(R.id.content_frame,
@@ -449,14 +456,25 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        android.support.v4.app.Fragment fragment = fragmentManager.findFragmentByTag(FRAGMENT_TAG_TRACKS);
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
-        } else if (fragment != null && fragment.isVisible()) {
-            super.onBackPressed();
+        } else if (atHome) {
+            if (backPressedOnce) {
+                super.onBackPressed();
+            } else {
+                backPressedOnce = true;
+                Snackbar snackbar = Snackbar.make(mainFrame, R.string.press_back_again, 2000);
+                snackbar.show();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        backPressedOnce = false;
+                    }
+                }, 2000);
+            }
         } else {
-            fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, new TracksFragment(), FRAGMENT_TAG_TRACKS).commit();
+            atHome = true;
+            fragmentManager.beginTransaction().replace(R.id.content_frame, new TracksFragment(), FRAGMENT_TAG_TRACKS).commit();
             if (getSupportActionBar() != null) {
                 getSupportActionBar().setTitle(R.string.menu_tracks);
             }
