@@ -34,6 +34,7 @@ import org.fossasia.openevent.dbutils.DataDownloadManager;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.SpeakerDownloadEvent;
 import org.fossasia.openevent.utils.NetworkUtils;
+import org.fossasia.openevent.utils.ShowNotification;
 import org.fossasia.openevent.views.MarginDecoration;
 
 import java.util.List;
@@ -62,6 +63,8 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
     private SearchView searchView;
 
     private int sortType;
+
+    private Snackbar snackbar;
 
     @Nullable
     @Override
@@ -187,7 +190,26 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
 
     private void refresh() {
         if (NetworkUtils.haveNetworkConnection(getActivity())) {
-            DataDownloadManager.getInstance().downloadSpeakers();
+            if (NetworkUtils.isActiveInternetPresent()) {
+                //Internet is working
+                DataDownloadManager.getInstance().downloadSpeakers();
+            } else {
+                //Device is connected to WI-FI or Mobile Data but Internet is not working
+                //show snackbar
+                //will be useful if user have blocked notification for this app
+                snackbar = Snackbar.make(getView(), R.string.waiting_for_network, Snackbar.LENGTH_INDEFINITE).setAction(R.string.snackbar_refresh_action,
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                swipeRefreshLayout.setRefreshing(true);
+                                snackbar.dismiss();
+                                refresh();
+                            }
+                        });
+                snackbar.show();
+                //show notification
+                new ShowNotification(getContext());
+            }
         } else {
             OpenEventApp.getEventBus().post(new SpeakerDownloadEvent(false));
         }
