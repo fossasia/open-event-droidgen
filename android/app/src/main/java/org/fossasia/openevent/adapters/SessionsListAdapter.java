@@ -35,7 +35,6 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
 
     private String trackName;
     private Context context;
-    DbSingleton dbSingleton;
 
     @SuppressWarnings("all")
     Filter filter = new Filter() {
@@ -100,6 +99,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
         holder.sessionDate.setText(date);
         holder.sessionStartTime.setText(ISO8601Date.get12HourTime(ISO8601Date.getDateObject(session.getStartTime())));
         holder.sessionLocation.setText(session.getMicrolocation().getName());
+        DbSingleton dbSingleton;
         dbSingleton = DbSingleton.getInstance();
         if(!dbSingleton.isBookmarked(session.getId()))
             holder.sessionImage.setImageResource(R.drawable.ic_bookmark_outline_black_24dp);
