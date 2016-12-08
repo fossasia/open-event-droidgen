@@ -87,6 +87,7 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
                 dayRecyclerView.post(new Runnable() {
                     @Override
                     public void run() {
+                        if (dayRecyclerView != null && noSchedule!=null) {
                         if (!sortedSessions.isEmpty()) {
                             noSchedule.setVisibility(View.GONE);
                         } else {
@@ -95,6 +96,7 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
                         dayScheduleAdapter = new DayScheduleAdapter(sortedSessions, getContext());
                         dayRecyclerView.setAdapter(dayScheduleAdapter);
                         dayScheduleAdapter.setEventDate(date);
+                     }
                     }
                 });
             }
