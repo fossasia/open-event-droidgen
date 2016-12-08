@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.fossasia.openevent.R;
@@ -44,6 +46,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
             final ArrayList<Session> filteredSessionList = new ArrayList<>();
             String query = constraint.toString().toLowerCase(Locale.getDefault());
             for (Session session : sessionList) {
+
                 final String text = session.getTitle().toLowerCase(Locale.getDefault());
                 if (text.contains(query)) {
                     filteredSessionList.add(session);
@@ -96,6 +99,12 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
         holder.sessionDate.setText(date);
         holder.sessionStartTime.setText(ISO8601Date.get12HourTime(ISO8601Date.getDateObject(session.getStartTime())));
         holder.sessionLocation.setText(session.getMicrolocation().getName());
+        DbSingleton dbSingleton;
+        dbSingleton = DbSingleton.getInstance();
+        if(!dbSingleton.isBookmarked(session.getId()))
+            holder.sessionImage.setImageResource(R.drawable.ic_bookmark_outline_black_24dp);
+        else
+            holder.sessionImage.setImageResource(R.drawable.ic_bookmark_grey600_24dp);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,6 +147,9 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
 
         @BindView(R.id.session_location)
         TextView sessionLocation;
+
+        @BindView(R.id.session_bookmark_status)
+        ImageView sessionImage;
 
         public SessionViewHolder(View itemView) {
             super(itemView);
