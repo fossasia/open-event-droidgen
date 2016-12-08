@@ -149,4 +149,12 @@
     <string name="storage_permission_rationale">Storage permission is needed for saving map data for offline availability.</string>
     <string name="permissions_insufficient">Go to settings and enable permission!</string>
     <string name="press_back_again">Tap back again to exit.</string>
+
+    <!--SnackBar strings-->
+    <string name="waiting_for_network">Waiting for network</string>
+    <string name="snackbar_refresh_action">Refresh</string>
+
+    <!--Notification strings-->
+    <string name="check_connection">Check Connection</string>
+    <string name="open_your_web_brower_to_finish_connection_setting">Open your web browser to finish connection setting</string>
 </resources>
