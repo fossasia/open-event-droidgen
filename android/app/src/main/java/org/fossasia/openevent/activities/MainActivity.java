@@ -79,6 +79,7 @@ import org.fossasia.openevent.utils.CommonTaskLoop;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.ISO8601Date;
 import org.fossasia.openevent.utils.NetworkUtils;
+import org.fossasia.openevent.utils.ShowNotificationSnackBar;
 import org.fossasia.openevent.utils.SmoothActionBarDrawerToggle;
 import org.fossasia.openevent.widget.DialogFactory;
 
@@ -182,52 +183,69 @@ public class MainActivity extends BaseActivity {
         downloadProgress.setIndeterminate(true);
         this.findViewById(android.R.id.content).setBackgroundColor(Color.WHITE);
         if (NetworkUtils.haveNetworkConnection(this)) {
-            if (!sharedPreferences.getBoolean(ConstantStrings.IS_DOWNLOAD_DONE, false)) {
-                AlertDialog.Builder downloadDialog = new AlertDialog.Builder(this);
-                downloadDialog.setTitle(R.string.download_assets).setMessage(R.string.charges_warning);
-                downloadDialog.setIcon(R.drawable.ic_file_download_black_24dp);
-                downloadDialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                DbSingleton.getInstance().clearDatabase();
-                                Boolean preference = sharedPreferences.getBoolean(getResources().getString(R.string.download_mode_key), true);
-                                if (preference) {
-                                    if (NetworkUtils.haveWifiConnection(MainActivity.this)) {
-                                        OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
-                                        sharedPreferences.edit().putBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true).apply();
+            if (NetworkUtils.isActiveInternetPresent()) {
+                //Internet is working
+                if (!sharedPreferences.getBoolean(ConstantStrings.IS_DOWNLOAD_DONE, false)) {
+                    AlertDialog.Builder downloadDialog = new AlertDialog.Builder(this);
+                    downloadDialog.setTitle(R.string.download_assets).setMessage(R.string.charges_warning);
+                    downloadDialog.setIcon(R.drawable.ic_file_download_black_24dp);
+                    downloadDialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    DbSingleton.getInstance().clearDatabase();
+                                    Boolean preference = sharedPreferences.getBoolean(getResources().getString(R.string.download_mode_key), true);
+                                    if (preference) {
+                                        if (NetworkUtils.haveWifiConnection(MainActivity.this)) {
+                                            OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
+                                            sharedPreferences.edit().putBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true).apply();
 
+                                        } else {
+                                            final Snackbar snackbar = Snackbar.make(mainFrame, R.string.internet_preference_warning, Snackbar.LENGTH_INDEFINITE);
+                                            snackbar.setAction(R.string.yes, new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+                                                    downloadFromAssets();
+                                                }
+                                            });
+                                            snackbar.show();
+                                        }
                                     } else {
-                                        final Snackbar snackbar = Snackbar.make(mainFrame, R.string.internet_preference_warning, Snackbar.LENGTH_INDEFINITE);
-                                        snackbar.setAction(R.string.yes, new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View view) {
-                                                downloadFromAssets();
-                                            }
-                                        });
-                                        snackbar.show();
+                                        OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
                                     }
-                                } else {
-                                    OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
+
                                 }
-
                             }
-                        }
 
-                );
-                downloadDialog.setNegativeButton(R.string.no, new DialogInterface.OnClickListener()
+                    );
+                    downloadDialog.setNegativeButton(R.string.no, new DialogInterface.OnClickListener()
 
-                        {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                downloadFromAssets();
+                            {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    downloadFromAssets();
 
+                                }
                             }
-                        }
 
-                );
-                downloadDialog.show();
-            } else {
-                downloadProgress.setVisibility(View.GONE);
+                    );
+                    downloadDialog.show();
+                } else {
+                    downloadProgress.setVisibility(View.GONE);
+                }
+            }else
+            {
+                //Device is connected to WI-FI or Mobile Data but Internet is not working
+                ShowNotificationSnackBar showNotificationSnackBar = new ShowNotificationSnackBar(MainActivity.this,mainFrame,null) {
+                    @Override
+                    public void refreshClicked() {
+                        OpenEventApp.getEventBus().unregister(this);
+                        OpenEventApp.getEventBus().register(this);
+                    }
+                };
+                //show snackbar
+                showNotificationSnackBar.showSnackBar();
+                //snow notification
+                showNotificationSnackBar.buildNotification();
             }
         } else {
             final Snackbar snackbar = Snackbar.make(mainFrame, R.string.display_offline_schedule, Snackbar.LENGTH_LONG);

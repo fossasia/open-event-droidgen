@@ -22,6 +22,7 @@ import org.fossasia.openevent.dbutils.DataDownloadManager;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.SponsorDownloadEvent;
 import org.fossasia.openevent.utils.NetworkUtils;
+import org.fossasia.openevent.utils.ShowNotificationSnackBar;
 
 import butterknife.BindView;
 import timber.log.Timber;
@@ -39,6 +40,8 @@ public class SponsorsFragment extends BaseFragment {
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.list_sponsors)
     RecyclerView sponsorsRecyclerView;
+
+    private Snackbar snackbar;
 
     @Nullable
     @Override
@@ -106,8 +109,26 @@ public class SponsorsFragment extends BaseFragment {
 
     private void refresh() {
         if (NetworkUtils.haveNetworkConnection(getActivity())) {
-            DataDownloadManager.getInstance().downloadSponsors();
+            if (NetworkUtils.isActiveInternetPresent()) {
+                //Internet is working
+                DataDownloadManager.getInstance().downloadSponsors();
+            } else {
+                //Device is connected to WI-FI or Mobile Data but Internet is not working
+                ShowNotificationSnackBar showNotificationSnackBar = new ShowNotificationSnackBar(getContext(),getView(),swipeRefreshLayout) {
+                    @Override
+                    public void refreshClicked() {
+                        refresh();
+                    }
+                };
+                //show snackbar will be useful if user have blocked notification for this app
+                snackbar = showNotificationSnackBar.showSnackBar();
+                //show notification
+                showNotificationSnackBar.buildNotification();
+            }
         } else {
+            if (snackbar.isShown()) {
+                snackbar.dismiss();
+            }
             OpenEventApp.getEventBus().post(new SponsorDownloadEvent(true));
         }
     }
