@@ -10,16 +10,19 @@ import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
 import org.fossasia.openevent.Receivers.NetworkConnectivityChangeReceiver;
 import org.fossasia.openevent.api.Urls;
+import org.fossasia.openevent.api.protocol.SpeakerResponseList;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.ConnectionCheckEvent;
 import org.fossasia.openevent.events.DataDownloadEvent;
 import org.fossasia.openevent.events.ShowNetworkDialogEvent;
 import org.fossasia.openevent.modules.MapModuleFactory;
+import org.fossasia.openevent.utils.CommonTaskLoop;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -82,7 +85,30 @@ public class OpenEventApp extends Application {
         registerReceiver(new NetworkConnectivityChangeReceiver(), new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
         getEventBus().register(this);
 
+        CommonTaskLoop.getInstance().post(new Runnable() {
+            @Override
+            public void run() {
+                String json = null;
+                try {
+                    InputStream inputStream = getAssets().open("speakers.json");
+                    int size = inputStream.available();
+                    byte[] buffer = new byte[size];
+                    inputStream.read(buffer);
+                    inputStream.close();
+                    json = new String(buffer, "UTF-8");
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                Gson gson = new Gson();
+                SpeakerResponseList list = gson.fromJson(json, SpeakerResponseList.class);
+                Timber.d(list.speakers.size() + " ######### " + list.speakers.get(0));
+
+            }
+        });
         String json = null;
+
         try {
             InputStream inputStream = getAssets().open("config.json");
             int size = inputStream.available();
