@@ -27,7 +27,7 @@ import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.RefreshUiEvent;
 import org.fossasia.openevent.events.TracksDownloadEvent;
 import org.fossasia.openevent.utils.NetworkUtils;
-import org.fossasia.openevent.utils.ShowNotification;
+import org.fossasia.openevent.utils.ShowNotificationSnackBar;
 
 import java.util.List;
 
@@ -186,20 +186,16 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
                     swipeRefreshLayout.setRefreshing(false);
                 }
                 //Device is connected to WI-FI or Mobile Data but Internet is not working
-                //show snackbar
-                //will be useful if user have blocked notification for this app
-                snackbar = Snackbar.make(windowFrame, R.string.waiting_for_network, Snackbar.LENGTH_INDEFINITE).setAction(R.string.snackbar_refresh_action,
-                        new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                swipeRefreshLayout.setRefreshing(true);
-                                snackbar.dismiss();
-                                refresh();
-                            }
-                        });
-                snackbar.show();
+                ShowNotificationSnackBar showNotificationSnackBar = new ShowNotificationSnackBar(getContext(),getView(),swipeRefreshLayout) {
+                    @Override
+                    public void refreshClicked() {
+                        refresh();
+                    }
+                };
+                //show snackbar will be useful if user have blocked notification for this app
+                snackbar = showNotificationSnackBar.showSnackBar();
                 //show notification
-                new ShowNotification(getContext());
+                showNotificationSnackBar.buildNotification();
             }
         } else {
             if (snackbar.isShown()) {

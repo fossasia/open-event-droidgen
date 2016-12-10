@@ -33,7 +33,7 @@ import org.fossasia.openevent.events.RefreshUiEvent;
 import org.fossasia.openevent.events.SessionDownloadEvent;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.NetworkUtils;
-import org.fossasia.openevent.utils.ShowNotification;
+import org.fossasia.openevent.utils.ShowNotificationSnackBar;
 import org.fossasia.openevent.utils.SortOrder;
 
 import java.util.List;
@@ -237,22 +237,25 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
                 DataDownloadManager.getInstance().downloadSession();
             } else {
                 //Device is connected to WI-FI or Mobile Data but Internet is not working
-                //show snackbar
-                //will be useful if user have blocked notification for this app
-                snackbar = Snackbar.make(getView(), R.string.waiting_for_network, Snackbar.LENGTH_INDEFINITE).setAction(R.string.snackbar_refresh_action,
-                        new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                swipeRefreshLayout.setRefreshing(true);
-                                snackbar.dismiss();
-                                refresh();
-                            }
-                        });
-                snackbar.show();
+                //set is refreshing false as let user to login
+                if (swipeRefreshLayout.isRefreshing()) {
+                    swipeRefreshLayout.setRefreshing(false);
+                }
+                ShowNotificationSnackBar showNotificationSnackBar = new ShowNotificationSnackBar(getContext(),getView(),swipeRefreshLayout) {
+                    @Override
+                    public void refreshClicked() {
+                        refresh();
+                    }
+                };
+                //show snackbar will be useful if user have blocked notification for this app
+                snackbar = showNotificationSnackBar.showSnackBar();
                 //show notification
-                new ShowNotification(getContext());
+                showNotificationSnackBar.buildNotification();
             }
         } else {
+            if (snackbar.isShown()) {
+                snackbar.dismiss();
+            }
             OpenEventApp.getEventBus().post(new SessionDownloadEvent(false));
         }
     }

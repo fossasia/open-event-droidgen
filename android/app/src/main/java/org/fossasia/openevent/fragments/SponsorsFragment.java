@@ -22,7 +22,7 @@ import org.fossasia.openevent.dbutils.DataDownloadManager;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.SponsorDownloadEvent;
 import org.fossasia.openevent.utils.NetworkUtils;
-import org.fossasia.openevent.utils.ShowNotification;
+import org.fossasia.openevent.utils.ShowNotificationSnackBar;
 
 import butterknife.BindView;
 import timber.log.Timber;
@@ -114,20 +114,16 @@ public class SponsorsFragment extends BaseFragment {
                 DataDownloadManager.getInstance().downloadSponsors();
             } else {
                 //Device is connected to WI-FI or Mobile Data but Internet is not working
-                //show snackbar
-                //will be useful if user have blocked notification for this app
-                snackbar = Snackbar.make(getView(), R.string.waiting_for_network, Snackbar.LENGTH_INDEFINITE).setAction(R.string.snackbar_refresh_action,
-                        new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                swipeRefreshLayout.setRefreshing(true);
-                                snackbar.dismiss();
-                                refresh();
-                            }
-                        });
-                snackbar.show();
+                ShowNotificationSnackBar showNotificationSnackBar = new ShowNotificationSnackBar(getContext(),getView(),swipeRefreshLayout) {
+                    @Override
+                    public void refreshClicked() {
+                        refresh();
+                    }
+                };
+                //show snackbar will be useful if user have blocked notification for this app
+                snackbar = showNotificationSnackBar.showSnackBar();
                 //show notification
-                new ShowNotification(getContext());
+                showNotificationSnackBar.buildNotification();
             }
         } else {
             OpenEventApp.getEventBus().post(new SponsorDownloadEvent(true));
