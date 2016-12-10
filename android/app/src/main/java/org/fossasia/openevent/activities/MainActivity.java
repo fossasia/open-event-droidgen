@@ -235,12 +235,17 @@ public class MainActivity extends BaseActivity {
             }else
             {
                 //Device is connected to WI-FI or Mobile Data but Internet is not working
-                ShowNotificationSnackBar showNotificationSnackBar = new ShowNotificationSnackBar(MainActivity.this,null,null) {
+                ShowNotificationSnackBar showNotificationSnackBar = new ShowNotificationSnackBar(MainActivity.this,mainFrame,null) {
                     @Override
                     public void refreshClicked() {
-
+                        OpenEventApp.getEventBus().unregister(this);
+                        OpenEventApp.getEventBus().register(this);
                     }
                 };
+                //show snackbar
+                showNotificationSnackBar.showSnackBar();
+                //snow notification
+                showNotificationSnackBar.buildNotification();
             }
         } else {
             final Snackbar snackbar = Snackbar.make(mainFrame, R.string.display_offline_schedule, Snackbar.LENGTH_LONG);

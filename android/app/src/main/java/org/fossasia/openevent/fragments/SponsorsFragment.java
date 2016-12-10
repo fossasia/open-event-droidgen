@@ -126,6 +126,9 @@ public class SponsorsFragment extends BaseFragment {
                 showNotificationSnackBar.buildNotification();
             }
         } else {
+            if (snackbar.isShown()) {
+                snackbar.dismiss();
+            }
             OpenEventApp.getEventBus().post(new SponsorDownloadEvent(true));
         }
     }

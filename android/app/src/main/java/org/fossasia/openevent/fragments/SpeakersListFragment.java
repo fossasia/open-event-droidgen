@@ -193,6 +193,10 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
                 //Internet is working
                 DataDownloadManager.getInstance().downloadSpeakers();
             } else {
+                //set is refreshing false as let user to login
+                if (swipeRefreshLayout.isRefreshing()) {
+                    swipeRefreshLayout.setRefreshing(false);
+                }
                 //Device is connected to WI-FI or Mobile Data but Internet is not working
                 ShowNotificationSnackBar showNotificationSnackBar = new ShowNotificationSnackBar(getContext(),getView(),swipeRefreshLayout) {
                     @Override

@@ -41,7 +41,10 @@ public abstract class ShowNotificationSnackBar {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        swipeRefreshLayout.setRefreshing(true);
+                        if (swipeRefreshLayout!=null)
+                        {
+                            swipeRefreshLayout.setRefreshing(true);
+                        }
                         snackbar.dismiss();
                         refreshClicked();
                     }
