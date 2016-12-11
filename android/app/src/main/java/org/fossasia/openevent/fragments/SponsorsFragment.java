@@ -2,15 +2,18 @@ package org.fossasia.openevent.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
@@ -40,6 +43,11 @@ public class SponsorsFragment extends BaseFragment {
     @BindView(R.id.list_sponsors)
     RecyclerView sponsorsRecyclerView;
 
+    LinearLayoutManager linearLayoutManager;
+    Toolbar toolbar;
+    AppBarLayout.LayoutParams layoutParams;
+    private int SCROLL_OFF = 0;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -58,7 +66,21 @@ public class SponsorsFragment extends BaseFragment {
         });
         sponsorsListAdapter = new SponsorsListAdapter(getContext(), dbSingleton.getSponsorList());
         sponsorsRecyclerView.setAdapter(sponsorsListAdapter);
-        sponsorsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        linearLayoutManager = new LinearLayoutManager(getActivity());
+        sponsorsRecyclerView.setLayoutManager(linearLayoutManager);
+        sponsorsRecyclerView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+                layoutParams = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
+                if (linearLayoutManager.findLastCompletelyVisibleItemPosition() == linearLayoutManager.getChildCount() - 1) {
+                    layoutParams.setScrollFlags(SCROLL_OFF);
+                    toolbar.setLayoutParams(layoutParams);
+                }
+                sponsorsRecyclerView.getViewTreeObserver().removeOnPreDrawListener(this);
+                return false;
+            }
+        });
 
         if (sponsorsListAdapter.getItemCount() != 0) {
             noSponsorsView.setVisibility(View.GONE);
@@ -80,6 +102,8 @@ public class SponsorsFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         OpenEventApp.getEventBus().unregister(this);
+        layoutParams.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL);
+        toolbar.setLayoutParams(layoutParams);
     }
 
     @Subscribe

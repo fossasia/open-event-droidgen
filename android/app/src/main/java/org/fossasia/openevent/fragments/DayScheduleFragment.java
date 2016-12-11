@@ -6,12 +6,14 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,6 +21,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
@@ -63,6 +66,10 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
 
     private SharedPreferences sharedPreferences;
 
+    LinearLayoutManager linearLayoutManager;
+    Toolbar toolbar;
+    AppBarLayout.LayoutParams layoutParams;
+    private int SCROLL_OFF = 0;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -109,7 +116,21 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
         });
 
         dayRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-
+        linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        dayRecyclerView.setLayoutManager(linearLayoutManager);
+        dayRecyclerView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+                layoutParams = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
+                if (linearLayoutManager.findLastCompletelyVisibleItemPosition() == linearLayoutManager.getChildCount() - 1) {
+                    layoutParams.setScrollFlags(SCROLL_OFF);
+                    toolbar.setLayoutParams(layoutParams);
+                }
+                dayRecyclerView.getViewTreeObserver().removeOnPreDrawListener(this);
+                return false;
+            }
+        });
         if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
             searchText = savedInstanceState.getString(SEARCH);
         }
@@ -235,5 +256,10 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
         }
     }
 
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        layoutParams.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL);
+        toolbar.setLayoutParams(layoutParams);
+    }
 }
