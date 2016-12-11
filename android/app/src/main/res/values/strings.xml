@@ -38,6 +38,10 @@
     <string name="summary_mode_timezone">Use your local time instead of the conference\'s local time.</string>
     <string name="timezone_mode_key">timezone_mode</string>
 
+    <string name="language_preferences">Language Preferences</string>
+    <string name="change_language">Change Your Language</string>
+    <string name="language_key">change_language</string>
+    <string name="default_mode_language">English</string>
 
 
     <!--Social-->
