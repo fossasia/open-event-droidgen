@@ -1,12 +1,14 @@
 package org.fossasia.openevent.fragments;
 
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -14,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
@@ -45,6 +48,11 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
 
     private SearchView searchView;
 
+    private LinearLayoutManager linearLayoutManager;
+    private Toolbar toolbar;
+    private AppBarLayout.LayoutParams layoutParams;
+    private int SCROLL_OFF = 0;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
@@ -64,8 +72,21 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
             }
         });
 
-        locationsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-
+        linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        locationsRecyclerView.setLayoutManager(linearLayoutManager);
+        locationsRecyclerView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+                layoutParams = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
+                if (linearLayoutManager.findLastCompletelyVisibleItemPosition() == linearLayoutManager.getChildCount() - 1) {
+                    layoutParams.setScrollFlags(SCROLL_OFF);
+                    toolbar.setLayoutParams(layoutParams);
+                }
+                locationsRecyclerView.getViewTreeObserver().removeOnPreDrawListener(this);
+                return false;
+            }
+        });
         if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
             searchText = savedInstanceState.getString(SEARCH);
         }
@@ -151,6 +172,8 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
     public void onDestroyView() {
         super.onDestroyView();
         OpenEventApp.getEventBus().unregister(this);
+        layoutParams.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL);
+        toolbar.setLayoutParams(layoutParams);
     }
 
     @Subscribe
