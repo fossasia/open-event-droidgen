@@ -27,6 +27,7 @@ import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.RefreshUiEvent;
 import org.fossasia.openevent.events.TracksDownloadEvent;
 import org.fossasia.openevent.utils.NetworkUtils;
+import org.fossasia.openevent.utils.ShowNotificationSnackBar;
 
 import java.util.List;
 
@@ -52,6 +53,8 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
     private SearchView searchView;
 
     private DbSingleton dbSingleton;
+
+    private Snackbar snackbar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -174,8 +177,30 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
 
     private void refresh() {
         if (NetworkUtils.haveNetworkConnection(getActivity())) {
-            DataDownloadManager.getInstance().downloadTracks();
+            if (NetworkUtils.isActiveInternetPresent()) {
+                //Internet is working
+                DataDownloadManager.getInstance().downloadTracks();
+            } else {
+                //set is refreshing false as let user to login
+                if (swipeRefreshLayout.isRefreshing()) {
+                    swipeRefreshLayout.setRefreshing(false);
+                }
+                //Device is connected to WI-FI or Mobile Data but Internet is not working
+                ShowNotificationSnackBar showNotificationSnackBar = new ShowNotificationSnackBar(getContext(),getView(),swipeRefreshLayout) {
+                    @Override
+                    public void refreshClicked() {
+                        refresh();
+                    }
+                };
+                //show snackbar will be useful if user have blocked notification for this app
+                snackbar = showNotificationSnackBar.showSnackBar();
+                //show notification
+                showNotificationSnackBar.buildNotification();
+            }
         } else {
+            if (snackbar.isShown()) {
+                snackbar.dismiss();
+            }
             OpenEventApp.getEventBus().post(new TracksDownloadEvent(false));
         }
         setVisibility();

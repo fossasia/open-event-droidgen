@@ -26,7 +26,6 @@ import com.squareup.otto.Subscribe;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
-import org.fossasia.openevent.activities.SpeakerDetailsActivity;
 import org.fossasia.openevent.adapters.SpeakersListAdapter;
 import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Speaker;
@@ -34,6 +33,7 @@ import org.fossasia.openevent.dbutils.DataDownloadManager;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.SpeakerDownloadEvent;
 import org.fossasia.openevent.utils.NetworkUtils;
+import org.fossasia.openevent.utils.ShowNotificationSnackBar;
 import org.fossasia.openevent.views.MarginDecoration;
 
 import java.util.List;
@@ -62,6 +62,8 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
     private SearchView searchView;
 
     private int sortType;
+
+    private Snackbar snackbar;
 
     @Nullable
     @Override
@@ -187,8 +189,30 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
 
     private void refresh() {
         if (NetworkUtils.haveNetworkConnection(getActivity())) {
-            DataDownloadManager.getInstance().downloadSpeakers();
+            if (NetworkUtils.isActiveInternetPresent()) {
+                //Internet is working
+                DataDownloadManager.getInstance().downloadSpeakers();
+            } else {
+                //set is refreshing false as let user to login
+                if (swipeRefreshLayout.isRefreshing()) {
+                    swipeRefreshLayout.setRefreshing(false);
+                }
+                //Device is connected to WI-FI or Mobile Data but Internet is not working
+                ShowNotificationSnackBar showNotificationSnackBar = new ShowNotificationSnackBar(getContext(),getView(),swipeRefreshLayout) {
+                    @Override
+                    public void refreshClicked() {
+                        refresh();
+                    }
+                };
+                //show snackbar will be useful if user have blocked notification for this app
+                snackbar = showNotificationSnackBar.showSnackBar();
+                //show notification
+                showNotificationSnackBar.buildNotification();
+            }
         } else {
+            if (snackbar.isShown()) {
+                snackbar.dismiss();
+            }
             OpenEventApp.getEventBus().post(new SpeakerDownloadEvent(false));
         }
     }

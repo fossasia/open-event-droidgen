@@ -33,6 +33,7 @@ import org.fossasia.openevent.events.RefreshUiEvent;
 import org.fossasia.openevent.events.SessionDownloadEvent;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.NetworkUtils;
+import org.fossasia.openevent.utils.ShowNotificationSnackBar;
 import org.fossasia.openevent.utils.SortOrder;
 
 import java.util.List;
@@ -62,6 +63,8 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
     private int sortType;
 
     private SharedPreferences sharedPreferences;
+
+    private Snackbar snackbar;
 
 
     @Override
@@ -229,8 +232,30 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
 
     private void refresh() {
         if (NetworkUtils.haveNetworkConnection(getContext())) {
-            DataDownloadManager.getInstance().downloadSession();
+            if (NetworkUtils.isActiveInternetPresent()) {
+                //Internet is working
+                DataDownloadManager.getInstance().downloadSession();
+            } else {
+                //Device is connected to WI-FI or Mobile Data but Internet is not working
+                //set is refreshing false as let user to login
+                if (swipeRefreshLayout.isRefreshing()) {
+                    swipeRefreshLayout.setRefreshing(false);
+                }
+                ShowNotificationSnackBar showNotificationSnackBar = new ShowNotificationSnackBar(getContext(),getView(),swipeRefreshLayout) {
+                    @Override
+                    public void refreshClicked() {
+                        refresh();
+                    }
+                };
+                //show snackbar will be useful if user have blocked notification for this app
+                snackbar = showNotificationSnackBar.showSnackBar();
+                //show notification
+                showNotificationSnackBar.buildNotification();
+            }
         } else {
+            if (snackbar.isShown()) {
+                snackbar.dismiss();
+            }
             OpenEventApp.getEventBus().post(new SessionDownloadEvent(false));
         }
     }

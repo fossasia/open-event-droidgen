@@ -9,7 +9,7 @@
 [![Hosted on DigitalOcean](/docs/badges/digitalocean.png)](http://digitalocean.com)
 
 
-The Open Event Android project consists of two components. The **App Generator** is hosted web application, that is hosted on a server and generates an event Android app from a zip with JSON and binary files ([examples here](http://github.com/fossasia/open-event)) or through an API. The second component we are developing in the project is generic **Android app** - the output of the app generator. The mobile app can be installed on any Android device for browsing information about the event. Updates can be made automatically through API endpoint connections from an online source (e.g. server), which needs to defined in the provided event zip with the JSON files. The Android app has a standard configuration file, that sets the details of the app (e.g. color scheme, logo of event, link to JSON app data).
+The Open Event Android project consists of two components. The **App Generator** is a web application that is hosted on a server and generates an event Android app from a zip with JSON and binary files ([examples here](http://github.com/fossasia/open-event)) or through an API. The second component we are developing in the project is a generic **Android app** - the output of the app generator. The mobile app can be installed on any Android device for browsing information about the event. Updates can be made automatically through API endpoint connections from an online source (e.g. server), which needs to defined in the provided event zip with the JSON files. The Android app has a standard configuration file, that sets the details of the app (e.g. color scheme, logo of event, link to JSON app data).
 
 ##Communication
 
@@ -25,11 +25,11 @@ This is a generic app that has two parts:
 
 A) A standard configuration file, that sets the details of the app (e.g. color scheme, logo of event, link to JSON app data). A sample of the JSON format is maintained in the [Open Event Repository](http://github.com/fossasia/open-event).
 
-B) And the app uses the JSON API provided by open event orga servers server (Code maintained [here](https://github.com/fossasia/open-event-orga-server)).
+B) A JSON API provided by open-event-orga-servers server (Code maintained [here](https://github.com/fossasia/open-event-orga-server)).
 
 ### Sample App
 
-A sample app for testing purposes is automatically build after commits in the repository. Please [download and test the app here](/sample-apk).
+A sample app for testing purposes is automatically built after commits in the repository. Please [download and test the app here](/sample-apk).
 
 ### Screenshots of a sample Android app
 
@@ -42,10 +42,10 @@ Please find info about the set up of the Android app in your development environ
 ### Data retrieval
 
 - The orga-server provides the data which is stored in its backend database in a json format.
-- The app on startup picks up data from a json file in it's assets folder if the version number of data is -1 which happens when there is no internet connection
+- The app on startup picks up data from a JSON file in its assets folder if the version number of data is -1, which happens when there is no internet connection
 - If there is a valid internet connection, the data download starts from the server.
 - Also there is a check on the version of data already there in the app's database. If data is stale then only it is downloaded.
-- If database is empty then firstly json file in assets is accessed but if internet is available , latest data is downloaded.
+- If database is empty then firstly JSON file in assets is accessed but if internet is available , latest data is downloaded.
 
 ### Libraries used and their documentation
 
@@ -71,15 +71,15 @@ Please find info about the set up of the Android app in your development environ
 
 ## 2. App Generator
 
-The App Generator is a simple One Pager HTML webpage that allows the user to input details and upload or link to the required event data to automatically build the Android application. The user needs to provide the following:
+The App Generator is a simple one-page HTML webpage that allows the user to input details and upload or link to the required event data to automatically build the Android application. The user needs to provide the following:
 
 1. App's Name
 2. E-Mail address where the generated app will be sent to
 3. a) Either a zip with all event data including JSON data and binary image and audio files or b) an API Link providing the same information as the zip file
 
-The Generator needs to be hosted on a server backed up by PHP script which in turn executes python and Bash scripts which start the app's build process. After the app is generated, it is emailed to the user using [Mutt](http://www.mutt.org/) and [MSMTP](http://msmtp.sourceforge.net/).
+The Generator needs to be hosted on a server backed up by a PHP script which in turn executes Python and Bash scripts which start the app's build process. After the app is generated, it is emailed to the user using [Mutt](http://www.mutt.org/) and [MSMTP](http://msmtp.sourceforge.net/).
 
-For the API part, the app is not using Firebase for sending data to the server, instead the app is directly sending data to `api.php` in the API call. Digging deeper in the code of `api.php`, first the app checks for a valid request (GET/POST) and throws an error if it is invalid. Next, for a valid request the app stores the body into a variable and then executes a follow-up script.
+For the API part, the app does not use Firebase for sending data to the server, instead the app directly sends data to `api.php` in the API call. Digging deeper in the code of `api.php`, first the app checks for a valid request (GET/POST) and throws an error if it is invalid. Next, for a valid request the app stores the body into a variable and then executes a follow-up script.
 
 ### Sample app
 
@@ -130,15 +130,15 @@ After taking the request through the POST API, the app will be generated and ema
 
 ### Components
 
-* **[index.html](https://github.com/fossasia/open-event-android/blob/master/apk-generator/index.html)** A html file which can server as the landing page for your server.
-* **[runPy.php](https://github.com/fossasia/open-event-android/blob/master/apk-generator/scripts/runPy.php)** A php script that will launch python script by taking input from index.html.
-* **[appgenserver.py](https://github.com/fossasia/open-event-android/blob/master/apk-generator/scripts/appgenserver.py)** A python script containg commands to compile and generate the app
+* **[index.html](https://github.com/fossasia/open-event-android/blob/master/apk-generator/index.html)** A HTML file which can server as the landing page for your server.
+* **[runPy.php](https://github.com/fossasia/open-event-android/blob/master/apk-generator/scripts/runPy.php)** A PHP script that will launch python script by taking input from index.html.
+* **[appgenserver.py](https://github.com/fossasia/open-event-android/blob/master/apk-generator/scripts/appgenserver.py)** A Python script containg commands to compile and generate the app
 * **[clone.sh](https://github.com/fossasia/open-event-android/blob/master/apk-generator/scripts/clone.sh)** A bash script used for cloning the source code for android app onto the server.
 * **[buildApk.sh](https://github.com/fossasia/open-event-android/blob/master/apk-generator/scripts/buildApk.sh)** A bash script used for initiating the app's build and signing it once the app has been generated.
 * **[email.sh](https://github.com/fossasia/open-event-android/blob/master/apk-generator/scripts/email.sh)** A bash script used to send the email containing the generated app as an attachment.
-* **[upload.php](https://github.com/fossasia/open-event-android/blob/development/apk-generator/scripts/upload.php)** A php script that will upload the json zip that is chosed by the user.
+* **[upload.php](https://github.com/fossasia/open-event-android/blob/development/apk-generator/scripts/upload.php)** A PHP script that will upload the json zip that is chosed by the user.
 * **[uploadhelper.php](https://github.com/fossasia/open-event-android/blob/development/apk-generator/scripts/uploadHelper.php)** Takes in the timestamp of user as input and moves the uploaded script to a unique location for each user.
-* **[api.php](https://github.com/fossasia/open-event-android/blob/development/apk-generator/api/api.php)** A php script that serves as an API and handles incoming requests to the server.
+* **[api.php](https://github.com/fossasia/open-event-android/blob/development/apk-generator/api/api.php)** A PHP script that serves as an API and handles incoming requests to the server.
 * **[copyapk.sh](https://github.com/fossasia/open-event-android/blob/development/apk-generator/scripts/copyApk.sh)** A bash script that will copy the generated and signed apk to the release folder in `public-html` of the server.
 
 ### Screenshots of the app generator web page
