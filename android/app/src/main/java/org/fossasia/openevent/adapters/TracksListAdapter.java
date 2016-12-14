@@ -75,7 +75,6 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.Re
         final Track currentTrack = getItem(position);
 
         holder.trackTitle.setText(currentTrack.getName());
-        holder.trackDescription.setText(currentTrack.getDescription());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,9 +102,6 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.Re
 
         @BindView(R.id.track_title)
         TextView trackTitle;
-
-        @BindView(R.id.track_description)
-        TextView trackDescription;
 
         public RecyclerViewHolder(View itemView) {
             super(itemView);

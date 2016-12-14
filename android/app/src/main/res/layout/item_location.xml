@@ -18,9 +18,9 @@
         android:layout_marginRight="@dimen/card_margin"
         style="@style/CardContent"
         android:layout_marginStart="@dimen/card_margin"
-        android:paddingBottom="5dp"
-        app:cardCornerRadius="4dp"
-        android:paddingTop="5dp"
+        android:paddingBottom="@dimen/card_padding"
+        app:cardCornerRadius="@dimen/card_radius"
+        android:paddingTop="@dimen/card_padding"
         tools:targetApi="lollipop">
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -31,6 +31,7 @@
 
             <TextView
                 android:id="@+id/location_name"
+                android:gravity="center_horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
@@ -38,6 +39,7 @@
 
             <TextView
                 android:id="@+id/location_floor"
+                android:gravity="center_horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
