@@ -74,7 +74,7 @@ public class OpenEventApp extends Application {
         OpenEventApp.context = getApplicationContext();
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getAppContext());
-        sDefSystemLanguage = Locale.getDefault().getLanguage();
+        sDefSystemLanguage = Locale.getDefault().getDisplayLanguage();
 
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
@@ -132,7 +132,7 @@ public class OpenEventApp extends Application {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
-        sDefSystemLanguage = newConfig.locale.getLanguage();
+        sDefSystemLanguage = newConfig.locale.getDisplayLanguage();
     }
 
 
