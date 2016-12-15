@@ -24,6 +24,7 @@
 
     <!--Margin decoration -->
     <dimen name="item_margin">4dp</dimen>
+    <dimen name="item_align">16dp</dimen>
 
     <!-- Speakers -->
     <dimen name="speakers_entry_width">180dp</dimen>

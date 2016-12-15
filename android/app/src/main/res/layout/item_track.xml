@@ -4,7 +4,6 @@
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:baselineAligned="false"
-    android:paddingBottom="5dp"
     android:clickable="true"
     tools:showIn="@layout/list_tracks"
     android:focusable="true"
@@ -14,8 +13,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="4dp"
+        android:layout_marginTop="@dimen/item_margin"
+        android:layout_marginBottom="@dimen/item_margin"
         android:orientation="vertical">
 
         <TextView
@@ -23,7 +22,8 @@
             style="@style/TextAppearance.AppCompat.Title"
             android:layout_width="match_parent"
             tools:text="Track Title"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/track_description"
