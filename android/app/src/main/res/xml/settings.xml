@@ -26,4 +26,14 @@
             android:key="@string/notification_key" />
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:key="change_language_category"
+        android:title="@string/language_preferences">
+
+        <Preference
+            android:defaultValue="@string/default_mode_language"
+            android:key="@string/language_key"
+            android:title="@string/change_language" />
+    </PreferenceCategory>
+
 </PreferenceScreen>

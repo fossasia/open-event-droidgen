@@ -1,5 +1,6 @@
 package org.fossasia.openevent.activities;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
@@ -7,6 +8,7 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.preference.SwitchPreference;
+import android.provider.Settings;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,6 +18,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 
 /**
@@ -25,9 +28,11 @@ import org.fossasia.openevent.R;
 public class SettingsActivity extends PreferenceActivity implements Preference.OnPreferenceChangeListener {
 
     public static final String NOTIFICATION_PREF_MODE = "notification";
+    public static final String LANGUAGE_PREF_MODE = "change_language";
     private SwitchPreference internetPreference;
     private SwitchPreference timezonePreference;
     private Preference prefNotification;
+    private Preference languagePreference;
     private SharedPreferences preferences;
     private AppCompatDelegate mDelegate;
 
@@ -47,7 +52,8 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
         timezonePreference.setOnPreferenceChangeListener(this);
 
         prefNotification = findPreference(NOTIFICATION_PREF_MODE);
-
+        languagePreference=findPreference(LANGUAGE_PREF_MODE);
+        languagePreference.setSummary(OpenEventApp.sDefSystemLanguage);
     }
 
     @Override
@@ -67,7 +73,10 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
             }
         } else if (preference.getKey().equals(getResources().getString(R.string.notification_key))) {
             prefNotification.setSummary((String) o);
+        } else if (preference.getKey().equals(getResources().getString(R.string.language_key))) {
+            languagePreference.setSummary((String) o);
         }
+
         return false;
     }
 
@@ -109,7 +118,17 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
             }
         });
 
+        languagePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                startActivity(new Intent((Settings.ACTION_LOCALE_SETTINGS)));
+                return true;
+            }
+        });
+
+
         prefNotification.setSummary(preferences.getString(getString(R.string.notification_key), ""));
+        languagePreference.setSummary(OpenEventApp.sDefSystemLanguage);
     }
 
     @Override

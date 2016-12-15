@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.os.Handler;
 import android.os.Looper;
@@ -26,6 +27,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Locale;
 
 import timber.log.Timber;
 
@@ -38,6 +40,7 @@ public class OpenEventApp extends Application {
     public static final String API_LINK = "Api_Link";
     public static final String EMAIL = "Email";
     public static final String APP_NAME = "App_Name";
+    public static String sDefSystemLanguage;
     static Handler handler;
     private static Bus eventBus;
     private static Context context;
@@ -71,6 +74,7 @@ public class OpenEventApp extends Application {
         OpenEventApp.context = getApplicationContext();
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getAppContext());
+        sDefSystemLanguage = Locale.getDefault().getDisplayLanguage();
 
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
@@ -122,6 +126,13 @@ public class OpenEventApp extends Application {
             Timber.d("[NetNotif] %s", "Not connected to Internet");
             postEventOnUIThread(new ShowNetworkDialogEvent());
         }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        sDefSystemLanguage = newConfig.locale.getDisplayLanguage();
     }
 
 
