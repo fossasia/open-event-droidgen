@@ -5,11 +5,13 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -62,9 +64,6 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
         OpenEventApp.getEventBus().register(this);
 
         final DbSingleton dbSingleton = DbSingleton.getInstance();
-        locationsListAdapter = new LocationsListAdapter(getContext(), dbSingleton.getMicrolocationsList());
-        locationsRecyclerView.setAdapter(locationsListAdapter);
-
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -72,14 +71,23 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
             }
         });
 
-        linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        locationsRecyclerView.setLayoutManager(linearLayoutManager);
+
+        //setting the grid layout to cut-off white space in tablet view
+        DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
+        float width = displayMetrics.widthPixels / displayMetrics.density;
+        int spanCount = (int) (width/175.00);
+
+        locationsRecyclerView.setHasFixedSize(true);
+        final GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),spanCount);
+        locationsRecyclerView.setLayoutManager(gridLayoutManager);
+        locationsListAdapter = new LocationsListAdapter(getContext(), dbSingleton.getMicrolocationsList());
+        locationsRecyclerView.setAdapter(locationsListAdapter);
         locationsRecyclerView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
             public boolean onPreDraw() {
                 toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
                 layoutParams = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
-                if (linearLayoutManager.findLastCompletelyVisibleItemPosition() == linearLayoutManager.getChildCount() - 1) {
+                if (gridLayoutManager.findLastCompletelyVisibleItemPosition() == gridLayoutManager.getChildCount() - 1) {
                     layoutParams.setScrollFlags(SCROLL_OFF);
                     toolbar.setLayoutParams(layoutParams);
                 }
@@ -87,6 +95,7 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
                 return false;
             }
         });
+
         if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
             searchText = savedInstanceState.getString(SEARCH);
         }
