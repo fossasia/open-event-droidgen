@@ -8,11 +8,14 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,7 +23,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.TextView;
+
 
 import com.squareup.otto.Subscribe;
 
@@ -65,6 +70,13 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
 
     private Snackbar snackbar;
 
+
+    private StaggeredGridLayoutManager gridLayoutManager;
+    private Toolbar toolbar;
+    private AppBarLayout.LayoutParams layoutParams;
+    private int SCROLL_OFF = 0;
+    private int spanCount = 2;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -75,7 +87,7 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
         OpenEventApp.getEventBus().register(this);
 
         final DbSingleton dbSingleton = DbSingleton.getInstance();
-        List<Speaker> mSpeakers = dbSingleton.getSpeakerList(sortOrderSpeaker(getActivity()));
+        final List<Speaker> mSpeakers = dbSingleton.getSpeakerList(sortOrderSpeaker(getActivity()));
         prefsSort = PreferenceManager.getDefaultSharedPreferences(getActivity());
         sortType = prefsSort.getInt(PREF_SORT, 0);
 
@@ -83,7 +95,21 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
         speakersRecyclerView.addItemDecoration(new MarginDecoration(getContext()));
         speakersRecyclerView.setHasFixedSize(true);
         speakersRecyclerView.setAdapter(speakersListAdapter);
-
+        gridLayoutManager = new StaggeredGridLayoutManager(spanCount,StaggeredGridLayoutManager.VERTICAL);
+        speakersRecyclerView.setLayoutManager(gridLayoutManager);
+        speakersRecyclerView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+                layoutParams = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
+                if (mSpeakers.size() - 1 - gridLayoutManager.findLastCompletelyVisibleItemPositions(new int[spanCount])[0] < spanCount ) {
+                    layoutParams.setScrollFlags(SCROLL_OFF);
+                    toolbar.setLayoutParams(layoutParams);
+                }
+                speakersRecyclerView.getViewTreeObserver().removeOnPreDrawListener(this);
+                return false;
+            }
+        });
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -113,6 +139,8 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
     public void onDestroyView() {
         super.onDestroyView();
         OpenEventApp.getEventBus().unregister(this);
+        layoutParams.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL);
+        toolbar.setLayoutParams(layoutParams);
     }
 
     @Override

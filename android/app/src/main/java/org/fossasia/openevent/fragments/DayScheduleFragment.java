@@ -87,17 +87,19 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
             @Override
             public void run() {
                 final List<Session> sortedSessions = DbSingleton.getInstance().getSessionbyDate(date, SortOrder.sortOrderSchedule(getActivity()));
-                dayRecyclerView.post(new Runnable() {
+                getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (!sortedSessions.isEmpty()) {
-                            noSchedule.setVisibility(View.GONE);
-                        } else {
-                            noSchedule.setVisibility(View.VISIBLE);
+                        if (dayRecyclerView != null && noSchedule != null) {
+                            if (!sortedSessions.isEmpty()) {
+                                noSchedule.setVisibility(View.GONE);
+                            } else {
+                                noSchedule.setVisibility(View.VISIBLE);
+                            }
+                            dayScheduleAdapter = new DayScheduleAdapter(sortedSessions, getContext());
+                            dayRecyclerView.setAdapter(dayScheduleAdapter);
+                            dayScheduleAdapter.setEventDate(date);
                         }
-                        dayScheduleAdapter = new DayScheduleAdapter(sortedSessions, getContext());
-                        dayRecyclerView.setAdapter(dayScheduleAdapter);
-                        dayScheduleAdapter.setEventDate(date);
                     }
                 });
             }

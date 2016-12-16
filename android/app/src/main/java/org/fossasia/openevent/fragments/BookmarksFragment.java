@@ -4,16 +4,19 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.SessionsListAdapter;
@@ -41,6 +44,10 @@ public class BookmarksFragment extends BaseFragment {
 
     View view;
     ArrayList<Integer> bookmarkedIds;
+    private LinearLayoutManager linearLayoutManager;
+    private Toolbar toolbar;
+    private AppBarLayout.LayoutParams layoutParams;
+    private int SCROLL_OFF = 0;
 
     @Override
     public void onResume() {
@@ -101,8 +108,21 @@ public class BookmarksFragment extends BaseFragment {
         }
 
         bookmarkedTracks.setAdapter(sessionsListAdapter);
-        bookmarkedTracks.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-
+        linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        bookmarkedTracks.setLayoutManager(linearLayoutManager);
+        bookmarkedTracks.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+                layoutParams = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
+                if (linearLayoutManager.findLastCompletelyVisibleItemPosition() == linearLayoutManager.getChildCount() - 1) {
+                    layoutParams.setScrollFlags(SCROLL_OFF);
+                    toolbar.setLayoutParams(layoutParams);
+                }
+                bookmarkedTracks.getViewTreeObserver().removeOnPreDrawListener(this);
+                return false;
+            }
+        });
         return view;
     }
 
@@ -132,5 +152,12 @@ public class BookmarksFragment extends BaseFragment {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
         inflater.inflate(R.menu.menu_bookmarks, menu);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        layoutParams.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL);
+        toolbar.setLayoutParams(layoutParams);
     }
 }
