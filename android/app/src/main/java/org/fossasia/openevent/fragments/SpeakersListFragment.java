@@ -238,9 +238,6 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
                 showNotificationSnackBar.buildNotification();
             }
         } else {
-            if (snackbar.isShown()) {
-                snackbar.dismiss();
-            }
             OpenEventApp.getEventBus().post(new SpeakerDownloadEvent(false));
         }
     }
