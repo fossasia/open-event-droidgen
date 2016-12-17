@@ -151,9 +151,12 @@ public class SponsorsFragment extends BaseFragment {
                 showNotificationSnackBar.buildNotification();
             }
         } else {
-            if (snackbar.isShown()) {
-                snackbar.dismiss();
-            }
+            Snackbar.make(getView(), getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    refresh();
+                }
+            }).show();
             OpenEventApp.getEventBus().post(new SponsorDownloadEvent(true));
         }
     }
