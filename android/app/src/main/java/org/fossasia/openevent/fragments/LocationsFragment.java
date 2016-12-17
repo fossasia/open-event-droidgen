@@ -6,7 +6,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -50,7 +49,6 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
 
     private SearchView searchView;
 
-    private LinearLayoutManager linearLayoutManager;
     private Toolbar toolbar;
     private AppBarLayout.LayoutParams layoutParams;
     private int SCROLL_OFF = 0;
@@ -75,7 +73,7 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
         //setting the grid layout to cut-off white space in tablet view
         DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
         float width = displayMetrics.widthPixels / displayMetrics.density;
-        int spanCount = (int) (width/175.00);
+        int spanCount = (int) (width/200.00);
 
         locationsRecyclerView.setHasFixedSize(true);
         final GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),spanCount);
