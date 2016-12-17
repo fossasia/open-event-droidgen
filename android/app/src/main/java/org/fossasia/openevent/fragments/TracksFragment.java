@@ -221,7 +221,7 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
                 showNotificationSnackBar.buildNotification();
             }
         } else {
-            if (snackbar.isShown()) {
+            if (snackbar!=null && snackbar.isShown()) {
                 snackbar.dismiss();
             }
             OpenEventApp.getEventBus().post(new TracksDownloadEvent(false));
