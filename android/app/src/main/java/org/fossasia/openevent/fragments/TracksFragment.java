@@ -5,11 +5,12 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -59,7 +60,6 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
 
     private Snackbar snackbar;
 
-    private LinearLayoutManager linearLayoutManager;
     private Toolbar toolbar;
     private AppBarLayout.LayoutParams layoutParams;
     private int SCROLL_OFF = 0;
@@ -73,8 +73,6 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
         OpenEventApp.getEventBus().register(this);
         dbSingleton = DbSingleton.getInstance();
         List<Track> mTracks = dbSingleton.getTrackList();
-        tracksListAdapter = new TracksListAdapter(getContext(), mTracks);
-        tracksRecyclerView.setAdapter(tracksListAdapter);
         setVisibility();
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -83,14 +81,23 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
             }
         });
 
-        linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        tracksRecyclerView.setLayoutManager(linearLayoutManager);
+
+        //setting the grid layout to cut-off white space in tablet view
+        DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
+        float width = displayMetrics.widthPixels / displayMetrics.density;
+        int spanCount = (int) (width/200.00);
+
+        tracksRecyclerView.setHasFixedSize(true);
+        final GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),spanCount);
+        tracksRecyclerView.setLayoutManager(gridLayoutManager);
+        tracksListAdapter = new TracksListAdapter(getContext(), mTracks);
+        tracksRecyclerView.setAdapter(tracksListAdapter);
         tracksRecyclerView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
             public boolean onPreDraw() {
                 toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
                 layoutParams = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
-                if (linearLayoutManager.findLastCompletelyVisibleItemPosition() == linearLayoutManager.getChildCount() - 1) {
+                if (gridLayoutManager.findLastCompletelyVisibleItemPosition() == gridLayoutManager.getChildCount() - 1) {
                     layoutParams.setScrollFlags(SCROLL_OFF);
                     toolbar.setLayoutParams(layoutParams);
                 }
