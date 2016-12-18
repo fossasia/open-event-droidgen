@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context=".activities.SessionDetailActivity"
-    android:background="#efefef">
+    android:background="@android:color/white">
 
     <FrameLayout
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -33,8 +33,9 @@
         android:id="@+id/scroll_session"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#efefef"
-        android:layout_marginTop="?attr/actionBarSize">
+        android:background="@android:color/white"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:transitionName="sessionBackground">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -45,72 +46,166 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#efefef"
-                android:orientation="vertical">
+                android:background="@android:color/white"
+                android:orientation="vertical"
+                android:padding="@dimen/content_margin">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:padding="@dimen/content_margin">
-
+                    android:transitionName="session">
                     <TextView
                         android:id="@+id/title_session"
-                        style="@style/TextAppearance.AppCompat.Headline"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textIsSelectable="true"
-                        tools:text="Welcome to Event" />
+                        style="@style/TextAppearance.AppCompat.Headline"
+                        android:text="Title"/>
 
                     <TextView
                         android:id="@+id/subtitle_session"
-                        style="@style/TextAppearance.AppCompat.Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textIsSelectable="true"
-                        tools:text="Welcome to Event" />
+                        style="@style/TextAppearance.AppCompat.Subhead"
+                        android:layout_marginBottom="@dimen/track_title_margin"
+                        android:textColor="@color/primary_text"
+                        android:text="Subtitle" />
 
-                    <View
-                        style="@style/SeparatorLine"
-                        android:layout_marginTop="8dp" />
-
-                    <TextView
-                        android:id="@+id/track"
-                        style="@style/Metadata"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:drawableLeft="@drawable/ic_local_offer_grey600_18dp"
-                        android:drawableStart="@drawable/ic_local_offer_grey600_18dp"
-                        tools:text="Keynotes" />
+                        android:layout_marginBottom="@dimen/track_title_margin"
+                        android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/tv_time"
-                        style="@style/Metadata"
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/track_title_margin"
+                            android:layout_marginRight="@dimen/track_title_margin"
+                            android:text="@string/tracks"
+                            android:textSize="@dimen/track_data_size"
+                            android:textColor="@color/primary_text"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/track"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/track_data_size"
+                            android:textColor="@color/primary_text" />
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="#efefef"
-                        android:drawableLeft="@drawable/ic_access_time_grey600_18dp"
-                        android:drawableStart="@drawable/ic_access_time_grey600_18dp"
-                        tools:text="Day 1 (Saturday), 09:30 - 09:55" />
+                        android:layout_marginBottom="@dimen/track_title_margin"
+                        android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/tv_location"
-                        style="@style/Metadata.Selectable"
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/track_title_margin"
+                            android:layout_marginRight="@dimen/track_title_margin"
+                            android:text="@string/date"
+                            android:textSize="@dimen/track_data_size"
+                            android:textColor="@color/primary_text"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/date_session"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/track_data_size"
+                            android:textColor="@color/primary_text" />
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:drawableLeft="@drawable/ic_place_grey600_18dp"
-                        android:drawableStart="@drawable/ic_place_grey600_18dp" />
+                        android:layout_marginBottom="@dimen/track_title_margin"
+                        android:orientation="horizontal">
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/track_title_margin"
+                            android:layout_marginRight="@dimen/track_title_margin"
+                            android:text="@string/start_time"
+                            android:textSize="@dimen/track_data_size"
+                            android:textColor="@color/primary_text"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/start_time_session"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/track_data_size"
+                            android:textColor="@color/primary_text" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/track_title_margin"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/track_title_margin"
+                            android:layout_marginRight="@dimen/track_title_margin"
+                            android:text="@string/end_time"
+                            android:textSize="@dimen/track_data_size"
+                            android:textColor="@color/primary_text"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/end_time_session"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/track_data_size"
+                            android:textColor="@color/primary_text" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/track_title_margin"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/track_title_margin"
+                            android:layout_marginRight="@dimen/track_title_margin"
+                            android:text="@string/location"
+                            android:textSize="@dimen/track_data_size"
+                            android:textColor="@color/primary_text"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_location"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/track_data_size"
+                            android:textColor="@color/primary_text" />
+                    </LinearLayout>
                 </LinearLayout>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.AppCompat.Button"
+                    android:id="@+id/btn_add_to_calendar"
+                    android:text="Add to calendar"/>
 
                 <TextView
                     android:id="@+id/tv_abstract_text"
                     style="@style/TextAppearance.AppCompat.Body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#efefef"
-                    android:padding="@dimen/content_margin"
+                    android:background="@android:color/white"
+                    android:layout_marginTop="@dimen/content_margin"
                     android:textIsSelectable="true"
                     tools:text="Open Event" />
 
@@ -118,7 +213,7 @@
                     android:id="@+id/tv_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
+                    android:layout_marginTop="@dimen/content_margin"
                     android:textSize="16sp"
                     android:textColor="@android:color/black"
                     android:gravity="start"

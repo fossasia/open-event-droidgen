@@ -1,14 +1,20 @@
 package org.fossasia.openevent.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.support.v4.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.fossasia.openevent.R;
@@ -90,11 +96,14 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
     public void onBindViewHolder(SessionViewHolder holder, int position) {
         final Session session = getItem(position);
         String date = ISO8601Date.getTimeZoneDateString(
-                ISO8601Date.getDateObject(session.getStartTime())).split(",")[0] + ", "
+                ISO8601Date.getDateObject(session.getStartTime())).split(",")[0] + ","
                 + ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(session.getStartTime())).split(",")[1];
 
+        final View sessionDetailsHolder = holder.sessionDetailsHolder;
+        final View sessionCard = holder.sessionCard;
+
         holder.sessionTitle.setText(session.getTitle());
-        holder.sessionAbstract.setText(session.getSummary());
+        holder.sessionSubtitle.setText(session.getSubtitle());
         holder.sessionTrack.setText(session.getTrack().getName());
         holder.sessionDate.setText(date);
         holder.sessionStartTime.setText(ISO8601Date.get12HourTime(ISO8601Date.getDateObject(session.getStartTime())));
@@ -117,7 +126,17 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
                 Intent intent = new Intent(context, SessionDetailActivity.class);
                 intent.putExtra(ConstantStrings.SESSION, sessionName);
                 intent.putExtra(ConstantStrings.TRACK, trackName);
-                context.startActivity(intent);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    Activity activity = (Activity) context;
+
+                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity,
+                            Pair.create(sessionDetailsHolder, "session"),
+                            Pair.create(sessionCard, "sessionBackground"));
+//                    activity.getWindow().setEnterTransition(null);
+                    context.startActivity(intent, options.toBundle());
+                } else {
+                    context.startActivity(intent);
+                }
             }
         });
     }
@@ -131,25 +150,31 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
     protected class SessionViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.session_title)
-        TextView sessionTitle;
+        protected TextView sessionTitle;
 
-        @BindView(R.id.session_abstract)
-        TextView sessionAbstract;
+        @BindView(R.id.session_subtitle)
+        protected TextView sessionSubtitle;
 
         @BindView(R.id.session_track)
-        TextView sessionTrack;
+        protected TextView sessionTrack;
 
         @BindView(R.id.session_date)
-        TextView sessionDate;
+        protected TextView sessionDate;
 
         @BindView(R.id.session_start_time)
-        TextView sessionStartTime;
+        protected TextView sessionStartTime;
 
         @BindView(R.id.session_location)
-        TextView sessionLocation;
+        protected TextView sessionLocation;
 
         @BindView(R.id.session_bookmark_status)
-        ImageView sessionImage;
+        protected ImageView sessionImage;
+
+        @BindView(R.id.session_details)
+        protected LinearLayout sessionDetailsHolder;
+
+        @BindView(R.id.session_card)
+        protected CardView sessionCard;
 
         public SessionViewHolder(View itemView) {
             super(itemView);

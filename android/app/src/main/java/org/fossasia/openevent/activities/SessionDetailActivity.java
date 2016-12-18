@@ -20,6 +20,7 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -54,15 +55,18 @@ public class SessionDetailActivity extends BaseActivity {
     private String timings;
     private String FRAGMENT_TAG_REST = "fgtr";
 
-    @BindView(R.id.toolbar) Toolbar toolbar;
-    @BindView(R.id.title_session) TextView text_title;
-    @BindView(R.id.subtitle_session) TextView text_subtitle;
-    @BindView(R.id.tv_time) TextView text_time;
-    @BindView(R.id.track) TextView text_track;
-    @BindView(R.id.tv_location) TextView text_room1;
-    @BindView(R.id.tv_abstract_text) TextView summary;
-    @BindView(R.id.tv_description) TextView descrip;
-    @BindView(R.id.list_speakerss) RecyclerView speakersRecyclerView;
+    @BindView(R.id.toolbar) protected Toolbar toolbar;
+    @BindView(R.id.title_session) protected TextView text_title;
+    @BindView(R.id.subtitle_session) protected TextView text_subtitle;
+    @BindView(R.id.date_session) protected TextView text_date;
+    @BindView(R.id.start_time_session) protected TextView text_start_time;
+    @BindView(R.id.end_time_session) protected TextView text_end_time;
+    @BindView(R.id.btn_add_to_calendar) protected Button btnAddCalendar;
+    @BindView(R.id.track) protected TextView text_track;
+    @BindView(R.id.tv_location) protected TextView text_room1;
+    @BindView(R.id.tv_abstract_text) protected TextView summary;
+    @BindView(R.id.tv_description) protected TextView descrip;
+    @BindView(R.id.list_speakerss) protected RecyclerView speakersRecyclerView;
 
     private String trackName,title;
 
@@ -112,16 +116,21 @@ public class SessionDetailActivity extends BaseActivity {
             }
         });
 
-
+        String date = ISO8601Date.getTimeZoneDateString(
+                ISO8601Date.getDateObject(session.getStartTime())).split(",")[0] + ","
+                + ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(session.getStartTime())).split(",")[1];
         String startTime = ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(session.getStartTime()));
         String endTime = ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(session.getEndTime()));
 
         if (TextUtils.isEmpty(startTime) && TextUtils.isEmpty(endTime)) {
-            text_time.setText(R.string.time_not_specified);
+            text_start_time.setText(R.string.time_not_specified);
+            text_end_time.setVisibility(View.GONE);
+
         } else {
-            timings = startTime + " - " + endTime;
-            text_time.setText(timings);
-            text_time.setOnClickListener(new View.OnClickListener() {
+            text_start_time.setText(startTime);
+            text_end_time.setText(endTime);
+            text_date.setText(date);
+            btnAddCalendar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(Intent.ACTION_INSERT);
@@ -202,6 +211,8 @@ public class SessionDetailActivity extends BaseActivity {
         }
         return super.onCreateOptionsMenu(menu);
     }
+
+
 
     public void createNotification() {
 
