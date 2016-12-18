@@ -73,6 +73,10 @@ public class SpeakerDetailsActivity extends BaseActivity implements SearchView.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        getSpeakerInfo(savedInstanceState);
+    }
+
+    protected void getSpeakerInfo(Bundle savedInstanceState){
         final DbSingleton dbSingleton = DbSingleton.getInstance();
         speaker = getIntent().getStringExtra(Speaker.SPEAKER);
         setSupportActionBar(toolbar);

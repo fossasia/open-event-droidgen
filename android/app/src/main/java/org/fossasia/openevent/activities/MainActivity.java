@@ -174,14 +174,23 @@ public class MainActivity extends BaseActivity {
         eventsDone = 0;
         ButterKnife.setDebug(true);
 
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         setUpToolbar();
         setUpNavDrawer();
+        updateEventSchedule(savedInstanceState);
+    }
 
+    //Setup Event List - Called from onCreate()
+    protected void updateEventSchedule(Bundle savedState){
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        //Progress Bar Setup
         ProgressBar downloadProgress = (ProgressBar) findViewById(R.id.progress);
         downloadProgress.setVisibility(View.VISIBLE);
         downloadProgress.setIndeterminate(true);
+
         this.findViewById(android.R.id.content).setBackgroundColor(Color.WHITE);
+
+        //Create a new connection and pull data
         if (NetworkUtils.haveNetworkConnection(this)) {
             if (NetworkUtils.isActiveInternetPresent()) {
                 //Internet is working
@@ -252,10 +261,10 @@ public class MainActivity extends BaseActivity {
             snackbar.show();
             downloadFromAssets();
         }
-        if (savedInstanceState == null) {
+        if (savedState == null) {
             currentMenuItemId = R.id.nav_tracks;
         } else {
-            currentMenuItemId = savedInstanceState.getInt(STATE_FRAGMENT);
+            currentMenuItemId = savedState.getInt(STATE_FRAGMENT);
         }
 
         if (getIntent().hasExtra(NAV_ITEM) && getIntent().getStringExtra(NAV_ITEM).equalsIgnoreCase(BOOKMARK)) {
