@@ -2,6 +2,23 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Main theme -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryDark">@color/color_primary_dark</item>
+        <item name="colorAccent">@color/color_accent</item>
+        <!--Changes drawer background-->
+        <item name="android:windowBackground">@color/white</item>
+
+        <!--Animations-->
+        <!--Enable window content animations-->
+        <item name="android:windowContentTransitions">true</item>
+        <!--specify how the window should animate-->
+        <item name="android:windowEnterTransition">@android:transition/fade</item>
+        <item name="android:windowExitAnimation">@android:transition/fade</item>
+        <!--specify how shared elements should animate-->
+        <item name="android:windowSharedElementEnterTransition">@transition/change_details_transform</item>
+        <item name="android:windowSharedElementExitTransition">@transition/change_details_transform</item>
+    </style>
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -16,7 +33,5 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@color/color_primary_dark</item>
     </style>
-
-
 
 </resources>

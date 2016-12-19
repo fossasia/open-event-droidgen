@@ -255,9 +255,6 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
                 showNotificationSnackBar.buildNotification();
             }
         } else {
-            if (snackbar.isShown()) {
-                snackbar.dismiss();
-            }
             OpenEventApp.getEventBus().post(new SessionDownloadEvent(false));
         }
     }
