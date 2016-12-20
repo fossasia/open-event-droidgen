@@ -47,8 +47,12 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakersListAdap
             final ArrayList<Speaker> filteredSpeakerList = new ArrayList<>();
             String query = constraint.toString().toLowerCase(Locale.getDefault());
             for (Speaker speaker : trackList) {
-                final String text = speaker.getName().toLowerCase(Locale.getDefault());
-                if (text.contains(query)) {
+                final String nameText = speaker.getName().toLowerCase(Locale.getDefault());
+                final String organisationText = speaker.getOrganisation().toLowerCase(Locale.getDefault());
+                final String countryText = speaker.getCountry().toLowerCase(Locale.getDefault());
+                if (nameText.contains(query) ||
+                        organisationText.contains(query) ||
+                        countryText.contains(query)) {
                     filteredSpeakerList.add(speaker);
                 }
             }
