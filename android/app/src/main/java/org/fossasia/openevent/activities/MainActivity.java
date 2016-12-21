@@ -169,15 +169,16 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+
         counter = 0;
         eventsDone = 0;
         ButterKnife.setDebug(true);
-
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        setTheme(R.style.AppTheme_NoActionBar_MainTheme);
+        super.onCreate(savedInstanceState);
         setUpToolbar();
         setUpNavDrawer();
-
         ProgressBar downloadProgress = (ProgressBar) findViewById(R.id.progress);
         downloadProgress.setVisibility(View.VISIBLE);
         downloadProgress.setIndeterminate(true);
