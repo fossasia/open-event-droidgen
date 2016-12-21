@@ -2,11 +2,12 @@ package org.fossasia.openevent.activities;
 
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -53,8 +54,16 @@ public class TracksActivity extends BaseActivity implements SearchView.OnQueryTe
         if(getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+
+        //setting the grid layout to cut-off white space in tablet view
+        DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
+        float width = displayMetrics.widthPixels / displayMetrics.density;
+        int spanCount = (int) (width/200.00);
+
+        sessionsRecyclerView.setHasFixedSize(true);
+        final GridLayoutManager gridLayoutManager = new GridLayoutManager(this,spanCount);
+        sessionsRecyclerView.setLayoutManager(gridLayoutManager);
         sessionsListAdapter = new SessionsListAdapter(this, dbSingleton.getSessionbyTracksname(track));
-        sessionsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         sessionsRecyclerView.setAdapter(sessionsListAdapter);
         sessionsRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
