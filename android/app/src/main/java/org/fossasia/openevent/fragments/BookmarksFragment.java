@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -17,6 +18,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+
+
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.SessionsListAdapter;
@@ -27,6 +30,8 @@ import org.fossasia.openevent.widget.DialogFactory;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import timber.log.Timber;
@@ -35,10 +40,15 @@ import timber.log.Timber;
  * User: manan
  * Date: 22-05-2015
  */
-public class BookmarksFragment extends BaseFragment {
+public class BookmarksFragment extends BaseFragment implements SearchView.OnQueryTextListener {
 
     private final String FRAGMENT_TAG = "FTAG";
+    final private String SEARCH = "org.fossasia.openevent.searchText";
     SessionsListAdapter sessionsListAdapter;
+
+    private String searchText = "";
+
+    private SearchView searchView;
 
     @BindView(R.id.list_bookmarks) RecyclerView bookmarkedTracks;
 
@@ -48,6 +58,7 @@ public class BookmarksFragment extends BaseFragment {
     private Toolbar toolbar;
     private AppBarLayout.LayoutParams layoutParams;
     private int SCROLL_OFF = 0;
+
 
     @Override
     public void onResume() {
@@ -123,6 +134,12 @@ public class BookmarksFragment extends BaseFragment {
                 return false;
             }
         });
+
+
+        if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
+            searchText = savedInstanceState.getString(SEARCH);
+        }
+
         return view;
     }
 
@@ -132,18 +149,15 @@ public class BookmarksFragment extends BaseFragment {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.share_bookmarks_url:
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.putExtra(Intent.EXTRA_TEXT, Urls.WEB_APP_URL_BASIC + Urls.BOOKMARKS);
-                intent.putExtra(Intent.EXTRA_SUBJECT, R.string.share_links);
-                intent.setType("text/plain");
-                startActivity(Intent.createChooser(intent, getResources().getString(R.string.share_links)));
-                break;
-            default:
-                //do nothing
+    public void onSaveInstanceState(Bundle bundle) {
+        if (searchView != null) {
+            bundle.putString(SEARCH, searchText);
         }
+        super.onSaveInstanceState(bundle);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
         return super.onOptionsItemSelected(item);
     }
 
@@ -152,6 +166,50 @@ public class BookmarksFragment extends BaseFragment {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
         inflater.inflate(R.menu.menu_bookmarks, menu);
+        searchView = (SearchView) menu.findItem(R.id.search_bookmarks).getActionView();
+        searchView.setOnQueryTextListener(this);
+        if (searchText != null) {
+            searchView.setQuery(searchText, false);
+        }
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String query) {
+        ArrayList<Session> Sessions = new ArrayList<Session>();
+        try {
+            ArrayList<Integer> bookmarkedIds = DbSingleton.getInstance().getBookmarkIds();
+            for (int i = 0; i < bookmarkedIds.size(); i++) {
+                Integer id = bookmarkedIds.get(i);
+                Session session = DbSingleton.getInstance().getSessionById(id);
+                Sessions.add(session);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        final List<Session> filteredModelList = filter(Sessions, query.toLowerCase(Locale.getDefault()));
+
+        sessionsListAdapter.animateTo(filteredModelList);
+        bookmarkedTracks.scrollToPosition(0);
+
+        searchText = query;
+        return false;
+    }
+
+    private List<Session> filter(List<Session> sessions, String query) {
+        String lowerCaseQuery = query.toLowerCase(Locale.getDefault());
+        final List<Session> filteredTracksList = new ArrayList<>();
+        for (Session session : sessions) {
+            final String text = session.getTitle().toLowerCase(Locale.getDefault());
+            if (text.contains(lowerCaseQuery)) {
+                filteredTracksList.add(session);
+            }
+        }
+        return filteredTracksList;
     }
 
     @Override

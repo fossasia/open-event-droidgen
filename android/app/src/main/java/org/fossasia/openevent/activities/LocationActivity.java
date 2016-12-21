@@ -101,9 +101,8 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.menu_speakers_activity, menu);
-        searchView = (SearchView) menu.findItem(R.id.search_sessions).getActionView();
-        searchView.setOnQueryTextListener(this);
+        getMenuInflater().inflate(R.menu.menu_tracks, menu);
+        searchView = (SearchView) menu.findItem(R.id.action_search_tracks).getActionView();
         searchView.setOnQueryTextListener(this);
         searchView.setQuery(searchText, false);
         return true;
