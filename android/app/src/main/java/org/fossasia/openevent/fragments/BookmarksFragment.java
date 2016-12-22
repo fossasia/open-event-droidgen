@@ -1,17 +1,18 @@
 package org.fossasia.openevent.fragments;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.view.LayoutInflater;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,11 +20,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
-
-
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.SessionsListAdapter;
-import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.widget.DialogFactory;
@@ -110,6 +108,12 @@ public class BookmarksFragment extends BaseFragment implements SearchView.OnQuer
         } catch (ParseException e) {
             Timber.e("Parsing Error Occurred at BookmarksFragment::onCreateView.");
         }
+
+        //setting the grid layout to cut-off white space in tablet view
+        DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
+        float width = displayMetrics.widthPixels / displayMetrics.density;
+        int spanCount = (int) (width/200.00);
+
         bookmarkedTracks.setVisibility(View.VISIBLE);
         sessionsListAdapter = new SessionsListAdapter(getContext(), new ArrayList<Session>());
         for (int i = 0; i < bookmarkedIds.size(); i++) {
@@ -117,16 +121,15 @@ public class BookmarksFragment extends BaseFragment implements SearchView.OnQuer
             Session session = dbSingleton.getSessionById(id);
             sessionsListAdapter.addItem(i, session);
         }
-
         bookmarkedTracks.setAdapter(sessionsListAdapter);
-        linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        bookmarkedTracks.setLayoutManager(linearLayoutManager);
+        final GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),spanCount);
+        bookmarkedTracks.setLayoutManager(gridLayoutManager);
         bookmarkedTracks.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
             public boolean onPreDraw() {
                 toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
                 layoutParams = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
-                if (linearLayoutManager.findLastCompletelyVisibleItemPosition() == linearLayoutManager.getChildCount() - 1) {
+                if (gridLayoutManager.findLastCompletelyVisibleItemPosition() == gridLayoutManager.getChildCount() - 1) {
                     layoutParams.setScrollFlags(SCROLL_OFF);
                     toolbar.setLayoutParams(layoutParams);
                 }
@@ -134,7 +137,6 @@ public class BookmarksFragment extends BaseFragment implements SearchView.OnQuer
                 return false;
             }
         });
-
 
         if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
             searchText = savedInstanceState.getString(SEARCH);
