@@ -2,10 +2,11 @@ package org.fossasia.openevent.activities;
 
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
@@ -59,9 +60,15 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
 
         mSessions = dbSingleton.getSessionbyLocationName(location);
 
-        sessionsListAdapter = new SessionsListAdapter(this, mSessions);
+        //setting the grid layout to cut-off white space in tablet view
+        DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
+        float width = displayMetrics.widthPixels / displayMetrics.density;
+        int spanCount = (int) (width/200.00);
 
-        sessionRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        sessionRecyclerView.setHasFixedSize(true);
+        final GridLayoutManager gridLayoutManager = new GridLayoutManager(this,spanCount);
+        sessionRecyclerView.setLayoutManager(gridLayoutManager);
+        sessionsListAdapter = new SessionsListAdapter(this, mSessions);
         sessionRecyclerView.setAdapter(sessionsListAdapter);
         sessionRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
@@ -94,9 +101,8 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.menu_speakers_activity, menu);
-        searchView = (SearchView) menu.findItem(R.id.search_sessions).getActionView();
-        searchView.setOnQueryTextListener(this);
+        getMenuInflater().inflate(R.menu.menu_tracks, menu);
+        searchView = (SearchView) menu.findItem(R.id.action_search_tracks).getActionView();
         searchView.setOnQueryTextListener(this);
         searchView.setQuery(searchText, false);
         return true;

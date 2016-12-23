@@ -55,20 +55,30 @@ public class SessionDetailActivity extends BaseActivity {
     private String timings;
     private String FRAGMENT_TAG_REST = "fgtr";
 
-    @BindView(R.id.toolbar) protected Toolbar toolbar;
-    @BindView(R.id.title_session) protected TextView text_title;
-    @BindView(R.id.subtitle_session) protected TextView text_subtitle;
-    @BindView(R.id.date_session) protected TextView text_date;
-    @BindView(R.id.start_time_session) protected TextView text_start_time;
-    @BindView(R.id.end_time_session) protected TextView text_end_time;
-    @BindView(R.id.btn_add_to_calendar) protected Button btnAddCalendar;
-    @BindView(R.id.track) protected TextView text_track;
-    @BindView(R.id.tv_location) protected TextView text_room1;
-    @BindView(R.id.tv_abstract_text) protected TextView summary;
-    @BindView(R.id.tv_description) protected TextView descrip;
-    @BindView(R.id.list_speakerss) protected RecyclerView speakersRecyclerView;
+    @BindView(R.id.toolbar)
+    protected Toolbar toolbar;
+    @BindView(R.id.title_session)
+    protected TextView text_title;
+    @BindView(R.id.subtitle_session)
+    protected TextView text_subtitle;
+    @BindView(R.id.date_session)
+    protected TextView text_date;
+    @BindView(R.id.start_time_session)
+    protected TextView text_start_time;
+    @BindView(R.id.end_time_session)
+    protected TextView text_end_time;
+    @BindView(R.id.track)
+    protected TextView text_track;
+    @BindView(R.id.tv_location)
+    protected TextView text_room1;
+    @BindView(R.id.tv_abstract_text)
+    protected TextView summary;
+    @BindView(R.id.tv_description)
+    protected TextView descrip;
+    @BindView(R.id.list_speakerss)
+    protected RecyclerView speakersRecyclerView;
 
-    private String trackName,title;
+    private String trackName, title;
 
     private Spanned result;
 
@@ -130,25 +140,12 @@ public class SessionDetailActivity extends BaseActivity {
             text_start_time.setText(startTime);
             text_end_time.setText(endTime);
             text_date.setText(date);
-            btnAddCalendar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(Intent.ACTION_INSERT);
-                    intent.setType("vnd.android.cursor.item/event");
-                    intent.putExtra(CalendarContract.Events.TITLE, title);
-                    intent.putExtra(CalendarContract.Events.DESCRIPTION, session.getDescription());
-                    intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, ISO8601Date.getDateObject(session.getStartTime()).getTime());
-                    intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME,
-                            ISO8601Date.getDateObject(session.getEndTime()).getTime());
-                    startActivity(intent);
 
-                }
-            });
         }
         summary.setText(session.getSummary());
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            result = Html.fromHtml(session.getDescription(),Html.FROM_HTML_MODE_LEGACY);
+            result = Html.fromHtml(session.getDescription(), Html.FROM_HTML_MODE_LEGACY);
         } else {
             result = Html.fromHtml(session.getDescription());
         }
@@ -185,13 +182,24 @@ public class SessionDetailActivity extends BaseActivity {
                 return true;
 
             case R.id.action_share:
-                String share_text= "Track: " + trackName + "\nTitle: " + title + "\nTimings: "  + timings + "\nDescription: " + result.toString();
+                String share_text = "Track: " + trackName + "\nTitle: " + title + "\nTimings: " + timings + "\nDescription: " + result.toString();
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
                 sendIntent.putExtra(Intent.EXTRA_TEXT, share_text);
                 sendIntent.setType("text/plain");
                 startActivity(Intent.createChooser(sendIntent, getString(R.string.share_links)));
                 return true;
+
+            case R.id.action_add_to_calendar:
+                Intent intent = new Intent(Intent.ACTION_INSERT);
+                intent.setType("vnd.android.cursor.item/event");
+                intent.putExtra(CalendarContract.Events.TITLE, title);
+                intent.putExtra(CalendarContract.Events.DESCRIPTION, session.getDescription());
+                intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, ISO8601Date.getDateObject(session.getStartTime()).getTime());
+                intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME,
+                        ISO8601Date.getDateObject(session.getEndTime()).getTime());
+                startActivity(intent);
+
             default:
         }
         return super.onOptionsItemSelected(item);
@@ -213,14 +221,13 @@ public class SessionDetailActivity extends BaseActivity {
     }
 
 
-
     public void createNotification() {
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(ISO8601Date.getTimeZoneDate(ISO8601Date.getDateObject(session.getStartTime())));
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        Integer pref_result = Integer.parseInt(sharedPrefs.getString("notification", "10 mins").substring(0,2).trim());
+        Integer pref_result = Integer.parseInt(sharedPrefs.getString("notification", "10 mins").substring(0, 2).trim());
         if (pref_result.equals(1)) {
             calendar.add(Calendar.HOUR, -1);
         } else if (pref_result.equals(12)) {
