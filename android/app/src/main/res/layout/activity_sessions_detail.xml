@@ -190,6 +190,14 @@
                             android:textSize="@dimen/track_data_size"
                             android:textColor="@color/primary_text" />
                     </LinearLayout>
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/list_speakerss"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clipToPadding="false"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        ></android.support.v7.widget.RecyclerView>
                 </LinearLayout>
 
                 <TextView
@@ -233,13 +241,6 @@
         android:tint="@android:color/white"
         android:layout_gravity="end|bottom"/>
 
-    <!-- TODO: Fix this, RecyclerView is nerver shown, Hiding it until fixed -->
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/list_speakerss"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp"
-        android:visibility="gone"></android.support.v7.widget.RecyclerView>
+
+
 </android.support.design.widget.CoordinatorLayout>
