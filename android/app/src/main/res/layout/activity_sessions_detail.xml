@@ -192,13 +192,6 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/Widget.AppCompat.Button"
-                    android:id="@+id/btn_add_to_calendar"
-                    android:text="Add to calendar"/>
-
                 <TextView
                     android:id="@+id/tv_abstract_text"
                     style="@style/TextAppearance.AppCompat.Body1"

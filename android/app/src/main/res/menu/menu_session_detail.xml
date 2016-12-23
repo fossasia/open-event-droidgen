@@ -4,11 +4,18 @@
     <item
         android:id="@+id/bookmark_status"
         android:title="@string/menu_bookmarks"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/action_share"
         android:icon="@drawable/ic_share_white_24dp"
         android:title="@string/share"
-        app:showAsAction="collapseActionView|ifRoom" />
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_add_to_calendar"
+        android:icon="@drawable/ic_calendar_white_24dp"
+        android:title="Add to Calendar"
+        app:showAsAction="always" />
+
 </menu>
