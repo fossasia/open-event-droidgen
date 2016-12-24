@@ -63,7 +63,7 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
         //setting the grid layout to cut-off white space in tablet view
         DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
         float width = displayMetrics.widthPixels / displayMetrics.density;
-        int spanCount = (int) (width/200.00);
+        int spanCount = (int) (width/250.00);
 
         sessionRecyclerView.setHasFixedSize(true);
         final GridLayoutManager gridLayoutManager = new GridLayoutManager(this,spanCount);
