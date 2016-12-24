@@ -112,7 +112,7 @@ public class BookmarksFragment extends BaseFragment implements SearchView.OnQuer
         //setting the grid layout to cut-off white space in tablet view
         DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
         float width = displayMetrics.widthPixels / displayMetrics.density;
-        int spanCount = (int) (width/200.00);
+        int spanCount = (int) (width/250.00);
 
         bookmarkedTracks.setVisibility(View.VISIBLE);
         sessionsListAdapter = new SessionsListAdapter(getContext(), new ArrayList<Session>());
