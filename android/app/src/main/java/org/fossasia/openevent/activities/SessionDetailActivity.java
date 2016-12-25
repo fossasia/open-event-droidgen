@@ -7,9 +7,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,9 +23,8 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
@@ -77,6 +79,8 @@ public class SessionDetailActivity extends BaseActivity {
     protected TextView descrip;
     @BindView(R.id.list_speakerss)
     protected RecyclerView speakersRecyclerView;
+    @BindView(R.id.fab_session_bookmark)
+    protected FloatingActionButton fabSessionBookmark;
 
     private String trackName, title;
 
@@ -99,30 +103,31 @@ public class SessionDetailActivity extends BaseActivity {
         text_room1.setText((dbSingleton.getMicrolocationById(session.getMicrolocation().getId())).getName());
 
         text_title.setText(title);
+        if (session.getSubtitle().equals("")){
+            text_subtitle.setVisibility(View.GONE);
+        }
         text_subtitle.setText(session.getSubtitle());
         text_track.setText(trackName);
 
-        final FloatingActionButton floatingActionButton;
-        floatingActionButton = (FloatingActionButton) findViewById(R.id.fab_session);
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+        updateFloatingIcon(fabSessionBookmark);
+
+        fabSessionBookmark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                //displaying location on maps
-                ScrollView scrollView = (ScrollView) findViewById(R.id.scroll_session);
-                scrollView.setVisibility(View.INVISIBLE);
-                floatingActionButton.setVisibility(View.INVISIBLE);
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-                fragmentTransaction.replace(R.id.content_frame_session,
-                        ((OpenEventApp) getApplication())
-                                .getMapModuleFactory()
-                                .provideMapModule()
-                                .provideMapFragment(), FRAGMENT_TAG_REST).commit();
-                if (getSupportActionBar() != null) {
-                    getSupportActionBar().setTitle(R.string.menu_map);
+                DbSingleton dbSingleton = DbSingleton.getInstance();
+                if (dbSingleton.isBookmarked(session.getId())) {
+                    Timber.tag(TAG).d("Bookmark Removed");
+                    dbSingleton.deleteBookmarks(session.getId());
+                    fabSessionBookmark.setImageDrawable(ContextCompat.getDrawable(SessionDetailActivity.this, R.drawable.ic_bookmark_outline_white_24dp));
+                    Toast.makeText(SessionDetailActivity.this, R.string.removed_bookmark, Toast.LENGTH_SHORT).show();
+                } else {
+                    Timber.tag(TAG).d("Bookmarked");
+                    dbSingleton.addBookmarks(session.getId());
+                    fabSessionBookmark.setImageDrawable(ContextCompat.getDrawable(SessionDetailActivity.this, R.drawable.ic_bookmark_white_24dp));
+                    createNotification();
+                    Toast.makeText(SessionDetailActivity.this, R.string.added_bookmark, Toast.LENGTH_SHORT).show();
                 }
+                sendBroadcast(new Intent(BookmarkWidgetProvider.ACTION_UPDATE));
             }
         });
 
@@ -158,6 +163,17 @@ public class SessionDetailActivity extends BaseActivity {
         speakersRecyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 
+    private void updateFloatingIcon(FloatingActionButton fabSessionBookmark) {
+        DbSingleton dbSingleton = DbSingleton.getInstance();
+        if (dbSingleton.isBookmarked(session.getId())) {
+            Timber.tag(TAG).d("Bookmarked");
+            fabSessionBookmark.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_bookmark_white_24dp));
+        } else {
+            Timber.tag(TAG).d("Bookmark Removed");
+            fabSessionBookmark.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_bookmark_outline_white_24dp));
+        }
+    }
+
     @Override
     protected int getLayoutResource() {
         return R.layout.activity_sessions_detail;
@@ -166,19 +182,21 @@ public class SessionDetailActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.bookmark_status:
-                DbSingleton dbSingleton = DbSingleton.getInstance();
-                if (dbSingleton.isBookmarked(session.getId())) {
-                    Timber.tag(TAG).d("Bookmark Removed");
-                    dbSingleton.deleteBookmarks(session.getId());
-                    item.setIcon(R.drawable.ic_bookmark_outline_white_24dp);
-                } else {
-                    Timber.tag(TAG).d("Bookmarked");
-                    dbSingleton.addBookmarks(session.getId());
-                    item.setIcon(R.drawable.ic_bookmark_white_24dp);
-                    createNotification();
-                }
-                sendBroadcast(new Intent(BookmarkWidgetProvider.ACTION_UPDATE));
+            case R.id.action_map:
+                /** Hide all the views except the frame layout **/
+                NestedScrollView scrollView = (NestedScrollView) findViewById(R.id.nested_scrollview_session_detail);
+                scrollView.setVisibility(View.GONE);
+                AppBarLayout sessionDetailAppBar = (AppBarLayout) findViewById(R.id.app_bar_session_detail);
+                sessionDetailAppBar.setVisibility(View.GONE);
+                fabSessionBookmark.setVisibility(View.GONE);
+
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.content_frame_session,
+                        ((OpenEventApp) getApplication())
+                                .getMapModuleFactory()
+                                .provideMapModule()
+                                .provideMapFragment(), FRAGMENT_TAG_REST).commit();
                 return true;
 
             case R.id.action_share:
@@ -208,15 +226,6 @@ public class SessionDetailActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_session_detail, menu);
-        DbSingleton dbSingleton = DbSingleton.getInstance();
-        MenuItem item = menu.findItem(R.id.bookmark_status);
-        if (dbSingleton.isBookmarked(session.getId())) {
-            Timber.tag(TAG).d("Bookmarked");
-            item.setIcon(R.drawable.ic_bookmark_white_24dp);
-        } else {
-            Timber.tag(TAG).d("Bookmark Removed");
-            item.setIcon(R.drawable.ic_bookmark_outline_white_24dp);
-        }
         return super.onCreateOptionsMenu(menu);
     }
 

@@ -29,4 +29,8 @@
     <!-- Speakers -->
     <dimen name="speakers_entry_width">180dp</dimen>
     <dimen name="speakers_entry_height">170dp</dimen>
+    <dimen name="content_detail_margin">64dp</dimen>
+    <dimen name="app_bar_height">150dp</dimen>
+    <dimen name="fab_width">48dp</dimen>
+    <dimen name="fab_height">48dp</dimen>
 </resources>

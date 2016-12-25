@@ -5,242 +5,49 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".activities.SessionDetailActivity"
-    android:background="@android:color/white">
+    tools:context=".activities.SessionDetailActivity">
 
+    <!--This frame layout will become visible when Map icon is pressed-->
     <FrameLayout
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:id="@+id/content_frame_session"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        style="@style/WindowBackground"/>
+        android:layout_height="match_parent"/>
 
     <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar_session_detail"
+        android:fitsSystemWindows="true"
+        android:layout_height="@dimen/app_bar_height"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/toolbar_layout"
+            android:fitsSystemWindows="true"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            style="@style/ToolbarTheme"
-            app:popupTheme="@style/PopupOverlay" />
+            android:layout_height="match_parent"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:contentScrim="?attr/colorPrimary">
 
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_width="match_parent"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+        </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <ScrollView
-        android:id="@+id/scroll_session"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/white"
-        android:layout_marginTop="?attr/actionBarSize"
-        android:transitionName="sessionBackground">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/white"
-                android:orientation="vertical"
-                android:padding="@dimen/content_margin">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:transitionName="session">
-                    <TextView
-                        android:id="@+id/title_session"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        style="@style/TextAppearance.AppCompat.Headline"
-                        android:text="Title"/>
-
-                    <TextView
-                        android:id="@+id/subtitle_session"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        style="@style/TextAppearance.AppCompat.Subhead"
-                        android:layout_marginBottom="@dimen/track_title_margin"
-                        android:textColor="@color/primary_text"
-                        android:text="Subtitle" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/track_title_margin"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/track_title_margin"
-                            android:layout_marginRight="@dimen/track_title_margin"
-                            android:text="@string/tracks"
-                            android:textSize="@dimen/track_data_size"
-                            android:textColor="@color/primary_text"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/track"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textSize="@dimen/track_data_size"
-                            android:textColor="@color/primary_text" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/track_title_margin"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/track_title_margin"
-                            android:layout_marginRight="@dimen/track_title_margin"
-                            android:text="@string/date"
-                            android:textSize="@dimen/track_data_size"
-                            android:textColor="@color/primary_text"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/date_session"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="@dimen/track_data_size"
-                            android:textColor="@color/primary_text" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/track_title_margin"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/track_title_margin"
-                            android:layout_marginRight="@dimen/track_title_margin"
-                            android:text="@string/start_time"
-                            android:textSize="@dimen/track_data_size"
-                            android:textColor="@color/primary_text"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/start_time_session"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="@dimen/track_data_size"
-                            android:textColor="@color/primary_text" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/track_title_margin"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/track_title_margin"
-                            android:layout_marginRight="@dimen/track_title_margin"
-                            android:text="@string/end_time"
-                            android:textSize="@dimen/track_data_size"
-                            android:textColor="@color/primary_text"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/end_time_session"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="@dimen/track_data_size"
-                            android:textColor="@color/primary_text" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/track_title_margin"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/track_title_margin"
-                            android:layout_marginRight="@dimen/track_title_margin"
-                            android:text="@string/location"
-                            android:textSize="@dimen/track_data_size"
-                            android:textColor="@color/primary_text"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/tv_location"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="@dimen/track_data_size"
-                            android:textColor="@color/primary_text" />
-                    </LinearLayout>
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/list_speakerss"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:clipToPadding="false"
-                        android:paddingBottom="10dp"
-                        android:paddingTop="10dp"
-                        ></android.support.v7.widget.RecyclerView>
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/tv_abstract_text"
-                    style="@style/TextAppearance.AppCompat.Body1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/white"
-                    android:layout_marginTop="@dimen/content_margin"
-                    android:textIsSelectable="true"
-                    tools:text="Open Event" />
-
-                <TextView
-                    android:id="@+id/tv_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/content_margin"
-                    android:textSize="16sp"
-                    android:textColor="@android:color/black"
-                    android:gravity="start"
-                    android:textIsSelectable="true"
-                    android:autoLink="web"
-                    tools:text="Open Event!" />
-            </LinearLayout>
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textIsSelectable="true"/>
-        </LinearLayout>
-    </ScrollView>
+    <include layout="@layout/content_session_detail" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_session"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/fab_session_bookmark"
+        android:layout_width="@dimen/fab_width"
+        android:layout_height="@dimen/fab_height"
         android:layout_margin="@dimen/fab_margin"
         android:clickable="true"
-        android:src="@drawable/ic_location_on_black_24dp"
-        android:tint="@android:color/white"
-        android:layout_gravity="end|bottom"/>
-
-
+        app:layout_anchor="@id/app_bar_session_detail"
+        app:layout_anchorGravity="bottom|start"
+        android:src="@drawable/ic_bookmark_outline_white_24dp"/>
 
 </android.support.design.widget.CoordinatorLayout>
