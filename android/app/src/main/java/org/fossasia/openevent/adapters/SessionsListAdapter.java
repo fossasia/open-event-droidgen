@@ -24,6 +24,7 @@ import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.ISO8601Date;
+import org.fossasia.openevent.widget.BookmarkWidgetProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,7 +94,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
     }
 
     @Override
-    public void onBindViewHolder(SessionViewHolder holder, int position) {
+    public void onBindViewHolder(final SessionViewHolder holder, int position) {
         final Session session = getItem(position);
         String date = ISO8601Date.getTimeZoneDateString(
                 ISO8601Date.getDateObject(session.getStartTime())).split(",")[0] + ","
@@ -114,7 +115,21 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
             holder.sessionImage.setImageResource(R.drawable.ic_bookmark_outline_black_24dp);
         else
             holder.sessionImage.setImageResource(R.drawable.ic_bookmark_grey600_24dp);
-
+        holder.sessionImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DbSingleton dbSingleton;
+                dbSingleton = DbSingleton.getInstance();
+                if (dbSingleton.isBookmarked(session.getId())) {
+                    dbSingleton.deleteBookmarks(session.getId());
+                    holder.sessionImage.setImageResource(R.drawable.ic_bookmark_outline_black_24dp);
+                } else {
+                    dbSingleton.addBookmarks(session.getId());
+                    holder.sessionImage.setImageResource(R.drawable.ic_bookmark_grey600_24dp);
+                }
+                context.sendBroadcast(new Intent(BookmarkWidgetProvider.ACTION_UPDATE));
+            }
+        });
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
