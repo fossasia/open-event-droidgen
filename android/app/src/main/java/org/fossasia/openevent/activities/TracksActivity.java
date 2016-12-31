@@ -44,16 +44,23 @@ public class TracksActivity extends BaseActivity implements SearchView.OnQueryTe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        DbSingleton dbSingleton = DbSingleton.getInstance();
-        track = getIntent().getStringExtra(ConstantStrings.TRACK);
-
-        if (!TextUtils.isEmpty(track))
-            toolbar.setTitle(track);
-
         setSupportActionBar(toolbar);
         if(getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+        if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
+            searchText = savedInstanceState.getString(SEARCH);
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        DbSingleton dbSingleton = DbSingleton.getInstance();
+        track = getIntent().getStringExtra(ConstantStrings.TRACK);
+        if (!TextUtils.isEmpty(track))
+            toolbar.setTitle(track);
 
         //setting the grid layout to cut-off white space in tablet view
         DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
@@ -67,9 +74,6 @@ public class TracksActivity extends BaseActivity implements SearchView.OnQueryTe
         sessionsRecyclerView.setAdapter(sessionsListAdapter);
         sessionsRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
-            searchText = savedInstanceState.getString(SEARCH);
-        }
         if (sessionsListAdapter.getItemCount() != 0) {
             noSessionsView.setVisibility(View.GONE);
             sessionsRecyclerView.setVisibility(View.VISIBLE);
