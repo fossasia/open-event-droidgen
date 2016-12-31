@@ -39,14 +39,9 @@ import butterknife.BindView;
 /**
  * Created by MananWason on 30-06-2015.
  */
-public class SpeakerDetailsActivity extends BaseActivity implements SearchView.OnQueryTextListener {
-    final private String SEARCH = "searchText";
+public class SpeakerDetailsActivity extends BaseActivity {
 
     private SessionsListAdapter sessionsListAdapter;
-
-    private String searchText = "";
-
-    private SearchView searchView;
 
     private Speaker selectedSpeaker;
 
@@ -144,9 +139,6 @@ public class SpeakerDetailsActivity extends BaseActivity implements SearchView.O
         sessionRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         sessionRecyclerView.setAdapter(sessionsListAdapter);
         sessionRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
-            searchText = savedInstanceState.getString(SEARCH);
-        }
         if (!mSessions.isEmpty()) {
             noSessionsView.setVisibility(View.GONE);
             sessionRecyclerView.setVisibility(View.VISIBLE);
@@ -163,9 +155,6 @@ public class SpeakerDetailsActivity extends BaseActivity implements SearchView.O
 
     @Override
     public void onSaveInstanceState(Bundle bundle) {
-        if (searchView != null) {
-            bundle.putString(SEARCH, searchText);
-        }
         super.onSaveInstanceState(bundle);
     }
 
@@ -205,40 +194,6 @@ public class SpeakerDetailsActivity extends BaseActivity implements SearchView.O
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_speakers_activity, menu);
-        searchView = (SearchView) menu.findItem(R.id.search_sessions).getActionView();
-        searchView.setOnQueryTextListener(this);
-        searchView.setQuery(searchText, false);
         return true;
-    }
-
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        return false;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String query) {
-        DbSingleton dbSingleton = DbSingleton.getInstance();
-
-        mSessions = dbSingleton.getSessionbySpeakersName(speaker);
-        final List<Session> filteredModelList = filter(mSessions, query.toLowerCase(Locale.getDefault()));
-
-        sessionsListAdapter.animateTo(filteredModelList);
-        sessionRecyclerView.scrollToPosition(0);
-
-        searchText = query;
-        return false;
-    }
-
-    private List<Session> filter(List<Session> sessions, String query) {
-
-        final List<Session> filteredTracksList = new ArrayList<>();
-        for (Session session : sessions) {
-            final String text = session.getTitle().toLowerCase(Locale.getDefault());
-            if (text.contains(query)) {
-                filteredTracksList.add(session);
-            }
-        }
-        return filteredTracksList;
     }
 }
