@@ -132,7 +132,7 @@ After taking the request through the POST API, the app will be generated and ema
 
 * **[index.html](https://github.com/fossasia/open-event-android/blob/master/apk-generator/index.html)** A HTML file which can server as the landing page for your server.
 * **[runPy.php](https://github.com/fossasia/open-event-android/blob/master/apk-generator/scripts/runPy.php)** A PHP script that will launch python script by taking input from index.html.
-* **[appgenserver.py](https://github.com/fossasia/open-event-android/blob/master/apk-generator/scripts/appgenserver.py)** A Python script containg commands to compile and generate the app
+* **[appgenserver.py](https://github.com/fossasia/open-event-android/blob/master/apk-generator/scripts/appgenserver.py)** A Python script containing commands to compile and generate the app
 * **[clone.sh](https://github.com/fossasia/open-event-android/blob/master/apk-generator/scripts/clone.sh)** A bash script used for cloning the source code for android app onto the server.
 * **[buildApk.sh](https://github.com/fossasia/open-event-android/blob/master/apk-generator/scripts/buildApk.sh)** A bash script used for initiating the app's build and signing it once the app has been generated.
 * **[email.sh](https://github.com/fossasia/open-event-android/blob/master/apk-generator/scripts/email.sh)** A bash script used to send the email containing the generated app as an attachment.
