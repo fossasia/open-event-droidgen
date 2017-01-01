@@ -61,8 +61,8 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onResume() {
+        super.onResume();
 
         final DbSingleton dbSingleton = DbSingleton.getInstance();
         location = getIntent().getStringExtra(ConstantStrings.MICROLOCATIONS);
