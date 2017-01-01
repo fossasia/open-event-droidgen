@@ -1,12 +1,12 @@
-package org.fossasia.openevent.data.parsingextras;
+package org.fossasia.openevent.data.parsingExtras;
 
 /**
  * Created by Manan Wason on 09/08/16.
  */
 public class Track {
-    private int id;
+    int id;
 
-    private String name;
+    String name;
 
     public Track(int id, String name) {
         this.id = id;

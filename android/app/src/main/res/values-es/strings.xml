@@ -1,0 +1,141 @@
+<resources>
+    <string name="title_section_tracks">Las Pistas</string>
+    <string name="title_section_speakerlist">Lista de oradores</string>
+    <string name="title_section_location">Sitio</string>
+
+    <!-- Main menu_speakers -->
+    <string name="menu_tracks">Las Pistas</string>
+    <string name="menu_bookmarks">Favoritos</string>
+    <string name="menu_speakers">Oradores</string>
+    <string name="menu_sponsor">Patrocinadores</string>
+    <string name="menu_map">Mapa</string>
+    <string name="menu_locations">Sitio</string>
+    <string name="menu_settings">Fraguados</string>
+    <string name="menu_about">Introducción</string>
+    <string name="session">Sesión</string>
+
+    <!--Navigation Drawer-->
+    <string name="navigation_drawer_open">Ver las categorías</string>
+    <string name="navigation_drawer_close">Cerrar las categorías</string>
+
+    <string name="action_settings">Fraguados</string>
+
+    <!--Settings-->
+    <string name="settings_mode_download">Cuando actualizar una conexión WiFi</string>
+    <string name="summary_mode_download">No utilice datos al descargar</string>
+    <string name="download_mode_key">Modo de internet</string>
+
+
+    <string name="settings_mode_notification">Modo de notificaciones</string>
+    <string name="default_mode_notification">10 minutos</string>
+    <string name="notification_key">Informacion sobre notificaciones</string>
+
+    <string name="settings_mode_timezone">Ver hora local </string>
+    <string name="summary_mode_timezone">Usar la zona horaria actual</string>
+    <string name="timezone_mode_key">Modo de zona horaria</string>
+
+    
+    <!--Menu Titles-->
+    <string name="search">Buscar</string>
+    <string name="share">Compartir</string>
+
+
+    <!--Search Titles-->
+    <string name="search_hint_tracks">Buscar las pistas</string>
+    <string name="refresh_failed">No se pudo actualizar</string>
+    <string name="download_failed">Error al descargar</string>
+    <string name="download_complete">Descarga completa</string>
+    <string name="share_links">Compartir URL</string>
+    <string name="time_not_specified">No especificó la vez</string>
+
+    <!--Error Titles-->
+    <string name="net_unavailable">Incapaz de usar la red</string>
+    <string name="turn_on">Enciende el wifi, por favor</string>
+    <string name="error">Error</string>
+
+    <string name="empty_list">No hay favoritos</string>
+    <string name="bullet">"•"</string>
+    <string name="bookmarks">Favoritos</string>
+
+    <!--Speaker-->
+    <string name="subject">Perfil del orador</string>
+    <string name="message_1"> Orador actual </string>
+    <string name="message_2"> Tema: </string>
+    <string name="message_3"> Haga clic para obtener más información: </string>
+    <string name="fmt_floor">"Historia: "</string>
+    <string name="noBookmark">No tengo ningún marcador</string>
+
+    <!--About us text-->
+    <string name="about_text">Programa <a href="https://github.com/fossasia/open-event-android/graphs/contributors">FOSSASIA Contribuidores</a>.
+\n
+\nLicensed under the GNU General Public License v3. Source available on <a href="https://github.com/fossasia/open-event-android">GitHub</a>.
+\n
+\nSi hay un problema <a href="https://github.com/fossasia/open-event-android/issues/new">Github Repository Issue Tracker</a>.
+\n
+    </string>
+    <string name="invalid_url">URL errónea</string>
+    <string name="dialog_error_title">Error</string>
+    <string name="website">Sitio web</string>
+    <string name="menu_speaker_sort">Categoría orador</string>
+    <string name="dialog_sort_title">Oradores orden</string>
+
+    <!--Speaker Sort Dialog text-->
+    <string name="dialog_sort_organisation">La compañía de orador</string>
+    <string name="dialog_sort_country">País del orador</string>
+    <string name="dialog_sort_name">El nombre del orador</string>
+
+    <!--Session Sort Dialog text-->
+    <string name="dialog_sort_tracks">Las Pistas</string>
+    <string name="dialog_sort_sessions">Sesiones</string>
+
+
+    <string name="launcher_icon">Icono de lanzador</string>
+    <string name="sponsor_image">Imagen patrocinador</string>
+    <string name="header_image">Imagen de cabecera</string>
+    <string name="speaker_image">Imagen de orador</string>
+    <string name="logo_widget">Widget de logo</string>
+    <string name="backdrop_image">Imagen de fondo</string>
+    <string name="linkedin_icon">Icono de Linkedin</string>
+    <string name="twitter_icon">Icono de Twitter</string>
+    <string name="facebook_icon">Icono de Facebook</string>
+    <string name="github_icon">Icono de Github</string>
+    <string name="web_icon">Icono de web</string>
+    <string name="download_assets">¿Desea actualizar el programa?</string>
+    <string name="internet_preference_warning">Aviso del internet</string>
+    <string name="yes">Sí</string>
+    <string name="no">No</string>
+    <string name="noSessions">No hay sesiones!</string>
+    <string name="noMicrolocations">No hay microlocaciones!</string>
+    <string name="noSchedule">No hay horario!</string>
+    <string name="noSpeakers">No hay oradores!</string>
+    <string name="noSponsors">No hay patrocinadores!</string>
+    <string name="noTracks">No hay pistas!</string>
+    <string name="charges_warning">Se pueden aplicar cargos</string>
+    <string name="tracks">Pista:</string>
+    <string name="date">Fecha:</string>
+    <string name="start_time">Hora de inicio:</string>
+    <string name="end_time">Hora de finalización:</string>
+    <string name="location">Sitio:</string>
+    <string name="speakers">Orador:</string>
+
+    <!-- Sponsor types strings-->
+    <string name="platinum">Platino</string>
+    <string name="diamond">Diamante</string>
+    <string name="gold">Oro</string>
+    <string name="silver">Plata</string>
+    <string name="bronze">Bronce</string>
+
+    <!-- Sponsor types int strings-->
+    <string name="platinumInt">1</string>
+    <string name="diamondInt">2</string>
+    <string name="goldInt">3</string>
+    <string name="silverInt">4</string>
+    <string name="bronzeInt">5</string>
+
+    <string name="display_offline_schedule">No hay conexión a Internet. Mostrar calendario anterior.</string>
+    <string name="retry_download">Intente descargar</string>
+    <string name="permissions_given">Por favor den derechos!</string>
+    <string name="storage_permission_rationale">Se requiere el permiso de almacenamiento para almacenar los datos de los mapas.</string>
+    <string name="permissions_insufficient">Ir a la configuración y dar derechos..</string>
+    <string name="press_back_again">Regresa</string>
+</resources>
