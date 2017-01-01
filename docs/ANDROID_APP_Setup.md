@@ -63,7 +63,7 @@ Before you begin, you should already have the Android Studio SDK downloaded and 
 
 - _Translations Editor_:
 
-  - You can configure the string localizaions / translations using Android Studio's _Translations Editor_.
+  - You can configure the string localizations / translations using Android Studio's _Translations Editor_.
   - Find /app/src/main/res/values/strings.xml
   - Right click on the file, and select _Open Translations Editor_.
 
