@@ -200,10 +200,20 @@ public class SessionDetailActivity extends BaseActivity {
                 return true;
 
             case R.id.action_share:
-                String share_text = "Track: " + trackName + "\nTitle: " + title + "\nTimings: " + timings + "\nDescription: " + result.toString();
+                String startTime = ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(session.getStartTime()));
+                String endTime = ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(session.getEndTime()));
+                StringBuilder shareText = new StringBuilder();
+                shareText.append(String.format("Session Track: %s \nTitle: %s \nStart Time: %s \nEnd Time: %s\n",
+                        trackName, title, startTime, endTime));
+                if (!result.toString().isEmpty()){
+                    shareText.append("\nDescription: ").append(result.toString());
+                }
+                else{
+                    shareText.append(getString(R.string.descriptionEmpty));
+                }
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
-                sendIntent.putExtra(Intent.EXTRA_TEXT, share_text);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, shareText.toString());
                 sendIntent.setType("text/plain");
                 startActivity(Intent.createChooser(sendIntent, getString(R.string.share_links)));
                 return true;

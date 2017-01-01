@@ -16,6 +16,7 @@
     <string name="menu_about">About us</string>
     <string name="session">Session Detail</string>
     <string name="menu_schedule" translatable="false">Schedule</string>
+    <string name="descriptionEmpty">Description: To be updated soon</string>
 
 
     <!--Navigation Drawer-->
@@ -163,4 +164,5 @@
     <string name="open_your_web_brower_to_finish_connection_setting">Open your web browser to finish connection setting</string>
     <string name="removed_bookmark">Bookmark Removed</string>
     <string name="added_bookmark">Bookmark Added</string>
+
 </resources>
