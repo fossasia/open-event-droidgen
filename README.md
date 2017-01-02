@@ -11,7 +11,7 @@
 
 The Open Event Android project consists of two components. The **App Generator** is a web application that is hosted on a server and generates an event Android app from a zip with JSON and binary files ([examples here](http://github.com/fossasia/open-event)) or through an API. The second component we are developing in the project is a generic **Android app** - the output of the app generator. The mobile app can be installed on any Android device for browsing information about the event. Updates can be made automatically through API endpoint connections from an online source (e.g. server), which needs to defined in the provided event zip with the JSON files. The Android app has a standard configuration file, that sets the details of the app (e.g. color scheme, logo of event, link to JSON app data).
 
-##Communication
+## Communication
 
 Please join our mailing list to discuss questions regarding the project: https://groups.google.com/forum/#!forum/open-event
 
@@ -66,6 +66,7 @@ Please find info about the set up of the Android app in your development environ
 | Nexus 5X    | Android 6.0      |  CyanogenMod 13 |
 | Nexus 5    | Android 4.4      |  AOSP |
 | Redmi Note 3 | Android 5.0  | MIUI|
+| Moto G4 Plus | Android 7.0  | Stock Android |
 
 <br>
 
@@ -113,11 +114,11 @@ To install system with Docker please refer to the [Docker installation readme](/
 
 #### How do I deploy Web App Generator with Heroku
 
-Please read how to deploy to [Heroku here](/docs/HEROKU.md)
+Please read how to deploy to [Heroku here](/docs/INSTALLATION_HEROKU.md)
 
 ### Accessing the App Generator
 
-An app generator can be accessed in two ways, via an App Generator Web-Page, that runs on an the APACHE server or via POST API. The POST API takes input in form of a JSON and then creates and emails you the app. To access it via a POST API in your app installation you need to go to http://your-URL/api/api.php. The POST API takes input in form of a JSON and then creates and emails you the app.
+An app generator can be accessed in two ways, via an App Generator Web-Page that runs on an the APACHE server or via POST API. The POST API takes input in the form of JSON and then creates and sends you the app in the form of an .apk via an email. To access it via a POST API in your app installation you need to go to http://your-URL/api/api.php. The POST API takes input in the form of JSON and then creates and sends you the app via an email.
 
 ### Sending a POST Request
 
@@ -160,12 +161,12 @@ This is an Open Source project and we would be happy to see contributors who rep
 
 ## Branch Policy
 
-We have the following branches   
- * **development**   
+We have the following branches
+ * **development**
 	 All development goes on in this branch. If you're making a contribution,
 	 you are supposed to make a pull request to _development_.
 	 PRs to master must pass a build check and a unit-test (_app/src/test_) check on Travis
- * **master**   
+ * **master**
    This contains shipped code. After significant features/bugfixes are accumulated on development, we make a version update, and make a release.
 	 All tagged commits on _master_ branch will automatically generate a release on Github with a copy of ***fDroid-debug*** and ***GooglePlay-debug*** apks.
 
