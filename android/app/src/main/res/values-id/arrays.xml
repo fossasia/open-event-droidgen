@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="mode_strings">
+        <item>Pengguna</item>
+        <item>Pembangun</item>
+    </string-array>
+    <string-array name="notification_mode_values">
+        <item>10 menit</item>
+        <item>1 jam</item>
+        <item>12 jam</item>
+    </string-array>
+</resources>
