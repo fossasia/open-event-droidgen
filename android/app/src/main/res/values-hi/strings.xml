@@ -31,5 +31,11 @@
     <string name="net_unavailable">नेटवर्क उपलब्ध नहीं है</string>
     <string name="turn_on"> सेटिंग्स में वाईफाई या मोबाइल डेटा को चालू करें</string>
     <string name="invalid_url">अवैध यूआरएल</string>
+    <string name="date">\" तारीख:\"</string>
+    <string name="bronze">" पीतल"</string>
+    <string name="added_bookmark">" जोड़ा बुकमार्क"</string>
+    <string name="check_connection">कनेक्शन की जांच</string>
+    <string name="charges_warning">डेटा शुल्क लागू हो सकते हैं</string>
+    <string name="change_language">"भाषा को बदले "</string>
 
 </resources>

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">OpenEvent</string>
+    <string name="app_name" translatable="false">Open Event</string>
 
     <string name="title_section_tracks">Tracks</string>
     <string name="title_section_speakerlist">Speakers</string>
