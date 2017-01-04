@@ -54,8 +54,8 @@ public class TracksActivity extends BaseActivity implements SearchView.OnQueryTe
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onResume() {
+        super.onResume();
 
         DbSingleton dbSingleton = DbSingleton.getInstance();
         track = getIntent().getStringExtra(ConstantStrings.TRACK);
