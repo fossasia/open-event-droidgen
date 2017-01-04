@@ -1,0 +1,168 @@
+<resources>
+    <string name="app_name" translatable="false">Open Event</string>
+
+    <string name="title_section_tracks">ट्रयाक</string>
+    <string name="title_section_speakerlist">वक्ता</string>
+    <string name="title_section_location">स्थान</string>
+
+    <!-- Main menu_speakers -->
+    <string name="menu_tracks">ट्रयाक</string>
+    <string name="menu_bookmarks">बुकमार्क</string>
+    <string name="menu_speakers">वक्ता</string>
+    <string name="menu_sponsor">प्रायोजकहरूको</string>
+    <string name="menu_map">नक्सा</string>
+    <string name="menu_locations">स्थान</string>
+    <string name="menu_settings">सेटिङ</string>
+    <string name="menu_about">हाम्रोबारे</string>
+    <string name="session">सत्र विस्तार</string>
+    <string name="menu_schedule" translatable="false">तालिका</string>
+    <string name="descriptionEmpty">विवरण: चाँडै अद्यावधिक गर्न</string>
+
+
+    <!--Navigation Drawer-->
+    <string name="navigation_drawer_open">नेभिगेसन ड्रअर खोल्नुहोस्</string>
+    <string name="navigation_drawer_close">बन्द नेविगेशन दराज</string>
+
+    <string name="action_settings">सेटिङ</string>
+
+    <!--Settings-->
+    <string name="settings_mode_download">मात्र वाइफाइ डाउनलोड अपडेट</string>
+    <string name="summary_mode_download">यदि अनुप्रयोगले स्वीच कार्यतालिका अद्यावधिक गर्न मोबाइल डाटा प्रयोग गर्नेछ</string>
+    <string name="download_mode_key">इन्टरनेट मोड</string>
+
+
+    <string name="settings_mode_notification"> सूचना मोड</string>
+    <string name="default_mode_notification">10 मिनेट</string>
+    <string name="notification_key">सूचना</string>
+
+    <string name="settings_mode_timezone"> स्थानीय समय शो</string>
+    <string name="summary_mode_timezone">यो सम्मेलन \'को स्थानीय समय को सट्टा आफ्नो स्थानीय समय प्रयोग गर्नुहोस्।</string>
+    <string name="timezone_mode_key">समय क्षेत्र मोड</string>
+
+    <string name="language_preferences">भाषा प्राथमिकता</string>
+    <string name="change_language">तपाईंको भाषा परिवर्तन</string>
+    <string name="language_key">भाषा परिवर्तन</string>
+    <string name="default_mode_language">अंग्रेजी</string>
+
+
+    <!--Social-->
+    <string name="linkedin" translatable="false">linkedin</string>
+    <string name="twitter" translatable="false">twitter</string>
+    <string name="fb" translatable="false">fb</string>
+    <string name="github" translatable="false">github</string>
+
+    <!--Menu Titles-->
+    <string name="search">खोज</string>
+    <string name="share">शेयर</string>
+
+
+    <!--Search Titles-->
+    <string name="search_hint_tracks"> ट्रयाकहरू खोज</string>
+    <string name="refresh_failed">ताजा गर्न सकेन</string>
+    <string name="download_failed">डाउनलोड असफल</string>
+    <string name="download_complete">डाउनलोड गरियो</string>
+    <string name="share_links">साझा URL</string>
+    <string name="time_not_specified">समय तोकिएको छैन</string>
+
+    <!--Error Titles-->
+    <string name="net_unavailable">नेटवर्क उपलब्ध छैन</string>
+    <string name="turn_on">सेटिङमा वाइफाइ वा मोबाइल डेटा खोल्नुहोस्</string>
+    <string name="error">त्रुटि</string>
+
+    <string name="empty_list">पुस्तकचिनोथप्नुहोस् उपलब्ध</string>
+    <string name="bullet">"•"</string>
+    <string name="bookmarks">बुकमार्क</string>
+
+    <!--Speaker-->
+    <string name="subject">अध्यक्ष प्रोफाइल</string>
+    <string name="message_1"> मा बोल्ने छ </string>
+    <string name="message_2"> विषयहरू मा: </string>
+    <string name="message_3"> थप जानकारी चेकआउट यो अनुप्रयोग गुगल प्ले स्टोरमा लागि: </string>
+    <string name="fmt_floor">"तल्ला: "</string>
+    <string name="noBookmark">अझै कुनै सत्र चिन्हित् !!</string>
+
+    <!--About us text-->
+    <string name="about_text">द्वारा प्रोग्राम <a href="https://github.com/fossasia/open-event-android/graphs/contributors">FOSSASIA योगदानकर्ता</a>.
+\n
+\nबारहसिद्धान्त सामान्य सार्वजनिक लाइसेन्स v3 अन्तर्गत इजाजत प्राप्त। स्रोत उपलब्ध <a href="https://github.com/fossasia/open-event-android">GitHub</a>.
+\n
+\nसबै मुद्दाहरू रिपोर्ट गर्नुहोस्<a href="https://github.com/fossasia/open-event-android/issues/new">Github भण्डार मुद्दा ट्रयाकर</a>.
+\n
+    </string>
+    <string name="invalid_url">अवैध URL</string>
+    <string name="dialog_error_title">त्रुटि</string>
+    <string name="website">वेबसाइट</string>
+    <string name="menu_speaker_sort">सर्ट</string>
+    <string name="dialog_sort_title">सर्ट गरेर</string>
+
+    <!--Speaker Sort Dialog text-->
+    <string name="dialog_sort_organisation">संगठन</string>
+    <string name="dialog_sort_country">देश</string>
+    <string name="dialog_sort_name">अध्यक्ष नाम</string>
+
+    <!--Session Sort Dialog text-->
+    <string name="dialog_sort_tracks">ट्रयाक</string>
+    <string name="dialog_sort_sessions">समय सुरु</string>
+
+
+    <string name="launcher_icon">सुरुवात चिह्न</string>
+    <string name="sponsor_image">प्रायोजक छवि</string>
+    <string name="header_image">हेडर तस्बिर</string>
+    <string name="speaker_image">अध्यक्ष स्वरूपमा</string>
+    <string name="logo_widget">लोगो विजेट</string>
+    <string name="backdrop_image">पृष्ठभूमि छवि</string>
+    <string name="linkedin_icon">LinkedIn चिह्न</string>
+    <string name="twitter_icon">Twitter चिह्न</string>
+    <string name="facebook_icon">Facebook चिह्न</string>
+    <string name="github_icon">Github चिह्न</string>
+    <string name="web_icon">Web चिह्न</string>
+    <string name="download_assets">तपाईं अब नयाँ तालिका अद्यावधिक गर्न चाहनुहुन्छ?</string>
+    <string name="internet_preference_warning">उपलब्ध छैन, तपाईं अफलाइन तालिका प्रदर्शन गर्न चाहनुहुन्छ वाइफाइ?</string>
+    <string name="yes">हो</string>
+    <string name="no">कुनै</string>
+    <string name="noSessions">अहिलेसम्म कुनै सत्र!</string>
+    <string name="noMicrolocations">अहिलेसम्म कुनै Microlocations!</string>
+    <string name="noSchedule">कुनै तालिका अझै!</string>
+    <string name="noSpeakers">अहिलेसम्म कुनै वक्ताहरु!</string>
+    <string name="noSponsors">अहिलेसम्म कुनै प्रायोजकहरू!</string>
+    <string name="noTracks">अहिलेसम्म कुनै ट्रयाकहरू!</string>
+    <string name="charges_warning">डाटा शुल्क लागू हुन सक्छ</string>
+    <string name="tracks">ट्रयाक:</string>
+    <string name="date">मिति:</string>
+    <string name="start_time">समय सुरु:</string>
+    <string name="end_time">समय अन्त:</string>
+    <string name="location">स्थान:</string>
+    <string name="speakers">वक्ता:</string>
+
+    <!-- Sponsor types strings-->
+    <string name="platinum">प्लाटिनम</string>
+    <string name="diamond">हीरा</string>
+    <string name="gold">सुन</string>
+    <string name="silver">चाँदी</string>
+    <string name="bronze">कांस्य</string>
+
+    <!-- Sponsor types int strings-->
+    <string name="platinumInt">1</string>
+    <string name="diamondInt">2</string>
+    <string name="goldInt">3</string>
+    <string name="silverInt">4</string>
+    <string name="bronzeInt">5</string>
+
+    <string name="display_offline_schedule">पुरानो तालिका प्रदर्शन कुनै इन्टरनेट जडान,</string>
+    <string name="retry_download">पुन: प्रयास गर्नुहोस्</string>
+    <string name="permissions_given">अनुमति दिइएको!</string>
+    <string name="storage_permission_rationale">भण्डारण गर्न अनुमति अफलाइन उपलब्धता लागि नक्सा डाटा सुरक्षित लागि आवश्यक छ।</string>
+    <string name="permissions_insufficient">सेटिङमा जानुहोस् र अनुमति सक्षम!</string>
+    <string name="press_back_again">बाहिर निस्कन फेरि ट्याप गर्नुहोस्।</string>
+
+    <!--SnackBar strings-->
+    <string name="waiting_for_network">नेटवर्क लागि प्रतीक्षा गर्दै</string>
+    <string name="snackbar_refresh_action">ताजा</string>
+
+    <!--Notification strings-->
+    <string name="check_connection">जडान जाँच</string>
+    <string name="open_your_web_brower_to_finish_connection_setting">जडान सेटिङ पूरा गर्न आफ्नो वेब ब्राउजर खोल्न</string>
+    <string name="removed_bookmark">Bookmark Removed</string>
+    <string name="added_bookmark">बुकमार्क जोडा</string>
+
+</resources>
