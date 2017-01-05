@@ -1,28 +1,151 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="action_settings">设定</string>
-    <string name="default_mode_notification">十分钟前</string>
-    <string name="default_mode_api">开发者</string>
-    <string name="download_failed">下载失败，请检查你的网路连线</string>
+    <string name="title_section_tracks">议程轨</string>
+    <string name="title_section_speakerlist">讲者</string>
+    <string name="title_section_location">位置</string>
+
+    <!-- Main menu_speakers -->
+    <string name="menu_tracks">议程轨</string>
     <string name="menu_bookmarks">书签</string>
-    <string name="menu_locations">位置</string>
-    <string name="menu_map">地图</string>
     <string name="menu_speakers">讲者</string>
     <string name="menu_sponsor">赞助商</string>
-    <string name="menu_tracks">议程轨</string>
-    <string name="refresh_failed">重新整理失败</string>
-    <string name="download_complete">下载完成</string>
-    <string name="settings_mode_api">API模式</string>
-    <string name="settings_mode_notification">通知模式</string>
-    <string name="share">分享</string>
-    <string name="share_links">分享网址</string>
-    <string name="title_section_location">位置</string>
-    <string name="title_section_speakerlist">讲者</string>
-    <string name="session">议程内容</string>
-    <string name="title_section_tracks">议程轨</string>
-    <string name="search_hint_tracks">搜寻议程轨</string>
-    <string name="search">搜索</string>
-    <string name="time_not_specified">没有指定时间</string>
-    <string name="navigation_drawer_close">关闭导览列</string>
+    <string name="menu_map">地图</string>
+    <string name="menu_locations">位置</string>
+    
+    <!--Navigation Drawer-->
     <string name="navigation_drawer_open">开启导览列</string>
+    <string name="navigation_drawer_close">关闭导览列</string>
+   
+    <string name="action_settings">设定</string>
+    <!--Settings-->
+    <string name="settings_mode_download">只用WiFi下载更新</string>
+    <string name="summary_mode_download">如果打开应用程序，则不会使用移动数据更新计划</string>
+    <string name="download_mode_key">互联网模式</string>
+    
+    <string name="settings_mode_notification">通知模式</string>
+    <string name="default_mode_notification">十分钟前</string>
+    <string name="notification_key">通知</string>
+    
+     <string name="settings_mode_timezone">显示附近时间</string>
+    <string name="summary_mode_timezone">使用您的当地时间，而不是会议的当地时间。</string>
+    <string name="timezone_mode_key">当地时间模式</string>
+    
+    <string name="language_preferences">优先语文</string>
+    <string name="change_language">换你现在的语言</string>
+    <string name="language_key">换语言</string>
+    <string name="default_mode_language">英文</string>
+    
+    <!--Menu Titles-->
+    <string name="search">搜索</string>
+    <string name="share">分享</string>
+    
+    <!--Search Titles-->
+    <string name="search_hint_tracks">搜寻议程轨</string>
+    <string name="refresh_failed">重新整理失败</string>
+    <string name="download_failed">下载失败，请检查你的网路连线</string>
+    <string name="download_complete">下载完成</string>
+    <string name="share_links">分享网址</string>
+    <string name="time_not_specified">没有指定时间</string>
+    
+    <!--Error Titles-->
+    <string name="net_unavailable">网络不可用</string>
+    <string name="turn_on">在“设置”中打开WiFi或移动数据</string>
+    <string name="error">错误</string>
+    
+    <string name="empty_list">没有书签</string>
+    <string name="bullet">"•"</string>
+    <string name="bookmarks">书签</string>
+    
+    <!--Speaker-->
+    <string name="subject">演讲者资料</string>
+    <string name="message_1">正在说话</string>
+    <string name="message_2">关于这些主题：</string>
+    <string name="message_3">有关更多信息，请在Google Play Store上查看此应用：</string>
+    <string name="fmt_floor">"楼： "</string>
+    <string name="noBookmark">没有书签的议程！！</string>
+    <string name="default_mode_api">开发者</string>
+    
+    <!--About us text-->
+    <string name="about_text">由<a href="https://github.com/fossasia/open-event-android/graphs/contributors">FOSSASIA贡献者编写。</a>.
+\n
+\n根据GNU通用公共许可证v3授权。资源位于<a href="https://github.com/fossasia/open-event-android">GitHub</a>.
+\n
+\n请报告所有问题，在<a href="https://github.com/fossasia/open-event-android/issues/new">Github资料库问题跟踪器</a>.
+\n
+    </string>
+    
+    <string name="invalid_url">网址无效</string>
+    <string name="dialog_error_title">错误</string>
+    <string name="website">网站</string>
+    <string name="menu_speaker_sort">排序</string>
+    <string name="dialog_sort_title">排序方式</string>
+    
+    <!--Speaker Sort Dialog text-->
+    <string name="dialog_sort_organisation">组织</string>
+    <string name="dialog_sort_country">国家</string>
+    <string name="dialog_sort_name">演讲者名称</string>
+    
+     <!--Session Sort Dialog text-->
+    <string name="dialog_sort_tracks">曲目</string>
+    <string name="dialog_sort_sessions">开始时间</string>
+    
+    <string name="launcher_icon">启动器图标</string>
+    <string name="sponsor_image">赞助商图片</string>
+    <string name="header_image">标题图片</string>
+    <string name="speaker_image">扬声器的图像</string>
+    <string name="logo_widget">徽标小部件</string>
+    <string name="backdrop_image">背景图片</string>
+    <string name="linkedin_icon">LinkedIn图标</string>
+    <string name="twitter_icon">推特图标</string>
+    <string name="facebook_icon">面簿图标</string>
+    <string name="github_icon">GitHub图标</string>
+    <string name="web_icon">网上图标</string>
+    <string name="download_assets">您要立即更新到最新的时间表吗？</string>
+    <string name="internet_preference_warning"> Wifi不可用，您要显示离线时间表吗？ </string>
+    <string name="yes">是</string>
+    <string name="no">否</string>
+    <string name="noSessions">尚未有会话！</string>
+    <string name="noMicrolocations">尚未有微分区！</string>
+    <string name="noSchedule">还没有计划！</string>
+    <string name="noSpeakers">尚未发言！</string>
+    <string name="noSponsors">尚未赞助！</string>
+    <string name="noTracks">尚未追踪！</string>
+    <string name="charges_warning">可能会产生数据费</string>
+    <string name="tracks">轨道：</string>
+    <string name="date">Date：</string>
+    <string name="start_time">开始时间：</string>
+    <string name="end_time">结束时间：</string>
+    <string name="location">位置：</string>
+    <string name="speakers">演讲者：</string>
+    
+     <!-- Sponsor types strings-->
+    <string name="platinum">铂金</string>
+    <string name="diamond">钻石</string>
+    <string name="gold">金</string>
+    <string name="silver">银</string>
+    <string name="bronze">铜牌</string>
+
+     <!-- Sponsor types int strings-->
+    <string name="platinumInt">1</string>
+    <string name="diamondInt">2</string>
+    <string name="goldInt">3</string>
+    <string name="silverInt">4</string>
+    <string name="bronzeInt">5</string>
+    
+    <string name="display_offline_schedule">无互联网连接，显示旧日程</string>
+    <string name="retry_download">重试</string>
+    <string name="permissions_given">授予的权限！</string>
+    <string name="storage_permission_rationale">需要存储权限才能保存地图数据以供离线使用。</string>
+    <string name="permissions_insufficient">转到设置并启用权限！</string>
+    <string name="press_back_again">再次点击返回以退出。</string>
+
+    <!--SnackBar strings-->
+    <string name="waiting_for_network">等待网络</string>
+    <string name="snackbar_refresh_action">刷新</string>
+    
+    <!--Notification strings-->
+    <string name="check_connection">检查连接</string>
+    <string name="open_your_web_brower_to_finish_connection_setting">打开网络浏览器完成连接设置</string>
+    <string name="removed_bookmark">书签已删除</string>
+    <string name="added_bookmark">添加书签</string>
 </resources>
