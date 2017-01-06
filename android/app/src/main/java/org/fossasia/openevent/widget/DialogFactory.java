@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AlertDialog;
 
@@ -36,6 +37,19 @@ public final class DialogFactory {
                 .setTitle(context.getString(titleResource))
                 .setMessage(context.getString(messageResource))
                 .setNeutralButton(context.getString(android.R.string.ok).toUpperCase(), listener);
+        return alertDialog.create();
+    }
+
+    public static Dialog createDownloadDialog(Context context,
+                                                  @StringRes int titleResource,
+                                                  @StringRes int messageResource,
+                                                  DialogInterface.OnClickListener listener) {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(context)
+                .setTitle(context.getString(titleResource))
+                .setMessage(context.getString(messageResource))
+                .setIcon(R.drawable.ic_file_download_black_24dp)
+                .setNegativeButton(context.getString(R.string.no), listener)
+                .setPositiveButton(context.getString(R.string.yes), listener);
         return alertDialog.create();
     }
 
