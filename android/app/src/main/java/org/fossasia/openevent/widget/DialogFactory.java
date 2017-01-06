@@ -39,6 +39,19 @@ public final class DialogFactory {
         return alertDialog.create();
     }
 
+    public static Dialog createDownloadDialog(Context context,
+                                                  @StringRes int titleResource,
+                                                  @StringRes int messageResource,
+                                                  DialogInterface.OnClickListener listener) {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(context)
+                .setTitle(context.getString(titleResource))
+                .setMessage(context.getString(messageResource))
+                .setIcon(R.drawable.ic_file_download_black_24dp)
+                .setNegativeButton(context.getString(R.string.no), listener)
+                .setPositiveButton(context.getString(R.string.yes), listener);
+        return alertDialog.create();
+    }
+
     public static Dialog createGenericErrorDialog(Context context, String message) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(context)
                 .setTitle(context.getString(R.string.dialog_error_title))

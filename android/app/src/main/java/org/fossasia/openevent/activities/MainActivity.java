@@ -118,8 +118,6 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.drawer) DrawerLayout drawerLayout;
     @BindView(R.id.appbar) AppBarLayout appBarLayout;
 
-    private String errorType;
-    private String errorDesc;
     private SharedPreferences sharedPreferences;
     private int counter;
     private boolean atHome = true;
@@ -179,62 +177,47 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setUpToolbar();
         setUpNavDrawer();
-        ProgressBar downloadProgress = (ProgressBar) findViewById(R.id.progress);
-        downloadProgress.setVisibility(View.VISIBLE);
-        downloadProgress.setIndeterminate(true);
+        setUpProgressBar();
         this.findViewById(android.R.id.content).setBackgroundColor(Color.WHITE);
         if (NetworkUtils.haveNetworkConnection(this)) {
             if (NetworkUtils.isActiveInternetPresent()) {
                 //Internet is working
                 if (!sharedPreferences.getBoolean(ConstantStrings.IS_DOWNLOAD_DONE, false)) {
-                    AlertDialog.Builder downloadDialog = new AlertDialog.Builder(this);
-                    downloadDialog.setTitle(R.string.download_assets).setMessage(R.string.charges_warning);
-                    downloadDialog.setIcon(R.drawable.ic_file_download_black_24dp);
-                    downloadDialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    DbSingleton.getInstance().clearDatabase();
-                                    Boolean preference = sharedPreferences.getBoolean(getResources().getString(R.string.download_mode_key), true);
-                                    if (preference) {
-                                        if (NetworkUtils.haveWifiConnection(MainActivity.this)) {
-                                            OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
-                                            sharedPreferences.edit().putBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true).apply();
-
-                                        } else {
-                                            final Snackbar snackbar = Snackbar.make(mainFrame, R.string.internet_preference_warning, Snackbar.LENGTH_INDEFINITE);
-                                            snackbar.setAction(R.string.yes, new View.OnClickListener() {
-                                                @Override
-                                                public void onClick(View view) {
-                                                    downloadFromAssets();
-                                                }
-                                            });
-                                            snackbar.show();
-                                        }
-                                    } else {
-                                        OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
-                                    }
-
-                                }
-                            }
-
-                    );
-                    downloadDialog.setNegativeButton(R.string.no, new DialogInterface.OnClickListener()
-
+                    DialogFactory.createDownloadDialog(this, R.string.download_assets, R.string.charges_warning, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            if (i==DialogInterface.BUTTON_POSITIVE)
                             {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    downloadFromAssets();
+                                DbSingleton.getInstance().clearDatabase();
+                                Boolean preference = sharedPreferences.getBoolean(getResources().getString(R.string.download_mode_key), true);
+                                if (preference) {
+                                    if (NetworkUtils.haveWifiConnection(MainActivity.this)) {
+                                        OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
+                                        sharedPreferences.edit().putBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true).apply();
 
+                                    } else {
+                                        final Snackbar snackbar = Snackbar.make(mainFrame, R.string.internet_preference_warning, Snackbar.LENGTH_INDEFINITE);
+                                        snackbar.setAction(R.string.yes, new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                downloadFromAssets();
+                                            }
+                                        });
+                                        snackbar.show();
+                                    }
+                                } else {
+                                    OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
                                 }
+                            } else if (i==DialogInterface.BUTTON_NEGATIVE)
+                            {
+                                downloadFromAssets();
                             }
-
-                    );
-                    downloadDialog.show();
+                        }
+                    }).show();
                 } else {
                     downloadProgress.setVisibility(View.GONE);
                 }
-            }else
-            {
+            }else {
                 //Device is connected to WI-FI or Mobile Data but Internet is not working
                 ShowNotificationSnackBar showNotificationSnackBar = new ShowNotificationSnackBar(MainActivity.this,mainFrame,null) {
                     @Override
@@ -307,6 +290,12 @@ public class MainActivity extends BaseActivity {
         if (toolbar != null) {
             setSupportActionBar(toolbar);
         }
+    }
+
+    private void setUpProgressBar() {
+        ProgressBar downloadProgress = (ProgressBar) findViewById(R.id.progress);
+        downloadProgress.setVisibility(View.VISIBLE);
+        downloadProgress.setIndeterminate(true);
     }
 
     private void setUpNavDrawer() {
@@ -768,6 +757,8 @@ public class MainActivity extends BaseActivity {
 
     @Subscribe
     public void errorHandlerEvent(RetrofitError error) {
+        String errorType;
+        String errorDesc;
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netinfo = connMgr.getActiveNetworkInfo();
         if (!(netinfo != null && netinfo.isConnected())) {
