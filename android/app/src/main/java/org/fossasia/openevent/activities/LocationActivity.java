@@ -48,22 +48,31 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
 
-        final DbSingleton dbSingleton = DbSingleton.getInstance();
-        location = getIntent().getStringExtra(ConstantStrings.MICROLOCATIONS);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        Microlocation selectedLocation = dbSingleton.getLocationByLocationname(location);
+        if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
+            searchText = savedInstanceState.getString(SEARCH);
+        }
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        final DbSingleton dbSingleton = DbSingleton.getInstance();
+        location = getIntent().getStringExtra(ConstantStrings.MICROLOCATIONS);
+        Microlocation selectedLocation = dbSingleton.getLocationByLocationname(location);
         mSessions = dbSingleton.getSessionbyLocationName(location);
 
         //setting the grid layout to cut-off white space in tablet view
         DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
         float width = displayMetrics.widthPixels / displayMetrics.density;
-        int spanCount = (int) (width/200.00);
+        int spanCount = (int) (width/250.00);
 
         sessionRecyclerView.setHasFixedSize(true);
         final GridLayoutManager gridLayoutManager = new GridLayoutManager(this,spanCount);
@@ -72,9 +81,6 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
         sessionRecyclerView.setAdapter(sessionsListAdapter);
         sessionRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
-            searchText = savedInstanceState.getString(SEARCH);
-        }
         if (!mSessions.isEmpty()) {
             noSessionsView.setVisibility(View.GONE);
             sessionRecyclerView.setVisibility(View.VISIBLE);
@@ -83,7 +89,6 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
             sessionRecyclerView.setVisibility(View.GONE);
         }
     }
-
 
     @Override
     protected int getLayoutResource() {

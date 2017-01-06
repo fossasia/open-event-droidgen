@@ -24,31 +24,54 @@
 
 ## Server Setup
 
-1. Navigate to server's `/var/www/` and install the Android SDK here.
-2. You can do that by following this [thread](http://stackoverflow.com/questions/17963508/how-to-install-android-sdk-build-tools-on-the-command-line/) on stackoverflow.
-3. Edit the .bashrc file located in /root to reference to the SDK you have just installed
+1) Navigate to server's `/var/www/` and install the Android SDK here.
 
-  To do this, type in `nano /root/.bashrc` and press enter.<br>
-  Navigae to the bottom of the file that opens and add following code there<br>
+2) You can do that by following this [thread](http://stackoverflow.com/questions/17963508/how-to-install-android-sdk-build-tools-on-the-command-line/) on stackoverflow.
+
+3) Edit the .bashrc file located in /root to reference to the SDK you have just installed
+
+* To do this, type in `nano /root/.bashrc` and press enter.<br>
+  Navigate to the bottom of the file that opens and add following code there<br>
   `export ANDROID_HOME=/var/www/android-sdk-linux`<br>
   `export PATH=${PATH}:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools`
 
-4. Download the template app icon that is to be used during compilation if user hasn't provided us with any logo.<br>
+4) Download the template app icon that is to be used during compilation if user hasn't provided us with any logo.<br>
   `sudo apt-get install wget`<br>
   `wget image_link_here`
-5. Move all the files mentioned in the `scripts` folder (Except `runPy.php`, `upload.php` and `index.html`) into `/root/scripts`.
-6. Move `runPy.php`, `upload.php`, and `index.html` to `/var/www/html`
-7. [Install and setup](https://www.digitalocean.com/community/tutorials/how-to-install-java-with-apt-get-on-ubuntu-16-04) JAVA on your machine.
-8. Next, install PHP.This can be done by simply writing `sudo apt-get install php` in your terminal.<br>
-  Now [modify the maximum upload limit of php](http://stackoverflow.com/questions/2184513/php-change-the-maximum-upload-file-size) to atleast `500MB`. (Default is 2MB)
-9. Mdify your sudoers list to allow www-data to run the runPy.php script as root You can do this by typing the following command `sudo visudo` and hitting enter<br>
-  Next scroll to the bottom of the file and add `www-data ALL = NOPASSWD: /var/www/html/runPy.php`
-10. Create a [firebase account](firebase.google.com) and add your API key to index.html<br>
-  Navigate to your Account and then create a new project (Name it whatever you want)<br>
-  Open this newly created project and click the Pink colored button saying _"Add Firebase to your web app"_<br>
-  Copy the code listed there and paste it to [index.html](https://github.com/fossasia/open-event-android/blob/master/apk-generator/index.html#L76) Also add your server's IP address to trusted sources in the [Firebase console](https://console.firebase.google.com/project/app-generator/authentication/providers) by clicking on _Add Domain_
-11. Create another folder in your public-html named `api` and move contents of the folder `api` here.
-12. The sender's address, message title and the body of email is defined in `conig.json` inside `apk-generator/scripts`. Changing this will affect the email that is sent.
+
+5) Move all the files mentioned in the `scripts` folder (Except `runPy.php`, `upload.php` and `index.html`) into `/root/scripts`.
+
+6) Move `runPy.php`, `upload.php`, and `index.html` to `/var/www/html`
+
+7) [Install and setup](https://www.digitalocean.com/community/tutorials/how-to-install-java-with-apt-get-on-ubuntu-16-04) JAVA on your machine.
+
+8) Next, install PHP.This can be done by simply writing `sudo apt-get install php` in your terminal.
+
+* Now modify the maximum upload limit of php to atleast `500MB`. (Default is 2MB)
+* You need to set the value of ```upload_max_filesize``` and ```post_max_size``` in your ```php.ini``` file. <br> ```php.ini``` file should be located in ```/etc/php/7.0/fpm/php.ini```:
+
+```sh
+; Maximum allowed size for uploaded files.
+upload_max_filesize = 500M
+
+; Must be greater than or equal to upload_max_filesize
+post_max_size = 500M
+```
+
+9) Modify your sudoers list to allow www-data to run the runPy.php script as root
+
+* You can do this by typing the following command `sudo visudo` and hitting enter<br>
+* Next scroll to the bottom of the file and add `www-data ALL = NOPASSWD: /var/www/html/runPy.php`
+
+10) Create a [firebase account](firebase.google.com) and add your API key to index.html<br>
+
+* Navigate to your Account and then create a new project (Name it whatever you want)<br>
+* Open this newly created project and click the Pink colored button saying _"Add Firebase to your web app"_<br>
+* Copy the code listed there and paste it to [index.html](https://github.com/fossasia/open-event-android/blob/master/apk-generator/index.html#L76) Also add your server's IP address to trusted sources in the [Firebase console](https://console.firebase.google.com/project/app-generator/authentication/providers) by clicking on _Add Domain_
+
+11) Create another folder in your public-html named `api` and move contents of the folder `api` here.
+
+12) The sender's address, message title and the body of email is defined in `conig.json` inside `apk-generator/scripts`. Changing this will affect the email that is sent.
 
 ## Glosarry
 

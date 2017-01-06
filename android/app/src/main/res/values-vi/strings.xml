@@ -1,0 +1,168 @@
+<resources>
+    <string name="app_name" translatable="false">OpenEvent</string>
+
+    <string name="title_section_tracks">Chủ đề</string>
+    <string name="title_section_speakerlist">Diễn giả</string>
+    <string name="title_section_location">Địa điểm</string>
+
+    <!-- Main menu_speakers -->
+    <string name="menu_tracks">Chủ đề</string>
+    <string name="menu_bookmarks">Dấu trang</string>
+    <string name="menu_speakers">Diễn giả</string>
+    <string name="menu_sponsor">Nhà tài trợ</string>
+    <string name="menu_map">Bản đồ</string>
+    <string name="menu_locations">Địa điểm</string>
+    <string name="menu_settings">Cài đặt</string>
+    <string name="menu_about">Giới thiệu</string>
+    <string name="session">Chi tiết về sự kiện</string>
+    <string name="menu_schedule" translatable="false">Thời gian biểu</string>
+    <string name="descriptionEmpty">Mô tả: sẽ sớm được cập nhật</string>
+
+
+    <!--Navigation Drawer-->
+    <string name="navigation_drawer_open">Mở thanh điều hướng</string>
+    <string name="navigation_drawer_close">Đóng thanh điều hướng</string>
+
+    <string name="action_settings">Cài đặt</string>
+
+    <!--Settings-->
+    <string name="settings_mode_download">Chỉ tải xuống bản cập nhật qua wifi</string>
+    <string name="summary_mode_download">Nếu chức năng này được bật, ứng dụng sẽ không sử dụng dữ liệu di động để cập nhật thời gian biểu</string>
+    <string name="download_mode_key">internet_mode</string>
+
+
+    <string name="settings_mode_notification"> Chế độ thông báo</string>
+    <string name="default_mode_notification">10 phút</string>
+    <string name="notification_key">notification</string>
+
+    <string name="settings_mode_timezone"> Hiện giờ địa phương</string>
+    <string name="summary_mode_timezone">Sử dụng giờ của địa phương bạn thay vì giờ của vị trí nơi sự kiện diễn ra</string>
+    <string name="timezone_mode_key">timezone_mode</string>
+
+    <string name="language_preferences">Ngôn ngữ</string>
+    <string name="change_language">Thay đổi ngôn ngữ</string>
+    <string name="language_key">change_language</string>
+    <string name="default_mode_language">English</string>
+
+
+    <!--Social-->
+    <string name="linkedin" translatable="false">linkedin</string>
+    <string name="twitter" translatable="false">twitter</string>
+    <string name="fb" translatable="false">fb</string>
+    <string name="github" translatable="false">github</string>
+
+    <!--Menu Titles-->
+    <string name="search">Tìm kiếm</string>
+    <string name="share">Chia sẻ</string>
+
+
+    <!--Search Titles-->
+    <string name="search_hint_tracks">Tìm kiếm chủ đề</string>
+    <string name="refresh_failed">Không thể làm mới</string>
+    <string name="download_failed">Tải xuống thất bại</string>
+    <string name="download_complete">Tải xuống xong</string>
+    <string name="share_links">Chia sẻ URL</string>
+    <string name="time_not_specified">Thời gian không xác định</string>
+
+    <!--Error Titles-->
+    <string name="net_unavailable">Mạng không có sẵn</string>
+    <string name="turn_on">Bật wifi hoặc dữ liệu di động trong Cài đặt</string>
+    <string name="error">Lỗi</string>
+
+    <string name="empty_list">Không có sẵn dấu trang</string>
+    <string name="bullet">"•"</string>
+    <string name="bookmarks">Dấu trang</string>
+
+    <!--Speaker-->
+    <string name="subject">Thông tin diễn giả</string>
+    <string name="message_1"> đang thuyết trình tại </string>
+    <string name="message_2"> về chủ đề: </string>
+    <string name="message_3"> Thông tin chi tiết truy cập ứng dụng này trên Google Play Store: </string>
+    <string name="fmt_floor">"Tầng : "</string>
+    <string name="noBookmark">Không có sự kiện nào được đánh dấu !!</string>
+
+    <!--About us text-->
+    <string name="about_text">Lập trình bởi <a href="https://github.com/fossasia/open-event-android/graphs/contributors">cộng tác viên FOSSASIA</a>.
+\n
+\nĐăng ký bản quyền GNU General Public License v3. Mã nguồn có sẵn trên <a href="https://github.com/fossasia/open-event-android">GitHub</a>.
+\n
+\nBáo cáo lỗi tại <a href="https://github.com/fossasia/open-event-android/issues/new">Github Repository Issue Tracker</a>.
+\n
+    </string>
+    <string name="invalid_url">URL không hợp lệ</string>
+    <string name="dialog_error_title">Lỗi</string>
+    <string name="website">website</string>
+    <string name="menu_speaker_sort">Sắp xếp</string>
+    <string name="dialog_sort_title">Sắp xếp theo</string>
+
+    <!--Speaker Sort Dialog text-->
+    <string name="dialog_sort_organisation">Tổ chức</string>
+    <string name="dialog_sort_country">Quốc gia</string>
+    <string name="dialog_sort_name">Tên diễn giả</string>
+
+    <!--Session Sort Dialog text-->
+    <string name="dialog_sort_tracks">Chủ đề</string>
+    <string name="dialog_sort_sessions">Thời gian bắt đầu</string>
+
+
+    <string name="launcher_icon">Launcher Icon</string>
+    <string name="sponsor_image">Ảnh nhà tài trợ</string>
+    <string name="header_image">Ảnh tiêu đề</string>
+    <string name="speaker_image">Ảnh diễn giả</string>
+    <string name="logo_widget">Logo Widget</string>
+    <string name="backdrop_image">Ảnh nền</string>
+    <string name="linkedin_icon">Biểu tượng Linkedin</string>
+    <string name="twitter_icon">Biểu tượng Twitter</string>
+    <string name="facebook_icon">Biểu tượng Facebook</string>
+    <string name="github_icon">Biểu tượng Github</string>
+    <string name="web_icon">Biểu tượng Web</string>
+    <string name="download_assets">Bạn có muốn cập nhật thời gian biểu bây giờ?</string>
+    <string name="internet_preference_warning">Wifi không có sẵn, bạn có muốn hiển thị thời gian biểu offline?</string>
+    <string name="yes">Có</string>
+    <string name="no">Không</string>
+    <string name="noSessions">Chưa có sự kiện!</string>
+    <string name="noMicrolocations">Chưa có địa điểm cụ thể!</string>
+    <string name="noSchedule">Chưa có thời gian biểu!</string>
+    <string name="noSpeakers">Chưa có diễn giả!</string>
+    <string name="noSponsors">Chưa có nhà tài trợ!</string>
+    <string name="noTracks">Chưa có chủ đề!</string>
+    <string name="charges_warning">Phí dữ liệu có thể được áp dụng</string>
+    <string name="tracks">Chủ đề:</string>
+    <string name="date">Ngày:</string>
+    <string name="start_time">Thời gian bắt đầu:</string>
+    <string name="end_time">Thời gian kết thúc:</string>
+    <string name="location">Địa điểm:</string>
+    <string name="speakers">Diễn giả:</string>
+
+    <!-- Sponsor types strings-->
+    <string name="platinum">Bạch kim</string>
+    <string name="diamond">Kim cương</string>
+    <string name="gold">Vàng</string>
+    <string name="silver">Bạc</string>
+    <string name="bronze">Đồng</string>
+
+    <!-- Sponsor types int strings-->
+    <string name="platinumInt">1</string>
+    <string name="diamondInt">2</string>
+    <string name="goldInt">3</string>
+    <string name="silverInt">4</string>
+    <string name="bronzeInt">5</string>
+
+    <string name="display_offline_schedule">Không có kết nối Internet, đang hiển thị thời gian biểu cũ</string>
+    <string name="retry_download">Thử lại</string>
+    <string name="permissions_given">Đã được cấp phép!</string>
+    <string name="storage_permission_rationale">Cần quyền lưu trữ để lưu dữ liệu bản đồ khi sử dụng offline.</string>
+    <string name="permissions_insufficient">Đến phần Cài đặt và cấp quyền truy cập!</string>
+    <string name="press_back_again">Bấm trở về lần nữa để thoát.</string>
+
+    <!--SnackBar strings-->
+    <string name="waiting_for_network">Đang đợi mạng</string>
+    <string name="snackbar_refresh_action">Làm mới</string>
+
+    <!--Notification strings-->
+    <string name="check_connection">Kiểm tra kết nối</string>
+    <string name="open_your_web_brower_to_finish_connection_setting">Mở trình duyệt web để hoàn tất cài đặt kết nối</string>
+    <string name="removed_bookmark">Đã xóa dấu trang</string>
+    <string name="added_bookmark">Đã thêm dấu trang</string>
+
+</resources>

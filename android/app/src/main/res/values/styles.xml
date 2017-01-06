@@ -27,7 +27,7 @@
     <style name="AppTheme.NoActionBar.MainTheme" parent="AppTheme.NoActionBar" />
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
     <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
@@ -42,7 +42,7 @@
     </style>
 
     <style name="Metadata" parent="TextAppearance.AppCompat.Subhead">
-        <item name="android:textColor">@color/color_primary_dark</item>
+        <item name="android:textColor">@color/secondary_text</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:drawablePadding">8dp</item>
     </style>

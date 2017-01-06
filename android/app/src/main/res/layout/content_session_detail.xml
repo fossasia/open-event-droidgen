@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/activity_sessions_detail"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/nested_scrollview_session_detail"
+    tools:context=".activities.SessionDetailActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:orientation="vertical"
+            android:padding="@dimen/content_margin">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:transitionName="session">
+                <TextView
+                    android:id="@+id/title_session"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="Title"/>
+
+                <TextView
+                    android:id="@+id/subtitle_session"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/TextAppearance.AppCompat.Subhead"
+                    android:layout_marginBottom="@dimen/track_title_margin"
+                    android:textColor="@color/primary_text"
+                    android:text="Session Subtitle" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/track_title_margin"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/track_title_margin"
+                        android:layout_marginRight="@dimen/track_title_margin"
+                        android:text="@string/tracks"
+                        android:textSize="@dimen/track_data_size"
+                        android:textColor="@color/primary_text"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/track"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/track_data_size"
+                        android:textColor="@color/primary_text" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/track_title_margin"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/track_title_margin"
+                        android:layout_marginRight="@dimen/track_title_margin"
+                        android:text="@string/date"
+                        android:textSize="@dimen/track_data_size"
+                        android:textColor="@color/primary_text"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/date_session"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/track_data_size"
+                        android:textColor="@color/primary_text" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/track_title_margin"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/track_title_margin"
+                        android:layout_marginRight="@dimen/track_title_margin"
+                        android:text="@string/start_time"
+                        android:textSize="@dimen/track_data_size"
+                        android:textColor="@color/primary_text"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/start_time_session"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/track_data_size"
+                        android:textColor="@color/primary_text" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/track_title_margin"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/track_title_margin"
+                        android:layout_marginRight="@dimen/track_title_margin"
+                        android:text="@string/end_time"
+                        android:textSize="@dimen/track_data_size"
+                        android:textColor="@color/primary_text"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/end_time_session"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/track_data_size"
+                        android:textColor="@color/primary_text" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/track_title_margin"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/track_title_margin"
+                        android:layout_marginRight="@dimen/track_title_margin"
+                        android:text="@string/location"
+                        android:textSize="@dimen/track_data_size"
+                        android:textColor="@color/primary_text"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_location"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/track_data_size"
+                        android:textColor="@color/primary_text" />
+                </LinearLayout>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/list_speakerss"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_abstract_text"
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/content_margin"
+                android:textIsSelectable="true"
+                tools:text="Open Event" />
+
+            <TextView
+                android:id="@+id/tv_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/content_margin"
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:gravity="start"
+                android:textIsSelectable="true"
+                android:autoLink="web"
+                tools:text="Open Event!" />
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textIsSelectable="true"/>
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

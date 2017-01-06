@@ -1,0 +1,158 @@
+<resources>
+    <string name="title_section_tracks">Jalur</string>
+    <string name="title_section_speakerlist">Pembicara</string>
+    <string name="title_section_location">Lokasi</string>
+
+    <!-- Main menu_speakers -->
+    <string name="menu_tracks">Jalur</string>
+    <string name="menu_bookmarks">Bookmark</string>
+    <string name="menu_speakers">Pembicara</string>
+    <string name="menu_sponsor">Sponsor</string>
+    <string name="menu_map">Peta</string>
+    <string name="menu_locations">Lokasi</string>
+    <string name="menu_settings">Pengaturan</string>
+    <string name="menu_about">Tetang Kami</string>
+    <string name="session">Perincian Sesi</string>
+    <string name="menu_schedule" translatable="false">Schedule</string>
+    <string name="descriptionEmpty">Deskripsi: Akan ditambahkan</string>
+
+
+    <!--Navigation Drawer-->
+    <string name="navigation_drawer_open">Buka papan navigasi</string>
+    <string name="navigation_drawer_close">Tutup papan navigasi</string>
+
+    <string name="action_settings">Pengaturan</string>
+
+    <!--Settings-->
+    <string name="settings_mode_download">Unduh pembaharuan jika di Wifi</string>
+    <string name="summary_mode_download">Jika berada di Aplikasi, Internet Handphone tidak akan dipakai untuk memperbarui jadwal</string>
+
+    <string name="settings_mode_notification"> Mode notifikasi</string>
+    <string name="default_mode_notification">10 menit</string>
+
+    <string name="settings_mode_timezone"> Tunjukan waktu lokal</string>
+    <string name="summary_mode_timezone">Gunakan waktu lokal daripada waktu lokalnya konferensi</string>
+
+    <string name="language_preferences">Pengaturan bahasa</string>
+    <string name="change_language">Ubah bahasamu</string>
+    <string name="default_mode_language">Bahasa Inggris</string>
+
+    <!--Social-->
+    <string name="linkedin" translatable="false">linkedin</string>
+    <string name="twitter" translatable="false">twitter</string>
+    <string name="fb" translatable="false">fb</string>
+    <string name="github" translatable="false">github</string>
+
+    <!--Menu Titles-->
+    <string name="search">Cari</string>
+    <string name="share">Bagi</string>
+
+    <!--Search Titles-->
+    <string name="search_hint_tracks"> Cari jalur</string>
+    <string name="refresh_failed">Gagal memperbarui</string>
+    <string name="download_failed">Gagal unduh</string>
+    <string name="download_complete">Unduh selesai</string>
+    <string name="share_links">Bagi URL</string>
+    <string name="time_not_specified">Waktu belum ditentukan</string>
+
+    <!--Error Titles-->
+    <string name="net_unavailable">Tidak ada koneksi</string>
+    <string name="turn_on">Nyalakan Wifi atau Internet Mobile di pengaturan</string>
+    <string name="error">Error</string>
+
+    <string name="empty_list">Tidak ada bookmark</string>
+    <string name="bullet">"•"</string>
+    <string name="bookmarks">Bookmark</string>
+
+    <!--Speaker-->
+    <string name="subject">Profil Pembicara</string>
+    <string name="message_1"> akan berbicara di </string>
+    <string name="message_2"> pada topik: </string>
+    <string name="message_3"> Untuk informasi lebih lanjut tentang aplikasi ini cek di Google Play Store: </string>
+    <string name="fmt_floor">"Lantai : "</string>
+    <string name="noBookmark">Tidak ada sesi yang di-bookmark !!</string>
+
+    <!--About us text-->
+    <string name="about_text">Diprogramkan oleh <a href="https://github.com/fossasia/open-event-android/graphs/contributors">kontributor FOSSASIA</a>.
+\n
+\nBerlisensi GNU General Public License v3. Sumber kode berada di <a href="https://github.com/fossasia/open-event-android">GitHub</a>.
+\n
+\nMohon lapor masalah di <a href="https://github.com/fossasia/open-event-android/issues/new">catatan isu GitHub</a>.
+\n
+    </string>
+    <string name="invalid_url">URL salah</string>
+    <string name="dialog_error_title">Error</string>
+    <string name="menu_speaker_sort">Urut</string>
+    <string name="dialog_sort_title">Urut berdasarkan</string>
+
+    <!--Speaker Sort Dialog text-->
+    <string name="dialog_sort_organisation">Organisasi</string>
+    <string name="dialog_sort_country">Negara</string>
+    <string name="dialog_sort_name">Nama pembicara</string>
+
+    <!--Session Sort Dialog text-->
+    <string name="dialog_sort_tracks">Jalur</string>
+    <string name="dialog_sort_sessions">Waktu mulai</string>
+
+
+    <string name="launcher_icon">Ikon peluncur</string>
+    <string name="sponsor_image">Foto sponsor</string>
+    <string name="header_image">Gambar header</string>
+    <string name="speaker_image">Foto pembicara</string>
+    <string name="logo_widget">Logo Widget</string>
+    <string name="backdrop_image">Gambar Backdrop</string>
+    <string name="linkedin_icon">Ikon Linkedin</string>
+    <string name="twitter_icon">Ikon Twitter</string>
+    <string name="facebook_icon">Ikon Facebook</string>
+    <string name="github_icon">Ikon Github</string>
+    <string name="web_icon">Ikon Web</string>
+    <string name="download_assets">Apakah Anda ingin memperbaruhi jadwal?</string>
+    <string name="internet_preference_warning">Wifi tidak tersedia, Apakah Anda ingin mengunakan jadwal luring? </string>
+    <string name="yes">Iya</string>
+    <string name="no">Tidak</string>
+    <string name="noSessions">Tidak ada sesi!</string>
+    <string name="noMicrolocations">Tidak ada mikro-lokasi!</string>
+    <string name="noSchedule">Tidak ada jadwal!</string>
+    <string name="noSpeakers">Tidak ada pembicara!</string>
+    <string name="noSponsors">Tidak ada sponsor!</string>
+    <string name="noTracks">Tidak ada jalur!</string>
+    <string name="charges_warning">Biaya data mungkin berlaku</string>
+    <string name="tracks">Jalur:</string>
+    <string name="date">Tanggal:</string>
+    <string name="start_time">Waktu mulai:</string>
+    <string name="end_time">Waktu berakhir:</string>
+    <string name="location">Lokasi:</string>
+    <string name="speakers">Pembicara:</string>
+
+    <!-- Sponsor types strings-->
+    <string name="platinum">Platinum</string>
+    <string name="diamond">Berlian</string>
+    <string name="gold">Emas</string>
+    <string name="silver">Silver</string>
+    <string name="bronze">Perunggu</string>
+
+    <!-- Sponsor types int strings-->
+    <string name="platinumInt">1</string>
+    <string name="diamondInt">2</string>
+    <string name="goldInt">3</string>
+    <string name="silverInt">4</string>
+    <string name="bronzeInt">5</string>
+
+    <string name="display_offline_schedule">Tidak ada koneksi internet, jadwal lama akan dipakai</string>
+    <string name="retry_download">Ulangi lagi</string>
+    <string name="permissions_given">Izin telah diberikan!</string>
+    <string name="storage_permission_rationale">Izin pengunaan penyimpanan dibutuhkan untuk menyimpan peta.</string>
+    <string name="permissions_insufficient">Mohon ke pengaturan dan berikan izin</string>
+    <string name="press_back_again">Tekan balik untuk keluar.</string>
+
+    <!--SnackBar strings-->
+    <string name="waiting_for_network">Menunggu jaringan</string>
+    <string name="snackbar_refresh_action">Perbarui</string>
+
+    <!--Notification strings-->
+    <string name="check_connection">Cek koneksi</string>
+    <string name="open_your_web_brower_to_finish_connection_setting">Bukalah penjelajah web untuk menyelesaikan pengaturan koneksi</string>
+    <string name="removed_bookmark">Bookmark telah dihapuskan</string>
+    <string name="added_bookmark">Bookmark telah ditambahkan</string>
+
+</resources>

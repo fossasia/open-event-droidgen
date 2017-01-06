@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">OpenEvent</string>
+    <string name="app_name" translatable="false">Open Event</string>
 
     <string name="title_section_tracks">Tracks</string>
     <string name="title_section_speakerlist">Speakers</string>
@@ -14,8 +14,9 @@
     <string name="menu_locations">Locations</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_about">About us</string>
-    <string name="session">Session detail</string>
+    <string name="session">Session Detail</string>
     <string name="menu_schedule" translatable="false">Schedule</string>
+    <string name="descriptionEmpty">Description: To be updated soon</string>
 
 
     <!--Navigation Drawer-->
@@ -161,4 +162,7 @@
     <!--Notification strings-->
     <string name="check_connection">Check Connection</string>
     <string name="open_your_web_brower_to_finish_connection_setting">Open your web browser to finish connection setting</string>
+    <string name="removed_bookmark">Bookmark Removed</string>
+    <string name="added_bookmark">Bookmark Added</string>
+
 </resources>

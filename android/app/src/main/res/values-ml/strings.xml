@@ -1,0 +1,166 @@
+﻿<resources>
+    <string name="title_section_tracks">ട്രാക്കുകൾ</string>
+    <string name="title_section_speakerlist">പാസംഗികർ</string>
+    <string name="title_section_location">സ്ഥലങ്ങൾ</string>
+
+    <!-- Main menu_speakers -->
+    <string name="menu_tracks">ട്രാക്കുകൾ</string>
+    <string name="menu_bookmarks">ബുക്ക്മാർക്കുകൾ</string>
+    <string name="menu_speakers">പാസംഗികർ</string>
+    <string name="menu_sponsor">പ്രായോജകർ</string>
+    <string name="menu_map">ഭൂപടം</string>
+    <string name="menu_locations">സ്ഥലങ്ങൾ</string>
+    <string name="menu_settings">ക്രമീകരണങ്ങൾ</string>
+    <string name="menu_about">ഞങ്ങളേക്കുറിച്ച്</string>
+    <string name="session">സെഷൻ വിശദാംശം</string>
+    <string name="menu_schedule" translatable="false">പട്ടിക</string>
+    <string name="descriptionEmpty">വിവരണം: ഉടൻ അപ്ഡേറ്റ് ചെയ്യും</string>
+
+
+    <!--Navigation Drawer-->
+    <string name="navigation_drawer_open">നാവിഗേഷൻ ഡ്രോയർ തുറക്കുക</string>
+    <string name="navigation_drawer_close">നാവിഗേഷൻ ഡ്രോയർ അടയ്ക്കുക</string>
+
+    <string name="action_settings">ക്രമീകരണങ്ങൾ</string>
+
+    <!--Settings-->
+    <string name="settings_mode_download">വെയിഹെയിൽ മാത്രം അപ്ഡേറ്റുകൾ ഡൗൺലോഡ് ചെയ്യുക</string>
+    <string name="summary_mode_download">അപ്ലിക്കേഷൻ ഓൺ എങ്കിൽ ഷെഡ്യൂൾ അപ്ഡേറ്റ് മൊബൈൽ ഡാറ്റ ഉപയോഗിക്കരുത് ചെയ്യും</string>
+    <string name="download_mode_key">internet_mode</string>
+
+
+    <string name="settings_mode_notification">അറിയിപ്പ് മോഡ്</string>
+    <string name="default_mode_notification">10 മിനിറ്റ്</string>
+    <string name="notification_key">അറിയിപ്പ്</string>
+
+    <string name="settings_mode_timezone">പ്രാദേശിക സമയം കാണിക്കുക</string>
+    <string name="summary_mode_timezone">സമ്മേളനം \ ന്റെ പ്രാദേശിക സമയം പകരം നിങ്ങളുടെ പ്രാദേശിക സമയം ഉപയോഗിക്കുക.</string>
+    <string name="timezone_mode_key">സമയമേഖല മോഡ്</string>
+
+    <string name="language_preferences">ഭാഷ മുൻഗണനകൾ</string>
+    <string name="change_language">നിങ്ങളുടെ ഭാഷ മാറ്റുക</string>
+    <string name="language_key">നിങ്ങളുടെ ഭാഷ മാറ്റുക</string>
+    <string name="default_mode_language">മലയാളം</string>
+
+
+    <!--Social-->
+    <string name="linkedin" translatable="false">ലിൻകിടിൻ</string>
+    <string name="twitter" translatable="false">ട്വിറ്റർ</string>
+    <string name="fb" translatable="false">ഫേസ്ബുക്ക്</string>
+    <string name="github" translatable="false">ഗിതബ്</string>
+
+    <!--Menu Titles-->
+    <string name="search">തിരയുക</string>
+    <string name="share">പങ്കിടുക</string>
+
+
+    <!--Search Titles-->
+    <string name="search_hint_tracks">ട്രാക്കുകൾ തിരയൽ</string>
+    <string name="refresh_failed">പുതുക്കുക കഴിഞ്ഞില്ല</string>
+    <string name="download_failed">ഇറക്കുമതി പരാജയപ്പെട്ടു</string>
+    <string name="download_complete">ഇറക്കുമതി പൂർത്തിയായി</string>
+    <string name="share_links">പങ്കിട്ടുവാനുള്ള യു.ർ.ല്</string>
+    <string name="time_not_specified">ടൈമിങ്സ് വ്യക്തമാക്കിയിട്ടില്ല</string>
+
+    <!--Error Titles-->
+    <string name="net_unavailable">നെറ്റ്വർക്ക് ലഭ്യമല്ല</string>
+    <string name="turn_on">ക്രമീകരണങ്ങളിൽ വൈഫൈ അല്ലെങ്കിൽ മൊബൈൽ ഡാറ്റ ഓണാക്കുക</string>
+    <string name="error">പിശക്</string>
+
+    <string name="empty_list">ലഭ്യമായ ബുക്ക്മാർക്കുകളില്ല</string>
+    <string name="bullet">"•"</string>
+    <string name="bookmarks">ബുക്ക്മാർക്കുകൾ</string>
+
+    <!--Speaker-->
+    <string name="subject">സ്പീക്കർ പ്രൊഫൈൽ</string>
+    <string name="message_1"> സംസാരിക്കുകയായിരുന്നു ആണ് </string>
+    <string name="message_2"> വിഷയങ്ങളെക്കുറിച്ചുള്ള: </string>
+    <string name="message_3"> കൂടുതൽ വിവരങ്ങൾക്ക് ചെക്കൗട്ട് ഈ അപ്ലിക്കേഷൻ സ്റ്റോറിലെ: </string>
+    <string name="fmt_floor">"തറ : "</string>
+    <string name="noBookmark">ഇതുവരെ ബുക്ക്മാർക്ക് സെഷനില്ല !!</string>
+
+    <!--About us text-->
+    <string name="about_text">പ്രോഗ്രാം ചെയ്തത്ത് <a href="https://github.com/fossasia/open-event-android/graphs/contributors">ഹൊസെഴിയ സംഭാവകർ</a>.
+\n
+\nഗ്നു ജനറൽ പബ്ലിക് ലൈസൻസ് v3 പ്രകാരമാണ്. ലഭ്യമാണ് ഉറവിടം <a href="https://github.com/fossasia/open-event-android">ഗിതബ്</a>.
+\n
+\nഎല്ലാ പ്രശ്നങ്ങൾ റിപ്പോർട്ടുചെയ്യുക <a href="https://github.com/fossasia/open-event-android/issues/new">ഗിതബ് പ്രശ്നം ട്രാക്കർ</a>.
+\n
+    </string>
+    <string name="invalid_url">അസാധുവായ യു.ർ.ല്</string>
+    <string name="dialog_error_title">പിശക്</string>
+    <string name="website">വെബ്സൈറ്റ്</string>
+    <string name="menu_speaker_sort">അടക്കുക</string>
+    <string name="dialog_sort_title">ഇങ്ങനെ അടുക്കുക</string>
+
+    <!--Speaker Sort Dialog text-->
+    <string name="dialog_sort_organisation">സംഘടന</string>
+    <string name="dialog_sort_country">രാജ്യം</string>
+    <string name="dialog_sort_name">സ്പീക്കർ പേര്</string>
+
+    <!--Session Sort Dialog text-->
+    <string name="dialog_sort_tracks">ട്രാക്കുകൾ</string>
+    <string name="dialog_sort_sessions">ആരംഭ സമയം</string>
+
+
+    <string name="launcher_icon">ലോഞ്ചർ ഐക്കൺ</string>
+    <string name="sponsor_image">സ്പോൺസർ ചിത്രം</string>
+    <string name="header_image">ശീർഷക ചിത്രം</string>
+    <string name="speaker_image">സ്പീക്കർ ന്റെ ചിത്രം</string>
+    <string name="logo_widget">ലോഗോ വിജറ്റ്</string>
+    <string name="backdrop_image">ബാക്ക്ട്രോപ്പ് ചിത്രം</string>
+    <string name="linkedin_icon">ലിൻകിടിൻ ചിത്രം</string>
+    <string name="twitter_icon">ട്വിറ്റർ ചിത്രം</string>
+    <string name="facebook_icon">ഫേസ്ബുക്ക് ചിത്രം</string>
+    <string name="github_icon">ഗിതബ് ചിത്രം</string>
+    <string name="web_icon">വെബ് ഐക്കൺ</string>
+    <string name="download_assets">നിങ്ങൾ ഇപ്പോൾ പുതിയ ഷെഡ്യൂൾ അപ്ഡേറ്റ് ചെയ്യണോ?</string>
+    <string name="internet_preference_warning">വൈഫൈ ലഭ്യമല്ല, നിങ്ങൾ ഓഫ്ലൈൻ ഷെഡ്യൂൾ പ്രദർശിപ്പിക്കാൻ ആഗ്രഹിക്കുന്നത്? </string>
+    <string name="yes">അതെ</string>
+    <string name="no">ഇല്ല</string>
+    <string name="noSessions">ഇതുവരെ അല്ല!</string>
+    <string name="noMicrolocations">ഇതുവരെ മൈക്രോ ലൊക്കേഷനുകൾ ഇല്ല!</string>
+    <string name="noSchedule">ഇതുവരെ ഷെഡ്യൂൾ ഇല്ല!</string>
+    <string name="noSpeakers">സ്പീക്കറുകളൊന്നും ഇതുവരെ ഇല്ല!</string>
+    <string name="noSponsors">ഇതുവരെ പ്രായോജകർ ഇല്ല!</string>
+    <string name="noTracks">ഇതുവരെ ട്രാക്കുകൾ ഇല്ല!</string>
+    <string name="charges_warning">ഡേറ്റാ വില ബാധകമായിരിക്കും</string>
+    <string name="tracks">പാത:</string>
+    <string name="date">തീയതി:</string>
+    <string name="start_time">ആരംഭ സമയം:</string>
+    <string name="end_time">അവസാന സമയം:</string>
+    <string name="location">സ്ഥലം:</string>
+    <string name="speakers">സ്പീക്കർ:</string>
+
+    <!-- Sponsor types strings-->
+    <string name="platinum">Platinum</string>
+    <string name="diamond">Diamond</string>
+    <string name="gold">Gold</string>
+    <string name="silver">Silver</string>
+    <string name="bronze">Bronze</string>
+
+    <!-- Sponsor types int strings-->
+    <string name="platinumInt">1</string>
+    <string name="diamondInt">2</string>
+    <string name="goldInt">3</string>
+    <string name="silverInt">4</string>
+    <string name="bronzeInt">5</string>
+
+    <string name="display_offline_schedule">ഇന്റർനെറ്റ് കണക്ഷൻ, പഴയ ഷെഡ്യൂൾ പ്രദർശിപ്പിക്കുന്നത്</string>
+    <string name="retry_download">വീണ്ടുംശ്രമിക്കൂ</string>
+    <string name="permissions_given">നൽകപ്പെട്ട അനുമതികൾ!</string>
+    <string name="storage_permission_rationale">സ്റ്റോറേജ് അനുമതിയില്ലാതെ ഓഫ്ലൈൻ ലഭ്യതയ്ക്കായി മാപ്പ് ഡാറ്റ സംരക്ഷിക്കുന്നതിൽ ആവശ്യമാണ്.</string>
+    <string name="permissions_insufficient">ക്രമീകരണത്തിൽ പോയി അനുമതി പ്രവർത്തനക്ഷമമാക്കുക!</string>
+    <string name="press_back_again">എക്സിറ്റ് വീണ്ടും ടാപ്പ്.</string>
+
+    <!--SnackBar strings-->
+    <string name="waiting_for_network">നെറ്റ്വർക്ക് കാത്തിരിക്കുന്നു</string>
+    <string name="snackbar_refresh_action">ഉന്മേഷം വീണ്ടെടുക്കുക</string>
+
+    <!--Notification strings-->
+    <string name="check_connection">കണക്ഷൻ പരിശോധിക്കുക</string>
+    <string name="open_your_web_brower_to_finish_connection_setting">കണക്ഷൻ ക്രമീകരണം പൂർത്തിയാക്കാൻ നിങ്ങളുടെ വെബ് ബ്രൗസർ തുറക്കുക</string>
+    <string name="removed_bookmark">ബുക്ക്മാർക്ക് നീക്കം</string>
+    <string name="added_bookmark">ബുക്മാർക്ക് ചേർത്തിരിക്കുന്നു</string>
+
+</resources>
