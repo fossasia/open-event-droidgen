@@ -2,6 +2,8 @@ package org.fossasia.openevent.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.customtabs.CustomTabsClient;
+import android.support.customtabs.CustomTabsServiceConnection;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -50,6 +52,9 @@ public class SponsorsFragment extends BaseFragment {
     private Toolbar toolbar;
     private AppBarLayout.LayoutParams layoutParams;
     private int SCROLL_OFF = 0;
+    private CustomTabsServiceConnection customTabsServiceConnection;
+    private CustomTabsClient customTabsClient;
+    private boolean customTabsSupported;
 
     @Nullable
     @Override
@@ -67,7 +72,8 @@ public class SponsorsFragment extends BaseFragment {
                 refresh();
             }
         });
-        sponsorsListAdapter = new SponsorsListAdapter(getContext(), dbSingleton.getSponsorList());
+        sponsorsListAdapter = new SponsorsListAdapter(getContext(), dbSingleton.getSponsorList(),
+                getActivity(), getArguments().getBoolean("customTabsSupported"));
         sponsorsRecyclerView.setAdapter(sponsorsListAdapter);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         sponsorsRecyclerView.setLayoutManager(linearLayoutManager);

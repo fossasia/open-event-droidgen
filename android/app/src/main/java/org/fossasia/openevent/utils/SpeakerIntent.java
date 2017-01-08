@@ -1,7 +1,13 @@
 package org.fossasia.openevent.utils;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
+import android.support.customtabs.CustomTabsIntent;
+import android.support.customtabs.CustomTabsSession;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -9,6 +15,7 @@ import org.fossasia.openevent.R;
 import org.fossasia.openevent.data.Speaker;
 
 import java.net.URLDecoder;
+import java.util.ArrayList;
 
 /**
  * Created by MananWason on 02-07-2015.
@@ -16,9 +23,25 @@ import java.net.URLDecoder;
 public class SpeakerIntent {
     public String url = "dummy", reurl = "dummy", error = "none";
     private Speaker speaker;
+    private Context context;
+    private Activity activity;
+    private CustomTabsSession customTabsSession;
+    private boolean customTabsSupported;
 
-    public SpeakerIntent(Speaker speaker) {
+    public SpeakerIntent(Speaker speaker, Context context, Activity activity, CustomTabsSession customTabsSession, boolean customTabsSupported) {
         this.speaker = speaker;
+        this.context = context;
+        this.activity = activity;
+        this.customTabsSession = customTabsSession;
+        this.customTabsSupported = customTabsSupported;
+        customTabsSession.mayLaunchUrl(Uri.parse(speaker.getWebsite()), new Bundle(), new ArrayList<Bundle>());
+    }
+
+    public SpeakerIntent(Speaker speaker, Context context, Activity activity, boolean customTabsSupported) {
+        this.speaker = speaker;
+        this.context = context;
+        this.activity = activity;
+        this.customTabsSupported = customTabsSupported;
     }
 
     public void clickedImage(final ImageView imageView) {
@@ -52,9 +75,19 @@ public class SpeakerIntent {
                     url = "http://" + url;
                 }
 
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                view.getContext().startActivity(intent);
+                if (customTabsSupported) {
+                    CustomTabsIntent.Builder customTabsBuilder = new CustomTabsIntent.Builder(customTabsSession);
+                    context = view.getContext();
+                    customTabsBuilder.setToolbarColor(ContextCompat.getColor(context, R.color.color_primary));
+                    customTabsBuilder.setStartAnimations(context, R.anim.slide_in_right, R.anim.slide_out_left);
+                    customTabsBuilder.setExitAnimations(context, R.anim.slide_in_left, R.anim.slide_out_right);
+                    CustomTabsIntent customTabsIntent = customTabsBuilder.build();
+                    customTabsIntent.launchUrl(activity, Uri.parse(url));
+                } else {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    view.getContext().startActivity(intent);
+                }
 
             }
         });
