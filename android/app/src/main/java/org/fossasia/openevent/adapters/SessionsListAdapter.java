@@ -1,9 +1,13 @@
 package org.fossasia.openevent.adapters;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -22,11 +26,13 @@ import org.fossasia.openevent.activities.SessionDetailActivity;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.receivers.NotificationAlarmReceiver;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.ISO8601Date;
 import org.fossasia.openevent.widget.BookmarkWidgetProvider;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -124,6 +130,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
                     dbSingleton.deleteBookmarks(session.getId());
                     holder.sessionImage.setImageResource(R.drawable.ic_bookmark_outline_black_24dp);
                 } else {
+                    createNotification(session);
                     dbSingleton.addBookmarks(session.getId());
                     holder.sessionImage.setImageResource(R.drawable.ic_bookmark_grey600_24dp);
                 }
@@ -196,6 +203,27 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
             ButterKnife.bind(this, itemView);
         }
 
+    }
+    public void createNotification(Session session) {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(ISO8601Date.getTimeZoneDate(ISO8601Date.getDateObject(session.getStartTime())));
+
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        Integer pref_result = Integer.parseInt(sharedPrefs.getString("notification", "10 mins").substring(0, 2).trim());
+        if (pref_result.equals(1)) {
+            calendar.add(Calendar.HOUR, -1);
+        } else if (pref_result.equals(12)) {
+            calendar.add(Calendar.HOUR, -12);
+        } else {
+            calendar.add(Calendar.MINUTE, -10);
+        }
+        Intent myIntent = new Intent(context, NotificationAlarmReceiver.class);
+        myIntent.putExtra(ConstantStrings.SESSION, session.getId());
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC, calendar.getTimeInMillis(), pendingIntent);
     }
 
 }
