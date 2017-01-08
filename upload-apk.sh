@@ -7,12 +7,12 @@ cd $HOME
   git config --global user.email "noreply@travis.com"
   git config --global user.name "Travis-CI"
   
-git clone --quiet --branch=development https://the-dagger:$GITHUB_API_KEY@github.com/fossasia/open-event-android  development > /dev/null
-cd development
-cp -Rf $HOME/daily/*  sample-apk/
+git clone --quiet --branch=apk https://the-dagger:$GITHUB_API_KEY@github.com/fossasia/open-event-android  apk > /dev/null
+cd apk
+cp -Rf $HOME/daily/*  ./
 git add -f .
-  # git remote rm origin
-  # git remote add origin https://the-dagger:$GITHUB_API_KEY@github.com/the-dagger/open-event-android
-  git add -f .
-  git commit -m "Update Sample Apk [skip ci]"
-  git push origin development > /dev/null
+# git remote rm origin
+# git remote add origin https://the-dagger:$GITHUB_API_KEY@github.com/the-dagger/open-event-android
+git add -f .
+git commit -m "Update Sample Apk"
+git push origin apk > /dev/null
