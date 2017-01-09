@@ -9,8 +9,8 @@ import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Sponsor;
 import org.fossasia.openevent.data.Version;
-import org.fossasia.openevent.data.parsingextras.Microlocation;
-import org.fossasia.openevent.data.parsingextras.Track;
+import org.fossasia.openevent.data.parsingExtra.Microlocation;
+import org.fossasia.openevent.data.parsingExtra.Track;
 
 import java.text.ParseException;
 import java.util.ArrayList;
