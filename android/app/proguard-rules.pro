@@ -18,16 +18,6 @@
 
 -keep class butterknife.** { *; }
 -dontwarn butterknife.internal.**
--keep class com.parse.*{ *; }
--dontwarn com.parse.**
--keep class com.squareup.* { *; }
--dontwarn com.squareup.**
--keep class java.nio.* { *; }
--dontwarn java.nio.**
--keep class retrofit2.* { *; }
--dontwarn retrofit2.**
--keep  class org.codehaus.mojo.animal_sniffer.* { *; }
--dontwarn  org.codehaus.mojo.animal_sniffer.**
 -keep class **$$ViewBinder { *; }
 
 -keepclasseswithmembernames class * {
