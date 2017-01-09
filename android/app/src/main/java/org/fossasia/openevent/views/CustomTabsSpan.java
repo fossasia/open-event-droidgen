@@ -21,7 +21,7 @@ public class CustomTabsSpan extends ClickableSpan {
     private Context context;
     private Activity activity;
     private final String mURL;
-    CustomTabsSession cTSession;
+    private CustomTabsSession cTSession;
 
     public CustomTabsSpan(String url, Context context, Activity activity, CustomTabsSession cTSession) {
         super();

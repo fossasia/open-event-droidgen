@@ -274,7 +274,7 @@ public class MainActivity extends BaseActivity {
             }
             @Override
             public void onServiceDisconnected(ComponentName name) {
-
+                //initially left empty
             }
         };
         customTabsSupported = bindService(customTabIntent, customTabsServiceConnection, Context.BIND_AUTO_CREATE);

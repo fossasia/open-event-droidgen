@@ -52,9 +52,6 @@ public class SponsorsFragment extends BaseFragment {
     private Toolbar toolbar;
     private AppBarLayout.LayoutParams layoutParams;
     private int SCROLL_OFF = 0;
-    private CustomTabsServiceConnection customTabsServiceConnection;
-    private CustomTabsClient customTabsClient;
-    private boolean customTabsSupported;
 
     @Nullable
     @Override
