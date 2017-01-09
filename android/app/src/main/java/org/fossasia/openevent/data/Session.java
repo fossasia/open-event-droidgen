@@ -4,8 +4,8 @@ import android.database.DatabaseUtils;
 
 import com.google.gson.annotations.SerializedName;
 
-import org.fossasia.openevent.data.parsingextras.Microlocation;
-import org.fossasia.openevent.data.parsingextras.Track;
+import org.fossasia.openevent.data.parsingExtra.Microlocation;
+import org.fossasia.openevent.data.parsingExtra.Track;
 import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.utils.StringUtils;
 
@@ -151,7 +151,7 @@ public class Session {
         this.microlocation = microlocation;
     }
 
-    public org.fossasia.openevent.data.parsingextras.Track getTrack() {
+    public org.fossasia.openevent.data.parsingExtra.Track getTrack() {
         return track;
     }
 
