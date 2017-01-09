@@ -445,6 +445,16 @@ public class MainActivity extends BaseActivity {
                     }
                 });
                 break;
+            case R.id.nav_share:
+                final Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                smoothActionBarToggle.runWhenIdle(new Runnable() {
+                    @Override
+                    public void run() {
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+                    }
+                });
+                break;
             case R.id.nav_about:
                 AlertDialog welcomeAlert =  DialogFactory.createSimpleOkErrorDialog(this, String.format("%1$s",
                         getString(R.string.app_name)),
