@@ -11,8 +11,6 @@ import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
@@ -74,9 +72,6 @@ public class OpenEventApp extends Application {
         super.onCreate();
         handler = new Handler(Looper.getMainLooper());
         OpenEventApp.context = getApplicationContext();
-
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        AppEventsLogger.activateApp(this);
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getAppContext());
         sDefSystemLanguage = Locale.getDefault().getDisplayLanguage();
