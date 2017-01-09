@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">OpenEvent</string>
+
+    <string name="title_section_tracks">المسارات</string>
+    <string name="title_section_speakerlist">المتحدثين</string>
+    <string name="title_section_location">الاماكن</string>
+
+    <!-- Main menu_speakers -->
+    <string name="menu_tracks">المسارات</string>
+    <string name="menu_bookmarks">المفضلات</string>
+    <string name="menu_speakers">المتحدثين</string>
+    <string name="menu_sponsor">الرعاة</string>
+    <string name="menu_map">الخريطة</string>
+    <string name="menu_locations">الاماكن</string>
+    <string name="menu_settings">الاعدادات</string>
+    <string name="menu_about">معلومات عنا</string>
+    <string name="session">تفاصيل المحاضرة</string>
+    <string name="menu_schedule" translatable="false">الجدول</string>
+
+
+    <!--Navigation Drawer-->
+    <string name="navigation_drawer_open">فتح درج التنقل</string>
+    <string name="navigation_drawer_close">قفل درج التنقل</string>
+
+    <string name="action_settings">الاعدادات</string>
+
+    <!--Settings-->
+    <string name="settings_mode_download">حمل التحديثات عبر الواي فاي فقط</string>
+    <string name="summary_mode_download">اذا قمت بتشغيل هذا فالتطبيق لن يستخدم باقة الانترنت لتحديث الجدول</string>
+    <string name="download_mode_key">وضع_الانترنت</string>
+
+
+    <string name="settings_mode_notification"> وضع الاشعارات</string>
+    <string name="default_mode_notification">10 دقائق</string>
+    <string name="notification_key">اشعار</string>
+
+    <string name="settings_mode_timezone"> اظهر التوقيت االمحلي</string>
+    <string name="summary_mode_timezone">استخدم توقيتك المحلي بدلا من توقيت المؤتمر المحلي</string>
+    <string name="timezone_mode_key">وضع التوقيت</string>
+
+    <string name="language_preferences">تفضيلات اللغة</string>
+    <string name="change_language">تغيير اللغة الخاصة بك</string>
+    <string name="language_key">تغيير_اللغة</string>
+    <string name="default_mode_language">الانجليزية</string>
+
+
+    <!--Social-->
+    <string name="linkedin" translatable="false">linkedin</string>
+    <string name="twitter" translatable="false">twitter</string>
+    <string name="fb" translatable="false">fb</string>
+    <string name="github" translatable="false">github</string>
+
+    <!--Menu Titles-->
+    <string name="search">البحث</string>
+    <string name="share">المشاركة</string>
+
+
+    <!--Search Titles-->
+    <string name="search_hint_tracks"> البحث عن المسارات</string>
+    <string name="refresh_failed">لا يمكن إعادة تحميل</string>
+    <string name="download_failed">التحميل فشل</string>
+    <string name="download_complete">تم التحميل</string>
+    <string name="share_links">مشاركة الرابط</string>
+    <string name="time_not_specified">التوقيت غير محدد</string>
+
+    <!--Error Titles-->
+    <string name="net_unavailable">الشبكة غير متاحة</string>
+    <string name="turn_on">قم بتشغيل الواي فاي او باقة الانترنت من الاعدادات</string>
+    <string name="error">خطأ</string>
+
+    <string name="empty_list">لا مفضلات متوفرة</string>
+    <string name="bullet">"•"</string>
+    <string name="bookmarks">المفضلات</string>
+
+    <!--Speaker-->
+    <string name="subject">صفحة المتحدث</string>
+    <string name="message_1"> سيتكلم في </string>
+    <string name="message_2"> عن: </string>
+    <string name="message_3"> للمزيد من المعلومات تفقد هذا التطبيق على متجر جوجل بلاي: </string>
+    <string name="fmt_floor">"الدور : "</string>
+    <string name="noBookmark">ليس هناك محاضرات مفضلة بعد !!</string>
+
+    <!--About us text-->
+    <string name="about_text">برمجة بواسطة <a href="https://github.com/fossasia/open-event-android/graphs/contributors">FOSSASIA مساهمين</a>.
+\n
+\nمرخصة تحت ال GNU General Public License v3. المصدر متاح على <a href="https://github.com/fossasia/open-event-android">جيت هاب</a>.
+\n
+\nيرجى الابلاغ عن كل الاخطاء في  <a href="https://github.com/fossasia/open-event-android/issues/new">مستودع اخطاء جيت هاب</a>.
+\n
+    </string>
+    <string name="invalid_url">رابط غير صحيح</string>
+    <string name="dialog_error_title">خطأ</string>
+    <string name="website">صفحة</string>
+    <string name="menu_speaker_sort">ترتيب</string>
+    <string name="dialog_sort_title">ترتيب حسب</string>
+
+    <!--Speaker Sort Dialog text-->
+    <string name="dialog_sort_organisation">المؤسسة</string>
+    <string name="dialog_sort_country">الدولة</string>
+    <string name="dialog_sort_name">اسم المتحدث</string>
+
+    <!--Session Sort Dialog text-->
+    <string name="dialog_sort_tracks">المسارات</string>
+    <string name="dialog_sort_sessions">وقت البدأ</string>
+
+
+    <string name="launcher_icon">ايقونة التشغيل</string>
+    <string name="sponsor_image">صورة الراعي</string>
+    <string name="header_image">الصورة الرئيسية</string>
+    <string name="speaker_image">صورة المتحدث</string>
+    <string name="logo_widget">قطعة الشعار</string>
+    <string name="backdrop_image">خلفية الصورة</string>
+    <string name="linkedin_icon">ايقونة لينكد ان</string>
+    <string name="twitter_icon">ايقونة تويتر</string>
+    <string name="facebook_icon">ايقونة فيسبوك</string>
+    <string name="github_icon">ايقونة جيت هاب</string>
+    <string name="web_icon">ايقونة الويب</string>
+    <string name="download_assets">هل ترغب في تحديث الجدول الان؟</string>
+    <string name="internet_preference_warning">الواي فاي غير متاح, هل تريد اظهار الجدول الحالي؟ </string>
+    <string name="yes">نعم</string>
+    <string name="no">لا</string>
+    <string name="noSessions">ليس هناك محاضرات بعد!</string>
+    <string name="noMicrolocations">ليس هناك اماكن صغيرة الان!</string>
+    <string name="noSchedule">ليس هناك جدول بعد!</string>
+    <string name="noSpeakers">ليس هناك متحدثين بعد!</string>
+    <string name="noSponsors">ليس هناك رعاة بعد!</string>
+    <string name="noTracks">ليس هناك مسارات بعد!</string>
+    <string name="charges_warning">قد تحاسب على رسوم الانترنت</string>
+    <string name="tracks">المسار:</string>
+    <string name="date">التاريخ:</string>
+    <string name="start_time">وقت البدأ :</string>
+    <string name="end_time">وقت الانتهاء:</string>
+    <string name="location">المكان:</string>
+    <string name="speakers">المتحدث:</string>
+
+    <!-- Sponsor types strings-->
+    <string name="platinum">بلاتين</string>
+    <string name="diamond">الماس</string>
+    <string name="gold">ذهب</string>
+    <string name="silver">فضا</string>
+    <string name="bronze">برونز</string>
+
+    <!-- Sponsor types int strings-->
+    <string name="platinumInt">1</string>
+    <string name="diamondInt">2</string>
+    <string name="goldInt">3</string>
+    <string name="silverInt">4</string>
+    <string name="bronzeInt">5</string>
+
+    <string name="display_offline_schedule">ليس هناك انترنت, جاري اظهار الجدول القديم</string>
+    <string name="retry_download">اعادة المحاولة</string>
+    <string name="permissions_given">تم اعطاء التصاريح!</string>
+    <string name="storage_permission_rationale">!تصاريح التخزين لازمة لحفظ بيانات الخريطة للاستخدام دون الاتصال بالانترنت</string>
+    <string name="permissions_insufficient">الذهاب الى الاعدادات وقم باعطاء التصاريح</string>
+    <string name="press_back_again">اضغط مرة اخرى للخروج.</string>
+
+    <!--SnackBar strings-->
+    <string name="waiting_for_network">في انتظار الشبكة</string>
+    <string name="snackbar_refresh_action">اعادة التحميل</string>
+
+    <!--Notification strings-->
+    <string name="check_connection">تحقق من الاتصال</string>
+    <string name="open_your_web_brower_to_finish_connection_setting">افتح المتصفح الخاص بك للانتهاء من اعدادات الاتصال</string>
+    <string name="removed_bookmark">تم ازالة المفضلة</string>
+    <string name="added_bookmark">تم اضافة المفضلة</string>
+</resources>
