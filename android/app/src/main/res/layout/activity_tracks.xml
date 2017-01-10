@@ -30,6 +30,7 @@
 
     </RelativeLayout>
 
+
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
@@ -43,7 +44,7 @@
             android:layout_height="?attr/actionBarSize"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/PopupOverlay" />
-
     </android.support.design.widget.AppBarLayout>
+
 
 </android.support.design.widget.CoordinatorLayout>

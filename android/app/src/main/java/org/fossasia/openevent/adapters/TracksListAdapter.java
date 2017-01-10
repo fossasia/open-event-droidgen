@@ -2,11 +2,14 @@ package org.fossasia.openevent.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.fossasia.openevent.R;
@@ -63,6 +66,25 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.Re
         this.context = context;
     }
 
+    public static class RecyclerViewHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.track_title)
+        TextView trackTitle;
+
+        @BindView(R.id.track_description)
+        TextView trackDescription;
+
+        @BindView(R.id.track_card)
+        LinearLayout item_view;
+
+        public RecyclerViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+
+        }
+
+    }
+
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
@@ -76,14 +98,15 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.Re
 
         holder.trackTitle.setText(currentTrack.getName());
         holder.trackDescription.setText(currentTrack.getDescription());
-
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        Log.d("Hey","Ho");
+        holder.item_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String trackTitle = currentTrack.getName();
                 Intent intent = new Intent(context, TracksActivity.class);
                 intent.putExtra(ConstantStrings.TRACK, trackTitle);
                 context.startActivity(intent);
+                Log.d("Hey","Hii");
             }
         });
     }
@@ -99,18 +122,5 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.Re
         return filter;
     }
 
-    protected class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.track_title)
-        TextView trackTitle;
-
-        @BindView(R.id.track_description)
-        TextView trackDescription;
-
-        public RecyclerViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-        }
-
-    }
 }
