@@ -2,9 +2,7 @@ package org.fossasia.openevent.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -98,7 +96,7 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.Re
 
         holder.trackTitle.setText(currentTrack.getName());
         holder.trackDescription.setText(currentTrack.getDescription());
-        Log.d("Hey","Ho");
+
         holder.item_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,7 +104,6 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.Re
                 Intent intent = new Intent(context, TracksActivity.class);
                 intent.putExtra(ConstantStrings.TRACK, trackTitle);
                 context.startActivity(intent);
-                Log.d("Hey","Hii");
             }
         });
     }
