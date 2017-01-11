@@ -2,12 +2,12 @@ package org.fossasia.openevent.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.fossasia.openevent.R;
@@ -73,7 +73,7 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.Re
         TextView trackDescription;
 
         @BindView(R.id.track_card)
-        LinearLayout item_view;
+        CardView item_view;
 
         public RecyclerViewHolder(View itemView) {
             super(itemView);
