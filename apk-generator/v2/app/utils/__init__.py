@@ -5,6 +5,16 @@ from tempfile import mkstemp
 import errno
 
 
+def clear_dir(folder):
+    for the_file in os.listdir(folder):
+        file_path = os.path.join(folder, the_file)
+        try:
+            if os.path.isfile(file_path):
+                os.unlink(file_path)
+        except Exception as e:
+            print(e)
+
+
 def replace(file_path, pattern, subst):
     """
     Replace a string in a file
