@@ -17,6 +17,8 @@ public class ConstantStrings {
 
     public static final String BASE_API_URL = "BASE_API_URL";
 
+    public static final String ID = "ID";
+
 
     public static final String EVENT_DAY = "EVENT_DAY";
 

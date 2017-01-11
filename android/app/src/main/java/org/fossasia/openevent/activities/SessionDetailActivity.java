@@ -47,7 +47,7 @@ import timber.log.Timber;
  * User: MananWason
  * Date: 08-07-2015
  */
-public class SessionDetailActivity extends BaseActivity {
+public class  SessionDetailActivity extends BaseActivity {
     private static final String TAG = "Session Detail";
 
     private SpeakersListAdapter adapter;
@@ -83,7 +83,7 @@ public class SessionDetailActivity extends BaseActivity {
     protected FloatingActionButton fabSessionBookmark;
 
     private String trackName, title;
-
+    private int id;
     private Spanned result;
 
     @Override
@@ -95,11 +95,15 @@ public class SessionDetailActivity extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         title = getIntent().getStringExtra(ConstantStrings.SESSION);
         trackName = getIntent().getStringExtra(ConstantStrings.TRACK);
+        id = getIntent().getIntExtra(ConstantStrings.ID,0);
         Timber.tag(TAG).d(title);
 
         final List<Speaker> speakers = dbSingleton.getSpeakersbySessionName(title);
-        session = dbSingleton.getSessionbySessionname(title);
-
+        try {
+            session = dbSingleton.getSessionById(id);
+        }catch (Exception e) {
+            session = dbSingleton.getSessionbySessionname(title);
+        }
         text_room1.setText((dbSingleton.getMicrolocationById(session.getMicrolocation().getId())).getName());
 
         text_title.setText(title);

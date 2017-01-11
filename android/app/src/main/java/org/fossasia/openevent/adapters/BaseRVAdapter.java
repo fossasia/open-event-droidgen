@@ -111,4 +111,9 @@ public abstract class BaseRVAdapter<T, V extends RecyclerView.ViewHolder> extend
         notifyItemRemoved(position);
         return speaker;
     }
+    public void removeAt(int position) {
+        dataList.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, dataList.size());
+    }
 }
