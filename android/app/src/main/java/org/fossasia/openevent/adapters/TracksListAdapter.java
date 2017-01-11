@@ -64,7 +64,7 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.Re
         this.context = context;
     }
 
-    public static class RecyclerViewHolder extends RecyclerView.ViewHolder {
+    protected class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.track_title)
         TextView trackTitle;
