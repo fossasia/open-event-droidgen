@@ -2,7 +2,9 @@ import os
 import shutil
 import uuid
 
+from app.utils import replace
 from app.utils.asset_resizer import DENSITY_TYPES
+from app.utils.assets import resize_launcher_icon, resize_background_image
 
 
 class Generator:
@@ -37,11 +39,31 @@ class Generator:
         :return: the path to the generated apk
         """
         self.prepare_source()
+        resize_launcher_icon(self.app_launcher_icon, self.app_working_dir)
+        resize_background_image(self.app_background_image, self.app_working_dir)
+        replace(os.path.abspath(self.app_working_dir + "/app/src/main/res/values/strings.xml"),
+                'OpenEvent', self.app_name)
+        replace(os.path.abspath(self.app_working_dir + "/app/src/main/res/layout/nav_header.xml"),
+                'twitter', 'background')
+        replace(os.path.abspath(self.app_working_dir + "/app/build.gradle"),
+                '"org.fossasia.openevent"', '"org.fossasia.openevent.' + self.app_name.replace(" ", "") + '"')
 
     def prepare_source(self):
+        """
+        Prepare the app-specific source based off the parent
+        :return:
+        """
         os.mkdir(self.app_working_dir)
         shutil.copytree(self.src_dir, self.app_working_dir)
         for density in DENSITY_TYPES:
             mipmap_dir = os.path.abspath(self.app_working_dir + '/app/src/main/res/mipmap-%s' % density)
             if os.path.exists(mipmap_dir):
                 shutil.rmtree(mipmap_dir, True)
+
+    def cleanup(self):
+        """
+        Clean-up after done like a good fella :)
+        :return:
+        """
+        shutil.rmtree(self.app_working_dir)
+
