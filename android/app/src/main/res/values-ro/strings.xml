@@ -1,48 +1,157 @@
 <resources>
     <string name="title_section_tracks">Trasee</string>
     <string name="title_section_speakerlist">Vorbitori</string>
-    <string name="title_section_location">Locatii</string>
+    <string name="title_section_location">Locaţii</string>
 
     <!-- Main menu_speakers -->
     <string name="menu_tracks">Trasee</string>
     <string name="menu_bookmarks">Marcaje</string>
     <string name="menu_speakers">Vorbitori</string>
     <string name="menu_sponsor">Sponsori</string>
-    <string name="menu_map">Harta</string>
-    <string name="menu_locations">Locatii</string>
-    <string name="menu_settings">Setari</string>
+    <string name="menu_map">Hartă</string>
+    <string name="menu_locations">Locaţii</string>
+    <string name="menu_settings">Setări</string>
     <string name="menu_about">Despre noi</string>
     <string name="session">Detalii sesiune</string>
 
     <!--Navigation Drawer-->
-    <string name="navigation_drawer_open">Deschide meniul de navigatie</string>
-    <string name="navigation_drawer_close">Inchide meniul de navigatie</string>
+    <string name="navigation_drawer_open">Deschide meniul de navigaţie</string>
+    <string name="navigation_drawer_close">Închide meniul de navigaţie</string>
 
-    <string name="action_settings">Setari</string>
+    <string name="action_settings">Setări</string>
 
     <!-- Speaker Fragment-->
 
     <!--Settings-->
-    <string name="settings_mode_api"> Modul API</string>
-    <string name="default_mode_api">Dezvoltator</string>
+    <string name="settings_mode_download">Descarcă actualizări numai prin WiFi</string>
+    <string name="summary_mode_download">Dacă este activat, aplicaţia nu va folosi datele mobile pentru a actualiza programul</string>
+    <string name="download_mode_key">Mod de internet</string>
 
-    <string name="settings_mode_notification"> Modul de Notificare</string>
-    <string name="default_mode_notification">10 minute inainte</string>
+
+    <string name="settings_mode_notification"> Modul de notificare</string>
+    <string name="default_mode_notification">10 minute înainte</string>
+    <string name="notification_key">Notificare</string>
+
+    <string name="settings_mode_timezone">Arată ora locală</string>
+    <string name="summary_mode_timezone">Foloseşte fusul tău orar în locul orei locale a conferinţei.</string>
+    <string name="timezone_mode_key">Mod de fus orar</string>
+
+    <string name="language_preferences">Setări ale limbii</string>
+    <string name="change_language">Schimbă limba</string>
+    <string name="language_key">Schimbă limba</string>
+    <string name="default_mode_language">Engleză</string>
 
     <!--Menu Titles-->
-    <string name="search">Cauta</string>
+    <string name="search">Caută</string>
     <string name="share">Distribuie</string>
 
     <!--Search Titles-->
-    <string name="search_hint_tracks">Cauta trasee</string>
-    <string name="refresh_failed">Nu s-a putut reincarca</string>
-    <string name="download_failed">Descarcare Esuata, Verifica Conexiunea la Internet</string>
-    <string name="download_complete">Descarcare finalizata</string>
+    <string name="search_hint_tracks">Caută trasee</string>
+    <string name="refresh_failed">Nu s-a putut reîncărca</string>
+    <string name="download_failed">Descărcare eşuată, verifică conexiunea la Internet</string>
+    <string name="download_complete">Descărcare finalizată</string>
     <string name="share_links">URL Distribuire</string>
-    <string name="time_not_specified">Timul nu a fost specificat</string>
+    <string name="time_not_specified">Timpul nu a fost specificat</string>
 
     <!--Error Titles-->
-    <string name="net_unavailable">Retea indisponibila</string>
-    <string name="turn_on">Porneste WIFI-ul sau datele din setari</string>
-    <string name="error">Erore</string>
+    <string name="net_unavailable">Reţea indisponibilă</string>
+    <string name="turn_on">Porneşte WiFi-ul sau datele din setări</string>
+    <string name="error">Eroare</string>
+
+    <string name="empty_list">Niciun marcaj disponibil</string>
+    <string name="bullet">"•"</string>
+    <string name="bookmarks">Marcaje</string>
+
+    <!--Speaker-->
+    <string name="subject">Profilul invitatului</string>
+    <string name="message_1"> vorbeşte la </string>
+    <string name="message_2"> pe subiectele: </string>
+    <string name="message_3"> Pentru mai multe informaţii, încearcă aplicaţia aceasta din Google Play Store: </string>
+    <string name="fmt_floor">"Etaj: "</string>
+    <string name="noBookmark">Nicio sesiune marcată încă !!</string>
+
+    <!--About us text-->
+    <string name="about_text">Programat de <a href="https://github.com/fossasia/open-event-android/graphs/contributors">contribuitori FOSSASIA</a>.
+\n
+\nLicenţat sub GNU General Public License v3. Codul sursă poate fi accesat pe <a href="https://github.com/fossasia/open-event-android">GitHub</a>.
+\n
+\nVă rugăm raportaţi problemele în <a href="https://github.com/fossasia/open-event-android/issues/new">Github Repository Issue Tracker</a>.
+\n
+    </string>
+    <string name="invalid_url">URL invalid</string>
+    <string name="dialog_error_title">Eroare</string>
+    <string name="website">website</string>
+    <string name="menu_speaker_sort">Sortează</string>
+    <string name="dialog_sort_title">Sortează după</string>
+
+    <!--Speaker Sort Dialog text-->
+    <string name="dialog_sort_organisation">Organizaţie</string>
+    <string name="dialog_sort_country">Ţară</string>
+    <string name="dialog_sort_name">Numele invitatului</string>
+
+    <!--Session Sort Dialog text-->
+    <string name="dialog_sort_tracks">Trasee</string>
+    <string name="dialog_sort_sessions">Data de început</string>
+
+
+    <string name="launcher_icon">Iconiţă de lansare</string>
+    <string name="sponsor_image">Imaginea sponsorului</string>
+    <string name="header_image">Imagine de antet</string>
+    <string name="speaker_image">Imaginea invitatului</string>
+    <string name="logo_widget">Logo</string>
+    <string name="backdrop_image">Imagine de fundal</string>
+    <string name="linkedin_icon">Iconiţă Linkedin</string>
+    <string name="twitter_icon">Iconiţă Twitter</string>
+    <string name="facebook_icon">Iconiţă Facebook</string>
+    <string name="github_icon">Iconiţă Github</string>
+    <string name="web_icon">Iconiţă Web</string>
+    <string name="download_assets">Doreşti să actualizezi programul la cea mai nouă versiune?</string>
+    <string name="internet_preference_warning">Wifi indisponibil, doreşti afişarea programului offline?</string>
+    <string name="yes">Da</string>
+    <string name="no">Nu</string>
+    <string name="noSessions">Nicio sesiune încă!</string>
+    <string name="noMicrolocations">Nicio microlocaţie încă!</string>
+    <string name="noSchedule">Niciun program încă!</string>
+    <string name="noSpeakers">Niciun invitat încă!</string>
+    <string name="noSponsors">Niciun sponsor încă!</string>
+    <string name="noTracks">Niciun traseu încă!</string>
+    <string name="charges_warning">Se pot aplica costuri suplimentare</string>
+    <string name="tracks">Traseu:</string>
+    <string name="date">Data:</string>
+    <string name="start_time">Data de început:</string>
+    <string name="end_time">Data de sfârşit:</string>
+    <string name="location">Locaţie:</string>
+    <string name="speakers">Invitat:</string>
+
+    <!-- Sponsor types strings-->
+    <string name="platinum">Platină</string>
+    <string name="diamond">Diamant</string>
+    <string name="gold">Aur</string>
+    <string name="silver">Argint</string>
+    <string name="bronze">Bronz</string>
+
+    <!-- Sponsor types int strings-->
+    <string name="platinumInt">1</string>
+    <string name="diamondInt">2</string>
+    <string name="goldInt">3</string>
+    <string name="silverInt">4</string>
+    <string name="bronzeInt">5</string>
+
+    <string name="display_offline_schedule">Nu există conexiune la Internet, se afişează programul vechi</string>
+    <string name="retry_download">Reîncearcă</string>
+    <string name="permissions_given">Permisiune acordată!</string>
+    <string name="storage_permission_rationale">Permisiune pentru stocare este necesară pentru a salva harta pentru a fi accesată în modul offline.</string>
+    <string name="permissions_insufficient">Mergi la setări şi acordă permisiuni!</string>
+    <string name="press_back_again">Apasă din nou pentru a ieşi.</string>
+
+    <!--SnackBar strings-->
+    <string name="waiting_for_network">Se aşteaptă reţeaua</string>
+    <string name="snackbar_refresh_action">Reîncarcă</string>
+
+    <!--Notification strings-->
+    <string name="check_connection">Verifică conexiunea</string>
+    <string name="open_your_web_brower_to_finish_connection_setting">Deschide un browser web pentru a finaliza opţiunea de conectare</string>
+    <string name="removed_bookmark">Marcaj eliminat</string>
+    <string name="added_bookmark">Marcaj adăugat</string>
+
 </resources>
