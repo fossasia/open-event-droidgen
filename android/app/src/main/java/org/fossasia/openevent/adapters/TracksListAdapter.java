@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.fossasia.openevent.R;
@@ -73,7 +74,7 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.Re
         TextView trackDescription;
 
         @BindView(R.id.track_card)
-        CardView item_view;
+        LinearLayout item_view;
 
         public RecyclerViewHolder(View itemView) {
             super(itemView);

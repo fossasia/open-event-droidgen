@@ -19,6 +19,7 @@
             style="@style/WindowBackground"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@android:color/white"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         <android.support.design.widget.AppBarLayout
@@ -36,7 +37,6 @@
                 app:popupTheme="@style/PopupOverlay" />
 
         </android.support.design.widget.AppBarLayout>
-
 
         <ProgressBar
             android:id="@+id/progress"
