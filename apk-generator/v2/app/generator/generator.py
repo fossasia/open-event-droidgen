@@ -9,7 +9,7 @@ import uuid
 import requests
 import validators
 
-from app.utils import replace, clear_dir, unzip
+from app.utils import replace, clear_dir, unzip, get_build_tools_version
 from app.utils.asset_resizer import DENSITY_TYPES
 from app.utils.assets import resize_launcher_icon, resize_background_image
 from app.utils.notification import Notification
@@ -74,8 +74,8 @@ class Generator:
         self.app_name = self.event_name
         self.creator_email = creator_email
 
-        background_image = event_info['background_image'].trim() if event_info['background_image'] else ''
-        logo = event_info['logo'].trim() if event_info['logo'] else ''
+        background_image = event_info['background_image'].strip() if event_info['background_image'] else ''
+        logo = event_info['logo'].strip() if event_info['logo'] else ''
         if background_image != '':
             if background_image.startswith("/"):
                 self.app_background_image = self.get_temp_asset_path(background_image)
@@ -118,9 +118,12 @@ class Generator:
                 if os.path.isfile(os.path.join(self.app_temp_assets, f)):
                     shutil.copyfile(self.app_temp_assets + f, self.get_path("app/src/main/assets/" + f))
 
-            subprocess.check_call([os.path.abspath(config['BASE_DIR'] + '/scripts/build_apk.sh')],
+            build_tools_version = get_build_tools_version(self.get_path('app/build.gradle'))
+            build_tools_path = os.path.abspath(os.environ.get('ANDROID_HOME') + '/build-tools/' + build_tools_version)
+            subprocess.check_call([os.path.abspath(config['BASE_DIR'] + '/scripts/build_apk.sh'), build_tools_path],
                                   cwd=self.app_working_dir,
                                   env=os.environ.copy())
+            
             self.apk_path = self.get_path('release.apk')
             self.notify()
         except Exception as e:

@@ -15,6 +15,15 @@ def clear_dir(folder):
             print(e)
 
 
+def get_build_tools_version(build_gradle_path):
+    version = None
+    with open(build_gradle_path) as f:
+        for line in f:
+            if "buildToolsVersion" in line:
+                version = line.replace('buildToolsVersion', '').replace('"', '').strip()
+    return version
+
+
 def replace(file_path, pattern, subst):
     """
     Replace a string in a file
