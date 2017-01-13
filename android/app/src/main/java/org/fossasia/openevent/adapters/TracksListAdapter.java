@@ -2,7 +2,6 @@ package org.fossasia.openevent.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -119,6 +118,4 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.Re
     public Filter getFilter() {
         return filter;
     }
-
-
 }
