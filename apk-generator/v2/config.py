@@ -12,10 +12,11 @@ class Config:
     BASE_DIR = basedir
     MINIFY_PAGE = True
     STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
-    SERVER_NAME = os.getenv('SERVER_NAME')
+    SERVER_NAME = os.getenv('SERVER_NAME', 'localhost')
     ANDROID_HOME = os.getenv('ANDROID_HOME')
     FORCE_SSL = os.getenv('FORCE_SSL', 'no') == 'yes'
     STATIC_URL = '/static/'
+    APP_SOURCE_DIR = os.path.abspath(basedir + '/../../android/')
 
     def __init__(self):
         pass

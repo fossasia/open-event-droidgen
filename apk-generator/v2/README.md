@@ -1,0 +1,43 @@
+## App Generator v2
+
+#### Technology Stack
+- Flask
+- Celery
+- JDK 8
+- Android SDK
+- Redis
+
+#### Required Env Variables
+- `ANDROID_HOME` - Path to the android SDK root
+- `GENERATOR_WORKING_DIR` - Path to a writable directory which the generator would use as a temp working directory
+- `KEYSTORE_PATH` - Path to the key store file with should be used to sign the application package (apk)
+- `KEYSTORE_PASSWORD` - The password to access the key store
+- `KEY_ALIAS` - The alias of the key to use
+
+#### Installing & Running the server
+
+
+##### Installing Redis
+- If you do not have Redis already, you can install by
+```
+# Download source
+wget http://download.redis.io/releases/redis-stable.tar.gz
+# Unzip source
+tar xzf redis-stable.tar.gz
+cd redis-stable
+# Compile source
+make
+# Install redis
+sudo make install
+# Start redis server in the background
+redis-server &
+```
+
+All of the following commands are to be executed from within the `apk-generator/v2` directory. So make sure you cd into that directory first.
+
+##### Installation
+- `sudo -H pip install -r requirements.txt` to install all requirements
+
+##### Running
+- `celery worker -A app.celery &` to start the celery worker in the background
+- `gunicorn app:app --worker-class eventlet -w 1` to start the app server

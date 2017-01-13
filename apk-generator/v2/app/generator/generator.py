@@ -20,11 +20,11 @@ class Generator:
     The app generator. This is where it all begins :)
     """
 
-    def __init__(self, config, working_dir, src_dir):
+    def __init__(self, config, via_api=False):
         self.config = config
         self.identifier = str(uuid.uuid4())
-        self.working_dir = working_dir
-        self.src_dir = src_dir
+        self.working_dir = config['WORKING_DIR']
+        self.src_dir = config['APP_SOURCE_DIR']
         self.creator_email = 'john.doe@example.com'
         self.event_name = 'Open Event'
         self.app_name = self.event_name
@@ -35,6 +35,7 @@ class Generator:
         self.app_temp_assets = os.path.abspath(self.working_dir + '/' + self.identifier + '/assets-src/')
         self.api_link = ''
         self.apk_path = ''
+        self.via_api = via_api
 
     def get_path(self, relative_path):
         """
@@ -89,7 +90,7 @@ class Generator:
                 self.app_launcher_icon = self.get_temp_asset_path('logo.png')
                 urllib.urlretrieve(logo, self.app_launcher_icon)
 
-    def generate(self):
+    def generate(self, should_notify=True):
         """
         Generate the app
         :return: the path to the generated apk
@@ -125,9 +126,13 @@ class Generator:
                                   env=os.environ.copy())
 
             self.apk_path = self.get_path('release.apk')
-            self.notify()
+            if should_notify:
+                self.notify()
+            return self.apk_path
         except Exception as e:
-            self.notify(False, e)
+            if should_notify:
+                self.notify(False, e)
+            return None
 
     def prepare_source(self):
         """
@@ -166,7 +171,8 @@ class Generator:
                         'And apk file has been attached along with this email.<br><br>'
                         'Thanks,<br>'
                         'Open Event App Generator' % self.event_name,
-                file_attachment=apk_path
+                file_attachment=apk_path,
+                via_api=self.via_api
             )
         else:
             Notification.send(
@@ -178,5 +184,6 @@ class Generator:
                         '<code>%s</code><br><br>'
                         'Thanks,<br>'
                         'Open Event App Generator' % (self.event_name, str(error) if error else ''),
-                file_attachment=apk_path
+                file_attachment=apk_path,
+                via_api=self.via_api
             )

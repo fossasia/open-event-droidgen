@@ -4,6 +4,8 @@ import os
 from tempfile import mkstemp
 import errno
 
+import bleach
+
 
 def clear_dir(folder):
     """
@@ -76,3 +78,7 @@ def unzip(source_file, target_dir):
                 continue
             with open(target_path, 'wb') as outfile, zip_file.open(member) as infile:
                 shutil.copyfileobj(infile, outfile)
+
+
+def strip_tags(html):
+    return bleach.clean(html, tags=[], attributes={}, styles=[], strip=True)

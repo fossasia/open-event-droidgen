@@ -99,9 +99,23 @@ def make_celery(_app):
     _celery.Task = ContextTask
     return _celery
 
+celery = make_celery(current_app)
+
+
+# http://stackoverflow.com/questions/9824172/find-out-whether-celery-task-exists
+@after_task_publish.connect
+def update_sent_state(sender=None, body=None, **kwargs):
+    # the task may not exist if sent using `send_task` which
+    # sends tasks by name, so fall back to the default result backend
+    # if that is the case.
+    task = celery.tasks.get(sender)
+    backend = task.backend if task else celery.backend
+    backend.store_result(body['id'], None, 'WAITING')
+
+
 # register celery tasks. removing them will cause the tasks to not function. so don't remove them
 # it is important to register them after celery is defined to resolve circular imports
-# import tasks
+import tasks
 
 
 # http://stackoverflow.com/questions/9824172/find-out-whether-celery-task-exists
