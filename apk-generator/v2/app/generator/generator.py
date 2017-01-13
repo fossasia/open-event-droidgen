@@ -10,8 +10,8 @@ import requests
 import validators
 
 from app.utils import replace, clear_dir, unzip, get_build_tools_version
-from app.utils.asset_resizer import DENSITY_TYPES
 from app.utils.assets import resize_launcher_icon, resize_background_image
+from app.utils.libs.asset_resizer import DENSITY_TYPES
 from app.utils.notification import Notification
 
 
@@ -123,7 +123,7 @@ class Generator:
             subprocess.check_call([os.path.abspath(config['BASE_DIR'] + '/scripts/build_apk.sh'), build_tools_path],
                                   cwd=self.app_working_dir,
                                   env=os.environ.copy())
-            
+
             self.apk_path = self.get_path('release.apk')
             self.notify()
         except Exception as e:

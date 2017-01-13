@@ -6,6 +6,11 @@ import errno
 
 
 def clear_dir(folder):
+    """
+    Remove all files in a directory but leave the directory itself untouched. (non-recursive)
+    :param folder:
+    :return:
+    """
     for the_file in os.listdir(folder):
         file_path = os.path.join(folder, the_file)
         try:
@@ -16,11 +21,16 @@ def clear_dir(folder):
 
 
 def get_build_tools_version(build_gradle_path):
+    """
+    Get the build tools version from a gradle file
+    :param build_gradle_path:
+    :return:
+    """
     version = None
     with open(build_gradle_path) as f:
         for line in f:
             if "buildToolsVersion" in line:
-                version = line.replace('buildToolsVersion', '').replace('"', '').strip()
+                version = line.replace('buildToolsVersion', '').replace('"', '').replace('\'', '').strip()
     return version
 
 

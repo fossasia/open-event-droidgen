@@ -2,7 +2,7 @@ import os
 
 from PIL import Image
 
-from app.utils.asset_resizer import AssetResizer
+from app.utils.libs.asset_resizer import AssetResizer
 
 
 def rename_file(file_path, new_name):

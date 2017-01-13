@@ -1,0 +1,76 @@
+<html>
+
+<head>
+    <title>Apk Generator</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,100' rel='stylesheet' type='text/css'>
+    <link href="css/main.css" rel="stylesheet">
+</head>
+
+<body>
+<div class="container">
+    <br>
+    <br>
+    <form id="form" enctype="multipart/form-data"
+          class="col-md-offset-4 col-xs-offset-2 col-xs-8 col-md-4 form-group generator_form">
+        <label for="Email">Email</label>
+        <input type="email" class="form-control" id="email" name="email">
+        <br>
+        <label> Choose your data source </label>
+        <ul style="list-style-type:none">
+            <li>
+                <input type="radio" name="datasource" value="jsonupload"> Upload your own JSON files </input>
+            </li>
+            <li>
+                <input type="radio" name="datasource" value="eventapi"> API endpoint of event on OpenEvent </input>
+            </li>
+        </ul>
+        <br>
+        <section id="eventapi-input" style="display:none;">
+            <label for="apiendpoint">Link to Open Event API endpoint</label>
+            <input type="url" class="form-control" id="Api_Link" name="Api_Link">
+        </section>
+        <br>
+        <section id="jsonupload-input" style="display:none;">
+            <label for="apiendpoint">Zip file containing resources for the event</label>
+            <input accept=".zip" type="file" name="uploadZip" id="uploadZip" class="form-control"/>
+            <br>
+        </section>
+        <br>
+        <input type="hidden" name="assetmode" value="download">
+        <section>
+            <div class="progress" style="display:none;">
+                <div class="progress-bar" role="progressbar" id="upload-progress" style="width:0%; height: 20px;">
+                    <span id="upload-progress-val">0%</span>
+                </div>
+            </div>
+        </section>
+        <br>
+        <div id="status"></div>
+        <br>
+        <tr>
+            <br>
+            <td colspan="5" style="text-align:center">
+                <button id="submit" class="download btn btn-default" type="submit">GENERATE ANDROID APP</button>
+            </td>
+            <br>
+        </tr>
+        <tr>
+            <br>
+            <td colspan="5" style="text-align:center">
+                <button id="download" disabled class="download btn btn-default" type="button">DOWNLOAD</button>
+            </td>
+            <br>
+        </tr>
+        </table>
+    </form>
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+    <script src="main.js"></script>
+</div>
+</body>
+
+</html>

@@ -6,3 +6,5 @@
 **/.idea/**
 **/*.iml
 temp
+.pyc
+*.pyc

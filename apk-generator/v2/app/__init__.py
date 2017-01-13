@@ -1,3 +1,12 @@
+# Ignore ExtDeprecationWarnings for Flask 0.11 - see http://stackoverflow.com/a/38080580
+import warnings
+
+from flask.exthook import ExtDeprecationWarning
+
+from app.views import views
+
+warnings.simplefilter('ignore', ExtDeprecationWarning)
+
 import os
 
 import logging
@@ -56,6 +65,7 @@ def create_app():
     app.config['CELERY_BROKER_URL'] = os.environ.get('REDIS_URL', 'redis://localhost:6379/0')
     app.config['CELERY_RESULT_BACKEND'] = app.config['CELERY_BROKER_URL']
     HTMLMIN(app)
+    app.register_blueprint(views)
     return app
 
 
@@ -91,7 +101,7 @@ def make_celery(_app):
 
 # register celery tasks. removing them will cause the tasks to not function. so don't remove them
 # it is important to register them after celery is defined to resolve circular imports
-import tasks
+# import tasks
 
 
 # http://stackoverflow.com/questions/9824172/find-out-whether-celery-task-exists
@@ -106,3 +116,6 @@ def update_sent_state(sender=None, body=None, **kwargs):
 
 
 celery = make_celery(current_app)
+
+if __name__ == '__main__':
+    current_app.run()
