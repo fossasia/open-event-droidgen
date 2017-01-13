@@ -5,72 +5,84 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous"/>
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,100' rel='stylesheet' type='text/css'>
-    <link href="css/main.css" rel="stylesheet">
+    <link rel="stylesheet" href="static/css/main.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/black/pace-theme-flash.min.css"
+          integrity="sha256-HsWJ70tOKcd52gFzhVX319egmTCvQbMOs0DYg3bDMi8=" crossorigin="anonymous"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"
+            integrity="sha256-EPrkNjGEmCWyazb3A/Epj+W7Qm2pB9vnfXw+X6LImPM=" crossorigin="anonymous"></script>
 </head>
 
 <body>
-<div class="container">
-    <br>
-    <br>
-    <form id="form" enctype="multipart/form-data"
-          class="col-md-offset-4 col-xs-offset-2 col-xs-8 col-md-4 form-group generator_form">
-        <label for="Email">Email</label>
-        <input type="email" class="form-control" id="email" name="email">
+<div class="container"><br><br>
+    <form class="col-md-offset-4 col-xs-offset-2 col-xs-8 col-md-4 form-group generator_form" method="post" id="form"
+          name="form" role="form" enctype="multipart/form-data">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" id="email" name="email" required>
         <br>
         <label> Choose your data source </label>
         <ul style="list-style-type:none">
             <li>
-                <input type="radio" name="datasource" value="jsonupload"> Upload your own JSON files </input>
+                <label style="font-weight: 300">
+                    <input type="radio" name="data-source" value="json_upload" required/> Upload your own JSON files
+                </label>
             </li>
             <li>
-                <input type="radio" name="datasource" value="eventapi"> API endpoint of event on OpenEvent </input>
+                <label style="font-weight: 300">
+                    <input type="radio" name="data-source" value="api_endpoint" required/> API endpoint of event on OpenEvent
+                </label>
             </li>
         </ul>
-        <br>
-        <section id="eventapi-input" style="display:none;">
-            <label for="apiendpoint">Link to Open Event API endpoint</label>
-            <input type="url" class="form-control" id="Api_Link" name="Api_Link">
+        <section id="api-endpoint-holder" style="display:none;">
+            <label for="api-endpoint">Link to Open Event API endpoint</label>
+            <input type="url" class="form-control" id="api-endpoint" name="api-endpoint"/>
         </section>
-        <br>
-        <section id="jsonupload-input" style="display:none;">
-            <label for="apiendpoint">Zip file containing resources for the event</label>
-            <input accept=".zip" type="file" name="uploadZip" id="uploadZip" class="form-control"/>
-            <br>
-        </section>
-        <br>
-        <input type="hidden" name="assetmode" value="download">
-        <section>
-            <div class="progress" style="display:none;">
-                <div class="progress-bar" role="progressbar" id="upload-progress" style="width:0%; height: 20px;">
-                    <span id="upload-progress-val">0%</span>
+
+        <section id="json-upload-holder" style="display:none;">
+            <label for="json-upload">Zip file containing resources for the event</label>
+            <input type="file" name="json-upload" id="json-upload" class="form-control" accept="application/zip"/>
+            <div class="progress" id="file-progress" style="display: none; margin-top: 5px;">
+                <div class="progress-bar" role="progressbar" id="file-progress-bar"
+                     style="width:0; height: 20px;">
+                    <span id="file-progress-val">0%</span>
                 </div>
             </div>
         </section>
-        <br>
-        <div id="status"></div>
-        <br>
-        <tr>
-            <br>
-            <td colspan="5" style="text-align:center">
-                <button id="submit" class="download btn btn-default" type="submit">GENERATE ANDROID APP</button>
-            </td>
-            <br>
-        </tr>
-        <tr>
-            <br>
-            <td colspan="5" style="text-align:center">
-                <button id="download" disabled class="download btn btn-default" type="button">DOWNLOAD</button>
-            </td>
-            <br>
-        </tr>
-        </table>
-    </form>
-    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
-    <script src="main.js"></script>
-</div>
-</body>
+        <section>
+            <div class="progress" id="generator-progress" style="display: none">
+                <div class="progress-bar" role="progressbar" id="generator-progress-bar"
+                     style="width:0; height: 20px;">
+                    <span id="generator-progress-val">0%</span>
+                </div>
+            </div>
+        </section>
+        <div style="text-align: center;">
 
+            <div class="alert alert-danger small" id="start-error">
+                An error occurred while generating the android application
+            </div>
+
+            <div id="status" style="margin-bottom:10px;"></div>
+            <br>
+            <button disabled title="Upload zip or use API mode to enable"
+                    type="submit"
+                    class="download btn btn-default"
+                    id="generate-btn">GENERATE ANDROID APP
+            </button>
+            <button type="button" class="download btn btn-default" id="download-btn" style="display: none">DOWNLOAD
+            </button>
+        </div>
+    </form>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.slim.min.js"
+        integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.15.3/axios.min.js"
+        integrity="sha256-xEofWHiBewJOBXBSH5JHWuwCYpBKOQ8KSGSVLbEVYyo=" crossorigin="anonymous"></script>
+<script src="static/js/utils.js"></script>
+<script src="static/js/main.js"></script>
+</body>
 </html>

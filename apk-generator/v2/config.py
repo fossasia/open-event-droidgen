@@ -12,7 +12,7 @@ class Config:
     BASE_DIR = basedir
     MINIFY_PAGE = True
     STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
-    SERVER_NAME = os.getenv('SERVER_NAME', 'localhost')
+    SERVER_NAME = os.getenv('SERVER_NAME', None)
     ANDROID_HOME = os.getenv('ANDROID_HOME')
     FORCE_SSL = os.getenv('FORCE_SSL', 'no') == 'yes'
     STATIC_URL = '/static/'
