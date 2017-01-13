@@ -446,13 +446,9 @@ public class MainActivity extends BaseActivity {
                 });
                 break;
             case R.id.nav_about:
-                AlertDialog.Builder builder =
-                        new AlertDialog.Builder(this);
-                builder.setTitle(String.format("%1$s", getString(R.string.app_name)));
-                builder.setMessage(getResources().getText(R.string.about_text));
-                builder.setPositiveButton(android.R.string.ok, null);
-                builder.setIcon(R.mipmap.ic_launcher);
-                AlertDialog welcomeAlert = builder.create();
+                AlertDialog welcomeAlert =  DialogFactory.createSimpleOkErrorDialog(this, String.format("%1$s",
+                        getString(R.string.app_name)),
+                        getResources().getText(R.string.about_text).toString());
                 welcomeAlert.show();
                 ((TextView) welcomeAlert.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
                 break;
