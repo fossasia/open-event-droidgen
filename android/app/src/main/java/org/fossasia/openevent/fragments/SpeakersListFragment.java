@@ -26,7 +26,6 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
-
 import com.squareup.otto.Subscribe;
 
 import org.fossasia.openevent.OpenEventApp;
@@ -194,6 +193,7 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
         searchView = (SearchView) MenuItemCompat.getActionView(item);
         searchView.setOnQueryTextListener(this);
         searchView.setQuery(searchText, false);
+
     }
 
     @Subscribe
@@ -244,6 +244,7 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
 
     @Override
     public boolean onQueryTextSubmit(String query) {
+        searchView.clearFocus();
         return true;
     }
 
