@@ -452,7 +452,7 @@ public class MainActivity extends BaseActivity {
                     shareIntent.setType("text/plain");
                     shareIntent.putExtra(Intent.EXTRA_TEXT,
                             String.format(getString(R.string.whatsapp_promo_msg_template),
-                                    getString(R.string.app_share_url)));
+                                    String.format(getString(R.string.app_share_url),getPackageName())));
                     startActivity(shareIntent);
                 }
                 catch (Exception e) {

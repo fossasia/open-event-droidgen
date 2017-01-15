@@ -169,6 +169,6 @@
     <!--Share App strings-->
     <string name="whatsapp_promo_msg_template">Hey, join me at the event! - %s</string>
     <string name="error_msg_retry">Please Retry Again</string>
-    <string name="app_share_url">https://play.google.com/store/apps/details?id=org.fossasia.openevent</string>
+    <string name="app_share_url">https://play.google.com/store/apps/details?id=%s</string>
 
 </resources>
