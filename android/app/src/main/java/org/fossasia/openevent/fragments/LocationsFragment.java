@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.animation.OvershootInterpolator;
 import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
@@ -31,6 +32,7 @@ import org.fossasia.openevent.events.MicrolocationDownloadEvent;
 import org.fossasia.openevent.events.RefreshUiEvent;
 
 import butterknife.BindView;
+import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
 
 /**
  * User: MananWason
@@ -79,7 +81,11 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
         final GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),spanCount);
         locationsRecyclerView.setLayoutManager(gridLayoutManager);
         locationsListAdapter = new LocationsListAdapter(getContext(), dbSingleton.getMicrolocationsList());
-        locationsRecyclerView.setAdapter(locationsListAdapter);
+        ScaleInAnimationAdapter alphaAdapter = new ScaleInAnimationAdapter(locationsListAdapter);
+        alphaAdapter.setInterpolator(new OvershootInterpolator());
+        alphaAdapter.setDuration(1000);
+        alphaAdapter.setFirstOnly(false);
+        locationsRecyclerView.setAdapter(alphaAdapter);
         locationsRecyclerView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
             public boolean onPreDraw() {
