@@ -96,6 +96,7 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
                 Intent intent = new Intent(context, SessionDetailActivity.class);
                 intent.putExtra(ConstantStrings.SESSION, sessionName);
                 intent.putExtra(ConstantStrings.TRACK, trackName);
+                intent.putExtra(ConstantStrings.ID, currentSession.getId());
                 context.startActivity(intent);
             }
         });
