@@ -1,9 +1,12 @@
 package org.fossasia.openevent.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Patterns;
@@ -36,10 +39,14 @@ public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, RecyclerView.Vie
     public static final int CATEGORY = 1;
 
     private Context context;
+    private Activity activity;
+    private boolean customTabsSupported;
 
-    public SponsorsListAdapter(Context context, List<Sponsor> sponsors) {
+    public SponsorsListAdapter(Context context, List<Sponsor> sponsors, Activity activity, boolean customTabsSupported) {
         super(sponsors);
         this.context = context;
+        this.activity = activity;
+        this.customTabsSupported = customTabsSupported;
     }
 
     @Override
@@ -93,8 +100,19 @@ public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, RecyclerView.Vie
                         sponsorUrl = "http://" + sponsorUrl;
                     }
                     if (Patterns.WEB_URL.matcher(sponsorUrl).matches()) {
-                        Intent sponsorsIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(sponsorUrl));
-                        context.startActivity(sponsorsIntent);
+                        if (customTabsSupported) {
+                            CustomTabsIntent.Builder customTabsBuilder = new CustomTabsIntent.Builder();
+
+                            customTabsBuilder.setToolbarColor(ContextCompat.getColor(context, R.color.color_primary));
+                            customTabsBuilder.setStartAnimations(context, R.anim.slide_in_right, R.anim.slide_out_left);
+                            customTabsBuilder.setExitAnimations(context, R.anim.slide_in_left, R.anim.slide_out_right);
+
+                            CustomTabsIntent customTabsIntent = customTabsBuilder.build();
+                            customTabsIntent.launchUrl(activity, Uri.parse(sponsorUrl));
+                        } else {
+                            Intent sponsorsIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(sponsorUrl));
+                            context.startActivity(sponsorsIntent);
+                        }
                     } else {
                         Snackbar.make(v, R.string.invalid_url, Snackbar.LENGTH_LONG).show();
                         Timber.d(sponsorUrl);

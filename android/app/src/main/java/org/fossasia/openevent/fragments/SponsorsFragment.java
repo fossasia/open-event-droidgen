@@ -67,7 +67,8 @@ public class SponsorsFragment extends BaseFragment {
                 refresh();
             }
         });
-        sponsorsListAdapter = new SponsorsListAdapter(getContext(), dbSingleton.getSponsorList());
+        sponsorsListAdapter = new SponsorsListAdapter(getContext(), dbSingleton.getSponsorList(),
+                getActivity(), getArguments().getBoolean("customTabsSupported"));
         sponsorsRecyclerView.setAdapter(sponsorsListAdapter);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         sponsorsRecyclerView.setLayoutManager(linearLayoutManager);

@@ -66,6 +66,7 @@ android {
             force "com.android.support:support-v4:${SUPPORT_LIB_VERSION}"
             force "com.android.support:recyclerview-v7:${SUPPORT_LIB_VERSION}"
             force "com.android.support:design:${SUPPORT_LIB_VERSION}"
+            force "com.android.support:customtabs:${SUPPORT_LIB_VERSION}"
         }
     }
 }
@@ -79,6 +80,7 @@ dependencies {
     compile "com.android.support:cardview-v7:${SUPPORT_LIB_VERSION}"
     compile "com.android.support:recyclerview-v7:${SUPPORT_LIB_VERSION}"
     compile "com.android.support:design:${SUPPORT_LIB_VERSION}"
+    compile "com.android.support:customtabs:${SUPPORT_LIB_VERSION}"
     compile 'com.squareup.retrofit2:retrofit:2.0.0'
     compile 'com.squareup.retrofit2:converter-gson:2.0.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.2.0'
