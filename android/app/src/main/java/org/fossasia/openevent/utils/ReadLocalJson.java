@@ -8,7 +8,7 @@ import java.io.InputStream;
 /**
  * Created by Manan Wason on 01/08/16.
  */
-public class ReadJson {
+public class ReadLocalJson {
     public final static String readJsonAsset(final String name, Context context) {
         String json = null;
 
