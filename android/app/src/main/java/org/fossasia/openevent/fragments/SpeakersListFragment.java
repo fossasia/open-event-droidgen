@@ -244,6 +244,8 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
 
     @Override
     public boolean onQueryTextSubmit(String query) {
+        //hide keyboard on search click
+        searchView.clearFocus();
         return true;
     }
 
