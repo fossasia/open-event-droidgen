@@ -120,6 +120,7 @@ public class TracksActivity extends BaseActivity implements SearchView.OnQueryTe
 
     @Override
     public boolean onQueryTextSubmit(String query) {
+        searchView.clearFocus();
         return true;
     }
 

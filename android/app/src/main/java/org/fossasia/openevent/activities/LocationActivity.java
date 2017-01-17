@@ -115,6 +115,7 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
 
     @Override
     public boolean onQueryTextSubmit(String query) {
+        searchView.clearFocus();
         return false;
     }
 
