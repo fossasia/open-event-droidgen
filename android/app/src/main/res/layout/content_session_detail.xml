@@ -8,7 +8,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/nested_scrollview_session_detail"
-    tools:context=".activities.SessionDetailActivity">
+    tools:context=".activities.SessionDetailActivity"
+    android:clipToPadding="false">
 
     <LinearLayout
         android:layout_width="match_parent"
