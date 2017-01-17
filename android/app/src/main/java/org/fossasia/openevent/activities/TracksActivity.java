@@ -76,6 +76,7 @@ public class TracksActivity extends BaseActivity implements SearchView.OnQueryTe
         }
         loadImage();
         collapsingToolbar.setTitle(track);
+        collapsingToolbar.setExpandedTitleTextAppearance(R.style.CollapsedAppBar);
         sessionsListAdapter = new SessionsListAdapter(dbSingleton.getSessionbyTracksname(track));
         sessionsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         sessionsRecyclerView.setAdapter(sessionsListAdapter);
