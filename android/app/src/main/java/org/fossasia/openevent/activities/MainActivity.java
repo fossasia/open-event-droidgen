@@ -672,7 +672,6 @@ public class MainActivity extends BaseActivity {
     }
 
     @Subscribe
-
     public void downloadData(DataDownloadEvent event) {
         if (Urls.getBaseUrl().equals(Urls.INVALID_LINK)) {
             showErrorDialog("Invalid Api", "Api link doesn't seem to be valid");

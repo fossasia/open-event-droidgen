@@ -100,7 +100,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
     }
 
     @Override
-    public void onBindViewHolder(final SessionViewHolder holder, int position) {
+    public void onBindViewHolder(final SessionViewHolder holder, final int position) {
         final Session session = getItem(position);
         String date = ISO8601Date.getTimeZoneDateString(
                 ISO8601Date.getDateObject(session.getStartTime())).split(",")[0] + ","
@@ -127,6 +127,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
                 DbSingleton dbSingleton;
                 dbSingleton = DbSingleton.getInstance();
                 if (dbSingleton.isBookmarked(session.getId())) {
+                    removeAt(position);
                     dbSingleton.deleteBookmarks(session.getId());
                     holder.sessionImage.setImageResource(R.drawable.ic_bookmark_outline_black_24dp);
                 } else {
@@ -148,6 +149,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
                 Intent intent = new Intent(context, SessionDetailActivity.class);
                 intent.putExtra(ConstantStrings.SESSION, sessionName);
                 intent.putExtra(ConstantStrings.TRACK, trackName);
+                intent.putExtra(ConstantStrings.ID, session.getId());
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     Activity activity = (Activity) context;
 
