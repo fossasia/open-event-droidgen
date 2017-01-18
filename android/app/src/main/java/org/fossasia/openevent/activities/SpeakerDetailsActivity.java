@@ -56,6 +56,8 @@ public class SpeakerDetailsActivity extends BaseActivity {
 
     private CustomTabsClient customTabsClient;
 
+    private CustomTabsServiceConnection customTabsServiceConnection;
+
     @BindView(R.id.toolbar_speakers) Toolbar toolbar;
     @BindView(R.id.txt_no_sessions) TextView noSessionsView;
     @BindView(R.id.appbar) AppBarLayout appBarLayout;
@@ -109,7 +111,6 @@ public class SpeakerDetailsActivity extends BaseActivity {
         speakerName.setText(selectedSpeaker.getName());
         speakerDesignation.setText(String.format("%s%s", selectedSpeaker.getPosition(), selectedSpeaker.getOrganisation()));
         boolean customTabsSupported;
-        CustomTabsServiceConnection customTabsServiceConnection;
         Intent customTabIntent = new Intent("android.support.customtabs.action.CustomTabsService");
         customTabIntent.setPackage("com.android.chrome");
         customTabsServiceConnection = new CustomTabsServiceConnection() {
@@ -228,5 +229,11 @@ public class SpeakerDetailsActivity extends BaseActivity {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_speakers_activity, menu);
         return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbindService(customTabsServiceConnection);
     }
 }
