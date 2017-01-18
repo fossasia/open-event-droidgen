@@ -136,6 +136,9 @@ public class MainActivity extends BaseActivity {
     private boolean customTabsSupported;
     private CustomTabsServiceConnection customTabsServiceConnection;
     private CustomTabsClient customTabsClient;
+    private Runnable runnable;
+    private Handler handler;
+    private long timer = 2000;
 
     public static Intent createLaunchFragmentIntent(Context context) {
         return new Intent(context, MainActivity.class)
@@ -297,11 +300,6 @@ public class MainActivity extends BaseActivity {
         OpenEventApp.getEventBus().register(this);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unbindService(customTabsServiceConnection);
-    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -518,12 +516,14 @@ public class MainActivity extends BaseActivity {
                 backPressedOnce = true;
                 Snackbar snackbar = Snackbar.make(mainFrame, R.string.press_back_again, 2000);
                 snackbar.show();
-                new Handler().postDelayed(new Runnable() {
+                runnable = new Runnable() {
                     @Override
                     public void run() {
                         backPressedOnce = false;
                     }
-                }, 2000);
+                };
+                handler = new Handler();
+                handler.postDelayed(runnable, timer);
             }
         } else {
             atHome = true;
@@ -864,6 +864,16 @@ public class MainActivity extends BaseActivity {
 
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbindService(customTabsServiceConnection);
+        if (handler != null)
+        {
+            handler.removeCallbacks(runnable);
+        }
     }
 
 }
