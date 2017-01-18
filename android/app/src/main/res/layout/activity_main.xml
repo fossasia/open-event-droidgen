@@ -18,7 +18,16 @@
             android:id="@+id/content_frame"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            style="@style/WindowBackground"/>
+            style="@style/WindowBackground">
+        <ProgressBar
+            android:id="@+id/progress"
+            style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:max="100"
+            android:visibility="gone" />
+        </FrameLayout>
         <android.support.design.widget.AppBarLayout
             android:id="@+id/appbar"
             android:layout_width="match_parent"
@@ -35,15 +44,6 @@
 
         </android.support.design.widget.AppBarLayout>
 
-
-        <ProgressBar
-            android:id="@+id/progress"
-            style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="?attr/actionBarSize"
-            android:max="100"
-            android:visibility="gone" />
 
     </android.support.design.widget.CoordinatorLayout>
 
