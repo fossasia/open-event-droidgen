@@ -12,13 +12,16 @@ import org.fossasia.openevent.OpenEventApp;
  */
 public class SplashActivity extends Activity {
 
+    private Runnable runnable;
+    private Handler handler;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         int SPLASH_DISPLAY_LENGTH = 1000;
         OpenEventApp.getEventBus().register(this);
 
-        new Handler().postDelayed(new Runnable() {
+        runnable = new Runnable() {
             @Override
             public void run() {
                 Intent intent = new Intent(SplashActivity.this, MainActivity.class);
@@ -26,7 +29,17 @@ public class SplashActivity extends Activity {
                 SplashActivity.this.startActivity(intent);
                 SplashActivity.this.finish();
             }
-        }, SPLASH_DISPLAY_LENGTH);
+        };
+        handler = new Handler();
+        handler.postDelayed(runnable, SPLASH_DISPLAY_LENGTH);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (handler != null) {
+            handler.removeCallbacks(runnable);
+        }
     }
 }
 
