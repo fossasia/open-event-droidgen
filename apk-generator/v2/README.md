@@ -6,16 +6,21 @@
 - JDK 8
 - Android SDK
 - Redis
+- Socket IO
 
-#### Required Env Variables
+#### Environment Variables
+##### Required
 - `ANDROID_HOME` - Path to the android SDK root
 - `GENERATOR_WORKING_DIR` - Path to a writable directory which the generator would use as a temp working directory
 - `KEYSTORE_PATH` - Path to the key store file with should be used to sign the application package (apk)
 - `KEYSTORE_PASSWORD` - The password to access the key store
 - `KEY_ALIAS` - The alias of the key to use
+##### Optional
+- `REDIS_URL` - The url to the redis instance to use for celery (Default: `redis://localhost:6379/0`)
+- `INTEGRATE_SOCKETIO` - true/false to enable/disable Socket IO. (Default: `true`)
+- `SECRET_KEY` - A string that will be used as a key for any encryption done in the app
 
 #### Installing & Running the server
-
 
 ##### Installing Redis
 - If you do not have Redis already, you can install by
