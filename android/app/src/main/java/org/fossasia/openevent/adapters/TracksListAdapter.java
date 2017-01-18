@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.fossasia.openevent.R;
@@ -63,6 +64,25 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.Re
         this.context = context;
     }
 
+    protected class RecyclerViewHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.track_title)
+        TextView trackTitle;
+
+        @BindView(R.id.track_description)
+        TextView trackDescription;
+
+        @BindView(R.id.track_card)
+        LinearLayout item_view;
+
+        public RecyclerViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+
+        }
+
+    }
+
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
@@ -77,7 +97,7 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.Re
         holder.trackTitle.setText(currentTrack.getName());
         holder.trackDescription.setText(currentTrack.getDescription());
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.item_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String trackTitle = currentTrack.getName();
@@ -97,20 +117,5 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.Re
     @Override
     public Filter getFilter() {
         return filter;
-    }
-
-    protected class RecyclerViewHolder extends RecyclerView.ViewHolder {
-
-        @BindView(R.id.track_title)
-        TextView trackTitle;
-
-        @BindView(R.id.track_description)
-        TextView trackDescription;
-
-        public RecyclerViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-        }
-
     }
 }

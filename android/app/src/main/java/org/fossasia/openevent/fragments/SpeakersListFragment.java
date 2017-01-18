@@ -196,6 +196,7 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
         searchView = (SearchView) MenuItemCompat.getActionView(item);
         searchView.setOnQueryTextListener(this);
         searchView.setQuery(searchText, false);
+
     }
 
     @Subscribe
@@ -246,6 +247,7 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
 
     @Override
     public boolean onQueryTextSubmit(String query) {
+        searchView.clearFocus();
         return true;
     }
 
