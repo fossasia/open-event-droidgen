@@ -31,6 +31,7 @@ import timber.log.Timber;
 public class LocationsListAdapter extends BaseRVAdapter<Microlocation, LocationsListAdapter.LocationViewHolder> {
 
     private Context context;
+    public static int listPosition;
 
     public LocationsListAdapter(Context context, List<Microlocation> microLocations) {
         super(microLocations);
@@ -77,7 +78,7 @@ public class LocationsListAdapter extends BaseRVAdapter<Microlocation, Locations
     }
 
     @Override
-    public void onBindViewHolder(LocationViewHolder holder, int position) {
+    public void onBindViewHolder(final LocationViewHolder holder, int position) {
         final Microlocation location = getItem(position);
         holder.locationName.setText(location.getName());
         holder.locationFloor.setText(MessageFormat.format("{0}{1}",
@@ -89,6 +90,7 @@ public class LocationsListAdapter extends BaseRVAdapter<Microlocation, Locations
             public void onClick(View v) {
                 Intent intent = new Intent(context, LocationActivity.class);
                 intent.putExtra(ConstantStrings.MICROLOCATIONS, location.getName());
+                listPosition = holder.getAdapterPosition();
                 context.startActivity(intent);
             }
         });
