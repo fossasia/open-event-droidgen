@@ -199,6 +199,7 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
 
     @Override
     public boolean onQueryTextSubmit(String query) {
+        searchView.clearFocus();
         return false;
     }
 
