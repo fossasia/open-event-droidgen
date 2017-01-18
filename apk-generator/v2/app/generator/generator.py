@@ -8,6 +8,7 @@ import uuid
 
 import requests
 import validators
+from flask import current_app
 
 from app.utils import replace, clear_dir, unzip, get_build_tools_version
 from app.utils.assets import resize_launcher_icon, resize_background_image
@@ -20,9 +21,14 @@ class Generator:
     The app generator. This is where it all begins :)
     """
 
-    def __init__(self, config, via_api=False):
+    def __init__(self, config, via_api=False, identifier=None, task_handle=None):
+        if not identifier:
+            self.identifier = str(uuid.uuid4())
+        else:
+            self.identifier = identifier
+        self.task_handle = task_handle
+        self.update_status('Starting the generator')
         self.config = config
-        self.identifier = str(uuid.uuid4())
         self.working_dir = config['WORKING_DIR']
         self.src_dir = config['APP_SOURCE_DIR']
         self.creator_email = 'john.doe@example.com'
@@ -61,6 +67,7 @@ class Generator:
         :param zip_file:
         :return:
         """
+        self.update_status('Normalizing source data')
         if not endpoint_url and not zip_file:
             raise Exception('endpoint_url or zip_file is required')
         if endpoint_url:
@@ -74,7 +81,7 @@ class Generator:
         self.event_name = event_info['name']
         self.app_name = self.event_name
         self.creator_email = creator_email
-
+        self.update_status('Processing background image and logo')
         background_image = event_info['background_image'].strip() if event_info['background_image'] else ''
         logo = event_info['logo'].strip() if event_info['logo'] else ''
         if background_image != '':
@@ -96,6 +103,8 @@ class Generator:
         :return: the path to the generated apk
         """
         try:
+            self.update_status('Preparing parent source code')
+
             self.prepare_source()
 
             self.app_package_name = 'org.fossasia.openevent.' + re.sub('\W+', '', self.app_name)
@@ -106,30 +115,49 @@ class Generator:
                 'Api_Link': self.api_link
             }
 
+            self.update_status('Generating app configuration')
+
             with open(self.get_path("app/src/main/assets/config.json"), "w+") as config_file:
                 config_file.write(json.dumps(config))
 
+            self.update_status('Generating launcher icons & background image')
+
             resize_launcher_icon(self.app_launcher_icon, self.app_working_dir)
             resize_background_image(self.app_background_image, self.app_working_dir)
+
+            self.update_status('Updating resources')
+
             replace(self.get_path("app/src/main/res/values/strings.xml"), 'OpenEvent', self.app_name)
             replace(self.get_path("app/src/main/res/layout/nav_header.xml"), 'twitter', 'background')
             replace(self.get_path("app/build.gradle"), '"org.fossasia.openevent"', '"%s"' % self.app_package_name)
+
+            self.update_status('Loading assets')
 
             for f in os.listdir(self.app_temp_assets):
                 if os.path.isfile(os.path.join(self.app_temp_assets, f)):
                     shutil.copyfile(self.app_temp_assets + f, self.get_path("app/src/main/assets/" + f))
 
+            self.update_status('Preparing android build tools')
+
             build_tools_version = get_build_tools_version(self.get_path('app/build.gradle'))
             build_tools_path = os.path.abspath(os.environ.get('ANDROID_HOME') + '/build-tools/' + build_tools_version)
+
+            self.update_status('Building android application package')
+
             subprocess.check_call([os.path.abspath(config['BASE_DIR'] + '/scripts/build_apk.sh'), build_tools_path],
                                   cwd=self.app_working_dir,
                                   env=os.environ.copy())
+
+            self.update_status('Application package generated')
 
             self.apk_path = self.get_path('release.apk')
             if should_notify:
                 self.notify()
             return self.apk_path
         except Exception as e:
+
+            self.update_status('Error occurred while generating the android application')
+
             if should_notify:
                 self.notify(False, e)
             return None
@@ -187,3 +215,10 @@ class Generator:
                 file_attachment=apk_path,
                 via_api=self.via_api
             )
+
+    def update_status(self, state):
+        if not self.task_handle:
+            if not current_app.config.get('CELERY_ALWAYS_EAGER'):
+                self.task_handle.update_state(
+                    state=state, meta={}
+                )

@@ -4,6 +4,7 @@ import warnings
 from flask.exthook import ExtDeprecationWarning
 
 from app.views import views
+from app.views.api import api
 
 warnings.simplefilter('ignore', ExtDeprecationWarning)
 
@@ -56,16 +57,18 @@ def create_app():
     if not os.path.exists(app.config['WORKING_DIR']):
         os.makedirs(app.config['WORKING_DIR'])
 
+    # Make sure the upload directory exists. If not create it.
+    if not os.path.exists(app.config['UPLOAD_DIR']):
+        os.makedirs(app.config['UPLOAD_DIR'])
+
     # Make sure the directory is writable
     if not os.access(app.config['WORKING_DIR'], os.W_OK):
         print("The working directory " + app.config['WORKING_DIR'] + " is not writable. Cannot start worker.")
         exit()
 
-    # setup celery
-    app.config['CELERY_BROKER_URL'] = os.environ.get('REDIS_URL', 'redis://localhost:6379/0')
-    app.config['CELERY_RESULT_BACKEND'] = app.config['CELERY_BROKER_URL']
     HTMLMIN(app)
     app.register_blueprint(views)
+    app.register_blueprint(api)
     return app
 
 
@@ -119,3 +122,4 @@ import tasks
 
 if __name__ == '__main__':
     current_app.run()
+

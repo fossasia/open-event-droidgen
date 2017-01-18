@@ -15,12 +15,14 @@
           integrity="sha256-HsWJ70tOKcd52gFzhVX319egmTCvQbMOs0DYg3bDMi8=" crossorigin="anonymous"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"
             integrity="sha256-EPrkNjGEmCWyazb3A/Epj+W7Qm2pB9vnfXw+X6LImPM=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+          integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous"/>
 </head>
 
 <body>
 <div class="container"><br><br>
     <form class="col-md-offset-4 col-xs-offset-2 col-xs-8 col-md-4 form-group generator_form" method="post" id="form"
-          name="form" role="form" enctype="multipart/form-data">
+          name="form" role="form" enctype="multipart/form-data" autocomplete="off">
         <label for="email">Email</label>
         <input type="email" class="form-control" id="email" name="email" required>
         <br>
@@ -33,7 +35,8 @@
             </li>
             <li>
                 <label style="font-weight: 300">
-                    <input type="radio" name="data-source" value="api_endpoint" required/> API endpoint of event on OpenEvent
+                    <input type="radio" name="data-source" value="api_endpoint" required/> API endpoint of event on
+                    OpenEvent
                 </label>
             </li>
         </ul>
@@ -52,32 +55,32 @@
                 </div>
             </div>
         </section>
-        <section>
-            <div class="progress" id="generator-progress" style="display: none">
-                <div class="progress-bar" role="progressbar" id="generator-progress-bar"
-                     style="width:0; height: 20px;">
-                    <span id="generator-progress-val">0%</span>
-                </div>
-            </div>
-        </section>
         <div style="text-align: center;">
 
-            <div class="alert alert-danger small" id="start-error">
-                An error occurred while generating the android application
+            <div class="alert alert-danger small" id="error-message-holder" style="text-align: left; display: none;">
+                <i class="fa fa-exclamation-triangle fa-lg fa-fw" style="margin-right: 4px;"></i>
+                <span id="error-message" data-original="An error occurred while generating your android app"></span>
             </div>
 
-            <div id="status" style="margin-bottom:10px;"></div>
-            <br>
-            <button disabled title="Upload zip or use API mode to enable"
-                    type="submit"
-                    class="download btn btn-default"
-                    id="generate-btn">GENERATE ANDROID APP
-            </button>
-            <button type="button" class="download btn btn-default" id="download-btn" style="display: none">DOWNLOAD
-            </button>
+            <div id="status-message-holder" class="alert alert-info small" style="text-align: left; display: none;">
+                <i class="fa fa-cog fa-spin fa-fw fa-lg" style="margin-right: 4px;"></i>
+                <span id="status-message" data-original="Building your customized android app"></span>
+            </div>
+
+            <div class="btn-group" id="action-btn-group">
+                <button disabled title="Upload zip or use API mode to enable"
+                        type="submit"
+                        class="download btn btn-success"
+                        id="generate-btn">GENERATE ANDROID APP
+                </button>
+
+                <button type="button" class="download btn btn-info" id="download-btn" disabled>DOWNLOAD</button>
+
+            </div>
         </div>
     </form>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.2/socket.io.min.js" integrity="sha256-WKvqiY0jZHWQZIohYEmr9KUC5rEaYEOFTq+ByllJK8w=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.slim.min.js"
         integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.15.3/axios.min.js"

@@ -82,3 +82,8 @@ def unzip(source_file, target_dir):
 
 def strip_tags(html):
     return bleach.clean(html, tags=[], attributes={}, styles=[], strip=True)
+
+
+def allowed_file(filename, allowed_extensions):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in allowed_extensions

@@ -6,6 +6,7 @@ var $generateBtn = $("#generate-btn"),
     $apiEndpointInputHolder = $("#api-endpoint-holder"),
     $downloadBtn = $("#download-btn"),
     $form = $("#form"),
+    $actionBtnGroup = $("#action-btn-group"),
     $dataSourceRadio = $("input:radio[name=data-source]"),
     dataSourceType = null;
 
@@ -13,9 +14,11 @@ var $fileProgressHolder = $("#file-progress"),
     $fileProgressBar = $("#file-progress-bar"),
     $fileProgressVal = $("#file-progress-val");
 
-var $generatorProgressHolder = $("#generator-progress"),
-    $generatorProgressBar = $("#generator-progress-bar"),
-    $generatorProgressVal = $("#generator-progress-val");
+var $statusMessageHolder = $("#status-message-holder"),
+    $statusMessage = $("#status-message");
+
+var $errorMessageHolder = $("#error-message-holder"),
+    $errorMessage = $("#error-message");
 
 initialState();
 $dataSourceRadio.change(
@@ -48,6 +51,7 @@ $apiEndpointInput.valueChange(function (value) {
 
 $jsonUploadInput.change(function () {
     if (dataSourceType === 'json_upload') {
+        $fileProgressBar.css('width', 0);
         if (this.value !== "") {
             enableGenerateButton(true);
         } else {
@@ -56,40 +60,67 @@ $jsonUploadInput.change(function () {
     }
 });
 
-$generateBtn.click(function () {
-    $('#generator-progress').show();
-    $('#generator-progress-bar').show();
-});
-
-
 function initialState() {
     $dataSourceRadio.prop('checked', false);
-    $generateBtn.prop('disabled', true);
+    $generateBtn.disable();
+    $downloadBtn.disable();
+    $actionBtnGroup.show();
 }
 
 function enableGenerateButton(enabled) {
+    $errorMessageHolder.hide();
+    $statusMessageHolder.hide();
     $generateBtn.prop('disabled', !enabled);
-    if (enabled) {
-        $generateBtn.attr('title', 'Generate app')
-    }
-    else {
-        $generateBtn.attr('title', 'Select a zip to upload first')
-    }
+    $downloadBtn.disable();
 }
 
 function showDownloadButton() {
-    $generateBtn.hide();
-    $downloadBtn.show();
+    hideProgress();
+    $errorMessageHolder.hide();
+    $statusMessageHolder.hide();
+    $actionBtnGroup.show();
+    $generateBtn.enable();
+    $downloadBtn.enable();
 }
 
-function fileProgressUpdater(progressEvent) {
-    var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+function updateProgress(progress) {
+    $fileProgressHolder.show();
+    var percentCompleted = Math.round((progress.loaded * 100) / progress.total);
     $fileProgressBar.css('width', percentCompleted + '%');
     $fileProgressVal.text(percentCompleted + '%');
 }
 
+function hideProgress() {
+    $fileProgressHolder.hide();
+    updateProgress({loaded: 0, total: 100});
+}
+
+function updateStatus(status) {
+    $actionBtnGroup.hide();
+    $errorMessageHolder.hide();
+    $statusMessageHolder.show();
+    if (status) {
+        $statusMessage.text(status)
+    } else {
+        $statusMessage.text($statusMessage.data('original'));
+    }
+}
+
+function showError(error) {
+    $statusMessageHolder.hide();
+    $actionBtnGroup.show();
+    $errorMessageHolder.show();
+    hideProgress();
+    if (error) {
+        $errorMessage.text(error);
+    } else {
+        $errorMessage.text($errorMessage.data('original'));
+    }
+}
+
 $form.submit(function (e) {
     e.preventDefault();
+    $form.lockFormInputs();
     var data = new FormData();
     data.append('email', $emailInput.val());
     data.append('data-source', dataSourceType);
@@ -98,19 +129,22 @@ $form.submit(function (e) {
 
     if (dataSourceType === 'json_upload') {
         data.append('json-upload', $jsonUploadInput[0].files[0]);
-        $fileProgressHolder.show();
-        config.onUploadProgress = fileProgressUpdater;
+        config.onUploadProgress = updateProgress;
     } else {
         data.append('api-endpoint', $apiEndpointInput.val());
     }
+
+    updateStatus();
 
     axios
         .post('/', data, config)
         .then(function (res) {
             showDownloadButton();
+            $form.unlockFormInputs();
         })
         .catch(function (err) {
-            output.className = 'container text-danger';
-            output.innerHTML = err.message;
+            showError();
+            $form.unlockFormInputs();
         });
 });
+

@@ -1,9 +1,7 @@
 celery>=3.1.23,<4
 redis>=2.10.5,<3
 Flask>=0.12,<1
-eventlet>=0.20.0,<1
 requests[security]>=2.12.4,<3
-Flask-SocketIO==2.5  # leave versions untouched.
 marrow.mailer>=4.0.2,<5
 gunicorn>=19.6.0,<20
 android-asset-resizer
