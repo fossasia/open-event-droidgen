@@ -13,6 +13,11 @@ TASK_RESULTS = {}
 
 @api.route('/app/<string:task_id>/status', methods=['GET', ])
 def app_status(task_id):
+    """
+    Get the status of a celery task based on task ID
+    :param task_id:
+    :return:
+    """
     # in case of always eager, get results. don't call AsyncResult
     # which rather looks in redis
     if current_app.config.get('CELERY_ALWAYS_EAGER'):
@@ -39,6 +44,11 @@ def app_status(task_id):
 
 @api.route('/app/<string:identifier>/download', methods=['GET', ])
 def app_download(identifier):
+    """
+    Download the built release apk of an application using it's identifier
+    :param identifier:
+    :return:
+    """
     identifier = secure_filename(identifier)
     file_path = os.path.abspath(current_app.config['STATICFILES_DIR'] + '/releases/%s.apk' % identifier)
     if not os.path.isfile(file_path):
@@ -48,4 +58,8 @@ def app_download(identifier):
 
 @api.route('/generate', methods=['POST', ])
 def app_generate():
+    """
+    Start the generator via API
+    :return:
+    """
     return index_process()

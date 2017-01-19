@@ -1,11 +1,3 @@
-#btnLive {
-    display: none;
-}
-
-#btnDownload {
-    display: none;
-}
-
 input[type="file"] {
     height: inherit;
     display: block;

@@ -76,7 +76,8 @@ class AssetResizer:
 
         return int(current_size * (target_density / current_density))
 
-    def get_safe_filename(self, filename):
+    @staticmethod
+    def get_safe_filename(filename):
         """
         Return a sanitized image filename
         """

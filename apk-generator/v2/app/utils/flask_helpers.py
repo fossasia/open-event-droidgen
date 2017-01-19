@@ -1,13 +1,15 @@
 from urllib2 import urlopen
 
 from flask import request
-from flask.json import JSONEncoder
 from jinja2 import Undefined
-from slugify import SLUG_OK
-from slugify import slugify as unicode_slugify
 
 
 def get_real_ip(local_correct=False):
+    """
+    Get the IP of the user
+    :param local_correct:
+    :return:
+    """
     try:
         if 'X-Forwarded-For' in request.headers:
             ip = request.headers.getlist("X-Forwarded-For")[0].rpartition(' ')[-1]
@@ -20,12 +22,6 @@ def get_real_ip(local_correct=False):
         ip = None
 
     return ip
-
-
-class MiniJSONEncoder(JSONEncoder):
-    """Minify JSON output."""
-    item_separator = ','
-    key_separator = ':'
 
 
 class SilentUndefined(Undefined):
@@ -45,21 +41,11 @@ class SilentUndefined(Undefined):
         _fail_with_undefined_error
 
 
-def slugify(text):
-    """Generates an ASCII-only slug."""
-    return unicode(unicode_slugify(text, ok=SLUG_OK + ',').replace(',', '--'))
-
-
-def deslugify(text):
-    return text.replace('--', ',').replace('-', " ")
-
-
-def camel_case(text):
-    text = slugify(text).replace('-', " ")
-    return ''.join(x for x in text.title() if not x.isspace())
-
-
 def request_wants_json():
+    """
+    Check if a request expects a json response
+    :return:
+    """
     best = request.accept_mimetypes.best_match(
         ['application/json', 'text/html'])
     return best == 'application/json' and request.accept_mimetypes[best] > request.accept_mimetypes['text/html']

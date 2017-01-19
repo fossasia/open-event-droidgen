@@ -19,6 +19,10 @@ views = Blueprint('views', __name__)
 
 @views.route('/', methods=['GET', ])
 def index():
+    """
+    Display the generator GUI
+    :return:
+    """
     return render_template('index.html',
                            main_css=hash_file(os.path.abspath(app.config['STATICFILES_DIR'] + '/css/main.css')),
                            main_js=hash_file(os.path.abspath(app.config['STATICFILES_DIR'] + '/js/main.js')),
@@ -27,11 +31,19 @@ def index():
 
 @views.route('/favicon.ico')
 def favicon():
+    """
+    Serve the favicon
+    :return:
+    """
     return send_from_directory(app.config['STATICFILES_DIR'], 'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 
 @views.route('/health-check/')
 def health_check():
+    """
+    Health check for Kubernetes
+    :return:
+    """
     return jsonify({
         "status": "ok"
     })
@@ -39,6 +51,10 @@ def health_check():
 
 @views.route('/', methods=['POST', ])
 def index_process():
+    """
+    Start the generation process when the form is submitted
+    :return:
+    """
     email = request.form.get('email', None)
     data_source = request.form.get('data-source', None)
 

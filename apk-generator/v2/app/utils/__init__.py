@@ -11,6 +11,11 @@ import hashlib
 
 
 def hash_file(_file):
+    """
+    Hash a file using MD5
+    :param _file:
+    :return:
+    """
     hasher = hashlib.md5()
     with open(_file, 'rb') as the_file:
         buf = the_file.read()
@@ -92,9 +97,20 @@ def unzip(source_file, target_dir):
 
 
 def strip_tags(html):
+    """
+    Strip all HTML Tags in a string
+    :param html:
+    :return:
+    """
     return bleach.clean(html, tags=[], attributes={}, styles=[], strip=True)
 
 
 def allowed_file(filename, allowed_extensions):
+    """
+    Check if a file belongs to a specific set of allowed extensions based on filename
+    :param filename:
+    :param allowed_extensions:
+    :return:
+    """
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in allowed_extensions

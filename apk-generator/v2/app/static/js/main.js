@@ -25,7 +25,6 @@ var identifier = null,
     pollingWorker = null,
     downloadUrl = null;
 
-initialState();
 $dataSourceRadio.change(
     function () {
         enableGenerateButton(false);
@@ -65,13 +64,23 @@ $jsonUploadInput.change(function () {
     }
 });
 
+/**
+ * Set the form to the initial state
+ */
 function initialState() {
     $dataSourceRadio.prop('checked', false);
     $generateBtn.disable();
     $downloadBtn.disable();
     $actionBtnGroup.show();
 }
+initialState();
 
+
+/**
+ * Enable the generate button
+ *
+ * @param enabled
+ */
 function enableGenerateButton(enabled) {
     $errorMessageHolder.hide();
     $statusMessageHolder.hide();
@@ -79,7 +88,10 @@ function enableGenerateButton(enabled) {
     $downloadBtn.disable();
 }
 
-function showDownloadButton() {
+/**
+ * Enable the download button
+ */
+function enableDownloadButton() {
     hideProgress();
     $form.unlockFormInputs();
     $errorMessageHolder.hide();
@@ -89,6 +101,10 @@ function showDownloadButton() {
     $downloadBtn.enable();
 }
 
+/**
+ * Update the file upload progress bar
+ * @param progress
+ */
 function updateProgress(progress) {
     $fileProgressHolder.show();
     var percentCompleted = Math.round((progress.loaded * 100) / progress.total);
@@ -96,22 +112,35 @@ function updateProgress(progress) {
     $fileProgressVal.text(percentCompleted + '%');
 }
 
+/**
+ * Hide the file upload progress bar
+ */
 function hideProgress() {
     updateProgress({loaded: 0, total: 100});
     $fileProgressHolder.hide();
 }
 
+/**
+ * Update the status message
+ *
+ * @param status
+ */
 function updateStatus(status) {
     $actionBtnGroup.hide();
     $errorMessageHolder.hide();
     $statusMessageHolder.show();
     if (status) {
-        $statusMessage.text(status)
+        $statusMessage.text(status);
     } else {
         $statusMessage.text($statusMessage.data('original'));
     }
 }
 
+/**
+ * Show an error message
+ *
+ * @param error
+ */
 function showError(error) {
     $form.unlockFormInputs();
     $statusMessageHolder.hide();
@@ -125,14 +154,20 @@ function showError(error) {
     }
 }
 
+/**
+ * Start the app download when the download button is clicked
+ */
 $downloadBtn.click(function () {
-    if(window.location) {
-        window.location = downloadUrl
+    if (window.location) {
+        window.location = downloadUrl;
     } else {
         $(this).disable();
     }
 });
 
+/**
+ * Submit the data to the backend via AJAX when the form is submitted
+ */
 $form.submit(function (e) {
     e.preventDefault();
     downloadUrl = null;
@@ -163,12 +198,14 @@ $form.submit(function (e) {
                 startPoll();
             }
         })
-        .catch(function (err) {
+        .catch(function () {
             showError();
         });
 });
 
-
+/**
+ * Start the continuous poll for getting status updates
+ */
 function startPoll() {
     pollingWorker = setInterval(function () {
         axios
@@ -183,14 +220,14 @@ function startPoll() {
                     case 'SUCCESS':
                         if (res.hasOwnProperty('result')) {
                             downloadUrl = res.result;
-                            showDownloadButton();
+                            enableDownloadButton();
                         } else {
                             showError();
                         }
                         clearInterval(pollingWorker);
                         break;
                     default:
-                        updateStatus(res.state)
+                        updateStatus(res.state);
                 }
             })
             .catch(function (err) {
