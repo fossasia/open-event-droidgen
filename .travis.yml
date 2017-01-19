@@ -1,9 +1,11 @@
 language: android
 jdk: oraclejdk8
-sudo: true
+sudo: required
+services:
+  - docker
 env:
   global:
-  - GRADLE_OPTS="-Xmx512m"
+  - GRADLE_OPTS="-Xmx512m" PATH=$PATH:${HOME}/google-cloud-sdk/bin CLOUDSDK_CORE_DISABLE_PROMPTS=1
   - secure: Y0xQEf2626cxKjbqLf114ehRypcDxyEWCRgRLbyJ64OB+hfwCPRjerJw4FA8rBJqc9uJ5s76TqK3M9Txr4alwsP6ZJc6WC3rY5Ml9ZgxDLtjljjmSpqZScCIqCwWCz3kb1QyV2xj/YHF8T+PfCEA8iEuyBNCJNQqAU4ehRhmsOerzZBnvAE4avytHIV0AWam6B04JjPKVRtAJo1jYEfoLB54lWmb/ZwKCB44VhFuOVrK+Z+/dgg8T7+IYZTLMTdD79HfE9F4+Q9jL74dpHQ0Vyo3scd2jI5JnHQDDoXS9zLUAeuM6H/BRREtwl64+fo4bVstEXrJwGDpodcZ7MYhlEROy+mhSlFpBM9PSE6t2eO2r+bkEpo1OIU1Eg/yZpP9spo0kW6hv6WSxYuU9WHz/XiQ2FOqKsW9RDrszIKLEgoGAa9UF8JQHF78b+aEvCGsIC/j1YsfNj4/YArpoA4GZLArZ8G0exeBqDEz4iZUMOeOzNnDPWpSzS31484/JeKvGLIHRzTzZOJ3Z0nARMYdpelzgGunZ/AmGS20LiVhx4YQcJfpQn8fruvGUDM3v6Gvb8i81QUe9Lg/FEAB+2ODiPa1BJpYka57l0Jfa+LsWP2u1hmvlAi38j1FCmy4tMysOKYF5/xbIJg+e1hLi+eJbdG8aRo0RFKwQTWANcbvPjA=
   - secure: H3OKJIuZrshnve+QZ9xmjqOcwYhe4a+JoETMGa7xzRsWy9xxjmsVuWfvrnKFmJRBEsqj9zZMCRWTWMjaLlIcvew8Db93cwSzYUp95g3yOhcTE3rsKDNn2oyn7oHVuZ4+sv8k1kxYJexHTzMYLmXN/J7vbCcw221oWfirUUMe6S4YDW/C0KMv4omSttRp5pKe/ShgNVSKEby08jA7CPCqS3OhkW5Zp4vvpGw7zQEjXrWUrWiS0LjHBLvuAB/MPY6ez2KhEaiuNuHpCCR/aDWBMlAjYyGWEIjXGqRBqpQthfmxRQ66KlqUfryGQ8ZOvWnCFrKiG+3t4qRoEkVNiU/NMD/t1AsiVaEFVsVYF7Q+tYa7dlZ6zvtP/NeZPmcbbZLPe6YCM/u668i9d3szCFlFYJNpkvHLi0SK+0ETTl4zu9Ji9BHfEdGCIO/npvGNdj9g6lgTp04gZaDGRPQuFtcwjtFFtZIWHTI2iignSej62fyam+Vv6E8V1s6JzeDBO/J1f0VcCQaA4ID2fjqZ4qqceilkGE9gekw26AZErXQkqU/6AVpQOTQ3JPZ60OAIzGbCxdpOM8JJ/z2uoddNOEgf4WfgbSpY1UCNpQr8+Tsmy5g0sDavz8TWkSLGggDHj+aWCvMj/R2EaFoVZa0IVXA8fHjfVoD0GZDW1i9zFSV6Acs=
   matrix:
@@ -39,6 +41,7 @@ notifications:
     on_start: false
 after_success:
   - bash <(curl -s https://codecov.io/bash)
+  - bash kubernetes/travis/deploy.sh
   - cd ..
   - chmod +x $HOME/build/fossasia/open-event-android/upload-apk.sh
   - sh $HOME/build/fossasia/open-event-android/upload-apk.sh
