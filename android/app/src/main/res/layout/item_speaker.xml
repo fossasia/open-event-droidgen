@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/speakers_entry_height"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:layout_marginTop="16dp"
     android:foreground="?android:attr/selectableItemBackground"
-    tools:layout_width="@dimen/speakers_entry_width">
+    app:cardCornerRadius="2dp"
+    app:cardElevation="2dp">
 
     <ImageView
         android:id="@+id/speakers_list_image"
@@ -17,10 +22,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_gravity="bottom"
-        android:background="?colorPrimaryDark"
-        android:alpha="0.8"
+        android:background="#A6000000"
+        android:orientation="vertical"
         android:padding="4dp">
 
         <TextView
@@ -35,7 +39,7 @@
             tools:text="Paresh Mayani" />
 
         <TextView
-            android:id="@+id/speakers_list_designation"
+            android:id="@+id/speakers_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -44,17 +48,5 @@
             android:textSize="10sp"
             tools:ignore="SpUsage"
             tools:text="Technical Lead" />
-
-        <TextView
-            android:id="@+id/speakers_list_country"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:maxLines="2"
-            android:textColor="@android:color/white"
-            android:textSize="10sp"
-            tools:ignore="SpUsage"
-            tools:text="India" />
-
     </LinearLayout>
-</FrameLayout>
+</android.support.v7.widget.CardView>

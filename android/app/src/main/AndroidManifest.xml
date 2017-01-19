@@ -55,7 +55,7 @@
         <activity
             android:name=".activities.SessionDetailActivity"
             android:label="@string/session"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar.Alternate">
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
