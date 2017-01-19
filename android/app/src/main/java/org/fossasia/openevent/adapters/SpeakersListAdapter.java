@@ -93,6 +93,21 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakersListAdap
 
         String photoUri = Urls.getBaseUrl() + current.getPhoto();
         Uri uri = Uri.parse(photoUri);
+        String speakerDetails = "";
+
+        if (!current.getPosition().equals("")) {
+            speakerDetails = current.getPosition().equals("") + ", " + current.getOrganisation() + " | " + current.getCountry();
+        } else {
+            speakerDetails = current.getOrganisation() + " | " + current.getCountry();
+        }
+
+        if (speakerDetails.contains("Not available")) {
+            if (!current.getOrganisation().equals("Not available")) {
+                speakerDetails = current.getOrganisation();
+            } else {
+                speakerDetails = current.getCountry();
+            }
+        }
 
         Picasso.with(holder.speakerImage.getContext())
                 .load(uri)
@@ -100,8 +115,8 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakersListAdap
                 .into(holder.speakerImage);
 
         holder.speakerName.setText(TextUtils.isEmpty(current.getName()) ? "" : current.getName());
-        holder.speakerDesignation.setText(String.format("%s%s", current.getPosition(), current.getOrganisation()));
-        holder.speakerCountry.setText(String.format("%s", current.getCountry()));
+        holder.speakerDetails.setText(speakerDetails);
+
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,11 +142,8 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakersListAdap
         @BindView(R.id.speakers_list_name)
         TextView speakerName;
 
-        @BindView(R.id.speakers_list_designation)
-        TextView speakerDesignation;
-
-        @BindView(R.id.speakers_list_country)
-        TextView speakerCountry;
+        @BindView(R.id.speakers_details)
+        TextView speakerDetails;
 
         public RecyclerViewHolder(View itemView) {
             super(itemView);
