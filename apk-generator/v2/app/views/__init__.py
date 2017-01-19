@@ -20,6 +20,13 @@ def index():
     return render_template('index.html')
 
 
+@views.route('/health-check/')
+def health_check():
+    return jsonify({
+        "status": "ok"
+    })
+
+
 @views.route('/', methods=['POST', ])
 def index_process():
     email = request.form.get('email', None)
