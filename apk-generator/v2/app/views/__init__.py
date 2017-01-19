@@ -32,6 +32,8 @@ def index_process():
         'creator_email': email
     }
 
+    identifier = str(uuid.uuid4())
+
     if data_source == 'api_endpoint':
         api_endpoint = request.form.get('api-endpoint', None)
         payload['endpoint_url'] = api_endpoint
@@ -42,13 +44,11 @@ def index_process():
         if uploaded_file.filename == '':
             return jsonify(status='error', message='data file is required for the selected source'), 400
         if uploaded_file and allowed_file(uploaded_file.filename, ['zip']):
-            filename = secure_filename(uploaded_file.filename)
+            filename = secure_filename(identifier)
             file_save_location = os.path.join(app.config['UPLOAD_DIR'], filename)
             uploaded_file.save(file_save_location)
             payload['zip_file'] = file_save_location
 
-    identifier = str(uuid.uuid4())
-
     from app.tasks import generate_app_task  # A Local import to avoid circular import
-    task = generate_app_task.delay(config=app.config, payload=payload, via_api=False, identifier=identifier)
-    return jsonify(status='ok', identifier=identifier, started_at=datetime.datetime.now(), task_id=task.id)
+    task = generate_app_task(config=app.config, payload=payload, via_api=False, identifier=identifier)
+    return jsonify(status='ok', identifier=identifier, started_at=datetime.datetime.now(), task_id=task)

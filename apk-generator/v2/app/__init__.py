@@ -1,3 +1,8 @@
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
+
+
 # Ignore ExtDeprecationWarnings for Flask 0.11 - see http://stackoverflow.com/a/38080580
 import warnings
 
@@ -11,8 +16,6 @@ warnings.simplefilter('ignore', ExtDeprecationWarning)
 import os
 
 import logging
-
-import sys
 
 from celery import Celery
 from celery.signals import after_task_publish

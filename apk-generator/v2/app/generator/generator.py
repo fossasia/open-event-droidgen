@@ -102,72 +102,72 @@ class Generator:
         Generate the app
         :return: the path to the generated apk
         """
-        try:
-            self.update_status('Preparing parent source code')
+        self.update_status('Preparing parent source code')
 
-            self.prepare_source()
+        self.prepare_source()
 
-            self.app_package_name = 'org.fossasia.openevent.' + re.sub('\W+', '', self.app_name)
+        self.app_package_name = 'org.fossasia.openevent.' + re.sub('\W+', '', self.app_name)
 
-            config = {
-                'Email': self.creator_email,
-                'App_Name': self.app_name,
-                'Api_Link': self.api_link
-            }
+        config = {
+            'Email': self.creator_email,
+            'App_Name': self.app_name,
+            'Api_Link': self.api_link
+        }
 
-            self.update_status('Generating app configuration')
+        self.update_status('Generating app configuration')
 
-            with open(self.get_path("app/src/main/assets/config.json"), "w+") as config_file:
-                config_file.write(json.dumps(config))
+        with open(self.get_path("app/src/main/assets/config.json"), "w+") as config_file:
+            config_file.write(json.dumps(config))
 
-            self.update_status('Generating launcher icons & background image')
+        self.update_status('Generating launcher icons & background image')
 
-            resize_launcher_icon(self.app_launcher_icon, self.app_working_dir)
-            resize_background_image(self.app_background_image, self.app_working_dir)
+        resize_launcher_icon(self.app_launcher_icon, self.app_working_dir)
+        resize_background_image(self.app_background_image, self.app_working_dir)
 
-            self.update_status('Updating resources')
+        self.update_status('Updating resources')
 
-            replace(self.get_path("app/src/main/res/values/strings.xml"), 'OpenEvent', self.app_name)
-            replace(self.get_path("app/src/main/res/layout/nav_header.xml"), 'twitter', 'background')
-            replace(self.get_path("app/build.gradle"), '"org.fossasia.openevent"', '"%s"' % self.app_package_name)
+        replace(self.get_path("app/src/main/res/values/strings.xml"), 'OpenEvent', self.app_name)
+        replace(self.get_path("app/src/main/res/layout/nav_header.xml"), 'twitter', 'background')
+        replace(self.get_path("app/build.gradle"), '"org.fossasia.openevent"', '"%s"' % self.app_package_name)
 
-            self.update_status('Loading assets')
+        self.update_status('Loading assets')
 
-            for f in os.listdir(self.app_temp_assets):
-                if os.path.isfile(os.path.join(self.app_temp_assets, f)):
-                    shutil.copyfile(self.app_temp_assets + f, self.get_path("app/src/main/assets/" + f))
+        for f in os.listdir(self.app_temp_assets):
+            path = os.path.join(self.app_temp_assets, f)
+            if os.path.isfile(path):
+                shutil.copyfile(path, self.get_path("app/src/main/assets/" + f))
 
-            self.update_status('Preparing android build tools')
+        self.update_status('Preparing android build tools')
 
-            build_tools_version = get_build_tools_version(self.get_path('app/build.gradle'))
-            build_tools_path = os.path.abspath(os.environ.get('ANDROID_HOME') + '/build-tools/' + build_tools_version)
+        build_tools_version = get_build_tools_version(self.get_path('app/build.gradle'))
+        build_tools_path = os.path.abspath(os.environ.get('ANDROID_HOME') + '/build-tools/' + build_tools_version)
 
-            self.update_status('Building android application package')
+        self.update_status('Building android application package')
 
-            subprocess.check_call([os.path.abspath(config['BASE_DIR'] + '/scripts/build_apk.sh'), build_tools_path],
-                                  cwd=self.app_working_dir,
-                                  env=os.environ.copy())
+        subprocess.check_call(
+            [os.path.abspath(self.config['BASE_DIR'] + '/scripts/build_apk.sh'), build_tools_path],
+            cwd=self.app_working_dir,
+            env=os.environ.copy())
 
-            self.update_status('Application package generated')
+        self.update_status('Application package generated')
 
-            self.apk_path = self.get_path('release.apk')
-            if should_notify:
-                self.notify()
-            return self.apk_path
-        except Exception as e:
+        self.apk_path = self.get_path('release.apk')
+        if should_notify:
+            self.notify()
 
-            self.update_status('Error occurred while generating the android application')
+        apk_url = '/static/releases/%s.apk' % self.identifier
 
-            if should_notify:
-                self.notify(False, e)
-            return None
+        shutil.move(self.apk_path, os.path.abspath(self.config['BASE_DIR'] + '/app/' + apk_url))
+
+        self.update_status('SUCCESS', message=apk_url)
+
+        return apk_url
 
     def prepare_source(self):
         """
         Prepare the app-specific source based off the parent
         :return:
         """
-        os.mkdir(self.app_working_dir)
         shutil.copytree(self.src_dir, self.app_working_dir)
         for density in DENSITY_TYPES:
             mipmap_dir = self.get_path("app/src/main/res/mipmap-%s" % density)
@@ -216,9 +216,14 @@ class Generator:
                 via_api=self.via_api
             )
 
-    def update_status(self, state):
-        if not self.task_handle:
+    def update_status(self, state, exception=None, message=None):
+        if self.task_handle:
             if not current_app.config.get('CELERY_ALWAYS_EAGER'):
+                meta = {}
+                if exception:
+                    meta = {'exc': exception}
+                if message:
+                    meta = {'message': message}
                 self.task_handle.update_state(
-                    state=state, meta={}
+                    state=state, meta=meta
                 )

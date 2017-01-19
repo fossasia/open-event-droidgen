@@ -27,7 +27,7 @@ def resize_launcher_icon(icon_path, app_directory):
     :return:
     """
     icon_path, filename = rename_file(icon_path, 'ic_launcher')
-    destination = app_directory + 'android/app/src/main/res/'
+    destination = os.path.abspath(app_directory + '/app/src/main/')
     resizer = AssetResizer(destination, directory_prefix='mipmap', image_filter=Image.ANTIALIAS)
     resizer.mkres()
     resizer.resize(icon_path)
@@ -40,7 +40,7 @@ def resize_background_image(background_path, app_directory):
     :param app_directory: The path to the app-level working directory
     :return:
     """
-    destination = app_directory + 'android/app/src/main/res/drawable/'
+    destination = os.path.abspath(app_directory + '/app/src/main/res/drawable/')
     back = Image.open(background_path)
     back.load()
     background_resized = Image.new("RGB", back.size)

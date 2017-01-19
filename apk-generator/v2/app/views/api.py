@@ -1,5 +1,10 @@
+import os
+
 from celery.result import AsyncResult
-from flask import Blueprint, jsonify, current_app
+from flask import Blueprint, jsonify, current_app, abort
+from werkzeug.utils import secure_filename
+
+from app.views import index_process
 
 api = Blueprint('api', __name__, url_prefix='/api/v2')
 
@@ -34,9 +39,13 @@ def app_status(task_id):
 
 @api.route('/app/<string:identifier>/download', methods=['GET', ])
 def app_download(identifier):
-    return jsonify(identifier=identifier, status='processing')
+    identifier = secure_filename(identifier)
+    file_path = os.path.abspath(current_app.config['BASE_DIR'] + '/app/static/releases/%s.apk' % identifier)
+    if not os.path.isfile(file_path):
+        abort(404)
+    return api.send_static_file(file_path)
 
 
 @api.route('/generate', methods=['POST', ])
 def app_generate():
-    return jsonify(status='processing')
+    return index_process()

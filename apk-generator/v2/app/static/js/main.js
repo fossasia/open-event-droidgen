@@ -20,6 +20,10 @@ var $statusMessageHolder = $("#status-message-holder"),
 var $errorMessageHolder = $("#error-message-holder"),
     $errorMessage = $("#error-message");
 
+var identifier = null,
+    taskId = null,
+    pollingWorker = null;
+
 initialState();
 $dataSourceRadio.change(
     function () {
@@ -91,8 +95,8 @@ function updateProgress(progress) {
 }
 
 function hideProgress() {
-    $fileProgressHolder.hide();
     updateProgress({loaded: 0, total: 100});
+    $fileProgressHolder.hide();
 }
 
 function updateStatus(status) {
@@ -107,6 +111,7 @@ function updateStatus(status) {
 }
 
 function showError(error) {
+    $form.unlockFormInputs();
     $statusMessageHolder.hide();
     $actionBtnGroup.show();
     $errorMessageHolder.show();
@@ -139,12 +144,42 @@ $form.submit(function (e) {
     axios
         .post('/', data, config)
         .then(function (res) {
-            showDownloadButton();
-            $form.unlockFormInputs();
+            hideProgress();
+            identifier = res.data.identifier;
+            taskId = res.data.task_id;
+            updateStatus("Waiting in line :)");
+            if (taskId && taskId.trim() !== '') {
+                startPoll();
+            }
         })
         .catch(function (err) {
             showError();
-            $form.unlockFormInputs();
         });
 });
 
+
+function startPoll() {
+    pollingWorker = setInterval(function () {
+        axios
+            .get('/api/v2/app/' + taskId + '/status')
+            .then(function (res) {
+                res = res.data;
+                console.log(res);
+                switch (res.state) {
+                    case 'FAILURE':
+                        showError();
+                        clearInterval(pollingWorker);
+                        break;
+                    case 'SUCCESS':
+                        showDownloadButton();
+                        clearInterval(pollingWorker);
+                        break;
+                    default:
+                        updateStatus(res.state)
+                }
+            })
+            .catch(function (err) {
+
+            });
+    }, 1000);
+}

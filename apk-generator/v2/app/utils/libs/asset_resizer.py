@@ -57,17 +57,14 @@ class AssetResizer:
             if d == 'xxxhdpi' and not self.xxxhdpi:
                 continue  # skip xxxhdpi
 
-            try:
-                path = os.path.join(self.out, 'res/%s-%s' % self.directory_prefix, d)
-                os.makedirs(path, 0o755)
-            except OSError:
-                pass
+            path = os.path.join(self.out, 'res/%s-%s' % (self.directory_prefix, d))
+            os.makedirs(path)
 
     def get_out_for_density(self, target_density):
         """
         Return the out directory for the given target density
         """
-        return os.path.join(self.out, 'res/%s-%s' % self.directory_prefix, target_density)
+        return os.path.join(self.out, 'res/%s-%s' % (self.directory_prefix, target_density))
 
     def get_size_for_density(self, size, target_density):
         """
