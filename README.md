@@ -78,7 +78,8 @@ Please find info about the set up of the Android app in your development environ
 - JDK 8
 - Android SDK
 - Redis
-- Socket IO
+
+Setup and installation instructions can be obtained [here](https://github.com/niranjan94/open-event-android/tree/development/apk-generator/v2).
 
 ## Contributions, Bug Reports, Feature Requests
 

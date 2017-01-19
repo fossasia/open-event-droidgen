@@ -6,7 +6,6 @@
 - JDK 8
 - Android SDK
 - Redis
-- Socket IO
 
 #### Environment Variables
 ##### Required
@@ -22,9 +21,15 @@
 
 #### Installing & Running the server
 
+#### Generating a keystore
+- If you don't already have a keystore, you can easily generate one.
+```bash
+keytool -genkey -v -keystore <path-to-store-file> -alias <alias-to-use> -keyalg RSA -keysize 2048 -validity 10000
+```
+
 ##### Installing Redis
 - If you do not have Redis already, you can install by
-```
+```bash
 # Download source
 wget http://download.redis.io/releases/redis-stable.tar.gz
 # Unzip source
@@ -45,4 +50,4 @@ All of the following commands are to be executed from within the `apk-generator/
 
 ##### Running
 - `celery worker -A app.celery &` to start the celery worker in the background
-- `gunicorn app:app --worker-class eventlet -w 1` to start the app server
+- `gunicorn app:app` to start the app server
