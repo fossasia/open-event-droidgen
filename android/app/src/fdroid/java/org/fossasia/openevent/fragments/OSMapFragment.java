@@ -1,6 +1,7 @@
 package org.fossasia.openevent.fragments;
 
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+import android.widget.ZoomControls;
 
 import org.fossasia.openevent.BuildConfig;
 import org.fossasia.openevent.R;
@@ -63,8 +65,15 @@ public class OSMapFragment extends Fragment {
         if (!mayRequestStorageForOfflineMap())
             return;
 
-        MapView mapView = (MapView) rootView.findViewById(R.id.mapview);
-        mapView.setBuiltInZoomControls(true);
+        final MapView mapView = (MapView) rootView.findViewById(R.id.mapview);
+        final ZoomControls zoomControls = (ZoomControls) rootView.findViewById(R.id.zoomControls);
+        Resources resources = getContext().getResources();
+        int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            Toast.makeText(getActivity(), ""+resources.getDimensionPixelSize(resourceId), Toast.LENGTH_SHORT).show();
+            zoomControls.setPadding(0, 0, 0, resources.getDimensionPixelSize(resourceId) + 4);
+        }
+        mapView.setBuiltInZoomControls(false);
         mapView.setMultiTouchControls(true);
         Event event = DbSingleton.getInstance().getEventDetails();
         setDestinationLatitude(event.getLatitude());
@@ -73,7 +82,25 @@ public class OSMapFragment extends Fragment {
         GeoPoint geoPoint = new GeoPoint(getDestinationLatitude(), getDestinationLongitude());
         mapView.getController().setCenter(geoPoint);
         mapView.getController().setZoom(17);
+        mapView.setMaxZoomLevel(20);
+        mapView.setMinZoomLevel(3);
         OverlayItem position = new OverlayItem(getDestinationName(), "Location", geoPoint);
+
+        zoomControls.setOnZoomInClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                mapView.getController().zoomIn();
+            }
+        });
+
+        zoomControls.setOnZoomOutClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                mapView.getController().zoomOut();
+            }
+        });
 
         ArrayList<OverlayItem> items = new ArrayList<>();
         items.add(position);
