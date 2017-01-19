@@ -1,0 +1,34 @@
+input[type="file"] {
+    height: inherit;
+    display: block;
+}
+
+section,
+center {
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.upload-progress {
+    height: 12px;
+    margin-top: 4px;
+    border-radius: 0;
+    border: 1px solid #cecece;
+}
+
+#upload-info {
+    margin: 0;
+    background: rgb(237, 237, 237);
+    padding: 5px 10px;
+    height: 30px;
+    border: 1px solid rgb(219, 219, 219);
+}
+
+.progressbar {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.close {
+    line-height: 0.85;
+}

@@ -1,0 +1,92 @@
+<html>
+
+<head>
+    <title>Apk Generator - Open Event</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico?v1.1">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous"/>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,100' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="static/css/main.css?hash={{ main_css }}">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/black/pace-theme-flash.min.css"
+          integrity="sha256-HsWJ70tOKcd52gFzhVX319egmTCvQbMOs0DYg3bDMi8=" crossorigin="anonymous"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"
+            integrity="sha256-EPrkNjGEmCWyazb3A/Epj+W7Qm2pB9vnfXw+X6LImPM=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+          integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous"/>
+</head>
+
+<body>
+<div class="container"><br><br>
+    <form class="col-md-offset-4 col-xs-offset-2 col-xs-8 col-md-4 form-group generator_form" method="post" id="form"
+          name="form" role="form" enctype="multipart/form-data" autocomplete="off">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" id="email" name="email" required>
+        <br>
+        <label> Choose your data source </label>
+        <ul style="list-style-type:none">
+            <li>
+                <label style="font-weight: 300">
+                    <input type="radio" name="data-source" value="json_upload" required/> Upload your own JSON files
+                </label>
+            </li>
+            <li>
+                <label style="font-weight: 300">
+                    <input type="radio" name="data-source" value="api_endpoint" required/> API endpoint of event on
+                    OpenEvent
+                </label>
+            </li>
+        </ul>
+        <section id="api-endpoint-holder" style="display:none;">
+            <label for="api-endpoint">Link to Open Event API endpoint</label>
+            <input type="url" class="form-control" id="api-endpoint" name="api-endpoint"/>
+        </section>
+
+        <section id="json-upload-holder" style="display:none;">
+            <label for="json-upload">Zip file containing resources for the event</label>
+            <input type="file" name="json-upload" id="json-upload" class="form-control" accept="application/zip"/>
+            <div class="progress" id="file-progress" style="display: none; margin-top: 5px;">
+                <div class="progress-bar" role="progressbar" id="file-progress-bar"
+                     style="width:0; height: 20px;">
+                    <span id="file-progress-val">0%</span>
+                </div>
+            </div>
+        </section>
+        <div style="text-align: center;">
+
+            <div class="alert alert-danger small" id="error-message-holder" style="text-align: left; display: none;">
+                <i class="fa fa-exclamation-triangle fa-lg fa-fw" style="margin-right: 4px;"></i>
+                <span id="error-message" data-original="An error occurred while generating your android app"></span>
+            </div>
+
+            <div id="status-message-holder" class="alert alert-info small" style="text-align: left; display: none;">
+                <i class="fa fa-cog fa-spin fa-fw fa-lg" style="margin-right: 4px;"></i>
+                <span id="status-message" data-original="Building your customized android app"></span>
+            </div>
+
+            <div class="btn-group" id="action-btn-group">
+                <button disabled title="Upload zip or use API mode to enable"
+                        type="submit"
+                        class="download btn btn-success"
+                        id="generate-btn">GENERATE ANDROID APP
+                </button>
+
+                <button type="button" class="download btn btn-info" id="download-btn" disabled>DOWNLOAD</button>
+
+            </div>
+        </div>
+    </form>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.2/socket.io.min.js" integrity="sha256-WKvqiY0jZHWQZIohYEmr9KUC5rEaYEOFTq+ByllJK8w=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.slim.min.js"
+        integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.15.3/axios.min.js"
+        integrity="sha256-xEofWHiBewJOBXBSH5JHWuwCYpBKOQ8KSGSVLbEVYyo=" crossorigin="anonymous"></script>
+<script src="static/js/utils.js?hash={{ utils_js }}"></script>
+<script src="static/js/main.js?hash={{ main_js }}"></script>
+</body>
+</html>

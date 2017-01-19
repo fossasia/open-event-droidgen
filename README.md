@@ -72,88 +72,14 @@ Please find info about the set up of the Android app in your development environ
 
 ## 2. App Generator
 
-The App Generator is a simple one-page HTML webpage that allows the user to input details and upload or link to the required event data to automatically build the Android application. The user needs to provide the following:
+#### Technology Stack
+- Flask
+- Celery
+- JDK 8
+- Android SDK
+- Redis
 
-1. App's Name
-2. E-Mail address where the generated app will be sent to
-3. a) Either a zip with all event data including JSON data and binary image and audio files or b) an API Link providing the same information as the zip file
-
-The Generator needs to be hosted on a server backed up by a PHP script which in turn executes Python and Bash scripts which start the app's build process. After the app is generated, it is emailed to the user using [Mutt](http://www.mutt.org/) and [MSMTP](http://msmtp.sourceforge.net/).
-
-For the API part, the app does not use Firebase for sending data to the server, instead the app directly sends data to `api.php` in the API call. Digging deeper in the code of `api.php`, first the app checks for a valid request (GET/POST) and throws an error if it is invalid. Next, for a valid request the app stores the body into a variable and then executes a follow-up script.
-
-### Sample app
-
-A sample installation of the app generator web-page is [here](http://45.55.58.149/). For the access to the API please use http://45.55.58.149/api/api.php. You can use a sample of the JSON format from the [Open Event Repository](http://github.com/fossasia/open-event).
-
-### Installation of the Web App Generator
-
-#### How do I install Web App Generator on a Server
-
-Please check out [the documentation here](/docs/INSTALLATION.md).
-
-#### How do I install Web App Generator on my local machine
-
-Please check out [the documentation here](/docs/INSTALLATION_LOCAL.md).
-
-#### How do I install Web App Generator on Google Cloud
-
-To install the system on Google Cloud please refer to the [Google Cloud installation readme](/docs/INSTALLATION_GOOGLE.md).
-
-#### How do I install Web App Generator on AWS
-
-To install the system on AWS please refer to the [AWS installation readme](/docs/INSTALLATION_AWS.md).
-
-#### How do I install Web App Generator on Digital Ocean
-
-To install the system on Digital Ocean please refer to the [Digital Ocean installation readme](/docs/INSTALLATION_DIGITALOCEAN.md).
-
-#### How do I install Web App Generator on Docker
-
-To install system with Docker please refer to the [Docker installation readme](/docs/INSTALLATION_DOCKER.md).
-
-#### How do I deploy Web App Generator with Heroku
-
-Please read how to deploy to [Heroku here](/docs/INSTALLATION_HEROKU.md)
-
-### Accessing the App Generator
-
-An app generator can be accessed in two ways, via an App Generator Web-Page that runs on an the APACHE server or via POST API. The POST API takes input in the form of JSON and then creates and sends you the app in the form of an .apk via an email. To access it via a POST API in your app installation you need to go to http://your-URL/api/api.php. The POST API takes input in the form of JSON and then creates and sends you the app via an email.
-
-### Sending a POST Request
-
-You can use [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop?hl=en) for Chrome or [RESTClient](https://addons.mozilla.org/de/firefox/addon/restclient/) for Firefox for making API calls easily.
-
-Input to the API should be of the following format <br>
-```{ "email": "example@example.com", "app_name": "Name", "endpoint": "http://valid-endpoint.com/" } ```<br>
-
-After taking the request through the POST API, the app will be generated and emailed to the email address provided in the request body.
-
-### Components
-
-* **[index.html](https://github.com/fossasia/open-event-android/blob/master/apk-generator/index.html)** A HTML file which can server as the landing page for your server.
-* **[runPy.php](https://github.com/fossasia/open-event-android/blob/master/apk-generator/scripts/runPy.php)** A PHP script that will launch python script by taking input from index.html.
-* **[appgenserver.py](https://github.com/fossasia/open-event-android/blob/master/apk-generator/scripts/appgenserver.py)** A Python script containing commands to compile and generate the app
-* **[clone.sh](https://github.com/fossasia/open-event-android/blob/master/apk-generator/scripts/clone.sh)** A bash script used for cloning the source code for android app onto the server.
-* **[buildApk.sh](https://github.com/fossasia/open-event-android/blob/master/apk-generator/scripts/buildApk.sh)** A bash script used for initiating the app's build and signing it once the app has been generated.
-* **[email.sh](https://github.com/fossasia/open-event-android/blob/master/apk-generator/scripts/email.sh)** A bash script used to send the email containing the generated app as an attachment.
-* **[upload.php](https://github.com/fossasia/open-event-android/blob/development/apk-generator/scripts/upload.php)** A PHP script that will upload the json zip that is chosen by the user.
-* **[uploadhelper.php](https://github.com/fossasia/open-event-android/blob/development/apk-generator/scripts/uploadHelper.php)** Takes in the timestamp of user as input and moves the uploaded script to a unique location for each user.
-* **[api.php](https://github.com/fossasia/open-event-android/blob/development/apk-generator/api/api.php)** A PHP script that serves as an API and handles incoming requests to the server.
-* **[copyapk.sh](https://github.com/fossasia/open-event-android/blob/development/apk-generator/scripts/copyApk.sh)** A bash script that will copy the generated and signed apk to the release folder in `public-html` of the server.
-
-### Screenshots of the app generator web page
-**See it in action** <br>
-![image](docs/screenshots/generator-preview.gif) <br>
-
-**Firebase Data Storage model** <br>
-
-![image](http://i.imgur.com/jGVuOxS.png)
-
-
-**Received email with the compiled app**
-
-![image](docs/screenshots/email.png)
+Setup and installation instructions can be obtained [here](https://github.com/niranjan94/open-event-android/tree/development/apk-generator/v2).
 
 ## Contributions, Bug Reports, Feature Requests
 
@@ -170,7 +96,7 @@ We have the following branches
    This contains shipped code. After significant features/bugfixes are accumulated on development, we make a version update, and make a release.
 	 All tagged commits on _master_ branch will automatically generate a release on Github with a copy of ***fDroid-debug*** and ***GooglePlay-debug*** apks.
 
-## Codestyle
+## Code Style
 For contributions please read the [CODESTYLE](docs/CODESTYLE.md) carefully. Pull requests that do not match the style will be rejected.
 
 ## License
