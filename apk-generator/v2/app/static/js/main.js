@@ -22,7 +22,8 @@ var $errorMessageHolder = $("#error-message-holder"),
 
 var identifier = null,
     taskId = null,
-    pollingWorker = null;
+    pollingWorker = null,
+    downloadUrl = null;
 
 initialState();
 $dataSourceRadio.change(
@@ -80,6 +81,7 @@ function enableGenerateButton(enabled) {
 
 function showDownloadButton() {
     hideProgress();
+    $form.unlockFormInputs();
     $errorMessageHolder.hide();
     $statusMessageHolder.hide();
     $actionBtnGroup.show();
@@ -123,8 +125,17 @@ function showError(error) {
     }
 }
 
+$downloadBtn.click(function () {
+    if(window.location) {
+        window.location = downloadUrl
+    } else {
+        $(this).disable();
+    }
+});
+
 $form.submit(function (e) {
     e.preventDefault();
+    downloadUrl = null;
     $form.lockFormInputs();
     var data = new FormData();
     data.append('email', $emailInput.val());
@@ -171,7 +182,12 @@ function startPoll() {
                         clearInterval(pollingWorker);
                         break;
                     case 'SUCCESS':
-                        showDownloadButton();
+                        if (res.hasOwnProperty('result')) {
+                            downloadUrl = res.result;
+                            showDownloadButton();
+                        } else {
+                            showError();
+                        }
                         clearInterval(pollingWorker);
                         break;
                     default:

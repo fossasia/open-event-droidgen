@@ -9,8 +9,7 @@ def generate_app_task(self, config, payload, via_api=False, identifier=None):
                                   payload=payload,
                                   via_api=via_api,
                                   identifier=identifier,
-                                  task_handle=self
-                                  )
+                                  task_handle=self)
 
 
 def generate_app_task_base(config, payload, via_api=False, identifier=None, task_handle=None):

@@ -72,6 +72,7 @@ class Generator:
             raise Exception('endpoint_url or zip_file is required')
         if endpoint_url:
             self.api_link = endpoint_url
+            os.makedirs(self.app_temp_assets)
             event_info = requests.get(endpoint_url + '/event').json()
         else:
             unzip(zip_file, self.app_temp_assets)
@@ -144,10 +145,7 @@ class Generator:
 
         self.update_status('Building android application package')
 
-        subprocess.check_call(
-            [os.path.abspath(self.config['BASE_DIR'] + '/scripts/build_apk.sh'), build_tools_path],
-            cwd=self.app_working_dir,
-            env=os.environ.copy())
+        self.run_command([os.path.abspath(self.config['BASE_DIR'] + '/scripts/build_apk.sh'), build_tools_path])
 
         self.update_status('Application package generated')
 
@@ -160,6 +158,8 @@ class Generator:
         shutil.move(self.apk_path, os.path.abspath(self.config['BASE_DIR'] + '/app/' + apk_url))
 
         self.update_status('SUCCESS', message=apk_url)
+
+        self.cleanup()
 
         return apk_url
 
@@ -181,6 +181,9 @@ class Generator:
         :return:
         """
         shutil.rmtree(os.path.abspath(self.working_dir + '/' + self.identifier + '/'))
+        zip_file = os.path.join(self.config['UPLOAD_DIR'], self.identifier)
+        if os.path.isfile(zip_file):
+            os.remove(zip_file)
 
     def notify(self, completed=True, apk_path=None, error=None):
         """
@@ -227,3 +230,59 @@ class Generator:
                 self.task_handle.update_state(
                     state=state, meta=meta
                 )
+
+    def run_command(self, command):
+        process = subprocess.Popen(command,
+                                   stdout=subprocess.PIPE,
+                                   cwd=self.app_working_dir,
+                                   env=os.environ.copy())
+        while True:
+            output = process.stdout.readline()
+            if output == '' and process.poll() is not None:
+                break
+            if output:
+                self.generate_status_updates(output.strip())
+        rc = process.poll()
+        return rc
+
+    def generate_status_updates(self, output_line):
+        if 'Starting process \'Gradle build daemon\'' in output_line:
+            self.update_status('Starting gradle builder')
+        elif 'Creating configuration' in output_line:
+            self.update_status('Creating configuration')
+        elif 'Parsing the SDK' in output_line:
+            self.update_status('Preparing Android SDK')
+        elif 'app:preBuild' in output_line:
+            self.update_status('Running pre-build tasks')
+        elif 'Loading library manifest' in output_line:
+            self.update_status('Loading libraries')
+        elif 'Merging' in output_line:
+            self.update_status('Merging resources')
+        elif 'intermediates' in output_line:
+            self.update_status('Generating intermediates')
+        elif 'is not translated' in output_line:
+            self.update_status('Processing strings')
+        elif 'generateFdroidReleaseAssets' in output_line:
+            self.update_status('Processing strings')
+        elif 'Adding PreDexTask' in output_line:
+            self.update_status('Adding pre dex tasks')
+        elif 'Dexing' in output_line:
+            self.update_status('Dexing classes')
+        elif 'packageGoogleplayRelease' in output_line:
+            self.update_status('Packaging release')
+        elif 'assembleRelease' in output_line:
+            self.update_status('Assembling release')
+        elif 'BUILD SUCCESSFUL' in output_line:
+            self.update_status('Build successful. Starting the signing process.')
+        elif 'signing' in output_line:
+            self.update_status('Signing the package.')
+        elif 'jar signed' in output_line:
+            self.update_status('Package signed.')
+        elif 'zipaligning' in output_line:
+            self.update_status('Verifying the package.')
+        elif 'Verification succesful' in output_line:
+            self.update_status('Package verified.')
+        elif output_line == 'done':
+            self.update_status('Application has been generated. Please wait.')
+
+

@@ -50,5 +50,5 @@ def index_process():
             payload['zip_file'] = file_save_location
 
     from app.tasks import generate_app_task  # A Local import to avoid circular import
-    task = generate_app_task(config=app.config, payload=payload, via_api=False, identifier=identifier)
-    return jsonify(status='ok', identifier=identifier, started_at=datetime.datetime.now(), task_id=task)
+    task = generate_app_task.delay(config=app.config, payload=payload, via_api=False, identifier=identifier)
+    return jsonify(status='ok', identifier=identifier, started_at=datetime.datetime.now(), task_id=task.id)
