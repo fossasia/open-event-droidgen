@@ -1,10 +1,12 @@
 import os
 
+import validators
 from celery.result import AsyncResult
 from flask import Blueprint, jsonify, current_app, abort
+from flask import request
 from werkzeug.utils import secure_filename
 
-from app.views import index_process
+from app.views import process
 
 api = Blueprint('api', __name__, url_prefix='/api/v2')
 
@@ -62,4 +64,20 @@ def app_generate():
     Start the generator via API
     :return:
     """
-    return index_process()
+    json_input = request.get_json(force=True, silent=True)
+    if not json_input:
+        return jsonify(status='error', message='invalid data'), 400
+
+    if 'email' not in json_input or not validators.email(str(json_input.get('email'))):
+        return jsonify(status='error', message='Valid Email is required'), 400
+
+    if 'endpoint' not in json_input or not validators.url(str(json_input.get('endpoint'))):
+        return jsonify(status='error', message='Valid endpoint URL is required'), 400
+
+    data = {
+        'email': json_input.get('email'),
+        'data-source': 'api_endpoint',
+        'api-endpoint': json_input.get('endpoint')
+    }
+
+    return process(data=data, via_api=True)

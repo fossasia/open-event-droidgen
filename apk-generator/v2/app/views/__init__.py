@@ -1,4 +1,3 @@
-import hashlib
 import os
 import uuid
 
@@ -50,13 +49,15 @@ def health_check():
 
 
 @views.route('/', methods=['POST', ])
-def index_process():
+def process(data=None, via_api=False):
     """
     Start the generation process when the form is submitted
     :return:
     """
-    email = request.form.get('email', None)
-    data_source = request.form.get('data-source', None)
+    if not data:
+        data = request.form
+    email = data.get('email', None)
+    data_source = data.get('data-source', None)
 
     if not email or not data_source or data_source not in VALID_DATA_SOURCES or not validators.email(email):
         return jsonify(status='error', message='invalid data'), 400
@@ -68,7 +69,9 @@ def index_process():
     identifier = str(uuid.uuid4())
 
     if data_source == 'api_endpoint':
-        api_endpoint = request.form.get('api-endpoint', None)
+        api_endpoint = data.get('api-endpoint', None)
+        if not api_endpoint or not validators.url(api_endpoint):
+            return jsonify(status='error', message='invalid endpoint url'), 400
         payload['endpoint_url'] = api_endpoint
     elif data_source == 'json_upload':
         if 'json-upload' not in request.files:
@@ -83,5 +86,5 @@ def index_process():
             payload['zip_file'] = file_save_location
 
     from app.tasks import generate_app_task  # A Local import to avoid circular import
-    task = generate_app_task.delay(config=app.config, payload=payload, via_api=False, identifier=identifier)
+    task = generate_app_task.delay(config=app.config, payload=payload, via_api=via_api, identifier=identifier)
     return jsonify(status='ok', identifier=identifier, started_at=datetime.datetime.now(), task_id=task.id)
