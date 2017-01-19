@@ -175,7 +175,6 @@ function startPoll() {
             .get('/api/v2/app/' + taskId + '/status')
             .then(function (res) {
                 res = res.data;
-                console.log(res);
                 switch (res.state) {
                     case 'FAILURE':
                         showError();

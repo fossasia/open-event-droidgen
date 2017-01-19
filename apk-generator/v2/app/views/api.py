@@ -40,7 +40,7 @@ def app_status(task_id):
 @api.route('/app/<string:identifier>/download', methods=['GET', ])
 def app_download(identifier):
     identifier = secure_filename(identifier)
-    file_path = os.path.abspath(current_app.config['BASE_DIR'] + '/app/static/releases/%s.apk' % identifier)
+    file_path = os.path.abspath(current_app.config['STATICFILES_DIR'] + '/releases/%s.apk' % identifier)
     if not os.path.isfile(file_path):
         abort(404)
     return api.send_static_file(file_path)

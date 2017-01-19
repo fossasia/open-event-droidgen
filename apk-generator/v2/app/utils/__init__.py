@@ -7,6 +7,15 @@ from tempfile import mkstemp
 import errno
 
 import bleach
+import hashlib
+
+
+def hash_file(_file):
+    hasher = hashlib.md5()
+    with open(_file, 'rb') as the_file:
+        buf = the_file.read()
+        hasher.update(buf)
+    return hasher.hexdigest()
 
 
 def clear_dir(folder):

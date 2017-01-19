@@ -1,3 +1,4 @@
+import hashlib
 import os
 import uuid
 
@@ -6,9 +7,10 @@ import validators
 from flask import Blueprint, jsonify
 from flask import render_template
 from flask import request, current_app as app
+from flask import send_from_directory
 from werkzeug.utils import secure_filename
 
-from app.utils import allowed_file
+from app.utils import allowed_file, hash_file
 
 VALID_DATA_SOURCES = ['json_upload', 'api_endpoint']
 
@@ -17,7 +19,15 @@ views = Blueprint('views', __name__)
 
 @views.route('/', methods=['GET', ])
 def index():
-    return render_template('index.html')
+    return render_template('index.html',
+                           main_css=hash_file(os.path.abspath(app.config['STATICFILES_DIR'] + '/css/main.css')),
+                           main_js=hash_file(os.path.abspath(app.config['STATICFILES_DIR'] + '/js/main.js')),
+                           utils_js=hash_file(os.path.abspath(app.config['STATICFILES_DIR'] + '/js/utils.js')))
+
+
+@views.route('/favicon.ico')
+def favicon():
+    return send_from_directory(app.config['STATICFILES_DIR'], 'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 
 @views.route('/health-check/')
