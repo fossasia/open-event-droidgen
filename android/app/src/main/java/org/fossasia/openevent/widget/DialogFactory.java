@@ -11,10 +11,11 @@ import org.fossasia.openevent.R;
 
 public final class DialogFactory {
 
-    public static Dialog createSimpleOkErrorDialog(Context context, String title, String message) {
+    public static AlertDialog createSimpleOkErrorDialog(Context context, String title, String message) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(context)
                 .setTitle(title)
                 .setMessage(message)
+                .setIcon(R.mipmap.ic_launcher)
                 .setNeutralButton(context.getString(android.R.string.ok).toUpperCase(), null);
         return alertDialog.create();
     }

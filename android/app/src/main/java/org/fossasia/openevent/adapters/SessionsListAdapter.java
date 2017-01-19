@@ -48,6 +48,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
 
     private String trackName;
     private Context context;
+    public static int listPosition;
 
     @SuppressWarnings("all")
     Filter filter = new Filter() {
@@ -149,6 +150,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
                 intent.putExtra(ConstantStrings.SESSION, sessionName);
                 intent.putExtra(ConstantStrings.TRACK, trackName);
                 intent.putExtra(ConstantStrings.ID, session.getId());
+                listPosition = holder.getLayoutPosition();
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     Activity activity = (Activity) context;
 

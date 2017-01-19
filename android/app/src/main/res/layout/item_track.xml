@@ -1,43 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="72dp"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
     android:baselineAligned="false"
     android:clickable="true"
-    tools:showIn="@layout/list_tracks"
     android:focusable="true"
-    android:background="?attr/selectableItemBackground"
-    android:orientation="horizontal">
+    android:orientation="vertical"
+    tools:showIn="@layout/list_tracks">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/item_margin"
-        android:layout_marginBottom="@dimen/item_margin"
-        android:layout_marginRight="@dimen/content_margin"
-        android:layout_marginLeft="@dimen/content_margin"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center"
         android:orientation="vertical"
-        android:gravity="center">
+        android:paddingBottom="10dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="10dp">
 
         <TextView
             android:id="@+id/track_title"
-            android:textSize="18sp"
-            android:textColor="#d3000000"
-
             android:layout_width="match_parent"
-            tools:text="Track Title"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:textColor="#d3000000"
+            android:textSize="18sp"
+            tools:text="Track Title" />
 
         <TextView
             android:id="@+id/track_description"
-            android:textSize="14sp"
-            android:textColor="#89000000"
             android:layout_width="match_parent"
-            tools:text="Track description"
-            android:layout_height="wrap_content" />
-
+            android:layout_height="wrap_content"
+            android:textColor="#89000000"
+            android:textSize="14sp"
+            tools:text="Track description" />
     </LinearLayout>
 
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.8dp"
+        android:background="?android:attr/listDivider" />
 </LinearLayout>
