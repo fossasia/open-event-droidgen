@@ -16,11 +16,7 @@ def hash_file(_file):
     :param _file:
     :return:
     """
-    hasher = hashlib.md5()
-    with open(_file, 'rb') as the_file:
-        buf = the_file.read()
-        hasher.update(buf)
-    return hasher.hexdigest()
+    return hashlib.md5(str(os.path.getmtime(_file))).hexdigest()
 
 
 def clear_dir(folder):
