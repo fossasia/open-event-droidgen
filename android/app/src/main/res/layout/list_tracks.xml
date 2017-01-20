@@ -26,6 +26,6 @@
             tools:listitem="@layout/item_track"
             android:clipToPadding="false"
             android:scrollbars="vertical"
-            android:paddingTop="8dp"/>
+            android:background="@color/window_background"/>
     </android.support.v4.widget.SwipeRefreshLayout>
 </RelativeLayout>
