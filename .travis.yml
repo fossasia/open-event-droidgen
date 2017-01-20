@@ -1,6 +1,7 @@
 language: android
 jdk: oraclejdk8
 sudo: required
+dist: precise
 services:
   - docker
 env:
