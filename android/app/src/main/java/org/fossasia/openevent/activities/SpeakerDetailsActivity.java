@@ -65,21 +65,36 @@ public class SpeakerDetailsActivity extends BaseActivity {
 
     private CustomTabsServiceConnection customTabsServiceConnection;
 
-    @BindView(R.id.toolbar_speakers) private Toolbar toolbar;
-    @BindView(R.id.txt_no_sessions) private TextView noSessionsView;
-    @BindView(R.id.appbar) private AppBarLayout appBarLayout;
-    @BindView(R.id.collapsing_toolbar) private CollapsingToolbarLayout collapsingToolbarLayout;
-    @BindView(R.id.imageView_linkedin) private ImageView linkedin;
-    @BindView(R.id.imageView_fb) private ImageView fb;
-    @BindView(R.id.imageView_github) private ImageView github;
-    @BindView(R.id.imageView_twitter) private ImageView twitter;
-    @BindView(R.id.imageView_web) private ImageView website;
-    @BindView(R.id.speaker_details_title) private TextView speakerName;
-    @BindView(R.id.speaker_bio) private TextView biography;
-    @BindView(R.id.speaker_details_header) private ViewGroup header;
-    @BindView(R.id.recyclerView_speakers) private RecyclerView sessionRecyclerView;
-    @BindView(R.id.session_details_designation) private TextView speakerDesignation;
-    @BindView(R.id.progress_bar) private ProgressBar progressBar;
+    @BindView(R.id.toolbar_speakers)
+    private Toolbar toolbar;
+    @BindView(R.id.txt_no_sessions)
+    private TextView noSessionsView;
+    @BindView(R.id.appbar)
+    private AppBarLayout appBarLayout;
+    @BindView(R.id.collapsing_toolbar)
+    private CollapsingToolbarLayout collapsingToolbarLayout;
+    @BindView(R.id.imageView_linkedin)
+    private ImageView linkedin;
+    @BindView(R.id.imageView_fb)
+    private ImageView fb;
+    @BindView(R.id.imageView_github)
+    private ImageView github;
+    @BindView(R.id.imageView_twitter)
+    private ImageView twitter;
+    @BindView(R.id.imageView_web)
+    private ImageView website;
+    @BindView(R.id.speaker_details_title)
+    private TextView speakerName;
+    @BindView(R.id.speaker_bio)
+    private TextView biography;
+    @BindView(R.id.speaker_details_header)
+    private ViewGroup header;
+    @BindView(R.id.recyclerView_speakers)
+    private RecyclerView sessionRecyclerView;
+    @BindView(R.id.session_details_designation)
+    private TextView speakerDesignation;
+    @BindView(R.id.progress_bar)
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
