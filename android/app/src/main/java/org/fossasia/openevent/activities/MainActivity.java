@@ -1,5 +1,6 @@
 package org.fossasia.openevent.activities;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,6 +14,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
+import android.support.customtabs.CustomTabsCallback;
+import android.support.customtabs.CustomTabsClient;
+import android.support.customtabs.CustomTabsServiceConnection;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
@@ -24,7 +28,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
+import android.text.style.URLSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -81,6 +88,7 @@ import org.fossasia.openevent.utils.ISO8601Date;
 import org.fossasia.openevent.utils.NetworkUtils;
 import org.fossasia.openevent.utils.ShowNotificationSnackBar;
 import org.fossasia.openevent.utils.SmoothActionBarDrawerToggle;
+import org.fossasia.openevent.views.CustomTabsSpan;
 import org.fossasia.openevent.widget.DialogFactory;
 
 import java.io.IOException;
@@ -125,6 +133,12 @@ public class MainActivity extends BaseActivity {
     private int eventsDone;
     private int currentMenuItemId;
     private SmoothActionBarDrawerToggle smoothActionBarToggle;
+    private boolean customTabsSupported;
+    private CustomTabsServiceConnection customTabsServiceConnection;
+    private CustomTabsClient customTabsClient;
+    private Runnable runnable;
+    private Handler handler;
+    private long timer = 2000;
 
     public static Intent createLaunchFragmentIntent(Context context) {
         return new Intent(context, MainActivity.class)
@@ -178,6 +192,7 @@ public class MainActivity extends BaseActivity {
         setUpToolbar();
         setUpNavDrawer();
         setUpProgressBar();
+        setUpCustomTab();
         this.findViewById(android.R.id.content).setBackgroundColor(Color.WHITE);
         if (NetworkUtils.haveNetworkConnection(this)) {
             if (NetworkUtils.isActiveInternetPresent()) {
@@ -251,6 +266,23 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    private void setUpCustomTab() {
+        Intent customTabIntent = new Intent("android.support.customtabs.action.CustomTabsService");
+        customTabIntent.setPackage("com.android.chrome");
+        customTabsServiceConnection = new CustomTabsServiceConnection() {
+            @Override
+            public void onCustomTabsServiceConnected(ComponentName name, CustomTabsClient client) {
+                customTabsClient = client;
+                customTabsClient.warmup(0L);
+            }
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+                //initially left empty
+            }
+        };
+        customTabsSupported = bindService(customTabIntent, customTabsServiceConnection, Context.BIND_AUTO_CREATE);
+    }
+
     @Override
     protected int getLayoutResource() {
         return R.layout.activity_main;
@@ -267,6 +299,7 @@ public class MainActivity extends BaseActivity {
         super.onResume();
         OpenEventApp.getEventBus().register(this);
     }
+
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -441,20 +474,30 @@ public class MainActivity extends BaseActivity {
                     @Override
                     public void run() {
                         startActivity(intent);
-                        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                     }
                 });
                 break;
             case R.id.nav_about:
-                AlertDialog.Builder builder =
-                        new AlertDialog.Builder(this);
-                builder.setTitle(String.format("%1$s", getString(R.string.app_name)));
-                builder.setMessage(getResources().getText(R.string.about_text));
-                builder.setPositiveButton(android.R.string.ok, null);
-                builder.setIcon(R.mipmap.ic_launcher);
-                AlertDialog welcomeAlert = builder.create();
+                AlertDialog welcomeAlert =  DialogFactory.createSimpleOkErrorDialog(this, String.format("%1$s",
+                        getString(R.string.app_name)),
+                        getResources().getText(R.string.about_text).toString());
                 welcomeAlert.show();
-                ((TextView) welcomeAlert.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
+                final TextView welcomeAlertTV = (TextView) welcomeAlert.findViewById(android.R.id.message);
+                welcomeAlertTV.setMovementMethod(LinkMovementMethod.getInstance());
+                SpannableString welcomeAlertSpannable = new SpannableString(welcomeAlertTV.getText());
+                if (customTabsSupported) {
+                    URLSpan[] spans = welcomeAlertSpannable.getSpans(0, welcomeAlertSpannable.length(), URLSpan.class);
+                    for (URLSpan span : spans) {
+                        CustomTabsSpan newSpan = new CustomTabsSpan(span.getURL(), getApplicationContext(), this,
+                                customTabsClient.newSession(new CustomTabsCallback()));
+                        welcomeAlertSpannable.setSpan(newSpan, welcomeAlertSpannable.getSpanStart(span),
+                                welcomeAlertSpannable.getSpanEnd(span),
+                                Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+                        welcomeAlertSpannable.removeSpan(span);
+                    }
+                    welcomeAlertTV.setText(welcomeAlertSpannable);
+                }
                 break;
         }
         currentMenuItemId = menuItemId;
@@ -473,12 +516,14 @@ public class MainActivity extends BaseActivity {
                 backPressedOnce = true;
                 Snackbar snackbar = Snackbar.make(mainFrame, R.string.press_back_again, 2000);
                 snackbar.show();
-                new Handler().postDelayed(new Runnable() {
+                runnable = new Runnable() {
                     @Override
                     public void run() {
                         backPressedOnce = false;
                     }
-                }, 2000);
+                };
+                handler = new Handler();
+                handler.postDelayed(runnable, timer);
             }
         } else {
             atHome = true;
@@ -819,6 +864,16 @@ public class MainActivity extends BaseActivity {
 
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbindService(customTabsServiceConnection);
+        if (handler != null)
+        {
+            handler.removeCallbacks(runnable);
+        }
     }
 
 }

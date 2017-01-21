@@ -13,12 +13,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".activities.MainActivity">
+
         <FrameLayout
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:id="@+id/content_frame"
+            style="@style/WindowBackground"
+            android:background="@android:color/white"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            style="@style/WindowBackground"/>
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
         <android.support.design.widget.AppBarLayout
             android:id="@+id/appbar"
             android:layout_width="match_parent"
@@ -27,11 +30,11 @@
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
+                style="@style/ToolbarTheme"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                style="@style/ToolbarTheme"
-                app:popupTheme="@style/PopupOverlay"
-                app:layout_scrollFlags="scroll|enterAlways"/>
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:popupTheme="@style/PopupOverlay" />
 
         </android.support.design.widget.AppBarLayout>
 

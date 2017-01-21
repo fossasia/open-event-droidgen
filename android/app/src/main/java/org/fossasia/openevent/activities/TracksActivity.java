@@ -72,6 +72,7 @@ public class TracksActivity extends BaseActivity implements SearchView.OnQueryTe
         sessionsRecyclerView.setLayoutManager(gridLayoutManager);
         sessionsListAdapter = new SessionsListAdapter(this, dbSingleton.getSessionbyTracksname(track));
         sessionsRecyclerView.setAdapter(sessionsListAdapter);
+        sessionsRecyclerView.scrollToPosition(SessionsListAdapter.listPosition);
         sessionsRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         if (sessionsListAdapter.getItemCount() != 0) {
@@ -120,6 +121,7 @@ public class TracksActivity extends BaseActivity implements SearchView.OnQueryTe
 
     @Override
     public boolean onQueryTextSubmit(String query) {
+        searchView.clearFocus();
         return true;
     }
 

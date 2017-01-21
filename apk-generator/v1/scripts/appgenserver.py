@@ -119,7 +119,7 @@ elif back_image != "":
     back = Image.open(directory + "/background.png")
     back.load()
     backNew = Image.new("RGB", (back.size), (255, 255, 255))  #create a new image file
-    backNew.paste(back)  #save existing image into this new file
+    backNew.paste(back)  # save existing image into this new file
     backNew = backNew.resize((600, 400), Image.ANTIALIAS)
     backNew.save(directory + "/background.jpg", 'JPEG', quality=80)  # Save it as jpeg file
     copyfile(directory + "/background.jpg", directory +

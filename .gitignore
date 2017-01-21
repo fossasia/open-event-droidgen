@@ -5,3 +5,6 @@
 /captures
 **/.idea/**
 **/*.iml
+temp
+.pyc
+*.pyc

@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.fossasia.openevent.R;
+import org.fossasia.openevent.adapters.LocationsListAdapter;
 import org.fossasia.openevent.adapters.SessionsListAdapter;
 import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.data.Session;
@@ -79,6 +80,7 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
         sessionRecyclerView.setLayoutManager(gridLayoutManager);
         sessionsListAdapter = new SessionsListAdapter(this, mSessions);
         sessionRecyclerView.setAdapter(sessionsListAdapter);
+        sessionRecyclerView.scrollToPosition(LocationsListAdapter.listPosition);
         sessionRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         if (!mSessions.isEmpty()) {
@@ -115,6 +117,7 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
 
     @Override
     public boolean onQueryTextSubmit(String query) {
+        searchView.clearFocus();
         return false;
     }
 

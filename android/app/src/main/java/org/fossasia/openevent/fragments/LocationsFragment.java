@@ -164,6 +164,7 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
 
     @Override
     public boolean onQueryTextSubmit(String query) {
+        searchView.clearFocus();
         return true;
     }
 

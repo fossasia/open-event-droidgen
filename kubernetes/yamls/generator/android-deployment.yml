@@ -10,7 +10,7 @@ spec:
         app: android-generator
     spec:
       containers:
-      - name: web
+      - name: android-generator
         image: gcr.io/eventyay/generators/android:latest
         command: ["/bin/sh","-c"]
         args: ["./kubernetes/run.sh"]
