@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.customtabs.CustomTabsCallback;
@@ -27,8 +28,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -62,20 +65,36 @@ public class SpeakerDetailsActivity extends BaseActivity {
 
     private CustomTabsServiceConnection customTabsServiceConnection;
 
-    @BindView(R.id.toolbar_speakers) Toolbar toolbar;
-    @BindView(R.id.txt_no_sessions) TextView noSessionsView;
-    @BindView(R.id.appbar) AppBarLayout appBarLayout;
-    @BindView(R.id.collapsing_toolbar) CollapsingToolbarLayout collapsingToolbarLayout;
-    @BindView(R.id.imageView_linkedin) ImageView linkedin;
-    @BindView(R.id.imageView_fb) ImageView fb;
-    @BindView(R.id.imageView_github) ImageView github;
-    @BindView(R.id.imageView_twitter) ImageView twitter;
-    @BindView(R.id.imageView_web) ImageView website;
-    @BindView(R.id.speaker_details_title) TextView speakerName;
-    @BindView(R.id.speaker_bio) TextView biography;
-    @BindView(R.id.speaker_details_header) ViewGroup header;
-    @BindView(R.id.recyclerView_speakers) RecyclerView sessionRecyclerView;
-    @BindView(R.id.session_details_designation) TextView speakerDesignation;
+    @BindView(R.id.toolbar_speakers)
+    Toolbar toolbar;
+    @BindView(R.id.txt_no_sessions)
+    TextView noSessionsView;
+    @BindView(R.id.appbar)
+    AppBarLayout appBarLayout;
+    @BindView(R.id.collapsing_toolbar)
+    CollapsingToolbarLayout collapsingToolbarLayout;
+    @BindView(R.id.imageView_linkedin)
+    ImageView linkedin;
+    @BindView(R.id.imageView_fb)
+    ImageView fb;
+    @BindView(R.id.imageView_github)
+    ImageView github;
+    @BindView(R.id.imageView_twitter)
+    ImageView twitter;
+    @BindView(R.id.imageView_web)
+    ImageView website;
+    @BindView(R.id.speaker_details_title)
+    TextView speakerName;
+    @BindView(R.id.speaker_bio)
+    TextView biography;
+    @BindView(R.id.speaker_details_header)
+    ViewGroup header;
+    @BindView(R.id.recyclerView_speakers)
+    RecyclerView sessionRecyclerView;
+    @BindView(R.id.session_details_designation)
+    TextView speakerDesignation;
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,9 +123,22 @@ public class SpeakerDetailsActivity extends BaseActivity {
                     collapsingToolbarLayout.requestLayout();
 
                     if (!TextUtils.isEmpty(selectedSpeaker.getPhoto())) {
-                        Picasso.with(SpeakerDetailsActivity.this)
-                                .load(Uri.parse(selectedSpeaker.getPhoto()))
-                                .into((ImageView) findViewById(R.id.speaker_image));
+                        if (isNetworkConnected()) {
+                            Picasso.with(SpeakerDetailsActivity.this)
+                                    .load(Uri.parse(selectedSpeaker.getPhoto()))
+                                    .into((ImageView) findViewById(R.id.speaker_image), new Callback() {
+                                        @Override
+                                        public void onSuccess() {
+                                            progressBar.setVisibility(View.GONE);
+                                        }
+
+                                        @Override
+                                        public void onError() {
+                                            progressBar.setVisibility(View.GONE);
+                                        }
+                                    });
+                        } else
+                            progressBar.setVisibility(View.GONE);
                     }
                 }
             }
@@ -132,13 +164,10 @@ public class SpeakerDetailsActivity extends BaseActivity {
         customTabsSupported = bindService(customTabIntent, customTabsServiceConnection, Context.BIND_AUTO_CREATE);
 
         final SpeakerIntent speakerIntent;
-        if (customTabsClient != null)
-        {
+        if (customTabsClient != null) {
             speakerIntent = new SpeakerIntent(selectedSpeaker, getApplicationContext(), this,
                     customTabsClient.newSession(new CustomTabsCallback()), customTabsSupported);
-        }
-        else
-        {
+        } else {
             speakerIntent = new SpeakerIntent(selectedSpeaker, getApplicationContext(), this, customTabsSupported);
         }
 
@@ -299,4 +328,11 @@ public class SpeakerDetailsActivity extends BaseActivity {
         super.onDestroy();
         unbindService(customTabsServiceConnection);
     }
+
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo() != null;
+    }
+
 }
+
