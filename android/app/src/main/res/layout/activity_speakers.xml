@@ -22,6 +22,12 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             tools:layout_height="300dp">
 
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/progress_bar"
+                android:layout_gravity="center"/>
+
             <ImageView
                 android:id="@+id/speaker_image"
                 android:layout_width="match_parent"
