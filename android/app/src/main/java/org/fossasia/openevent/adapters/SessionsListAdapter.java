@@ -4,19 +4,20 @@ import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.support.v4.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -49,6 +50,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
     private String trackName;
     private Context context;
     public static int listPosition;
+    private List<Session> sessions;
 
     @SuppressWarnings("all")
     Filter filter = new Filter() {
@@ -81,6 +83,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
 
     public SessionsListAdapter(Context context, List<Session> sessions) {
         super(sessions);
+        this.sessions = sessions;
         this.context = context;
     }
 
@@ -101,7 +104,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
     }
 
     @Override
-    public void onBindViewHolder(final SessionViewHolder holder, int position) {
+    public void onBindViewHolder(final SessionViewHolder holder, final int position) {
         final Session session = getItem(position);
         String date = ISO8601Date.getTimeZoneDateString(
                 ISO8601Date.getDateObject(session.getStartTime())).split(",")[0] + ","
@@ -118,24 +121,47 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
         holder.sessionLocation.setText(session.getMicrolocation().getName());
         DbSingleton dbSingleton;
         dbSingleton = DbSingleton.getInstance();
-        if(!dbSingleton.isBookmarked(session.getId()))
+        if (!dbSingleton.isBookmarked(session.getId()))
             holder.sessionImage.setImageResource(R.drawable.ic_bookmark_outline_black_24dp);
         else
             holder.sessionImage.setImageResource(R.drawable.ic_bookmark_grey600_24dp);
         holder.sessionImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DbSingleton dbSingleton;
+                final DbSingleton dbSingleton;
                 dbSingleton = DbSingleton.getInstance();
+
+
                 if (dbSingleton.isBookmarked(session.getId())) {
-                    dbSingleton.deleteBookmarks(session.getId());
-                    holder.sessionImage.setImageResource(R.drawable.ic_bookmark_outline_black_24dp);
+
+                    new AlertDialog.Builder(context, R.style.AlertDialogCustom)
+                            .setTitle("Remove Bookmark")
+                            .setMessage("Are you sure you want to remove this event from your bookmarks?")
+                            .setPositiveButton("YES",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dbSingleton.deleteBookmarks(session.getId());
+                                            sessions.remove(position);
+                                            notifyItemRemoved(position);
+                                            notifyItemRangeChanged(position, sessions.size());
+                                        }
+                                    })
+                            .setNegativeButton("CANCEL",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                             //Do nothing, just close
+                                        }
+                                    }).create().show();
+
                 } else {
                     createNotification(session);
                     dbSingleton.addBookmarks(session.getId());
                     holder.sessionImage.setImageResource(R.drawable.ic_bookmark_grey600_24dp);
+                    context.sendBroadcast(new Intent(BookmarkWidgetProvider.ACTION_UPDATE));
                 }
-                context.sendBroadcast(new Intent(BookmarkWidgetProvider.ACTION_UPDATE));
+
             }
         });
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -206,6 +232,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
         }
 
     }
+
     public void createNotification(Session session) {
 
         Calendar calendar = Calendar.getInstance();
