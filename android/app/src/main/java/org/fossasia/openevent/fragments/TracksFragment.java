@@ -5,7 +5,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -88,8 +88,8 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
         int spanCount = (int) (width/200.00);
 
         tracksRecyclerView.setHasFixedSize(true);
-        final GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),spanCount);
-        tracksRecyclerView.setLayoutManager(gridLayoutManager);
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        tracksRecyclerView.setLayoutManager(linearLayoutManager);
         tracksListAdapter = new TracksListAdapter(getContext(), mTracks);
         tracksRecyclerView.setAdapter(tracksListAdapter);
         tracksRecyclerView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
@@ -97,7 +97,7 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
             public boolean onPreDraw() {
                 toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
                 layoutParams = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
-                if (gridLayoutManager.findLastCompletelyVisibleItemPosition() == gridLayoutManager.getChildCount() - 1) {
+                if (linearLayoutManager.findLastCompletelyVisibleItemPosition() == linearLayoutManager.getChildCount() - 1) {
                     layoutParams.setScrollFlags(SCROLL_OFF);
                     toolbar.setLayoutParams(layoutParams);
                 }
