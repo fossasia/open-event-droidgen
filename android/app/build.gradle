@@ -7,11 +7,11 @@ def buildTime = new Date().format("yyyy-MM-dd'T'HH:mm'Z'", TimeZone.getTimeZone(
 
 def isTravis = "true".equals(System.getenv("TRAVIS"))
 def preDexEnabled = "true".equals(System.getProperty("pre-dex", "true"))
-def SUPPORT_LIB_VERSION = "24.2.0"
+def SUPPORT_LIB_VERSION = "25.1.0"
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.2"
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
 
     dexOptions {
         // Skip pre-dexing when running on Travis CI or when disabled via -Dpre-dex=false.
@@ -25,7 +25,7 @@ android {
     defaultConfig {
         applicationId "org.fossasia.openevent"
         minSdkVersion 15
-        targetSdkVersion 24
+        targetSdkVersion 25
         versionCode 83
         versionName "0.8.3"
 
