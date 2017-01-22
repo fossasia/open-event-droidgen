@@ -24,7 +24,7 @@ import butterknife.BindView;
  * User: MananWason
  * Date: 14-06-2015
  */
-public class TracksActivity extends BaseActivity implements SearchView.OnQueryTextListener {
+public class TrackSessionsActivity extends BaseActivity implements SearchView.OnQueryTextListener {
 
     final private String SEARCH = "org.fossasia.openevent.searchText";
 

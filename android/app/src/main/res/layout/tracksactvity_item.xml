@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
-
     <android.support.v7.widget.CardView
         android:background="@android:color/white"
         android:transitionName="sessionBackground"
@@ -13,7 +12,6 @@
         android:layout_margin="@dimen/card_margin">
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            style="@style/CardContent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -24,129 +22,138 @@
                 android:orientation="vertical"
                 android:id="@+id/session_details"
                 android:transitionName="session">
-                <TextView
-                    android:id="@+id/session_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    style="@style/TextAppearance.AppCompat.Headline"/>
-
-                <TextView
-                    android:id="@+id/session_subtitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    style="@style/Base.TextAppearance.AppCompat.Subhead"
-                    android:layout_marginBottom="@dimen/track_title_margin"
-                    android:textColor="@color/primary_text"/>
-
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/track_title_margin"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/track_title_margin"
-                        android:layout_marginRight="@dimen/track_title_margin"
-                        android:text="@string/tracks"
-                        android:textSize="@dimen/track_data_size"
-                        android:textColor="@color/primary_text"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/session_track"
+                    android:layout_height="100dp"
+                    android:orientation="vertical"
+                    android:background="@color/color_primary"
+                    android:padding="@dimen/card_margin"
+                    android:id="@+id/titleLinearLayout">
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/track_data_size"
-                        android:textColor="@color/primary_text" />
+                        android:orientation="horizontal"
+                        android:gravity="end">
+                        <ImageView
+                            android:id="@+id/session_bookmark_status"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_bookmark_border_white_24dp"
+                            android:layout_margin="3dp"/>
+                        <ImageView
+                            android:id="@+id/shareImageIcon"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_margin="3dp"
+                            android:src="@drawable/ic_share_white_24dp" />
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"/>
+                    <TextView
+                        android:id="@+id/session_title"
+                        android:text="Session Title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:fontFamily="sans-serif"
+                        android:textSize="20sp"/>
                 </LinearLayout>
-
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/track_title_margin"
-                    android:orientation="horizontal">
-
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="@dimen/card_margin">
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:id="@+id/session_subtitle"
+                        android:text="Session Subtitle"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/track_title_margin"
-                        android:layout_marginRight="@dimen/track_title_margin"
-                        android:text="@string/date"
-                        android:textSize="@dimen/track_data_size"
-                        android:textColor="@color/primary_text"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/session_date"
-                        android:layout_width="wrap_content"
+                        android:textColor="@color/white"
+                        style="@style/Base.TextAppearance.AppCompat.Subhead"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/track_data_size"
-                        android:textColor="@color/primary_text" />
-                </LinearLayout>
+                        android:layout_marginBottom="@dimen/track_title_margin"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+                        <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:id="@+id/trackImageDrawable"/>
+                        <TextView
+                            android:id="@+id/session_track"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/track_data_size"
+                            android:text="Track Name"
+                            android:textColor="@color/primary_text"
+                            android:layout_marginLeft="@dimen/sessionList_item_margins"
+                            android:layout_marginStart="@dimen/sessionList_item_margins"/>
+                    </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/track_title_margin"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/track_title_margin"
-                        android:layout_marginRight="@dimen/track_title_margin"
-                        android:text="@string/start_time"
-                        android:textSize="@dimen/track_data_size"
-                        android:textColor="@color/primary_text"
-                        android:textStyle="bold" />
+                        android:layout_marginBottom="@dimen/track_title_margin"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_date_range_black_24dp"/>
+                        <TextView
+                            android:id="@+id/session_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/track_data_size"
+                            android:text="Date of Event"
+                            android:textColor="@color/primary_text"
+                            android:layout_marginLeft="@dimen/sessionList_item_margins"
+                            android:layout_marginStart="@dimen/sessionList_item_margins"/>
+                    </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/session_start_time"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/track_data_size"
-                        android:textColor="@color/primary_text" />
-                </LinearLayout>
+                        android:layout_marginBottom="@dimen/track_title_margin"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_schedule_black_24dp"/>
+                        <TextView
+                            android:id="@+id/session_start_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/track_data_size"
+                            android:textColor="@color/primary_text"
+                            android:layout_marginLeft="@dimen/sessionList_item_margins"
+                            android:layout_marginStart="@dimen/sessionList_item_margins"/>
+                    </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/track_title_margin"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/track_title_margin"
-                        android:layout_marginRight="@dimen/track_title_margin"
-                        android:text="@string/location"
-                        android:textSize="@dimen/track_data_size"
-                        android:textColor="@color/primary_text"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/session_location"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/track_data_size"
-                        android:textColor="@color/primary_text" />
+                        android:layout_marginBottom="@dimen/track_title_margin"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_location_on_black_24dp"/>
+                        <TextView
+                            android:id="@+id/session_location"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/track_data_size"
+                            android:text="Session Location"
+                            android:textColor="@color/primary_text"
+                            android:layout_marginLeft="@dimen/sessionList_item_margins"
+                            android:layout_marginStart="@dimen/sessionList_item_margins"/>
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
-
         </LinearLayout>
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right">
-            <ImageView
-                android:id="@+id/session_bookmark_status"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_bookmark_outline_black_24dp"/>
-        </FrameLayout>
     </android.support.v7.widget.CardView>
 </LinearLayout>
