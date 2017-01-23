@@ -7,7 +7,7 @@ if [ "$TRAVIS_PULL_REQUEST" != "false" -o "$TRAVIS_REPO_SLUG" != "fossasia/open-
     exit 0
 fi
 
-export REPOSITORY = "https://github.com/${TRAVIS_REPO_SLUG}.git"
+export REPOSITORY="https://github.com/${TRAVIS_REPO_SLUG}.git"
 
 sudo rm -f /usr/bin/git-credential-gcloud.sh
 sudo rm -f /usr/bin/bq
@@ -30,5 +30,4 @@ cd kubernetes/images/generator
 docker build --build-arg COMMIT_HASH=$TRAVIS_COMMIT --build-arg BRANCH=$DEPLOY_BRANCH --build-arg REPOSITORY=$REPOSITORY --no-cache -t gcr.io/eventyay/generators/android:$TRAVIS_COMMIT .
 docker tag gcr.io/eventyay/web:$TRAVIS_COMMIT gcr.io/eventyay/generators/android:latest
 gcloud docker -- push gcr.io/eventyay/generators/android
-kubectl set image deployment/web web=gcr.io/eventyay/generators/android:$TRAVIS_COMMIT
-kubectl set image deployment/celery celery=gcr.io/eventyay/generators/android:$TRAVIS_COMMIT
+kubectl set image deployment/android-generator android-generator=gcr.io/eventyay/generators/android:$TRAVIS_COMMIT

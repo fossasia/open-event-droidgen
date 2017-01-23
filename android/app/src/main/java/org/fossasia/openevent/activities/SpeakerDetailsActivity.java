@@ -3,6 +3,11 @@ package org.fossasia.openevent.activities;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.customtabs.CustomTabsCallback;
@@ -10,10 +15,11 @@ import android.support.customtabs.CustomTabsClient;
 import android.support.customtabs.CustomTabsServiceConnection;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -22,9 +28,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.SessionsListAdapter;
@@ -35,9 +44,7 @@ import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.SpeakerIntent;
 import org.fossasia.openevent.utils.Views;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
 
@@ -72,6 +79,7 @@ public class SpeakerDetailsActivity extends BaseActivity {
     @BindView(R.id.speaker_details_header) ViewGroup header;
     @BindView(R.id.recyclerView_speakers) RecyclerView sessionRecyclerView;
     @BindView(R.id.session_details_designation) TextView speakerDesignation;
+    @BindView(R.id.progress_bar) protected ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,9 +108,22 @@ public class SpeakerDetailsActivity extends BaseActivity {
                     collapsingToolbarLayout.requestLayout();
 
                     if (!TextUtils.isEmpty(selectedSpeaker.getPhoto())) {
-                        Picasso.with(SpeakerDetailsActivity.this)
-                                .load(Uri.parse(selectedSpeaker.getPhoto()))
-                                .into((ImageView) findViewById(R.id.speaker_image));
+                        if (isNetworkConnected()) {
+                            Picasso.with(SpeakerDetailsActivity.this)
+                                    .load(Uri.parse(selectedSpeaker.getPhoto()))
+                                    .into((ImageView) findViewById(R.id.speaker_image), new Callback() {
+                                        @Override
+                                        public void onSuccess() {
+                                            progressBar.setVisibility(View.GONE);
+                                        }
+
+                                        @Override
+                                        public void onError() {
+                                            progressBar.setVisibility(View.GONE);
+                                        }
+                                    });
+                        } else
+                            progressBar.setVisibility(View.GONE);
                     }
                 }
             }
@@ -225,15 +246,79 @@ public class SpeakerDetailsActivity extends BaseActivity {
 
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(final Menu menu) {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_speakers_activity, menu);
+
+        Target imageTarget = new Target() {
+            @Override
+            public void onBitmapLoaded(final Bitmap bitmap, Picasso.LoadedFrom from) {
+                Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+                    @Override
+                    public void onGenerated(Palette palette) {
+                        int shareColor;
+
+                        int pixel = bitmap.getPixel(((int) Math.round(bitmap.getWidth() * 0.9)),
+                                ((int) Math.round(bitmap.getHeight() * 0.1)));
+                        if (Color.red(pixel) + Color.blue(pixel) + Color.green(pixel) > 128 * 3) {
+                            shareColor = Color.BLACK;
+                        } else {
+                            shareColor = Color.WHITE;
+                        }
+
+                        Drawable shareDrawable = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_share_white_24dp);
+                        shareDrawable.setColorFilter(shareColor, PorterDuff.Mode.MULTIPLY);
+
+                        menu.getItem(0).setIcon(shareDrawable);
+
+                        Drawable backDrawable = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_arrow_back_white_24dp);
+                        backDrawable.setColorFilter(shareColor, PorterDuff.Mode.MULTIPLY);
+
+                        getSupportActionBar().setHomeAsUpIndicator(backDrawable);
+                    }
+                });
+            }
+
+            @Override
+            public void onBitmapFailed(Drawable errorDrawable) {
+                Drawable shareDrawable = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_share_white_24dp);
+                shareDrawable.clearColorFilter();
+
+                Drawable backDrawable = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_arrow_back_white_24dp);
+                backDrawable.clearColorFilter();
+            }
+
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+                //This method is intentionally empty, because it is required to use Target, which is abstract
+            }
+        };
+
+        Picasso.with(SpeakerDetailsActivity.this)
+                .load(Uri.parse(selectedSpeaker.getPhoto()))
+                .into(imageTarget);
         return true;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        Drawable shareDrawable = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_share_white_24dp);
+        shareDrawable.clearColorFilter();
+
+        Drawable backDrawable = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_arrow_back_white_24dp);
+        backDrawable.clearColorFilter();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         unbindService(customTabsServiceConnection);
+    }
+
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo() != null;
     }
 }
