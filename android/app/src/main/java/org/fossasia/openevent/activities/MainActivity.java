@@ -228,8 +228,12 @@ public class MainActivity extends BaseActivity {
                 };
                 //show snackbar
                 showNotificationSnackBar.showSnackBar();
-                //snow notification
-                showNotificationSnackBar.buildNotification();
+                //show notification if device is connected to wifi
+                ConnectivityManager connectivityManager = (ConnectivityManager) getApplication().getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo isWifi = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+                if (isWifi.isConnectedOrConnecting()){
+                    showNotificationSnackBar.buildNotification();
+                }
             }
         } else {
             final Snackbar snackbar = Snackbar.make(mainFrame, R.string.display_offline_schedule, Snackbar.LENGTH_LONG);
