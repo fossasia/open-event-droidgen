@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -21,6 +22,10 @@ import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.amulyakhare.textdrawable.TextDrawable;
+import com.amulyakhare.textdrawable.util.ColorGenerator;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.activities.SessionDetailActivity;
@@ -50,7 +55,8 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
     private String trackName;
     private Context context;
     public static int listPosition;
-    private List<Session> sessions;
+    private ColorGenerator colorGenerator = ColorGenerator.MATERIAL;
+    private TextDrawable.IBuilder drawableBuilder = TextDrawable.builder().round();
 
     @SuppressWarnings("all")
     Filter filter = new Filter() {
@@ -62,7 +68,6 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
             final ArrayList<Session> filteredSessionList = new ArrayList<>();
             String query = constraint.toString().toLowerCase(Locale.getDefault());
             for (Session session : sessionList) {
-
                 final String text = session.getTitle().toLowerCase(Locale.getDefault());
                 if (text.contains(query)) {
                     filteredSessionList.add(session);
@@ -83,7 +88,6 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
 
     public SessionsListAdapter(Context context, List<Session> sessions) {
         super(sessions);
-        this.sessions = sessions;
         this.context = context;
     }
 
@@ -115,25 +119,26 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
 
         holder.sessionTitle.setText(session.getTitle());
         holder.sessionSubtitle.setText(session.getSubtitle());
+        TextDrawable drawable = drawableBuilder.build(String.valueOf(session.getTrack().getName().charAt(0)), colorGenerator.getColor(session.getTrack().getName()));
+        holder.trackImageIcon.setImageDrawable(drawable);
+        holder.trackImageIcon.setBackgroundColor(Color.TRANSPARENT);
         holder.sessionTrack.setText(session.getTrack().getName());
         holder.sessionDate.setText(date);
         holder.sessionStartTime.setText(ISO8601Date.get12HourTime(ISO8601Date.getDateObject(session.getStartTime())));
         holder.sessionLocation.setText(session.getMicrolocation().getName());
         DbSingleton dbSingleton;
         dbSingleton = DbSingleton.getInstance();
+
         if (!dbSingleton.isBookmarked(session.getId()))
-            holder.sessionImage.setImageResource(R.drawable.ic_bookmark_outline_black_24dp);
+            holder.sessionBookmarkIcon.setImageResource(R.drawable.ic_bookmark_border_white_24dp);
         else
-            holder.sessionImage.setImageResource(R.drawable.ic_bookmark_grey600_24dp);
-        holder.sessionImage.setOnClickListener(new View.OnClickListener() {
+            holder.sessionBookmarkIcon.setImageResource(R.drawable.ic_bookmark_white_24dp);
+        holder.sessionBookmarkIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final DbSingleton dbSingleton;
                 dbSingleton = DbSingleton.getInstance();
-
-
                 if (dbSingleton.isBookmarked(session.getId())) {
-
                     new AlertDialog.Builder(context, R.style.AlertDialogCustom)
                             .setTitle("Remove Bookmark")
                             .setMessage("Are you sure you want to remove this event from your bookmarks?")
@@ -142,26 +147,24 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             dbSingleton.deleteBookmarks(session.getId());
-                                            sessions.remove(position);
-                                            notifyItemRemoved(position);
-                                            notifyItemRangeChanged(position, sessions.size());
+                                            holder.sessionBookmarkIcon.setImageResource(R.drawable.ic_bookmark_border_white_24dp);
+                                            Toast.makeText(context, R.string.removed_bookmark, Toast.LENGTH_SHORT).show();
                                         }
                                     })
                             .setNegativeButton("CANCEL",
                                     new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                             //Do nothing, just close
+                                            //Do nothing, just close
                                         }
                                     }).create().show();
 
                 } else {
                     createNotification(session);
                     dbSingleton.addBookmarks(session.getId());
-                    holder.sessionImage.setImageResource(R.drawable.ic_bookmark_grey600_24dp);
+                    holder.sessionBookmarkIcon.setImageResource(R.drawable.ic_bookmark_white_24dp);
                     context.sendBroadcast(new Intent(BookmarkWidgetProvider.ACTION_UPDATE));
                 }
-
             }
         });
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -189,6 +192,28 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
                 }
             }
         });
+
+        holder.shareIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String startTime = ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(session.getStartTime()));
+                String endTime = ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(session.getEndTime()));
+                StringBuilder shareText = new StringBuilder();
+                shareText.append(String.format("Session Track: %s \nTitle: %s \nStart Time: %s \nEnd Time: %s\n",
+                        trackName, session.getTitle(), startTime, endTime));
+                if (!session.getSummary().toString().isEmpty()){
+                    shareText.append("\nSummary: ").append(session.getSummary().toString());
+                }
+                else{
+                    shareText.append(context.getString(R.string.descriptionEmpty));
+                }
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, shareText.toString());
+                sendIntent.setType("text/plain");
+                context.startActivity(Intent.createChooser(sendIntent, context.getString(R.string.share_links)));
+            }
+        });
     }
 
     public void refresh() {
@@ -205,6 +230,9 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
         @BindView(R.id.session_subtitle)
         protected TextView sessionSubtitle;
 
+        @BindView(R.id.trackImageDrawable)
+        protected ImageView trackImageIcon;
+
         @BindView(R.id.session_track)
         protected TextView sessionTrack;
 
@@ -218,7 +246,10 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
         protected TextView sessionLocation;
 
         @BindView(R.id.session_bookmark_status)
-        protected ImageView sessionImage;
+        protected ImageView sessionBookmarkIcon;
+
+        @BindView(R.id.shareImageIcon)
+        protected ImageView shareIcon;
 
         @BindView(R.id.session_details)
         protected LinearLayout sessionDetailsHolder;
