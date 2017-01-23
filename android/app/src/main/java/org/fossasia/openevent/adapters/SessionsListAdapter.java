@@ -175,6 +175,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
                 Intent intent = new Intent(context, SessionDetailActivity.class);
                 intent.putExtra(ConstantStrings.SESSION, sessionName);
                 intent.putExtra(ConstantStrings.TRACK, trackName);
+                intent.putExtra(ConstantStrings.ID, session.getId());
                 listPosition = holder.getLayoutPosition();
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     Activity activity = (Activity) context;

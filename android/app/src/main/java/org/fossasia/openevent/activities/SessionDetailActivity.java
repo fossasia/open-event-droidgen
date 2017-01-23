@@ -89,21 +89,27 @@ public class SessionDetailActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         DbSingleton dbSingleton = DbSingleton.getInstance();
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        int id;
+
         title = getIntent().getStringExtra(ConstantStrings.SESSION);
         trackName = getIntent().getStringExtra(ConstantStrings.TRACK);
+        id = getIntent().getIntExtra(ConstantStrings.ID, 0);
         Timber.tag(TAG).d(title);
 
         final List<Speaker> speakers = dbSingleton.getSpeakersbySessionName(title);
-        session = dbSingleton.getSessionbySessionname(title);
+        try {
+            session = dbSingleton.getSessionById(id);
+        } catch (Exception e) {
+            session = dbSingleton.getSessionbySessionname(title);
+        }
 
         text_room1.setText((dbSingleton.getMicrolocationById(session.getMicrolocation().getId())).getName());
 
         text_title.setText(title);
-        if (session.getSubtitle().equals("")){
+        if (session.getSubtitle().equals("")) {
             text_subtitle.setVisibility(View.GONE);
         }
         text_subtitle.setText(session.getSubtitle());
@@ -205,10 +211,9 @@ public class SessionDetailActivity extends BaseActivity {
                 StringBuilder shareText = new StringBuilder();
                 shareText.append(String.format("Session Track: %s \nTitle: %s \nStart Time: %s \nEnd Time: %s\n",
                         trackName, title, startTime, endTime));
-                if (!result.toString().isEmpty()){
+                if (!result.toString().isEmpty()) {
                     shareText.append("\nDescription: ").append(result.toString());
-                }
-                else{
+                } else {
                     shareText.append(getString(R.string.descriptionEmpty));
                 }
                 Intent sendIntent = new Intent();

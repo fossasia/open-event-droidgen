@@ -65,6 +65,7 @@ public class BookmarkAlarmService extends IntentService {
         Session session = dbSingleton.getSessionById(id);
         Intent intent1 = new Intent(this.getApplicationContext(), SessionDetailActivity.class);
         intent1.putExtra(ConstantStrings.SESSION, session.getTitle());
+        intent1.putExtra(ConstantStrings.ID, session.getId());
         PendingIntent pendingNotificationIntent = PendingIntent.getActivity(this.getApplicationContext(), 0, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
         Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)

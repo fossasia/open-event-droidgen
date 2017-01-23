@@ -14,6 +14,7 @@ import android.widget.RemoteViewsService;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.ISO8601Date;
 
 import java.util.ArrayList;
@@ -111,6 +112,7 @@ public class BookmarkWidgetRemoteViewsService extends RemoteViewsService {
                 String title = data.getString(INDEX_BOOKMARK_TITLE);
                 String start = data.getString(INDEX_BOOKMARK_START_TIME);
                 String end = data.getString(INDEX_BOOKMARK_END_TIME);
+                int id = data.getInt(INDEX_BOOKMARK_ID);
                 RemoteViews views = new RemoteViews(getPackageName(),
                         R.layout.widget_list_item);
 
@@ -127,7 +129,8 @@ public class BookmarkWidgetRemoteViewsService extends RemoteViewsService {
                 }
 
                 final Intent fillInIntent = new Intent();
-                fillInIntent.putExtra("SESSION", title);
+                fillInIntent.putExtra(ConstantStrings.SESSION, title);
+                fillInIntent.putExtra(ConstantStrings.ID, id);
                 views.setOnClickFillInIntent(R.id.widget_list_item, fillInIntent);
                 return views;
             }
