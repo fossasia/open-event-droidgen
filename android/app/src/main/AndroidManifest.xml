@@ -40,7 +40,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.TracksActivity"
+            android:name=".activities.TrackSessionsActivity"
             android:label="@string/title_section_tracks"
             android:theme="@style/AppTheme.NoActionBar.Alternate"/>
         <activity
