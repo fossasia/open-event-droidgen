@@ -14,6 +14,7 @@
         app:tabMode="scrollable"
         android:clipToPadding="false"
         android:background="?attr/selectableItemBackground"
+        app:tabIndicatorHeight="3dp"
         app:tabSelectedTextColor="@android:color/white" />
 
     <android.support.v4.view.ViewPager
