@@ -3,10 +3,10 @@
 ### Requirements
 
 - Operating system Ubuntu 14.04 or above is preferred. (This guide will be based on ubuntu/debian based operating systems.)
-- Python 2.7 _(Installation instructions provided)_.
-- Oracle JDK 8 _(installation instructions provided)_.
-- Android SDK & necessary build tools and platform SDKs _(installation instructions provided)_.
-- Redis Server _(Installation instructions provided)_.
+- Python 2.7
+- Oracle JDK 8
+- Android SDK & necessary build tools and platform SDKs
+- Redis Server
 
 
 ### Cloning the Project
