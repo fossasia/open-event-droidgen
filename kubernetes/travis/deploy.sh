@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
-export DEPLOY_BRANCH=${DEPLOY_BRANCH:-master}
-
-if [ "$TRAVIS_PULL_REQUEST" != "false" -o "$TRAVIS_REPO_SLUG" != "fossasia/open-event-android" -o  "$TRAVIS_BRANCH" != "$DEPLOY_BRANCH" ]; then
+if [ "$TRAVIS_PULL_REQUEST" != "false" -o "$TRAVIS_REPO_SLUG" != "fossasia/open-event-android" ]; then
     echo "Just a PR. Skip google cloud deployment."
     exit 0
 fi
@@ -27,7 +25,7 @@ export GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/eventyay-b6f445785c27.json
 gcloud config set project eventyay
 gcloud container clusters get-credentials eventyay-cluster
 cd kubernetes/images/generator
-docker build --build-arg COMMIT_HASH=$TRAVIS_COMMIT --build-arg BRANCH=$DEPLOY_BRANCH --build-arg REPOSITORY=$REPOSITORY --no-cache -t gcr.io/eventyay/generators/android:$TRAVIS_COMMIT .
-docker tag gcr.io/eventyay/web:$TRAVIS_COMMIT gcr.io/eventyay/generators/android:latest
+docker build --build-arg COMMIT_HASH=$COMMIT_HASH --build-arg BRANCH=$BRANCH --build-arg REPOSITORY=$REPOSITORY --no-cache -t gcr.io/eventyay/generators/android:$COMMIT_HASH .
+docker tag gcr.io/eventyay/generators/android:$COMMIT_HASH gcr.io/eventyay/generators/android:latest
 gcloud docker -- push gcr.io/eventyay/generators/android
-kubectl set image deployment/android-generator android-generator=gcr.io/eventyay/generators/android:$TRAVIS_COMMIT
+kubectl set image deployment/android-generator android-generator=gcr.io/eventyay/generators/android:$COMMIT_HASH
