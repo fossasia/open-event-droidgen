@@ -42,7 +42,7 @@ notifications:
     on_start: false
 after_success:
   - bash <(curl -s https://codecov.io/bash)
-  - bash kubernetes/travis/deploy.sh
+  - bash $HOME/build/fossasia/open-event-android/kubernetes/travis/deploy.sh
   - cd ..
   - chmod +x $HOME/build/fossasia/open-event-android/upload-apk.sh
   - sh $HOME/build/fossasia/open-event-android/upload-apk.sh
