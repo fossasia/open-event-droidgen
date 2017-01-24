@@ -79,7 +79,7 @@ Please find info about the set up of the Android app in your development environ
 - Android SDK
 - Redis
 
-Setup and installation instructions can be obtained [here](https://github.com/niranjan94/open-event-android/tree/development/apk-generator/v2).
+Setup and installation instructions can be obtained [here](https://github.com/niranjan94/open-event-android/tree/development/docs/installation).
 
 ## Contributions, Bug Reports, Feature Requests
 

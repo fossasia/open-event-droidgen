@@ -4,9 +4,8 @@ MAINTAINER Niranjan Rajendran <niranjan94@yahoo.com>
 ARG COMMIT_HASH
 ARG BRANCH
 ARG REPOSITORY
-ARG ANDROID_BUILD_TOOLS_VERSION
-ARG ANDROID_API_LEVEL
 
+ENV COMMIT_HASH ${COMMIT_HASH:-null}
 ENV BRANCH ${BRANCH:-master}
 ENV REPOSITORY ${REPOSITORY:-https://github.com/fossasia/open-event-android.git}
 
@@ -26,9 +25,9 @@ RUN apt-get update && \
 RUN dpkg --add-architecture i386 && apt-get update && apt-get install -y --force-yes expect git wget libc6-i386 lib32stdc++6 lib32gcc1 lib32ncurses5 lib32z1 python curl libqt5widgets5
 
 # update some packages
-RUN apt-get install -y wget git ca-certificates curl && update-ca-certificates
+RUN apt-get install -y ca-certificates && update-ca-certificates
 
-RUN apt-get install -y --no-install-recommends build-essential python-dev libpq-dev libevent-dev libmagic-dev expect zip unzip
+RUN apt-get install -y --no-install-recommends build-essential python-dev libpq-dev libevent-dev libmagic-dev zip unzip
 
 RUN apt-get clean && rm -fr /var/lib/apt/lists/* /tmp/* /var/tmp/*
 

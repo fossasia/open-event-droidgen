@@ -4,6 +4,10 @@ git clone ${REPOSITORY} open_event_android
 cd open_event_android
 git checkout ${BRANCH}
 
+if [ -v COMMIT_HASH ]; then
+    git reset --hard ${COMMIT_HASH}
+fi
+
 # Set environment variable
 export GENERATOR_WORKING_DIR=${WORKSPACE}/temp/
 export KEYSTORE_PATH=${WORKSPACE}/generator.keystore
