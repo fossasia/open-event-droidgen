@@ -1,4 +1,4 @@
-# How to set up the Android app in your development environment
+## How to set up the Android app in your development environment
 
 This is a generic app that has two parts:
 
@@ -6,11 +6,11 @@ This is a generic app that has two parts:
 
 2. This app uses the json api provided by a server maintained [here](https://github.com/fossasia/open-event-orga-server).
 
-# Development Setup
+### Development Setup
 
 Before you begin, you should already have the Android Studio SDK downloaded and set up correctly. You can find a guide on how to do this here: [Setting up Android Studio](http://developer.android.com/sdk/installing/index.html?pkg=studio)
 
-# Setting up the Android Project
+### Setting up the Android Project
 
 1. Download the _open-event-android_ project source. You can do this either by forking and cloning the repository (recommended if you plan on pushing changes) or by downloading it as a ZIP file and extracting it.
 
@@ -28,7 +28,16 @@ Before you begin, you should already have the Android Studio SDK downloaded and 
 
 7. If the app was built succesfully, you can test it by running it on either a real device or an emulated one by going to _Run>Run 'app'_ or presing the Run icon in the toolbar.
 
-# Configuring the app
+### Configuring the app
+
+The configuration file named [config.json](https://github.com/fossasia/open-event-android/blob/development/android/app/src/main/assets/config.json) is located inside the assets folder of the Android Source code and contains details like : 
+
+Key  | Significance
+------------- | -------------
+Email  | Email of the user who created the app
+App_Name  | Name of the App
+Api_Link  | A REST API which will provide event's data to the app
+
 
 **Configuring Server and Web-App Urls**
 
@@ -73,3 +82,4 @@ Before you begin, you should already have the Android Studio SDK downloaded and 
   - _/app/src/main/res/values/_
   - _/app/src/main/res/values-v21/_
   - _/app/src/main/res/values-w820dp/_
+

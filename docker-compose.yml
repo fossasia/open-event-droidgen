@@ -1,0 +1,24 @@
+version: '2'
+
+services:
+  redis:
+    image: 'redis:3-alpine'
+    command: redis-server
+    volumes:
+      - 'redis:/var/lib/redis/data'
+    ports:
+      - '6379:6379'
+  web:
+    build: ./kubernetes/images/generator/
+    command: ["/bin/sh","-c","./kubernetes/run.sh"]
+    environment:
+      REDIS_SERVICE_HOST: redis
+      REDIS_SERVICE_PORT: 6379
+      C_FORCE_ROOT: "true"
+      SERVER_NAME: $SERVER_NAME
+    links:
+      - redis:redis
+    ports:
+      - '80:8080'
+volumes:
+  redis:
