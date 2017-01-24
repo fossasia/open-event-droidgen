@@ -4,10 +4,8 @@ metadata:
   name: android-generator
 spec:
   ports:
-  - port: 80
+  - port: 8080
     protocol: TCP
     targetPort: 8080
   selector:
     app: android-generator
-  type: LoadBalancer
-  loadBalancerIP: '104.198.14.175'
