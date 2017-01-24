@@ -6,4 +6,4 @@ rm -f /opt/android-sdk.zip
 mkdir /opt/android-sdk-linux/platform-tools
 chown -R $(whoami):$(whoami) /opt/android-sdk-linux
 /opt/tools/android-accept-licenses.sh "/opt/android-sdk-linux/tools/android update sdk --all --no-ui --filter platform-tools,tools"
-/opt/tools/android-accept-licenses.sh "/opt/android-sdk-linux/tools/android update sdk --all --no-ui --filter platform-tools,tools,build-tools-24.0.2,android-24,addon-google_apis-google-24,extra-android-support,extra-android-m2repository,extra-google-m2repository,extra-google-google_play_services"
+/opt/tools/android-accept-licenses.sh "/opt/android-sdk-linux/tools/android update sdk --all --no-ui --filter platform-tools,tools,build-tools-25.0.2,android-25,addon-google_apis-google-25,extra-android-support,extra-android-m2repository,extra-google-m2repository,extra-google-google_play_services"
