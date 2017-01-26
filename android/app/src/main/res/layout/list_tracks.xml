@@ -25,7 +25,6 @@
             android:layout_height="wrap_content"
             tools:listitem="@layout/item_track"
             android:clipToPadding="false"
-            android:scrollbars="vertical"
-            android:background="@color/window_background"/>
+            android:scrollbars="vertical"/>
     </android.support.v4.widget.SwipeRefreshLayout>
 </RelativeLayout>
