@@ -15,6 +15,7 @@ import org.fossasia.openevent.activities.SessionDetailActivity;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.ConstantStrings;
+import org.fossasia.openevent.utils.ISO8601Date;
 
 /**
  * Created by Manan Wason on 21/08/15.
@@ -69,6 +70,11 @@ public class BookmarkAlarmService extends IntentService {
         intent1.putExtra(ConstantStrings.TRACK,session.getTrack().getName());
         PendingIntent pendingNotificationIntent = PendingIntent.getActivity(this.getApplicationContext(), 0, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
         Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+
+        String start = ISO8601Date.get12HourTime(ISO8601Date.getDateObject(session.getStartTime()));
+        String end = ISO8601Date.get12HourTime(ISO8601Date.getDateObject(session.getEndTime()));
+        session_timings = start + " - " + end;
+
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_bookmark_white_24dp)
                 .setLargeIcon(largeIcon)
