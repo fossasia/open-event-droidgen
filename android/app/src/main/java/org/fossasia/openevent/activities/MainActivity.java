@@ -243,7 +243,7 @@ public class MainActivity extends BaseActivity {
                 };
                 //show snackbar
                 showNotificationSnackBar.showSnackBar();
-                //snow notification
+                //snow notification (Only when connected to WiFi)
                 showNotificationSnackBar.buildNotification();
             }
         } else {
