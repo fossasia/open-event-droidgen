@@ -73,6 +73,13 @@
             </LinearLayout>
         </LinearLayout>
 
+        <ImageView
+            android:id="@+id/day_bookmark_status"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_bookmark_border_white_24dp"
+            android:layout_gravity="bottom|right"/>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="0.8dp"
