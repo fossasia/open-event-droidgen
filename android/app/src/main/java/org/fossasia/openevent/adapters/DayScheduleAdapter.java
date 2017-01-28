@@ -102,9 +102,9 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
         DbSingleton dbSingleton;
         dbSingleton = DbSingleton.getInstance();
         if (!dbSingleton.isBookmarked(currentSession.getId()))
-            holder.dayImage.setImageResource(R.drawable.ic_bookmark_border_white_24dp);
+            holder.dayImage.setImageResource(R.drawable.ic_bookmark_outline_black_24dp);
         else
-            holder.dayImage.setImageResource(R.drawable.ic_bookmark_white_24dp);
+            holder.dayImage.setImageResource(R.drawable.ic_bookmark_grey600_24dp);
         holder.dayImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -119,7 +119,7 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             dbSingleton.deleteBookmarks(currentSession.getId());
-                                            holder.dayImage.setImageResource(R.drawable.ic_bookmark_border_white_24dp);
+                                            holder.dayImage.setImageResource(R.drawable.ic_bookmark_outline_black_24dp);
                                             Toast.makeText(context, R.string.removed_bookmark, Toast.LENGTH_SHORT).show();
                                         }
                                     })
@@ -134,7 +134,7 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
                 } else {
                     createNotification(currentSession);
                     dbSingleton.addBookmarks(currentSession.getId());
-                    holder.dayImage.setImageResource(R.drawable.ic_bookmark_white_24dp);
+                    holder.dayImage.setImageResource(R.drawable.ic_bookmark_grey600_24dp);
                     context.sendBroadcast(new Intent(BookmarkWidgetProvider.ACTION_UPDATE));
                 }
             }
