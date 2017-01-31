@@ -32,7 +32,12 @@ A sample app for testing purposes is automatically built after commits in the re
 
 ### Screenshots of a sample Android app
 
-![alt-tag](docs/screenshots/ss.png)
+<img src="docs/screenshots/device-2017-01-31-TracksActivity.png" height = '480' width="270">
+<img src="docs/screenshots/device-2017-01-31-TrackSessionActivity.png" height = '480' width="270">
+<img src="docs/screenshots/device-2017-01-31-SessionDetailActivity.png" height = '480' width="270">
+<img src="docs/screenshots/device-2017-01-31-204519-SpeakersFragment.png" height = '480' width="270">
+<img src="docs/screenshots/device-2017-01-31-MapFragment.png" height = '480' width="270">
+<img src="docs/screenshots/device-2017-01-31-NavigationDrawer.png" height = '480' width="270">
 
 ### Android App Development Set up
 
