@@ -1,5 +1,7 @@
 package org.fossasia.openevent.fragments;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -148,8 +150,12 @@ public class SponsorsFragment extends BaseFragment {
                 };
                 //show snackbar will be useful if user have blocked notification for this app
                 snackbar = showNotificationSnackBar.showSnackBar();
-                //show notification
-                showNotificationSnackBar.buildNotification();
+                //show notification if device is connected to wifi
+                ConnectivityManager connectivityManager = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+                android.net.NetworkInfo isWifi = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+                if (isWifi.isConnectedOrConnecting()){
+                    showNotificationSnackBar.buildNotification();
+                }
             }
         } else {
             Snackbar.make(getView(), getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, new View.OnClickListener() {

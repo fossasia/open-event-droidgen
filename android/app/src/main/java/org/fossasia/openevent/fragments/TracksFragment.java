@@ -1,5 +1,7 @@
 package org.fossasia.openevent.fragments;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.Snackbar;
@@ -225,8 +227,12 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
                 };
                 //show snackbar will be useful if user have blocked notification for this app
                 snackbar = showNotificationSnackBar.showSnackBar();
-                //show notification
-                showNotificationSnackBar.buildNotification();
+                //show notification if device is connected to wifi
+                ConnectivityManager connectivityManager = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+                android.net.NetworkInfo isWifi = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+                if (isWifi.isConnectedOrConnecting()){
+                    showNotificationSnackBar.buildNotification();
+                }
             }
         } else {
             if (snackbar!=null && snackbar.isShown()) {

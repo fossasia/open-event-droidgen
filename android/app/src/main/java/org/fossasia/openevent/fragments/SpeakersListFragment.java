@@ -2,9 +2,11 @@ package org.fossasia.openevent.fragments;
 
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -236,8 +238,12 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
                 };
                 //show snackbar will be useful if user have blocked notification for this app
                 snackbar = showNotificationSnackBar.showSnackBar();
-                //show notification
-                showNotificationSnackBar.buildNotification();
+                //show notification if device is connected to wifi
+                ConnectivityManager connectivityManager = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+                android.net.NetworkInfo isWifi = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+                if (isWifi.isConnectedOrConnecting()){
+                    showNotificationSnackBar.buildNotification();
+                }
             }
         } else {
             OpenEventApp.getEventBus().post(new SpeakerDownloadEvent(false));
