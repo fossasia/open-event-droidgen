@@ -3,6 +3,8 @@ package org.fossasia.openevent.adapters;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -163,6 +165,11 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
                     createNotification(session);
                     dbSingleton.addBookmarks(session.getId());
                     holder.sessionBookmarkIcon.setImageResource(R.drawable.ic_bookmark_white_24dp);
+
+                    //update widget
+                    int widgetIds[] = AppWidgetManager.getInstance(context.getApplicationContext()).getAppWidgetIds(new ComponentName(context.getApplicationContext(), BookmarkWidgetProvider.class));
+                    BookmarkWidgetProvider medicineWidgets = new BookmarkWidgetProvider();
+                    medicineWidgets.onUpdate(context.getApplicationContext(), AppWidgetManager.getInstance(context.getApplicationContext()),widgetIds);
                     context.sendBroadcast(new Intent(BookmarkWidgetProvider.ACTION_UPDATE));
                 }
             }
