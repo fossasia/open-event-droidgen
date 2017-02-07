@@ -2,6 +2,8 @@ package org.fossasia.openevent.activities;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -133,6 +135,10 @@ public class SessionDetailActivity extends BaseActivity {
                     createNotification();
                     Toast.makeText(SessionDetailActivity.this, R.string.added_bookmark, Toast.LENGTH_SHORT).show();
                 }
+                //update widget
+                int widgetIds[] = AppWidgetManager.getInstance(getApplicationContext()).getAppWidgetIds(new ComponentName(getApplicationContext(), BookmarkWidgetProvider.class));
+                BookmarkWidgetProvider medicineWidgets = new BookmarkWidgetProvider();
+                medicineWidgets.onUpdate(getApplicationContext(), AppWidgetManager.getInstance(getApplicationContext()),widgetIds);
                 sendBroadcast(new Intent(BookmarkWidgetProvider.ACTION_UPDATE));
             }
         });
