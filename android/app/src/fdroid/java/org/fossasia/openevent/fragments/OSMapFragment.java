@@ -1,5 +1,6 @@
 package org.fossasia.openevent.fragments;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.os.Build;
@@ -11,6 +12,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +22,7 @@ import android.widget.ZoomControls;
 
 import org.fossasia.openevent.BuildConfig;
 import org.fossasia.openevent.R;
+import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Event;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.osmdroid.DefaultResourceProxyImpl;
@@ -70,7 +74,7 @@ public class OSMapFragment extends Fragment {
         Resources resources = getContext().getResources();
         int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
         if (resourceId > 0) {
-            Toast.makeText(getActivity(), ""+resources.getDimensionPixelSize(resourceId), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getActivity(), ""+resources.getDimensionPixelSize(resourceId), Toast.LENGTH_SHORT).show();
             zoomControls.setPadding(0, 0, 0, resources.getDimensionPixelSize(resourceId) + 4);
         }
         mapView.setBuiltInZoomControls(false);
@@ -150,10 +154,11 @@ public class OSMapFragment extends Fragment {
 
     }
 
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//
-//    }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
+        inflater.inflate(R.menu.menu_map,menu);
+    }
 
     @Override
     public void onDestroy() {
@@ -165,12 +170,18 @@ public class OSMapFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        /*switch (item.getItemId()) {
-            case R.id.directions:
-                launchDirections();
-                return true;
-        }*/
-        return false;
+        switch (item.getItemId()) {
+            case R.id.share_map_url:
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.putExtra(Intent.EXTRA_TEXT, Urls.WEB_APP_URL_BASIC + Urls.MAP);
+                intent.putExtra(Intent.EXTRA_SUBJECT, "Sharing URL");
+                intent.setType("text/plain");
+                startActivity(Intent.createChooser(intent, "Share URL"));
+                break;
+            default:
+                //do nothing
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 //    private void launchDirections() {
