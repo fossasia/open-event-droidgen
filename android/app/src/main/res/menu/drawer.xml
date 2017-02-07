@@ -44,6 +44,10 @@
             android:icon="@drawable/ic_settings_grey600_24dp"
             android:title="@string/menu_settings" />
         <item
+            android:id="@+id/nav_share"
+            android:icon="@drawable/ic_share_grey600_24dp"
+            android:title="@string/menu_share" />
+        <item
             android:id="@+id/nav_about"
             android:icon="@drawable/ic_info_grey600_24dp"
             android:title="@string/menu_about" />

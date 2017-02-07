@@ -484,6 +484,20 @@ public class MainActivity extends BaseActivity {
                     }
                 });
                 break;
+            case R.id.nav_share:
+                try {
+                    Intent shareIntent = new Intent();
+                    shareIntent.setAction(Intent.ACTION_SEND);
+                    shareIntent.setType("text/plain");
+                    shareIntent.putExtra(Intent.EXTRA_TEXT,
+                            String.format(getString(R.string.whatsapp_promo_msg_template),
+                                    String.format(getString(R.string.app_share_url),getPackageName())));
+                    startActivity(shareIntent);
+                }
+                catch (Exception e) {
+                    Snackbar.make(mainFrame, getString(R.string.error_msg_retry), Snackbar.LENGTH_SHORT).show();
+                }
+                break;
             case R.id.nav_about:
                 AlertDialog welcomeAlert =  DialogFactory.createSimpleOkErrorDialog(this, String.format("%1$s",
                         getString(R.string.app_name)),
