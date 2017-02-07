@@ -236,7 +236,7 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
                 };
                 //show snackbar will be useful if user have blocked notification for this app
                 snackbar = showNotificationSnackBar.showSnackBar();
-                //show notification
+                //show notification (Only when connected to WiFi)
                 showNotificationSnackBar.buildNotification();
             }
         } else {
