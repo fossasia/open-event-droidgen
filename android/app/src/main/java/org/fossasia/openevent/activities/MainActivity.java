@@ -308,6 +308,12 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState){
+        super.onRestoreInstanceState(savedInstanceState);
+        currentMenuItemId = savedInstanceState.getInt(STATE_FRAGMENT);
+    }
+
+    @Override
     public boolean onPrepareOptionsMenu(final Menu menu) {
         setupDrawerContent(navigationView);
         return super.onPrepareOptionsMenu(menu);
