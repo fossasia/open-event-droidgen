@@ -16,22 +16,21 @@
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            tools:layout_height="300dp">
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <ProgressBar
+                android:id="@+id/progress_bar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/progress_bar"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center" />
 
             <ImageView
                 android:id="@+id/speaker_image"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="250dp"
                 android:contentDescription="@null"
                 android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
@@ -40,40 +39,41 @@
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar_speakers"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_gravity="top"
+                android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin" />
 
             <LinearLayout
                 android:id="@+id/speaker_details_header"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:background="?attr/colorPrimary"
-                android:orientation="vertical"
-                android:padding="@dimen/content_margin">
+                android:layout_marginLeft="@dimen/content_name_margin"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/speaker_details_title"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="Title"
                     android:fontFamily="sans-serif-condensed"
                     android:paddingBottom="2dp"
-                    android:textColor="@android:color/white"
-                    android:textSize="18sp"
                     android:textStyle="bold"
-                    tools:text="The 2016 Android Developer Toolbox" />
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp" />
 
                 <TextView
-                    android:id="@+id/session_details_designation"
-                    android:layout_width="match_parent"
+                    android:id="@+id/speaker_details_designation"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="Subtitile"
+                    android:ellipsize="end"
+                    android:fontFamily="sans-serif-condensed"
+                    android:paddingBottom="2dp"
+                    android:maxLines="1"
                     android:textColor="@android:color/white"
-                    android:textSize="12sp"
-                    tools:text="May 29, 2015, 10:00 - 11:00 AM\nRoom 1 (L2)" />
+                    android:textSize="18sp" />
 
             </LinearLayout>
-
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
@@ -82,14 +82,15 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:clipToPadding="false"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <RelativeLayout
-            android:descendantFocusability="blocksDescendants"
             android:id="@+id/infoLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/white"
+            android:descendantFocusability="blocksDescendants"
             android:orientation="vertical"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
@@ -193,5 +194,6 @@
             </RelativeLayout>
         </RelativeLayout>
     </android.support.v4.widget.NestedScrollView>
+
 
 </android.support.design.widget.CoordinatorLayout>

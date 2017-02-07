@@ -33,4 +33,5 @@
     <dimen name="app_bar_height">150dp</dimen>
     <dimen name="fab_width">48dp</dimen>
     <dimen name="fab_height">48dp</dimen>
+    <dimen name="content_name_margin">50dp</dimen>
 </resources>
