@@ -74,7 +74,6 @@ public class OSMapFragment extends Fragment {
         Resources resources = getContext().getResources();
         int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
         if (resourceId > 0) {
-//            Toast.makeText(getActivity(), ""+resources.getDimensionPixelSize(resourceId), Toast.LENGTH_SHORT).show();
             zoomControls.setPadding(0, 0, 0, resources.getDimensionPixelSize(resourceId) + 4);
         }
         mapView.setBuiltInZoomControls(false);

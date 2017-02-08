@@ -193,7 +193,6 @@ public class MainActivity extends BaseActivity {
         setUpNavDrawer();
         setUpProgressBar();
         setUpCustomTab();
-        this.findViewById(android.R.id.content).setBackgroundColor(Color.WHITE);
         if (NetworkUtils.haveNetworkConnection(this)) {
             if (NetworkUtils.isActiveInternetPresent()) {
                 //Internet is working

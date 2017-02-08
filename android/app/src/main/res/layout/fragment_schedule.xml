@@ -1,25 +1,24 @@
 <android.support.design.widget.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@null">
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:tabBackground="?attr/selectableItemBackground"
-        android:layout_marginStart="72dp"
-        android:layout_marginLeft="72dp"
         app:tabGravity="center"
-        app:tabMode="scrollable"
         android:clipToPadding="false"
-        android:background="?attr/selectableItemBackground"
+        android:background="@color/color_primary"
         app:tabIndicatorHeight="3dp"
-        app:tabSelectedTextColor="@android:color/white" />
+        app:tabSelectedTextColor="@android:color/white"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/white" />
+        android:layout_height="wrap_content"/>
 </android.support.design.widget.AppBarLayout>
