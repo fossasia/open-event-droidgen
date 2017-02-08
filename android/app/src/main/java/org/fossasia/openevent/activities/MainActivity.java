@@ -499,14 +499,18 @@ public class MainActivity extends BaseActivity {
                 }
                 break;
             case R.id.nav_about:
-                AlertDialog welcomeAlert =  DialogFactory.createSimpleOkErrorDialog(this, String.format("%1$s",
-                        getString(R.string.app_name)),
-                        getResources().getText(R.string.about_text).toString());
-                welcomeAlert.show();
-                final TextView welcomeAlertTV = (TextView) welcomeAlert.findViewById(android.R.id.message);
-                welcomeAlertTV.setMovementMethod(LinkMovementMethod.getInstance());
-                SpannableString welcomeAlertSpannable = new SpannableString(welcomeAlertTV.getText());
+                final AlertDialog aboutUs = new AlertDialog.Builder(this)
+                        .setTitle(R.string.app_name)
+                        .setMessage(R.string.about_text)
+                        .setIcon(R.mipmap.ic_launcher)
+                        .setPositiveButton(android.R.string.ok, null)
+                        .create();
+                aboutUs.show();
+                ((TextView)aboutUs.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
+                final TextView aboutUsTV = (TextView) aboutUs.findViewById(android.R.id.message);
+                aboutUsTV.setMovementMethod(LinkMovementMethod.getInstance());
                 if (customTabsSupported) {
+                    SpannableString welcomeAlertSpannable = new SpannableString(aboutUsTV.getText());
                     URLSpan[] spans = welcomeAlertSpannable.getSpans(0, welcomeAlertSpannable.length(), URLSpan.class);
                     for (URLSpan span : spans) {
                         CustomTabsSpan newSpan = new CustomTabsSpan(span.getURL(), getApplicationContext(), this,
@@ -516,7 +520,7 @@ public class MainActivity extends BaseActivity {
                                 Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
                         welcomeAlertSpannable.removeSpan(span);
                     }
-                    welcomeAlertTV.setText(welcomeAlertSpannable);
+                    aboutUsTV.setText(welcomeAlertSpannable);
                 }
                 break;
         }
