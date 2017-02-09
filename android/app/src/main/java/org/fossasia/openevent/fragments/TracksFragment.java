@@ -1,5 +1,8 @@
 package org.fossasia.openevent.fragments;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.Snackbar;
@@ -18,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
@@ -61,12 +65,17 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
     private Snackbar snackbar;
 
     private Toolbar toolbar;
+    private ProgressBar progressBar;
     private AppBarLayout.LayoutParams layoutParams;
     private int SCROLL_OFF = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
+
+        //Setting progressbar color
+        /*progressBar = (ProgressBar) getActivity().findViewById(R.id.progress);
+        progressBar.setProgressTintList(ColorStateList.valueOf(Color.RED));*/
 
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
