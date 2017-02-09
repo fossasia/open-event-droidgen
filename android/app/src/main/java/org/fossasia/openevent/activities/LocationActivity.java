@@ -14,7 +14,6 @@ import android.widget.TextView;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.LocationsListAdapter;
 import org.fossasia.openevent.adapters.SessionsListAdapter;
-import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.ConstantStrings;
@@ -67,7 +66,7 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
 
         final DbSingleton dbSingleton = DbSingleton.getInstance();
         location = getIntent().getStringExtra(ConstantStrings.MICROLOCATIONS);
-        Microlocation selectedLocation = dbSingleton.getLocationByLocationname(location);
+        toolbar.setTitle(location);
         mSessions = dbSingleton.getSessionbyLocationName(location);
 
         //setting the grid layout to cut-off white space in tablet view
