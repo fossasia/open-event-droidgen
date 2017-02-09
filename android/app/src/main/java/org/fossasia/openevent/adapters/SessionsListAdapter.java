@@ -72,7 +72,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
 			for (Session session : sessionList) {
 				final String text = session.getTitle().toLowerCase(Locale.getDefault());
 				if (text.contains(query)) {
-					filteredSessionList.add(session);
+		 			filteredSessionList.add(session);
 				}
 			}
 			FilterResults filterResults = new FilterResults();
