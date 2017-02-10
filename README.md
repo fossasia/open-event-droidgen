@@ -41,7 +41,7 @@ A sample app for testing purposes is automatically built after commits in the re
 
 ### Android App Development Set up
 
-Please find info about the set up of the Android app in your development environment [here](https://github.com/fossasia/open-event-android/blob/development/docs/ANDROID_APP_Setup.md).
+Please find info about the set up of the Android app in your development environment [here](docs/installation/android-app-setup.md).
 
 ### Data retrieval
 
@@ -76,14 +76,34 @@ Please find info about the set up of the Android app in your development environ
 
 ## 2. App Generator
 
-#### Technology Stack
+### Technology Stack
 - Flask
 - Celery
 - JDK 8
 - Android SDK
 - Redis
 
-Setup and installation instructions can be obtained [here](https://github.com/niranjan94/open-event-android/tree/development/docs/installation).
+### Setup and Installation
+
+#### How to install The Open Event Android App Generator on a Generic Server
+
+Installation instructions for generic servers are [here](docs/installation/generic.md).
+
+#### How to install The Open Event Android App Generator on Google Cloud/Kubernetes
+
+Installation instructions for Google Cloud Kubernetes are [here](docs/installation/kubernetes.md).
+
+#### How to install The Open Event Android App Generator on AWS
+
+Installation instructions for AWS servers are [here](docs/installation/aws.md).
+
+#### How to install The Open Event Android App Generator on Digital Ocean
+
+Installation instructions for Digital Ocean servers are [here](docs/installation/digital-ocean.md).
+
+#### How to install The Open Event Android App Generator on Docker
+
+Installation instructions for docker are [here](docs/installation/docker.md).
 
 ## Contributions, Bug Reports, Feature Requests
 
@@ -99,9 +119,11 @@ We have the following branches
  * **master**
    This contains shipped code. After significant features/bugfixes are accumulated on development, we make a version update, and make a release.
 	 All tagged commits on _master_ branch will automatically generate a release on Github with a copy of ***fDroid-debug*** and ***GooglePlay-debug*** apks.
+ * **apk**
+   This branch contains two apk's, that are automatically generated on merged pull request a) from the dev branch and b) from the master branch using the Open Event sample of the FOSSASIA Summit.
 
 ## Code Style
-For contributions please read the [CODESTYLE](docs/CODESTYLE.md) carefully. Pull requests that do not match the style will be rejected.
+For contributions please read the [CODESTYLE](docs/codestyle.md) carefully. Pull requests that do not match the style will be rejected.
 
 ## License
 This project is licensed under the GNU General Public License v3. A copy of [LICENSE](LICENSE.md) is to be present along with the source code. To obtain the software under a different license, please contact FOSSASIA.
