@@ -28,7 +28,7 @@ B) A JSON API provided by open-event-orga-servers server (Code maintained [here]
 
 ### Sample App
 
-A sample app for testing purposes is automatically built after commits in the repository. Please download and test the app that is using the code from the [dev branch here](https://github.com/fossasia/open-event-android/raw/apk/sample-apk-development.apk) and the code from the [master branch here]{https://github.com/fossasia/open-event-android/raw/apk/sample-apk-master.apk).
+A sample app for testing purposes is automatically built after commits in the repository. Please download and test the app that is using the code from the [dev branch here](https://github.com/fossasia/open-event-android/raw/apk/sample-apk-development.apk) and the code from the [master branch here](https://github.com/fossasia/open-event-android/raw/apk/sample-apk-master.apk).
 
 ### Screenshots of a sample Android app
 
