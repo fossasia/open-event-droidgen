@@ -62,7 +62,6 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
     private Snackbar snackbar;
 
     private Toolbar toolbar;
-    private ProgressBar progressBar;
     private AppBarLayout.LayoutParams layoutParams;
     private int SCROLL_OFF = 0;
 
