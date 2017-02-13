@@ -68,11 +68,7 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-
-        //Setting progressbar color
-        /*progressBar = (ProgressBar) getActivity().findViewById(R.id.progress);
-        progressBar.setProgressTintList(ColorStateList.valueOf(Color.RED));*/
-
+        
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
         OpenEventApp.getEventBus().register(this);
