@@ -122,4 +122,7 @@ dependencies {
         exclude module: 'answers-shim'
     }
 
+    //Facebook SDK
+    compile 'com.facebook.android:facebook-android-sdk:4.+'
+
 }

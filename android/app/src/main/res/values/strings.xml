@@ -170,10 +170,16 @@
     <string name="whatsapp_promo_msg_template">Hey, join me at the event! - %s</string>
     <string name="error_msg_retry">Please Retry Again</string>
     <string name="app_share_url">https://play.google.com/store/apps/details?id=%s</string>
+    <string name="share_app">Share App</string>
+    <string name="invite_via_facebook">Invite Via Facebook</string>
+    <string name="facebook_app_id">1786614831603417</string>
+    <string name="share_fb_preview_url">https://lh3.googleusercontent.com/ai5OksP-YP6DdCuqCxE-97Kz9lEFu7VtDVnhfXB__h6K0gx3Rrl0mWM9mXsfMb19pqw=w300-rw</string>
+    <string name="facebook">Facebook</string>
+    <string name="invite_title">FOSSASIA Summit 2017</string>
+    <string name="invite_content_description">Official FOSSASIA application for the annual summit 2017.  Download the current schedule and browse it offline.</string>
 
     <!--Branch integration strings-->
     <string name="branch_key_debug">key_test_gjCjmUMS5Dp6u7IukMSDujjhDwbPyjbB</string>
     <string name="branch_key_live">key_live_pavjjGHL2Al0qWQzjRQFvcddwscRvkcp</string>
-    <string name="app_link_url">https://fossasia.app.link/rwWTYZ0tLA</string>
 
 </resources>
