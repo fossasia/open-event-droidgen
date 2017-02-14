@@ -62,6 +62,7 @@ public class BookmarkAlarmService extends IntentService {
         NotificationManager mManager = (NotificationManager) this.getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
         int id = intent.getIntExtra(ConstantStrings.SESSION, 0);
         String session_timings = intent.getStringExtra(ConstantStrings.SESSION_TIMING);
+        String session_date;
         DbSingleton dbSingleton = DbSingleton.getInstance();
         Session session = dbSingleton.getSessionById(id);
         Intent intent1 = new Intent(this.getApplicationContext(), SessionDetailActivity.class);
@@ -74,14 +75,16 @@ public class BookmarkAlarmService extends IntentService {
         String start = ISO8601Date.get12HourTime(ISO8601Date.getDateObject(session.getStartTime()));
         String end = ISO8601Date.get12HourTime(ISO8601Date.getDateObject(session.getEndTime()));
         session_timings = start + " - " + end;
+        session_date = ISO8601Date.getDate(ISO8601Date.getDateObject(session.getStartTime()));
+
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_bookmark_white_24dp)
                 .setLargeIcon(largeIcon)
                 .setContentTitle(session.getTitle())
-                .setContentText(session_timings)
+                .setContentText(session_date + "\n" + session_timings)
                 .setAutoCancel(true)
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(session_timings))
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(session_date + "\n" + session_timings))
                 .setContentIntent(pendingNotificationIntent);
         intent1.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
