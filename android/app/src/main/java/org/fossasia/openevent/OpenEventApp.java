@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
 
+import io.branch.referral.Branch;
 import timber.log.Timber;
 
 /**
@@ -72,6 +73,8 @@ public class OpenEventApp extends Application {
         super.onCreate();
         handler = new Handler(Looper.getMainLooper());
         OpenEventApp.context = getApplicationContext();
+
+        Branch.getAutoInstance(this);
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getAppContext());
         sDefSystemLanguage = Locale.getDefault().getDisplayLanguage();

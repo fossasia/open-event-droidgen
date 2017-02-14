@@ -171,4 +171,9 @@
     <string name="error_msg_retry">Please Retry Again</string>
     <string name="app_share_url">https://play.google.com/store/apps/details?id=%s</string>
 
+    <!--Branch integration strings-->
+    <string name="branch_key_debug">key_test_gjCjmUMS5Dp6u7IukMSDujjhDwbPyjbB</string>
+    <string name="branch_key_live">key_live_pavjjGHL2Al0qWQzjRQFvcddwscRvkcp</string>
+    <string name="app_link_url">https://fossasia.app.link/rwWTYZ0tLA</string>
+
 </resources>
