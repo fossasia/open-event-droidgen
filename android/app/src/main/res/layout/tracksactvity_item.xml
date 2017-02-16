@@ -26,7 +26,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:orientation="vertical"
-                    android:background="@color/color_primary"
                     android:padding="@dimen/card_margin"
                     android:id="@+id/titleLinearLayout">
                     <LinearLayout
@@ -141,6 +140,7 @@
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
+                            android:id="@+id/location_icon"
                             android:src="@drawable/ic_location_on_black_24dp"/>
                         <TextView
                             android:id="@+id/session_location"

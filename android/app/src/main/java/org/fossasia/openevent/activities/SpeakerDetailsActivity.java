@@ -25,8 +25,6 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -66,6 +64,8 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
     private CustomTabsServiceConnection customTabsServiceConnection;
 
     private boolean isHideToolbarView = true;
+
+    private static final int speakerWiseSessionList = 2;
 
     @BindView(R.id.toolbar_speakers) Toolbar toolbar;
     @BindView(R.id.txt_no_sessions) TextView noSessionsView;
@@ -174,7 +174,7 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
         biography.setText(selectedSpeaker.getBio());
 
         mSessions = dbSingleton.getSessionbySpeakersName(speaker);
-        sessionsListAdapter = new SessionsListAdapter(this, mSessions);
+        sessionsListAdapter = new SessionsListAdapter(this, mSessions,speakerWiseSessionList);
         sessionRecyclerView.setNestedScrollingEnabled(false);
         sessionRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         sessionRecyclerView.setAdapter(sessionsListAdapter);
