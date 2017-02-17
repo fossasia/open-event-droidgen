@@ -1,10 +1,12 @@
 package org.fossasia.openevent.fragments;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -24,9 +26,13 @@ import org.fossasia.openevent.BuildConfig;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Event;
+import org.fossasia.openevent.data.Session;
+import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.utils.ConstantStrings;
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
@@ -47,13 +53,14 @@ public class OSMapFragment extends Fragment {
     private static final int PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE_RESULT = 100;
 
     private View rootView;
+    private SharedPreferences sharedPreferences;
 
     private Snackbar snackbar;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         OpenStreetMapTileProviderConstants.setUserAgentValue(BuildConfig.APPLICATION_ID);
-
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         setHasOptionsMenu(true);
     }
 
@@ -79,10 +86,27 @@ public class OSMapFragment extends Fragment {
         }
         mapView.setBuiltInZoomControls(false);
         mapView.setMultiTouchControls(true);
-        Event event = DbSingleton.getInstance().getEventDetails();
-        setDestinationLatitude(event.getLatitude());
-        setDestinationLongitude(event.getLongitude());
-        setDestinationName(event.getLocationName());
+        try{
+            int id =sharedPreferences.getInt(ConstantStrings.SESSION_MAP_ID,-1);
+            if(id != -1){
+                Session session =  DbSingleton.getInstance().getSessionById(id);
+                int location_id = session.getMicrolocation().getId();
+                 Microlocation microlocation =  DbSingleton.getInstance().getMicrolocationById(location_id);
+                 setDestinationLatitude(microlocation.getLatitude());
+                 setDestinationLongitude(microlocation.getLongitude());
+                 setDestinationName(microlocation.getName());
+            }else{
+                Event event = DbSingleton.getInstance().getEventDetails();
+                setDestinationLatitude(event.getLatitude());
+                setDestinationLongitude(event.getLongitude());
+                setDestinationName(event.getLocationName());
+            }
+        }catch (Exception e) {
+            Event event = DbSingleton.getInstance().getEventDetails();
+            setDestinationLatitude(event.getLatitude());
+            setDestinationLongitude(event.getLongitude());
+            setDestinationName(event.getLocationName());
+        }
         GeoPoint geoPoint = new GeoPoint(getDestinationLatitude(), getDestinationLongitude());
         mapView.getController().setCenter(geoPoint);
         mapView.getController().setZoom(17);
@@ -90,6 +114,7 @@ public class OSMapFragment extends Fragment {
         mapView.setMinZoomLevel(3);
         OverlayItem position = new OverlayItem(getDestinationName(), "Location", geoPoint);
 
+        mapView.setTileSource(TileSourceFactory.MAPNIK);
         zoomControls.setOnZoomInClickListener(new View.OnClickListener() {
 
             @Override
@@ -103,6 +128,7 @@ public class OSMapFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 mapView.getController().zoomOut();
+
             }
         });
 

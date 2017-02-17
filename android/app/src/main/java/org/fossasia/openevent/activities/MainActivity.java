@@ -464,7 +464,7 @@ public class MainActivity extends BaseActivity {
             case R.id.nav_map:
                 atHome = false;
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
+                sharedPreferences.edit().putInt(ConstantStrings.SESSION_MAP_ID, -1).apply();
                 fragmentTransaction.replace(R.id.content_frame,
                         ((OpenEventApp) getApplication())
                                 .getMapModuleFactory()
