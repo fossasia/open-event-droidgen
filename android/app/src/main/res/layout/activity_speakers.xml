@@ -121,7 +121,7 @@
                     android:adjustViewBounds="true"
                     android:clickable="true"
                     android:contentDescription="@string/facebook_icon"
-                    android:src="@drawable/facebook"
+                    app:srcCompat="@drawable/ic_facebook_24dp"
                     android:tag="@string/fb" />
 
                 <ImageView
@@ -133,7 +133,7 @@
                     android:adjustViewBounds="true"
                     android:clickable="true"
                     android:contentDescription="@string/linkedin_icon"
-                    android:src="@drawable/linkedin"
+                    app:srcCompat="@drawable/ic_linkedin_24dp"
                     android:tag="@string/linkedin" />
 
                 <ImageView
@@ -145,7 +145,7 @@
                     android:adjustViewBounds="true"
                     android:clickable="true"
                     android:contentDescription="@string/twitter_icon"
-                    android:src="@drawable/twitter"
+                    app:srcCompat="@drawable/ic_twitter_24dp"
                     android:tag="@string/twitter" />
 
                 <ImageView
@@ -157,7 +157,7 @@
                     android:adjustViewBounds="true"
                     android:clickable="true"
                     android:contentDescription="@string/github_icon"
-                    android:src="@drawable/github"
+                    app:srcCompat="@drawable/ic_github_24dp"
                     android:tag="@string/github" />
 
                 <ImageView
@@ -169,7 +169,7 @@
                     android:adjustViewBounds="true"
                     android:clickable="true"
                     android:contentDescription="@string/web_icon"
-                    android:src="@drawable/ic_domain_black_24dp"
+                    app:srcCompat="@drawable/ic_domain_black_24dp"
                     android:tag="@string/website" />
             </LinearLayout>
 

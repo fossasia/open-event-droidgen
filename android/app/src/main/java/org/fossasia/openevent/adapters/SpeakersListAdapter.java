@@ -3,6 +3,7 @@ package org.fossasia.openevent.adapters;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -96,7 +97,7 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakersListAdap
 
         Picasso.with(holder.speakerImage.getContext())
                 .load(uri)
-                .placeholder(R.drawable.ic_account_circle_grey_24dp)
+                .placeholder(VectorDrawableCompat.create(activity.getResources(), R.drawable.ic_account_circle_grey_24dp, null))
                 .into(holder.speakerImage);
 
         holder.speakerName.setText(TextUtils.isEmpty(current.getName()) ? "" : current.getName());
