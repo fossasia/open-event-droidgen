@@ -243,7 +243,7 @@ public class MainActivity extends BaseActivity {
                 };
                 //show snackbar
                 showNotificationSnackBar.showSnackBar();
-                //snow notification
+                //snow notification (Only when connected to WiFi)
                 showNotificationSnackBar.buildNotification();
             }
         } else {
@@ -305,6 +305,12 @@ public class MainActivity extends BaseActivity {
     protected void onSaveInstanceState(Bundle outState) {
         outState.putInt(STATE_FRAGMENT, currentMenuItemId);
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState){
+        super.onRestoreInstanceState(savedInstanceState);
+        currentMenuItemId = savedInstanceState.getInt(STATE_FRAGMENT);
     }
 
     @Override
@@ -478,15 +484,33 @@ public class MainActivity extends BaseActivity {
                     }
                 });
                 break;
+            case R.id.nav_share:
+                try {
+                    Intent shareIntent = new Intent();
+                    shareIntent.setAction(Intent.ACTION_SEND);
+                    shareIntent.setType("text/plain");
+                    shareIntent.putExtra(Intent.EXTRA_TEXT,
+                            String.format(getString(R.string.whatsapp_promo_msg_template),
+                                    String.format(getString(R.string.app_share_url),getPackageName())));
+                    startActivity(shareIntent);
+                }
+                catch (Exception e) {
+                    Snackbar.make(mainFrame, getString(R.string.error_msg_retry), Snackbar.LENGTH_SHORT).show();
+                }
+                break;
             case R.id.nav_about:
-                AlertDialog welcomeAlert =  DialogFactory.createSimpleOkErrorDialog(this, String.format("%1$s",
-                        getString(R.string.app_name)),
-                        getResources().getText(R.string.about_text).toString());
-                welcomeAlert.show();
-                final TextView welcomeAlertTV = (TextView) welcomeAlert.findViewById(android.R.id.message);
-                welcomeAlertTV.setMovementMethod(LinkMovementMethod.getInstance());
-                SpannableString welcomeAlertSpannable = new SpannableString(welcomeAlertTV.getText());
+                final AlertDialog aboutUs = new AlertDialog.Builder(this)
+                        .setTitle(R.string.app_name)
+                        .setMessage(R.string.about_text)
+                        .setIcon(R.mipmap.ic_launcher)
+                        .setPositiveButton(android.R.string.ok, null)
+                        .create();
+                aboutUs.show();
+                ((TextView)aboutUs.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
+                final TextView aboutUsTV = (TextView) aboutUs.findViewById(android.R.id.message);
+                aboutUsTV.setMovementMethod(LinkMovementMethod.getInstance());
                 if (customTabsSupported) {
+                    SpannableString welcomeAlertSpannable = new SpannableString(aboutUsTV.getText());
                     URLSpan[] spans = welcomeAlertSpannable.getSpans(0, welcomeAlertSpannable.length(), URLSpan.class);
                     for (URLSpan span : spans) {
                         CustomTabsSpan newSpan = new CustomTabsSpan(span.getURL(), getApplicationContext(), this,
@@ -496,7 +520,7 @@ public class MainActivity extends BaseActivity {
                                 Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
                         welcomeAlertSpannable.removeSpan(span);
                     }
-                    welcomeAlertTV.setText(welcomeAlertSpannable);
+                    aboutUsTV.setText(welcomeAlertSpannable);
                 }
                 break;
         }

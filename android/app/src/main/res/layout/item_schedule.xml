@@ -2,12 +2,13 @@
     android:id="@+id/content_frame"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?attr/selectableItemBackground">
+    android:background="@color/white">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
         android:orientation="vertical">
 
         <TextView
@@ -69,17 +70,12 @@
                     android:textColor="@color/cardview_dark_background"
                     android:textSize="14sp"
                     tools:text="9:00 AM - 11:30 AM / Room 1" />
-
             </LinearLayout>
-
         </LinearLayout>
 
         <View
-            android:id="@+id/separator"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="16dp"
-            android:background="@color/cardview_dark_background" />
-
+            android:layout_height="0.8dp"
+            android:background="?android:attr/listDivider" />
     </LinearLayout>
 </FrameLayout>

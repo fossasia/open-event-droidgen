@@ -1,0 +1,15 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: android-generator-notls
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+  - host: droidgen.eventyay.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: android-generator
+          servicePort: 8080

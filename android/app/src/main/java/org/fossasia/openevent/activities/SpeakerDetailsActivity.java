@@ -28,6 +28,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -42,7 +43,6 @@ import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.SpeakerIntent;
-import org.fossasia.openevent.utils.Views;
 
 import java.util.List;
 
@@ -51,7 +51,7 @@ import butterknife.BindView;
 /**
  * Created by MananWason on 30-06-2015.
  */
-public class SpeakerDetailsActivity extends BaseActivity {
+public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout.OnOffsetChangedListener {
 
     private SessionsListAdapter sessionsListAdapter;
 
@@ -65,6 +65,8 @@ public class SpeakerDetailsActivity extends BaseActivity {
 
     private CustomTabsServiceConnection customTabsServiceConnection;
 
+    private boolean isHideToolbarView = true;
+
     @BindView(R.id.toolbar_speakers) Toolbar toolbar;
     @BindView(R.id.txt_no_sessions) TextView noSessionsView;
     @BindView(R.id.appbar) AppBarLayout appBarLayout;
@@ -76,10 +78,11 @@ public class SpeakerDetailsActivity extends BaseActivity {
     @BindView(R.id.imageView_web) ImageView website;
     @BindView(R.id.speaker_details_title) TextView speakerName;
     @BindView(R.id.speaker_bio) TextView biography;
-    @BindView(R.id.speaker_details_header) ViewGroup header;
+    @BindView(R.id.speaker_details_header) LinearLayout toolbarHeaderView;
     @BindView(R.id.recyclerView_speakers) RecyclerView sessionRecyclerView;
-    @BindView(R.id.session_details_designation) TextView speakerDesignation;
-    @BindView(R.id.progress_bar) protected ProgressBar progressBar;
+    @BindView(R.id.speaker_details_designation) TextView speakerDesignation;
+    @BindView(R.id.progress_bar)
+    protected ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,49 +91,34 @@ public class SpeakerDetailsActivity extends BaseActivity {
         final DbSingleton dbSingleton = DbSingleton.getInstance();
         speaker = getIntent().getStringExtra(Speaker.SPEAKER);
         setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(null);
-        }
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        collapsingToolbarLayout.setTitle(" ");
         selectedSpeaker = dbSingleton.getSpeakerbySpeakersname(speaker);
 
-        header.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                int height = header.getHeight();
-                if (height != 0) {
-                    Views.removeOnGlobalLayoutListener(header.getViewTreeObserver(), this);
-                    int toolbarHeight = height + Views.getActionBarSize(SpeakerDetailsActivity.this);
-                    toolbar.getLayoutParams().height = toolbarHeight;
-                    toolbar.requestLayout();
-                    collapsingToolbarLayout.getLayoutParams().height = Math.round(2.25f * (toolbarHeight));
-                    collapsingToolbarLayout.requestLayout();
+        appBarLayout.addOnOffsetChangedListener(this);
 
-                    if (!TextUtils.isEmpty(selectedSpeaker.getPhoto())) {
-                        if (isNetworkConnected()) {
-                            Picasso.with(SpeakerDetailsActivity.this)
-                                    .load(Uri.parse(selectedSpeaker.getPhoto()))
-                                    .into((ImageView) findViewById(R.id.speaker_image), new Callback() {
-                                        @Override
-                                        public void onSuccess() {
-                                            progressBar.setVisibility(View.GONE);
-                                        }
+        if (!TextUtils.isEmpty(selectedSpeaker.getPhoto())) {
+            if (isNetworkConnected()) {
+                Picasso.with(SpeakerDetailsActivity.this)
+                        .load(Uri.parse(selectedSpeaker.getPhoto()))
+                        .into((ImageView) findViewById(R.id.speaker_image), new Callback() {
+                            @Override
+                            public void onSuccess() {
+                                progressBar.setVisibility(View.GONE);
+                            }
 
-                                        @Override
-                                        public void onError() {
-                                            progressBar.setVisibility(View.GONE);
-                                        }
-                                    });
-                        } else
-                            progressBar.setVisibility(View.GONE);
-                    }
-                }
-            }
-        });
+                            @Override
+                            public void onError() {
+                                progressBar.setVisibility(View.GONE);
+                            }
+                        });
+            } else
+                progressBar.setVisibility(View.GONE);
+        }
 
         speakerName.setText(selectedSpeaker.getName());
         speakerDesignation.setText(String.format("%s%s", selectedSpeaker.getPosition(), selectedSpeaker.getOrganisation()));
+
         boolean customTabsSupported;
         Intent customTabIntent = new Intent("android.support.customtabs.action.CustomTabsService");
         customTabIntent.setPackage("com.android.chrome");
@@ -149,13 +137,10 @@ public class SpeakerDetailsActivity extends BaseActivity {
         customTabsSupported = bindService(customTabIntent, customTabsServiceConnection, Context.BIND_AUTO_CREATE);
 
         final SpeakerIntent speakerIntent;
-        if (customTabsClient != null)
-        {
+        if (customTabsClient != null) {
             speakerIntent = new SpeakerIntent(selectedSpeaker, getApplicationContext(), this,
                     customTabsClient.newSession(new CustomTabsCallback()), customTabsSupported);
-        }
-        else
-        {
+        } else {
             speakerIntent = new SpeakerIntent(selectedSpeaker, getApplicationContext(), this, customTabsSupported);
         }
 
@@ -260,11 +245,8 @@ public class SpeakerDetailsActivity extends BaseActivity {
 
                         int pixel = bitmap.getPixel(((int) Math.round(bitmap.getWidth() * 0.9)),
                                 ((int) Math.round(bitmap.getHeight() * 0.1)));
-                        if (Color.red(pixel) + Color.blue(pixel) + Color.green(pixel) > 128 * 3) {
-                            shareColor = Color.BLACK;
-                        } else {
-                            shareColor = Color.WHITE;
-                        }
+
+                        shareColor = Color.WHITE;
 
                         Drawable shareDrawable = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_share_white_24dp);
                         shareDrawable.setColorFilter(shareColor, PorterDuff.Mode.MULTIPLY);
@@ -274,7 +256,6 @@ public class SpeakerDetailsActivity extends BaseActivity {
                         Drawable backDrawable = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_arrow_back_white_24dp);
                         backDrawable.setColorFilter(shareColor, PorterDuff.Mode.MULTIPLY);
 
-                        getSupportActionBar().setHomeAsUpIndicator(backDrawable);
                     }
                 });
             }
@@ -321,4 +302,23 @@ public class SpeakerDetailsActivity extends BaseActivity {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         return cm.getActiveNetworkInfo() != null;
     }
+
+    @Override
+    public void onOffsetChanged(AppBarLayout appBarLayout, int offset) {
+
+        int maxScroll = appBarLayout.getTotalScrollRange();
+        float percentage = (float) Math.abs(offset) / (float) maxScroll;
+
+        if (percentage == 1f && isHideToolbarView) {
+            //Collapsed
+            toolbarHeaderView.setVisibility(View.VISIBLE);
+            isHideToolbarView = !isHideToolbarView;
+
+        } else if (percentage < 1f && !isHideToolbarView) {
+            //Not Collapsed
+            toolbarHeaderView.setVisibility(View.VISIBLE);
+            isHideToolbarView = !isHideToolbarView;
+        }
+    }
+
 }
