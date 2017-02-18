@@ -2,8 +2,6 @@ package org.fossasia.openevent.activities;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,6 +9,7 @@ import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
@@ -37,7 +36,7 @@ import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.receivers.NotificationAlarmReceiver;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.ISO8601Date;
-import org.fossasia.openevent.widget.BookmarkWidgetProvider;
+import org.fossasia.openevent.utils.WidgetUpdater;
 
 import java.util.Calendar;
 import java.util.List;
@@ -122,12 +121,20 @@ public class SessionDetailActivity extends BaseActivity {
         fabSessionBookmark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DbSingleton dbSingleton = DbSingleton.getInstance();
+                final DbSingleton dbSingleton = DbSingleton.getInstance();
                 if (dbSingleton.isBookmarked(session.getId())) {
                     Timber.tag(TAG).d("Bookmark Removed");
                     dbSingleton.deleteBookmarks(session.getId());
                     fabSessionBookmark.setImageDrawable(ContextCompat.getDrawable(SessionDetailActivity.this, R.drawable.ic_bookmark_outline_white_24dp));
-                    Toast.makeText(SessionDetailActivity.this, R.string.removed_bookmark, Toast.LENGTH_SHORT).show();
+                    Snackbar.make(v, R.string.removed_bookmark, Snackbar.LENGTH_LONG)
+                            .setAction(R.string.undo, new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    dbSingleton.addBookmarks(session.getId());
+                                    fabSessionBookmark.setImageDrawable(ContextCompat.getDrawable(SessionDetailActivity.this, R.drawable.ic_bookmark_white_24dp));
+                                    WidgetUpdater.updateWidget(getApplicationContext());
+                                }
+                            });
                 } else {
                     Timber.tag(TAG).d("Bookmarked");
                     dbSingleton.addBookmarks(session.getId());
@@ -135,11 +142,7 @@ public class SessionDetailActivity extends BaseActivity {
                     createNotification();
                     Toast.makeText(SessionDetailActivity.this, R.string.added_bookmark, Toast.LENGTH_SHORT).show();
                 }
-                //update widget
-                int widgetIds[] = AppWidgetManager.getInstance(getApplicationContext()).getAppWidgetIds(new ComponentName(getApplicationContext(), BookmarkWidgetProvider.class));
-                BookmarkWidgetProvider medicineWidgets = new BookmarkWidgetProvider();
-                medicineWidgets.onUpdate(getApplicationContext(), AppWidgetManager.getInstance(getApplicationContext()),widgetIds);
-                sendBroadcast(new Intent(BookmarkWidgetProvider.ACTION_UPDATE));
+                WidgetUpdater.updateWidget(getApplicationContext());
             }
         });
 
