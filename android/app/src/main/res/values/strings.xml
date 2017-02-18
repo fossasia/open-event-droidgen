@@ -72,6 +72,7 @@
 
     <string name="empty_list">No Bookmarks Available</string>
     <string name="bullet">"•"</string>
+    <string name="bulletWithSpaces">"•  "</string>
     <string name="bookmarks">Bookmarks</string>
 
     <!--Speaker-->

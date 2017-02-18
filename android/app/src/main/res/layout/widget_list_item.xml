@@ -1,33 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/widget_list_item"
     android:layout_width="match_parent"
-    android:layout_height="56dp"
+    android:layout_height="match_parent"
     android:background="@drawable/touch_selector_white">
 
     <TextView
+        android:id="@+id/bullet"
+        android:text="@string/bulletWithSpaces"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="8dp"
+        android:textColor="@color/primary_text"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
+
+    <TextView
         android:id="@+id/title_widget_bookmarks"
-        android:layout_width="220dp"
-        android:layout_height="match_parent"
-        android:layout_margin="8dp"
-        android:gravity="left|center_vertical|start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="12dp"
+        android:layout_alignBottom="@+id/bullet"
+        android:layout_toRightOf="@+id/bullet"
+        android:layout_toEndOf="@+id/bullet"
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-        android:textColor="@color/primary_text" />
-
-
-    <TextView
-        android:id="@+id/startTime_widget_bookmarks"
-        android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:layout_gravity="top|right|end"
-        android:layout_margin="8dp"
-        android:textColor="@color/secondary_text" />
+        android:textColor="@color/primary_text"/>
 
     <TextView
-        android:id="@+id/endTime_widget_bookmarks"
+        android:id="@+id/date_widget_bookmarks"
         android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:layout_gravity="bottom|right|end"
-        android:layout_margin="8dp"
-        android:textColor="@color/secondary_text" />
-</FrameLayout>
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title_widget_bookmarks"
+        android:layout_alignRight="@+id/title_widget_bookmarks"
+        android:layout_alignEnd="@+id/title_widget_bookmarks"
+        android:layout_toRightOf="@+id/bullet"
+        android:layout_toEndOf="@+id/bullet"
+        android:textColor="@color/secondary_text"/>
+
+    <TextView
+        android:id="@+id/time_widget_bookmarks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/date_widget_bookmarks"
+        android:layout_alignLeft="@+id/date_widget_bookmarks"
+        android:layout_alignStart="@+id/date_widget_bookmarks"
+        android:layout_alignRight="@+id/date_widget_bookmarks"
+        android:layout_alignEnd="@+id/date_widget_bookmarks"
+        android:textColor="@color/secondary_text"
+        android:layout_marginBottom="5dp"/>
+
+</RelativeLayout>
