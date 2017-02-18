@@ -4,7 +4,6 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
     <android.support.v7.widget.CardView
-        android:background="@android:color/white"
         android:transitionName="sessionBackground"
         android:id="@+id/session_card"
         android:layout_width="match_parent"
