@@ -104,6 +104,19 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
             noMicrolocationsView.setVisibility(View.VISIBLE);
             locationsRecyclerView.setVisibility(View.GONE);
         }
+        //scrollup shows actionbar
+        locationsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if(dy < 0){
+                    AppBarLayout appBarLayout;
+                    appBarLayout = (AppBarLayout) getActivity().findViewById(R.id.appbar);
+                    appBarLayout.setExpanded(true);
+                }
+            }
+        });
+
         return view;
     }
 

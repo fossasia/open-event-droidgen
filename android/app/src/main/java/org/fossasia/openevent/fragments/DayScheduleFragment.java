@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -118,6 +119,18 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
         if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
             searchText = savedInstanceState.getString(SEARCH);
         }
+        //scrollup shows actionbar
+        dayRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if(dy < 0){
+                    AppBarLayout appBarLayout;
+                    appBarLayout = (AppBarLayout) getActivity().findViewById(R.id.appbar);
+                    appBarLayout.setExpanded(true);
+                }
+            }
+        });
 
         return view;
     }

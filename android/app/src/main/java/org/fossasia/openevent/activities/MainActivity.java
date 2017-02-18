@@ -412,6 +412,7 @@ public class MainActivity extends BaseActivity {
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle(R.string.menu_tracks);
                 }
+                appBarLayout.setExpanded(true, true);
                 break;
             case R.id.nav_schedule:
                 atHome = false;
@@ -421,6 +422,7 @@ public class MainActivity extends BaseActivity {
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle(R.string.menu_schedule);
                 }
+                appBarLayout.setExpanded(true, true);
                 break;
             case R.id.nav_bookmarks:
                 DbSingleton dbSingleton = DbSingleton.getInstance();
@@ -431,6 +433,7 @@ public class MainActivity extends BaseActivity {
                     if (getSupportActionBar() != null) {
                         getSupportActionBar().setTitle(R.string.menu_bookmarks);
                     }
+                    appBarLayout.setExpanded(true, true);
                 } else {
                     DialogFactory.createSimpleActionDialog(this, R.string.bookmarks, R.string.empty_list, null).show();
                     if (currentMenuItemId == R.id.nav_schedule) addShadowToAppBar(false);
@@ -443,6 +446,7 @@ public class MainActivity extends BaseActivity {
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle(R.string.menu_speakers);
                 }
+                appBarLayout.setExpanded(true, true);
                 break;
             case R.id.nav_sponsors:
                 atHome = false;
@@ -451,6 +455,7 @@ public class MainActivity extends BaseActivity {
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle(R.string.menu_sponsor);
                 }
+                appBarLayout.setExpanded(true, true);
                 break;
             case R.id.nav_locations:
                 atHome = false;
@@ -459,6 +464,7 @@ public class MainActivity extends BaseActivity {
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle(R.string.menu_locations);
                 }
+                appBarLayout.setExpanded(true, true);
                 break;
             case R.id.nav_map:
                 atHome = false;
@@ -472,6 +478,7 @@ public class MainActivity extends BaseActivity {
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle(R.string.menu_map);
                 }
+                appBarLayout.setExpanded(true, true);
                 break;
             case R.id.nav_settings:
                 final Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
