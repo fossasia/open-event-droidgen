@@ -3,18 +3,15 @@ package org.fossasia.openevent.adapters;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -37,7 +34,7 @@ import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.receivers.NotificationAlarmReceiver;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.ISO8601Date;
-import org.fossasia.openevent.widget.BookmarkWidgetProvider;
+import org.fossasia.openevent.utils.WidgetUpdater;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -141,37 +138,24 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
                 final DbSingleton dbSingleton;
                 dbSingleton = DbSingleton.getInstance();
                 if (dbSingleton.isBookmarked(session.getId())) {
-                    new AlertDialog.Builder(context, R.style.AlertDialogCustom)
-                            .setTitle("Remove Bookmark")
-                            .setMessage("Are you sure you want to remove this event from your bookmarks?")
-                            .setPositiveButton("YES",
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dbSingleton.deleteBookmarks(session.getId());
-                                            holder.sessionBookmarkIcon.setImageResource(R.drawable.ic_bookmark_border_white_24dp);
-                                            Toast.makeText(context, R.string.removed_bookmark, Toast.LENGTH_SHORT).show();
-                                        }
-                                    })
-                            .setNegativeButton("CANCEL",
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            //Do nothing, just close
-                                        }
-                                    }).create().show();
-
+                    dbSingleton.deleteBookmarks(session.getId());
+                    holder.sessionBookmarkIcon.setImageResource(R.drawable.ic_bookmark_border_white_24dp);
+                    Snackbar.make(v, R.string.removed_bookmark, Snackbar.LENGTH_LONG)
+                            .setAction(R.string.undo, new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    dbSingleton.addBookmarks(session.getId());
+                                    holder.sessionBookmarkIcon.setImageResource(R.drawable.ic_bookmark_white_24dp);
+                                    WidgetUpdater.updateWidget(context);
+                                }
+                            }).show();
                 } else {
                     createNotification(session);
                     dbSingleton.addBookmarks(session.getId());
+                    Toast.makeText(context, R.string.added_bookmark, Toast.LENGTH_SHORT).show();
                     holder.sessionBookmarkIcon.setImageResource(R.drawable.ic_bookmark_white_24dp);
-
-                    //update widget
-                    int widgetIds[] = AppWidgetManager.getInstance(context.getApplicationContext()).getAppWidgetIds(new ComponentName(context.getApplicationContext(), BookmarkWidgetProvider.class));
-                    BookmarkWidgetProvider medicineWidgets = new BookmarkWidgetProvider();
-                    medicineWidgets.onUpdate(context.getApplicationContext(), AppWidgetManager.getInstance(context.getApplicationContext()),widgetIds);
-                    context.sendBroadcast(new Intent(BookmarkWidgetProvider.ACTION_UPDATE));
                 }
+                WidgetUpdater.updateWidget(context);
             }
         });
         holder.itemView.setOnClickListener(new View.OnClickListener() {
