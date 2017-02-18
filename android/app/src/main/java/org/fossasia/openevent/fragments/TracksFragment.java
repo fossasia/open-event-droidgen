@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.animation.OvershootInterpolator;
 import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
@@ -36,6 +37,8 @@ import org.fossasia.openevent.utils.ShowNotificationSnackBar;
 import java.util.List;
 
 import butterknife.BindView;
+import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
+import jp.wasabeef.recyclerview.adapters.SlideInBottomAnimationAdapter;
 
 /**
  * User: MananWason
@@ -91,7 +94,11 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         tracksRecyclerView.setLayoutManager(linearLayoutManager);
         tracksListAdapter = new TracksListAdapter(getContext(), mTracks);
-        tracksRecyclerView.setAdapter(tracksListAdapter);
+        ScaleInAnimationAdapter alphaAdapter = new ScaleInAnimationAdapter(tracksListAdapter);
+        alphaAdapter.setInterpolator(new OvershootInterpolator());
+        alphaAdapter.setDuration(1000);
+        alphaAdapter.setFirstOnly(false);
+        tracksRecyclerView.setAdapter(alphaAdapter);
         tracksRecyclerView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
             public boolean onPreDraw() {
