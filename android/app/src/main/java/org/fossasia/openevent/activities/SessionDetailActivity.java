@@ -131,7 +131,7 @@ public class SessionDetailActivity extends BaseActivity {
                                 @Override
                                 public void onClick(View v) {
                                     dbSingleton.addBookmarks(session.getId());
-                                    fabSessionBookmark.setImageDrawable(ContextCompat.getDrawable(SessionDetailActivity.this, R.drawable.ic_bookmark_white_24dp));
+                                    fabSessionBookmark.setImageResource(R.drawable.ic_bookmark_white_24dp);
                                     WidgetUpdater.updateWidget(getApplicationContext());
                                 }
                             });
