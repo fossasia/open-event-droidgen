@@ -12,7 +12,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -125,20 +124,21 @@ public class SessionDetailActivity extends BaseActivity {
                 if (dbSingleton.isBookmarked(session.getId())) {
                     Timber.tag(TAG).d("Bookmark Removed");
                     dbSingleton.deleteBookmarks(session.getId());
-                    fabSessionBookmark.setImageDrawable(ContextCompat.getDrawable(SessionDetailActivity.this, R.drawable.ic_bookmark_outline_white_24dp));
+                  
+                    fabSessionBookmark.setImageResource(R.drawable.ic_bookmark_outline_white_24dp);
                     Snackbar.make(v, R.string.removed_bookmark, Snackbar.LENGTH_LONG)
                             .setAction(R.string.undo, new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     dbSingleton.addBookmarks(session.getId());
-                                    fabSessionBookmark.setImageDrawable(ContextCompat.getDrawable(SessionDetailActivity.this, R.drawable.ic_bookmark_white_24dp));
+                                    fabSessionBookmark.setImageResource(R.drawable.ic_bookmark_white_24dp);
                                     WidgetUpdater.updateWidget(getApplicationContext());
                                 }
                             });
                 } else {
                     Timber.tag(TAG).d("Bookmarked");
                     dbSingleton.addBookmarks(session.getId());
-                    fabSessionBookmark.setImageDrawable(ContextCompat.getDrawable(SessionDetailActivity.this, R.drawable.ic_bookmark_white_24dp));
+                    fabSessionBookmark.setImageResource(R.drawable.ic_bookmark_white_24dp);
                     createNotification();
                     Toast.makeText(SessionDetailActivity.this, R.string.added_bookmark, Toast.LENGTH_SHORT).show();
                 }
@@ -182,10 +182,10 @@ public class SessionDetailActivity extends BaseActivity {
         DbSingleton dbSingleton = DbSingleton.getInstance();
         if (dbSingleton.isBookmarked(session.getId())) {
             Timber.tag(TAG).d("Bookmarked");
-            fabSessionBookmark.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_bookmark_white_24dp));
+            fabSessionBookmark.setImageResource(R.drawable.ic_bookmark_white_24dp);
         } else {
             Timber.tag(TAG).d("Bookmark Removed");
-            fabSessionBookmark.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_bookmark_outline_white_24dp));
+            fabSessionBookmark.setImageResource(R.drawable.ic_bookmark_outline_white_24dp);
         }
     }
 

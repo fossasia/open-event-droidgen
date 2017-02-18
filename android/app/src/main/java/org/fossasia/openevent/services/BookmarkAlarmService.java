@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
+import android.os.Build;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 
@@ -72,6 +73,9 @@ public class BookmarkAlarmService extends IntentService {
         PendingIntent pendingNotificationIntent = PendingIntent.getActivity(this.getApplicationContext(), 0, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
         Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
 
+        int smallIcon = R.drawable.ic_bookmark_white_24dp;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) smallIcon = R.drawable.ic_noti_bookmark;
+
         String start = ISO8601Date.get12HourTime(ISO8601Date.getDateObject(session.getStartTime()));
         String end = ISO8601Date.get12HourTime(ISO8601Date.getDateObject(session.getEndTime()));
         session_timings = start + " - " + end;
@@ -79,7 +83,7 @@ public class BookmarkAlarmService extends IntentService {
 
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.ic_bookmark_white_24dp)
+                .setSmallIcon(smallIcon)
                 .setLargeIcon(largeIcon)
                 .setContentTitle(session.getTitle())
                 .setContentText(session_date + "\n" + session_timings)

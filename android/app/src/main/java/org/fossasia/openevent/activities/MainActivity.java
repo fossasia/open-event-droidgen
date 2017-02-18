@@ -344,7 +344,6 @@ public class MainActivity extends BaseActivity {
                     drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 
             drawerLayout.addDrawerListener(smoothActionBarToggle);
-            ab.setHomeAsUpIndicator(R.drawable.ic_menu);
             ab.setDisplayHomeAsUpEnabled(true);
             ab.setDisplayHomeAsUpEnabled(true);
             smoothActionBarToggle.syncState();

@@ -5,30 +5,30 @@
         <item
             android:id="@+id/nav_tracks"
             android:checked="true"
-            android:icon="@drawable/ic_event_grey600_24dp"
+            android:icon="@drawable/ic_event_white_24dp"
             android:title="@string/menu_tracks" />
         <item
             android:id="@+id/nav_schedule"
             android:checked="true"
-            android:icon="@drawable/ic_access_time_white_24dp"
+            android:icon="@drawable/ic_schedule_grey600_24dp"
             android:title="@string/menu_schedule" />
 
         <item
             android:id="@+id/nav_bookmarks"
-            android:icon="@drawable/ic_bookmark_grey600_24dp"
+            android:icon="@drawable/ic_bookmark_white_24dp"
             android:title="@string/menu_bookmarks" />
 
         <item
             android:id="@+id/nav_speakers"
-            android:icon="@drawable/ic_people_grey600_24dp"
+            android:icon="@drawable/ic_people_black_24dp"
             android:title="@string/menu_speakers" />
         <item
             android:id="@+id/nav_sponsors"
-            android:icon="@drawable/ic_sponsors"
+            android:icon="@drawable/ic_sponsors_white_24dp"
             android:title="@string/menu_sponsor" />
         <item
             android:id="@+id/nav_map"
-            android:icon="@drawable/ic_map_grey600_24dp"
+            android:icon="@drawable/ic_map_white_24dp"
             android:title="@string/menu_map" />
         <item
             android:id="@+id/nav_locations"
@@ -41,15 +41,15 @@
         android:checkableBehavior="none">
         <item
             android:id="@+id/nav_settings"
-            android:icon="@drawable/ic_settings_grey600_24dp"
+            android:icon="@drawable/ic_settings_black_24dp"
             android:title="@string/menu_settings" />
         <item
             android:id="@+id/nav_share"
-            android:icon="@drawable/ic_share_grey600_24dp"
+            android:icon="@drawable/ic_share_white_24dp"
             android:title="@string/menu_share" />
         <item
             android:id="@+id/nav_about"
-            android:icon="@drawable/ic_info_grey600_24dp"
+            android:icon="@drawable/ic_info_black_24dp"
             android:title="@string/menu_about" />
     </group>
 
