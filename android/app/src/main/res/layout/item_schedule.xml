@@ -70,12 +70,28 @@
                     android:textColor="@color/cardview_dark_background"
                     android:textSize="14sp"
                     tools:text="9:00 AM - 11:30 AM / Room 1" />
+
             </LinearLayout>
+
         </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right">
+            <ImageView
+                android:id="@+id/day_bookmark_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_bookmark_outline_black_24dp"/>
+        </FrameLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0.8dp"
             android:background="?android:attr/listDivider" />
+
     </LinearLayout>
 </FrameLayout>
