@@ -124,9 +124,10 @@
                             android:layout_height="24dp"
                             app:srcCompat="@drawable/ic_schedule_black_24dp"/>
                         <TextView
-                            android:id="@+id/session_start_time"
+                            android:id="@+id/session_time"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:text="Session Timings"
                             android:textSize="@dimen/track_data_size"
                             android:textColor="@color/primary_text"
                             android:layout_marginLeft="@dimen/sessionList_item_margins"
