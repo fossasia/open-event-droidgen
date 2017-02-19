@@ -35,18 +35,17 @@
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:popupTheme="@style/PopupOverlay" />
 
+            <ProgressBar
+                android:id="@+id/progress"
+                android:layout_marginBottom="@dimen/bottom_progressbar_margin"
+                android:layout_marginTop="@dimen/top_progressbar_margin"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="100"
+                android:visibility="gone" />
+
         </android.support.design.widget.AppBarLayout>
-
-
-        <ProgressBar
-            android:id="@+id/progress"
-            style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="?attr/actionBarSize"
-            android:max="100"
-            android:visibility="gone" />
-
     </android.support.design.widget.CoordinatorLayout>
 
     <android.support.design.widget.NavigationView
