@@ -34,4 +34,8 @@
     <dimen name="fab_width">48dp</dimen>
     <dimen name="fab_height">48dp</dimen>
     <dimen name="content_name_margin">50dp</dimen>
+
+    <!--ProgressBar-->
+    <dimen name="top_progressbar_margin">-10dp</dimen>
+    <dimen name="bottom_progressbar_margin">-6dp</dimen>
 </resources>
