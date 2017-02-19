@@ -11,18 +11,6 @@
         android:background="?attr/selectableItemBackground"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/start_time"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:gravity="center_vertical"
-            android:paddingLeft="72dp"
-            android:paddingRight="72dp"
-            android:textColor="@color/cardview_dark_background"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            tools:text="start_time" />
-
         <LinearLayout
             android:id="@+id/touch_area"
             android:layout_width="match_parent"
@@ -38,6 +26,7 @@
                 android:layout_marginRight="24dp"
                 android:layout_marginTop="8dp"
                 android:contentDescription="@null"
+                android:layout_gravity="bottom"
                 app:srcCompat="@drawable/ic_schedule_grey600_24dp" />
 
             <LinearLayout
@@ -56,7 +45,7 @@
                     android:layout_marginTop="8dp"
                     android:ellipsize="end"
                     android:textColor="@color/cardview_dark_background"
-                    android:textSize="14sp"
+                    android:textSize="17sp"
                     android:textStyle="bold"
                     tools:text="Title" />
 
@@ -68,7 +57,7 @@
                     android:layout_marginRight="8dp"
                     android:layout_marginTop="4dp"
                     android:textColor="@color/cardview_dark_background"
-                    android:textSize="14sp"
+                    android:textSize="15sp"
                     tools:text="9:00 AM - 11:30 AM / Room 1" />
             </LinearLayout>
         </LinearLayout>
