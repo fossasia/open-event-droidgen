@@ -193,7 +193,6 @@ public class MainActivity extends BaseActivity {
         setUpNavDrawer();
         setUpProgressBar();
         setUpCustomTab();
-        this.findViewById(android.R.id.content).setBackgroundColor(Color.WHITE);
         if (NetworkUtils.haveNetworkConnection(this)) {
             if (NetworkUtils.isActiveInternetPresent()) {
                 //Internet is working
@@ -345,7 +344,6 @@ public class MainActivity extends BaseActivity {
                     drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 
             drawerLayout.addDrawerListener(smoothActionBarToggle);
-            ab.setHomeAsUpIndicator(R.drawable.ic_menu);
             ab.setDisplayHomeAsUpEnabled(true);
             ab.setDisplayHomeAsUpEnabled(true);
             smoothActionBarToggle.syncState();

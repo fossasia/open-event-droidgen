@@ -15,7 +15,7 @@ import android.support.customtabs.CustomTabsClient;
 import android.support.customtabs.CustomTabsServiceConnection;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v4.content.ContextCompat;
+import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -248,13 +248,13 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
 
                         shareColor = Color.WHITE;
 
-                        Drawable shareDrawable = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_share_white_24dp);
-                        shareDrawable.setColorFilter(shareColor, PorterDuff.Mode.MULTIPLY);
+                        Drawable shareDrawable = VectorDrawableCompat.create(getApplicationContext().getResources(), R.drawable.ic_share_white_24dp, null);
+                        if(shareDrawable != null) shareDrawable.mutate().setColorFilter(shareColor, PorterDuff.Mode.MULTIPLY);
 
                         menu.getItem(0).setIcon(shareDrawable);
 
-                        Drawable backDrawable = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_arrow_back_white_24dp);
-                        backDrawable.setColorFilter(shareColor, PorterDuff.Mode.MULTIPLY);
+                        Drawable backDrawable = VectorDrawableCompat.create(getApplicationContext().getResources(), R.drawable.ic_arrow_back_white_24dp, null);
+                        if(backDrawable != null) backDrawable.mutate().setColorFilter(shareColor, PorterDuff.Mode.MULTIPLY);
 
                     }
                 });
@@ -262,11 +262,11 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
 
             @Override
             public void onBitmapFailed(Drawable errorDrawable) {
-                Drawable shareDrawable = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_share_white_24dp);
-                shareDrawable.clearColorFilter();
+                Drawable shareDrawable = VectorDrawableCompat.create(getApplicationContext().getResources(), R.drawable.ic_share_white_24dp, null);
+                if(shareDrawable != null) shareDrawable.clearColorFilter();
 
-                Drawable backDrawable = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_arrow_back_white_24dp);
-                backDrawable.clearColorFilter();
+                Drawable backDrawable = VectorDrawableCompat.create(getApplicationContext().getResources(), R.drawable.ic_arrow_back_white_24dp, null);
+                if(backDrawable != null) backDrawable.clearColorFilter();
             }
 
             @Override
@@ -285,11 +285,11 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
     protected void onPause() {
         super.onPause();
 
-        Drawable shareDrawable = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_share_white_24dp);
-        shareDrawable.clearColorFilter();
+        Drawable shareDrawable = VectorDrawableCompat.create(getApplicationContext().getResources(), R.drawable.ic_share_white_24dp, null);
+        if(shareDrawable != null) shareDrawable.clearColorFilter();
 
-        Drawable backDrawable = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_arrow_back_white_24dp);
-        backDrawable.clearColorFilter();
+        Drawable backDrawable = VectorDrawableCompat.create(getApplicationContext().getResources(), R.drawable.ic_arrow_back_white_24dp, null);
+        if(backDrawable != null) backDrawable.clearColorFilter();
     }
 
     @Override
