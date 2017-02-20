@@ -19,7 +19,7 @@
             android:paddingLeft="72dp"
             android:paddingRight="72dp"
             android:textColor="@color/cardview_dark_background"
-            android:textSize="18sp"
+            android:textSize="@dimen/heading_text_size"
             android:textStyle="bold"
             tools:text="start_time" />
 
@@ -28,15 +28,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingBottom="8dp">
+            android:paddingBottom="@dimen/padding_medium">
 
             <ImageView
                 android:id="@+id/icon"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:layout_marginLeft="24dp"
-                android:layout_marginRight="24dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginLeft="@dimen/layout_margin_large"
+                android:layout_marginRight="@dimen/layout_margin_large"
+                android:layout_marginTop="@dimen/layout_margin_medium"
                 android:contentDescription="@null"
                 app:srcCompat="@drawable/ic_schedule_grey600_24dp" />
 
@@ -51,12 +51,12 @@
                     android:id="@+id/slot_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="24dp"
-                    android:layout_marginRight="24dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="@dimen/layout_margin_large"
+                    android:layout_marginRight="@dimen/layout_margin_large"
+                    android:layout_marginTop="@dimen/layout_margin_medium"
                     android:ellipsize="end"
                     android:textColor="@color/cardview_dark_background"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/text_size"
                     android:textStyle="bold"
                     tools:text="Title" />
 
@@ -64,11 +64,11 @@
                     android:id="@+id/timings"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="@dimen/layout_margin_medium"
+                    android:layout_marginRight="@dimen/layout_margin_medium"
+                    android:layout_marginTop="@dimen/layout_margin_small"
                     android:textColor="@color/cardview_dark_background"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/text_size"
                     tools:text="9:00 AM - 11:30 AM / Room 1" />
             </LinearLayout>
         </LinearLayout>
