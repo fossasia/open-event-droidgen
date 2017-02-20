@@ -44,7 +44,7 @@
         android:id="@+id/fab_session_bookmark"
         android:layout_width="@dimen/fab_width"
         android:layout_height="@dimen/fab_height"
-        android:layout_margin="@dimen/fab_margin"
+        android:layout_margin="@dimen/layout_margin_large"
         android:clickable="true"
         app:layout_anchor="@+id/app_bar_session_detail"
         app:layout_anchorGravity="bottom|right"

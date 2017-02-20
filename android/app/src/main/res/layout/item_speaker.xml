@@ -2,9 +2,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/speakers_entry_height"
+    android:layout_height="@dimen/widget_default_height"
     android:foreground="?android:attr/selectableItemBackground"
-    tools:layout_width="@dimen/speakers_entry_width">
+    tools:layout_width="@dimen/widget_default_height">
 
     <ImageView
         android:id="@+id/speakers_list_image"
@@ -21,7 +21,7 @@
         android:layout_gravity="bottom"
         android:background="?colorPrimaryDark"
         android:alpha="0.8"
-        android:padding="4dp">
+        android:padding="@dimen/padding_small">
 
         <TextView
             android:id="@+id/speakers_list_name"
@@ -30,7 +30,7 @@
             android:gravity="center"
             android:maxLines="2"
             android:textColor="@android:color/white"
-            android:textSize="13sp"
+            android:textSize="@dimen/text_size"
             tools:ignore="SpUsage"
             tools:text="Paresh Mayani" />
 
@@ -41,7 +41,7 @@
             android:gravity="center"
             android:maxLines="2"
             android:textColor="@android:color/white"
-            android:textSize="10sp"
+            android:textSize="@dimen/text_size"
             tools:ignore="SpUsage"
             tools:text="Technical Lead" />
 
@@ -52,7 +52,7 @@
             android:gravity="center"
             android:maxLines="2"
             android:textColor="@android:color/white"
-            android:textSize="10sp"
+            android:textSize="@dimen/text_size"
             tools:ignore="SpUsage"
             tools:text="India" />
 
