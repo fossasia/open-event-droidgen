@@ -13,7 +13,6 @@
     <string name="menu_settings">ക്രമീകരണങ്ങൾ</string>
     <string name="menu_about">ഞങ്ങളേക്കുറിച്ച്</string>
     <string name="session">സെഷൻ വിശദാംശം</string>
-    <string name="menu_schedule" translatable="false">പട്ടിക</string>
     <string name="descriptionEmpty">വിവരണം: ഉടൻ അപ്ഡേറ്റ് ചെയ്യും</string>
 
 
@@ -44,10 +43,6 @@
 
 
     <!--Social-->
-    <string name="linkedin" translatable="false">ലിൻകിടിൻ</string>
-    <string name="twitter" translatable="false">ട്വിറ്റർ</string>
-    <string name="fb" translatable="false">ഫേസ്ബുക്ക്</string>
-    <string name="github" translatable="false">ഗിതബ്</string>
 
     <!--Menu Titles-->
     <string name="search">തിരയുക</string>
@@ -162,5 +157,7 @@
     <string name="open_your_web_brower_to_finish_connection_setting">കണക്ഷൻ ക്രമീകരണം പൂർത്തിയാക്കാൻ നിങ്ങളുടെ വെബ് ബ്രൗസർ തുറക്കുക</string>
     <string name="removed_bookmark">ബുക്ക്മാർക്ക് നീക്കം</string>
     <string name="added_bookmark">ബുക്മാർക്ക് ചേർത്തിരിക്കുന്നു</string>
+    <string name="github" translatable="false"></string>
+    <string name="linkedin" translatable="false"></string>
 
 </resources>

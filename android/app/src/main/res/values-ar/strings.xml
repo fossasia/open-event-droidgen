@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">OpenEvent</string>
 
     <string name="title_section_tracks">المسارات</string>
     <string name="title_section_speakerlist">المتحدثين</string>
@@ -16,7 +15,6 @@
     <string name="menu_settings">الاعدادات</string>
     <string name="menu_about">معلومات عنا</string>
     <string name="session">تفاصيل المحاضرة</string>
-    <string name="menu_schedule" translatable="false">الجدول</string>
 
 
     <!--Navigation Drawer-->
@@ -46,10 +44,6 @@
 
 
     <!--Social-->
-    <string name="linkedin" translatable="false">linkedin</string>
-    <string name="twitter" translatable="false">twitter</string>
-    <string name="fb" translatable="false">fb</string>
-    <string name="github" translatable="false">github</string>
 
     <!--Menu Titles-->
     <string name="search">البحث</string>
@@ -164,4 +158,5 @@
     <string name="open_your_web_brower_to_finish_connection_setting">افتح المتصفح الخاص بك للانتهاء من اعدادات الاتصال</string>
     <string name="removed_bookmark">تم ازالة المفضلة</string>
     <string name="added_bookmark">تم اضافة المفضلة</string>
+    <string name="menu_schedule" translatable="false"></string>
 </resources>
