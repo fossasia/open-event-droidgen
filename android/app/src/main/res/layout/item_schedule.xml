@@ -10,19 +10,7 @@
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
         android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/start_time"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:gravity="center_vertical"
-            android:paddingLeft="72dp"
-            android:paddingRight="72dp"
-            android:textColor="@color/cardview_dark_background"
-            android:textSize="@dimen/heading_text_size"
-            android:textStyle="bold"
-            tools:text="start_time" />
-
+      
         <LinearLayout
             android:id="@+id/touch_area"
             android:layout_width="match_parent"
@@ -38,6 +26,7 @@
                 android:layout_marginRight="@dimen/layout_margin_large"
                 android:layout_marginTop="@dimen/layout_margin_medium"
                 android:contentDescription="@null"
+                android:layout_gravity="bottom"
                 app:srcCompat="@drawable/ic_schedule_grey600_24dp" />
 
             <LinearLayout
