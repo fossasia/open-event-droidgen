@@ -123,7 +123,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
         holder.trackImageIcon.setBackgroundColor(Color.TRANSPARENT);
         holder.sessionTrack.setText(session.getTrack().getName());
         holder.sessionDate.setText(date);
-        holder.sessionStartTime.setText(ISO8601Date.get12HourTime(ISO8601Date.getDateObject(session.getStartTime())));
+        holder.sessionTime.setText(ISO8601Date.get12HourTime(ISO8601Date.getDateObject(session.getStartTime())) + " - " + ISO8601Date.get12HourTime(ISO8601Date.getDateObject(session.getEndTime())));
         holder.sessionLocation.setText(session.getMicrolocation().getName());
         DbSingleton dbSingleton;
         dbSingleton = DbSingleton.getInstance();
@@ -231,8 +231,8 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
         @BindView(R.id.session_date)
         protected TextView sessionDate;
 
-        @BindView(R.id.session_start_time)
-        protected TextView sessionStartTime;
+        @BindView(R.id.session_time)
+        protected TextView sessionTime;
 
         @BindView(R.id.session_location)
         protected TextView sessionLocation;
