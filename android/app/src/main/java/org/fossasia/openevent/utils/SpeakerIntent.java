@@ -3,6 +3,7 @@ package org.fossasia.openevent.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.customtabs.CustomTabsIntent;
@@ -79,6 +80,7 @@ public class SpeakerIntent {
                     CustomTabsIntent.Builder customTabsBuilder = new CustomTabsIntent.Builder(customTabsSession);
                     context = view.getContext();
                     customTabsBuilder.setToolbarColor(ContextCompat.getColor(context, R.color.color_primary));
+                    customTabsBuilder.setCloseButtonIcon(BitmapFactory.decodeResource(context.getResources(),R.drawable.ic_arrow_back_white_cct_24dp));
                     customTabsBuilder.setStartAnimations(context, R.anim.slide_in_right, R.anim.slide_out_left);
                     customTabsBuilder.setExitAnimations(context, R.anim.slide_in_left, R.anim.slide_out_right);
                     CustomTabsIntent customTabsIntent = customTabsBuilder.build();
