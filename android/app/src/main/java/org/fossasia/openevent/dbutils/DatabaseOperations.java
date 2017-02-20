@@ -240,7 +240,7 @@ public class DatabaseOperations {
     }
 
     public List<org.fossasia.openevent.data.Track> getTrackList(SQLiteDatabase mDb) {
-        String sortOrder = DbContract.Tracks.ID + ASCENDING;
+        String sortOrder = DbContract.Tracks.NAME + ASCENDING;
         Cursor cursor = mDb.query(
                 DbContract.Tracks.TABLE_NAME,
                 DbContract.Tracks.FULL_PROJECTION,
@@ -358,7 +358,7 @@ public class DatabaseOperations {
                 DatabaseUtils.sqlEscapeString(String.valueOf(trackSelected));
 
         //Order
-        String sortOrder = DbContract.Sessions.ID + ASCENDING;
+        String sortOrder = DbContract.Sessions.START_TIME + ASCENDING;
 
         Cursor sessionCursor = mDb.query(
                 DbContract.Sessions.TABLE_NAME,
@@ -585,6 +585,7 @@ public class DatabaseOperations {
         }
         builder.deleteCharAt(builder.length()-1);
         builder.append(')');
+        String sortOrder = DbContract.Sessions.START_TIME + ASCENDING;
         String sessionTableColumnSelection = builder.toString();
         Cursor sessionTableCursor = mDb.query(
                 DbContract.Sessions.TABLE_NAME,
@@ -593,7 +594,7 @@ public class DatabaseOperations {
                 null,
                 null,
                 null,
-                null
+                sortOrder
         );
 
         Session session;
@@ -742,6 +743,7 @@ public class DatabaseOperations {
 
         //Select rows having location id same as that obtained previously
         String sessionColumnSelection = DbContract.Sessions.MICROLOCATION + EQUAL + locationSelected;
+        String sort = DbContract.Sessions.START_TIME + ASCENDING;
 
 
         Cursor sessionCursor = mDb.query(
@@ -751,7 +753,7 @@ public class DatabaseOperations {
                 null,
                 null,
                 null,
-                null
+                sort
         );
 
         ArrayList<Session> sessions = new ArrayList<>();
