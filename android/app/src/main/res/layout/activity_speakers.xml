@@ -56,10 +56,10 @@
                     android:layout_height="wrap_content"
                     android:text="Title"
                     android:fontFamily="sans-serif-condensed"
-                    android:paddingBottom="2dp"
+                    android:paddingBottom="@dimen/padding_small"
                     android:textStyle="bold"
                     android:textColor="@android:color/white"
-                    android:textSize="20sp" />
+                    android:textSize="@dimen/heading_text_size" />
 
                 <TextView
                     android:id="@+id/speaker_details_designation"
@@ -68,10 +68,10 @@
                     android:text="Subtitile"
                     android:ellipsize="end"
                     android:fontFamily="sans-serif-condensed"
-                    android:paddingBottom="2dp"
+                    android:paddingBottom="@dimen/padding_small"
                     android:maxLines="1"
                     android:textColor="@android:color/white"
-                    android:textSize="18sp" />
+                    android:textSize="@dimen/text_size" />
 
             </LinearLayout>
 
@@ -97,11 +97,11 @@
                 android:id="@+id/speaker_bio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:paddingEnd="@dimen/content_margin"
-                android:paddingLeft="@dimen/content_margin"
-                android:paddingRight="@dimen/content_margin"
-                android:paddingStart="@dimen/content_margin"
+                android:layout_marginTop="@dimen/layout_margin_medium"
+                android:paddingEnd="@dimen/padding_large"
+                android:paddingLeft="@dimen/padding_large"
+                android:paddingRight="@dimen/padding_large"
+                android:paddingStart="@dimen/padding_large"
                 tools:text="Paresh Mayani, Technical Lead @ Android" />
 
             <LinearLayout
@@ -109,9 +109,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/speaker_bio"
-                android:layout_margin="@dimen/content_margin"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp">
+                android:layout_margin="@dimen/layout_margin_large"
+                android:layout_marginBottom="@dimen/layout_margin_small"
+                android:layout_marginTop="@dimen/layout_margin_small">
 
                 <ImageView
                     android:id="@+id/imageView_fb"
@@ -127,8 +127,8 @@
                     android:id="@+id/imageView_linkedin"
                     android:layout_width="@dimen/social_image_icon"
                     android:layout_height="@dimen/social_image_icon"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginStart="15dp"
+                    android:layout_marginLeft="@dimen/layout_margin_large"
+                    android:layout_marginStart="@dimen/layout_margin_large"
                     android:adjustViewBounds="true"
                     android:clickable="true"
                     android:contentDescription="@string/linkedin_icon"
@@ -139,8 +139,8 @@
                     android:id="@+id/imageView_twitter"
                     android:layout_width="@dimen/social_image_icon"
                     android:layout_height="@dimen/social_image_icon"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginStart="15dp"
+                    android:layout_marginLeft="@dimen/layout_margin_large"
+                    android:layout_marginStart="@dimen/layout_margin_large"
                     android:adjustViewBounds="true"
                     android:clickable="true"
                     android:contentDescription="@string/twitter_icon"
@@ -151,8 +151,8 @@
                     android:id="@+id/imageView_github"
                     android:layout_width="@dimen/social_image_icon"
                     android:layout_height="@dimen/social_image_icon"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginStart="15dp"
+                    android:layout_marginLeft="@dimen/layout_margin_large"
+                    android:layout_marginStart="@dimen/layout_margin_large"
                     android:adjustViewBounds="true"
                     android:clickable="true"
                     android:contentDescription="@string/github_icon"
@@ -163,8 +163,8 @@
                     android:id="@+id/imageView_web"
                     android:layout_width="@dimen/social_image_icon"
                     android:layout_height="@dimen/social_image_icon"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginStart="15dp"
+                    android:layout_marginLeft="@dimen/layout_margin_large"
+                    android:layout_marginStart="@dimen/layout_margin_large"
                     android:adjustViewBounds="true"
                     android:clickable="true"
                     android:contentDescription="@string/web_icon"
