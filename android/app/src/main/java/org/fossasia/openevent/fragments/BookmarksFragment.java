@@ -50,6 +50,8 @@ public class BookmarksFragment extends BaseFragment implements SearchView.OnQuer
 
     @BindView(R.id.list_bookmarks) RecyclerView bookmarkedTracks;
 
+    private static final int bookmarkedSessionList = 4;
+
     View view;
     ArrayList<Integer> bookmarkedIds;
     private LinearLayoutManager linearLayoutManager;
@@ -115,7 +117,7 @@ public class BookmarksFragment extends BaseFragment implements SearchView.OnQuer
         int spanCount = (int) (width/250.00);
 
         bookmarkedTracks.setVisibility(View.VISIBLE);
-        sessionsListAdapter = new SessionsListAdapter(getContext(), new ArrayList<Session>());
+        sessionsListAdapter = new SessionsListAdapter(getContext(), new ArrayList<Session>(),bookmarkedSessionList);
         for (int i = 0; i < bookmarkedIds.size(); i++) {
             Integer id = bookmarkedIds.get(i);
             Session session = dbSingleton.getSessionById(id);

@@ -53,6 +53,9 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
 
     private String trackName;
     private Context context;
+    private int type;
+    private static final int locationWiseSessionList = 1;
+    private static final int trackWiseSessionList = 4;
     public static int listPosition;
     private ColorGenerator colorGenerator = ColorGenerator.MATERIAL;
     private TextDrawable.IBuilder drawableBuilder = TextDrawable.builder().round();
@@ -85,9 +88,10 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
         }
     };
 
-    public SessionsListAdapter(Context context, List<Session> sessions) {
+    public SessionsListAdapter(Context context, List<Session> sessions, int type) {
         super(sessions);
         this.context = context;
+        this.type = type;
     }
 
     public void setTrackName(String trackName) {
@@ -116,6 +120,8 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
         final View sessionDetailsHolder = holder.sessionDetailsHolder;
         final View sessionCard = holder.sessionCard;
 
+
+        holder.titleLinearLayout.setBackgroundColor(colorGenerator.getColor(session.getTitle()));
         holder.sessionTitle.setText(session.getTitle());
         holder.sessionSubtitle.setText(session.getSubtitle());
         TextDrawable drawable = drawableBuilder.build(String.valueOf(session.getTrack().getName().charAt(0)), colorGenerator.getColor(session.getTrack().getName()));
@@ -125,6 +131,17 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
         holder.sessionDate.setText(date);
         holder.sessionTime.setText(ISO8601Date.get12HourTime(ISO8601Date.getDateObject(session.getStartTime())) + " - " + ISO8601Date.get12HourTime(ISO8601Date.getDateObject(session.getEndTime())));
         holder.sessionLocation.setText(session.getMicrolocation().getName());
+        switch (type){
+            case trackWiseSessionList :
+                holder.trackImageIcon.setVisibility(View.GONE);
+                holder.sessionTrack.setVisibility(View.GONE);
+                break;
+            case locationWiseSessionList :
+                holder.sessionLocation.setVisibility(View.GONE);
+                holder.locationIcon.setVisibility(View.GONE);
+                break;
+            default:
+        }
         DbSingleton dbSingleton;
         dbSingleton = DbSingleton.getInstance();
 
@@ -245,6 +262,12 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
 
         @BindView(R.id.session_details)
         protected LinearLayout sessionDetailsHolder;
+
+        @BindView(R.id.location_icon)
+        protected ImageView locationIcon;
+
+        @BindView(R.id.titleLinearLayout)
+        protected LinearLayout titleLinearLayout;
 
         @BindView(R.id.session_card)
         protected CardView sessionCard;

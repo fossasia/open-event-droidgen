@@ -142,6 +142,7 @@
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
+                            android:id="@+id/location_icon"
                             app:srcCompat="@drawable/ic_location_on_black_24dp"/>
                         <TextView
                             android:id="@+id/session_location"
