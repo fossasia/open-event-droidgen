@@ -75,11 +75,6 @@
                     android:id="@+id/speaker_details_designation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:fontFamily="sans-serif-condensed"
-                    android:paddingBottom="@dimen/padding_small"
-                    android:maxLines="1"
-                    android:paddingBottom="2dp"
                     android:text="Subtitle"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/text_size" />
