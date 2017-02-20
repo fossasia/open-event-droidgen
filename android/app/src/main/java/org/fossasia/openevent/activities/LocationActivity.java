@@ -46,6 +46,8 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
 
     private SearchView searchView;
 
+    private static final int locationWiseSessionList = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -77,7 +79,7 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
         sessionRecyclerView.setHasFixedSize(true);
         final GridLayoutManager gridLayoutManager = new GridLayoutManager(this,spanCount);
         sessionRecyclerView.setLayoutManager(gridLayoutManager);
-        sessionsListAdapter = new SessionsListAdapter(this, mSessions);
+        sessionsListAdapter = new SessionsListAdapter(this, mSessions,locationWiseSessionList);
         sessionRecyclerView.setAdapter(sessionsListAdapter);
         sessionRecyclerView.scrollToPosition(LocationsListAdapter.listPosition);
         sessionRecyclerView.setItemAnimator(new DefaultItemAnimator());
