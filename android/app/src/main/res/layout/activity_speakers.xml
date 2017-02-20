@@ -48,13 +48,14 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:layout_marginLeft="@dimen/content_name_margin"
+                android:layout_marginStart="@dimen/content_name_margin"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/speaker_details_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Title"
+                    tools:text="Title"
                     android:fontFamily="sans-serif-condensed"
                     android:paddingBottom="@dimen/padding_small"
                     android:textStyle="bold"
@@ -65,7 +66,7 @@
                     android:id="@+id/speaker_details_designation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Subtitile"
+                    tools:text="Subtitle"
                     android:ellipsize="end"
                     android:fontFamily="sans-serif-condensed"
                     android:paddingBottom="@dimen/padding_small"
