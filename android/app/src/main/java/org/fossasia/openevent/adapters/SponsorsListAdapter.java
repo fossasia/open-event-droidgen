@@ -3,6 +3,7 @@ package org.fossasia.openevent.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.Snackbar;
@@ -104,6 +105,7 @@ public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, RecyclerView.Vie
                             CustomTabsIntent.Builder customTabsBuilder = new CustomTabsIntent.Builder();
 
                             customTabsBuilder.setToolbarColor(ContextCompat.getColor(context, R.color.color_primary));
+                            customTabsBuilder.setCloseButtonIcon(BitmapFactory.decodeResource(context.getResources(),R.drawable.ic_arrow_back_white_cct_24dp));
                             customTabsBuilder.setStartAnimations(context, R.anim.slide_in_right, R.anim.slide_out_left);
                             customTabsBuilder.setExitAnimations(context, R.anim.slide_in_left, R.anim.slide_out_right);
 

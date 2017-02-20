@@ -6,7 +6,9 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.view.ViewTreeObserver;
+import android.widget.ImageView;
 
 import static android.os.Build.VERSION_CODES.JELLY_BEAN;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
@@ -59,5 +61,10 @@ public final class Views {
 
     public static boolean isCompatible(int apiLevel) {
         return android.os.Build.VERSION.SDK_INT >= apiLevel;
+    }
+
+    public static void setTint(ImageView imageView, int tintColor) {
+        Drawable wrapped = DrawableCompat.wrap(imageView.getDrawable());
+        DrawableCompat.setTint(wrapped, tintColor);
     }
 }
