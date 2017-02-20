@@ -64,7 +64,6 @@
                     android:id="@+id/speaker_details_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-condensed"
                     android:paddingBottom="2dp"
                     android:text="Title"
                     android:textColor="@android:color/white"
