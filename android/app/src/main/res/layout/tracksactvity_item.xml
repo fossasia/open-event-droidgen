@@ -36,12 +36,14 @@
                         android:gravity="end">
                         <ImageView
                             android:id="@+id/session_bookmark_status"
+                            android:contentDescription="@string/session_bookmark_status"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             app:srcCompat="@drawable/ic_bookmark_border_white_24dp"
                             android:layout_margin="3dp"/>
                         <ImageView
                             android:id="@+id/shareImageIcon"
+                            android:contentDescription="@string/session_share_icon"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:layout_margin="3dp"
@@ -81,6 +83,7 @@
                         <ImageView
                             android:layout_width="25dp"
                             android:layout_height="25dp"
+                            android:contentDescription="@string/item_track"
                             android:id="@+id/trackImageDrawable"/>
                         <TextView
                             android:id="@+id/session_track"
@@ -102,6 +105,7 @@
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
+                            android:contentDescription="@string/session_calender_icon"
                             app:srcCompat="@drawable/ic_date_range_black_24dp"/>
                         <TextView
                             android:id="@+id/session_date"
@@ -122,6 +126,7 @@
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
+                            android:contentDescription="@string/session_clock_icon"
                             app:srcCompat="@drawable/ic_schedule_black_24dp"/>
                         <TextView
                             android:id="@+id/session_time"
@@ -142,6 +147,7 @@
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
+                            android:contentDescription="@string/session_location_icon"
                             app:srcCompat="@drawable/ic_location_on_black_24dp"/>
                         <TextView
                             android:id="@+id/session_location"
