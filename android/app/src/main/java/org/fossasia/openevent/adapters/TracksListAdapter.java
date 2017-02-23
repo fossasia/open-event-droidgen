@@ -16,6 +16,7 @@ import com.amulyakhare.textdrawable.util.ColorGenerator;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.activities.TrackSessionsActivity;
+import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.ConstantStrings;
@@ -80,22 +81,27 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.Re
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
         final Track currentTrack = getItem(position);
 
-        holder.trackTitle.setText(currentTrack.getName());
-        holder.trackDescription.setText(currentTrack.getDescription());
+        DbSingleton dbSingleton = DbSingleton.getInstance();
+        List<Session> sessions = dbSingleton.getSessionbyTracksname(currentTrack.getName());
 
-        TextDrawable drawable = drawableBuilder.build(String.valueOf(currentTrack.getName().charAt(0)), colorGenerator.getColor(currentTrack.getName()));
-        holder.trackImageIcon.setImageDrawable(drawable);
-        holder.trackImageIcon.setBackgroundColor(Color.TRANSPARENT);
+        if(sessions.size() != 0) {
+            holder.trackTitle.setText(currentTrack.getName());
+            holder.trackDescription.setText(currentTrack.getDescription());
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String trackTitle = currentTrack.getName();
-                Intent intent = new Intent(context, TrackSessionsActivity.class);
-                intent.putExtra(ConstantStrings.TRACK, trackTitle);
-                context.startActivity(intent);
-            }
-        });
+            TextDrawable drawable = drawableBuilder.build(String.valueOf(currentTrack.getName().charAt(0)), colorGenerator.getColor(currentTrack.getName()));
+            holder.trackImageIcon.setImageDrawable(drawable);
+            holder.trackImageIcon.setBackgroundColor(Color.TRANSPARENT);
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String trackTitle = currentTrack.getName();
+                    Intent intent = new Intent(context, TrackSessionsActivity.class);
+                    intent.putExtra(ConstantStrings.TRACK, trackTitle);
+                    context.startActivity(intent);
+                }
+            });
+        }
     }
 
     public void refresh() {

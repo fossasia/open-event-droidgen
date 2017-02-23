@@ -83,7 +83,6 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
         String startTime = ISO8601Date.get12HourTime(ISO8601Date.getDateObject(currentSession.getStartTime()));
         String endTime = ISO8601Date.get12HourTime(ISO8601Date.getDateObject(currentSession.getEndTime()));
 
-//        holder.startTime.setText(startTime);
         holder.slotTitle.setText(currentSession.getTitle());
         holder.timings.setText(String.format("%s - %s", startTime, endTime));
 
@@ -113,9 +112,6 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
     }
 
     protected class DayScheduleViewHolder extends RecyclerView.ViewHolder {
-
-//        @BindView(R.id.start_time)
-//        TextView startTime;
 
         @BindView(R.id.slot_title)
         TextView slotTitle;
