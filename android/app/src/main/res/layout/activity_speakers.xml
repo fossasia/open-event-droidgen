@@ -27,14 +27,24 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center" />
 
-            <ImageView
-                android:id="@+id/speaker_image"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:contentDescription="@null"
-                android:fitsSystemWindows="true"
-                android:scaleType="centerCrop"
-                app:layout_collapseMode="parallax" />
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/speaker_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:contentDescription="@null"
+                    android:fitsSystemWindows="true"
+                    android:scaleType="centerCrop"
+                    app:layout_collapseMode="parallax" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/actionbar_gradient_dark" />
+            </FrameLayout>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar_speakers"
@@ -55,10 +65,10 @@
                     android:id="@+id/speaker_details_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="Title"
+                    android:text="Title"
+                    android:textStyle="bold"
                     android:fontFamily="sans-serif-condensed"
                     android:paddingBottom="@dimen/padding_small"
-                    android:textStyle="bold"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/heading_text_size" />
 
@@ -66,11 +76,7 @@
                     android:id="@+id/speaker_details_designation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="Subtitle"
-                    android:ellipsize="end"
-                    android:fontFamily="sans-serif-condensed"
-                    android:paddingBottom="@dimen/padding_small"
-                    android:maxLines="1"
+                    android:text="Subtitle"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/text_size" />
 
@@ -121,8 +127,8 @@
                     android:adjustViewBounds="true"
                     android:clickable="true"
                     android:contentDescription="@string/facebook_icon"
-                    app:srcCompat="@drawable/ic_facebook_24dp"
-                    android:tag="@string/fb" />
+                    android:tag="@string/fb"
+                    app:srcCompat="@drawable/ic_facebook_24dp" />
 
                 <ImageView
                     android:id="@+id/imageView_linkedin"
@@ -133,8 +139,8 @@
                     android:adjustViewBounds="true"
                     android:clickable="true"
                     android:contentDescription="@string/linkedin_icon"
-                    app:srcCompat="@drawable/ic_linkedin_24dp"
-                    android:tag="@string/linkedin" />
+                    android:tag="@string/linkedin"
+                    app:srcCompat="@drawable/ic_linkedin_24dp" />
 
                 <ImageView
                     android:id="@+id/imageView_twitter"
@@ -145,8 +151,8 @@
                     android:adjustViewBounds="true"
                     android:clickable="true"
                     android:contentDescription="@string/twitter_icon"
-                    app:srcCompat="@drawable/ic_twitter_24dp"
-                    android:tag="@string/twitter" />
+                    android:tag="@string/twitter"
+                    app:srcCompat="@drawable/ic_twitter_24dp" />
 
                 <ImageView
                     android:id="@+id/imageView_github"
@@ -157,8 +163,8 @@
                     android:adjustViewBounds="true"
                     android:clickable="true"
                     android:contentDescription="@string/github_icon"
-                    app:srcCompat="@drawable/ic_github_24dp"
-                    android:tag="@string/github" />
+                    android:tag="@string/github"
+                    app:srcCompat="@drawable/ic_github_24dp" />
 
                 <ImageView
                     android:id="@+id/imageView_web"
@@ -169,8 +175,8 @@
                     android:adjustViewBounds="true"
                     android:clickable="true"
                     android:contentDescription="@string/web_icon"
-                    app:srcCompat="@drawable/ic_domain_black_24dp"
-                    android:tag="@string/website" />
+                    android:tag="@string/website"
+                    app:srcCompat="@drawable/ic_domain_black_24dp" />
             </LinearLayout>
 
             <RelativeLayout
@@ -194,6 +200,4 @@
             </RelativeLayout>
         </RelativeLayout>
     </android.support.v4.widget.NestedScrollView>
-
-
 </android.support.design.widget.CoordinatorLayout>
