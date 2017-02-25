@@ -18,6 +18,7 @@
 
         <ImageView
             android:id="@+id/imageView"
+            android:contentDescription="@string/item_track"
             android:layout_width="50dp"
             android:layout_height="50dp" />
 

@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name" translatable="false">Open Event</string>
 
     <string name="title_section_tracks">ट्रयाक</string>
     <string name="title_section_speakerlist">वक्ता</string>
@@ -15,7 +14,6 @@
     <string name="menu_settings">सेटिङ</string>
     <string name="menu_about">हाम्रोबारे</string>
     <string name="session">सत्र विस्तार</string>
-    <string name="menu_schedule" translatable="false">तालिका</string>
     <string name="descriptionEmpty">विवरण: चाँडै अद्यावधिक गर्न</string>
 
 
@@ -46,10 +44,6 @@
 
 
     <!--Social-->
-    <string name="linkedin" translatable="false">linkedin</string>
-    <string name="twitter" translatable="false">twitter</string>
-    <string name="fb" translatable="false">fb</string>
-    <string name="github" translatable="false">github</string>
 
     <!--Menu Titles-->
     <string name="search">खोज</string>
@@ -164,5 +158,6 @@
     <string name="open_your_web_brower_to_finish_connection_setting">जडान सेटिङ पूरा गर्न आफ्नो वेब ब्राउजर खोल्न</string>
     <string name="removed_bookmark">Bookmark Removed</string>
     <string name="added_bookmark">बुकमार्क जोडा</string>
+    <string name="twitter" translatable="false"></string>
 
 </resources>
