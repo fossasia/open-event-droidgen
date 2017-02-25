@@ -547,40 +547,11 @@ public class DatabaseOperations {
             sortedSessionIds.add(sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessionsspeakers.SESSION_ID)));
             sessionCursor.moveToNext();
         }
-
         sessionCursor.close();
-        StringBuilder builder= new StringBuilder(DbContract.ServerSessionIdMapping.SERVER_ID + IN+"( ");
-        for (Integer integer:sortedSessionIds){
-            builder.append(integer).append(',');
-        }
-        builder.deleteCharAt(builder.length()-1);
-        builder.append(')');
-        String mappingSelection = builder.toString();
-        ArrayList<Integer> sessionIds = new ArrayList<>();
-
-
-        Cursor mappingCursor = mDb.query(
-                DbContract.ServerSessionIdMapping.TABLE_NAME,
-                DbContract.ServerSessionIdMapping.FULL_PROJECTION,
-                mappingSelection,
-                null,
-                null,
-                null,
-                null
-        );
-
-        mappingCursor.moveToFirst();
-        //Should return only one due to UNIQUE constraint
-        while (!mappingCursor.isAfterLast()) {
-            sessionIds.add(mappingCursor.getInt(mappingCursor.getColumnIndex(DbContract.ServerSessionIdMapping.LOCAL_ID)));
-            mappingCursor.moveToNext();
-        }
-        mappingCursor.close();
-
 
         ArrayList<Session> sessions = new ArrayList<>();
-        builder=new StringBuilder(DbContract.Sessions.ID + IN +"( ");
-        for (Integer sessionId:sessionIds){
+        StringBuilder builder =new StringBuilder(DbContract.Sessions.ID + IN +"( ");
+        for (Integer sessionId:sortedSessionIds){
             builder.append(sessionId).append(',');
         }
         builder.deleteCharAt(builder.length()-1);

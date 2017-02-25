@@ -1,7 +1,6 @@
 package org.fossasia.openevent.api.processor;
 
 import org.fossasia.openevent.OpenEventApp;
-import org.fossasia.openevent.data.ServerSessionIdMappings;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.dbutils.DbSingleton;
@@ -35,9 +34,6 @@ public class SessionListResponseProcessor implements Callback<List<Session>> {
                     for (int i = 0; i < response.body().size(); i++) {
                         Session session = response.body().get(i);
                         session.setStartDate(session.getStartTime().split("T")[0]);
-                        ServerSessionIdMappings mapping = new ServerSessionIdMappings(session.getId(), i);
-                        queries.add(mapping.generateSql());
-                        session.setId(i);
                         String query = session.generateSql();
                         queries.add(query);
                         Timber.d(query);
