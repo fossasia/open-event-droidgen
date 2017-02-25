@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -198,16 +197,14 @@ public class MainActivity extends BaseActivity {
         eventsDone = 0;
         ButterKnife.setDebug(true);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-
         callbackManager = CallbackManager.Factory.create();
-
+        sharedPreferences.edit().putInt(ConstantStrings.SESSION_MAP_ID, -1).apply();
         setTheme(R.style.AppTheme_NoActionBar_MainTheme);
         super.onCreate(savedInstanceState);
         setUpToolbar();
         setUpNavDrawer();
         setUpProgressBar();
         setUpCustomTab();
-        this.findViewById(android.R.id.content).setBackgroundColor(Color.WHITE);
         if (NetworkUtils.haveNetworkConnection(this)) {
             if (NetworkUtils.isActiveInternetPresent()) {
                 //Internet is working
@@ -359,7 +356,6 @@ public class MainActivity extends BaseActivity {
                     drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 
             drawerLayout.addDrawerListener(smoothActionBarToggle);
-            ab.setHomeAsUpIndicator(R.drawable.ic_menu);
             ab.setDisplayHomeAsUpEnabled(true);
             ab.setDisplayHomeAsUpEnabled(true);
             smoothActionBarToggle.syncState();
@@ -427,6 +423,7 @@ public class MainActivity extends BaseActivity {
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle(R.string.menu_tracks);
                 }
+                appBarLayout.setExpanded(true, true);
                 break;
             case R.id.nav_schedule:
                 atHome = false;
@@ -436,6 +433,7 @@ public class MainActivity extends BaseActivity {
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle(R.string.menu_schedule);
                 }
+                appBarLayout.setExpanded(true, true);
                 break;
             case R.id.nav_bookmarks:
                 DbSingleton dbSingleton = DbSingleton.getInstance();
@@ -446,6 +444,7 @@ public class MainActivity extends BaseActivity {
                     if (getSupportActionBar() != null) {
                         getSupportActionBar().setTitle(R.string.menu_bookmarks);
                     }
+                    appBarLayout.setExpanded(true, true);
                 } else {
                     DialogFactory.createSimpleActionDialog(this, R.string.bookmarks, R.string.empty_list, null).show();
                     if (currentMenuItemId == R.id.nav_schedule) addShadowToAppBar(false);
@@ -458,6 +457,7 @@ public class MainActivity extends BaseActivity {
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle(R.string.menu_speakers);
                 }
+                appBarLayout.setExpanded(true, true);
                 break;
             case R.id.nav_sponsors:
                 atHome = false;
@@ -466,6 +466,7 @@ public class MainActivity extends BaseActivity {
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle(R.string.menu_sponsor);
                 }
+                appBarLayout.setExpanded(true, true);
                 break;
             case R.id.nav_locations:
                 atHome = false;
@@ -474,6 +475,7 @@ public class MainActivity extends BaseActivity {
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle(R.string.menu_locations);
                 }
+                appBarLayout.setExpanded(true, true);
                 break;
             case R.id.nav_map:
                 atHome = false;
@@ -487,6 +489,7 @@ public class MainActivity extends BaseActivity {
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle(R.string.menu_map);
                 }
+                appBarLayout.setExpanded(true, true);
                 break;
             case R.id.nav_settings:
                 final Intent intent = new Intent(MainActivity.this, SettingsActivity.class);

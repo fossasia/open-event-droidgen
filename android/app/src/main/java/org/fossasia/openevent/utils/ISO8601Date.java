@@ -79,6 +79,12 @@ public final class ISO8601Date {
         return dateFormat.format(date);
     }
 
+    public static  String getDate(final Date date) {
+       SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMM d, yyyy", Locale.getDefault());
+        dateFormat.setTimeZone(getEventTimezone());
+        return dateFormat.format(date);
+    }
+
 
     public static Date getDateObject(final String iso8601String) {
         setEventTimezone();

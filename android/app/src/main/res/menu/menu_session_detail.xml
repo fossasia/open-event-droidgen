@@ -15,7 +15,7 @@
 
     <item
         android:id="@+id/action_add_to_calendar"
-        android:icon="@drawable/ic_calendar_white_24dp"
+        android:icon="@drawable/ic_event_white_24dp"
         android:title="Add to Calendar"
         app:showAsAction="always" />
 

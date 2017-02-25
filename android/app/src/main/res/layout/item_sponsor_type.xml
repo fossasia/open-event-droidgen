@@ -3,20 +3,19 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:background="?attr/selectableItemBackground"
-    android:padding="@dimen/sponsor_padding">
+    android:padding="@dimen/padding_large">
     <View
         android:id="@+id/separator"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="16dp"
-        android:background="@color/cardview_dark_background" />
+        android:layout_marginTop="@dimen/layout_margin_large" />
 
     <TextView
         android:id="@+id/sponsor_category"
         android:layout_width="79dp"
         android:layout_height="match_parent"
         android:textStyle="bold|italic"
-        android:textSize="18sp"
+        android:textSize="@dimen/text_size"
         android:layout_gravity="center" />
 
 </LinearLayout>

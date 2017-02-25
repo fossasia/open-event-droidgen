@@ -32,16 +32,16 @@ A sample app for testing purposes is automatically built after commits in the re
 
 ### Screenshots of a sample Android app
 
-<img src="docs/screenshots/device-2017-01-31-TracksActivity.png" height = '480' width="270">
-<img src="docs/screenshots/device-2017-01-31-TrackSessionActivity.png" height = '480' width="270">
-<img src="docs/screenshots/device-2017-01-31-SessionDetailActivity.png" height = '480' width="270">
-<img src="docs/screenshots/device-2017-01-31-204519-SpeakersFragment.png" height = '480' width="270">
-<img src="docs/screenshots/device-2017-01-31-MapFragment.png" height = '480' width="270">
-<img src="docs/screenshots/device-2017-01-31-NavigationDrawer.png" height = '480' width="270">
+<img src="docs/screenshots/device-2017-02-24-TracksActivity.png" height = '480' width="270">
+<img src="docs/screenshots/device-2017-02-24-ScheduleFragment.png" height = '480' width="270">
+<img src="docs/screenshots/device-2017-02-24-SpeakersFragment.png" height = '480' width="270">
+<img src="docs/screenshots/device-2017-02-24-LocationFragment.png" height = '480' width="270">
+<img src="docs/screenshots/device-2017-02-24-LocationSessionActivity.png" height = '480' width="270">
+<img src="docs/screenshots/device-2017-02-24-SessionDetailActivity.png" height = '480' width="270">
 
 ### Android App Development Set up
 
-Please find info about the set up of the Android app in your development environment [here](docs/installation/android-app-setup.md).
+Please find info about the set up of the Android app in your development environment [here](https://github.com/fossasia/open-event-android/blob/development/docs/android-app-setup.md).
 
 ### Data retrieval
 

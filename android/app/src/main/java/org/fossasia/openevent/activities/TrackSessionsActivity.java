@@ -43,6 +43,7 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setBackgroundDrawable(null);
 
         setSupportActionBar(toolbar);
         if(getSupportActionBar() != null) {

@@ -240,7 +240,7 @@ public class DatabaseOperations {
     }
 
     public List<org.fossasia.openevent.data.Track> getTrackList(SQLiteDatabase mDb) {
-        String sortOrder = DbContract.Tracks.ID + ASCENDING;
+        String sortOrder = DbContract.Tracks.NAME + ASCENDING;
         Cursor cursor = mDb.query(
                 DbContract.Tracks.TABLE_NAME,
                 DbContract.Tracks.FULL_PROJECTION,
@@ -358,7 +358,7 @@ public class DatabaseOperations {
                 DatabaseUtils.sqlEscapeString(String.valueOf(trackSelected));
 
         //Order
-        String sortOrder = DbContract.Sessions.ID + ASCENDING;
+        String sortOrder = DbContract.Sessions.START_TIME + ASCENDING;
 
         Cursor sessionCursor = mDb.query(
                 DbContract.Sessions.TABLE_NAME,
@@ -547,44 +547,16 @@ public class DatabaseOperations {
             sortedSessionIds.add(sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessionsspeakers.SESSION_ID)));
             sessionCursor.moveToNext();
         }
-
         sessionCursor.close();
-        StringBuilder builder= new StringBuilder(DbContract.ServerSessionIdMapping.SERVER_ID + IN+"( ");
-        for (Integer integer:sortedSessionIds){
-            builder.append(integer).append(',');
-        }
-        builder.deleteCharAt(builder.length()-1);
-        builder.append(')');
-        String mappingSelection = builder.toString();
-        ArrayList<Integer> sessionIds = new ArrayList<>();
-
-
-        Cursor mappingCursor = mDb.query(
-                DbContract.ServerSessionIdMapping.TABLE_NAME,
-                DbContract.ServerSessionIdMapping.FULL_PROJECTION,
-                mappingSelection,
-                null,
-                null,
-                null,
-                null
-        );
-
-        mappingCursor.moveToFirst();
-        //Should return only one due to UNIQUE constraint
-        while (!mappingCursor.isAfterLast()) {
-            sessionIds.add(mappingCursor.getInt(mappingCursor.getColumnIndex(DbContract.ServerSessionIdMapping.LOCAL_ID)));
-            mappingCursor.moveToNext();
-        }
-        mappingCursor.close();
-
 
         ArrayList<Session> sessions = new ArrayList<>();
-        builder=new StringBuilder(DbContract.Sessions.ID + IN +"( ");
-        for (Integer sessionId:sessionIds){
+        StringBuilder builder =new StringBuilder(DbContract.Sessions.ID + IN +"( ");
+        for (Integer sessionId:sortedSessionIds){
             builder.append(sessionId).append(',');
         }
         builder.deleteCharAt(builder.length()-1);
         builder.append(')');
+        String sortOrder = DbContract.Sessions.START_TIME + ASCENDING;
         String sessionTableColumnSelection = builder.toString();
         Cursor sessionTableCursor = mDb.query(
                 DbContract.Sessions.TABLE_NAME,
@@ -593,7 +565,7 @@ public class DatabaseOperations {
                 null,
                 null,
                 null,
-                null
+                sortOrder
         );
 
         Session session;
@@ -742,6 +714,7 @@ public class DatabaseOperations {
 
         //Select rows having location id same as that obtained previously
         String sessionColumnSelection = DbContract.Sessions.MICROLOCATION + EQUAL + locationSelected;
+        String sort = DbContract.Sessions.START_TIME + ASCENDING;
 
 
         Cursor sessionCursor = mDb.query(
@@ -751,7 +724,7 @@ public class DatabaseOperations {
                 null,
                 null,
                 null,
-                null
+                sort
         );
 
         ArrayList<Session> sessions = new ArrayList<>();

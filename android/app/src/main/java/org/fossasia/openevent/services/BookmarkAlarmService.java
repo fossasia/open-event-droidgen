@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
+import android.os.Build;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 
@@ -62,6 +63,7 @@ public class BookmarkAlarmService extends IntentService {
         NotificationManager mManager = (NotificationManager) this.getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
         int id = intent.getIntExtra(ConstantStrings.SESSION, 0);
         String session_timings = intent.getStringExtra(ConstantStrings.SESSION_TIMING);
+        String session_date;
         DbSingleton dbSingleton = DbSingleton.getInstance();
         Session session = dbSingleton.getSessionById(id);
         Intent intent1 = new Intent(this.getApplicationContext(), SessionDetailActivity.class);
@@ -71,17 +73,22 @@ public class BookmarkAlarmService extends IntentService {
         PendingIntent pendingNotificationIntent = PendingIntent.getActivity(this.getApplicationContext(), 0, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
         Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
 
+        int smallIcon = R.drawable.ic_bookmark_white_24dp;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) smallIcon = R.drawable.ic_noti_bookmark;
+
         String start = ISO8601Date.get12HourTime(ISO8601Date.getDateObject(session.getStartTime()));
         String end = ISO8601Date.get12HourTime(ISO8601Date.getDateObject(session.getEndTime()));
         session_timings = start + " - " + end;
+        session_date = ISO8601Date.getDate(ISO8601Date.getDateObject(session.getStartTime()));
+
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.ic_bookmark_white_24dp)
+                .setSmallIcon(smallIcon)
                 .setLargeIcon(largeIcon)
                 .setContentTitle(session.getTitle())
-                .setContentText(session_timings)
+                .setContentText(session_date + "\n" + session_timings)
                 .setAutoCancel(true)
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(session_timings))
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(session_date + "\n" + session_timings))
                 .setContentIntent(pendingNotificationIntent);
         intent1.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 

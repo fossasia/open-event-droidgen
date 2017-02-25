@@ -3,18 +3,16 @@ package org.fossasia.openevent.adapters;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.util.Pair;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -37,7 +35,7 @@ import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.receivers.NotificationAlarmReceiver;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.ISO8601Date;
-import org.fossasia.openevent.widget.BookmarkWidgetProvider;
+import org.fossasia.openevent.utils.WidgetUpdater;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -59,6 +57,8 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
     public static int listPosition;
     private ColorGenerator colorGenerator = ColorGenerator.MATERIAL;
     private TextDrawable.IBuilder drawableBuilder = TextDrawable.builder().round();
+
+    private int color;
 
     @SuppressWarnings("all")
     Filter filter = new Filter() {
@@ -91,10 +91,16 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
     public SessionsListAdapter(Context context, List<Session> sessions) {
         super(sessions);
         this.context = context;
+        this.color = ContextCompat.getColor(context, R.color.color_primary);
     }
 
     public void setTrackName(String trackName) {
         this.trackName = trackName;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -118,7 +124,6 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
 
         final View sessionDetailsHolder = holder.sessionDetailsHolder;
         final View sessionCard = holder.sessionCard;
-
         holder.sessionTitle.setText(session.getTitle());
         holder.sessionSubtitle.setText(session.getSubtitle());
         TextDrawable drawable = drawableBuilder.build(String.valueOf(session.getTrack().getName().charAt(0)), colorGenerator.getColor(session.getTrack().getName()));
@@ -126,7 +131,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
         holder.trackImageIcon.setBackgroundColor(Color.TRANSPARENT);
         holder.sessionTrack.setText(session.getTrack().getName());
         holder.sessionDate.setText(date);
-        holder.sessionStartTime.setText(ISO8601Date.get12HourTime(ISO8601Date.getDateObject(session.getStartTime())));
+        holder.sessionTime.setText(ISO8601Date.get12HourTime(ISO8601Date.getDateObject(session.getStartTime())) + " - " + ISO8601Date.get12HourTime(ISO8601Date.getDateObject(session.getEndTime())));
         holder.sessionLocation.setText(session.getMicrolocation().getName());
         DbSingleton dbSingleton;
         dbSingleton = DbSingleton.getInstance();
@@ -141,37 +146,24 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
                 final DbSingleton dbSingleton;
                 dbSingleton = DbSingleton.getInstance();
                 if (dbSingleton.isBookmarked(session.getId())) {
-                    new AlertDialog.Builder(context, R.style.AlertDialogCustom)
-                            .setTitle("Remove Bookmark")
-                            .setMessage("Are you sure you want to remove this event from your bookmarks?")
-                            .setPositiveButton("YES",
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dbSingleton.deleteBookmarks(session.getId());
-                                            holder.sessionBookmarkIcon.setImageResource(R.drawable.ic_bookmark_border_white_24dp);
-                                            Toast.makeText(context, R.string.removed_bookmark, Toast.LENGTH_SHORT).show();
-                                        }
-                                    })
-                            .setNegativeButton("CANCEL",
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            //Do nothing, just close
-                                        }
-                                    }).create().show();
-
+                    dbSingleton.deleteBookmarks(session.getId());
+                    holder.sessionBookmarkIcon.setImageResource(R.drawable.ic_bookmark_border_white_24dp);
+                    Snackbar.make(v, R.string.removed_bookmark, Snackbar.LENGTH_LONG)
+                            .setAction(R.string.undo, new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    dbSingleton.addBookmarks(session.getId());
+                                    holder.sessionBookmarkIcon.setImageResource(R.drawable.ic_bookmark_white_24dp);
+                                    WidgetUpdater.updateWidget(context);
+                                }
+                            }).show();
                 } else {
                     createNotification(session);
                     dbSingleton.addBookmarks(session.getId());
+                    Toast.makeText(context, R.string.added_bookmark, Toast.LENGTH_SHORT).show();
                     holder.sessionBookmarkIcon.setImageResource(R.drawable.ic_bookmark_white_24dp);
-
-                    //update widget
-                    int widgetIds[] = AppWidgetManager.getInstance(context.getApplicationContext()).getAppWidgetIds(new ComponentName(context.getApplicationContext(), BookmarkWidgetProvider.class));
-                    BookmarkWidgetProvider medicineWidgets = new BookmarkWidgetProvider();
-                    medicineWidgets.onUpdate(context.getApplicationContext(), AppWidgetManager.getInstance(context.getApplicationContext()),widgetIds);
-                    context.sendBroadcast(new Intent(BookmarkWidgetProvider.ACTION_UPDATE));
                 }
+                WidgetUpdater.updateWidget(context);
             }
         });
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -222,6 +214,9 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
                 context.startActivity(Intent.createChooser(sendIntent, context.getString(R.string.share_links)));
             }
         });
+
+        // Set color generated by palette on views
+        holder.sessionHeader.setBackgroundColor(color);
     }
 
     public void refresh() {
@@ -247,8 +242,8 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
         @BindView(R.id.session_date)
         protected TextView sessionDate;
 
-        @BindView(R.id.session_start_time)
-        protected TextView sessionStartTime;
+        @BindView(R.id.session_time)
+        protected TextView sessionTime;
 
         @BindView(R.id.session_location)
         protected TextView sessionLocation;
@@ -264,6 +259,9 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
 
         @BindView(R.id.session_card)
         protected CardView sessionCard;
+
+        @BindView(R.id.titleLinearLayout)
+        protected LinearLayout sessionHeader;
 
         public SessionViewHolder(View itemView) {
             super(itemView);

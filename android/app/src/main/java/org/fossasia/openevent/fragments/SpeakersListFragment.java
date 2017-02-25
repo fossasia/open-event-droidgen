@@ -129,6 +129,19 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
             noSpeakersView.setVisibility(View.VISIBLE);
             speakersRecyclerView.setVisibility(View.GONE);
         }
+        //scrollup shows actionbar
+        speakersRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if(dy < 0){
+                    AppBarLayout appBarLayout;
+                    appBarLayout = (AppBarLayout) getActivity().findViewById(R.id.appbar);
+                    appBarLayout.setExpanded(true);
+                }
+            }
+        });
+
         return view;
     }
 
