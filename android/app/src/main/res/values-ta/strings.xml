@@ -2,10 +2,8 @@
 <resources>
     <string name="action_settings">அமைப்புகளை</string>
     <string name="added_bookmark">புக்மார்க் சேர்க்கப்பட்டது</string>
-    <string name="backdrop_image">படக் கலவைப் படம்</string>
     <string name="bookmarks">புக்மார்க்ஸ்</string>
     <string name="bronze">வெண்கல</string>
-    <string name="bronzeInt">5</string>
     <string name="bullet">\"•\"</string>
     <string name="change_language">உங்கள் மொழி மாற்றம்</string>
     <string name="charges_warning">தரவுக் கட்டணங்கள் பொருந்தும்</string>
@@ -20,7 +18,6 @@
     <string name="dialog_sort_title">வரிசைப்படுத்து</string>
     <string name="dialog_sort_tracks">தடங்கள்</string>
     <string name="diamond">வைர</string>
-    <string name="diamondInt">2</string>
     <string name="display_offline_schedule">இல்லை இணைய இணைப்பு, பழைய கால காண்பிக்கும்</string>
     <string name="download_assets">நீங்கள் இப்போது சமீபத்திய அட்டவணை மேம்படுத்த விரும்புகிறீர்களா?</string>
     <string name="download_complete">பதிவிறக்க செய்து</string>
@@ -29,5 +26,4 @@
     <string name="empty_list">கிடைக்கும் புக்மார்க்குகள் இல்லை</string>
     <string name="end_time">முடிவு நேரம்:</string>
     <string name="error">பிழை</string>
-    <string name="facebook_icon">பேஸ்புக் சின்னம்</string>
 </resources>

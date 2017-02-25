@@ -92,17 +92,6 @@
     <string name="dialog_sort_sessions">সময় শুরু</string>
 
 
-    <string name="launcher_icon">লঞ্চার আইকন</string>
-    <string name="sponsor_image">স্পনসরের ছবি</string>
-    <string name="header_image">উপরেরছবি</string>
-    <string name="speaker_image">স্পিকারের চিত্র</string>
-    <string name="logo_widget">লোগো উইজেট</string>
-    <string name="backdrop_image">ব্যাকড্রপ চিত্র</string>
-    <string name="linkedin_icon">লিঙ্কেদিন আইকন</string>
-    <string name="twitter_icon">টুইটার আইকন</string>
-    <string name="facebook_icon">ফেইসবুক আইকন</string>
-    <string name="github_icon">গিটহাব আইকন</string>
-    <string name="web_icon">ওয়েব আইকন</string>
     <string name="download_assets">আপনি কি সর্বশেষ সময়সূচি তে আপগ্রেড করতে চান?</string>
     <string name="internet_preference_warning">ওয়াইফাই পাওয়া যায় না, আপনি কি অফলাইন সময়সূচী প্রদর্শন করতে চান? </string>
     <string name="yes">হে</string>
@@ -129,11 +118,6 @@
     <string name="bronze">ব্রোঞ্জ</string>
 
     <!-- Sponsor types int strings-->
-    <string name="platinumInt">১</string>
-    <string name="diamondInt">২</string>
-    <string name="goldInt">৩</string>
-    <string name="silverInt">৪</string>
-    <string name="bronzeInt">৫</string>
 
     <string name="display_offline_schedule">ইন্টারনেট নেই, পুরনো সময়সূচী দেখানো হচ্ছে</string>
     <string name="retry_download">পুনরায় চেষ্টা করা</string>
