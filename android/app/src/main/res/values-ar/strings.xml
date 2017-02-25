@@ -99,17 +99,6 @@
     <string name="dialog_sort_sessions">وقت البدأ</string>
 
 
-    <string name="launcher_icon">ايقونة التشغيل</string>
-    <string name="sponsor_image">صورة الراعي</string>
-    <string name="header_image">الصورة الرئيسية</string>
-    <string name="speaker_image">صورة المتحدث</string>
-    <string name="logo_widget">قطعة الشعار</string>
-    <string name="backdrop_image">خلفية الصورة</string>
-    <string name="linkedin_icon">ايقونة لينكد ان</string>
-    <string name="twitter_icon">ايقونة تويتر</string>
-    <string name="facebook_icon">ايقونة فيسبوك</string>
-    <string name="github_icon">ايقونة جيت هاب</string>
-    <string name="web_icon">ايقونة الويب</string>
     <string name="download_assets">هل ترغب في تحديث الجدول الان؟</string>
     <string name="internet_preference_warning">الواي فاي غير متاح, هل تريد اظهار الجدول الحالي؟ </string>
     <string name="yes">نعم</string>
@@ -136,11 +125,6 @@
     <string name="bronze">برونز</string>
 
     <!-- Sponsor types int strings-->
-    <string name="platinumInt">1</string>
-    <string name="diamondInt">2</string>
-    <string name="goldInt">3</string>
-    <string name="silverInt">4</string>
-    <string name="bronzeInt">5</string>
 
     <string name="display_offline_schedule">ليس هناك انترنت, جاري اظهار الجدول القديم</string>
     <string name="retry_download">اعادة المحاولة</string>

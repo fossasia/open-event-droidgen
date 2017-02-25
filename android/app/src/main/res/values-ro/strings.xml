@@ -94,17 +94,6 @@
     <string name="dialog_sort_sessions">Data de început</string>
 
 
-    <string name="launcher_icon">Iconiţă de lansare</string>
-    <string name="sponsor_image">Imaginea sponsorului</string>
-    <string name="header_image">Imagine de antet</string>
-    <string name="speaker_image">Imaginea invitatului</string>
-    <string name="logo_widget">Logo</string>
-    <string name="backdrop_image">Imagine de fundal</string>
-    <string name="linkedin_icon">Iconiţă Linkedin</string>
-    <string name="twitter_icon">Iconiţă Twitter</string>
-    <string name="facebook_icon">Iconiţă Facebook</string>
-    <string name="github_icon">Iconiţă Github</string>
-    <string name="web_icon">Iconiţă Web</string>
     <string name="download_assets">Doreşti să actualizezi programul la cea mai nouă versiune?</string>
     <string name="internet_preference_warning">Wifi indisponibil, doreşti afişarea programului offline?</string>
     <string name="yes">Da</string>
@@ -131,11 +120,6 @@
     <string name="bronze">Bronz</string>
 
     <!-- Sponsor types int strings-->
-    <string name="platinumInt">1</string>
-    <string name="diamondInt">2</string>
-    <string name="goldInt">3</string>
-    <string name="silverInt">4</string>
-    <string name="bronzeInt">5</string>
 
     <string name="display_offline_schedule">Nu există conexiune la Internet, se afişează programul vechi</string>
     <string name="retry_download">Reîncearcă</string>

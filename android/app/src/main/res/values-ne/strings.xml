@@ -99,17 +99,6 @@
     <string name="dialog_sort_sessions">समय सुरु</string>
 
 
-    <string name="launcher_icon">सुरुवात चिह्न</string>
-    <string name="sponsor_image">प्रायोजक छवि</string>
-    <string name="header_image">हेडर तस्बिर</string>
-    <string name="speaker_image">अध्यक्ष स्वरूपमा</string>
-    <string name="logo_widget">लोगो विजेट</string>
-    <string name="backdrop_image">पृष्ठभूमि छवि</string>
-    <string name="linkedin_icon">LinkedIn चिह्न</string>
-    <string name="twitter_icon">Twitter चिह्न</string>
-    <string name="facebook_icon">Facebook चिह्न</string>
-    <string name="github_icon">Github चिह्न</string>
-    <string name="web_icon">Web चिह्न</string>
     <string name="download_assets">तपाईं अब नयाँ तालिका अद्यावधिक गर्न चाहनुहुन्छ?</string>
     <string name="internet_preference_warning">उपलब्ध छैन, तपाईं अफलाइन तालिका प्रदर्शन गर्न चाहनुहुन्छ वाइफाइ?</string>
     <string name="yes">हो</string>
@@ -136,11 +125,6 @@
     <string name="bronze">कांस्य</string>
 
     <!-- Sponsor types int strings-->
-    <string name="platinumInt">1</string>
-    <string name="diamondInt">2</string>
-    <string name="goldInt">3</string>
-    <string name="silverInt">4</string>
-    <string name="bronzeInt">5</string>
 
     <string name="display_offline_schedule">पुरानो तालिका प्रदर्शन कुनै इन्टरनेट जडान,</string>
     <string name="retry_download">पुन: प्रयास गर्नुहोस्</string>
