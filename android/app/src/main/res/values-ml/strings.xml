@@ -98,17 +98,6 @@
     <string name="dialog_sort_sessions">ആരംഭ സമയം</string>
 
 
-    <string name="launcher_icon">ലോഞ്ചർ ഐക്കൺ</string>
-    <string name="sponsor_image">സ്പോൺസർ ചിത്രം</string>
-    <string name="header_image">ശീർഷക ചിത്രം</string>
-    <string name="speaker_image">സ്പീക്കർ ന്റെ ചിത്രം</string>
-    <string name="logo_widget">ലോഗോ വിജറ്റ്</string>
-    <string name="backdrop_image">ബാക്ക്ട്രോപ്പ് ചിത്രം</string>
-    <string name="linkedin_icon">ലിൻകിടിൻ ചിത്രം</string>
-    <string name="twitter_icon">ട്വിറ്റർ ചിത്രം</string>
-    <string name="facebook_icon">ഫേസ്ബുക്ക് ചിത്രം</string>
-    <string name="github_icon">ഗിതബ് ചിത്രം</string>
-    <string name="web_icon">വെബ് ഐക്കൺ</string>
     <string name="download_assets">നിങ്ങൾ ഇപ്പോൾ പുതിയ ഷെഡ്യൂൾ അപ്ഡേറ്റ് ചെയ്യണോ?</string>
     <string name="internet_preference_warning">വൈഫൈ ലഭ്യമല്ല, നിങ്ങൾ ഓഫ്ലൈൻ ഷെഡ്യൂൾ പ്രദർശിപ്പിക്കാൻ ആഗ്രഹിക്കുന്നത്? </string>
     <string name="yes">അതെ</string>
@@ -135,11 +124,6 @@
     <string name="bronze">Bronze</string>
 
     <!-- Sponsor types int strings-->
-    <string name="platinumInt">1</string>
-    <string name="diamondInt">2</string>
-    <string name="goldInt">3</string>
-    <string name="silverInt">4</string>
-    <string name="bronzeInt">5</string>
 
     <string name="display_offline_schedule">ഇന്റർനെറ്റ് കണക്ഷൻ, പഴയ ഷെഡ്യൂൾ പ്രദർശിപ്പിക്കുന്നത്</string>
     <string name="retry_download">വീണ്ടുംശ്രമിക്കൂ</string>

@@ -93,17 +93,6 @@
     <string name="dialog_sort_sessions">Hora de la charla</string>
 
 
-    <string name="launcher_icon">Icono de lanzador</string>
-    <string name="sponsor_image">Imagen del patrocinador</string>
-    <string name="header_image">Imagen de cabecera</string>
-    <string name="speaker_image">Imagen del orador</string>
-    <string name="logo_widget">Widget de logo</string>
-    <string name="backdrop_image">Imagen de fondo</string>
-    <string name="linkedin_icon">Icono de Linkedin</string>
-    <string name="twitter_icon">Icono de Twitter</string>
-    <string name="facebook_icon">Icono de Facebook</string>
-    <string name="github_icon">Icono de Github</string>
-    <string name="web_icon">Icono de web</string>
     <string name="download_assets">¿Desea actualizar el horario?</string>
     <string name="internet_preference_warning">Internet no disponible, ¿Desea mostra los horarios offline</string>
     <string name="yes">Sí</string>
@@ -130,11 +119,6 @@
     <string name="bronze">Bronce</string>
 
     <!-- Sponsor types int strings-->
-    <string name="platinumInt">1</string>
-    <string name="diamondInt">2</string>
-    <string name="goldInt">3</string>
-    <string name="silverInt">4</string>
-    <string name="bronzeInt">5</string>
 
     <string name="display_offline_schedule">No hay conexión a Internet. Mostrar calendario anterior.</string>
     <string name="retry_download">Reintentar</string>

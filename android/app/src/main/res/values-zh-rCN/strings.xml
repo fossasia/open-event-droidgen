@@ -87,20 +87,22 @@
     
      <!--Session Sort Dialog text-->
     <string name="dialog_sort_tracks">曲目</string>
-    <string name="dialog_sort_sessions">开始时间</string>
-    
-    <string name="launcher_icon">启动器图标</string>
-    <string name="sponsor_image">赞助商图片</string>
-    <string name="header_image">标题图片</string>
-    <string name="speaker_image">扬声器的图像</string>
-    <string name="logo_widget">徽标小部件</string>
-    <string name="backdrop_image">背景图片</string>
-    <string name="linkedin_icon">LinkedIn图标</string>
-    <string name="twitter_icon">推特图标</string>
-    <string name="facebook_icon">面簿图标</string>
-    <string name="github_icon">GitHub图标</string>
-    <string name="web_icon">网上图标</string>
-    <string name="download_assets">您要立即更新到最新的时间表吗？</string>
+    <string name="dialog_sort_sessions">开始时间</string><![CDATA[
+
+        
+    
+    
+
+    
+    
+    
+        
+    
+    
+        
+
+        ]]>
+    <string name="download_assets">您要立即更新到最新的时间表吗？</string>
     <string name="internet_preference_warning"> Wifi不可用，您要显示离线时间表吗？ </string>
     <string name="yes">是</string>
     <string name="no">否</string>
@@ -125,13 +127,15 @@
     <string name="silver">银</string>
     <string name="bronze">铜牌</string>
 
-     <!-- Sponsor types int strings-->
-    <string name="platinumInt">1</string>
-    <string name="diamondInt">2</string>
-    <string name="goldInt">3</string>
-    <string name="silverInt">4</string>
-    <string name="bronzeInt">5</string>
-    
+     <!-- Sponsor types int strings--><![CDATA[
+
+    
+    
+        
+    
+
+
+    ]]>
     <string name="display_offline_schedule">无互联网连接，显示离线日程</string>
     <string name="retry_download">重试</string>
     <string name="permissions_given">授予的权限！</string>
