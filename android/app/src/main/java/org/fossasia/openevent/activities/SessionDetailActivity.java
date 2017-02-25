@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
@@ -23,10 +24,12 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.fossasia.openevent.OpenEventApp;
+
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.SpeakersListAdapter;
 import org.fossasia.openevent.data.Session;
@@ -47,7 +50,7 @@ import timber.log.Timber;
  * User: MananWason
  * Date: 08-07-2015
  */
-public class SessionDetailActivity extends BaseActivity {
+public class SessionDetailActivity extends BaseActivity implements AppBarLayout.OnOffsetChangedListener{
     private static final String TAG = "Session Detail";
 
     private SpeakersListAdapter adapter;
@@ -81,10 +84,18 @@ public class SessionDetailActivity extends BaseActivity {
     protected RecyclerView speakersRecyclerView;
     @BindView(R.id.fab_session_bookmark)
     protected FloatingActionButton fabSessionBookmark;
+    @BindView(R.id.app_bar_session_detail)
+    protected AppBarLayout appBarLayout;
+    @BindView(R.id.toolbar_layout)
+    protected CollapsingToolbarLayout collapsingToolbarLayout;
+    @BindView(R.id.header_title_session)
+    LinearLayout linearLayout;
 
     private String trackName, title;
 
     private Spanned result;
+
+    private boolean isHideToolbarView = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -99,6 +110,9 @@ public class SessionDetailActivity extends BaseActivity {
         trackName = getIntent().getStringExtra(ConstantStrings.TRACK);
         id = getIntent().getIntExtra(ConstantStrings.ID, 0);
         Timber.tag(TAG).d(title);
+
+        collapsingToolbarLayout.setTitle(" ");
+        appBarLayout.addOnOffsetChangedListener(this);
 
         final List<Speaker> speakers = dbSingleton.getSpeakersbySessionName(title);
         try {
@@ -280,5 +294,26 @@ public class SessionDetailActivity extends BaseActivity {
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         alarmManager.set(AlarmManager.RTC, calendar.getTimeInMillis(), pendingIntent);
+    }
+
+    @Override
+    public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+        int maxScroll = appBarLayout.getTotalScrollRange();
+        float percentage = (float) Math.abs(verticalOffset) / (float) maxScroll;
+
+        if (percentage == 1f && isHideToolbarView) {
+            // Collapsed
+
+            linearLayout.setVisibility(View.GONE);
+            collapsingToolbarLayout.setTitle(title);
+            isHideToolbarView = !isHideToolbarView;
+        } else if (percentage < 1f && !isHideToolbarView) {
+            // Not Collapsed
+
+            collapsingToolbarLayout.setTitle(" ");
+            text_title.setMaxLines(2);
+            linearLayout.setVisibility(View.VISIBLE);
+            isHideToolbarView = !isHideToolbarView;
+        }
     }
 }

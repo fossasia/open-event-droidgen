@@ -9,6 +9,11 @@
     <dimen name="app_bar_elevation">4dp</dimen>
     <dimen name="app_bar_height">150dp</dimen>
 
+    <!--Session Detail Activity -->
+    <dimen name="layout_margin_bottom">25dp</dimen>
+    <dimen name="layout_margin_left">35dp</dimen>
+    <dimen name="layout_margin_right">20dp</dimen>
+
     <!--widget specifics -->
     <dimen name="widget_default_height">180dp</dimen>
     <dimen name="widget_min_resize_width">220dp</dimen>

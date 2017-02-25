@@ -82,7 +82,6 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
         final Session currentSession = getItem(position);
         String startTime = ISO8601Date.get12HourTime(ISO8601Date.getDateObject(currentSession.getStartTime()));
         String endTime = ISO8601Date.get12HourTime(ISO8601Date.getDateObject(currentSession.getEndTime()));
-
         holder.slotTitle.setText(currentSession.getTitle());
         holder.timings.setText(String.format("%s - %s", startTime, endTime));
 
