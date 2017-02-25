@@ -42,4 +42,6 @@ public class ConstantStrings {
     public static final String IS_DOWNLOAD_DONE = "isDownloadDone";
 
     public static final String PREF_SORT = "sortType";
+
+    public static final String SESSION_MAP_ID = "sessionMapId";
 }

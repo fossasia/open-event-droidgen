@@ -53,7 +53,7 @@ public class SessionDetailActivity extends BaseActivity {
     private SpeakersListAdapter adapter;
 
     private Session session;
-
+    private SharedPreferences sharedPreferences;
     private String timings;
     private String FRAGMENT_TAG_REST = "fgtr";
 
@@ -91,6 +91,8 @@ public class SessionDetailActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         DbSingleton dbSingleton = DbSingleton.getInstance();
         setSupportActionBar(toolbar);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         int id;
 
@@ -102,9 +104,11 @@ public class SessionDetailActivity extends BaseActivity {
         final List<Speaker> speakers = dbSingleton.getSpeakersbySessionName(title);
         try {
             session = dbSingleton.getSessionById(id);
+            sharedPreferences.edit().putInt(ConstantStrings.SESSION_MAP_ID, id).apply();
         } catch (Exception e) {
             session = dbSingleton.getSessionbySessionname(title);
         }
+
 
         text_room1.setText((dbSingleton.getMicrolocationById(session.getMicrolocation().getId())).getName());
 
