@@ -89,6 +89,7 @@ public class SessionDetailActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         DbSingleton dbSingleton = DbSingleton.getInstance();
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -102,8 +103,10 @@ public class SessionDetailActivity extends BaseActivity {
         final List<Speaker> speakers = dbSingleton.getSpeakersbySessionName(title);
         try {
             session = dbSingleton.getSessionById(id);
+            sharedPreferences.edit().putInt(ConstantStrings.SESSION_MAP_ID, id).apply();
         } catch (Exception e) {
             session = dbSingleton.getSessionbySessionname(title);
+            sharedPreferences.edit().putInt(ConstantStrings.SESSION_MAP_ID, -1).apply();
         }
 
         text_room1.setText((dbSingleton.getMicrolocationById(session.getMicrolocation().getId())).getName());

@@ -185,7 +185,7 @@ public class MainActivity extends BaseActivity {
         eventsDone = 0;
         ButterKnife.setDebug(true);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-
+        sharedPreferences.edit().putInt(ConstantStrings.SESSION_MAP_ID, -1).apply();
         setTheme(R.style.AppTheme_NoActionBar_MainTheme);
         super.onCreate(savedInstanceState);
         setUpToolbar();
