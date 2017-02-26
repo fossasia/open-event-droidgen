@@ -21,6 +21,8 @@
     <!-- text size -->
     <dimen name="heading_text_size">20sp</dimen>
     <dimen name="text_size">16sp</dimen>
+    <dimen name="text_size_medium">14sp</dimen>
+    <dimen name="text_size_small">12sp</dimen>
 
     <!-- fab specifics -->
     <dimen name="fab_width">48dp</dimen>

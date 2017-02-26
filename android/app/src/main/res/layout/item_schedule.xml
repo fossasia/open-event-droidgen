@@ -1,70 +1,90 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/content_frame"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
-        android:orientation="vertical">
-      
+        android:orientation="horizontal">
+
         <LinearLayout
-            android:id="@+id/touch_area"
-            android:layout_width="match_parent"
+            android:id="@+id/ll_timings"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingBottom="@dimen/padding_medium">
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/icon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginLeft="@dimen/layout_margin_large"
-                android:layout_marginRight="@dimen/layout_margin_large"
-                android:layout_marginTop="@dimen/layout_margin_medium"
-                android:contentDescription="@null"
-                android:layout_gravity="bottom"
-                app:srcCompat="@drawable/ic_schedule_grey600_24dp" />
-
-            <LinearLayout
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/slot_start_time"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:orientation="vertical">
+                android:layout_marginLeft="@dimen/layout_margin_large"
+                android:layout_marginStart="@dimen/layout_margin_large"
+                android:layout_marginTop="@dimen/layout_margin_medium"
+                android:ellipsize="end"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_medium" />
 
-                <TextView
-                    android:id="@+id/slot_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/layout_margin_large"
-                    android:layout_marginRight="@dimen/layout_margin_large"
-                    android:layout_marginTop="@dimen/layout_margin_medium"
-                    android:ellipsize="end"
-                    android:textColor="@color/cardview_dark_background"
-                    android:textSize="@dimen/text_size"
-                    android:textStyle="bold"
-                    tools:text="Title" />
-
-                <TextView
-                    android:id="@+id/timings"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/layout_margin_medium"
-                    android:layout_marginRight="@dimen/layout_margin_medium"
-                    android:layout_marginTop="@dimen/layout_margin_small"
-                    android:textColor="@color/cardview_dark_background"
-                    android:textSize="@dimen/text_size"
-                    tools:text="9:00 AM - 11:30 AM / Room 1" />
-            </LinearLayout>
+            <TextView
+                android:id="@+id/slot_end_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/layout_margin_medium"
+                android:layout_marginStart="@dimen/layout_margin_large"
+                android:textSize="@dimen/text_size_medium" />
         </LinearLayout>
 
-        <View
+        <LinearLayout
+            android:id="@+id/ll_sessionDetails"
             android:layout_width="match_parent"
-            android:layout_height="0.8dp"
-            android:background="?android:attr/listDivider" />
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/ll_timings"
+            android:layout_toRightOf="@+id/ll_timings"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/slot_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/layout_margin_large"
+                android:layout_marginStart="@dimen/layout_margin_large"
+                android:layout_marginTop="@dimen/layout_margin_medium"
+                android:ellipsize="end"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_medium" />
+
+            <TextView
+                android:id="@+id/slot_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/layout_margin_large"
+                android:layout_marginStart="@dimen/layout_margin_large"
+                android:layout_marginTop="@dimen/layout_margin_small"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textSize="@dimen/text_size_small" />
+
+            <TextView
+                android:id="@+id/slot_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/layout_margin_large"
+                android:layout_marginStart="@dimen/layout_margin_large"
+                android:layout_marginTop="@dimen/layout_margin_small"
+                android:ellipsize="end"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_medium" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.8dp"
+                android:layout_marginLeft="@dimen/layout_margin_large"
+                android:layout_marginStart="@dimen/layout_margin_large"
+                android:layout_marginTop="@dimen/layout_margin_small"
+                android:background="?android:attr/listDivider"  />
+        </LinearLayout>
+    </RelativeLayout>
 </FrameLayout>
