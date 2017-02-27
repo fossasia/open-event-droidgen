@@ -174,6 +174,7 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
         biography.setText(Html.fromHtml(selectedSpeaker.getBio()));
 	    biography.setMovementMethod(LinkMovementMethod.getInstance());
 
+
         mSessions = dbSingleton.getSessionbySpeakersName(speaker);
         sessionsListAdapter = new SessionsListAdapter(this, mSessions);
         sessionRecyclerView.setNestedScrollingEnabled(false);
