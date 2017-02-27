@@ -99,17 +99,6 @@
     <string name="dialog_sort_sessions">Thời gian bắt đầu</string>
 
 
-    <string name="launcher_icon">Launcher Icon</string>
-    <string name="sponsor_image">Ảnh nhà tài trợ</string>
-    <string name="header_image">Ảnh tiêu đề</string>
-    <string name="speaker_image">Ảnh diễn giả</string>
-    <string name="logo_widget">Logo Widget</string>
-    <string name="backdrop_image">Ảnh nền</string>
-    <string name="linkedin_icon">Biểu tượng Linkedin</string>
-    <string name="twitter_icon">Biểu tượng Twitter</string>
-    <string name="facebook_icon">Biểu tượng Facebook</string>
-    <string name="github_icon">Biểu tượng Github</string>
-    <string name="web_icon">Biểu tượng Web</string>
     <string name="download_assets">Bạn có muốn cập nhật thời gian biểu bây giờ?</string>
     <string name="internet_preference_warning">Wifi không có sẵn, bạn có muốn hiển thị thời gian biểu offline?</string>
     <string name="yes">Có</string>
@@ -136,11 +125,6 @@
     <string name="bronze">Đồng</string>
 
     <!-- Sponsor types int strings-->
-    <string name="platinumInt">1</string>
-    <string name="diamondInt">2</string>
-    <string name="goldInt">3</string>
-    <string name="silverInt">4</string>
-    <string name="bronzeInt">5</string>
 
     <string name="display_offline_schedule">Không có kết nối Internet, đang hiển thị thời gian biểu cũ</string>
     <string name="retry_download">Thử lại</string>

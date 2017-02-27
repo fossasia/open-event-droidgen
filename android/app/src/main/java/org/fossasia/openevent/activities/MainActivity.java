@@ -352,7 +352,8 @@ public class MainActivity extends BaseActivity {
     private void syncComplete() {
         downloadProgress.setVisibility(View.GONE);
         Event currentEvent = DbSingleton.getInstance().getEventDetails();
-        getDaysBetweenDates(ISO8601Date.getDateObject(currentEvent.getStart()), ISO8601Date.getDateObject(currentEvent.getEnd()));
+        if (currentEvent != null)
+            getDaysBetweenDates(ISO8601Date.getDateObject(currentEvent.getStart()), ISO8601Date.getDateObject(currentEvent.getEnd()));
 
         Bus bus = OpenEventApp.getEventBus();
         bus.post(new RefreshUiEvent());

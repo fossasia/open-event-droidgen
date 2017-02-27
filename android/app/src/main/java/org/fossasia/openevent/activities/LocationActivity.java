@@ -79,7 +79,7 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
         sessionRecyclerView.setLayoutManager(gridLayoutManager);
         sessionsListAdapter = new SessionsListAdapter(this, mSessions);
         sessionRecyclerView.setAdapter(sessionsListAdapter);
-        sessionRecyclerView.scrollToPosition(LocationsListAdapter.listPosition);
+        sessionRecyclerView.scrollToPosition(SessionsListAdapter.listPosition);
         sessionRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         if (!mSessions.isEmpty()) {

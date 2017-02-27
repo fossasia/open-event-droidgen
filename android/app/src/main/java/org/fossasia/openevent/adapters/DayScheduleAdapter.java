@@ -80,10 +80,18 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
     @Override
     public void onBindViewHolder(DayScheduleViewHolder holder, int position) {
         final Session currentSession = getItem(position);
-        String startTime = ISO8601Date.get12HourTime(ISO8601Date.getDateObject(currentSession.getStartTime()));
-        String endTime = ISO8601Date.get12HourTime(ISO8601Date.getDateObject(currentSession.getEndTime()));
+        String startTime = ISO8601Date.get24HourTime(ISO8601Date.getDateObject(currentSession.getStartTime()));
+        String endTime = ISO8601Date.get24HourTime(ISO8601Date.getDateObject(currentSession.getEndTime()));
+
+        holder.startTime.setText(startTime);
+        holder.endTime.setText(endTime);
         holder.slotTitle.setText(currentSession.getTitle());
-        holder.timings.setText(String.format("%s - %s", startTime, endTime));
+        if(currentSession.getDescription().isEmpty()){
+            holder.slotDescription.setVisibility(View.GONE);
+        }else {
+            holder.slotDescription.setText(currentSession.getDescription());
+        }
+        holder.slotLocation.setText(currentSession.getMicrolocation().getName().toString());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,11 +120,21 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
 
     protected class DayScheduleViewHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.slot_start_time)
+        TextView startTime;
+
+        @BindView(R.id.slot_end_time)
+        TextView endTime;
+
         @BindView(R.id.slot_title)
         TextView slotTitle;
 
-        @BindView(R.id.timings)
-        TextView timings;
+        @BindView(R.id.slot_description)
+        TextView slotDescription;
+
+        @BindView(R.id.slot_location)
+        TextView slotLocation;
+
 
         public DayScheduleViewHolder(View itemView) {
             super(itemView);
