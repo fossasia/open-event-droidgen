@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
     android:baselineAligned="false"
     android:clickable="true"
     android:focusable="true"
@@ -15,18 +14,19 @@
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
         android:orientation="horizontal"
-        android:padding="@dimen/content_margin">
+        android:padding="@dimen/padding_large">
 
         <ImageView
             android:id="@+id/imageView"
+            android:contentDescription="@string/item_track"
             android:layout_width="50dp"
             android:layout_height="50dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/content_margin"
-            android:layout_marginRight="@dimen/content_margin"
+            android:layout_marginLeft="@dimen/layout_margin_large"
+            android:layout_marginRight="@dimen/layout_margin_large"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -35,7 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/primary_text"
-                android:textSize="18sp"
+                android:textSize="@dimen/text_size"
                 tools:text="Track Title" />
 
             <TextView
@@ -43,7 +43,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/secondary_text"
-                android:textSize="14sp"
+                android:textSize="@dimen/text_size"
                 tools:text="Track description" />
         </LinearLayout>
     </LinearLayout>

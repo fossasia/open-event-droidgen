@@ -2,18 +2,17 @@ package org.fossasia.openevent.activities;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,10 +24,12 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.fossasia.openevent.OpenEventApp;
+
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.SpeakersListAdapter;
 import org.fossasia.openevent.data.Session;
@@ -37,7 +38,7 @@ import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.receivers.NotificationAlarmReceiver;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.ISO8601Date;
-import org.fossasia.openevent.widget.BookmarkWidgetProvider;
+import org.fossasia.openevent.utils.WidgetUpdater;
 
 import java.util.Calendar;
 import java.util.List;
@@ -49,7 +50,7 @@ import timber.log.Timber;
  * User: MananWason
  * Date: 08-07-2015
  */
-public class SessionDetailActivity extends BaseActivity {
+public class SessionDetailActivity extends BaseActivity implements AppBarLayout.OnOffsetChangedListener{
     private static final String TAG = "Session Detail";
 
     private SpeakersListAdapter adapter;
@@ -83,14 +84,23 @@ public class SessionDetailActivity extends BaseActivity {
     protected RecyclerView speakersRecyclerView;
     @BindView(R.id.fab_session_bookmark)
     protected FloatingActionButton fabSessionBookmark;
+    @BindView(R.id.app_bar_session_detail)
+    protected AppBarLayout appBarLayout;
+    @BindView(R.id.toolbar_layout)
+    protected CollapsingToolbarLayout collapsingToolbarLayout;
+    @BindView(R.id.header_title_session)
+    LinearLayout linearLayout;
 
     private String trackName, title;
 
     private Spanned result;
 
+    private boolean isHideToolbarView = false;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         DbSingleton dbSingleton = DbSingleton.getInstance();
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -101,11 +111,16 @@ public class SessionDetailActivity extends BaseActivity {
         id = getIntent().getIntExtra(ConstantStrings.ID, 0);
         Timber.tag(TAG).d(title);
 
+        collapsingToolbarLayout.setTitle(" ");
+        appBarLayout.addOnOffsetChangedListener(this);
+
         final List<Speaker> speakers = dbSingleton.getSpeakersbySessionName(title);
         try {
             session = dbSingleton.getSessionById(id);
+            sharedPreferences.edit().putInt(ConstantStrings.SESSION_MAP_ID, id).apply();
         } catch (Exception e) {
             session = dbSingleton.getSessionbySessionname(title);
+            sharedPreferences.edit().putInt(ConstantStrings.SESSION_MAP_ID, -1).apply();
         }
 
         text_room1.setText((dbSingleton.getMicrolocationById(session.getMicrolocation().getId())).getName());
@@ -122,32 +137,39 @@ public class SessionDetailActivity extends BaseActivity {
         fabSessionBookmark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DbSingleton dbSingleton = DbSingleton.getInstance();
+                final DbSingleton dbSingleton = DbSingleton.getInstance();
                 if (dbSingleton.isBookmarked(session.getId())) {
                     Timber.tag(TAG).d("Bookmark Removed");
                     dbSingleton.deleteBookmarks(session.getId());
-                    fabSessionBookmark.setImageDrawable(ContextCompat.getDrawable(SessionDetailActivity.this, R.drawable.ic_bookmark_outline_white_24dp));
-                    Toast.makeText(SessionDetailActivity.this, R.string.removed_bookmark, Toast.LENGTH_SHORT).show();
+                  
+                    fabSessionBookmark.setImageResource(R.drawable.ic_bookmark_outline_white_24dp);
+                    Snackbar.make(v, R.string.removed_bookmark, Snackbar.LENGTH_LONG)
+                            .setAction(R.string.undo, new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    dbSingleton.addBookmarks(session.getId());
+                                    fabSessionBookmark.setImageResource(R.drawable.ic_bookmark_white_24dp);
+                                    WidgetUpdater.updateWidget(getApplicationContext());
+                                }
+                            });
                 } else {
                     Timber.tag(TAG).d("Bookmarked");
                     dbSingleton.addBookmarks(session.getId());
-                    fabSessionBookmark.setImageDrawable(ContextCompat.getDrawable(SessionDetailActivity.this, R.drawable.ic_bookmark_white_24dp));
+                    fabSessionBookmark.setImageResource(R.drawable.ic_bookmark_white_24dp);
                     createNotification();
                     Toast.makeText(SessionDetailActivity.this, R.string.added_bookmark, Toast.LENGTH_SHORT).show();
                 }
-                //update widget
-                int widgetIds[] = AppWidgetManager.getInstance(getApplicationContext()).getAppWidgetIds(new ComponentName(getApplicationContext(), BookmarkWidgetProvider.class));
-                BookmarkWidgetProvider medicineWidgets = new BookmarkWidgetProvider();
-                medicineWidgets.onUpdate(getApplicationContext(), AppWidgetManager.getInstance(getApplicationContext()),widgetIds);
-                sendBroadcast(new Intent(BookmarkWidgetProvider.ACTION_UPDATE));
+                WidgetUpdater.updateWidget(getApplicationContext());
             }
         });
 
         String date = ISO8601Date.getTimeZoneDateString(
                 ISO8601Date.getDateObject(session.getStartTime())).split(",")[0] + ","
                 + ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(session.getStartTime())).split(",")[1];
-        String startTime = ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(session.getStartTime()));
-        String endTime = ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(session.getEndTime()));
+        String startTime = ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(session.getStartTime())).split(",")[2] + ","
+                + ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(session.getStartTime())).split(",")[3];
+        String endTime = ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(session.getEndTime())).split(",")[2] + ","
+                + ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(session.getEndTime())).split(",")[3];
 
         if (TextUtils.isEmpty(startTime) && TextUtils.isEmpty(endTime)) {
             text_start_time.setText(R.string.time_not_specified);
@@ -179,10 +201,10 @@ public class SessionDetailActivity extends BaseActivity {
         DbSingleton dbSingleton = DbSingleton.getInstance();
         if (dbSingleton.isBookmarked(session.getId())) {
             Timber.tag(TAG).d("Bookmarked");
-            fabSessionBookmark.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_bookmark_white_24dp));
+            fabSessionBookmark.setImageResource(R.drawable.ic_bookmark_white_24dp);
         } else {
             Timber.tag(TAG).d("Bookmark Removed");
-            fabSessionBookmark.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_bookmark_outline_white_24dp));
+            fabSessionBookmark.setImageResource(R.drawable.ic_bookmark_outline_white_24dp);
         }
     }
 
@@ -272,5 +294,26 @@ public class SessionDetailActivity extends BaseActivity {
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         alarmManager.set(AlarmManager.RTC, calendar.getTimeInMillis(), pendingIntent);
+    }
+
+    @Override
+    public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+        int maxScroll = appBarLayout.getTotalScrollRange();
+        float percentage = (float) Math.abs(verticalOffset) / (float) maxScroll;
+
+        if (percentage == 1f && isHideToolbarView) {
+            // Collapsed
+
+            linearLayout.setVisibility(View.GONE);
+            collapsingToolbarLayout.setTitle(title);
+            isHideToolbarView = !isHideToolbarView;
+        } else if (percentage < 1f && !isHideToolbarView) {
+            // Not Collapsed
+
+            collapsingToolbarLayout.setTitle(" ");
+            text_title.setMaxLines(2);
+            linearLayout.setVisibility(View.VISIBLE);
+            isHideToolbarView = !isHideToolbarView;
+        }
     }
 }

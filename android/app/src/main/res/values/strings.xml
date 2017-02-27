@@ -4,6 +4,12 @@
     <string name="title_section_tracks">Tracks</string>
     <string name="title_section_speakerlist">Speakers</string>
     <string name="title_section_location">Locations</string>
+    <string name="item_track">This is a track symbol.</string>
+    <string name="session_bookmark_status">This image shows the session bookmark status.</string>
+    <string name="session_share_icon">This is the share icon.</string>
+    <string name="session_calender_icon">This is a calender icon.</string>
+    <string name="session_clock_icon">This is a clock icon.</string>
+    <string name="session_location_icon">This is a location icon.</string>
 
     <!-- Main menu_speakers -->
     <string name="menu_tracks">Tracks</string>
@@ -13,7 +19,7 @@
     <string name="menu_map">Map</string>
     <string name="menu_locations">Locations</string>
     <string name="menu_settings">Settings</string>
-    <string name="menu_share">Share</string>
+    <string name="menu_share" translatable="false">Share</string>
     <string name="menu_about">About us</string>
     <string name="session">Session Detail</string>
     <string name="menu_schedule" translatable="false">Schedule</string>
@@ -72,6 +78,7 @@
 
     <string name="empty_list">No Bookmarks Available</string>
     <string name="bullet">"•"</string>
+    <string name="bulletWithSpaces">"•  "</string>
     <string name="bookmarks">Bookmarks</string>
 
     <!--Speaker-->
@@ -106,17 +113,17 @@
     <string name="dialog_sort_sessions">Start Time</string>
 
 
-    <string name="launcher_icon">Launcher Icon</string>
-    <string name="sponsor_image">Sponsor Image</string>
-    <string name="header_image">Header Image</string>
-    <string name="speaker_image">Speaker\'s Image</string>
-    <string name="logo_widget">Logo Widget</string>
-    <string name="backdrop_image">Backdrop Image</string>
-    <string name="linkedin_icon">Linkedin Icon</string>
-    <string name="twitter_icon">Twitter Icon</string>
-    <string name="facebook_icon">Facebook Icon</string>
-    <string name="github_icon">Github Icon</string>
-    <string name="web_icon">Web Icon</string>
+    <string name="launcher_icon" translatable="false">Launcher Icon</string>
+    <string name="sponsor_image" translatable="false">Sponsor Image</string>
+    <string name="header_image" translatable="false">Header Image</string>
+    <string name="speaker_image" translatable="false">Speaker\'s Image</string>
+    <string name="logo_widget" translatable="false">Logo Widget</string>
+    <string name="backdrop_image" translatable="false">Backdrop Image</string>
+    <string name="linkedin_icon" translatable="false">Linkedin Icon</string>
+    <string name="twitter_icon" translatable="false">Twitter Icon</string>
+    <string name="facebook_icon" translatable="false">Facebook Icon</string>
+    <string name="github_icon" translatable="false">Github Icon</string>
+    <string name="web_icon" translatable="false">Web Icon</string>
     <string name="download_assets">Do you want to update to the latest schedule now?</string>
     <string name="internet_preference_warning">Wifi Not available, do you want to display offline schedule? </string>
     <string name="yes">Yes</string>
@@ -143,11 +150,11 @@
     <string name="bronze">Bronze</string>
 
     <!-- Sponsor types int strings-->
-    <string name="platinumInt">1</string>
-    <string name="diamondInt">2</string>
-    <string name="goldInt">3</string>
-    <string name="silverInt">4</string>
-    <string name="bronzeInt">5</string>
+    <string name="platinumInt" translatable="false">1</string>
+    <string name="diamondInt" translatable="false">2</string>
+    <string name="goldInt" translatable="false">3</string>
+    <string name="silverInt" translatable="false">4</string>
+    <string name="bronzeInt" translatable="false">5</string>
 
     <string name="display_offline_schedule">No Internet connection, displaying old schedule</string>
     <string name="retry_download">Retry</string>
@@ -162,6 +169,7 @@
 
     <!--Notification strings-->
     <string name="check_connection">Check Connection</string>
+    <string name="undo">Undo</string>
     <string name="open_your_web_brower_to_finish_connection_setting">Open your web browser to finish connection setting</string>
     <string name="removed_bookmark">Bookmark Removed</string>
     <string name="added_bookmark">Bookmark Added</string>
@@ -169,6 +177,6 @@
     <!--Share App strings-->
     <string name="whatsapp_promo_msg_template">Hey, join me at the event! - %s</string>
     <string name="error_msg_retry">Please Retry Again</string>
-    <string name="app_share_url">https://play.google.com/store/apps/details?id=%s</string>
+    <string name="app_share_url" translatable="false">https://play.google.com/store/apps/details?id=%s</string>
 
 </resources>

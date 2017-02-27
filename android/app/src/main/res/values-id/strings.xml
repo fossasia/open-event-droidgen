@@ -13,7 +13,6 @@
     <string name="menu_settings">Pengaturan</string>
     <string name="menu_about">Tetang Kami</string>
     <string name="session">Perincian Sesi</string>
-    <string name="menu_schedule" translatable="false">Schedule</string>
     <string name="descriptionEmpty">Deskripsi: Akan ditambahkan</string>
 
 
@@ -38,10 +37,6 @@
     <string name="default_mode_language">Bahasa Inggris</string>
 
     <!--Social-->
-    <string name="linkedin" translatable="false">linkedin</string>
-    <string name="twitter" translatable="false">twitter</string>
-    <string name="fb" translatable="false">fb</string>
-    <string name="github" translatable="false">github</string>
 
     <!--Menu Titles-->
     <string name="search">Cari</string>
@@ -95,17 +90,6 @@
     <string name="dialog_sort_sessions">Waktu mulai</string>
 
 
-    <string name="launcher_icon">Ikon peluncur</string>
-    <string name="sponsor_image">Foto sponsor</string>
-    <string name="header_image">Gambar header</string>
-    <string name="speaker_image">Foto pembicara</string>
-    <string name="logo_widget">Logo Widget</string>
-    <string name="backdrop_image">Gambar Backdrop</string>
-    <string name="linkedin_icon">Ikon Linkedin</string>
-    <string name="twitter_icon">Ikon Twitter</string>
-    <string name="facebook_icon">Ikon Facebook</string>
-    <string name="github_icon">Ikon Github</string>
-    <string name="web_icon">Ikon Web</string>
     <string name="download_assets">Apakah Anda ingin memperbaruhi jadwal?</string>
     <string name="internet_preference_warning">Wifi tidak tersedia, Apakah Anda ingin mengunakan jadwal luring? </string>
     <string name="yes">Iya</string>
@@ -132,11 +116,6 @@
     <string name="bronze">Perunggu</string>
 
     <!-- Sponsor types int strings-->
-    <string name="platinumInt">1</string>
-    <string name="diamondInt">2</string>
-    <string name="goldInt">3</string>
-    <string name="silverInt">4</string>
-    <string name="bronzeInt">5</string>
 
     <string name="display_offline_schedule">Tidak ada koneksi internet, jadwal lama akan dipakai</string>
     <string name="retry_download">Ulangi lagi</string>
@@ -154,5 +133,7 @@
     <string name="open_your_web_brower_to_finish_connection_setting">Bukalah penjelajah web untuk menyelesaikan pengaturan koneksi</string>
     <string name="removed_bookmark">Bookmark telah dihapuskan</string>
     <string name="added_bookmark">Bookmark telah ditambahkan</string>
+    <string name="menu_schedule" translatable="false"></string>
+    <string name="twitter" translatable="false"></string>
 
 </resources>

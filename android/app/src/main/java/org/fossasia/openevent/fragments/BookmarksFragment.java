@@ -141,6 +141,18 @@ public class BookmarksFragment extends BaseFragment implements SearchView.OnQuer
         if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
             searchText = savedInstanceState.getString(SEARCH);
         }
+        //scrollup shows actionbar
+        bookmarkedTracks.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if(dy < 0){
+                    AppBarLayout appBarLayout;
+                    appBarLayout = (AppBarLayout) getActivity().findViewById(R.id.appbar);
+                    appBarLayout.setExpanded(true);
+                }
+            }
+        });
 
         return view;
     }

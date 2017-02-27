@@ -93,17 +93,6 @@
     <string name="dialog_sort_sessions">開始時刻</string>
 
 
-    <string name="launcher_icon">ランチャー アイコン</string>
-    <string name="sponsor_image">スポンサー画像</string>
-    <string name="header_image">ヘッダー画像</string>
-    <string name="speaker_image">スピーカーの画像</string>
-    <string name="logo_widget">ロゴ ウィジェット</string>
-    <string name="backdrop_image">バックドロップ画像</string>
-    <string name="linkedin_icon">Linkedin アイコン</string>
-    <string name="twitter_icon">Twitter アイコン</string>
-    <string name="facebook_icon">Facebook アイコン</string>
-    <string name="github_icon">Github アイコン</string>
-    <string name="web_icon">Web アイコン</string>
     <string name="download_assets">今すぐ最新のスケジュールに更新しますか?</string>
     <string name="internet_preference_warning">Wifi が利用できません。 オフラインのスケジュールを表示しますか? </string>
     <string name="yes">はい</string>
@@ -130,11 +119,6 @@
     <string name="bronze">ブロンズ</string>
 
     <!-- Sponsor types int strings-->
-    <string name="platinumInt">1</string>
-    <string name="diamondInt">2</string>
-    <string name="goldInt">3</string>
-    <string name="silverInt">4</string>
-    <string name="bronzeInt">5</string>
 
     <string name="display_offline_schedule">インターネット接続がありません。古いスケジュールを表示します</string>
     <string name="retry_download">再試行</string>

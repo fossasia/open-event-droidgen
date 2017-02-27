@@ -1,10 +1,12 @@
 package org.fossasia.openevent.fragments;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -24,7 +26,10 @@ import org.fossasia.openevent.BuildConfig;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Event;
+import org.fossasia.openevent.data.Microlocation;
+import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.utils.ConstantStrings;
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.util.GeoPoint;
@@ -49,11 +54,13 @@ public class OSMapFragment extends Fragment {
     private View rootView;
 
     private Snackbar snackbar;
+
+    private SharedPreferences sharedPreferences;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         OpenStreetMapTileProviderConstants.setUserAgentValue(BuildConfig.APPLICATION_ID);
-
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
         setHasOptionsMenu(true);
     }
 
@@ -74,15 +81,32 @@ public class OSMapFragment extends Fragment {
         Resources resources = getContext().getResources();
         int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
         if (resourceId > 0) {
-//            Toast.makeText(getActivity(), ""+resources.getDimensionPixelSize(resourceId), Toast.LENGTH_SHORT).show();
             zoomControls.setPadding(0, 0, 0, resources.getDimensionPixelSize(resourceId) + 4);
         }
         mapView.setBuiltInZoomControls(false);
         mapView.setMultiTouchControls(true);
-        Event event = DbSingleton.getInstance().getEventDetails();
-        setDestinationLatitude(event.getLatitude());
-        setDestinationLongitude(event.getLongitude());
-        setDestinationName(event.getLocationName());
+
+        try{
+            int id =sharedPreferences.getInt(ConstantStrings.SESSION_MAP_ID,-1);
+            if(id != -1){
+                Session session =  DbSingleton.getInstance().getSessionById(id);
+                int location_id = session.getMicrolocation().getId();
+                Microlocation microlocation =  DbSingleton.getInstance().getMicrolocationById(location_id);
+                setDestinationLatitude(microlocation.getLatitude());
+                setDestinationLongitude(microlocation.getLongitude());
+                setDestinationName(microlocation.getName());
+            }else{
+                Event event = DbSingleton.getInstance().getEventDetails();
+                setDestinationLatitude(event.getLatitude());
+                setDestinationLongitude(event.getLongitude());
+                setDestinationName(event.getLocationName());
+            }
+        }catch (Exception e) {
+            Event event = DbSingleton.getInstance().getEventDetails();
+            setDestinationLatitude(event.getLatitude());
+            setDestinationLongitude(event.getLongitude());
+            setDestinationName(event.getLocationName());
+        }
         GeoPoint geoPoint = new GeoPoint(getDestinationLatitude(), getDestinationLongitude());
         mapView.getController().setCenter(geoPoint);
         mapView.getController().setZoom(17);

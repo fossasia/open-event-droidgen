@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:baselineAligned="false"
-    android:background="@color/white"
     android:orientation="vertical">
 
     <LinearLayout
@@ -11,21 +10,21 @@
         android:layout_height="match_parent"
         android:background="?attr/selectableItemBackground"
         android:orientation="vertical"
-        android:padding="@dimen/content_margin">
+        android:padding="@dimen/padding_large">
 
         <TextView
             android:id="@+id/location_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/primary_text"
-            android:textSize="18sp" />
+            android:textSize="@dimen/heading_text_size" />
 
         <TextView
             android:id="@+id/location_floor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/secondary_text"
-            android:textSize="14sp"/>
+            android:textSize="@dimen/text_size"/>
     </LinearLayout>
 
     <View
