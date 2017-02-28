@@ -62,7 +62,13 @@ public class DatabaseOperations {
         while (!cur.isAfterLast()) {
             try {
                 int microlocationId = cur.getInt(cur.getColumnIndex(DbContract.Sessions.MICROLOCATION));
-                Microlocation microlocation = new Microlocation(microlocationId, getMicroLocationById(microlocationId, mDb).getName());
+                // TODO: Look for more elegent way to solve microlocation being null problem
+                Microlocation microlocation;
+                if (microlocationId != 0) {
+                    microlocation = new Microlocation(microlocationId, getMicroLocationById(microlocationId, mDb).getName());
+                } else {
+                    microlocation = new Microlocation(0, "Not decided yet");
+                }
                 int trackId = cur.getInt(cur.getColumnIndex(DbContract.Sessions.TRACK));
                 Track track = new Track(trackId, getTracksbyTracksId(trackId, mDb).getName());
 
@@ -107,7 +113,12 @@ public class DatabaseOperations {
         //Should return only one due to UNIQUE constraint
         try {
             int microlocationId = cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.MICROLOCATION));
-            Microlocation microlocation = new Microlocation(microlocationId, getMicroLocationById(microlocationId, mDb).getName());
+            Microlocation microlocation;
+            if (microlocationId != 0) {
+                microlocation = new Microlocation(microlocationId, getMicroLocationById(microlocationId, mDb).getName());
+            } else {
+                microlocation = new Microlocation(0, "Not decided yet");
+            }
             int trackId = cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.TRACK));
             Track track = new Track(trackId, getTracksbyTracksId(trackId, mDb).getName());
 
@@ -377,7 +388,12 @@ public class DatabaseOperations {
         while (!sessionCursor.isAfterLast()) {
             try {
                 int microlocationId = sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.MICROLOCATION));
-                Microlocation microlocation = new Microlocation(microlocationId, getMicroLocationById(microlocationId, mDb).getName());
+                Microlocation microlocation;
+                if (microlocationId != 0) {
+                    microlocation = new Microlocation(microlocationId, getMicroLocationById(microlocationId, mDb).getName());
+                } else {
+                    microlocation = new Microlocation(0, "Not decided yet");
+                }
                 int trackId = sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.TRACK));
                 Track track = new Track(trackId, getTracksbyTracksId(trackId, mDb).getName());
 
@@ -573,7 +589,12 @@ public class DatabaseOperations {
             do {
                 try {
                     int microlocationId = sessionTableCursor.getInt(sessionTableCursor.getColumnIndex(DbContract.Sessions.MICROLOCATION));
-                    Microlocation microlocation = new Microlocation(microlocationId, getMicroLocationById(microlocationId, mDb).getName());
+                    Microlocation microlocation;
+                    if (microlocationId != 0) {
+                        microlocation = new Microlocation(microlocationId, getMicroLocationById(microlocationId, mDb).getName());
+                    } else {
+                        microlocation = new Microlocation(0, "Not decided yet");
+                    }
                     int trackId = sessionTableCursor.getInt(sessionTableCursor.getColumnIndex(DbContract.Sessions.TRACK));
                     Track track = new Track(trackId, getTracksbyTracksId(trackId, mDb).getName());
 
@@ -734,8 +755,12 @@ public class DatabaseOperations {
             while (!sessionCursor.isAfterLast()) {
                 try {
                     int microlocationId = sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.MICROLOCATION));
-                    Microlocation microlocation = new Microlocation(microlocationId, getMicroLocationById(microlocationId, mDb).getName());
-                    int trackId = sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.TRACK));
+                    Microlocation microlocation;
+                    if (microlocationId != 0) {
+                        microlocation = new Microlocation(microlocationId, getMicroLocationById(microlocationId, mDb).getName());
+                    } else {
+                        microlocation = new Microlocation(0, "Not decided yet");
+                    }                    int trackId = sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.TRACK));
                     Track track = new Track(trackId, getTracksbyTracksId(trackId, mDb).getName());
 
                     s = new Session(
@@ -898,7 +923,12 @@ public class DatabaseOperations {
         cursor.moveToFirst();
         try {
             int microlocationId = cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.MICROLOCATION));
-            Microlocation microlocation = new Microlocation(microlocationId, getMicroLocationById(microlocationId, mDb).getName());
+            Microlocation microlocation;
+            if (microlocationId != 0) {
+                microlocation = new Microlocation(microlocationId, getMicroLocationById(microlocationId, mDb).getName());
+            } else {
+                microlocation = new Microlocation(0, "Not decided yet");
+            }
             int trackId = cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.TRACK));
             Track track = new Track(trackId, getTracksbyTracksId(trackId, mDb).getName());
 
@@ -998,7 +1028,12 @@ public class DatabaseOperations {
         while (!sessionCursor.isAfterLast()) {
             try {
                 int microlocationId = sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.MICROLOCATION));
-                Microlocation microlocation = new Microlocation(microlocationId, getMicroLocationById(microlocationId, mDb).getName());
+                Microlocation microlocation;
+                if (microlocationId != 0) {
+                    microlocation = new Microlocation(microlocationId, getMicroLocationById(microlocationId, mDb).getName());
+                } else {
+                    microlocation = new Microlocation(0, "Not decided yet");
+                }
                 int trackId = sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.TRACK));
                 Track track = new Track(trackId, getTracksbyTracksId(trackId, mDb).getName());
 

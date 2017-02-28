@@ -123,7 +123,12 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
             sharedPreferences.edit().putInt(ConstantStrings.SESSION_MAP_ID, -1).apply();
         }
 
-        text_room1.setText((dbSingleton.getMicrolocationById(session.getMicrolocation().getId())).getName());
+        String microlocationName = "Not decided yet";
+        if (dbSingleton.getMicrolocationById(session.getMicrolocation().getId()) != null){
+            // This function returns id=0 when microlocation is null in session JSON
+            microlocationName = dbSingleton.getMicrolocationById(session.getMicrolocation().getId()).getName();
+        }
+        text_room1.setText(microlocationName);
 
         text_title.setText(title);
         if (session.getSubtitle().equals("")) {

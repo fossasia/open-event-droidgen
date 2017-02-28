@@ -55,7 +55,7 @@ public class Speaker {
                    String position, int[] session, String country) {
         this.id = id;
         this.name = name;
-        this.photo = Urls.BASE_URL + photo;
+        this.photo = photo;
         this.bio = bio;
         this.email = email;
         this.website = web;
