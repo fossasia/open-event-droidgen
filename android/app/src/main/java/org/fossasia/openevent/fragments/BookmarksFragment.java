@@ -44,6 +44,8 @@ public class BookmarksFragment extends BaseFragment implements SearchView.OnQuer
     final private String SEARCH = "org.fossasia.openevent.searchText";
     SessionsListAdapter sessionsListAdapter;
 
+    private static final int bookmarkedSessionList =3;
+
     private String searchText = "";
 
     private SearchView searchView;
@@ -115,7 +117,7 @@ public class BookmarksFragment extends BaseFragment implements SearchView.OnQuer
         int spanCount = (int) (width/250.00);
 
         bookmarkedTracks.setVisibility(View.VISIBLE);
-        sessionsListAdapter = new SessionsListAdapter(getContext(), new ArrayList<Session>());
+        sessionsListAdapter = new SessionsListAdapter(getContext(), new ArrayList<Session>(),bookmarkedSessionList);
         for (int i = 0; i < bookmarkedIds.size(); i++) {
             Integer id = bookmarkedIds.get(i);
             Session session = dbSingleton.getSessionById(id);

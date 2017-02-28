@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.fossasia.openevent.R;
-import org.fossasia.openevent.adapters.LocationsListAdapter;
 import org.fossasia.openevent.adapters.SessionsListAdapter;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.dbutils.DbSingleton;
@@ -35,6 +34,7 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
     private SessionsListAdapter sessionsListAdapter;
 
     private List<Session> mSessions;
+    private static final int locationWiseSessionList = 1;
 
     @BindView(R.id.recyclerView_locations) RecyclerView sessionRecyclerView;
     @BindView(R.id.txt_no_sessions) TextView noSessionsView;
@@ -77,7 +77,7 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
         sessionRecyclerView.setHasFixedSize(true);
         final GridLayoutManager gridLayoutManager = new GridLayoutManager(this,spanCount);
         sessionRecyclerView.setLayoutManager(gridLayoutManager);
-        sessionsListAdapter = new SessionsListAdapter(this, mSessions);
+        sessionsListAdapter = new SessionsListAdapter(this, mSessions,locationWiseSessionList);
         sessionRecyclerView.setAdapter(sessionsListAdapter);
         sessionRecyclerView.scrollToPosition(SessionsListAdapter.listPosition);
         sessionRecyclerView.setItemAnimator(new DefaultItemAnimator());
