@@ -181,9 +181,10 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
             text_end_time.setVisibility(View.GONE);
 
         } else {
-            text_start_time.setText(startTime);
-            text_end_time.setText(endTime);
-            text_date.setText(date);
+            text_start_time.setText(startTime.trim());
+            text_end_time.setText(endTime.trim());
+            text_date.setText(date.trim());
+            Timber.d(date+"\n"+endTime+"\n"+startTime);
 
         }
         summary.setText(session.getSummary());

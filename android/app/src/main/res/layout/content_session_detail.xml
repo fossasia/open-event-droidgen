@@ -36,13 +36,14 @@
                     android:layout_marginBottom="@dimen/layout_margin_medium"
                     android:textColor="@color/primary_text"
                     android:text="Session Subtitle" />
-
-                <LinearLayout
+                <GridLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:rowCount="5"
+                    android:columnCount="2"
+                    android:layout_marginRight="@dimen/layout_margin_right"
                     android:layout_marginBottom="@dimen/layout_margin_medium"
                     android:orientation="horizontal">
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -57,16 +58,9 @@
                         android:id="@+id/track"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
                         android:textSize="@dimen/text_size"
                         android:textColor="@color/primary_text" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/layout_margin_medium"
-                    android:orientation="horizontal">
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -81,16 +75,9 @@
                         android:id="@+id/date_session"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
                         android:textSize="@dimen/text_size"
                         android:textColor="@color/primary_text" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/layout_margin_medium"
-                    android:orientation="horizontal">
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -106,14 +93,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/text_size"
+                        android:layout_marginLeft="10dp"
                         android:textColor="@color/primary_text" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/layout_margin_medium"
-                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -129,15 +110,9 @@
                         android:id="@+id/end_time_session"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
                         android:textSize="@dimen/text_size"
                         android:textColor="@color/primary_text" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/layout_margin_medium"
-                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -153,9 +128,10 @@
                         android:id="@+id/tv_location"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
                         android:textSize="@dimen/text_size"
                         android:textColor="@color/primary_text" />
-                </LinearLayout>
+                </GridLayout>
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/list_speakerss"
                     android:layout_width="match_parent"

@@ -140,7 +140,7 @@
     <string name="start_time">Start Time:</string>
     <string name="end_time">End Time:</string>
     <string name="location">Location:</string>
-    <string name="speakers">Speaker:</string>
+    <string name="speakers">Speaker</string>
 
     <!-- Sponsor types strings-->
     <string name="platinum">Platinum</string>
