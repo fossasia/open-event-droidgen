@@ -42,6 +42,7 @@
                     android:rowCount="5"
                     android:columnCount="2"
                     android:layout_marginRight="@dimen/layout_margin_right"
+                    android:layout_marginEnd="@dimen/layout_margin_right"
                     android:layout_marginBottom="@dimen/layout_margin_medium"
                     android:orientation="horizontal">
                     <TextView
@@ -59,6 +60,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
                         android:textSize="@dimen/text_size"
                         android:textColor="@color/primary_text" />
                     <TextView
@@ -76,6 +78,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
                         android:textSize="@dimen/text_size"
                         android:textColor="@color/primary_text" />
                     <TextView
@@ -94,6 +97,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/text_size"
                         android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
                         android:textColor="@color/primary_text" />
 
                     <TextView
@@ -111,6 +115,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
                         android:textSize="@dimen/text_size"
                         android:textColor="@color/primary_text" />
 
@@ -129,6 +134,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
                         android:textSize="@dimen/text_size"
                         android:textColor="@color/primary_text" />
                 </GridLayout>
