@@ -153,7 +153,7 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
             website.setVisibility(View.GONE);
         }
 
-        biography.setText(Html.fromHtml(selectedSpeaker.getBio()));
+        biography.setText(Html.fromHtml(selectedSpeaker.getShortBiography()));
         biography.setMovementMethod(LinkMovementMethod.getInstance());
 
         mSessions = dbSingleton.getSessionbySpeakersName(speaker);

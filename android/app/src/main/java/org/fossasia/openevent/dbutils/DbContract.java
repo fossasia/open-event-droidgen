@@ -73,7 +73,7 @@ public class DbContract {
 
         public static final String PHOTO = "photo";
 
-        public static final String BIO = "bio";
+        public static final String BIO = "shortBiography";
 
         public static final String EMAIL = "email";
 
