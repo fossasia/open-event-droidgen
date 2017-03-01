@@ -15,6 +15,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ import com.amulyakhare.textdrawable.util.ColorGenerator;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.activities.SessionDetailActivity;
 import org.fossasia.openevent.data.Session;
+import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.receivers.NotificationAlarmReceiver;
@@ -55,6 +57,12 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
     private String trackName;
     private Context context;
     public static int listPosition;
+    private int type;
+    private static final int locationWiseSessionList = 1;
+    private static final int trackWiseSessionList = 4;
+    private static final int spearkerWiseSessionList = 2;
+    private static final int bookmarkedSessionList =3;
+
     private ColorGenerator colorGenerator = ColorGenerator.MATERIAL;
     private TextDrawable.IBuilder drawableBuilder = TextDrawable.builder().round();
 
@@ -88,10 +96,11 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
         }
     };
 
-    public SessionsListAdapter(Context context, List<Session> sessions) {
+    public SessionsListAdapter(Context context, List<Session> sessions,int type) {
         super(sessions);
         this.context = context;
         this.color = ContextCompat.getColor(context, R.color.color_primary);
+        this.type = type;
     }
 
     public void setTrackName(String trackName) {
@@ -135,6 +144,36 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
         holder.sessionLocation.setText(session.getMicrolocation().getName());
         DbSingleton dbSingleton;
         dbSingleton = DbSingleton.getInstance();
+
+        List<Speaker> speakers = dbSingleton.getSpeakersbySessionName(session.getTitle());
+        ArrayList<String> speakerName = new ArrayList<String>();
+        for(int i=0;i<speakers.size();i++){
+            speakerName.add(speakers.get(i).getName());
+        }
+        String speakerList = TextUtils.join(",", speakerName);
+
+        holder.sessionSpeaker.setText(speakerList);
+
+        if(speakers.size()==0){
+            holder.sessionSpeaker.setVisibility(View.GONE);
+            holder.speakerIcon.setVisibility(View.GONE);
+        }
+
+        switch (type){
+            case trackWiseSessionList :
+                holder.trackImageIcon.setVisibility(View.GONE);
+                holder.sessionTrack.setVisibility(View.GONE);
+                break;
+            case locationWiseSessionList :
+                holder.sessionLocation.setVisibility(View.GONE);
+                holder.locationIcon.setVisibility(View.GONE);
+                break;
+            case spearkerWiseSessionList :
+                holder.sessionSpeaker.setVisibility(View.GONE);
+                holder.speakerIcon.setVisibility(View.GONE);
+                break;
+            default:
+        }
 
         if (!dbSingleton.isBookmarked(session.getId()))
             holder.sessionBookmarkIcon.setImageResource(R.drawable.ic_bookmark_border_white_24dp);
@@ -241,6 +280,15 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
 
         @BindView(R.id.session_date)
         protected TextView sessionDate;
+
+        @BindView(R.id.session_spaeker)
+        protected TextView sessionSpeaker;
+
+        @BindView(R.id.icon_speaker)
+        protected ImageView speakerIcon;
+
+        @BindView(R.id.icon_location)
+        protected ImageView locationIcon;
 
         @BindView(R.id.session_time)
         protected TextView sessionTime;

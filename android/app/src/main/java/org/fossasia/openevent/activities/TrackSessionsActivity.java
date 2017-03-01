@@ -36,6 +36,8 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
 
     private SearchView searchView;
 
+    private static final int trackWiseSessionList = 4;
+
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.recyclerView) RecyclerView sessionsRecyclerView;
     @BindView(R.id.txt_no_sessions) TextView noSessionsView;
@@ -71,7 +73,7 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
         sessionsRecyclerView.setHasFixedSize(true);
         final GridLayoutManager gridLayoutManager = new GridLayoutManager(this,spanCount);
         sessionsRecyclerView.setLayoutManager(gridLayoutManager);
-        sessionsListAdapter = new SessionsListAdapter(this, dbSingleton.getSessionbyTracksname(track));
+        sessionsListAdapter = new SessionsListAdapter(this, dbSingleton.getSessionbyTracksname(track),trackWiseSessionList);
         sessionsRecyclerView.setAdapter(sessionsListAdapter);
         sessionsRecyclerView.scrollToPosition(SessionsListAdapter.listPosition);
         sessionsRecyclerView.setItemAnimator(new DefaultItemAnimator());

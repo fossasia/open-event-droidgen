@@ -65,6 +65,8 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
 
     private boolean isHideToolbarView = true;
 
+    private static final int spearkerWiseSessionList = 2;
+
     @BindView(R.id.toolbar_speakers) Toolbar toolbar;
     @BindView(R.id.txt_no_sessions) TextView noSessionsView;
     @BindView(R.id.appbar) AppBarLayout appBarLayout;
@@ -157,7 +159,7 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
         biography.setMovementMethod(LinkMovementMethod.getInstance());
 
         mSessions = dbSingleton.getSessionbySpeakersName(speaker);
-        sessionsListAdapter = new SessionsListAdapter(this, mSessions);
+        sessionsListAdapter = new SessionsListAdapter(this, mSessions,spearkerWiseSessionList);
         sessionRecyclerView.setNestedScrollingEnabled(false);
         sessionRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         sessionRecyclerView.setAdapter(sessionsListAdapter);
