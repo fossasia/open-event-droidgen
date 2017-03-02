@@ -116,9 +116,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/speaker_bio"
-                android:layout_margin="@dimen/layout_margin_large"
-                android:layout_marginBottom="@dimen/layout_margin_small"
-                android:layout_marginTop="@dimen/layout_margin_small">
+                android:layout_marginRight="@dimen/layout_margin_large"
+                android:layout_marginLeft="@dimen/layout_margin_large"
+                android:layout_marginBottom="@dimen/layout_margin_large">
 
                 <ImageView
                     android:id="@+id/imageView_fb"
