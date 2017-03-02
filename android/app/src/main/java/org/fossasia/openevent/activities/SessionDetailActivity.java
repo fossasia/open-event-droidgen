@@ -24,6 +24,7 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -89,7 +90,11 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
     @BindView(R.id.toolbar_layout)
     protected CollapsingToolbarLayout collapsingToolbarLayout;
     @BindView(R.id.header_title_session)
-    LinearLayout linearLayout;
+    protected LinearLayout linearLayout;
+    @BindView(R.id.content_frame_session)
+    protected FrameLayout mapFragment;
+    @BindView(R.id.nested_scrollview_session_detail)
+    protected NestedScrollView scrollView;
 
     private String trackName, title;
 
@@ -220,15 +225,32 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
     }
 
     @Override
+    public void onBackPressed() {
+        if (fabSessionBookmark.getVisibility() == View.GONE) {
+            /** hide fragment again on back pressed and show session views **/
+            mapFragment.setVisibility(View.GONE);
+            fabSessionBookmark.setVisibility(View.VISIBLE);
+            if (scrollView.getVisibility() == View.GONE) {
+                scrollView.setVisibility(View.VISIBLE);
+            }
+            if (appBarLayout.getVisibility() == View.GONE) {
+                appBarLayout.setVisibility(View.VISIBLE);
+            }
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_map:
                 /** Hide all the views except the frame layout **/
-                NestedScrollView scrollView = (NestedScrollView) findViewById(R.id.nested_scrollview_session_detail);
                 scrollView.setVisibility(View.GONE);
-                AppBarLayout sessionDetailAppBar = (AppBarLayout) findViewById(R.id.app_bar_session_detail);
-                sessionDetailAppBar.setVisibility(View.GONE);
+                appBarLayout.setVisibility(View.GONE);
                 fabSessionBookmark.setVisibility(View.GONE);
+
+                mapFragment.setVisibility(View.VISIBLE);
 
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

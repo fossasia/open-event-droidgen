@@ -61,7 +61,7 @@ public class OSMapFragment extends Fragment {
         super.onCreate(savedInstanceState);
         OpenStreetMapTileProviderConstants.setUserAgentValue(BuildConfig.APPLICATION_ID);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-        setHasOptionsMenu(true);
+//        setHasOptionsMenu(true);
     }
 
     @Override
