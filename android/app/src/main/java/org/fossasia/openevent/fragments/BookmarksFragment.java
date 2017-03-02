@@ -82,14 +82,7 @@ public class BookmarksFragment extends BaseFragment implements SearchView.OnQuer
         if (!bookmarkedIds.isEmpty()) {
             bookmarkedTracks.setVisibility(View.VISIBLE);
         } else {
-            DialogFactory.createSimpleActionDialog(getActivity(), R.string.bookmarks, R.string.empty_list, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.content_frame, new TracksFragment(), FRAGMENT_TAG).commit();
-                    ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.menu_tracks);
-                }
-            }).show();
+            showDialog();
             bookmarkedTracks.setVisibility(View.GONE);
         }
     }
@@ -117,7 +110,7 @@ public class BookmarksFragment extends BaseFragment implements SearchView.OnQuer
         int spanCount = (int) (width/250.00);
 
         bookmarkedTracks.setVisibility(View.VISIBLE);
-        sessionsListAdapter = new SessionsListAdapter(getContext(), new ArrayList<Session>(),bookmarkedSessionList);
+        sessionsListAdapter = new SessionsListAdapter(getContext(), new ArrayList<Session>(),bookmarkedSessionList,BookmarksFragment.this);
         for (int i = 0; i < bookmarkedIds.size(); i++) {
             Integer id = bookmarkedIds.get(i);
             Session session = dbSingleton.getSessionById(id);
@@ -162,6 +155,17 @@ public class BookmarksFragment extends BaseFragment implements SearchView.OnQuer
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_bookmarks;
+    }
+
+    public void showDialog(){
+        DialogFactory.createSimpleActionDialog(getActivity(), R.string.bookmarks, R.string.empty_list, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.content_frame, new TracksFragment(), FRAGMENT_TAG).commit();
+                ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.menu_tracks);
+            }
+        }).show();
     }
 
     @Override
