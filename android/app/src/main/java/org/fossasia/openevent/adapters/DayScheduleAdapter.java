@@ -3,6 +3,8 @@ package org.fossasia.openevent.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,7 +91,15 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
         if(currentSession.getDescription().isEmpty()){
             holder.slotDescription.setVisibility(View.GONE);
         }else {
-            holder.slotDescription.setText(currentSession.getDescription());
+
+            Spanned result;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                result = Html.fromHtml(currentSession.getDescription(), Html.FROM_HTML_MODE_LEGACY);
+            } else {
+                result = Html.fromHtml(currentSession.getDescription());
+            }
+
+            holder.slotDescription.setText(result);
         }
         holder.slotLocation.setText(currentSession.getMicrolocation().getName().toString());
 
