@@ -401,83 +401,126 @@ public class MainActivity extends BaseActivity {
     }
 
     private void doMenuAction(int menuItemId) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        final FragmentManager fragmentManager = getSupportFragmentManager();
         addShadowToAppBar(true);
         switch (menuItemId) {
             case R.id.nav_tracks:
-                atHome = true;
-                fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, new TracksFragment(), FRAGMENT_TAG_TRACKS).commit();
-                if (getSupportActionBar() != null) {
-                    getSupportActionBar().setTitle(R.string.menu_tracks);
-                }
-                appBarLayout.setExpanded(true, true);
+                smoothActionBarToggle.runWhenIdle(new Runnable() {
+                    @Override
+                    public void run() {
+                        atHome = true;
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.content_frame, new TracksFragment(), FRAGMENT_TAG_TRACKS).commit();
+                        if (getSupportActionBar() != null) {
+                            getSupportActionBar().setTitle(R.string.menu_tracks);
+                        }
+                        appBarLayout.setExpanded(true, true);
+                    }
+                });
+
                 break;
             case R.id.nav_schedule:
-                atHome = false;
-                fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, new ScheduleFragment(), FRAGMENT_TAG_REST).commit();
-                addShadowToAppBar(false);
-                if (getSupportActionBar() != null) {
-                    getSupportActionBar().setTitle(R.string.menu_schedule);
-                }
-                appBarLayout.setExpanded(true, true);
+                smoothActionBarToggle.runWhenIdle(new Runnable() {
+                    @Override
+                    public void run() {
+                        atHome = false;
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.content_frame, new ScheduleFragment(), FRAGMENT_TAG_REST).commit();
+                        addShadowToAppBar(false);
+                        if (getSupportActionBar() != null) {
+                            getSupportActionBar().setTitle(R.string.menu_schedule);
+                        }
+                        appBarLayout.setExpanded(true, true);
+                    }
+                });
+
                 break;
             case R.id.nav_bookmarks:
-                DbSingleton dbSingleton = DbSingleton.getInstance();
-                if (!dbSingleton.isBookmarksTableEmpty()) {
-                    atHome = false;
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.content_frame, new BookmarksFragment(), FRAGMENT_TAG_REST).commit();
-                    if (getSupportActionBar() != null) {
-                        getSupportActionBar().setTitle(R.string.menu_bookmarks);
+                smoothActionBarToggle.runWhenIdle(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        DbSingleton dbSingleton = DbSingleton.getInstance();
+                        if (!dbSingleton.isBookmarksTableEmpty()) {
+                            atHome = false;
+                            fragmentManager.beginTransaction()
+                                    .replace(R.id.content_frame, new BookmarksFragment(), FRAGMENT_TAG_REST).commit();
+                            if (getSupportActionBar() != null) {
+                                getSupportActionBar().setTitle(R.string.menu_bookmarks);
+                            }
+                            appBarLayout.setExpanded(true, true);
+                        } else {
+                            DialogFactory.createSimpleActionDialog(MainActivity.this, R.string.bookmarks, R.string.empty_list, null).show();
+                            if (currentMenuItemId == R.id.nav_schedule) addShadowToAppBar(false);
+                        }
                     }
-                    appBarLayout.setExpanded(true, true);
-                } else {
-                    DialogFactory.createSimpleActionDialog(this, R.string.bookmarks, R.string.empty_list, null).show();
-                    if (currentMenuItemId == R.id.nav_schedule) addShadowToAppBar(false);
-                }
+
+                });
                 break;
             case R.id.nav_speakers:
-                atHome = false;
-                fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, new SpeakersListFragment(), FRAGMENT_TAG_REST).commit();
-                if (getSupportActionBar() != null) {
-                    getSupportActionBar().setTitle(R.string.menu_speakers);
-                }
-                appBarLayout.setExpanded(true, true);
+                smoothActionBarToggle.runWhenIdle(new Runnable() {
+                    @Override
+                    public void run() {
+                        atHome = false;
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.content_frame, new SpeakersListFragment(), FRAGMENT_TAG_REST).commit();
+                        if (getSupportActionBar() != null) {
+                            getSupportActionBar().setTitle(R.string.menu_speakers);
+                        }
+                        appBarLayout.setExpanded(true, true);
+                    }
+                });
+
                 break;
             case R.id.nav_sponsors:
-                atHome = false;
-                fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, new SponsorsFragment(), FRAGMENT_TAG_REST).commit();
-                if (getSupportActionBar() != null) {
-                    getSupportActionBar().setTitle(R.string.menu_sponsor);
-                }
-                appBarLayout.setExpanded(true, true);
+                smoothActionBarToggle.runWhenIdle(new Runnable() {
+                    @Override
+                    public void run() {
+                        atHome = false;
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.content_frame, new SponsorsFragment(), FRAGMENT_TAG_REST).commit();
+                        if (getSupportActionBar() != null) {
+                            getSupportActionBar().setTitle(R.string.menu_sponsor);
+                        }
+                        appBarLayout.setExpanded(true, true);
+                    }
+                });
+
                 break;
             case R.id.nav_locations:
-                atHome = false;
-                fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, new LocationsFragment(), FRAGMENT_TAG_REST).commit();
-                if (getSupportActionBar() != null) {
-                    getSupportActionBar().setTitle(R.string.menu_locations);
-                }
-                appBarLayout.setExpanded(true, true);
+                smoothActionBarToggle.runWhenIdle(new Runnable() {
+                    @Override
+                    public void run() {
+                        atHome = false;
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.content_frame, new LocationsFragment(), FRAGMENT_TAG_REST).commit();
+                        if (getSupportActionBar() != null) {
+                            getSupportActionBar().setTitle(R.string.menu_locations);
+                        }
+                        appBarLayout.setExpanded(true, true);
+                    }
+                });
+
                 break;
             case R.id.nav_map:
-                atHome = false;
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                smoothActionBarToggle.runWhenIdle(new Runnable() {
+                    @Override
+                    public void run() {
+                        atHome = false;
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-                fragmentTransaction.replace(R.id.content_frame,
-                        ((OpenEventApp) getApplication())
-                                .getMapModuleFactory()
-                                .provideMapModule()
-                                .provideMapFragment(), FRAGMENT_TAG_REST).commit();
-                if (getSupportActionBar() != null) {
-                    getSupportActionBar().setTitle(R.string.menu_map);
-                }
-                appBarLayout.setExpanded(true, true);
+                        fragmentTransaction.replace(R.id.content_frame,
+                                ((OpenEventApp) getApplication())
+                                        .getMapModuleFactory()
+                                        .provideMapModule()
+                                        .provideMapFragment(), FRAGMENT_TAG_REST).commit();
+                        if (getSupportActionBar() != null) {
+                            getSupportActionBar().setTitle(R.string.menu_map);
+                        }
+                        appBarLayout.setExpanded(true, true);
+                    }
+                });
+
                 break;
             case R.id.nav_settings:
                 final Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
@@ -490,43 +533,55 @@ public class MainActivity extends BaseActivity {
                 });
                 break;
             case R.id.nav_share:
-                try {
-                    Intent shareIntent = new Intent();
-                    shareIntent.setAction(Intent.ACTION_SEND);
-                    shareIntent.setType("text/plain");
-                    shareIntent.putExtra(Intent.EXTRA_TEXT,
-                            String.format(getString(R.string.whatsapp_promo_msg_template),
-                                    String.format(getString(R.string.app_share_url),getPackageName())));
-                    startActivity(shareIntent);
-                }
-                catch (Exception e) {
-                    Snackbar.make(mainFrame, getString(R.string.error_msg_retry), Snackbar.LENGTH_SHORT).show();
-                }
+                smoothActionBarToggle.runWhenIdle(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Intent shareIntent = new Intent();
+                            shareIntent.setAction(Intent.ACTION_SEND);
+                            shareIntent.setType("text/plain");
+                            shareIntent.putExtra(Intent.EXTRA_TEXT,
+                                    String.format(getString(R.string.whatsapp_promo_msg_template),
+                                            String.format(getString(R.string.app_share_url),getPackageName())));
+                            startActivity(shareIntent);
+                        }
+                        catch (Exception e) {
+                            Snackbar.make(mainFrame, getString(R.string.error_msg_retry), Snackbar.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
                 break;
             case R.id.nav_about:
-                final AlertDialog aboutUs = new AlertDialog.Builder(this)
-                        .setTitle(R.string.app_name)
-                        .setMessage(R.string.about_text)
-                        .setIcon(R.mipmap.ic_launcher)
-                        .setPositiveButton(android.R.string.ok, null)
-                        .create();
-                aboutUs.show();
-                ((TextView)aboutUs.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
-                final TextView aboutUsTV = (TextView) aboutUs.findViewById(android.R.id.message);
-                aboutUsTV.setMovementMethod(LinkMovementMethod.getInstance());
-                if (customTabsSupported) {
-                    SpannableString welcomeAlertSpannable = new SpannableString(aboutUsTV.getText());
-                    URLSpan[] spans = welcomeAlertSpannable.getSpans(0, welcomeAlertSpannable.length(), URLSpan.class);
-                    for (URLSpan span : spans) {
-                        CustomTabsSpan newSpan = new CustomTabsSpan(span.getURL(), getApplicationContext(), this,
-                                customTabsClient.newSession(new CustomTabsCallback()));
-                        welcomeAlertSpannable.setSpan(newSpan, welcomeAlertSpannable.getSpanStart(span),
-                                welcomeAlertSpannable.getSpanEnd(span),
-                                Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-                        welcomeAlertSpannable.removeSpan(span);
+                smoothActionBarToggle.runWhenIdle(new Runnable() {
+                    @Override
+                    public void run() {
+                        final AlertDialog aboutUs = new AlertDialog.Builder(MainActivity.this)
+                                .setTitle(R.string.app_name)
+                                .setMessage(R.string.about_text)
+                                .setIcon(R.mipmap.ic_launcher)
+                                .setPositiveButton(android.R.string.ok, null)
+                                .create();
+                        aboutUs.show();
+                        ((TextView)aboutUs.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
+                        final TextView aboutUsTV = (TextView) aboutUs.findViewById(android.R.id.message);
+                        aboutUsTV.setMovementMethod(LinkMovementMethod.getInstance());
+                        if (customTabsSupported) {
+                            SpannableString welcomeAlertSpannable = new SpannableString(aboutUsTV.getText());
+                            URLSpan[] spans = welcomeAlertSpannable.getSpans(0, welcomeAlertSpannable.length(), URLSpan.class);
+                            for (URLSpan span : spans) {
+                                CustomTabsSpan newSpan = new CustomTabsSpan(span.getURL(), getApplicationContext(), MainActivity.this,
+                                        customTabsClient.newSession(new CustomTabsCallback()));
+                                welcomeAlertSpannable.setSpan(newSpan, welcomeAlertSpannable.getSpanStart(span),
+                                        welcomeAlertSpannable.getSpanEnd(span),
+                                        Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+                                welcomeAlertSpannable.removeSpan(span);
+                            }
+                            aboutUsTV.setText(welcomeAlertSpannable);
+                        }
                     }
-                    aboutUsTV.setText(welcomeAlertSpannable);
-                }
+                });
+
                 break;
         }
         currentMenuItemId = menuItemId;
