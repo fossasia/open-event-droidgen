@@ -87,15 +87,22 @@ public class OSMapFragment extends Fragment {
         mapView.setMultiTouchControls(true);
 
         try{
-            int id =sharedPreferences.getInt(ConstantStrings.SESSION_MAP_ID,-1);
+            int id = sharedPreferences.getInt(ConstantStrings.SESSION_MAP_ID,-1);
             if(id != -1){
                 Session session =  DbSingleton.getInstance().getSessionById(id);
                 int location_id = session.getMicrolocation().getId();
                 Microlocation microlocation =  DbSingleton.getInstance().getMicrolocationById(location_id);
-                setDestinationLatitude(microlocation.getLatitude());
-                setDestinationLongitude(microlocation.getLongitude());
-                setDestinationName(microlocation.getName());
-            }else{
+                if (microlocation.getLatitude() == 0 && microlocation.getLongitude() == 0) {
+                    Event event = DbSingleton.getInstance().getEventDetails();
+                    setDestinationLatitude(event.getLatitude());
+                    setDestinationLongitude(event.getLongitude());
+                    setDestinationName(event.getLocationName());
+                } else {
+                    setDestinationLatitude(microlocation.getLatitude());
+                    setDestinationLongitude(microlocation.getLongitude());
+                    setDestinationName(microlocation.getName());
+                }
+            } else{
                 Event event = DbSingleton.getInstance().getEventDetails();
                 setDestinationLatitude(event.getLatitude());
                 setDestinationLongitude(event.getLongitude());
