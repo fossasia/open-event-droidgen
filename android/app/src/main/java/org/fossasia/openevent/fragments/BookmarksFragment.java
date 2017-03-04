@@ -211,7 +211,6 @@ public class BookmarksFragment extends BaseFragment implements SearchView.OnQuer
         final List<Session> filteredModelList = filter(Sessions, query.toLowerCase(Locale.getDefault()));
 
         sessionsListAdapter.animateTo(filteredModelList);
-        bookmarkedTracks.scrollToPosition(0);
 
         searchText = query;
         return false;
