@@ -215,7 +215,11 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
     public void speakerDownloadDone(SpeakerDownloadEvent event) {
         swipeRefreshLayout.setRefreshing(false);
         if (event.isState()) {
-            speakersListAdapter.refresh();
+            if (!searchView.getQuery().toString().isEmpty() && !searchView.isIconified()) {
+                speakersListAdapter.getFilter().filter(searchView.getQuery());
+            } else {
+                speakersListAdapter.refresh();
+            }
             Timber.i("Speaker download completed");
         } else {
             if (getActivity() != null) {

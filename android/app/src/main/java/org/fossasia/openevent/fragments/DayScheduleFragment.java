@@ -231,9 +231,13 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
 
         swipeRefreshLayout.setRefreshing(false);
         if (event.isState()) {
-            if (dayScheduleAdapter != null)
-                dayScheduleAdapter.refresh();
-
+            if (dayScheduleAdapter != null && searchView != null) {
+                if (!searchView.getQuery().toString().isEmpty() && !searchView.isIconified()) {
+                    dayScheduleAdapter.getFilter().filter(searchView.getQuery());
+                } else {
+                    dayScheduleAdapter.refresh();
+                }
+            }
         } else {
             if (getActivity() != null) {
                 Snackbar.make(getView(), getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, new View.OnClickListener() {
