@@ -193,6 +193,7 @@ public class MainActivity extends BaseActivity {
         setUpProgressBar();
         setUpCustomTab();
         if (NetworkUtils.haveNetworkConnection(this)) {
+
             if (NetworkUtils.isActiveInternetPresent()) {
                 //Internet is working
                 if (!sharedPreferences.getBoolean(ConstantStrings.IS_DOWNLOAD_DONE, false)) {

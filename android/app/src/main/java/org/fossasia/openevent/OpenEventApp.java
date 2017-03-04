@@ -14,13 +14,12 @@ import android.util.Log;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
-import org.fossasia.openevent.receivers.NetworkConnectivityChangeReceiver;
 import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.ConnectionCheckEvent;
-import org.fossasia.openevent.events.DataDownloadEvent;
 import org.fossasia.openevent.events.ShowNetworkDialogEvent;
 import org.fossasia.openevent.modules.MapModuleFactory;
+import org.fossasia.openevent.receivers.NetworkConnectivityChangeReceiver;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -120,7 +119,6 @@ public class OpenEventApp extends Application {
     @Subscribe
     public void onConnectionChangeReact(ConnectionCheckEvent event) {
         if (event.connState()) {
-            postEventOnUIThread(new DataDownloadEvent());
             Timber.d("[NetNotif] %s", "Connected to Internet");
         } else {
             Timber.d("[NetNotif] %s", "Not connected to Internet");
