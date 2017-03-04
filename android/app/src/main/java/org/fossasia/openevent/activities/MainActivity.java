@@ -395,6 +395,12 @@ public class MainActivity extends BaseActivity {
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         int id = menuItem.getItemId();
                         doMenuAction(id);
+
+                        DbSingleton dbSingleton = DbSingleton.getInstance();
+                        if (id == R.id.nav_bookmarks && dbSingleton.isBookmarksTableEmpty()){
+                            return false;
+                        }
+                        // to ensure bookmarks is not shown clicked if at all there are no bookmarks
                         return true;
                     }
                 });
