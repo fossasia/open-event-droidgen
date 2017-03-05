@@ -21,6 +21,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,7 +31,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.fossasia.openevent.OpenEventApp;
-
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.SpeakersListAdapter;
 import org.fossasia.openevent.data.Session;
@@ -46,6 +46,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import timber.log.Timber;
+
+import static android.text.Html.FROM_HTML_MODE_LEGACY;
 
 /**
  * User: MananWason
@@ -192,12 +194,16 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
             Timber.d(date+"\n"+endTime+"\n"+startTime);
 
         }
-        summary.setText(session.getSummary());
+
+        summary.setMovementMethod(LinkMovementMethod.getInstance());
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            result = Html.fromHtml(session.getDescription(), Html.FROM_HTML_MODE_LEGACY);
+            result = Html.fromHtml(session.getDescription(), FROM_HTML_MODE_LEGACY);
+            summary.setText(Html.fromHtml(session.getSummary(), FROM_HTML_MODE_LEGACY));
         } else {
             result = Html.fromHtml(session.getDescription());
+            summary.setText(Html.fromHtml(session.getSummary()));
+
         }
         descrip.setText(result);
 
