@@ -101,7 +101,7 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakersListAdap
                 .into(holder.speakerImage);
 
         holder.speakerName.setText(TextUtils.isEmpty(current.getName()) ? "" : current.getName());
-        holder.speakerDesignation.setText(String.format("%s%s", current.getPosition(), current.getOrganisation()));
+        holder.speakerDesignation.setText(String.format("%s %s", current.getPosition(), current.getOrganisation()));
         holder.speakerCountry.setText(String.format("%s", current.getCountry()));
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

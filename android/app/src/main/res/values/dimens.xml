@@ -2,7 +2,7 @@
     <dimen name="main_menu_item_height">48dp</dimen>
     <dimen name="detail_backdrop_height">256dp</dimen>
     <dimen name="heading_gap">16dp</dimen>
-    <dimen name="social_image_icon">20dp</dimen>
+    <dimen name="social_image_icon">30dp</dimen>
     <item name="body_1_spacing" format="float" type="dimen">1.22448979592</item>
     <dimen name="content_detail_margin">64dp</dimen>
     <dimen name="content_name_margin">50dp</dimen>
