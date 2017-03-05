@@ -18,6 +18,18 @@ cp -Rf $HOME/daily/*  ./
 mv app-fdroid-debug.apk sample-apk-${TRAVIS_BRANCH}.apk
 echo $TRAVIS_COMMIT > meta/deployment/commit_hash
 echo $TRAVIS_BRANCH > meta/deployment/branch
+
+# Create a new branch that will contains only latest apk
+git checkout --orphan latest-apk-only
+
+# Add generated APKs.
 git add -f .
 git commit -m "Update Sample Apk generated from $TRAVIS_BRANCH branch."
-git push origin apk > /dev/null
+
+# Delete current apk branch
+git branch -D apk
+# Rename current branch to apk
+git branch -m apk
+
+# Force push to origin since histories are unrelated
+git push origin apk --force > /dev/null
