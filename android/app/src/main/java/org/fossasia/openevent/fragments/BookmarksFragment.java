@@ -1,6 +1,7 @@
 package org.fossasia.openevent.fragments;
 
 import android.content.DialogInterface;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -43,6 +44,8 @@ public class BookmarksFragment extends BaseFragment implements SearchView.OnQuer
     private final String FRAGMENT_TAG = "FTAG";
     final private String SEARCH = "org.fossasia.openevent.searchText";
     SessionsListAdapter sessionsListAdapter;
+
+    private GridLayoutManager gridLayoutManager;
 
     private static final int bookmarkedSessionList =3;
 
@@ -124,7 +127,7 @@ public class BookmarksFragment extends BaseFragment implements SearchView.OnQuer
             sessionsListAdapter.addItem(i, session);
         }
         bookmarkedTracks.setAdapter(sessionsListAdapter);
-        final GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),spanCount);
+        gridLayoutManager = new GridLayoutManager(getActivity(), spanCount);
         bookmarkedTracks.setLayoutManager(gridLayoutManager);
         bookmarkedTracks.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
@@ -187,6 +190,15 @@ public class BookmarksFragment extends BaseFragment implements SearchView.OnQuer
         if (searchText != null) {
             searchView.setQuery(searchText, false);
         }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
+        float width = displayMetrics.widthPixels / displayMetrics.density;
+        int spanCount = (int) (width / 250.00);
+        gridLayoutManager.setSpanCount(spanCount);
     }
 
     @Override

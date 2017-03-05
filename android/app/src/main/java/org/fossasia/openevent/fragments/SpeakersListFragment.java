@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -62,6 +63,8 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
 
     private SpeakersListAdapter speakersListAdapter;
 
+    private GridLayoutManager gridLayoutManager;
+
     private String searchText = "";
 
     private SearchView searchView;
@@ -97,7 +100,7 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
         speakersRecyclerView.setHasFixedSize(true);
         speakersListAdapter = new SpeakersListAdapter(mSpeakers, getActivity());
         speakersRecyclerView.setAdapter(speakersListAdapter);
-        final GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),spanCount);
+        gridLayoutManager = new GridLayoutManager(getActivity(), spanCount);
         speakersRecyclerView.setLayoutManager(gridLayoutManager);
         speakersRecyclerView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
@@ -209,6 +212,15 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
         searchView = (SearchView) MenuItemCompat.getActionView(item);
         searchView.setOnQueryTextListener(this);
         searchView.setQuery(searchText, false);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
+        float width = displayMetrics.widthPixels / displayMetrics.density;
+        int spanCount = (int) (width / 150.00);
+        gridLayoutManager.setSpanCount(spanCount);
     }
 
     @Subscribe
