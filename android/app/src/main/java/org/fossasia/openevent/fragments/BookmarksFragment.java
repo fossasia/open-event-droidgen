@@ -25,6 +25,7 @@ import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.SessionsListAdapter;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.utils.BookmarksListChangeListener;
 import org.fossasia.openevent.widget.DialogFactory;
 
 import java.text.ParseException;
@@ -126,6 +127,12 @@ public class BookmarksFragment extends BaseFragment implements SearchView.OnQuer
             Session session = dbSingleton.getSessionById(id);
             sessionsListAdapter.addItem(i, session);
         }
+        sessionsListAdapter.setBookmarksListChangeListener(new BookmarksListChangeListener() {
+            @Override
+            public void onChange() {
+                onResume();
+            }
+        });
         bookmarkedTracks.setAdapter(sessionsListAdapter);
         gridLayoutManager = new GridLayoutManager(getActivity(), spanCount);
         bookmarkedTracks.setLayoutManager(gridLayoutManager);
