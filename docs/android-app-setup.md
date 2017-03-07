@@ -28,6 +28,14 @@ Before you begin, you should already have the Android Studio SDK downloaded and 
 
 7. If the app was built succesfully, you can test it by running it on either a real device or an emulated one by going to _Run>Run 'app'_ or presing the Run icon in the toolbar.
 
+### Configuring Google Maps
+
+To use maps in GooglePlay flavor of the app you need to get an `Google Maps Android API` from [Google API Console](https://console.developers.google.com/apis/library).  
+Once you get the key save the key in `android/app/src/googleplay/res/values/google_play.xml`.  
+Replace the "`ADD MAP API KEY HERE`" with the API key.  
+
+Note - Remember not to upload this file after this process.
+
 ### Configuring the app
 
 The configuration file named [config.json](https://github.com/fossasia/open-event-android/blob/development/android/app/src/main/assets/config.json) is located inside the assets folder of the Android Source code and contains details like : 
