@@ -88,18 +88,14 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
         holder.startTime.setText(startTime);
         holder.endTime.setText(endTime);
         holder.slotTitle.setText(currentSession.getTitle());
-        if(currentSession.getDescription().isEmpty()){
+        if (currentSession.getSummary().isEmpty()) {
             holder.slotDescription.setVisibility(View.GONE);
-        }else {
-
-            Spanned result;
+        } else {
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                result = Html.fromHtml(currentSession.getDescription(), Html.FROM_HTML_MODE_LEGACY);
+                holder.slotDescription.setText(Html.fromHtml(currentSession.getSummary(), Html.FROM_HTML_MODE_LEGACY));
             } else {
-                result = Html.fromHtml(currentSession.getDescription());
+                holder.slotDescription.setText(Html.fromHtml(currentSession.getSummary()));
             }
-
-            holder.slotDescription.setText(result);
         }
         holder.slotLocation.setText(currentSession.getMicrolocation().getName().toString());
 
