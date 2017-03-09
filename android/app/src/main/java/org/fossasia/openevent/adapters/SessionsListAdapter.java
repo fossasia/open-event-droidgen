@@ -251,7 +251,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
                 String endTime = ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(session.getEndTime()));
                 StringBuilder shareText = new StringBuilder();
                 shareText.append(String.format("Session Track: %s \nTitle: %s \nStart Time: %s \nEnd Time: %s\n",
-                        trackName, session.getTitle(), startTime, endTime));
+                        session.getTrack().getName(), session.getTitle(), startTime, endTime));
                 if (!session.getSummary().toString().isEmpty()){
                     shareText.append("\nSummary: ").append(session.getSummary().toString());
                 }
