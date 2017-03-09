@@ -15,6 +15,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -251,9 +252,9 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
                 String endTime = ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(session.getEndTime()));
                 StringBuilder shareText = new StringBuilder();
                 shareText.append(String.format("Session Track: %s \nTitle: %s \nStart Time: %s \nEnd Time: %s\n",
-                        trackName, session.getTitle(), startTime, endTime));
+                        session.getTrack().getName(), session.getTitle(), startTime, endTime));
                 if (!session.getSummary().toString().isEmpty()){
-                    shareText.append("\nSummary: ").append(session.getSummary().toString());
+                    shareText.append("\nSummary: ").append(Html.fromHtml(session.getSummary().toString()));
                 }
                 else{
                     shareText.append(context.getString(R.string.descriptionEmpty));
