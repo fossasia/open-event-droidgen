@@ -44,9 +44,12 @@ import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.SpeakerIntent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 
 /**
  * Created by MananWason on 30-06-2015.
@@ -59,9 +62,7 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
 
     private Speaker selectedSpeaker;
 
-    private List<Session> mSessions;
-
-    private String speaker;
+    private List<Session> mSessions = new ArrayList<>();
 
     private CustomTabsClient customTabsClient;
 
@@ -94,14 +95,70 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
         super.onCreate(savedInstanceState);
 
         final DbSingleton dbSingleton = DbSingleton.getInstance();
-        speaker = getIntent().getStringExtra(Speaker.SPEAKER);
+        String speaker = getIntent().getStringExtra(Speaker.SPEAKER);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if(getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         collapsingToolbarLayout.setTitle(" ");
-        selectedSpeaker = dbSingleton.getSpeakerbySpeakersname(speaker);
+
+        dbSingleton.getSpeakerbySpeakersnameObservable(speaker)
+                .subscribe(new Consumer<Speaker>() {
+                    @Override
+                    public void accept(@NonNull Speaker speaker) throws Exception {
+                        selectedSpeaker = speaker;
+                        loadSpeakerDetails();
+                    }
+                });
 
         appBarLayout.addOnOffsetChangedListener(this);
 
+        DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
+        float width = displayMetrics.widthPixels / displayMetrics.density;
+        int spanCount = (int) (width / 250.00);
+
+        sessionRecyclerView.setHasFixedSize(true);
+        gridLayoutManager = new GridLayoutManager(this, spanCount);
+        sessionRecyclerView.setLayoutManager(gridLayoutManager);
+
+        sessionsListAdapter = new SessionsListAdapter(this, mSessions, spearkerWiseSessionList);
+        sessionRecyclerView.setNestedScrollingEnabled(false);
+        sessionRecyclerView.setAdapter(sessionsListAdapter);
+        sessionRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        dbSingleton.getSessionbySpeakersNameObservable(speaker)
+                .subscribe(new Consumer<ArrayList<Session>>() {
+                    @Override
+                    public void accept(@NonNull ArrayList<Session> sessions) throws Exception {
+                        mSessions.addAll(sessions);
+
+                        sessionsListAdapter.notifyDataSetChanged();
+                        handleVisibility();
+                    }
+                });
+
+        handleVisibility();
+    }
+
+    @Override
+    protected int getLayoutResource() {
+        return R.layout.activity_speakers;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle bundle) {
+        super.onSaveInstanceState(bundle);
+    }
+
+    private void handleVisibility() {
+        if (!mSessions.isEmpty()) {
+            noSessionsView.setVisibility(View.GONE);
+            sessionRecyclerView.setVisibility(View.VISIBLE);
+        } else {
+            noSessionsView.setVisibility(View.VISIBLE);
+            sessionRecyclerView.setVisibility(View.GONE);
+        }
+    }
+
+    private void loadSpeakerDetails() {
         loadSpeakerImage();
 
         speakerName.setText(selectedSpeaker.getName());
@@ -161,37 +218,6 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
 
         biography.setText(Html.fromHtml(selectedSpeaker.getShortBiography()));
         biography.setMovementMethod(LinkMovementMethod.getInstance());
-
-        DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
-        float width = displayMetrics.widthPixels / displayMetrics.density;
-        int spanCount = (int) (width / 250.00);
-
-        sessionRecyclerView.setHasFixedSize(true);
-        gridLayoutManager = new GridLayoutManager(this, spanCount);
-        sessionRecyclerView.setLayoutManager(gridLayoutManager);
-
-        mSessions = dbSingleton.getSessionbySpeakersName(speaker);
-        sessionsListAdapter = new SessionsListAdapter(this, mSessions,spearkerWiseSessionList);
-        sessionRecyclerView.setNestedScrollingEnabled(false);
-        sessionRecyclerView.setAdapter(sessionsListAdapter);
-        sessionRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        if (!mSessions.isEmpty()) {
-            noSessionsView.setVisibility(View.GONE);
-            sessionRecyclerView.setVisibility(View.VISIBLE);
-        } else {
-            noSessionsView.setVisibility(View.VISIBLE);
-            sessionRecyclerView.setVisibility(View.GONE);
-        }
-    }
-
-    @Override
-    protected int getLayoutResource() {
-        return R.layout.activity_speakers;
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle bundle) {
-        super.onSaveInstanceState(bundle);
     }
 
     private static int getDarkColor(int color) {

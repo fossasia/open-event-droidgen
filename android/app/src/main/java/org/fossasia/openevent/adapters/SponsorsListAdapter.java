@@ -24,10 +24,13 @@ import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Sponsor;
 import org.fossasia.openevent.dbutils.DbSingleton;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
 /**
@@ -93,32 +96,38 @@ public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, RecyclerView.Vie
 
             sponsorViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
-                    List<Sponsor> objects = DbSingleton.getInstance().getSponsorList();
-                    Sponsor sponsor = objects.get(sponsorViewHolder.getAdapterPosition());
-                    String sponsorUrl = sponsor.getUrl();
-                    if (!sponsorUrl.startsWith("http") && !sponsorUrl.startsWith("https")) {
-                        sponsorUrl = "http://" + sponsorUrl;
-                    }
-                    if (Patterns.WEB_URL.matcher(sponsorUrl).matches()) {
-                        if (customTabsSupported) {
-                            CustomTabsIntent.Builder customTabsBuilder = new CustomTabsIntent.Builder();
+                public void onClick(final View view) {
+                    DbSingleton.getInstance().getSponsorListObservable()
+                            .subscribe(new Consumer<ArrayList<Sponsor>>() {
+                                @Override
+                                public void accept(@NonNull ArrayList<Sponsor> sponsors) throws Exception {
+                                    Sponsor sponsor = sponsors.get(sponsorViewHolder.getAdapterPosition());
+                                    String sponsorUrl = sponsor.getUrl();
+                                    if (!sponsorUrl.startsWith("http") && !sponsorUrl.startsWith("https")) {
+                                        sponsorUrl = "http://" + sponsorUrl;
+                                    }
+                                    if (Patterns.WEB_URL.matcher(sponsorUrl).matches()) {
+                                        if (customTabsSupported) {
+                                            CustomTabsIntent.Builder customTabsBuilder = new CustomTabsIntent.Builder();
 
-                            customTabsBuilder.setToolbarColor(ContextCompat.getColor(context, R.color.color_primary));
-                            customTabsBuilder.setCloseButtonIcon(BitmapFactory.decodeResource(context.getResources(),R.drawable.ic_arrow_back_white_cct_24dp));
-                            customTabsBuilder.setStartAnimations(context, R.anim.slide_in_right, R.anim.slide_out_left);
-                            customTabsBuilder.setExitAnimations(context, R.anim.slide_in_left, R.anim.slide_out_right);
+                                            customTabsBuilder.setToolbarColor(ContextCompat.getColor(context, R.color.color_primary));
+                                            customTabsBuilder.setCloseButtonIcon(BitmapFactory.decodeResource(context.getResources(),R.drawable.ic_arrow_back_white_cct_24dp));
+                                            customTabsBuilder.setStartAnimations(context, R.anim.slide_in_right, R.anim.slide_out_left);
+                                            customTabsBuilder.setExitAnimations(context, R.anim.slide_in_left, R.anim.slide_out_right);
 
-                            CustomTabsIntent customTabsIntent = customTabsBuilder.build();
-                            customTabsIntent.launchUrl(activity, Uri.parse(sponsorUrl));
-                        } else {
-                            Intent sponsorsIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(sponsorUrl));
-                            context.startActivity(sponsorsIntent);
-                        }
-                    } else {
-                        Snackbar.make(v, R.string.invalid_url, Snackbar.LENGTH_LONG).show();
-                        Timber.d(sponsorUrl);
-                    }
+                                            CustomTabsIntent customTabsIntent = customTabsBuilder.build();
+                                            customTabsIntent.launchUrl(activity, Uri.parse(sponsorUrl));
+                                        } else {
+                                            Intent sponsorsIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(sponsorUrl));
+                                            context.startActivity(sponsorsIntent);
+                                        }
+                                    } else {
+                                        Snackbar.make(view, R.string.invalid_url, Snackbar.LENGTH_LONG).show();
+                                        Timber.d(sponsorUrl);
+                                    }
+                                }
+                            });
+
                 }
             });
         } else if (holder instanceof CategoryViewHolder) {
@@ -130,7 +139,13 @@ public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, RecyclerView.Vie
 
     public void refresh() {
         clear();
-        animateTo(DbSingleton.getInstance().getSponsorList());
+        DbSingleton.getInstance().getSponsorListObservable()
+                .subscribe(new Consumer<ArrayList<Sponsor>>() {
+                    @Override
+                    public void accept(@NonNull ArrayList<Sponsor> sponsors) throws Exception {
+                        animateTo(sponsors);
+                    }
+                });
     }
 
     @Override

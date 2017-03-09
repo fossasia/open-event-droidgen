@@ -26,6 +26,8 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
 import static org.fossasia.openevent.utils.SortOrder.sortOrderSpeaker;
@@ -117,7 +119,13 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakersListAdap
 
     public void refresh() {
         clear();
-        animateTo(DbSingleton.getInstance().getSpeakerList(sortOrderSpeaker(activity)));
+        DbSingleton.getInstance().getSpeakerListObservable(sortOrderSpeaker(activity))
+                .subscribe(new Consumer<List<Speaker>>() {
+                    @Override
+                    public void accept(@NonNull List<Speaker> speakers) throws Exception {
+                        animateTo(speakers);
+                    }
+                });
     }
 
     protected class RecyclerViewHolder extends RecyclerView.ViewHolder {

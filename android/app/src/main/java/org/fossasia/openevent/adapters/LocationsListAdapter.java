@@ -22,6 +22,8 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
 /**
@@ -98,7 +100,13 @@ public class LocationsListAdapter extends BaseRVAdapter<Microlocation, Locations
 
     public void refresh() {
         clear();
-        animateTo(DbSingleton.getInstance().getMicrolocationsList());
+        DbSingleton.getInstance().getMicrolocationsListObservable()
+                .subscribe(new Consumer<ArrayList<Microlocation>>() {
+                    @Override
+                    public void accept(@NonNull ArrayList<Microlocation> microlocations) throws Exception {
+                        animateTo(microlocations);
+                    }
+                });
     }
 
     protected class LocationViewHolder extends RecyclerView.ViewHolder {
