@@ -24,8 +24,8 @@ public class Speaker {
 
     private String photo;
 
-    @SerializedName("long_biography")
-    private String bio;
+    @SerializedName("short_biography")
+    private String shortBiography;
 
     private String email;
 
@@ -55,8 +55,8 @@ public class Speaker {
                    String position, int[] session, String country) {
         this.id = id;
         this.name = name;
-        this.photo = Urls.BASE_URL + photo;
-        this.bio = bio;
+        this.photo = photo;
+        this.shortBiography = bio;
         this.email = email;
         this.website = web;
         this.twitter = twitter;
@@ -92,12 +92,12 @@ public class Speaker {
         this.photo = photo;
     }
 
-    public String getBio() {
-        return bio;
+    public String getShortBiography() {
+        return shortBiography;
     }
 
-    public void setBio(String bio) {
-        this.bio = bio;
+    public void setShortBiography(String shortBiography) {
+        this.shortBiography = shortBiography;
     }
 
     public String getEmail() {
@@ -188,7 +188,7 @@ public class Speaker {
                 id,
                 DatabaseUtils.sqlEscapeString(StringUtils.optionalString(name)),
                 DatabaseUtils.sqlEscapeString(StringUtils.optionalString(photo)),
-                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(bio)),
+                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(shortBiography)),
                 DatabaseUtils.sqlEscapeString(StringUtils.optionalString(email)),
                 DatabaseUtils.sqlEscapeString(StringUtils.optionalString(website)),
                 DatabaseUtils.sqlEscapeString(StringUtils.optionalString(facebook)),

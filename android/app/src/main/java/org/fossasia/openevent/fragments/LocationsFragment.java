@@ -1,5 +1,6 @@
 package org.fossasia.openevent.fragments;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.Snackbar;
@@ -45,6 +46,8 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
 
     private LocationsListAdapter locationsListAdapter;
 
+    private GridLayoutManager gridLayoutManager;
+
     private String searchText = "";
 
     private SearchView searchView;
@@ -76,7 +79,7 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
         int spanCount = (int) (width/200.00);
 
         locationsRecyclerView.setHasFixedSize(true);
-        final GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),spanCount);
+        gridLayoutManager = new GridLayoutManager(getActivity(), spanCount);
         locationsRecyclerView.setLayoutManager(gridLayoutManager);
         locationsListAdapter = new LocationsListAdapter(getContext(), dbSingleton.getMicrolocationsList());
         locationsRecyclerView.setAdapter(locationsListAdapter);
@@ -162,6 +165,15 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
         searchView.setOnQueryTextListener(this);
         searchView.setQuery(searchText, false);
 
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
+        float width = displayMetrics.widthPixels / displayMetrics.density;
+        int spanCount = (int) (width / 200.00);
+        gridLayoutManager.setSpanCount(spanCount);
     }
 
     @Override

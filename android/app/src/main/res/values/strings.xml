@@ -6,6 +6,7 @@
     <string name="title_section_location">Locations</string>
     <string name="item_track">This is a track symbol.</string>
     <string name="session_bookmark_status">This image shows the session bookmark status.</string>
+    <string name="session_speaker_icon">This is the speaker icon.</string>
     <string name="session_share_icon">This is the share icon.</string>
     <string name="session_calender_icon">This is a calender icon.</string>
     <string name="session_clock_icon">This is a clock icon.</string>
@@ -140,7 +141,7 @@
     <string name="start_time">Start Time:</string>
     <string name="end_time">End Time:</string>
     <string name="location">Location:</string>
-    <string name="speakers">Speaker:</string>
+    <string name="speakers">Speaker</string>
 
     <!-- Sponsor types strings-->
     <string name="platinum">Platinum</string>

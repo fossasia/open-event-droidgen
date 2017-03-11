@@ -365,7 +365,8 @@ public class MainActivity extends BaseActivity {
     private void syncComplete() {
         downloadProgress.setVisibility(View.GONE);
         Event currentEvent = DbSingleton.getInstance().getEventDetails();
-        getDaysBetweenDates(ISO8601Date.getDateObject(currentEvent.getStart()), ISO8601Date.getDateObject(currentEvent.getEnd()));
+        if (currentEvent != null)
+            getDaysBetweenDates(ISO8601Date.getDateObject(currentEvent.getStart()), ISO8601Date.getDateObject(currentEvent.getEnd()));
 
         Bus bus = OpenEventApp.getEventBus();
         bus.post(new RefreshUiEvent());
@@ -407,6 +408,11 @@ public class MainActivity extends BaseActivity {
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         int id = menuItem.getItemId();
                         doMenuAction(id);
+                        DbSingleton dbSingleton = DbSingleton.getInstance();
+                        if (id == R.id.nav_bookmarks && dbSingleton.isBookmarksTableEmpty()){
+                            return false;
+                        }
+                        // to ensure bookmarks is not shown clicked if at all there are no bookmarks
                         return true;
                     }
                 });

@@ -17,10 +17,10 @@ public class Version {
     @SerializedName("event_ver")
     private int eventVer;
 
-    @SerializedName("microlcations_ver")
+    @SerializedName("microlocations_ver")
     private int microlocationsVer;
 
-    @SerializedName("session_ver")
+    @SerializedName("sessions_ver")
     private int sessionVer;
 
     @SerializedName("sponsors_ver")

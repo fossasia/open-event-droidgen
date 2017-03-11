@@ -2,6 +2,7 @@ package org.fossasia.openevent.api.processor;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.data.Session;
+import org.fossasia.openevent.data.parsingExtra.Microlocation;
 import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.SessionDownloadEvent;
@@ -33,6 +34,9 @@ public class SessionListResponseProcessor implements Callback<List<Session>> {
                     ArrayList<String> queries = new ArrayList<String>();
                     for (int i = 0; i < response.body().size(); i++) {
                         Session session = response.body().get(i);
+                        if(session.getMicrolocation() == null){
+                            session.setMicrolocation(new Microlocation(0,""));
+                        }
                         session.setStartDate(session.getStartTime().split("T")[0]);
                         String query = session.generateSql();
                         queries.add(query);

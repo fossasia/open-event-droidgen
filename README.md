@@ -32,12 +32,15 @@ A sample app for testing purposes is automatically built after commits in the re
 
 ### Screenshots of a sample Android app
 
-<img src="docs/screenshots/device-2017-02-24-TracksActivity.png" height = '480' width="270">
-<img src="docs/screenshots/device-2017-02-24-ScheduleFragment.png" height = '480' width="270">
-<img src="docs/screenshots/device-2017-02-24-SpeakersFragment.png" height = '480' width="270">
-<img src="docs/screenshots/device-2017-02-24-LocationFragment.png" height = '480' width="270">
-<img src="docs/screenshots/device-2017-02-24-LocationSessionActivity.png" height = '480' width="270">
-<img src="docs/screenshots/device-2017-02-24-SessionDetailActivity.png" height = '480' width="270">
+<img src="https://cloud.githubusercontent.com/assets/17262180/23652908/96d8b274-0350-11e7-88c9-339987c09929.png" height = '480' width="270">
+<img src="https://cloud.githubusercontent.com/assets/17262180/23652918/9d538520-0350-11e7-991b-39111bf62045.png" height = '480' width="270">
+<img src="https://cloud.githubusercontent.com/assets/17262180/23652925/a13478a2-0350-11e7-8261-84e4e8c170e3.png" height = '480' width="270">
+<img src="https://cloud.githubusercontent.com/assets/17262180/23652949/b9317342-0350-11e7-98cd-f9ee70b0c0ff.png" height = '480' width="270">
+<img src="https://cloud.githubusercontent.com/assets/17262180/23652963/c16b8dea-0350-11e7-8ea1-d6af95f87529.png" height = '480' width="270">
+<img src="https://cloud.githubusercontent.com/assets/17262180/23652968/c9f248e6-0350-11e7-9b43-3eea45388362.png" height = '480' width="270">
+<img src="https://cloud.githubusercontent.com/assets/17262180/23652981/d77d07e4-0350-11e7-84e0-f32292262029.png" height = '480' width="270">
+<img src="https://cloud.githubusercontent.com/assets/17262180/23652992/dd859584-0350-11e7-813a-fe6eafd4a133.png" height = '480' width="270">
+<img src="https://cloud.githubusercontent.com/assets/17262180/23680497/6fe02358-03b1-11e7-8e63-32eb53a4dff2.png" height = '480' width="270">
 
 ### Android App Development Set up
 
@@ -124,6 +127,9 @@ We have the following branches
 
 ## Code Style
 For contributions please read the [CODESTYLE](docs/codestyle.md) carefully. Pull requests that do not match the style will be rejected.
+
+## Commit Style
+For writing commit messages please read the [COMMITSTYLE](docs/commitstyle.md) carefully. Kindly adhere to the guidelines. Pull requests not matching the style will be rejected.  
 
 ## License
 This project is licensed under the GNU General Public License v3. A copy of [LICENSE](LICENSE.md) is to be present along with the source code. To obtain the software under a different license, please contact FOSSASIA.

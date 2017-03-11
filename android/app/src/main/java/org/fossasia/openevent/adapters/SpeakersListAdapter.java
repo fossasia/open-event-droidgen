@@ -17,7 +17,6 @@ import com.squareup.picasso.Picasso;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.activities.SpeakerDetailsActivity;
-import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.dbutils.DbSingleton;
 
@@ -92,7 +91,8 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakersListAdap
     public void onBindViewHolder(RecyclerViewHolder holder, final int position) {
         final Speaker current = getItem(position);
 
-        String photoUri = Urls.getBaseUrl() + current.getPhoto();
+        String photoUri = current.getPhoto();
+
         Uri uri = Uri.parse(photoUri);
 
         Picasso.with(holder.speakerImage.getContext())
@@ -101,7 +101,7 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakersListAdap
                 .into(holder.speakerImage);
 
         holder.speakerName.setText(TextUtils.isEmpty(current.getName()) ? "" : current.getName());
-        holder.speakerDesignation.setText(String.format("%s%s", current.getPosition(), current.getOrganisation()));
+        holder.speakerDesignation.setText(String.format("%s %s", current.getPosition(), current.getOrganisation()));
         holder.speakerCountry.setText(String.format("%s", current.getCountry()));
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

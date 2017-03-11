@@ -205,8 +205,11 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
         if(swipeRefreshLayout!=null)
             swipeRefreshLayout.setRefreshing(false);
         if (event.isState()) {
-            tracksListAdapter.refresh();
-
+            if (!searchView.getQuery().toString().isEmpty() && !searchView.isIconified()) {
+                tracksListAdapter.getFilter().filter(searchView.getQuery());
+            } else {
+                tracksListAdapter.refresh();
+            }
         } else {
             if (getActivity() != null) {
                 Snackbar.make(windowFrame, getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, new View.OnClickListener() {

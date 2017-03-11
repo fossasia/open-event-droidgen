@@ -1,5 +1,6 @@
 package org.fossasia.openevent.activities;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -12,7 +13,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.fossasia.openevent.R;
-import org.fossasia.openevent.adapters.LocationsListAdapter;
 import org.fossasia.openevent.adapters.SessionsListAdapter;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.dbutils.DbSingleton;
@@ -34,7 +34,10 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
 
     private SessionsListAdapter sessionsListAdapter;
 
+    private GridLayoutManager gridLayoutManager;
+
     private List<Session> mSessions;
+    private static final int locationWiseSessionList = 1;
 
     @BindView(R.id.recyclerView_locations) RecyclerView sessionRecyclerView;
     @BindView(R.id.txt_no_sessions) TextView noSessionsView;
@@ -75,11 +78,11 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
         int spanCount = (int) (width/250.00);
 
         sessionRecyclerView.setHasFixedSize(true);
-        final GridLayoutManager gridLayoutManager = new GridLayoutManager(this,spanCount);
+        gridLayoutManager = new GridLayoutManager(this, spanCount);
         sessionRecyclerView.setLayoutManager(gridLayoutManager);
-        sessionsListAdapter = new SessionsListAdapter(this, mSessions);
+        sessionsListAdapter = new SessionsListAdapter(this, mSessions,locationWiseSessionList);
         sessionRecyclerView.setAdapter(sessionsListAdapter);
-        sessionRecyclerView.scrollToPosition(LocationsListAdapter.listPosition);
+        sessionRecyclerView.scrollToPosition(SessionsListAdapter.listPosition);
         sessionRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         if (!mSessions.isEmpty()) {
@@ -112,6 +115,15 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
         searchView.setOnQueryTextListener(this);
         searchView.setQuery(searchText, false);
         return true;
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
+        float width = displayMetrics.widthPixels / displayMetrics.density;
+        int spanCount = (int) (width / 250.00);
+        gridLayoutManager.setSpanCount(spanCount);
     }
 
     @Override

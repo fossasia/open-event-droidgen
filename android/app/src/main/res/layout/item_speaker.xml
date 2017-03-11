@@ -21,7 +21,7 @@
         android:layout_gravity="bottom"
         android:background="?colorPrimaryDark"
         android:alpha="0.8"
-        android:padding="@dimen/padding_small">
+        android:padding="@dimen/padding_extra_small">
 
         <TextView
             android:id="@+id/speakers_list_name"
@@ -30,7 +30,7 @@
             android:gravity="center"
             android:maxLines="2"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/text_size"
+            android:textSize="@dimen/text_size_small"
             tools:ignore="SpUsage"
             tools:text="Paresh Mayani" />
 
@@ -41,7 +41,7 @@
             android:gravity="center"
             android:maxLines="2"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/text_size"
+            android:textSize="@dimen/text_size_small"
             tools:ignore="SpUsage"
             tools:text="Technical Lead" />
 
@@ -52,7 +52,7 @@
             android:gravity="center"
             android:maxLines="2"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/text_size"
+            android:textSize="@dimen/text_size_small"
             tools:ignore="SpUsage"
             tools:text="India" />
 

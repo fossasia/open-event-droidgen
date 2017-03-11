@@ -3,6 +3,7 @@ package org.fossasia.openevent.activities;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -19,12 +20,13 @@ import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -53,6 +55,8 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
 
     private SessionsListAdapter sessionsListAdapter;
 
+    private GridLayoutManager gridLayoutManager;
+
     private Speaker selectedSpeaker;
 
     private List<Session> mSessions;
@@ -63,7 +67,9 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
 
     private CustomTabsServiceConnection customTabsServiceConnection;
 
-    private boolean isHideToolbarView = true;
+    private boolean isHideToolbarView = false;
+
+    private static final int spearkerWiseSessionList = 2;
 
     @BindView(R.id.toolbar_speakers) Toolbar toolbar;
     @BindView(R.id.txt_no_sessions) TextView noSessionsView;
@@ -99,7 +105,7 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
         loadSpeakerImage();
 
         speakerName.setText(selectedSpeaker.getName());
-        speakerDesignation.setText(String.format("%s%s", selectedSpeaker.getPosition(), selectedSpeaker.getOrganisation()));
+        speakerDesignation.setText(String.format("%s %s", selectedSpeaker.getPosition(), selectedSpeaker.getOrganisation()));
 
         boolean customTabsSupported;
         Intent customTabIntent = new Intent("android.support.customtabs.action.CustomTabsService");
@@ -153,13 +159,20 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
             website.setVisibility(View.GONE);
         }
 
-        biography.setText(Html.fromHtml(selectedSpeaker.getBio()));
+        biography.setText(Html.fromHtml(selectedSpeaker.getShortBiography()));
         biography.setMovementMethod(LinkMovementMethod.getInstance());
 
+        DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
+        float width = displayMetrics.widthPixels / displayMetrics.density;
+        int spanCount = (int) (width / 250.00);
+
+        sessionRecyclerView.setHasFixedSize(true);
+        gridLayoutManager = new GridLayoutManager(this, spanCount);
+        sessionRecyclerView.setLayoutManager(gridLayoutManager);
+
         mSessions = dbSingleton.getSessionbySpeakersName(speaker);
-        sessionsListAdapter = new SessionsListAdapter(this, mSessions);
+        sessionsListAdapter = new SessionsListAdapter(this, mSessions,spearkerWiseSessionList);
         sessionRecyclerView.setNestedScrollingEnabled(false);
-        sessionRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         sessionRecyclerView.setAdapter(sessionsListAdapter);
         sessionRecyclerView.setItemAnimator(new DefaultItemAnimator());
         if (!mSessions.isEmpty()) {
@@ -202,11 +215,9 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
                 Palette.Swatch swatch = palette.getDarkVibrantSwatch();
 
                 int backgroundColor = ContextCompat.getColor(context, R.color.color_primary);
-                int subtitleColor = Color.WHITE;
 
                 if(swatch != null) {
                     backgroundColor = swatch.getRgb();
-                    subtitleColor = swatch.getBodyTextColor();
                 }
 
                 collapsingToolbarLayout.setBackgroundColor(backgroundColor);
@@ -289,9 +300,6 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
                     public void onGenerated(Palette palette) {
                         int shareColor;
 
-                        int pixel = bitmap.getPixel(((int) Math.round(bitmap.getWidth() * 0.9)),
-                                ((int) Math.round(bitmap.getHeight() * 0.1)));
-
                         shareColor = Color.WHITE;
 
                         Drawable shareDrawable = VectorDrawableCompat.create(getApplicationContext().getResources(), R.drawable.ic_share_white_24dp, null);
@@ -344,6 +352,15 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
         unbindService(customTabsServiceConnection);
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
+        float width = displayMetrics.widthPixels / displayMetrics.density;
+        int spanCount = (int) (width / 250.00);
+        gridLayoutManager.setSpanCount(spanCount);
+    }
+
     private boolean isNetworkConnected() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         return cm.getActiveNetworkInfo() != null;
@@ -357,12 +374,22 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
 
         if (percentage == 1f && isHideToolbarView) {
             //Collapsed
-            toolbarHeaderView.setVisibility(View.VISIBLE);
-            isHideToolbarView = !isHideToolbarView;
-
+            if (selectedSpeaker.getOrganisation().isEmpty()) {
+                toolbarHeaderView.setVisibility(View.GONE);
+                collapsingToolbarLayout.setTitle(selectedSpeaker.getName());
+                isHideToolbarView = !isHideToolbarView;
+            } else {
+                toolbarHeaderView.setVisibility(View.VISIBLE);
+                collapsingToolbarLayout.setTitle(" ");
+                speakerDesignation.setMaxLines(1);
+                speakerDesignation.setEllipsize(TextUtils.TruncateAt.END);
+                isHideToolbarView = !isHideToolbarView;
+            }
         } else if (percentage < 1f && !isHideToolbarView) {
             //Not Collapsed
             toolbarHeaderView.setVisibility(View.VISIBLE);
+            collapsingToolbarLayout.setTitle(" ");
+            speakerDesignation.setMaxLines(3);
             isHideToolbarView = !isHideToolbarView;
         }
     }
