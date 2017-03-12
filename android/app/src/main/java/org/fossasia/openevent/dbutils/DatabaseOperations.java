@@ -23,11 +23,13 @@ import timber.log.Timber;
  * Created by MananWason on 24-06-2015.
  */
 public class DatabaseOperations {
+
     public static final String TAG = DatabaseOperations.class.getSimpleName();
+
     private static final String ASCENDING = " ASC";
 
-//    private static final String DESCENDING = " DESC";
-//
+    private static final String DESCENDING = " DESC";
+
 //    private static final String SELECT_ALL = "SELECT * FROM ";
 //
 //    private static final String WHERE = " WHERE ";
@@ -285,7 +287,7 @@ public class DatabaseOperations {
 
 
     ArrayList<Sponsor> getSponsorList(SQLiteDatabase mDb) {
-        String sortOrder = DbContract.Sponsors.LEVEL + ASCENDING + ", " + DbContract.Sponsors.NAME + ASCENDING;
+        String sortOrder = DbContract.Sponsors.LEVEL + DESCENDING + ", " + DbContract.Sponsors.NAME + ASCENDING;
         Cursor cursor = mDb.query(
                 DbContract.Sponsors.TABLE_NAME,
                 DbContract.Sponsors.FULL_PROJECTION,
