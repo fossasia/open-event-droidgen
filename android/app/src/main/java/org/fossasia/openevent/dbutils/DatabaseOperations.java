@@ -487,7 +487,7 @@ public class DatabaseOperations {
         return selected;
     }
 
-    void insertQueries(ArrayList<String> queries, DbHelper mDbHelper) {
+    public void insertQueries(ArrayList<String> queries, DbHelper mDbHelper) {
 
         try {
             SQLiteDatabase db = mDbHelper.getWritableDatabase();
