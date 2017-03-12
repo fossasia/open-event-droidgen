@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import org.fossasia.openevent.data.Event;
 import org.fossasia.openevent.data.Session;
+import org.fossasia.openevent.data.SocialLink;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Sponsor;
 import org.fossasia.openevent.data.Version;
@@ -253,6 +254,34 @@ public class DatabaseOperations {
         } else {
             return null;
         }
+    }
+
+    List<SocialLink> getSocialLink(SQLiteDatabase mDb) {
+
+        Cursor cursor = mDb.query(
+                DbContract.SocialLink.TABLE_NAME,
+                DbContract.SocialLink.FULL_PROJECTION,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+
+        List<SocialLink> socialLinks = new ArrayList<>();
+        SocialLink currentSocialLink;
+        if (cursor != null && cursor.moveToFirst()) {
+            while (!cursor.isAfterLast()) {
+                currentSocialLink = new SocialLink(
+                        cursor.getString(cursor.getColumnIndex(DbContract.SocialLink.LINK)),
+                        cursor.getString(cursor.getColumnIndex(DbContract.SocialLink.ID)),
+                        cursor.getString(cursor.getColumnIndex(DbContract.SocialLink.NAME)));
+                socialLinks.add(currentSocialLink);
+                cursor.moveToNext();
+            }
+            cursor.close();
+        }
+        return socialLinks;
     }
 
     List<org.fossasia.openevent.data.Track> getTrackList(SQLiteDatabase mDb) {
@@ -698,7 +727,9 @@ public class DatabaseOperations {
                     cursor.getFloat(cursor.getColumnIndex(DbContract.Event.LONGITUDE)),
                     cursor.getString(cursor.getColumnIndex(DbContract.Event.LOCATION_NAME)),
                     cursor.getString(cursor.getColumnIndex(DbContract.Event.EVENT_URL)),
-                    cursor.getString(cursor.getColumnIndex(DbContract.Event.TIMEZONE)));
+                    cursor.getString(cursor.getColumnIndex(DbContract.Event.TIMEZONE)),
+                    cursor.getString(cursor.getColumnIndex(DbContract.Event.DESCRIPTION)),
+                    cursor.getString(cursor.getColumnIndex(DbContract.Event.ORG_DESCRIPTION)));
             cursor.close();
         }
         return event;

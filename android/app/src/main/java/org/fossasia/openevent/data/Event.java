@@ -7,6 +7,7 @@ import com.google.gson.annotations.SerializedName;
 import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.utils.StringUtils;
 
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -42,8 +43,17 @@ public class Event {
 
     private Version version;
 
+    private String description;
+
+    @SerializedName("organizer_description")
+    private String organizerDescription;
+
+    @SerializedName("social_links")
+    private List<SocialLink> socialLink;
+
     public Event(int id, String name, String email, String logo, String start,
-                 String end, float latitude, float longitude, String locationName, String url, String timezone) {
+                 String end, float latitude, float longitude, String locationName, String url, String timezone,
+                 String description, String organizerDescription) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -55,6 +65,32 @@ public class Event {
         this.locationName = locationName;
         this.url = url;
         this.timezone = timezone;
+        this.description = description;
+        this.organizerDescription = organizerDescription;
+    }
+
+    public List<SocialLink> getSocialLink() {
+        return socialLink;
+    }
+
+    public void setSocialLink(List<SocialLink> socialLink) {
+        this.socialLink = socialLink;
+    }
+
+    public String getOrganizerDescription() {
+        return organizerDescription;
+    }
+
+    public void setOrganizerDescription(String organizerDescription) {
+        this.organizerDescription = organizerDescription;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getEmail() {
@@ -156,7 +192,7 @@ public class Event {
     }
 
     public String generateSql() {
-        String insertQuery = "INSERT INTO %s VALUES ('%d', %s, %s, %s, %s, %s, '%f', '%f', %s, %s, %s);";
+        String insertQuery = "INSERT INTO %s VALUES ('%d', %s, %s, %s, %s, %s, '%f', '%f', %s, %s, %s, %s, %s);";
         return String.format(Locale.ENGLISH,
                 insertQuery,
                 DbContract.Event.TABLE_NAME,
@@ -170,7 +206,9 @@ public class Event {
                 longitude,
                 DatabaseUtils.sqlEscapeString(StringUtils.optionalString(locationName)),
                 DatabaseUtils.sqlEscapeString(StringUtils.optionalString(url)),
-                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(timezone))
-                );
+                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(timezone)),
+                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(description)),
+                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(organizerDescription))
+        );
     }
 }
