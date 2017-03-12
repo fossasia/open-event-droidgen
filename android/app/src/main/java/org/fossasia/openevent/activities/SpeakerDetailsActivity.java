@@ -34,8 +34,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
+
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.SessionsListAdapter;
 import org.fossasia.openevent.api.Urls;
@@ -161,6 +163,11 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
 
         biography.setText(Html.fromHtml(selectedSpeaker.getShortBiography()));
         biography.setMovementMethod(LinkMovementMethod.getInstance());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
 
         DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
         float width = displayMetrics.widthPixels / displayMetrics.density;
@@ -170,6 +177,7 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
         gridLayoutManager = new GridLayoutManager(this, spanCount);
         sessionRecyclerView.setLayoutManager(gridLayoutManager);
 
+        final DbSingleton dbSingleton = DbSingleton.getInstance();
         mSessions = dbSingleton.getSessionbySpeakersName(speaker);
         sessionsListAdapter = new SessionsListAdapter(this, mSessions,spearkerWiseSessionList);
         sessionRecyclerView.setNestedScrollingEnabled(false);
