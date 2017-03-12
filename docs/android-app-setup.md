@@ -20,13 +20,13 @@ Before you begin, you should already have the Android Studio SDK downloaded and 
 
 4. Once this process is complete and Android Studio opens, check the Console for any build errors.
 
-  - _Note:_ If you recieve a Gradle sync error titled, "failed to find ...", you should click on the link below the error message (if avaliable) that says _Install missing platform(s) and sync project_ and allow Android studio to fetch you what is missing.
+  - _Note:_ If you receive a Gradle sync error titled, "failed to find ...", you should click on the link below the error message (if available) that says _Install missing platform(s) and sync project_ and allow Android studio to fetch you what is missing.
 
 5. Once all build errors have been resolved, you should be all set to build the app and test it.
 
 6. To Build the app, go to _Build>Make Project_ (or alternatively press the Make Project icon in the toolbar).
 
-7. If the app was built succesfully, you can test it by running it on either a real device or an emulated one by going to _Run>Run 'app'_ or presing the Run icon in the toolbar.
+7. If the app was built successfully, you can test it by running it on either a real device or an emulated one by going to _Run>Run 'app'_ or presing the Run icon in the toolbar.
 
 ### Configuring Google Maps
 
