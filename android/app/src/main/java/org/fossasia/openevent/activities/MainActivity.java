@@ -425,8 +425,14 @@ public class MainActivity extends BaseActivity {
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        int id = menuItem.getItemId();
-                        doMenuAction(id);
+                        final int id = menuItem.getItemId();
+                        drawerLayout.closeDrawers();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                doMenuAction(id);
+                            }
+                        }, 250);
                         DbSingleton dbSingleton = DbSingleton.getInstance();
                         if (id == R.id.nav_bookmarks && dbSingleton.isBookmarksTableEmpty()){
                             return false;
@@ -640,7 +646,6 @@ public class MainActivity extends BaseActivity {
                 break;
         }
         currentMenuItemId = menuItemId;
-        drawerLayout.closeDrawers();
     }
 
     @Override

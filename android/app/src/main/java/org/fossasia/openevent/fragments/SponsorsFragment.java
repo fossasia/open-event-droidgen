@@ -21,13 +21,19 @@ import com.squareup.otto.Subscribe;
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.SponsorsListAdapter;
+import org.fossasia.openevent.data.Sponsor;
 import org.fossasia.openevent.dbutils.DataDownloadManager;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.SponsorDownloadEvent;
 import org.fossasia.openevent.utils.NetworkUtils;
 import org.fossasia.openevent.utils.ShowNotificationSnackBar;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
 /**
@@ -35,6 +41,7 @@ import timber.log.Timber;
  */
 public class SponsorsFragment extends BaseFragment {
 
+    private List<Sponsor> mSponsors = new ArrayList<>();
     private SponsorsListAdapter sponsorsListAdapter;
 
     @BindView(R.id.txt_no_sponsors)
@@ -43,8 +50,6 @@ public class SponsorsFragment extends BaseFragment {
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.list_sponsors)
     RecyclerView sponsorsRecyclerView;
-
-    private Snackbar snackbar;
 
     private LinearLayoutManager linearLayoutManager;
     private Toolbar toolbar;
@@ -67,7 +72,7 @@ public class SponsorsFragment extends BaseFragment {
                 refresh();
             }
         });
-        sponsorsListAdapter = new SponsorsListAdapter(getContext(), dbSingleton.getSponsorList(),
+        sponsorsListAdapter = new SponsorsListAdapter(getContext(), mSponsors,
                 getActivity(), true);
         sponsorsRecyclerView.setAdapter(sponsorsListAdapter);
         linearLayoutManager = new LinearLayoutManager(getActivity());
@@ -86,14 +91,6 @@ public class SponsorsFragment extends BaseFragment {
             }
         });
 
-
-        if (sponsorsListAdapter.getItemCount() != 0) {
-            noSponsorsView.setVisibility(View.GONE);
-            sponsorsRecyclerView.setVisibility(View.VISIBLE);
-        } else {
-            noSponsorsView.setVisibility(View.VISIBLE);
-            sponsorsRecyclerView.setVisibility(View.GONE);
-        }
         //scrollup shows actionbar
         sponsorsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -107,7 +104,29 @@ public class SponsorsFragment extends BaseFragment {
             }
         });
 
+        dbSingleton.getSponsorListObservable()
+                .subscribe(new Consumer<ArrayList<Sponsor>>() {
+                    @Override
+                    public void accept(@NonNull ArrayList<Sponsor> sponsors) throws Exception {
+                        mSponsors.clear();
+                        mSponsors.addAll(sponsors);
+
+                        sponsorsListAdapter.notifyDataSetChanged();
+                        handleVisibility();
+                    }
+                });
+
         return view;
+    }
+
+    private void handleVisibility() {
+        if (sponsorsListAdapter.getItemCount() != 0) {
+            noSponsorsView.setVisibility(View.GONE);
+            sponsorsRecyclerView.setVisibility(View.VISIBLE);
+        } else {
+            noSponsorsView.setVisibility(View.VISIBLE);
+            sponsorsRecyclerView.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -159,7 +178,7 @@ public class SponsorsFragment extends BaseFragment {
                     }
                 };
                 //show snackbar will be useful if user have blocked notification for this app
-                snackbar = showNotificationSnackBar.showSnackBar();
+                Snackbar snackbar = showNotificationSnackBar.showSnackBar();
                 //show notification (Only when connected to WiFi)
                 showNotificationSnackBar.buildNotification();
             }
