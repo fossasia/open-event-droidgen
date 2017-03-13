@@ -217,7 +217,7 @@ public class MainActivity extends BaseActivity {
                                 DbSingleton.getInstance().clearDatabase();
                                 Boolean preference = sharedPreferences.getBoolean(getResources().getString(R.string.download_mode_key), true);
                                 if (preference) {
-                                    if (NetworkUtils.haveWifiConnection(MainActivity.this)) {
+                                    if (NetworkUtils.haveWifiConnection(MainActivity.this) || NetworkUtils.haveMobileConnection(MainActivity.this)) {
                                         OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
                                         sharedPreferences.edit().putBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true).apply();
 

@@ -126,7 +126,7 @@
     <string name="github_icon" translatable="false">Github Icon</string>
     <string name="web_icon" translatable="false">Web Icon</string>
     <string name="download_assets">Do you want to update to the latest schedule now?</string>
-    <string name="internet_preference_warning">Wifi Not available, do you want to display offline schedule? </string>
+    <string name="internet_preference_warning">Internet Not available, do you want to display offline schedule? </string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="noSessions">No Sessions yet!</string>
