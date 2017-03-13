@@ -91,7 +91,7 @@
     <string name="noBookmark">No bookmarked session yet !!</string>
 
     <!--About us text-->
-    <string name="about_text">Programmed by <a href="https://github.com/fossasia/open-event-android/graphs/contributors">FOSSASIA contributors</a>.
+    <string name="about_text">Developed by <a href="https://github.com/fossasia/open-event-android/graphs/contributors">FOSSASIA contributors</a>.
 \n
 \nLicensed under the GNU General Public License v3. Source available on <a href="https://github.com/fossasia/open-event-android">GitHub</a>.
 \n
