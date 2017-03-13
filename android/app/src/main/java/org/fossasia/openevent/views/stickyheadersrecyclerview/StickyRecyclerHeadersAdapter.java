@@ -7,7 +7,7 @@ import android.view.ViewGroup;
  * User: Shailesh Baldaniya
  * Date: 13-03-17
  */
-public interface StickyRecyclerHeadersAdapter<VH extends RecyclerView.ViewHolder> {
+public interface StickyRecyclerHeadersAdapter<V extends RecyclerView.ViewHolder> {
     /**
      * Get the ID of the header associated with this item.  For example, if your headers group
      * items by their first letter, you could return the character representation of the first letter.
@@ -26,7 +26,7 @@ public interface StickyRecyclerHeadersAdapter<VH extends RecyclerView.ViewHolder
      * @param parent the view to create a header view holder for
      * @return the view holder
      */
-    VH onCreateHeaderViewHolder(ViewGroup parent);
+    V onCreateHeaderViewHolder(ViewGroup parent);
 
     /**
      * Binds an existing ViewHolder to the specified adapter position.
@@ -34,7 +34,7 @@ public interface StickyRecyclerHeadersAdapter<VH extends RecyclerView.ViewHolder
      * @param holder   the view holder
      * @param position the adapter position
      */
-    void onBindHeaderViewHolder(VH holder, int position);
+    void onBindHeaderViewHolder(V holder, int position);
 
     /**
      * @return the number of views in the adapter

@@ -17,8 +17,5 @@ public interface HeaderProvider {
    */
   public View getHeader(RecyclerView recyclerView, int position);
 
-  /**
-   * TODO: describe this functionality and its necessity
-   */
   void invalidate();
 }

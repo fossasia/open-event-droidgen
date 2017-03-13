@@ -48,14 +48,10 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
 
     private TracksListAdapter tracksListAdapter;
 
-    @BindView(R.id.tracks_swipe_refresh)
-    SwipeRefreshLayout swipeRefreshLayout;
-    @BindView(R.id.txt_no_tracks)
-    TextView noTracksView;
-    @BindView(R.id.list_tracks)
-    RecyclerView tracksRecyclerView;
-    @BindView(R.id.tracks_frame)
-    View windowFrame;
+    @BindView(R.id.tracks_swipe_refresh) SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.txt_no_tracks) TextView noTracksView;
+    @BindView(R.id.list_tracks) RecyclerView tracksRecyclerView;
+    @BindView(R.id.tracks_frame) View windowFrame;
 
     private String searchText = "";
 
@@ -90,7 +86,7 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
         //setting the grid layout to cut-off white space in tablet view
         DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
         float width = displayMetrics.widthPixels / displayMetrics.density;
-        int spanCount = (int) (width / 200.00);
+        int spanCount = (int) (width/200.00);
 
         tracksRecyclerView.setHasFixedSize(true);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
@@ -101,8 +97,7 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
         final StickyRecyclerHeadersDecoration headersDecoration = new StickyRecyclerHeadersDecoration(tracksListAdapter);
         tracksRecyclerView.addItemDecoration(headersDecoration);
         tracksListAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-            @Override
-            public void onChanged() {
+            @Override public void onChanged() {
                 headersDecoration.invalidateHeaders();
             }
         });
@@ -128,7 +123,7 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (dy < 0) {
+                if(dy < 0){
                     AppBarLayout appBarLayout;
                     appBarLayout = (AppBarLayout) getActivity().findViewById(R.id.appbar);
                     appBarLayout.setExpanded(true);
@@ -217,7 +212,7 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
 
     @Subscribe
     public void onTrackDownloadDone(TracksDownloadEvent event) {
-        if (swipeRefreshLayout != null)
+        if(swipeRefreshLayout!=null)
             swipeRefreshLayout.setRefreshing(false);
         if (event.isState()) {
             if (!searchView.getQuery().toString().isEmpty() && !searchView.isIconified()) {
@@ -248,7 +243,7 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
                     swipeRefreshLayout.setRefreshing(false);
                 }
                 //Device is connected to WI-FI or Mobile Data but Internet is not working
-                ShowNotificationSnackBar showNotificationSnackBar = new ShowNotificationSnackBar(getContext(), getView(), swipeRefreshLayout) {
+                ShowNotificationSnackBar showNotificationSnackBar = new ShowNotificationSnackBar(getContext(),getView(),swipeRefreshLayout) {
                     @Override
                     public void refreshClicked() {
                         refresh();
@@ -260,7 +255,7 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
                 showNotificationSnackBar.buildNotification();
             }
         } else {
-            if (snackbar != null && snackbar.isShown()) {
+            if (snackbar!=null && snackbar.isShown()) {
                 snackbar.dismiss();
             }
             OpenEventApp.getEventBus().post(new TracksDownloadEvent(false));

@@ -51,7 +51,8 @@ public class HeaderPositionCalculator {
      * @return True if the view should have a sticky header
      */
     public boolean hasStickyHeader(View itemView, int orientation, int position) {
-        int offset, margin;
+        int offset;
+        int margin;
         mDimensionCalculator.initMargins(mTempRect1, itemView);
         if (orientation == LinearLayout.VERTICAL) {
             offset = itemView.getTop();
@@ -73,6 +74,9 @@ public class HeaderPositionCalculator {
      * @return true if this item has a different header than the previous item in the list
      */
     public boolean hasNewHeader(int position, boolean isReverseLayout) {
+        int nextItemPosition;
+        int firstItemPosition;
+
         if (indexOutOfBounds(position)) {
             return false;
         }
@@ -84,11 +88,18 @@ public class HeaderPositionCalculator {
         }
 
         long nextItemHeaderId = -1;
-        int nextItemPosition = position + (isReverseLayout ? 1 : -1);
+
+        if (isReverseLayout) {
+            nextItemPosition = position + 1;
+            firstItemPosition = mAdapter.getItemCount() - 1;
+        } else {
+            nextItemPosition = position - 1;
+            firstItemPosition = 0;
+        }
+
         if (!indexOutOfBounds(nextItemPosition)) {
             nextItemHeaderId = mAdapter.getHeaderId(nextItemPosition);
         }
-        int firstItemPosition = isReverseLayout ? mAdapter.getItemCount() - 1 : 0;
 
         return position == firstItemPosition || headerId != nextItemHeaderId;
     }
@@ -111,7 +122,8 @@ public class HeaderPositionCalculator {
     }
 
     private void initDefaultHeaderOffset(Rect headerMargins, RecyclerView recyclerView, View header, View firstView, int orientation) {
-        int translationX, translationY;
+        int translationX;
+        int translationY;
         mDimensionCalculator.initMargins(mTempRect1, header);
 
         ViewGroup.LayoutParams layoutParams = firstView.getLayoutParams();

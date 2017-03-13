@@ -35,7 +35,6 @@ public class StickyRecyclerHeadersDecoration extends RecyclerView.ItemDecoration
      */
     private final Rect mTempRect = new Rect();
 
-    // TODO: Consider passing in orientation to simplify orientation accounting within calculation
     public StickyRecyclerHeadersDecoration(StickyRecyclerHeadersAdapter adapter) {
         this(adapter, new LinearLayoutOrientationProvider(), new DimensionCalculator(), null);
     }
