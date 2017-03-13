@@ -53,7 +53,7 @@ import static android.text.Html.FROM_HTML_MODE_LEGACY;
  * User: MananWason
  * Date: 08-07-2015
  */
-public class SessionDetailActivity extends BaseActivity implements AppBarLayout.OnOffsetChangedListener{
+public class SessionDetailActivity extends BaseActivity implements AppBarLayout.OnOffsetChangedListener {
     private static final String TAG = "Session Detail";
 
     private SpeakersListAdapter adapter;
@@ -131,7 +131,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
         }
 
         String microlocationName = "Not decided yet";
-        if (dbSingleton.getMicrolocationById(session.getMicrolocation().getId()) != null){
+        if (dbSingleton.getMicrolocationById(session.getMicrolocation().getId()) != null) {
             // This function returns id=0 when microlocation is null in session JSON
             microlocationName = dbSingleton.getMicrolocationById(session.getMicrolocation().getId()).getName();
         }
@@ -153,7 +153,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
                 if (dbSingleton.isBookmarked(session.getId())) {
                     Timber.tag(TAG).d("Bookmark Removed");
                     dbSingleton.deleteBookmarks(session.getId());
-                  
+
                     fabSessionBookmark.setImageResource(R.drawable.ic_bookmark_outline_white_24dp);
                     Snackbar.make(v, R.string.removed_bookmark, Snackbar.LENGTH_LONG)
                             .setAction(R.string.undo, new View.OnClickListener() {
@@ -191,7 +191,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
             text_start_time.setText(startTime.trim());
             text_end_time.setText(endTime.trim());
             text_date.setText(date.trim());
-            Timber.d(date+"\n"+endTime+"\n"+startTime);
+            Timber.d(date + "\n" + endTime + "\n" + startTime);
 
         }
 
@@ -232,7 +232,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
 
     @Override
     public void onBackPressed() {
-        if (fabSessionBookmark.getVisibility() == View.GONE) {
+        if (mapFragment.getVisibility() == View.VISIBLE) {
             /** hide fragment again on back pressed and show session views **/
             mapFragment.setVisibility(View.GONE);
             fabSessionBookmark.setVisibility(View.VISIBLE);
