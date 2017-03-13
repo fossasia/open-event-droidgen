@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +25,8 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
 /**
@@ -97,26 +98,38 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
                 holder.slotDescription.setText(Html.fromHtml(currentSession.getSummary()));
             }
         }
-        holder.slotLocation.setText(currentSession.getMicrolocation().getName().toString());
+        holder.slotLocation.setText(currentSession.getMicrolocation().getName());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String sessionName = currentSession.getTitle();
-                Track track = DbSingleton.getInstance().getTrackbyId(currentSession.getTrack().getId());
-                String trackName = track.getName();
-                Intent intent = new Intent(context, SessionDetailActivity.class);
-                intent.putExtra(ConstantStrings.SESSION, sessionName);
-                intent.putExtra(ConstantStrings.TRACK, trackName);
-                intent.putExtra(ConstantStrings.ID, currentSession.getId());
-                context.startActivity(intent);
+                final String sessionName = currentSession.getTitle();
+
+                DbSingleton.getInstance().getTrackbyIdObservable(currentSession.getTrack().getId())
+                        .subscribe(new Consumer<Track>() {
+                            @Override
+                            public void accept(@NonNull Track track) throws Exception {
+                                String trackName = track.getName();
+                                Intent intent = new Intent(context, SessionDetailActivity.class);
+                                intent.putExtra(ConstantStrings.SESSION, sessionName);
+                                intent.putExtra(ConstantStrings.TRACK, trackName);
+                                intent.putExtra(ConstantStrings.ID, currentSession.getId());
+                                context.startActivity(intent);
+                            }
+                        });
             }
         });
     }
 
     public void refresh() {
         clear();
-        animateTo(DbSingleton.getInstance().getSessionbyDate(eventDate, SortOrder.sortOrderSchedule(context)));
+        DbSingleton.getInstance().getSessionByDateObservable(eventDate, SortOrder.sortOrderSchedule(context))
+                .subscribe(new Consumer<ArrayList<Session>>() {
+                    @Override
+                    public void accept(@NonNull ArrayList<Session> sessions) throws Exception {
+                        animateTo(sessions);
+                    }
+                });
     }
 
     @Override

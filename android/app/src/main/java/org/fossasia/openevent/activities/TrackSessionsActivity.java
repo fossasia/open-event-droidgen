@@ -16,10 +16,16 @@ import android.widget.TextView;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.SessionsListAdapter;
+import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.ConstantStrings;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 
 /**
  * User: MananWason
@@ -35,7 +41,9 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
 
     private String track;
 
-    private String searchText = "";
+    private List<Session> mSessions = new ArrayList<>();
+
+    private String searchText;
 
     private SearchView searchView;
 
@@ -76,12 +84,27 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
         sessionsRecyclerView.setHasFixedSize(true);
         gridLayoutManager = new GridLayoutManager(this, spanCount);
         sessionsRecyclerView.setLayoutManager(gridLayoutManager);
-        sessionsListAdapter = new SessionsListAdapter(this, dbSingleton.getSessionbyTracksname(track),trackWiseSessionList);
+        sessionsListAdapter = new SessionsListAdapter(this, mSessions, trackWiseSessionList);
         sessionsRecyclerView.setAdapter(sessionsListAdapter);
         sessionsRecyclerView.scrollToPosition(SessionsListAdapter.listPosition);
         sessionsRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        if (sessionsListAdapter.getItemCount() != 0) {
+        dbSingleton.getSessionbyTracksnameObservable(track)
+                .subscribe(new Consumer<ArrayList<Session>>() {
+                    @Override
+                    public void accept(@NonNull ArrayList<Session> sessions) throws Exception {
+                        mSessions.addAll(sessions);
+                        sessionsListAdapter.notifyDataSetChanged();
+
+                        handleVisibility();
+                    }
+                });
+
+        handleVisibility();
+    }
+
+    private void handleVisibility() {
+        if (!mSessions.isEmpty()) {
             noSessionsView.setVisibility(View.GONE);
             sessionsRecyclerView.setVisibility(View.VISIBLE);
         } else {

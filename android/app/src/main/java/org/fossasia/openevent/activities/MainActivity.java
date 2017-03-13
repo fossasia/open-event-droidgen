@@ -50,7 +50,6 @@ import com.facebook.share.model.AppInviteContent;
 import com.facebook.share.widget.AppInviteDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
@@ -108,6 +107,12 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.Completable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
+import io.reactivex.internal.observers.CallbackCompletableObserver;
 import io.branch.indexing.BranchUniversalObject;
 import io.branch.referral.Branch;
 import io.branch.referral.BranchError;
@@ -136,6 +141,7 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.drawer) DrawerLayout drawerLayout;
     @BindView(R.id.appbar) AppBarLayout appBarLayout;
 
+    private Context context;
     private SharedPreferences sharedPreferences;
     private int counter;
     private boolean atHome = true;
@@ -156,8 +162,8 @@ public class MainActivity extends BaseActivity {
                 .putExtra(NAV_ITEM, BOOKMARK);
     }
 
-    public static void getDaysBetweenDates(Date startdate, Date enddate) {
-        ArrayList<String> dates = new ArrayList<String>();
+    public static Completable getDaysBetweenDates(Date startdate, Date enddate) {
+        ArrayList<String> dates = new ArrayList<>();
         Calendar calendar = new GregorianCalendar();
         calendar.setTime(startdate);
 
@@ -169,8 +175,7 @@ public class MainActivity extends BaseActivity {
             calendar.add(Calendar.DATE, 1);
         }
 
-        DbSingleton.getInstance().insertQueries(dates);
-
+        return DbSingleton.getInstance().insertQueriesObservable(dates);
     }
 
     @Override
@@ -192,7 +197,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        context = this;
         counter = 0;
         eventsDone = 0;
         ButterKnife.setDebug(true);
@@ -211,31 +216,36 @@ public class MainActivity extends BaseActivity {
                 if (!sharedPreferences.getBoolean(ConstantStrings.IS_DOWNLOAD_DONE, false)) {
                     DialogFactory.createDownloadDialog(this, R.string.download_assets, R.string.charges_warning, new DialogInterface.OnClickListener() {
                         @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            if (i==DialogInterface.BUTTON_POSITIVE)
-                            {
-                                DbSingleton.getInstance().clearDatabase();
-                                Boolean preference = sharedPreferences.getBoolean(getResources().getString(R.string.download_mode_key), true);
-                                if (preference) {
-                                    if (NetworkUtils.haveWifiConnection(MainActivity.this)) {
-                                        OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
-                                        sharedPreferences.edit().putBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true).apply();
-
-                                    } else {
-                                        final Snackbar snackbar = Snackbar.make(mainFrame, R.string.internet_preference_warning, Snackbar.LENGTH_INDEFINITE);
-                                        snackbar.setAction(R.string.yes, new View.OnClickListener() {
+                        public void onClick(DialogInterface dialogInterface, int button) {
+                            if (button==DialogInterface.BUTTON_POSITIVE) {
+                                DbSingleton.getInstance().clearDatabaseObservable()
+                                        .observeOn(AndroidSchedulers.mainThread())
+                                        .subscribe(new CallbackCompletableObserver(new Action() {
                                             @Override
-                                            public void onClick(View view) {
-                                                downloadFromAssets();
+                                            public void run() throws Exception {
+                                                Boolean preference = sharedPreferences.getBoolean(getResources().getString(R.string.download_mode_key), true);
+                                                if (preference) {
+                                                    if (NetworkUtils.haveWifiConnection(MainActivity.this)) {
+                                                        OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
+                                                        sharedPreferences.edit().putBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true).apply();
+                                                    } else {
+                                                        final Snackbar snackbar = Snackbar.make(mainFrame, R.string.internet_preference_warning, Snackbar.LENGTH_INDEFINITE);
+                                                        snackbar.setAction(R.string.yes, new View.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(View view) {
+                                                                downloadFromAssets();
+                                                            }
+                                                        });
+                                                        snackbar.show();
+                                                    }
+                                                } else {
+                                                    OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
+                                                    sharedPreferences.edit().putBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true).apply();
+                                                }
                                             }
-                                        });
-                                        snackbar.show();
-                                    }
-                                } else {
-                                    OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
-                                }
-                            } else if (i==DialogInterface.BUTTON_NEGATIVE)
-                            {
+                                        }));
+
+                            } else if (button==DialogInterface.BUTTON_NEGATIVE) {
                                 downloadFromAssets();
                             }
                         }
@@ -364,24 +374,33 @@ public class MainActivity extends BaseActivity {
 
     private void syncComplete() {
         downloadProgress.setVisibility(View.GONE);
-        Event currentEvent = DbSingleton.getInstance().getEventDetails();
-        if (currentEvent != null)
-            getDaysBetweenDates(ISO8601Date.getDateObject(currentEvent.getStart()), ISO8601Date.getDateObject(currentEvent.getEnd()));
+        DbSingleton.getInstance().getEventDetailsObservable()
+                .subscribe(new Consumer<Event>() {
+                    @Override
+                    public void accept(@NonNull Event event) throws Exception {
+                        if (event != null) {
+                            getDaysBetweenDates(
+                                    ISO8601Date.getDateObject(event.getStart()), ISO8601Date.getDateObject(event.getEnd()))
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe(new CallbackCompletableObserver(new Action() {
+                                        @Override
+                                        public void run() throws Exception {
+                                            OpenEventApp.getEventBus().post(new RefreshUiEvent());
 
-        Bus bus = OpenEventApp.getEventBus();
-        bus.post(new RefreshUiEvent());
-        DbSingleton dbSingleton = DbSingleton.getInstance();
-        try {
-            if (!(dbSingleton.getEventDetails().getLogo().isEmpty())) {
-                ImageView headerDrawer = (ImageView) findViewById(R.id.headerDrawer);
-                Picasso.with(getApplicationContext()).load(dbSingleton.getEventDetails().getLogo()).into(headerDrawer);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+                                            Snackbar.make(mainFrame, getString(R.string.download_complete), Snackbar.LENGTH_SHORT).show();
+                                            Timber.d("Download done");
+                                        }
+                                    }));
 
-        Snackbar.make(mainFrame, getString(R.string.download_complete), Snackbar.LENGTH_SHORT).show();
-        Timber.d("Download done");
+                            if(!event.getLogo().isEmpty()) {
+                                ImageView headerDrawer = (ImageView) findViewById(R.id.headerDrawer);
+                                Picasso.with(getApplicationContext()).load(event.getLogo()).into(headerDrawer);
+                            }
+                        }
+
+                    }
+                });
+
     }
 
     private void downloadFailed(final DownloadEvent event) {
@@ -419,7 +438,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void doMenuAction(int menuItemId) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        final FragmentManager fragmentManager = getSupportFragmentManager();
         addShadowToAppBar(true);
         switch (menuItemId) {
             case R.id.nav_tracks:
@@ -443,18 +462,32 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.nav_bookmarks:
                 DbSingleton dbSingleton = DbSingleton.getInstance();
-                if (!dbSingleton.isBookmarksTableEmpty()) {
-                    atHome = false;
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.content_frame, new BookmarksFragment(), FRAGMENT_TAG_REST).commit();
-                    if (getSupportActionBar() != null) {
-                        getSupportActionBar().setTitle(R.string.menu_bookmarks);
-                    }
-                    appBarLayout.setExpanded(true, true);
-                } else {
-                    DialogFactory.createSimpleActionDialog(this, R.string.bookmarks, R.string.empty_list, null).show();
-                    if (currentMenuItemId == R.id.nav_schedule) addShadowToAppBar(false);
-                }
+                dbSingleton.isBookmarksTableEmptyObservable()
+                        .subscribe(new Consumer<Boolean>() {
+                            @Override
+                            public void accept(@NonNull Boolean empty) throws Exception {
+                                Timber.d("Empty %s", empty);
+                                if(!empty) {
+                                    Timber.d("no");
+                                    atHome = false;
+                                    fragmentManager.beginTransaction()
+                                            .replace(R.id.content_frame, new BookmarksFragment(), FRAGMENT_TAG_REST).commit();
+                                    if (getSupportActionBar() != null) {
+                                        getSupportActionBar().setTitle(R.string.menu_bookmarks);
+                                    }
+                                    appBarLayout.setExpanded(true, true);
+                                } else {
+                                    Timber.d("yes");
+                                    DialogFactory.createSimpleActionDialog(
+                                            context,
+                                            R.string.bookmarks,
+                                            R.string.empty_list,
+                                            null
+                                    ).show();
+                                    if (currentMenuItemId == R.id.nav_schedule) addShadowToAppBar(false);
+                                }
+                            }
+                        });
                 break;
             case R.id.nav_speakers:
                 atHome = false;
@@ -811,8 +844,13 @@ public class MainActivity extends BaseActivity {
                             @Override
                             public void run() {
                                 Event event = gson.fromJson(json, Event.class);
-                                DbSingleton.getInstance().insertQuery(event.generateSql());
-                                OpenEventApp.postEventOnUIThread(new EventDownloadEvent(true));
+                                DbSingleton.getInstance().insertQueryObservable(event.generateSql())
+                                        .subscribe(new CallbackCompletableObserver(new Action() {
+                                            @Override
+                                            public void run() throws Exception {
+                                                OpenEventApp.postEventOnUIThread(new EventDownloadEvent(true));
+                                            }
+                                        }));
                             }
                         });
                         break;
@@ -827,8 +865,14 @@ public class MainActivity extends BaseActivity {
                                 for (Track current : tracks) {
                                     queries.add(current.generateSql());
                                 }
-                                DbSingleton.getInstance().insertQueries(queries);
-                                OpenEventApp.postEventOnUIThread(new TracksDownloadEvent(true));
+
+                                DbSingleton.getInstance().insertQueriesObservable(queries)
+                                        .subscribe(new CallbackCompletableObserver(new Action() {
+                                            @Override
+                                            public void run() throws Exception {
+                                                OpenEventApp.postEventOnUIThread(new TracksDownloadEvent(true));
+                                            }
+                                        }));
                             }
                         });
                         break;
@@ -841,8 +885,14 @@ public class MainActivity extends BaseActivity {
                             current.setStartDate(current.getStartTime().split("T")[0]);
                             queries.add(current.generateSql());
                         }
-                        DbSingleton.getInstance().insertQueries(queries);
-                        OpenEventApp.postEventOnUIThread(new SessionDownloadEvent(true));
+
+                        DbSingleton.getInstance().insertQueriesObservable(queries)
+                                .subscribe(new CallbackCompletableObserver(new Action() {
+                                    @Override
+                                    public void run() throws Exception {
+                                        OpenEventApp.postEventOnUIThread(new SessionDownloadEvent(true));
+                                    }
+                                }));
                         break;
                     }
                     case ConstantStrings.SPEAKERS: {
@@ -860,8 +910,14 @@ public class MainActivity extends BaseActivity {
 
                             queries.add(current.generateSql());
                         }
-                        DbSingleton.getInstance().insertQueries(queries);
-                        OpenEventApp.postEventOnUIThread(new SpeakerDownloadEvent(true));
+
+                        DbSingleton.getInstance().insertQueriesObservable(queries)
+                                .subscribe(new CallbackCompletableObserver(new Action() {
+                                    @Override
+                                    public void run() throws Exception {
+                                        OpenEventApp.postEventOnUIThread(new SpeakerDownloadEvent(true));
+                                    }
+                                }));
 
                         break;
                     }
@@ -876,8 +932,14 @@ public class MainActivity extends BaseActivity {
                                 for (Sponsor current : sponsors) {
                                     queries.add(current.generateSql());
                                 }
-                                DbSingleton.getInstance().insertQueries(queries);
-                                OpenEventApp.postEventOnUIThread(new SponsorDownloadEvent(true));
+
+                                DbSingleton.getInstance().insertQueriesObservable(queries)
+                                        .subscribe(new CallbackCompletableObserver(new Action() {
+                                            @Override
+                                            public void run() throws Exception {
+                                                OpenEventApp.postEventOnUIThread(new SponsorDownloadEvent(true));
+                                            }
+                                        }));
                             }
                         });
                         break;
@@ -893,8 +955,14 @@ public class MainActivity extends BaseActivity {
                                 for (Microlocation current : microlocations) {
                                     queries.add(current.generateSql());
                                 }
-                                DbSingleton.getInstance().insertQueries(queries);
-                                OpenEventApp.postEventOnUIThread(new MicrolocationDownloadEvent(true));
+
+                                DbSingleton.getInstance().insertQueriesObservable(queries)
+                                        .subscribe(new CallbackCompletableObserver(new Action() {
+                                            @Override
+                                            public void run() throws Exception {
+                                                OpenEventApp.postEventOnUIThread(new MicrolocationDownloadEvent(true));
+                                            }
+                                        }));
                             }
                         });
                         break;
@@ -960,11 +1028,8 @@ public class MainActivity extends BaseActivity {
                     inputStream.read(buffer);
                     inputStream.close();
                     json = new String(buffer, "UTF-8");
-
-
                 } catch (IOException e) {
                     e.printStackTrace();
-
                 }
                 OpenEventApp.postEventOnUIThread(new JsonReadEvent(name, json));
 
