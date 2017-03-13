@@ -75,7 +75,6 @@ public class DatabaseTest extends AndroidTestCase {
         queries.add(trackQuery);
         DatabaseOperations databaseOperations = new DatabaseOperations();
         databaseOperations.insertQueries(queries, db);
-
     }
 
     public void testDropDB() {

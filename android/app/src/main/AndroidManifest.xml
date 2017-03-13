@@ -16,11 +16,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+
+        <meta-data android:name="io.branch.sdk.BranchKey" android:value="@string/branch_key_live" />
+
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/SplashTheme"
             android:configChanges="orientation|screenSize|keyboardHidden">
+            <intent-filter>
+                <data android:scheme="org.fossasia.openevent" android:host="open" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

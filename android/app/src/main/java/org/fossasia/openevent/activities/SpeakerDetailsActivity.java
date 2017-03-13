@@ -34,8 +34,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
+
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.SessionsListAdapter;
 import org.fossasia.openevent.api.Urls;
@@ -218,6 +220,43 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
 
         biography.setText(Html.fromHtml(selectedSpeaker.getShortBiography()));
         biography.setMovementMethod(LinkMovementMethod.getInstance());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
+        float width = displayMetrics.widthPixels / displayMetrics.density;
+        int spanCount = (int) (width / 250.00);
+
+        sessionRecyclerView.setHasFixedSize(true);
+        gridLayoutManager = new GridLayoutManager(this, spanCount);
+        sessionRecyclerView.setLayoutManager(gridLayoutManager);
+
+        final DbSingleton dbSingleton = DbSingleton.getInstance();
+        mSessions = dbSingleton.getSessionbySpeakersName(speaker);
+        sessionsListAdapter = new SessionsListAdapter(this, mSessions, spearkerWiseSessionList);
+        sessionRecyclerView.setNestedScrollingEnabled(false);
+        sessionRecyclerView.setAdapter(sessionsListAdapter);
+        sessionRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        if (!mSessions.isEmpty()) {
+            noSessionsView.setVisibility(View.GONE);
+            sessionRecyclerView.setVisibility(View.VISIBLE);
+        } else {
+            noSessionsView.setVisibility(View.VISIBLE);
+            sessionRecyclerView.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    protected int getLayoutResource() {
+        return R.layout.activity_speakers;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle bundle) {
+        super.onSaveInstanceState(bundle);
     }
 
     private static int getDarkColor(int color) {
