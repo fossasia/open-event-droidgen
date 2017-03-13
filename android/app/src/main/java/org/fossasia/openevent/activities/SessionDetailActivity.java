@@ -40,6 +40,7 @@ import org.fossasia.openevent.receivers.NotificationAlarmReceiver;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.ISO8601Date;
 import org.fossasia.openevent.utils.WidgetUpdater;
+import org.fossasia.openevent.views.MarginDecoration;
 
 import java.util.Calendar;
 import java.util.List;
@@ -212,6 +213,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
         speakersRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         speakersRecyclerView.setAdapter(adapter);
         speakersRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        speakersRecyclerView.addItemDecoration(new MarginDecoration(getApplicationContext()));
     }
 
     private void updateFloatingIcon(FloatingActionButton fabSessionBookmark) {

@@ -35,6 +35,7 @@ import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.fragments.BookmarksFragment;
 import org.fossasia.openevent.receivers.NotificationAlarmReceiver;
 import org.fossasia.openevent.utils.BookmarksListChangeListener;
 import org.fossasia.openevent.utils.ConstantStrings;
@@ -74,7 +75,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
     }
 
     private int color;
-
+    private BookmarksFragment bookmarksFragment;
     @SuppressWarnings("all")
     Filter filter = new Filter() {
         @Override
@@ -108,6 +109,14 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
         this.context = context;
         this.color = ContextCompat.getColor(context, R.color.color_primary);
         this.type = type;
+    }
+
+    public SessionsListAdapter( Context context,List<Session> sessions, int type, BookmarksFragment bookmarksFragment) {
+        super(sessions);
+        this.context = context;
+        this.type = type;
+        this.color = ContextCompat.getColor(context, R.color.color_primary);
+        this.bookmarksFragment = bookmarksFragment;
     }
 
     public void setTrackName(String trackName) {
@@ -198,7 +207,19 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
                         bookmarksListChangeListener.onChange();
                     }
                     Snackbar.make(v, R.string.removed_bookmark, Snackbar.LENGTH_LONG)
-                            .setAction(R.string.undo, new View.OnClickListener() {
+                            .setCallback(new Snackbar.Callback(){
+                        @Override
+                        public void onDismissed(Snackbar snackbar, int event) {
+                            if(bookmarksFragment!=null) {
+                                bookmarksFragment.onResume();
+
+                            }
+                        }
+                        @Override
+                        public void onShown(Snackbar snackbar) {
+
+                        }
+                    }).setAction(R.string.undo, new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     dbSingleton.addBookmarks(session.getId());
