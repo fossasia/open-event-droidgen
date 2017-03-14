@@ -37,7 +37,7 @@
     <string name="settings_mode_download">Download updates only on wifi</string>
     <string name="summary_mode_download">If switched on app will not use Mobile Data to update schedule</string>
     <string name="download_mode_key">internet_mode</string>
-
+    <string name= "notification_interval_title">Interval</string>
 
     <string name="settings_mode_notification"> Notification Mode</string>
     <string name="default_mode_notification">10 mins</string>
