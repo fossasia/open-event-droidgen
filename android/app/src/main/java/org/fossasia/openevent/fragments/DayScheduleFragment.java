@@ -102,7 +102,7 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
                             dayScheduleAdapter = new DayScheduleAdapter(sortedSessions, getContext());
                             dayRecyclerView.setAdapter(dayScheduleAdapter);
                             dayScheduleAdapter.setEventDate(date);
-
+                            dayScheduleAdapter.notifyDataSetChanged();
                             final StickyRecyclerHeadersDecoration headersDecoration = new StickyRecyclerHeadersDecoration(dayScheduleAdapter);
                             dayRecyclerView.addItemDecoration(headersDecoration);
                             dayScheduleAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
@@ -117,7 +117,7 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
         }).start();
 
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.schedule_swipe_refresh);
-      
+
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -149,9 +149,6 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
                     public void accept(@NonNull ArrayList<Session> sortedSessions) throws Exception {
                         mSessions.clear();
                         mSessions.addAll(sortedSessions);
-
-                        dayScheduleAdapter.notifyDataSetChanged();
-
                         handleVisibility();
                     }
                 });
