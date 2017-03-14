@@ -20,6 +20,7 @@ import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.ConstantStrings;
+import org.fossasia.openevent.views.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +36,7 @@ import timber.log.Timber;
  * User: MananWason
  * Date: 07-06-2015
  */
-public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.RecyclerViewHolder> {
+public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.RecyclerViewHolder> implements StickyRecyclerHeadersAdapter {
 
     private Context context;
     private ColorGenerator colorGenerator = ColorGenerator.MATERIAL;
@@ -126,6 +127,24 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.Re
     @Override
     public Filter getFilter() {
         return filter;
+    }
+
+    @Override
+    public long getHeaderId(int position) {
+        return getItem(position).getName().charAt(0);
+    }
+
+    @Override
+    public RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.recycler_view_header, parent, false);
+        return new RecyclerView.ViewHolder(view) {};
+    }
+
+    @Override
+    public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
+        TextView textView = (TextView) holder.itemView.findViewById(R.id.recyclerview_view_header);
+        textView.setText(String.valueOf(getItem(position).getName().charAt(0)));
     }
 
     protected class RecyclerViewHolder extends RecyclerView.ViewHolder {

@@ -36,6 +36,7 @@ import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.NetworkUtils;
 import org.fossasia.openevent.utils.ShowNotificationSnackBar;
 import org.fossasia.openevent.utils.SortOrder;
+import org.fossasia.openevent.views.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,10 +83,41 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
         sortType = sharedPreferences.getInt(ConstantStrings.PREF_SORT, 0);
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
-        dayScheduleAdapter = new DayScheduleAdapter(mSessions, getContext());
-        dayRecyclerView.setAdapter(dayScheduleAdapter);
-        dayScheduleAdapter.setEventDate(date);
+        /**
+         * Loading data in background to improve performance.
+         * */
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final List<Session> sortedSessions = DbSingleton.getInstance().getSessionbyDate(date, SortOrder.sortOrderSchedule(getActivity()));
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (dayRecyclerView != null && noSchedule != null) {
+                            if (!sortedSessions.isEmpty()) {
+                                noSchedule.setVisibility(View.GONE);
+                            } else {
+                                noSchedule.setVisibility(View.VISIBLE);
+                            }
+                            dayScheduleAdapter = new DayScheduleAdapter(sortedSessions, getContext());
+                            dayRecyclerView.setAdapter(dayScheduleAdapter);
+                            dayScheduleAdapter.setEventDate(date);
 
+                            final StickyRecyclerHeadersDecoration headersDecoration = new StickyRecyclerHeadersDecoration(dayScheduleAdapter);
+                            dayRecyclerView.addItemDecoration(headersDecoration);
+                            dayScheduleAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+                                @Override public void onChanged() {
+                                    headersDecoration.invalidateHeaders();
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+        }).start();
+
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.schedule_swipe_refresh);
+      
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

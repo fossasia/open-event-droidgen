@@ -31,6 +31,7 @@ import org.fossasia.openevent.dbutils.DataDownloadManager;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.MicrolocationDownloadEvent;
 import org.fossasia.openevent.events.RefreshUiEvent;
+import org.fossasia.openevent.views.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,6 +91,15 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
         locationsRecyclerView.setLayoutManager(gridLayoutManager);
         locationsListAdapter = new LocationsListAdapter(getContext(), mLocations);
         locationsRecyclerView.setAdapter(locationsListAdapter);
+
+        final StickyRecyclerHeadersDecoration headersDecoration = new StickyRecyclerHeadersDecoration(locationsListAdapter);
+        locationsRecyclerView.addItemDecoration(headersDecoration);
+        locationsListAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override public void onChanged() {
+                headersDecoration.invalidateHeaders();
+            }
+        });
+
         locationsRecyclerView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
             public boolean onPreDraw() {
