@@ -18,8 +18,12 @@ import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.ISO8601Date;
 import org.fossasia.openevent.utils.SortOrder;
+import org.fossasia.openevent.views.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -32,7 +36,7 @@ import timber.log.Timber;
 /**
  * Created by Manan Wason on 17/06/16.
  */
-public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapter.DayScheduleViewHolder> {
+public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapter.DayScheduleViewHolder> implements StickyRecyclerHeadersAdapter {
 
     private Context context;
     private String eventDate;
@@ -83,8 +87,8 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
     @Override
     public void onBindViewHolder(DayScheduleViewHolder holder, int position) {
         final Session currentSession = getItem(position);
-        String startTime = ISO8601Date.get24HourTime(ISO8601Date.getDateObject(currentSession.getStartTime()));
-        String endTime = ISO8601Date.get24HourTime(ISO8601Date.getDateObject(currentSession.getEndTime()));
+        String startTime = ISO8601Date.get12HourTime(ISO8601Date.getDateObject(currentSession.getStartTime()));
+        String endTime = ISO8601Date.get12HourTime(ISO8601Date.getDateObject(currentSession.getEndTime()));
 
         holder.startTime.setText(startTime);
         holder.endTime.setText(endTime);
@@ -135,6 +139,27 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
     @Override
     public Filter getFilter() {
         return filter;
+    }
+
+    @Override
+    public long getHeaderId(int position) {
+        String id = ISO8601Date.get24HourTime(ISO8601Date.getDateObject(getItem(position).getStartTime()));
+        id = id.replace(":","");
+        id = id.replace(" ","");
+        return Long.valueOf(id);
+    }
+
+    @Override
+    public RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.recycler_view_header, parent, false);
+        return new RecyclerView.ViewHolder(view) {};
+    }
+
+    @Override
+    public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
+        TextView textView = (TextView) holder.itemView.findViewById(R.id.recyclerview_view_header);
+        textView.setText(ISO8601Date.get12HourTime(ISO8601Date.getDateObject(getItem(position).getStartTime())));
     }
 
     protected class DayScheduleViewHolder extends RecyclerView.ViewHolder {
