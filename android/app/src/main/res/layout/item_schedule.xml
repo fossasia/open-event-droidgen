@@ -1,90 +1,81 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/content_frame"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/layout_margin_large"
+    android:layout_marginRight="@dimen/layout_margin_medium"
+    android:paddingLeft="@dimen/padding_large"
+    android:paddingTop="@dimen/padding_medium">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/ll_sessionDetails"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/ll_timings"
+        <TextView
+            android:id="@+id/slot_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
+            android:ellipsize="end"
+            android:paddingBottom="@dimen/padding_small"
+            android:paddingTop="@dimen/padding_small"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/slot_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:paddingBottom="@dimen/padding_small"
+            android:paddingTop="@dimen/padding_small"
+            android:textSize="@dimen/text_size_small" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/padding_small"
+            android:paddingTop="@dimen/padding_small">
 
             <TextView
                 android:id="@+id/slot_start_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/layout_margin_large"
-                android:layout_marginStart="@dimen/layout_margin_large"
-                android:layout_marginTop="@dimen/layout_margin_medium"
-                android:ellipsize="end"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_size_medium" />
+                android:textSize="@dimen/text_size_small" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" - " />
 
             <TextView
                 android:id="@+id/slot_end_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/layout_margin_medium"
-                android:layout_marginStart="@dimen/layout_margin_large"
-                android:textSize="@dimen/text_size_medium" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_sessionDetails"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/ll_timings"
-            android:layout_toRightOf="@+id/ll_timings"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/slot_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/layout_margin_large"
-                android:layout_marginStart="@dimen/layout_margin_large"
-                android:layout_marginTop="@dimen/layout_margin_medium"
-                android:ellipsize="end"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_size_medium" />
-
-            <TextView
-                android:id="@+id/slot_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/layout_margin_large"
-                android:layout_marginStart="@dimen/layout_margin_large"
-                android:layout_marginTop="@dimen/layout_margin_small"
-                android:ellipsize="end"
-                android:maxLines="2"
                 android:textSize="@dimen/text_size_small" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=",  " />
 
             <TextView
                 android:id="@+id/slot_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/layout_margin_large"
-                android:layout_marginStart="@dimen/layout_margin_large"
-                android:layout_marginTop="@dimen/layout_margin_small"
                 android:ellipsize="end"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_size_medium" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.8dp"
-                android:layout_marginLeft="@dimen/layout_margin_large"
-                android:layout_marginStart="@dimen/layout_margin_large"
-                android:layout_marginTop="@dimen/layout_margin_small"
-                android:background="?android:attr/listDivider"  />
+                android:maxLines="1"
+                android:textSize="@dimen/text_size_small" />
         </LinearLayout>
-    </RelativeLayout>
-</FrameLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.8dp"
+        android:layout_marginTop="@dimen/layout_margin_medium"
+        android:background="?android:attr/listDivider"
+        android:layout_below="@id/ll_sessionDetails"/>
+</RelativeLayout>
