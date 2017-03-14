@@ -32,6 +32,7 @@ import org.fossasia.openevent.events.RefreshUiEvent;
 import org.fossasia.openevent.events.TracksDownloadEvent;
 import org.fossasia.openevent.utils.NetworkUtils;
 import org.fossasia.openevent.utils.ShowNotificationSnackBar;
+import org.fossasia.openevent.views.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,6 +96,15 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
         tracksRecyclerView.setLayoutManager(linearLayoutManager);
         tracksListAdapter = new TracksListAdapter(getContext(), mTracks);
         tracksRecyclerView.setAdapter(tracksListAdapter);
+
+        final StickyRecyclerHeadersDecoration headersDecoration = new StickyRecyclerHeadersDecoration(tracksListAdapter);
+        tracksRecyclerView.addItemDecoration(headersDecoration);
+        tracksListAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override public void onChanged() {
+                headersDecoration.invalidateHeaders();
+            }
+        });
+
         tracksRecyclerView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
             public boolean onPreDraw() {
