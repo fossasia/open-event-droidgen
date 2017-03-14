@@ -15,11 +15,21 @@ import org.fossasia.openevent.events.DataDownloadEvent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by championswimmer on 21/6/16.
  */
 public class NetworkUtils extends BroadcastReceiver {
+
+    protected List<NetworkUtils.NetworkStateReceiverListener> listeners;
+    protected Boolean connected;
+
+    public NetworkUtils() {
+        listeners = new ArrayList<NetworkUtils.NetworkStateReceiverListener>();
+        connected = null;
+    }
+
 
     public static boolean haveNetworkConnection(Context ctx) {
 
@@ -86,15 +96,47 @@ public class NetworkUtils extends BroadcastReceiver {
         if (haveNetworkConnection(context)) {
             if (isActiveInternetPresent())
             {
-                //Internet is working
+                //internet is working
+                connected = true;
                 OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
             }else
             {
                 //Device is connected to WI-FI or Mobile Data but Internet is not working
                 //show toast
                 //will be useful if user have blocked notification for this app
+                connected = false;
                 Toast.makeText(context, R.string.waiting_for_network, Toast.LENGTH_LONG).show();
             }
         }
+        notifyStateToAll();
+    }
+
+    private void notifyStateToAll() {
+        for(NetworkUtils.NetworkStateReceiverListener listener : listeners)
+            notifyState(listener);
+    }
+
+    private void notifyState(NetworkUtils.NetworkStateReceiverListener listener) {
+        if(connected == null || listener == null)
+            return;
+
+        if(connected)
+            listener.networkAvailable();
+        else
+            listener.networkUnavailable();
+    }
+
+    public void addListener(NetworkUtils.NetworkStateReceiverListener l) {
+        listeners.add(l);
+        notifyState(l);
+    }
+
+    public void removeListener(NetworkUtils.NetworkStateReceiverListener l) {
+        listeners.remove(l);
+    }
+
+    public interface NetworkStateReceiverListener {
+        public void networkAvailable();
+        public void networkUnavailable();
     }
 }
