@@ -42,9 +42,12 @@ import org.fossasia.openevent.utils.NetworkUtils;
 import org.fossasia.openevent.utils.ShowNotificationSnackBar;
 import org.fossasia.openevent.views.MarginDecoration;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
 import static org.fossasia.openevent.utils.SortOrder.sortOrderSpeaker;
@@ -61,6 +64,7 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
     @BindView(R.id.txt_no_speakers)  TextView noSpeakersView;
     @BindView(R.id.rv_speakers) RecyclerView speakersRecyclerView;
 
+    private List<Speaker> mSpeakers = new ArrayList<>();
     private SpeakersListAdapter speakersListAdapter;
 
     private GridLayoutManager gridLayoutManager;
@@ -71,7 +75,6 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
 
     private int sortType;
 
-    private Snackbar snackbar;
     private Toolbar toolbar;
     private AppBarLayout.LayoutParams layoutParams;
     private int SCROLL_OFF = 0;
@@ -87,14 +90,14 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
         OpenEventApp.getEventBus().register(this);
 
         final DbSingleton dbSingleton = DbSingleton.getInstance();
-        final List<Speaker> mSpeakers = dbSingleton.getSpeakerList(sortOrderSpeaker(getActivity()));
+
         prefsSort = PreferenceManager.getDefaultSharedPreferences(getActivity());
         sortType = prefsSort.getInt(PREF_SORT, 0);
 
         //setting the grid layout to cut-off white space in tablet view
         DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
         float width = displayMetrics.widthPixels / displayMetrics.density;
-        int spanCount = (int) (width/150.00);
+        final int spanCount = (int) (width/150.00);
 
         speakersRecyclerView.addItemDecoration(new MarginDecoration(getContext()));
         speakersRecyclerView.setHasFixedSize(true);
@@ -125,13 +128,7 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
         if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
             searchText = savedInstanceState.getString(SEARCH);
         }
-        if (!mSpeakers.isEmpty()) {
-            noSpeakersView.setVisibility(View.GONE);
-            speakersRecyclerView.setVisibility(View.VISIBLE);
-        } else {
-            noSpeakersView.setVisibility(View.VISIBLE);
-            speakersRecyclerView.setVisibility(View.GONE);
-        }
+
         //scrollup shows actionbar
         speakersRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -145,7 +142,32 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
             }
         });
 
+        dbSingleton.getSpeakerListObservable(sortOrderSpeaker(getActivity()))
+                .subscribe(new Consumer<List<Speaker>>() {
+                    @Override
+                    public void accept(@NonNull List<Speaker> speakers) throws Exception {
+                        mSpeakers.clear();
+                        mSpeakers.addAll(speakers);
+
+                        speakersListAdapter.notifyDataSetChanged();
+
+                        handleVisibility();
+                    }
+                });
+
+        handleVisibility();
+
         return view;
+    }
+
+    private void handleVisibility() {
+        if (!mSpeakers.isEmpty()) {
+            noSpeakersView.setVisibility(View.GONE);
+            speakersRecyclerView.setVisibility(View.VISIBLE);
+        } else {
+            noSpeakersView.setVisibility(View.VISIBLE);
+            speakersRecyclerView.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -264,7 +286,7 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
                     }
                 };
                 //show snackbar will be useful if user have blocked notification for this app
-                snackbar = showNotificationSnackBar.showSnackBar();
+                showNotificationSnackBar.showSnackBar();
                 //show notification (Only when connected to WiFi)
                 showNotificationSnackBar.buildNotification();
             }
