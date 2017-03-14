@@ -363,7 +363,17 @@ public class MainActivity extends BaseActivity {
             final ActionBar ab = getSupportActionBar();
             assert ab != null;
             smoothActionBarToggle = new SmoothActionBarDrawerToggle(this,
-                    drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                    drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
+
+                @Override
+                public void onDrawerStateChanged(int newState) {
+                    super.onDrawerStateChanged(newState);
+
+                    if(toolbar.getTitle().equals(R.string.title_section_tracks)) {
+                        navigationView.setCheckedItem(R.id.nav_tracks);
+                    }
+                }
+            };
 
             drawerLayout.addDrawerListener(smoothActionBarToggle);
             ab.setDisplayHomeAsUpEnabled(true);
