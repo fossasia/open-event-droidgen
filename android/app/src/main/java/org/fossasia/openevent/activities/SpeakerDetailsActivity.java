@@ -348,60 +348,10 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
     public boolean onCreateOptionsMenu(final Menu menu) {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_speakers_activity, menu);
-
-        Target imageTarget = new Target() {
-            @Override
-            public void onBitmapLoaded(final Bitmap bitmap, Picasso.LoadedFrom from) {
-                Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
-                    @Override
-                    public void onGenerated(Palette palette) {
-                        int shareColor;
-
-                        shareColor = Color.WHITE;
-
-                        Drawable shareDrawable = VectorDrawableCompat.create(getApplicationContext().getResources(), R.drawable.ic_share_white_24dp, null);
-                        if(shareDrawable != null) shareDrawable.mutate().setColorFilter(shareColor, PorterDuff.Mode.MULTIPLY);
-
-                        menu.getItem(0).setIcon(shareDrawable);
-
-                        Drawable backDrawable = VectorDrawableCompat.create(getApplicationContext().getResources(), R.drawable.ic_arrow_back_white_24dp, null);
-                        if(backDrawable != null) backDrawable.mutate().setColorFilter(shareColor, PorterDuff.Mode.MULTIPLY);
-
-                    }
-                });
-            }
-
-            @Override
-            public void onBitmapFailed(Drawable errorDrawable) {
-                Drawable shareDrawable = VectorDrawableCompat.create(getApplicationContext().getResources(), R.drawable.ic_share_white_24dp, null);
-                if(shareDrawable != null) shareDrawable.clearColorFilter();
-
-                Drawable backDrawable = VectorDrawableCompat.create(getApplicationContext().getResources(), R.drawable.ic_arrow_back_white_24dp, null);
-                if(backDrawable != null) backDrawable.clearColorFilter();
-            }
-
-            @Override
-            public void onPrepareLoad(Drawable placeHolderDrawable) {
-                //This method is intentionally empty, because it is required to use Target, which is abstract
-            }
-        };
-
-        Picasso.with(SpeakerDetailsActivity.this)
-                .load(Uri.parse(selectedSpeaker.getPhoto()))
-                .into(imageTarget);
+        
         return true;
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        Drawable shareDrawable = VectorDrawableCompat.create(getApplicationContext().getResources(), R.drawable.ic_share_white_24dp, null);
-        if(shareDrawable != null) shareDrawable.clearColorFilter();
-
-        Drawable backDrawable = VectorDrawableCompat.create(getApplicationContext().getResources(), R.drawable.ic_arrow_back_white_24dp, null);
-        if(backDrawable != null) backDrawable.clearColorFilter();
-    }
 
     @Override
     protected void onDestroy() {
