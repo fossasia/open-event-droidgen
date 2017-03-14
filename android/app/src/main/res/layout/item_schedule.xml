@@ -1,90 +1,89 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_frame"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
+        android:id="@+id/ll_timings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
-        android:orientation="horizontal">
+        android:gravity="center_vertical"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/ll_timings"
+        <TextView
+            android:id="@+id/slot_start_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
+            android:layout_marginLeft="@dimen/layout_margin_large"
+            android:layout_marginStart="@dimen/layout_margin_large"
+            android:layout_marginTop="@dimen/layout_margin_medium"
+            android:ellipsize="end"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_medium"
+            tools:text="12:00" />
 
-            <TextView
-                android:id="@+id/slot_start_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/layout_margin_large"
-                android:layout_marginStart="@dimen/layout_margin_large"
-                android:layout_marginTop="@dimen/layout_margin_medium"
-                android:ellipsize="end"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_size_medium" />
-
-            <TextView
-                android:id="@+id/slot_end_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/layout_margin_medium"
-                android:layout_marginStart="@dimen/layout_margin_large"
-                android:textSize="@dimen/text_size_medium" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_sessionDetails"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/slot_end_time"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/ll_timings"
-            android:layout_toRightOf="@+id/ll_timings"
-            android:orientation="vertical">
+            android:layout_marginLeft="@dimen/layout_margin_medium"
+            android:layout_marginStart="@dimen/layout_margin_large"
+            android:textSize="@dimen/text_size_medium"
+            tools:text="01:00" />
+    </LinearLayout>
 
-            <TextView
-                android:id="@+id/slot_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/layout_margin_large"
-                android:layout_marginStart="@dimen/layout_margin_large"
-                android:layout_marginTop="@dimen/layout_margin_medium"
-                android:ellipsize="end"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_size_medium" />
+    <LinearLayout
+        android:id="@+id/ll_sessionDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/ll_timings"
+        android:layout_toRightOf="@+id/ll_timings"
+        android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/slot_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/layout_margin_large"
-                android:layout_marginStart="@dimen/layout_margin_large"
-                android:layout_marginTop="@dimen/layout_margin_small"
-                android:ellipsize="end"
-                android:maxLines="2"
-                android:textSize="@dimen/text_size_small" />
+        <TextView
+            android:id="@+id/slot_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/layout_margin_large"
+            android:layout_marginStart="@dimen/layout_margin_large"
+            android:layout_marginTop="@dimen/layout_margin_medium"
+            android:ellipsize="end"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_medium"
+            tools:text="Slot Title" />
 
-            <TextView
-                android:id="@+id/slot_location"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/layout_margin_large"
-                android:layout_marginStart="@dimen/layout_margin_large"
-                android:layout_marginTop="@dimen/layout_margin_small"
-                android:ellipsize="end"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_size_medium" />
+        <TextView
+            android:id="@+id/slot_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/layout_margin_large"
+            android:layout_marginStart="@dimen/layout_margin_large"
+            android:layout_marginTop="@dimen/layout_margin_small"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textSize="@dimen/text_size_small"
+            tools:text="Slot Description" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.8dp"
-                android:layout_marginLeft="@dimen/layout_margin_large"
-                android:layout_marginStart="@dimen/layout_margin_large"
-                android:layout_marginTop="@dimen/layout_margin_small"
-                android:background="?android:attr/listDivider"  />
-        </LinearLayout>
-    </RelativeLayout>
-</FrameLayout>
+        <TextView
+            android:id="@+id/slot_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/layout_margin_large"
+            android:layout_marginStart="@dimen/layout_margin_large"
+            android:layout_marginTop="@dimen/layout_margin_small"
+            android:ellipsize="end"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_medium"
+            tools:text="Slot Location" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.8dp"
+            android:layout_marginLeft="@dimen/layout_margin_large"
+            android:layout_marginStart="@dimen/layout_margin_large"
+            android:layout_marginTop="@dimen/layout_margin_small"
+            android:background="?android:attr/listDivider" />
+    </LinearLayout>
+</RelativeLayout>

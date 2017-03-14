@@ -1,5 +1,6 @@
 <android.support.design.widget.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -7,26 +8,25 @@
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tabBackground="?attr/selectableItemBackground"
-        app:tabGravity="center"
-        app:tabMode="fixed"
-        app:tabMinWidth="100dp"
-        app:tabMaxWidth="150dp"
-        android:elevation="8dp"
-        android:clipToPadding="false"
-        app:tabSelectedTextColor="@android:color/white"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:background="?attr/selectableItemBackground"
+        android:clipToPadding="false"
+        android:elevation="8dp"
+        app:tabBackground="?attr/selectableItemBackground"
+        app:tabGravity="center"
         app:tabIndicatorHeight="3dp"
-        />
-
+        app:tabMaxWidth="150dp"
+        app:tabMinWidth="100dp"
+        app:tabMode="fixed"
+        app:tabSelectedTextColor="@android:color/white"
+        tools:targetApi="lollipop" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"
-        android:layout_below="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/tabLayout"
         android:background="@android:color/white" />
 
 </android.support.design.widget.AppBarLayout>

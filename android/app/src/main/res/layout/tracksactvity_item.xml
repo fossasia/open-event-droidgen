@@ -3,100 +3,106 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
+
     <android.support.v7.widget.CardView
-        android:transitionName="sessionBackground"
         android:id="@+id/session_card"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="@dimen/layout_margin_medium">
-
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
             <LinearLayout
+                android:id="@+id/session_details"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:id="@+id/session_details"
-                android:transitionName="session">
+                android:orientation="vertical">
+
                 <LinearLayout
+                    android:id="@+id/titleLinearLayout"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
-                    android:orientation="vertical"
                     android:background="@color/color_primary"
-                    android:padding="@dimen/padding_medium"
-                    android:id="@+id/titleLinearLayout">
+                    android:orientation="vertical"
+                    android:padding="@dimen/padding_medium">
+
                     <TextView
                         android:id="@+id/session_title"
-                        android:text="Session Title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/white"
+                        android:ellipsize="end"
                         android:fontFamily="sans-serif"
-                        android:textSize="@dimen/heading_text_size"
                         android:maxLines="2"
-                        android:ellipsize="end"/>
+                        tools:text="Session Title"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/heading_text_size"
+                        tools:targetApi="jelly_bean" />
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1" />
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="end">
+                        android:gravity="end"
+                        android:orientation="horizontal">
+
                         <ImageView
                             android:id="@+id/session_bookmark_status"
-                            android:contentDescription="@string/session_bookmark_status"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            app:srcCompat="@drawable/ic_bookmark_border_white_24dp"
-                            android:layout_margin="3dp"/>
-                        <ImageView
-                            android:id="@+id/shareImageIcon"
-                            android:contentDescription="@string/session_share_icon"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:layout_margin="3dp"
+                            android:contentDescription="@string/session_bookmark_status"
+                            app:srcCompat="@drawable/ic_bookmark_border_white_24dp" />
+
+                        <ImageView
+                            android:id="@+id/shareImageIcon"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_margin="3dp"
+                            android:contentDescription="@string/session_share_icon"
                             app:srcCompat="@drawable/ic_share_white_24dp" />
                     </LinearLayout>
 
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:padding="@dimen/padding_medium">
+
                     <TextView
                         android:id="@+id/session_subtitle"
-                        android:text="Session Subtitle"
+                        style="@style/Base.TextAppearance.AppCompat.Subhead"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        style="@style/Base.TextAppearance.AppCompat.Subhead"/>
+                        tools:text="Session Subtitle"
+                        android:textColor="@color/white" />
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/layout_margin_medium"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
                         <ImageView
+                            android:id="@+id/trackImageDrawable"
                             android:layout_width="25dp"
                             android:layout_height="25dp"
-                            android:contentDescription="@string/item_track"
-                            android:id="@+id/trackImageDrawable"/>
+                            android:contentDescription="@string/item_track" />
+
                         <TextView
                             android:id="@+id/session_track"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textSize="@dimen/text_size"
-                            android:text="Track Name"
-                            android:textColor="@color/primary_text"
                             android:layout_marginLeft="@dimen/layout_margin_large"
-                            android:layout_marginStart="@dimen/layout_margin_large"/>
+                            android:layout_marginStart="@dimen/layout_margin_large"
+                            tools:text="Track Name"
+                            android:textColor="@color/primary_text"
+                            android:textSize="@dimen/text_size" />
                     </LinearLayout>
 
 
@@ -104,45 +110,49 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/layout_margin_medium"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
                         <ImageView
+                            android:id="@+id/icon_speaker"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:contentDescription="@string/session_speaker_icon"
-                            android:id="@+id/icon_speaker"
-                            app:srcCompat="@drawable/ic_speaker_black_24dp"/>
+                            app:srcCompat="@drawable/ic_speaker_black_24dp" />
+
                         <TextView
-                            android:id="@+id/session_spaeker"
+                            android:id="@+id/session_speaker"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="@dimen/text_size"
-                            android:text="Speaker"
-                            android:textColor="@color/primary_text"
                             android:layout_marginLeft="@dimen/layout_margin_large"
-                            android:layout_marginStart="@dimen/layout_margin_large"/>
+                            android:layout_marginStart="@dimen/layout_margin_large"
+                            tools:text="Speaker"
+                            android:textColor="@color/primary_text"
+                            android:textSize="@dimen/text_size" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/layout_margin_medium"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:contentDescription="@string/session_calender_icon"
-                            app:srcCompat="@drawable/ic_date_range_black_24dp"/>
+                            app:srcCompat="@drawable/ic_date_range_black_24dp" />
+
                         <TextView
                             android:id="@+id/session_date"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="@dimen/text_size"
-                            android:text="Date of Event"
-                            android:textColor="@color/primary_text"
                             android:layout_marginLeft="@dimen/layout_margin_large"
-                            android:layout_marginStart="@dimen/layout_margin_large"/>
+                            android:layout_marginStart="@dimen/layout_margin_large"
+                            tools:text="Date of Event"
+                            android:textColor="@color/primary_text"
+                            android:textSize="@dimen/text_size" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -150,20 +160,22 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/layout_margin_medium"
                         android:orientation="horizontal">
+
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:contentDescription="@string/session_clock_icon"
-                            app:srcCompat="@drawable/ic_schedule_black_24dp"/>
+                            app:srcCompat="@drawable/ic_schedule_black_24dp" />
+
                         <TextView
                             android:id="@+id/session_time"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Session Timings"
-                            android:textSize="@dimen/text_size"
-                            android:textColor="@color/primary_text"
                             android:layout_marginLeft="@dimen/layout_margin_large"
-                            android:layout_marginStart="@dimen/layout_margin_large"/>
+                            android:layout_marginStart="@dimen/layout_margin_large"
+                            tools:text="Session Timings"
+                            android:textColor="@color/primary_text"
+                            android:textSize="@dimen/text_size" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -171,24 +183,25 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/layout_margin_medium"
                         android:orientation="horizontal">
+
                         <ImageView
+                            android:id="@+id/icon_location"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:id="@+id/icon_location"
                             android:contentDescription="@string/session_location_icon"
-                            app:srcCompat="@drawable/ic_location_on_black_24dp"/>
+                            app:srcCompat="@drawable/ic_location_on_black_24dp" />
+
                         <TextView
                             android:id="@+id/session_location"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="@dimen/text_size"
-                            android:text="Session Location"
-                            android:textColor="@color/primary_text"
                             android:layout_marginLeft="@dimen/layout_margin_large"
-                            android:layout_marginStart="@dimen/layout_margin_large"/>
+                            android:layout_marginStart="@dimen/layout_margin_large"
+                            tools:text="Session Location"
+                            android:textColor="@color/primary_text"
+                            android:textSize="@dimen/text_size" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
     </android.support.v7.widget.CardView>
 </LinearLayout>
