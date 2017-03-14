@@ -14,6 +14,7 @@ import org.fossasia.openevent.R;
 import org.fossasia.openevent.activities.SessionDetailActivity;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Track;
+import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.ISO8601Date;
@@ -143,9 +144,14 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
 
     @Override
     public long getHeaderId(int position) {
-        String id = ISO8601Date.get24HourTime(ISO8601Date.getDateObject(getItem(position).getStartTime()));
-        id = id.replace(":","");
-        id = id.replace(" ","");
+        String id = "";
+        if (SortOrder.sortOrderSchedule(context).equals(DbContract.Sessions.TITLE)) {
+            return getItem(position).getTitle().charAt(0);
+        } else if (SortOrder.sortOrderSchedule(context).equals(DbContract.Sessions.START_TIME)) {
+            id = ISO8601Date.get24HourTime(ISO8601Date.getDateObject(getItem(position).getStartTime()));
+            id = id.replace(":", "");
+            id = id.replace(" ", "");
+        }
         return Long.valueOf(id);
     }
 
@@ -159,7 +165,12 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
     @Override
     public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
         TextView textView = (TextView) holder.itemView.findViewById(R.id.recyclerview_view_header);
-        textView.setText(ISO8601Date.get12HourTime(ISO8601Date.getDateObject(getItem(position).getStartTime())));
+        
+        if (SortOrder.sortOrderSchedule(context).equals(DbContract.Sessions.TITLE)) {
+            textView.setText(String.valueOf(getItem(position).getTitle().charAt(0)));
+        } else if (SortOrder.sortOrderSchedule(context).equals(DbContract.Sessions.START_TIME)) {
+            textView.setText(ISO8601Date.get12HourTime(ISO8601Date.getDateObject(getItem(position).getStartTime())));
+        }
     }
 
     protected class DayScheduleViewHolder extends RecyclerView.ViewHolder {
