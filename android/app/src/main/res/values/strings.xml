@@ -190,5 +190,9 @@
     <!--Branch integration strings-->
     <string name="branch_key_debug">key_test_gjCjmUMS5Dp6u7IukMSDujjhDwbPyjbB</string>
     <string name="branch_key_live">key_live_pavjjGHL2Al0qWQzjRQFvcddwscRvkcp</string>
-  
+
+    <!--Misc Strings-->
+    <string name="time_separator" translatable="false">\u0020-\u0020</string>
+    <string name="delimiter" translatable="false">,\u0020\u0020</string>
+
 </resources>
