@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -51,6 +52,7 @@ public class BookmarksFragment extends BaseFragment implements SearchView.OnQuer
     private GridLayoutManager gridLayoutManager;
 
     private static final int bookmarkedSessionList =3;
+    private final String FRAGMENT_TAG_REST = "FTAGR";
 
     private String searchText = "";
 
@@ -69,7 +71,7 @@ public class BookmarksFragment extends BaseFragment implements SearchView.OnQuer
     @Override
     public void onResume() {
         super.onResume();
-        if (sessionsListAdapter != null) {
+        if (sessionsListAdapter!= null) {
             try {
 
                 final DbSingleton dbSingleton = DbSingleton.getInstance();
@@ -80,24 +82,49 @@ public class BookmarksFragment extends BaseFragment implements SearchView.OnQuer
                                 bookmarkedIds = ids;
 
                                 sessionsListAdapter.clear();
-                                for (int i = 0; i < bookmarkedIds.size(); i++) {
-                                    Integer id = bookmarkedIds.get(i);
 
-                                    final int index = i;
-                                    dbSingleton.getSessionByIdObservable(id)
-                                            .subscribe(new Consumer<Session>() {
-                                                @Override
-                                                public void accept(@NonNull Session session) throws Exception {
-                                                    mSessions.add(session);
+                                if(bookmarkedIds.size()>0) {
 
-                                                    sessionsListAdapter.notifyItemInserted(index);
+                                    for (int i = 0; i < bookmarkedIds.size(); i++) {
+                                        Integer id = bookmarkedIds.get(i);
 
-                                                    if(index == bookmarkedIds.size())
-                                                        handleVisibility();
-                                                }
-                                            });
+                                        final int index = i;
+                                        dbSingleton.getSessionByIdObservable(id)
+                                                .subscribe(new Consumer<Session>() {
+                                                    @Override
+                                                    public void accept(@NonNull Session session) throws Exception {
+                                                        mSessions.add(session);
 
+                                                        sessionsListAdapter.notifyItemInserted(index);
+
+                                                        if(index == bookmarkedIds.size())
+                                                            handleVisibility();
+                                                    }
+                                                });
+
+                                    }
                                 }
+                                else {
+
+                                    DialogFactory.createSimpleActionDialog(
+                                            getContext(),
+                                            R.string.bookmarks,
+                                            R.string.empty_list,
+                                            new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                                    final FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                                                    fragmentManager.beginTransaction()
+                                                            .replace(R.id.content_frame, new TracksFragment(), FRAGMENT_TAG_REST).commit();
+                                                    if (toolbar != null) {
+                                                        toolbar.setTitle(R.string.menu_tracks);
+                                                    }
+                                                }
+                                            }
+                                    ).show();
+                                }
+
                             }
                         });
 
