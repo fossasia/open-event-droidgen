@@ -81,35 +81,25 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.Re
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerViewHolder holder, int position) {
         final Track currentTrack = getItem(position);
 
-        DbSingleton.getInstance().getSessionbyTracksnameObservable(currentTrack.getName())
-                .subscribe(new Consumer<ArrayList<Session>>() {
-                    @Override
-                    public void accept(@NonNull ArrayList<Session> sessions) throws Exception {
-                        if(!sessions.isEmpty()) {
-                            holder.trackTitle.setText(currentTrack.getName());
-                            holder.trackDescription.setText(currentTrack.getDescription());
+        holder.trackTitle.setText(currentTrack.getName());
+        holder.trackDescription.setText(currentTrack.getDescription());
 
-                            TextDrawable drawable = drawableBuilder.build(String.valueOf(currentTrack.getName().charAt(0)), colorGenerator.getColor(currentTrack.getName()));
-                            holder.trackImageIcon.setImageDrawable(drawable);
-                            holder.trackImageIcon.setBackgroundColor(Color.TRANSPARENT);
+        TextDrawable drawable = drawableBuilder.build(String.valueOf(currentTrack.getName().charAt(0)), colorGenerator.getColor(currentTrack.getName()));
+        holder.trackImageIcon.setImageDrawable(drawable);
+        holder.trackImageIcon.setBackgroundColor(Color.TRANSPARENT);
 
-                            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    String trackTitle = currentTrack.getName();
-                                    Intent intent = new Intent(context, TrackSessionsActivity.class);
-                                    intent.putExtra(ConstantStrings.TRACK, trackTitle);
-                                    context.startActivity(intent);
-                                }
-                            });
-                        }
-                    }
-                });
-
-
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String trackTitle = currentTrack.getName();
+                Intent intent = new Intent(context, TrackSessionsActivity.class);
+                intent.putExtra(ConstantStrings.TRACK, trackTitle);
+                context.startActivity(intent);
+            }
+        });
     }
 
     public void refresh() {

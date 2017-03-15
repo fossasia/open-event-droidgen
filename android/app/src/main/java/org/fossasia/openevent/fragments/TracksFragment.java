@@ -259,7 +259,7 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
             @Override
             public void inactiveConnection() {
                 //set is refreshing false as let user to login
-                if (swipeRefreshLayout.isRefreshing()) {
+                if (swipeRefreshLayout != null && swipeRefreshLayout.isRefreshing()) {
                     swipeRefreshLayout.setRefreshing(false);
                 }
                 //Device is connected to WI-FI or Mobile Data but Internet is not working
