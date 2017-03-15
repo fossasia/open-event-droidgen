@@ -11,6 +11,8 @@
     <application
         android:name=".OpenEventApp"
         android:allowBackup="false"
+        android:hardwareAccelerated="false"
+        android:largeHeap="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
