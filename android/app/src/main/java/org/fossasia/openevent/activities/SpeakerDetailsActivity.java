@@ -51,6 +51,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
@@ -95,9 +96,13 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
     @BindView(R.id.progress_bar)
     protected ProgressBar progressBar;
 
+    private CompositeDisposable disposable;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        disposable = new CompositeDisposable();
 
         final DbSingleton dbSingleton = DbSingleton.getInstance();
         speaker = getIntent().getStringExtra(Speaker.SPEAKER);
@@ -105,14 +110,14 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
         if(getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         collapsingToolbarLayout.setTitle(" ");
 
-        dbSingleton.getSpeakerbySpeakersnameObservable(speaker)
+        disposable.add(dbSingleton.getSpeakerbySpeakersnameObservable(speaker)
                 .subscribe(new Consumer<Speaker>() {
                     @Override
                     public void accept(@NonNull Speaker speaker) throws Exception {
                         selectedSpeaker = speaker;
                         loadSpeakerDetails();
                     }
-                });
+                }));
 
         appBarLayout.addOnOffsetChangedListener(this);
 
@@ -129,7 +134,7 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
         sessionRecyclerView.setAdapter(sessionsListAdapter);
         sessionRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        dbSingleton.getSessionbySpeakersNameObservable(speaker)
+        disposable.add(dbSingleton.getSessionbySpeakersNameObservable(speaker)
                 .subscribe(new Consumer<ArrayList<Session>>() {
                     @Override
                     public void accept(@NonNull ArrayList<Session> sessions) throws Exception {
@@ -139,7 +144,7 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
                         sessionsListAdapter.notifyDataSetChanged();
                         handleVisibility();
                     }
-                });
+                }));
 
         handleVisibility();
     }
@@ -290,7 +295,7 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
         gridLayoutManager.setSpanCount(spanCount);
 
         final DbSingleton dbSingleton = DbSingleton.getInstance();
-        dbSingleton.getSessionbySpeakersNameObservable(speaker)
+        disposable.add(dbSingleton.getSessionbySpeakersNameObservable(speaker)
                 .subscribe(new Consumer<ArrayList<Session>>() {
                     @Override
                     public void accept(@NonNull ArrayList<Session> sessions) throws Exception {
@@ -300,7 +305,7 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
                         sessionsListAdapter.notifyDataSetChanged();
                         handleVisibility();
                     }
-                });
+                }));
 
         handleVisibility();
     }
@@ -368,6 +373,8 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
         super.onDestroy();
         unbindService(customTabsServiceConnection);
         OpenEventApp.getEventBus().unregister(this);
+        if(disposable != null && !disposable.isDisposed())
+            disposable.dispose();
     }
 
     @Override

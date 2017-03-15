@@ -38,6 +38,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 
 /**
@@ -64,6 +65,8 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
     private AppBarLayout.LayoutParams layoutParams;
     private int SCROLL_OFF = 0;
 
+    private CompositeDisposable compositeDisposable;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
@@ -71,6 +74,7 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
         OpenEventApp.getEventBus().register(this);
+        compositeDisposable = new CompositeDisposable();
 
         final DbSingleton dbSingleton = DbSingleton.getInstance();
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -131,7 +135,7 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
             }
         });
 
-        dbSingleton.getMicrolocationsListObservable()
+        compositeDisposable.add(dbSingleton.getMicrolocationsListObservable()
                 .subscribe(new Consumer<ArrayList<Microlocation>>() {
                     @Override
                     public void accept(@NonNull ArrayList<Microlocation> microlocations) throws Exception {
@@ -141,7 +145,7 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
                         locationsListAdapter.notifyDataSetChanged();
                         handleVisibility();
                     }
-                });
+                }));
 
         handleVisibility();
 
@@ -240,26 +244,28 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
     public void onDestroyView() {
         super.onDestroyView();
         OpenEventApp.getEventBus().unregister(this);
+        if(compositeDisposable != null && !compositeDisposable.isDisposed())
+            compositeDisposable.dispose();
         layoutParams.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL);
         toolbar.setLayoutParams(layoutParams);
     }
 
     @Subscribe
     public void LocationsDownloadDone(MicrolocationDownloadEvent event) {
+        if(swipeRefreshLayout == null)
+            return;
 
         swipeRefreshLayout.setRefreshing(false);
         if (event.isState()) {
             locationsListAdapter.refresh();
 
         } else {
-            if (getActivity() != null) {
-                Snackbar.make(getView(), getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        refresh();
-                    }
-                }).show();
-            }
+            Snackbar.make(swipeRefreshLayout, getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    refresh();
+                }
+            }).show();
         }
     }
 

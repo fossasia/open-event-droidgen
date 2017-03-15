@@ -44,6 +44,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 
 /**
@@ -70,6 +71,8 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
 
     private SharedPreferences sharedPreferences;
 
+    private CompositeDisposable compositeDisposable;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -84,40 +87,7 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
         sortType = sharedPreferences.getInt(ConstantStrings.PREF_SORT, 0);
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
-        /**
-         * Loading data in background to improve performance.
-         * */
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                final List<Session> sortedSessions = DbSingleton.getInstance().getSessionbyDate(date, SortOrder.sortOrderSchedule(getActivity()));
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (dayRecyclerView != null && noSchedule != null) {
-                            if (!sortedSessions.isEmpty()) {
-                                noSchedule.setVisibility(View.GONE);
-                            } else {
-                                noSchedule.setVisibility(View.VISIBLE);
-                            }
-                            dayScheduleAdapter = new DayScheduleAdapter(sortedSessions, getContext());
-                            dayRecyclerView.setAdapter(dayScheduleAdapter);
-                            dayScheduleAdapter.setEventDate(date);
-                            dayScheduleAdapter.notifyDataSetChanged();
-                            final StickyRecyclerHeadersDecoration headersDecoration = new StickyRecyclerHeadersDecoration(dayScheduleAdapter);
-                            dayRecyclerView.addItemDecoration(headersDecoration);
-                            dayScheduleAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-                                @Override public void onChanged() {
-                                    headersDecoration.invalidateHeaders();
-                                }
-                            });
-                        }
-                    }
-                });
-            }
-        }).start();
-
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.schedule_swipe_refresh);
+        compositeDisposable = new CompositeDisposable();
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -127,6 +97,17 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
         });
 
         dayRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        dayScheduleAdapter = new DayScheduleAdapter(mSessions, getContext());
+        dayRecyclerView.setAdapter(dayScheduleAdapter);
+        dayScheduleAdapter.setEventDate(date);
+
+        final StickyRecyclerHeadersDecoration headersDecoration = new StickyRecyclerHeadersDecoration(dayScheduleAdapter);
+        dayRecyclerView.addItemDecoration(headersDecoration);
+        dayScheduleAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override public void onChanged() {
+                headersDecoration.invalidateHeaders();
+            }
+        });
 
         if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
             searchText = savedInstanceState.getString(SEARCH);
@@ -144,7 +125,7 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
             }
         });
 
-        DbSingleton.getInstance().getSessionByDateObservable(date, SortOrder.sortOrderSchedule(getActivity()))
+        compositeDisposable.add(DbSingleton.getInstance().getSessionByDateObservable(date, SortOrder.sortOrderSchedule(getActivity()))
                 .subscribe(new Consumer<ArrayList<Session>>() {
                     @Override
                     public void accept(@NonNull ArrayList<Session> sortedSessions) throws Exception {
@@ -152,7 +133,7 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
                         mSessions.addAll(sortedSessions);
                         handleVisibility();
                     }
-                });
+                }));
 
         handleVisibility();
 
@@ -172,6 +153,13 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
     @Override
     protected int getLayoutResource() {
         return R.layout.list_schedule;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if(compositeDisposable != null && !compositeDisposable.isDisposed())
+            compositeDisposable.dispose();
     }
 
     @Override
@@ -262,6 +250,8 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
 
     @Subscribe
     public void onScheduleDownloadDone(SessionDownloadEvent event) {
+        if(swipeRefreshLayout == null)
+            return;
 
         swipeRefreshLayout.setRefreshing(false);
         if (event.isState()) {
@@ -273,14 +263,12 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
                 }
             }
         } else {
-            if (getActivity() != null) {
-                Snackbar.make(getView(), getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        refresh();
-                    }
-                }).show();
-            }
+            Snackbar.make(swipeRefreshLayout, getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    refresh();
+                }
+            }).show();
         }
     }
 

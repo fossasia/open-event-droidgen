@@ -48,6 +48,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
@@ -79,7 +80,8 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
     private Toolbar toolbar;
     private AppBarLayout.LayoutParams layoutParams;
     private int SCROLL_OFF = 0;
-    private int spanCount = 2;
+
+    private CompositeDisposable compositeDisposable;
 
     @Nullable
     @Override
@@ -89,6 +91,7 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
         OpenEventApp.getEventBus().register(this);
+        compositeDisposable = new CompositeDisposable();
 
         final DbSingleton dbSingleton = DbSingleton.getInstance();
 
@@ -143,7 +146,7 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
             }
         });
 
-        dbSingleton.getSpeakerListObservable(sortOrderSpeaker(getActivity()))
+        compositeDisposable.add(dbSingleton.getSpeakerListObservable(sortOrderSpeaker(getActivity()))
                 .subscribe(new Consumer<List<Speaker>>() {
                     @Override
                     public void accept(@NonNull List<Speaker> speakers) throws Exception {
@@ -154,7 +157,7 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
 
                         handleVisibility();
                     }
-                });
+                }));
 
         handleVisibility();
 
@@ -180,6 +183,8 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
     public void onDestroyView() {
         super.onDestroyView();
         OpenEventApp.getEventBus().unregister(this);
+        if(compositeDisposable != null && !compositeDisposable.isDisposed())
+            compositeDisposable.dispose();
         layoutParams.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL);
         toolbar.setLayoutParams(layoutParams);
     }
@@ -248,6 +253,9 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
 
     @Subscribe
     public void speakerDownloadDone(SpeakerDownloadEvent event) {
+        if(swipeRefreshLayout == null)
+            return;
+
         swipeRefreshLayout.setRefreshing(false);
         if (event.isState()) {
             if (!searchView.getQuery().toString().isEmpty() && !searchView.isIconified()) {
@@ -257,14 +265,12 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
             }
             Timber.i("Speaker download completed");
         } else {
-            if (getActivity() != null) {
-                Snackbar.make(getView(), getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        refresh();
-                    }
-                }).show();
-            }
+            Snackbar.make(swipeRefreshLayout, getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    refresh();
+                }
+            }).show();
             Timber.i("Speaker download failed.");
         }
     }

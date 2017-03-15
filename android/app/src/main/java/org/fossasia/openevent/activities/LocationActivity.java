@@ -24,6 +24,7 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
@@ -51,10 +52,14 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
 
     private SearchView searchView;
 
+    private CompositeDisposable disposable;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
+        disposable = new CompositeDisposable();
 
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
@@ -86,7 +91,7 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
         sessionRecyclerView.scrollToPosition(SessionsListAdapter.listPosition);
         sessionRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        dbSingleton.getSessionbyLocationNameObservable(location)
+        disposable.add(dbSingleton.getSessionbyLocationNameObservable(location)
                 .subscribe(new Consumer<ArrayList<Session>>() {
                     @Override
                     public void accept(@NonNull ArrayList<Session> sessions) throws Exception {
@@ -96,7 +101,7 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
 
                         handleVisibility();
                     }
-                });
+                }));
 
         handleVisibility();
     }
@@ -122,6 +127,13 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
             bundle.putString(SEARCH, searchText);
         }
         super.onSaveInstanceState(bundle);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(disposable != null && !disposable.isDisposed())
+            disposable.dispose();
     }
 
     @Override
@@ -153,7 +165,7 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
     public boolean onQueryTextChange(final String query) {
         DbSingleton dbSingleton = DbSingleton.getInstance();
 
-        dbSingleton.getSessionbyLocationNameObservable(location)
+        disposable.add(dbSingleton.getSessionbyLocationNameObservable(location)
                 .subscribe(new Consumer<ArrayList<Session>>() {
                     @Override
                     public void accept(@NonNull ArrayList<Session> sessions) throws Exception {
@@ -170,7 +182,7 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
 
                         searchText = query;
                     }
-                });
+                }));
 
         return false;
     }

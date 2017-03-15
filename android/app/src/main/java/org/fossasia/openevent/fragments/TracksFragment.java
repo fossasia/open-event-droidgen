@@ -40,6 +40,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 
 /**
@@ -70,6 +71,8 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
     private AppBarLayout.LayoutParams layoutParams;
     private int SCROLL_OFF = 0;
 
+    private CompositeDisposable compositeDisposable;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
@@ -77,6 +80,7 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
         OpenEventApp.getEventBus().register(this);
+        compositeDisposable = new CompositeDisposable();
         dbSingleton = DbSingleton.getInstance();
         handleVisibility();
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -135,7 +139,7 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
             }
         });
 
-        dbSingleton.getTrackListObservable()
+        compositeDisposable.add(dbSingleton.getTrackListObservable()
                 .subscribe(new Consumer<List<Track>>() {
                     @Override
                     public void accept(@NonNull List<Track> tracks) throws Exception {
@@ -145,7 +149,7 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
                         tracksListAdapter.notifyDataSetChanged();
                         handleVisibility();
                     }
-                });
+                }));
 
         return view;
     }
@@ -169,6 +173,8 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
     public void onDestroyView() {
         super.onDestroyView();
         OpenEventApp.getEventBus().unregister(this);
+        if(compositeDisposable != null && !compositeDisposable.isDisposed())
+            compositeDisposable.dispose();
         layoutParams.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL);
         toolbar.setLayoutParams(layoutParams);
     }

@@ -34,6 +34,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
@@ -57,6 +58,8 @@ public class SponsorsFragment extends BaseFragment {
     private AppBarLayout.LayoutParams layoutParams;
     private int SCROLL_OFF = 0;
 
+    private CompositeDisposable compositeDisposable;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -65,6 +68,8 @@ public class SponsorsFragment extends BaseFragment {
         final View view = super.onCreateView(inflater, container, savedInstanceState);
 
         OpenEventApp.getEventBus().register(this);
+        compositeDisposable = new CompositeDisposable();
+
         final DbSingleton dbSingleton = DbSingleton.getInstance();
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -105,7 +110,7 @@ public class SponsorsFragment extends BaseFragment {
             }
         });
 
-        dbSingleton.getSponsorListObservable()
+        compositeDisposable.add(dbSingleton.getSponsorListObservable()
                 .subscribe(new Consumer<ArrayList<Sponsor>>() {
                     @Override
                     public void accept(@NonNull ArrayList<Sponsor> sponsors) throws Exception {
@@ -115,7 +120,7 @@ public class SponsorsFragment extends BaseFragment {
                         sponsorsListAdapter.notifyDataSetChanged();
                         handleVisibility();
                     }
-                });
+                }));
 
         return view;
     }
@@ -139,29 +144,29 @@ public class SponsorsFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         OpenEventApp.getEventBus().unregister(this);
+        if(compositeDisposable != null && !compositeDisposable.isDisposed())
+            compositeDisposable.dispose();
         layoutParams.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL);
         toolbar.setLayoutParams(layoutParams);
     }
 
     @Subscribe
     public void sponsorDownloadDone(SponsorDownloadEvent event) {
+        if(swipeRefreshLayout == null)
+            return;
 
         swipeRefreshLayout.setRefreshing(false);
         if (event.isState()) {
             sponsorsListAdapter.refresh();
             Timber.d("Refresh done");
-
         } else {
-            if (getActivity() != null) {
-                Snackbar.make(getView(), getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        refresh();
-                    }
-                }).show();
-            }
+            Snackbar.make(swipeRefreshLayout, getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    refresh();
+                }
+            }).show();
             Timber.d("Refresh not done");
-
         }
     }
 
