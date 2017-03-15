@@ -1,10 +1,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_frame"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="@dimen/layout_margin_large"
+    android:layout_marginStart="@dimen/layout_margin_large"
     android:layout_marginRight="@dimen/layout_margin_medium"
+    android:layout_marginEnd="@dimen/layout_margin_medium"
     android:paddingLeft="@dimen/padding_large"
+    android:paddingStart="@dimen/padding_large"
+    android:paddingRight="@dimen/padding_large"
+    android:paddingEnd="@dimen/padding_large"
     android:paddingTop="@dimen/padding_medium">
 
     <LinearLayout
@@ -21,7 +27,8 @@
             android:paddingBottom="@dimen/padding_small"
             android:paddingTop="@dimen/padding_small"
             android:textColor="@color/black"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            tools:text="Slot Title" />
 
         <TextView
             android:id="@+id/slot_description"
@@ -31,7 +38,8 @@
             android:maxLines="2"
             android:paddingBottom="@dimen/padding_small"
             android:paddingTop="@dimen/padding_small"
-            android:textSize="@dimen/text_size_small" />
+            android:textSize="@dimen/text_size_small"
+            tools:text="Slot Description" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -44,23 +52,25 @@
                 android:id="@+id/slot_start_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/text_size_small" />
+                android:textSize="@dimen/text_size_small"
+                tools:text="12:00" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=" - " />
+                android:text="@string/time_separator" />
 
             <TextView
                 android:id="@+id/slot_end_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/text_size_small" />
+                android:textSize="@dimen/text_size_small"
+                tools:text="1:00" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=",  " />
+                android:text="@string/delimiter" />
 
             <TextView
                 android:id="@+id/slot_location"
@@ -68,7 +78,8 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:textSize="@dimen/text_size_small" />
+                android:textSize="@dimen/text_size_small"
+                tools:text="Slot Location" />
         </LinearLayout>
     </LinearLayout>
 

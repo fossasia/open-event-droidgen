@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:showIn="@layout/activity_sessions_detail"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nested_scrollview_session_detail"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/nested_scrollview_session_detail"
+    android:clipToPadding="false"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".activities.SessionDetailActivity"
-    android:clipToPadding="false">
+    tools:showIn="@layout/activity_sessions_detail">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,24 +24,24 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:transitionName="session">
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/subtitle_session"
+                    style="@style/TextAppearance.AppCompat.Subhead"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/TextAppearance.AppCompat.Subhead"
                     android:layout_marginBottom="@dimen/layout_margin_medium"
-                    android:textColor="@color/primary_text"
-                    android:text="Session Subtitle" />
+                    android:textColor="@color/primary_text" />
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:rowCount="5"
-                    android:columnCount="2"
                     android:layout_marginBottom="@dimen/layout_margin_medium"
-                    android:orientation="horizontal">
+                    android:columnCount="2"
+                    android:orientation="horizontal"
+                    android:rowCount="5">
+
                     <TextView
                         android:id="@+id/trak"
                         android:layout_width="wrap_content"
@@ -50,8 +49,8 @@
                         android:layout_marginEnd="@dimen/layout_margin_medium"
                         android:layout_marginRight="@dimen/layout_margin_medium"
                         android:text="@string/tracks"
-                        android:textSize="@dimen/text_size"
                         android:textColor="@color/primary_text"
+                        android:textSize="@dimen/text_size"
                         android:textStyle="bold" />
 
                     <TextView
@@ -60,9 +59,11 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="40dp"
                         android:layout_marginStart="40dp"
+                        android:layout_toEndOf="@+id/trak"
                         android:layout_toRightOf="@id/trak"
-                        android:textSize="@dimen/text_size"
-                        android:textColor="@color/primary_text" />
+                        android:textColor="@color/primary_text"
+                        android:textSize="@dimen/text_size" />
+
                     <TextView
                         android:id="@+id/date"
                         android:layout_width="wrap_content"
@@ -71,8 +72,8 @@
                         android:layout_marginEnd="@dimen/layout_margin_medium"
                         android:layout_marginRight="@dimen/layout_margin_medium"
                         android:text="@string/date"
-                        android:textSize="@dimen/text_size"
                         android:textColor="@color/primary_text"
+                        android:textSize="@dimen/text_size"
                         android:textStyle="bold" />
 
                     <TextView
@@ -80,11 +81,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/track"
-                        android:layout_toRightOf="@id/date"
                         android:layout_marginLeft="48dp"
                         android:layout_marginStart="49dp"
-                        android:textSize="@dimen/text_size"
-                        android:textColor="@color/primary_text" />
+                        android:layout_toEndOf="@id/date"
+                        android:layout_toRightOf="@id/date"
+                        android:textColor="@color/primary_text"
+                        android:textSize="@dimen/text_size" />
+
                     <TextView
                         android:id="@+id/start"
                         android:layout_width="wrap_content"
@@ -93,8 +96,8 @@
                         android:layout_marginEnd="@dimen/layout_margin_medium"
                         android:layout_marginRight="@dimen/layout_margin_medium"
                         android:text="@string/start_time"
-                        android:textSize="@dimen/text_size"
                         android:textColor="@color/primary_text"
+                        android:textSize="@dimen/text_size"
                         android:textStyle="bold" />
 
                     <TextView
@@ -102,11 +105,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/date_session"
-                        android:layout_toRightOf="@id/start"
-                        android:textSize="@dimen/text_size"
                         android:layout_marginLeft="7dp"
                         android:layout_marginStart="7dp"
-                        android:textColor="@color/primary_text" />
+                        android:layout_toEndOf="@id/start"
+                        android:layout_toRightOf="@id/start"
+                        android:textColor="@color/primary_text"
+                        android:textSize="@dimen/text_size" />
 
                     <TextView
                         android:id="@+id/end"
@@ -116,8 +120,8 @@
                         android:layout_marginEnd="@dimen/layout_margin_medium"
                         android:layout_marginRight="@dimen/layout_margin_medium"
                         android:text="@string/end_time"
-                        android:textSize="@dimen/text_size"
                         android:textColor="@color/primary_text"
+                        android:textSize="@dimen/text_size"
                         android:textStyle="bold" />
 
                     <TextView
@@ -125,11 +129,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/start_time_session"
-                        android:layout_toRightOf="@id/end"
                         android:layout_marginLeft="16dp"
                         android:layout_marginStart="16dp"
-                        android:textSize="@dimen/text_size"
-                        android:textColor="@color/primary_text" />
+                        android:layout_toEndOf="@id/end"
+                        android:layout_toRightOf="@id/end"
+                        android:textColor="@color/primary_text"
+                        android:textSize="@dimen/text_size" />
 
                     <TextView
                         android:id="@+id/location"
@@ -139,8 +144,8 @@
                         android:layout_marginEnd="@dimen/layout_margin_medium"
                         android:layout_marginRight="@dimen/layout_margin_medium"
                         android:text="@string/location"
-                        android:textSize="@dimen/text_size"
                         android:textColor="@color/primary_text"
+                        android:textSize="@dimen/text_size"
                         android:textStyle="bold" />
 
                     <TextView
@@ -148,19 +153,22 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/end_time_session"
-                        android:layout_toRightOf="@id/location"
                         android:layout_marginLeft="22dp"
                         android:layout_marginStart="22dp"
-                        android:textSize="@dimen/text_size"
-                        android:textColor="@color/primary_text" />
+                        android:layout_toEndOf="@id/location"
+                        android:layout_toRightOf="@id/location"
+                        android:textColor="@color/primary_text"
+                        android:textSize="@dimen/text_size" />
                 </RelativeLayout>
+
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/list_speakerss"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:clipToPadding="false"
                     android:paddingBottom="@dimen/padding_medium"
-                    android:paddingTop="@dimen/padding_medium"/>
+                    android:paddingTop="@dimen/padding_medium"
+                    tools:listitem="@layout/item_speaker" />
             </LinearLayout>
 
             <TextView
@@ -177,11 +185,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/layout_margin_large"
-                android:textSize="@dimen/text_size"
-                android:textColor="@android:color/black"
-                android:gravity="start"
-                android:textIsSelectable="true"
                 android:autoLink="web"
+                android:gravity="start"
+                android:textColor="@android:color/black"
+                android:textIsSelectable="true"
+                android:textSize="@dimen/text_size"
                 tools:text="Open Event!" />
         </LinearLayout>
 
@@ -189,6 +197,6 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textIsSelectable="true"/>
+            android:textIsSelectable="true" />
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

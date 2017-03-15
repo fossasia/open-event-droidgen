@@ -29,7 +29,8 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true">
 
                 <ImageView
                     android:id="@+id/speaker_image"
@@ -65,20 +66,21 @@
                     android:id="@+id/speaker_details_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Title"
-                    android:textStyle="bold"
                     android:fontFamily="sans-serif-condensed"
                     android:paddingBottom="@dimen/padding_small"
                     android:textColor="@android:color/white"
-                    android:textSize="@dimen/heading_text_size" />
+                    android:textSize="@dimen/heading_text_size"
+                    android:textStyle="bold"
+                    tools:targetApi="jelly_bean"
+                    tools:text="Title" />
 
                 <TextView
                     android:id="@+id/speaker_details_designation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Subtitle"
                     android:textColor="@android:color/white"
-                    android:textSize="@dimen/text_size" />
+                    android:textSize="@dimen/text_size"
+                    tools:text="Subtitle" />
 
             </LinearLayout>
 
@@ -116,9 +118,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/speaker_bio"
-                android:layout_marginRight="@dimen/layout_margin_large"
+                android:layout_marginBottom="@dimen/layout_margin_large"
                 android:layout_marginLeft="@dimen/layout_margin_large"
-                android:layout_marginBottom="@dimen/layout_margin_large">
+                android:layout_marginRight="@dimen/layout_margin_large">
 
                 <ImageView
                     android:id="@+id/imageView_fb"
@@ -187,7 +189,8 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerView_speakers"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    tools:listitem="@layout/item_speaker" />
 
                 <TextView
                     android:id="@+id/txt_no_sessions"

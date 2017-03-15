@@ -320,7 +320,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
         @BindView(R.id.session_date)
         protected TextView sessionDate;
 
-        @BindView(R.id.session_spaeker)
+        @BindView(R.id.session_speaker)
         protected TextView sessionSpeaker;
 
         @BindView(R.id.icon_speaker)

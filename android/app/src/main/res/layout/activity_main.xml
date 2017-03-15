@@ -37,11 +37,11 @@
 
             <ProgressBar
                 android:id="@+id/progress"
-                android:layout_marginBottom="@dimen/bottom_progressbar_margin"
-                android:layout_marginTop="@dimen/top_progressbar_margin"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/bottom_progressbar_margin"
+                android:layout_marginTop="@dimen/top_progressbar_margin"
                 android:max="100"
                 android:visibility="gone" />
 

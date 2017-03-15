@@ -27,7 +27,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="0.80"
+            android:paddingEnd="@dimen/padding_medium"
             android:paddingLeft="@dimen/padding_medium"
+            android:paddingRight="@dimen/padding_medium"
             android:paddingStart="@dimen/padding_medium"
             android:text="@string/bookmarks"
             android:textColor="@color/cardview_dark_background"
@@ -56,7 +58,8 @@
             android:gravity="center"
             android:text="@string/empty_list"
             android:textAppearance="?android:textAppearanceMedium"
-            android:textColor="@color/secondary_text" />
+            android:textColor="@color/secondary_text"
+            tools:targetApi="jelly_bean" />
     </FrameLayout>
 
 </LinearLayout>
