@@ -90,6 +90,7 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
                 .subscribe(new Consumer<ArrayList<Session>>() {
                     @Override
                     public void accept(@NonNull ArrayList<Session> sessions) throws Exception {
+                        mSessions.clear();
                         mSessions.addAll(sessions);
                         sessionsListAdapter.notifyDataSetChanged();
 
