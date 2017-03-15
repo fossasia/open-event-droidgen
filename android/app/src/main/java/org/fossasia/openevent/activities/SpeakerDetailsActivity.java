@@ -214,9 +214,12 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
             }
         };
 
-        Picasso.with(SpeakerDetailsActivity.this)
-                .load(Uri.parse(selectedSpeaker.getPhoto()))
-                .into(imageTarget);
+        if(selectedSpeaker!=null) {
+
+            Picasso.with(SpeakerDetailsActivity.this)
+                    .load(Uri.parse(selectedSpeaker.getPhoto()))
+                    .into(imageTarget);
+        }
     }
 
     private void handleVisibility() {
