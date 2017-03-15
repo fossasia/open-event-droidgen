@@ -38,6 +38,7 @@ import org.fossasia.openevent.utils.ShowNotificationSnackBar;
 import org.fossasia.openevent.utils.SortOrder;
 import org.fossasia.openevent.views.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -284,11 +285,15 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
     }
 
     private void refresh() {
-        if (NetworkUtils.haveNetworkConnection(getContext())) {
-            if (NetworkUtils.isActiveInternetPresent()) {
+        NetworkUtils.checkConnection(new WeakReference<>(getContext()), new NetworkUtils.NetworkStateReceiverListener() {
+            @Override
+            public void activeConnection() {
                 //Internet is working
                 DataDownloadManager.getInstance().downloadSession();
-            } else {
+            }
+
+            @Override
+            public void inactiveConnection() {
                 //Device is connected to WI-FI or Mobile Data but Internet is not working
                 //set is refreshing false as let user to login
                 if (swipeRefreshLayout.isRefreshing()) {
@@ -305,9 +310,17 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
                 //show notification (Only when connected to WiFi)
                 showNotificationSnackBar.buildNotification();
             }
-        } else {
-            OpenEventApp.getEventBus().post(new SessionDownloadEvent(false));
-        }
+
+            @Override
+            public void networkAvailable() {
+                // Network is available but we need to wait for activity
+            }
+
+            @Override
+            public void networkUnavailable() {
+                OpenEventApp.getEventBus().post(new SessionDownloadEvent(false));
+            }
+        });
     }
 
 

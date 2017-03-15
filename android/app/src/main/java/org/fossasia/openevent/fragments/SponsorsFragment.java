@@ -28,6 +28,7 @@ import org.fossasia.openevent.events.SponsorDownloadEvent;
 import org.fossasia.openevent.utils.NetworkUtils;
 import org.fossasia.openevent.utils.ShowNotificationSnackBar;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -165,11 +166,15 @@ public class SponsorsFragment extends BaseFragment {
     }
 
     private void refresh() {
-        if (NetworkUtils.haveNetworkConnection(getActivity())) {
-            if (NetworkUtils.isActiveInternetPresent()) {
+        NetworkUtils.checkConnection(new WeakReference<>(getContext()), new NetworkUtils.NetworkStateReceiverListener() {
+            @Override
+            public void activeConnection() {
                 //Internet is working
                 DataDownloadManager.getInstance().downloadSponsors();
-            } else {
+            }
+
+            @Override
+            public void inactiveConnection() {
                 //Device is connected to WI-FI or Mobile Data but Internet is not working
                 ShowNotificationSnackBar showNotificationSnackBar = new ShowNotificationSnackBar(getContext(),getView(),swipeRefreshLayout) {
                     @Override
@@ -182,15 +187,23 @@ public class SponsorsFragment extends BaseFragment {
                 //show notification (Only when connected to WiFi)
                 showNotificationSnackBar.buildNotification();
             }
-        } else {
-            Snackbar.make(getView(), getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    refresh();
-                }
-            }).show();
-            OpenEventApp.getEventBus().post(new SponsorDownloadEvent(true));
-        }
+
+            @Override
+            public void networkAvailable() {
+                // Network is available but we need to wait for activity
+            }
+
+            @Override
+            public void networkUnavailable() {
+                Snackbar.make(swipeRefreshLayout, getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        refresh();
+                    }
+                }).show();
+                OpenEventApp.getEventBus().post(new SponsorDownloadEvent(true));
+            }
+        });
     }
 
     @Override

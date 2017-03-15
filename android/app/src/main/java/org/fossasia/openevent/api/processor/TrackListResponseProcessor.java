@@ -5,11 +5,13 @@ import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.TracksDownloadEvent;
-import org.fossasia.openevent.utils.CommonTaskLoop;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.Completable;
+import io.reactivex.functions.Action;
+import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -25,9 +27,9 @@ public class TrackListResponseProcessor implements Callback<List<Track>> {
     @Override
     public void onResponse(Call<List<Track>> call, final Response<List<Track>> response) {
         if (response.isSuccessful()) {
-            CommonTaskLoop.getInstance().post(new Runnable() {
+            Completable.fromAction(new Action() {
                 @Override
-                public void run() {
+                public void run() throws Exception {
                     ArrayList<String> queries = new ArrayList<>();
 
                     for (Track track : response.body()) {
@@ -42,7 +44,7 @@ public class TrackListResponseProcessor implements Callback<List<Track>> {
 
                     OpenEventApp.postEventOnUIThread(new TracksDownloadEvent(true));
                 }
-            });
+            }).subscribeOn(Schedulers.computation()).subscribe();
         } else {
             OpenEventApp.getEventBus().post(new TracksDownloadEvent(false));
         }

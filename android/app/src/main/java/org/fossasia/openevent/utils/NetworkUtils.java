@@ -13,9 +13,17 @@ import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.events.DataDownloadEvent;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.Callable;
+
+import io.reactivex.Single;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by championswimmer on 21/6/16.
@@ -32,8 +40,16 @@ public class NetworkUtils extends BroadcastReceiver {
 
 
     public static boolean haveNetworkConnection(Context ctx) {
-
         return haveWifiConnection(ctx) || haveMobileConnection(ctx);
+    }
+
+    public static Single<Boolean> haveNetworkConnectionObservable(final Context context) {
+        return Single.fromCallable(new Callable<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                return haveNetworkConnection(context);
+            }
+        });
     }
 
     public static boolean haveWifiConnection(Context ctx) {
@@ -56,7 +72,6 @@ public class NetworkUtils extends BroadcastReceiver {
         return false;
 
     }
-
 
     public static boolean haveMobileConnection(Context ctx) {
         ConnectivityManager cm = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -90,17 +105,23 @@ public class NetworkUtils extends BroadcastReceiver {
         return false;
     }
 
+    public static Single<Boolean> isActiveInternetPresentObservable() {
+        return Single.fromCallable(new Callable<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                return isActiveInternetPresent();
+            }
+        });
+    }
 
     @Override
     public void onReceive(Context context, Intent intent) {
         if (haveNetworkConnection(context)) {
-            if (isActiveInternetPresent())
-            {
+            if (isActiveInternetPresent()) {
                 //internet is working
                 connected = true;
                 OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
-            }else
-            {
+            } else {
                 //Device is connected to WI-FI or Mobile Data but Internet is not working
                 //show toast
                 //will be useful if user have blocked notification for this app
@@ -135,8 +156,42 @@ public class NetworkUtils extends BroadcastReceiver {
         listeners.remove(l);
     }
 
+    public static void checkConnection(WeakReference<Context> reference, final NetworkStateReceiverListener listener) {
+        if(reference.get() == null || listener == null)
+            return;
+
+        haveNetworkConnectionObservable(reference.get())
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(@NonNull Boolean hasConnection) throws Exception {
+                        if(hasConnection) {
+                            listener.networkAvailable();
+                            isActiveInternetPresentObservable()
+                                    .subscribeOn(Schedulers.computation())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe(new Consumer<Boolean>() {
+                                        @Override
+                                        public void accept(@NonNull Boolean isActive) throws Exception {
+                                            if(isActive) {
+                                                listener.activeConnection();
+                                            } else {
+                                                listener.inactiveConnection();
+                                            }
+                                        }
+                                    });
+                        } else {
+                            listener.networkUnavailable();
+                        }
+                    }
+                });
+    }
+
     public interface NetworkStateReceiverListener {
-        public void networkAvailable();
-        public void networkUnavailable();
+        void activeConnection();
+        void inactiveConnection();
+        void networkAvailable();
+        void networkUnavailable();
     }
 }
