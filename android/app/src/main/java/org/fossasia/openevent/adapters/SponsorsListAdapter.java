@@ -17,12 +17,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Sponsor;
 import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.utils.NetworkUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,11 +90,23 @@ public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, RecyclerView.Vie
             }
             sponsorViewHolder.sponsorType.setText(currentSponsor.getType());
 
-            Picasso.with(sponsorViewHolder.sponsorImage.getContext())
-                    .load(uri)
-                    .resize(width, (height / 6))
-                    .centerInside()
-                    .into(sponsorViewHolder.sponsorImage);
+            if(NetworkUtils.isActiveInternetPresent()) {
+
+                Picasso.with(sponsorViewHolder.sponsorImage.getContext())
+                        .load(uri)
+                        .resize(width, (height / 6))
+                        .centerInside()
+                        .into(sponsorViewHolder.sponsorImage);
+            }
+            else {
+
+                Picasso.with(sponsorViewHolder.sponsorImage.getContext())
+                        .load(uri)
+                        .resize(width, (height / 6))
+                        .centerInside()
+                        .networkPolicy(NetworkPolicy.OFFLINE)
+                        .into(sponsorViewHolder.sponsorImage);
+            }
 
             sponsorViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
