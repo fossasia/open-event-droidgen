@@ -14,6 +14,7 @@ import org.fossasia.openevent.activities.LocationActivity;
 import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.ConstantStrings;
+import org.fossasia.openevent.views.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ import timber.log.Timber;
  * User: MananWason
  * Date: 8/18/2015
  */
-public class LocationsListAdapter extends BaseRVAdapter<Microlocation, LocationsListAdapter.LocationViewHolder> {
+public class LocationsListAdapter extends BaseRVAdapter<Microlocation, LocationsListAdapter.LocationViewHolder> implements StickyRecyclerHeadersAdapter {
 
     private Context context;
     public static int listPosition;
@@ -107,6 +108,24 @@ public class LocationsListAdapter extends BaseRVAdapter<Microlocation, Locations
                         animateTo(microlocations);
                     }
                 });
+    }
+
+    @Override
+    public long getHeaderId(int position) {
+        return getItem(position).getName().charAt(0);
+    }
+
+    @Override
+    public RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.recycler_view_header, parent, false);
+        return new RecyclerView.ViewHolder(view) {};
+    }
+
+    @Override
+    public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
+        TextView textView = (TextView) holder.itemView.findViewById(R.id.recyclerview_view_header);
+        textView.setText(String.valueOf(getItem(position).getName().charAt(0)));
     }
 
     protected class LocationViewHolder extends RecyclerView.ViewHolder {

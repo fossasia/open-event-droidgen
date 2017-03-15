@@ -225,7 +225,7 @@ public class MainActivity extends BaseActivity {
                                             public void run() throws Exception {
                                                 Boolean preference = sharedPreferences.getBoolean(getResources().getString(R.string.download_mode_key), true);
                                                 if (preference) {
-                                                    if (NetworkUtils.haveWifiConnection(MainActivity.this)) {
+                                                    if (NetworkUtils.haveNetworkConnection(MainActivity.this)) {
                                                         OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
                                                         sharedPreferences.edit().putBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true).apply();
                                                     } else {
@@ -363,7 +363,17 @@ public class MainActivity extends BaseActivity {
             final ActionBar ab = getSupportActionBar();
             assert ab != null;
             smoothActionBarToggle = new SmoothActionBarDrawerToggle(this,
-                    drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                    drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
+
+                @Override
+                public void onDrawerStateChanged(int newState) {
+                    super.onDrawerStateChanged(newState);
+
+                    if(toolbar.getTitle().equals(R.string.title_section_tracks)) {
+                        navigationView.setCheckedItem(R.id.nav_tracks);
+                    }
+                }
+            };
 
             drawerLayout.addDrawerListener(smoothActionBarToggle);
             ab.setDisplayHomeAsUpEnabled(true);
@@ -425,8 +435,14 @@ public class MainActivity extends BaseActivity {
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        int id = menuItem.getItemId();
-                        doMenuAction(id);
+                        final int id = menuItem.getItemId();
+                        drawerLayout.closeDrawers();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                doMenuAction(id);
+                            }
+                        }, 250);
                         DbSingleton dbSingleton = DbSingleton.getInstance();
                         if (id == R.id.nav_bookmarks && dbSingleton.isBookmarksTableEmpty()){
                             return false;
@@ -640,7 +656,6 @@ public class MainActivity extends BaseActivity {
                 break;
         }
         currentMenuItemId = menuItemId;
-        drawerLayout.closeDrawers();
     }
 
     @Override

@@ -3,6 +3,7 @@ package org.fossasia.openevent.activities;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -44,6 +45,7 @@ import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.utils.NetworkUtils;
 import org.fossasia.openevent.utils.SpeakerIntent;
 
 import java.util.ArrayList;
@@ -56,7 +58,7 @@ import io.reactivex.functions.Consumer;
 /**
  * Created by MananWason on 30-06-2015.
  */
-public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout.OnOffsetChangedListener {
+public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout.OnOffsetChangedListener, NetworkUtils.NetworkStateReceiverListener {
 
     private SessionsListAdapter sessionsListAdapter;
 
@@ -113,6 +115,11 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
                     }
                 });
 
+        //initialising the network change listener
+        NetworkUtils networkUtils = new NetworkUtils();
+        networkUtils.addListener(this);
+        this.registerReceiver(networkUtils, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+
         appBarLayout.addOnOffsetChangedListener(this);
 
         DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
@@ -141,6 +148,68 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
                 });
 
         handleVisibility();
+    }
+
+    @Override
+    public void networkAvailable() {
+
+        //loads image when internet present
+        loadSpeakerImageWithInternet();
+    }
+
+    @Override
+    public void networkUnavailable() {
+        //network not available
+        loadSpeakerImage();
+    }
+
+    public void loadSpeakerImageWithInternet() {
+
+        final Context context = this;
+
+        final Palette.PaletteAsyncListener paletteAsyncListener = new Palette.PaletteAsyncListener() {
+            @Override
+            public void onGenerated(Palette palette) {
+                Palette.Swatch swatch = palette.getDarkVibrantSwatch();
+
+                int backgroundColor = ContextCompat.getColor(context, R.color.color_primary);
+
+                if(swatch != null) {
+                    backgroundColor = swatch.getRgb();
+                }
+
+                collapsingToolbarLayout.setBackgroundColor(backgroundColor);
+                collapsingToolbarLayout.setStatusBarScrimColor(getDarkColor(backgroundColor));
+                collapsingToolbarLayout.setContentScrimColor(backgroundColor);
+
+                sessionsListAdapter.setColor(backgroundColor);
+            }
+        };
+
+        Target imageTarget = new Target() {
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                progressBar.setVisibility(View.GONE);
+
+                speakerImage.setImageBitmap(bitmap);
+
+                Palette.from(bitmap).generate(paletteAsyncListener);
+            }
+
+            @Override
+            public void onBitmapFailed(Drawable errorDrawable) {
+                progressBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+                // No action to be done on preparation of loading
+            }
+        };
+
+        Picasso.with(SpeakerDetailsActivity.this)
+                .load(Uri.parse(selectedSpeaker.getPhoto()))
+                .into(imageTarget);
     }
 
     private void handleVisibility() {
@@ -264,52 +333,7 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
             return;
         }
 
-        final Context context = this;
-
-        final Palette.PaletteAsyncListener paletteAsyncListener = new Palette.PaletteAsyncListener() {
-            @Override
-            public void onGenerated(Palette palette) {
-                Palette.Swatch swatch = palette.getDarkVibrantSwatch();
-
-                int backgroundColor = ContextCompat.getColor(context, R.color.color_primary);
-
-                if(swatch != null) {
-                    backgroundColor = swatch.getRgb();
-                }
-
-                collapsingToolbarLayout.setBackgroundColor(backgroundColor);
-                collapsingToolbarLayout.setStatusBarScrimColor(getDarkColor(backgroundColor));
-                collapsingToolbarLayout.setContentScrimColor(backgroundColor);
-
-                sessionsListAdapter.setColor(backgroundColor);
-            }
-        };
-
-        Target imageTarget = new Target() {
-            @Override
-            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                progressBar.setVisibility(View.GONE);
-
-                speakerImage.setImageBitmap(bitmap);
-
-                Palette.from(bitmap).generate(paletteAsyncListener);
-            }
-
-            @Override
-            public void onBitmapFailed(Drawable errorDrawable) {
-                progressBar.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onPrepareLoad(Drawable placeHolderDrawable) {
-                // No action to be done on preparation of loading
-            }
-        };
-
-        Picasso.with(SpeakerDetailsActivity.this)
-                .load(Uri.parse(selectedSpeaker.getPhoto()))
-                .into(imageTarget);
-
+        loadSpeakerImageWithInternet();
     }
 
     @Override
@@ -348,60 +372,10 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
     public boolean onCreateOptionsMenu(final Menu menu) {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_speakers_activity, menu);
-
-        Target imageTarget = new Target() {
-            @Override
-            public void onBitmapLoaded(final Bitmap bitmap, Picasso.LoadedFrom from) {
-                Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
-                    @Override
-                    public void onGenerated(Palette palette) {
-                        int shareColor;
-
-                        shareColor = Color.WHITE;
-
-                        Drawable shareDrawable = VectorDrawableCompat.create(getApplicationContext().getResources(), R.drawable.ic_share_white_24dp, null);
-                        if(shareDrawable != null) shareDrawable.mutate().setColorFilter(shareColor, PorterDuff.Mode.MULTIPLY);
-
-                        menu.getItem(0).setIcon(shareDrawable);
-
-                        Drawable backDrawable = VectorDrawableCompat.create(getApplicationContext().getResources(), R.drawable.ic_arrow_back_white_24dp, null);
-                        if(backDrawable != null) backDrawable.mutate().setColorFilter(shareColor, PorterDuff.Mode.MULTIPLY);
-
-                    }
-                });
-            }
-
-            @Override
-            public void onBitmapFailed(Drawable errorDrawable) {
-                Drawable shareDrawable = VectorDrawableCompat.create(getApplicationContext().getResources(), R.drawable.ic_share_white_24dp, null);
-                if(shareDrawable != null) shareDrawable.clearColorFilter();
-
-                Drawable backDrawable = VectorDrawableCompat.create(getApplicationContext().getResources(), R.drawable.ic_arrow_back_white_24dp, null);
-                if(backDrawable != null) backDrawable.clearColorFilter();
-            }
-
-            @Override
-            public void onPrepareLoad(Drawable placeHolderDrawable) {
-                //This method is intentionally empty, because it is required to use Target, which is abstract
-            }
-        };
-
-        Picasso.with(SpeakerDetailsActivity.this)
-                .load(Uri.parse(selectedSpeaker.getPhoto()))
-                .into(imageTarget);
+        
         return true;
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        Drawable shareDrawable = VectorDrawableCompat.create(getApplicationContext().getResources(), R.drawable.ic_share_white_24dp, null);
-        if(shareDrawable != null) shareDrawable.clearColorFilter();
-
-        Drawable backDrawable = VectorDrawableCompat.create(getApplicationContext().getResources(), R.drawable.ic_arrow_back_white_24dp, null);
-        if(backDrawable != null) backDrawable.clearColorFilter();
-    }
 
     @Override
     protected void onDestroy() {

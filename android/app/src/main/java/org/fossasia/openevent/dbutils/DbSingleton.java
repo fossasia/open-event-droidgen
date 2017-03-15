@@ -238,6 +238,15 @@ public class DbSingleton {
         return databaseOperations.getDateList(mDb);
     }
 
+    public Observable<List<String>> getDateListObservable() {
+        return Observable.fromCallable(new Callable<List<String>>() {
+            @Override
+            public List<String> call() throws Exception {
+                return getDateList();
+            }
+        }).compose(this.<List<String>>applySchedulers());
+    }
+
     public ArrayList<Session> getSessionbyDate(String date, String sortOrder) {
         return databaseOperations.getSessionbyDate(date, sortOrder, mDb);
     }
@@ -361,9 +370,17 @@ public class DbSingleton {
     }
 
     public ArrayList<Integer> getBookmarkIds() throws ParseException {
-
         getReadOnlyDatabase();
         return databaseOperations.getBookmarkIds(mDb);
+    }
+
+    public Observable<ArrayList<Integer>> getBookmarkIdsObservable() throws ParseException {
+        return Observable.fromCallable(new Callable<ArrayList<Integer>>() {
+            @Override
+            public ArrayList<Integer> call() throws Exception {
+                return getBookmarkIds();
+            }
+        }).compose(this.<ArrayList<Integer>>applySchedulers());
     }
 
     public Microlocation getLocationByLocationname(String LocationName) {

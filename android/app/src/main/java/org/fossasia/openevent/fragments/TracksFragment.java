@@ -32,10 +32,14 @@ import org.fossasia.openevent.events.RefreshUiEvent;
 import org.fossasia.openevent.events.TracksDownloadEvent;
 import org.fossasia.openevent.utils.NetworkUtils;
 import org.fossasia.openevent.utils.ShowNotificationSnackBar;
+import org.fossasia.openevent.views.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 
 /**
  * User: MananWason
@@ -45,6 +49,7 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
 
     final private String SEARCH = "searchText";
 
+    private List<Track> mTracks = new ArrayList<>();
     private TracksListAdapter tracksListAdapter;
 
     @BindView(R.id.tracks_swipe_refresh) SwipeRefreshLayout swipeRefreshLayout;
@@ -72,8 +77,7 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
 
         OpenEventApp.getEventBus().register(this);
         dbSingleton = DbSingleton.getInstance();
-        List<Track> mTracks = dbSingleton.getTrackList();
-        setVisibility();
+        handleVisibility();
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -92,6 +96,15 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
         tracksRecyclerView.setLayoutManager(linearLayoutManager);
         tracksListAdapter = new TracksListAdapter(getContext(), mTracks);
         tracksRecyclerView.setAdapter(tracksListAdapter);
+
+        final StickyRecyclerHeadersDecoration headersDecoration = new StickyRecyclerHeadersDecoration(tracksListAdapter);
+        tracksRecyclerView.addItemDecoration(headersDecoration);
+        tracksListAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override public void onChanged() {
+                headersDecoration.invalidateHeaders();
+            }
+        });
+
         tracksRecyclerView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
             public boolean onPreDraw() {
@@ -121,10 +134,22 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
             }
         });
 
+        dbSingleton.getTrackListObservable()
+                .subscribe(new Consumer<List<Track>>() {
+                    @Override
+                    public void accept(@NonNull List<Track> tracks) throws Exception {
+                        mTracks.clear();
+                        mTracks.addAll(tracks);
+
+                        tracksListAdapter.notifyDataSetChanged();
+                        handleVisibility();
+                    }
+                });
+
         return view;
     }
 
-    public void setVisibility() {
+    public void handleVisibility() {
         if (!dbSingleton.getTrackList().isEmpty()) {
             noTracksView.setVisibility(View.GONE);
             tracksRecyclerView.setVisibility(View.VISIBLE);
@@ -194,7 +219,7 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
 
     @Subscribe
     public void RefreshData(RefreshUiEvent event) {
-        setVisibility();
+        handleVisibility();
         if (searchText.length() == 0) {
             tracksListAdapter.refresh();
         }
@@ -250,7 +275,7 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
             }
             OpenEventApp.getEventBus().post(new TracksDownloadEvent(false));
         }
-        setVisibility();
+        handleVisibility();
     }
 
 }
