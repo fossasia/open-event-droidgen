@@ -34,6 +34,7 @@ import org.fossasia.openevent.utils.NetworkUtils;
 import org.fossasia.openevent.utils.ShowNotificationSnackBar;
 import org.fossasia.openevent.views.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -248,11 +249,15 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
     }
 
     private void refresh() {
-        if (NetworkUtils.haveNetworkConnection(getActivity())) {
-            if (NetworkUtils.isActiveInternetPresent()) {
+        NetworkUtils.checkConnection(new WeakReference<>(getContext()), new NetworkUtils.NetworkStateReceiverListener() {
+            @Override
+            public void activeConnection() {
                 //Internet is working
                 DataDownloadManager.getInstance().downloadTracks();
-            } else {
+            }
+
+            @Override
+            public void inactiveConnection() {
                 //set is refreshing false as let user to login
                 if (swipeRefreshLayout.isRefreshing()) {
                     swipeRefreshLayout.setRefreshing(false);
@@ -269,13 +274,21 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
                 //show notification (Only when connected to WiFi)
                 showNotificationSnackBar.buildNotification();
             }
-        } else {
-            if (snackbar!=null && snackbar.isShown()) {
-                snackbar.dismiss();
+
+            @Override
+            public void networkAvailable() {
+                // Network is available but we need to wait for activity
             }
-            OpenEventApp.getEventBus().post(new TracksDownloadEvent(false));
-        }
-        handleVisibility();
+
+            @Override
+            public void networkUnavailable() {
+                if (snackbar!=null && snackbar.isShown()) {
+                    snackbar.dismiss();
+                }
+                OpenEventApp.getEventBus().post(new TracksDownloadEvent(false));
+            }
+        });
+
     }
 
 }

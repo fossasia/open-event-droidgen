@@ -42,6 +42,7 @@ import org.fossasia.openevent.utils.NetworkUtils;
 import org.fossasia.openevent.utils.ShowNotificationSnackBar;
 import org.fossasia.openevent.views.MarginDecoration;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -269,11 +270,15 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
     }
 
     private void refresh() {
-        if (NetworkUtils.haveNetworkConnection(getActivity())) {
-            if (NetworkUtils.isActiveInternetPresent()) {
+        NetworkUtils.checkConnection(new WeakReference<>(getContext()), new NetworkUtils.NetworkStateReceiverListener() {
+            @Override
+            public void activeConnection() {
                 //Internet is working
                 DataDownloadManager.getInstance().downloadSpeakers();
-            } else {
+            }
+
+            @Override
+            public void inactiveConnection() {
                 //set is refreshing false as let user to login
                 if (swipeRefreshLayout.isRefreshing()) {
                     swipeRefreshLayout.setRefreshing(false);
@@ -290,9 +295,17 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
                 //show notification (Only when connected to WiFi)
                 showNotificationSnackBar.buildNotification();
             }
-        } else {
-            OpenEventApp.getEventBus().post(new SpeakerDownloadEvent(false));
-        }
+
+            @Override
+            public void networkAvailable() {
+                // Network is available but we need to wait for activity
+            }
+
+            @Override
+            public void networkUnavailable() {
+                OpenEventApp.getEventBus().post(new SpeakerDownloadEvent(false));
+            }
+        });
     }
 
     @Override

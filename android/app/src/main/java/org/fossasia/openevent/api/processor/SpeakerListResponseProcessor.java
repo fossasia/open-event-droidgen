@@ -6,11 +6,13 @@ import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.SpeakerDownloadEvent;
-import org.fossasia.openevent.utils.CommonTaskLoop;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.Completable;
+import io.reactivex.functions.Action;
+import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -26,9 +28,9 @@ public class SpeakerListResponseProcessor implements Callback<List<Speaker>> {
     @Override
     public void onResponse(Call<List<Speaker>> call, final Response<List<Speaker>> response) {
         if (response.isSuccessful()) {
-            CommonTaskLoop.getInstance().post(new Runnable() {
+            Completable.fromAction(new Action() {
                 @Override
-                public void run() {
+                public void run() throws Exception {
                     ArrayList<String> queries = new ArrayList<>();
 
                     for (Speaker speaker : response.body()) {
@@ -49,7 +51,7 @@ public class SpeakerListResponseProcessor implements Callback<List<Speaker>> {
 
                     OpenEventApp.postEventOnUIThread(new SpeakerDownloadEvent(true));
                 }
-            });
+            }).subscribeOn(Schedulers.computation()).subscribe();
         } else {
             OpenEventApp.getEventBus().post(new SpeakerDownloadEvent(false));
         }

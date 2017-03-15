@@ -5,11 +5,13 @@ import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.MicrolocationDownloadEvent;
-import org.fossasia.openevent.utils.CommonTaskLoop;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.Completable;
+import io.reactivex.functions.Action;
+import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -25,12 +27,10 @@ public class MicrolocationListResponseProcessor implements Callback<List<Microlo
     @Override
     public void onResponse(Call<List<Microlocation>> call, final Response<List<Microlocation>> response) {
         if (response.isSuccessful()) {
-            CommonTaskLoop.getInstance().post(new Runnable() {
+            Completable.fromAction(new Action() {
                 @Override
-                public void run() {
-                    for (Microlocation microlocation : response.body())
-
-                    {
+                public void run() throws Exception {
+                    for (Microlocation microlocation : response.body()) {
                         String query = microlocation.generateSql();
                         queries.add(query);
                         Timber.d(query);
@@ -42,7 +42,7 @@ public class MicrolocationListResponseProcessor implements Callback<List<Microlo
 
                     OpenEventApp.postEventOnUIThread(new MicrolocationDownloadEvent(true));
                 }
-            });
+            }).subscribeOn(Schedulers.computation()).subscribe();
         } else {
             OpenEventApp.getEventBus().post(new MicrolocationDownloadEvent(false));
         }

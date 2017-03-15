@@ -151,8 +151,17 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
     }
 
     @Override
-    public void networkAvailable() {
+    public void activeConnection() {
+        // No action required
+    }
 
+    @Override
+    public void inactiveConnection() {
+        // No action required
+    }
+
+    @Override
+    public void networkAvailable() {
         //loads image when internet present
         loadSpeakerImageWithInternet();
     }
