@@ -296,7 +296,7 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
             public void inactiveConnection() {
                 //Device is connected to WI-FI or Mobile Data but Internet is not working
                 //set is refreshing false as let user to login
-                if (swipeRefreshLayout.isRefreshing()) {
+                if (swipeRefreshLayout != null && swipeRefreshLayout.isRefreshing()) {
                     swipeRefreshLayout.setRefreshing(false);
                 }
                 ShowNotificationSnackBar showNotificationSnackBar = new ShowNotificationSnackBar(getContext(),getView(),swipeRefreshLayout) {

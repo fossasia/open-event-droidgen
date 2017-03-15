@@ -57,6 +57,9 @@ public abstract class ShowNotificationSnackBar {
 
 
     public void buildNotification(){
+        if(context == null)
+            return;
+
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         android.net.NetworkInfo isWifi = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         if (isWifi.isConnectedOrConnecting()){

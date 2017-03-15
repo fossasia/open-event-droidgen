@@ -31,8 +31,10 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 /**
@@ -79,10 +81,10 @@ public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, RecyclerView.Vie
 
             final SponsorViewHolder sponsorViewHolder = (SponsorViewHolder) holder;
             DisplayMetrics displayMetrics = (sponsorViewHolder.sponsorImage.getContext().getResources().getDisplayMetrics());
-            int width = displayMetrics.widthPixels;
-            int height = displayMetrics.heightPixels;
-            Uri uri;
-            Sponsor currentSponsor = getItem(position);
+            final int width = displayMetrics.widthPixels;
+            final int height = displayMetrics.heightPixels;
+            final Uri uri;
+            final Sponsor currentSponsor = getItem(position);
             if (!currentSponsor.getLogo().startsWith("https://")) {
                 uri = Uri.parse(Urls.getBaseUrl() + currentSponsor.getLogo());
             } else {
@@ -90,23 +92,33 @@ public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, RecyclerView.Vie
             }
             sponsorViewHolder.sponsorType.setText(currentSponsor.getType());
 
-            if(NetworkUtils.isActiveInternetPresent()) {
+            NetworkUtils.isActiveInternetPresentObservable()
+                    .subscribeOn(Schedulers.computation())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<Boolean>() {
+                        @Override
+                        public void accept(@NonNull Boolean isActive) throws Exception {
+                            if(!isActive) {
 
-                Picasso.with(sponsorViewHolder.sponsorImage.getContext())
-                        .load(uri)
-                        .resize(width, (height / 6))
-                        .centerInside()
-                        .into(sponsorViewHolder.sponsorImage);
-            }
-            else {
+                                Picasso.with(context)
+                                        .cancelTag("ONLINE");
 
-                Picasso.with(sponsorViewHolder.sponsorImage.getContext())
-                        .load(uri)
-                        .resize(width, (height / 6))
-                        .centerInside()
-                        .networkPolicy(NetworkPolicy.OFFLINE)
-                        .into(sponsorViewHolder.sponsorImage);
-            }
+                                Picasso.with(context)
+                                        .load(uri)
+                                        .resize(width, (height / 6))
+                                        .centerInside()
+                                        .networkPolicy(NetworkPolicy.OFFLINE)
+                                        .into(sponsorViewHolder.sponsorImage);
+                            }
+                        }
+                    });
+
+            Picasso.with(sponsorViewHolder.sponsorImage.getContext())
+                    .load(uri)
+                    .resize(width, (height / 6))
+                    .centerInside()
+                    .tag("ONLINE")
+                    .into(sponsorViewHolder.sponsorImage);
 
             sponsorViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
