@@ -16,7 +16,6 @@ import org.fossasia.openevent.events.DataDownloadEvent;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.concurrent.Callable;
 
 import io.reactivex.Single;
@@ -29,15 +28,6 @@ import io.reactivex.schedulers.Schedulers;
  * Created by championswimmer on 21/6/16.
  */
 public class NetworkUtils extends BroadcastReceiver {
-
-    protected List<NetworkUtils.NetworkStateReceiverListener> listeners;
-    protected Boolean connected;
-
-    public NetworkUtils() {
-        listeners = new ArrayList<NetworkUtils.NetworkStateReceiverListener>();
-        connected = null;
-    }
-
 
     public static boolean haveNetworkConnection(Context ctx) {
         return haveWifiConnection(ctx) || haveMobileConnection(ctx);
@@ -115,45 +105,33 @@ public class NetworkUtils extends BroadcastReceiver {
     }
 
     @Override
-    public void onReceive(Context context, Intent intent) {
-        if (haveNetworkConnection(context)) {
-            if (isActiveInternetPresent()) {
+    public void onReceive(final Context context, Intent intent) {
+        checkConnection(new WeakReference<>(context), new NetworkStateReceiverListener() {
+            @Override
+            public void activeConnection() {
                 //internet is working
-                connected = true;
                 OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
-            } else {
-                //Device is connected to WI-FI or Mobile Data but Internet is not working
+            }
+
+            @Override
+            public void inactiveConnection() {
+                //Device is connection to WI-FI or Mobile Data but Internet is not working
                 //show toast
                 //will be useful if user have blocked notification for this app
-                connected = false;
                 Toast.makeText(context, R.string.waiting_for_network, Toast.LENGTH_LONG).show();
             }
-        }
-        notifyStateToAll();
-    }
 
-    private void notifyStateToAll() {
-        for(NetworkUtils.NetworkStateReceiverListener listener : listeners)
-            notifyState(listener);
-    }
+            @Override
+            public void networkAvailable() {
+                // Waiting for network activity
+            }
 
-    private void notifyState(NetworkUtils.NetworkStateReceiverListener listener) {
-        if(connected == null || listener == null)
-            return;
+            @Override
+            public void networkUnavailable() {
+                // Network unavailable
+            }
+        });
 
-        if(connected)
-            listener.networkAvailable();
-        else
-            listener.networkUnavailable();
-    }
-
-    public void addListener(NetworkUtils.NetworkStateReceiverListener l) {
-        listeners.add(l);
-        notifyState(l);
-    }
-
-    public void removeListener(NetworkUtils.NetworkStateReceiverListener l) {
-        listeners.remove(l);
     }
 
     public static void checkConnection(WeakReference<Context> reference, final NetworkStateReceiverListener listener) {

@@ -3,12 +3,10 @@ package org.fossasia.openevent.activities;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.customtabs.CustomTabsCallback;
@@ -34,16 +32,18 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
+import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.SessionsListAdapter;
 import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.dbutils.DbSingleton;
-import org.fossasia.openevent.utils.NetworkUtils;
+import org.fossasia.openevent.events.ConnectionCheckEvent;
 import org.fossasia.openevent.utils.SpeakerIntent;
 
 import java.util.ArrayList;
@@ -52,11 +52,12 @@ import java.util.List;
 import butterknife.BindView;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
+import timber.log.Timber;
 
 /**
  * Created by MananWason on 30-06-2015.
  */
-public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout.OnOffsetChangedListener, NetworkUtils.NetworkStateReceiverListener {
+public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout.OnOffsetChangedListener {
 
     private SessionsListAdapter sessionsListAdapter;
 
@@ -113,11 +114,6 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
                     }
                 });
 
-        //initialising the network change listener
-        NetworkUtils networkUtils = new NetworkUtils();
-        networkUtils.addListener(this);
-        this.registerReceiver(networkUtils, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
-
         appBarLayout.addOnOffsetChangedListener(this);
 
         DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
@@ -148,29 +144,29 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
         handleVisibility();
     }
 
-    @Override
-    public void activeConnection() {
-        // No action required
-    }
+    @Subscribe
+    public void onConnectionChange(ConnectionCheckEvent event) {
+        if (!event.isConnected || selectedSpeaker == null)
+            return;
 
-    @Override
-    public void inactiveConnection() {
-        // No action required
-    }
-
-    @Override
-    public void networkAvailable() {
-        //loads image when internet present
-        loadSpeakerImageWithInternet();
-    }
-
-    @Override
-    public void networkUnavailable() {
-        //network not available
         loadSpeakerImage();
     }
 
-    public void loadSpeakerImageWithInternet() {
+    private void handleVisibility() {
+        if (!mSessions.isEmpty()) {
+            noSessionsView.setVisibility(View.GONE);
+            sessionRecyclerView.setVisibility(View.VISIBLE);
+        } else {
+            noSessionsView.setVisibility(View.VISIBLE);
+            sessionRecyclerView.setVisibility(View.GONE);
+        }
+    }
+
+    private void loadSpeakerImage() {
+        if (TextUtils.isEmpty(selectedSpeaker.getPhoto())) {
+            progressBar.setVisibility(View.GONE);
+            return;
+        }
 
         final Context context = this;
 
@@ -214,26 +210,12 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
             }
         };
 
-        if(selectedSpeaker!=null) {
-
-            Picasso.with(SpeakerDetailsActivity.this)
-                    .load(Uri.parse(selectedSpeaker.getPhoto()))
-                    .into(imageTarget);
-        }
-    }
-
-    private void handleVisibility() {
-        if (!mSessions.isEmpty()) {
-            noSessionsView.setVisibility(View.GONE);
-            sessionRecyclerView.setVisibility(View.VISIBLE);
-        } else {
-            noSessionsView.setVisibility(View.VISIBLE);
-            sessionRecyclerView.setVisibility(View.GONE);
-        }
+        Picasso.with(SpeakerDetailsActivity.this)
+                .load(Uri.parse(selectedSpeaker.getPhoto()))
+                .into(imageTarget);
     }
 
     private void loadSpeakerDetails() {
-        loadSpeakerImage();
 
         speakerName.setText(selectedSpeaker.getName());
         speakerDesignation.setText(String.format("%s %s", selectedSpeaker.getPosition(), selectedSpeaker.getOrganisation()));
@@ -292,6 +274,9 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
 
         biography.setText(Html.fromHtml(selectedSpeaker.getShortBiography()));
         biography.setMovementMethod(LinkMovementMethod.getInstance());
+
+        OpenEventApp.getEventBus().register(this);
+        loadSpeakerImage();
     }
 
     @Override
@@ -335,15 +320,6 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
         Color.colorToHSV(color, hsv);
         hsv[2] *= 0.8f;
         return Color.HSVToColor(hsv);
-    }
-
-    private void loadSpeakerImage() {
-        if (TextUtils.isEmpty(selectedSpeaker.getPhoto()) || !isNetworkConnected()) {
-            progressBar.setVisibility(View.GONE);
-            return;
-        }
-
-        loadSpeakerImageWithInternet();
     }
 
     @Override
@@ -391,6 +367,7 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
     protected void onDestroy() {
         super.onDestroy();
         unbindService(customTabsServiceConnection);
+        OpenEventApp.getEventBus().unregister(this);
     }
 
     @Override
@@ -400,11 +377,6 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
         float width = displayMetrics.widthPixels / displayMetrics.density;
         int spanCount = (int) (width / 250.00);
         gridLayoutManager.setSpanCount(spanCount);
-    }
-
-    private boolean isNetworkConnected() {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        return cm.getActiveNetworkInfo() != null;
     }
 
     @Override

@@ -98,6 +98,7 @@ import org.fossasia.openevent.widget.DialogFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.ref.WeakReference;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -210,11 +211,13 @@ public class MainActivity extends BaseActivity {
         setUpNavDrawer();
         setUpProgressBar();
         setUpCustomTab();
-        if (NetworkUtils.haveNetworkConnection(this)) {
-            if (NetworkUtils.isActiveInternetPresent()) {
+
+        NetworkUtils.checkConnection(new WeakReference<Context>(this), new NetworkUtils.NetworkStateReceiverListener() {
+            @Override
+            public void activeConnection() {
                 //Internet is working
                 if (!sharedPreferences.getBoolean(ConstantStrings.IS_DOWNLOAD_DONE, false)) {
-                    DialogFactory.createDownloadDialog(this, R.string.download_assets, R.string.charges_warning, new DialogInterface.OnClickListener() {
+                    DialogFactory.createDownloadDialog(context, R.string.download_assets, R.string.charges_warning, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int button) {
                             if (button==DialogInterface.BUTTON_POSITIVE) {
@@ -253,7 +256,10 @@ public class MainActivity extends BaseActivity {
                 } else {
                     downloadProgress.setVisibility(View.GONE);
                 }
-            }else {
+            }
+
+            @Override
+            public void inactiveConnection() {
                 //Device is connected to WI-FI or Mobile Data but Internet is not working
                 ShowNotificationSnackBar showNotificationSnackBar = new ShowNotificationSnackBar(MainActivity.this,mainFrame,null) {
                     @Override
@@ -267,11 +273,19 @@ public class MainActivity extends BaseActivity {
                 //snow notification (Only when connected to WiFi)
                 showNotificationSnackBar.buildNotification();
             }
-        } else {
-            final Snackbar snackbar = Snackbar.make(mainFrame, R.string.display_offline_schedule, Snackbar.LENGTH_LONG);
-            snackbar.show();
-            downloadFromAssets();
-        }
+
+            @Override
+            public void networkAvailable() {
+                // Waiting for connectivity
+            }
+
+            @Override
+            public void networkUnavailable() {
+                Snackbar.make(mainFrame, R.string.display_offline_schedule, Snackbar.LENGTH_LONG).show();
+                downloadFromAssets();
+            }
+        });
+
         if (savedInstanceState == null) {
             currentMenuItemId = R.id.nav_tracks;
         } else {
