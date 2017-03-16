@@ -194,7 +194,7 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
             }
         };
 
-        Target imageTarget = new Target() {
+        final Target imageTarget = new Target() {
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                 progressBar.setVisibility(View.GONE);
@@ -214,6 +214,7 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
                 // No action to be done on preparation of loading
             }
         };
+        speakerImage.setTag(imageTarget);
 
         Picasso.with(SpeakerDetailsActivity.this)
                 .load(Uri.parse(selectedSpeaker.getPhoto()))
