@@ -5,36 +5,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="@dimen/padding_medium">
+    >
 
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/widget"
         android:layout_width="match_parent"
         android:layout_height="@dimen/main_menu_item_height"
         android:background="@color/color_primary">
 
-        <ImageView
-            android:layout_width="34dp"
-            android:layout_height="34dp"
+        <ImageButton
+            android:layout_width="30dp"
+            android:scaleX="1.2"
+            android:scaleY="1.2"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"
+            android:id="@+id/bookmark_image"
             android:layout_gravity="center"
-            android:layout_weight="0.20"
+            android:backgroundTint="#00000000"
+            android:tint="@color/white"
             android:contentDescription="@string/logo_widget"
-            app:srcCompat="@drawable/ic_bookmark_outline_black_24dp" />
+            android:src="@drawable/ic_bookmark_outline_black_24dp" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="0.80"
-            android:paddingEnd="@dimen/padding_medium"
-            android:paddingLeft="@dimen/padding_medium"
-            android:paddingRight="@dimen/padding_medium"
-            android:paddingStart="@dimen/padding_medium"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginBottom="8dp"
+            android:layout_toRightOf="@+id/bookmark_image"
             android:text="@string/bookmarks"
-            android:textColor="@color/cardview_dark_background"
-            android:textSize="24sp" />
-    </LinearLayout>
+            android:textColor="@color/white"
+            android:fontFamily="sans-serif"
+            android:textSize="26sp" />
+
+    </RelativeLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -47,7 +53,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:divider="@null"
-            android:dividerHeight="0dp"
+            android:paddingTop="8dp"
+            android:dividerHeight="2dp"
             tools:listitem="@layout/widget_list_item" />
 
         <TextView
@@ -58,8 +65,8 @@
             android:gravity="center"
             android:text="@string/empty_list"
             android:textAppearance="?android:textAppearanceMedium"
-            android:textColor="@color/secondary_text"
-            tools:targetApi="jelly_bean" />
+            android:textColor="@color/secondary_text" />
+
     </FrameLayout>
 
 </LinearLayout>
