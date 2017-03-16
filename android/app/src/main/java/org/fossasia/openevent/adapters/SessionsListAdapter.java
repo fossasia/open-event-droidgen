@@ -226,26 +226,29 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
                     disposable.add(dbSingleton.deleteBookmarksObservable(session.getId()).subscribe());
 
                     holder.sessionBookmarkIcon.setImageResource(R.drawable.ic_bookmark_border_white_24dp);
-                    if(bookmarksListChangeListener != null){
+                    if (bookmarksListChangeListener != null) {
                         bookmarksListChangeListener.onChange();
                     }
-
-                    Snackbar.make(holder.sessionCard, R.string.removed_bookmark, Snackbar.LENGTH_LONG)
-                            .setAction(R.string.undo, new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    disposable.add(dbSingleton.addBookmarksObservable(session.getId()).subscribe());
-                                    holder.sessionBookmarkIcon.setImageResource(R.drawable.ic_bookmark_white_24dp);
-                                    WidgetUpdater.updateWidget(context);
-                                    if(bookmarksListChangeListener != null){
-                                        bookmarksListChangeListener.onChange();
+                    if ("MainActivity".equals(context.getClass().getSimpleName())) {
+                        Snackbar.make(holder.sessionCard, R.string.removed_bookmark, Snackbar.LENGTH_LONG)
+                                .setAction(R.string.undo, new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        disposable.add(dbSingleton.addBookmarksObservable(session.getId()).subscribe());
+                                        holder.sessionBookmarkIcon.setImageResource(R.drawable.ic_bookmark_white_24dp);
+                                        WidgetUpdater.updateWidget(context);
+                                        if(bookmarksListChangeListener != null){
+                                            bookmarksListChangeListener.onChange();
+                                        }
                                     }
-                                }
-                            }).show();
+                                }).show();
+                    } else {
+                        Snackbar.make(holder.sessionCard, R.string.removed_bookmark, Snackbar.LENGTH_SHORT).show();
+                    }
                 } else {
                     createNotification(session);
                     disposable.add(dbSingleton.addBookmarksObservable(session.getId()).subscribe());
-                    Toast.makeText(context, R.string.added_bookmark, Toast.LENGTH_SHORT).show();
+                    Snackbar.make(holder.sessionCard, R.string.added_bookmark, Snackbar.LENGTH_SHORT).show();
                     holder.sessionBookmarkIcon.setImageResource(R.drawable.ic_bookmark_white_24dp);
                 }
                 WidgetUpdater.updateWidget(context);

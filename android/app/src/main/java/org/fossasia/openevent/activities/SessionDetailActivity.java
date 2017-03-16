@@ -239,21 +239,13 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
                     disposable.add(dbSingleton.deleteBookmarksObservable(session.getId()).subscribe());
 
                     fabSessionBookmark.setImageResource(R.drawable.ic_bookmark_outline_white_24dp);
-                    Snackbar.make(speakersRecyclerView, R.string.removed_bookmark, Snackbar.LENGTH_LONG)
-                            .setAction(R.string.undo, new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    disposable.add(dbSingleton.addBookmarksObservable(session.getId()).subscribe());
-                                    fabSessionBookmark.setImageResource(R.drawable.ic_bookmark_white_24dp);
-                                    WidgetUpdater.updateWidget(getApplicationContext());
-                                }
-                            }).show();
+                    Snackbar.make(speakersRecyclerView, R.string.removed_bookmark, Snackbar.LENGTH_SHORT).show();
                 } else {
                     Timber.tag(TAG).d("Bookmarked");
                     disposable.add(dbSingleton.addBookmarksObservable(session.getId()).subscribe());
                     fabSessionBookmark.setImageResource(R.drawable.ic_bookmark_white_24dp);
                     createNotification();
-                    Toast.makeText(SessionDetailActivity.this, R.string.added_bookmark, Toast.LENGTH_SHORT).show();
+                    Snackbar.make(speakersRecyclerView, R.string.added_bookmark, Snackbar.LENGTH_SHORT).show();
                 }
             }
         };
