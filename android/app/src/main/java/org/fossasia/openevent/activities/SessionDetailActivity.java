@@ -32,7 +32,7 @@ import android.widget.Toast;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
-import org.fossasia.openevent.adapters.SpeakersListAdapter;
+import org.fossasia.openevent.adapters.SessionSpeakerListAdapter;
 import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
@@ -62,7 +62,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
 
     private DbSingleton dbSingleton = DbSingleton.getInstance();
 
-    private SpeakersListAdapter adapter;
+    private SessionSpeakerListAdapter adapter;
 
     private Session session;
 
@@ -129,7 +129,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
         appBarLayout.addOnOffsetChangedListener(this);
 
         final List<Speaker> speakers = new ArrayList<>();
-        adapter = new SpeakersListAdapter(speakers, this);
+        adapter = new SessionSpeakerListAdapter(speakers, this);
 
         dbSingleton.getSpeakersbySessionNameObservable(title)
                 .subscribe(new Consumer<ArrayList<Speaker>>() {
@@ -166,7 +166,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
                     }
                 });
 
-        speakersRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        speakersRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         speakersRecyclerView.setAdapter(adapter);
         speakersRecyclerView.setItemAnimator(new DefaultItemAnimator());
     }

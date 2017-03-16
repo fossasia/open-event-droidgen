@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:padding="@dimen/padding_medium">
+
+    <ImageView
+        android:id="@+id/speakers_list_image"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:contentDescription="@null"
+        android:scaleType="centerCrop"
+        tools:src="@drawable/ic_account_circle_grey_24dp" />
+
+    <TextView
+        android:id="@+id/speakers_list_name"
+        style="@style/TextAppearance.AppCompat.Headline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/layout_margin_medium"
+        android:textSize="@dimen/text_size_small"
+        tools:text="Speaker Name" />
+
+    <TextView
+        android:id="@+id/speakers_list_designation"
+        style="@style/TextAppearance.AppCompat.Caption"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="@dimen/text_size_small"
+        tools:text="Designation" />
+
+</LinearLayout>
