@@ -29,6 +29,7 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
@@ -41,6 +42,8 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.Re
     private Context context;
     private ColorGenerator colorGenerator = ColorGenerator.MATERIAL;
     private TextDrawable.IBuilder drawableBuilder = TextDrawable.builder().round();
+    private CompositeDisposable disposable;
+
     @SuppressWarnings("all")
     Filter filter = new Filter() {
         @Override
@@ -71,6 +74,19 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.Re
     public TracksListAdapter(Context context, List<Track> tracks) {
         super(tracks);
         this.context = context;
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        disposable = new CompositeDisposable();
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
+        if(disposable != null && !disposable.isDisposed())
+            disposable.dispose();
     }
 
     @Override
@@ -105,13 +121,13 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.Re
     public void refresh() {
         Timber.d("Refreshing tracks from db");
         clear();
-        DbSingleton.getInstance().getTrackListObservable()
+        disposable.add(DbSingleton.getInstance().getTrackListObservable()
                 .subscribe(new Consumer<List<Track>>() {
                     @Override
                     public void accept(@NonNull List<Track> tracks) throws Exception {
                         animateTo(tracks);
                     }
-                });
+                }));
     }
 
     @Override
@@ -137,7 +153,7 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.Re
         textView.setText(String.valueOf(getItem(position).getName().charAt(0)));
     }
 
-    protected class RecyclerViewHolder extends RecyclerView.ViewHolder {
+    class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.imageView)
         ImageView trackImageIcon;
@@ -148,7 +164,7 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.Re
         @BindView(R.id.track_description)
         TextView trackDescription;
 
-        public RecyclerViewHolder(View itemView) {
+        RecyclerViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }

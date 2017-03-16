@@ -111,6 +111,7 @@ import butterknife.ButterKnife;
 import io.reactivex.Completable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.internal.observers.CallbackCompletableObserver;
@@ -118,6 +119,7 @@ import io.branch.indexing.BranchUniversalObject;
 import io.branch.referral.Branch;
 import io.branch.referral.BranchError;
 import io.branch.referral.util.LinkProperties;
+import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 public class MainActivity extends BaseActivity {
@@ -156,6 +158,8 @@ public class MainActivity extends BaseActivity {
     private Runnable runnable;
     private Handler handler;
     private CallbackManager callbackManager;
+
+    private CompositeDisposable disposable;
 
     public static Intent createLaunchFragmentIntent(Context context) {
         return new Intent(context, MainActivity.class)
@@ -211,6 +215,8 @@ public class MainActivity extends BaseActivity {
         setUpProgressBar();
         setUpCustomTab();
 
+        disposable = new CompositeDisposable();
+
         NetworkUtils.checkConnection(new WeakReference<Context>(this), new NetworkUtils.NetworkStateReceiverListener() {
             @Override
             public void activeConnection() {
@@ -227,19 +233,27 @@ public class MainActivity extends BaseActivity {
                                             public void run() throws Exception {
                                                 Boolean preference = sharedPreferences.getBoolean(getResources().getString(R.string.download_mode_key), true);
                                                 if (preference) {
-                                                    if (NetworkUtils.haveNetworkConnection(MainActivity.this)) {
-                                                        OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
-                                                        sharedPreferences.edit().putBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true).apply();
-                                                    } else {
-                                                        final Snackbar snackbar = Snackbar.make(mainFrame, R.string.internet_preference_warning, Snackbar.LENGTH_INDEFINITE);
-                                                        snackbar.setAction(R.string.yes, new View.OnClickListener() {
-                                                            @Override
-                                                            public void onClick(View view) {
-                                                                downloadFromAssets();
-                                                            }
-                                                        });
-                                                        snackbar.show();
-                                                    }
+                                                    disposable.add(NetworkUtils.haveNetworkConnectionObservable(MainActivity.this)
+                                                            .subscribeOn(Schedulers.io())
+                                                            .observeOn(AndroidSchedulers.mainThread())
+                                                            .subscribe(new Consumer<Boolean>() {
+                                                                @Override
+                                                                public void accept(@NonNull Boolean connected) throws Exception {
+                                                                    if (connected) {
+                                                                        OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
+                                                                        sharedPreferences.edit().putBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true).apply();
+                                                                    } else {
+                                                                        final Snackbar snackbar = Snackbar.make(mainFrame, R.string.internet_preference_warning, Snackbar.LENGTH_INDEFINITE);
+                                                                        snackbar.setAction(R.string.yes, new View.OnClickListener() {
+                                                                            @Override
+                                                                            public void onClick(View view) {
+                                                                                downloadFromAssets();
+                                                                            }
+                                                                        });
+                                                                        snackbar.show();
+                                                                    }
+                                                                }
+                                                            }));
                                                 } else {
                                                     OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
                                                     sharedPreferences.edit().putBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true).apply();
@@ -397,7 +411,7 @@ public class MainActivity extends BaseActivity {
 
     private void syncComplete() {
         downloadProgress.setVisibility(View.GONE);
-        DbSingleton.getInstance().getEventDetailsObservable()
+        disposable.add(DbSingleton.getInstance().getEventDetailsObservable()
                 .subscribe(new Consumer<Event>() {
                     @Override
                     public void accept(@NonNull Event event) throws Exception {
@@ -422,7 +436,7 @@ public class MainActivity extends BaseActivity {
                         }
 
                     }
-                });
+                }));
 
     }
 
@@ -491,7 +505,7 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.nav_bookmarks:
                 DbSingleton dbSingleton = DbSingleton.getInstance();
-                dbSingleton.isBookmarksTableEmptyObservable()
+                disposable.add(dbSingleton.isBookmarksTableEmptyObservable()
                         .subscribe(new Consumer<Boolean>() {
                             @Override
                             public void accept(@NonNull Boolean empty) throws Exception {
@@ -516,7 +530,7 @@ public class MainActivity extends BaseActivity {
                                     if (currentMenuItemId == R.id.nav_schedule) addShadowToAppBar(false);
                                 }
                             }
-                        });
+                        }));
                 break;
             case R.id.nav_speakers:
                 atHome = false;
@@ -841,7 +855,6 @@ public class MainActivity extends BaseActivity {
     }
 
     @Subscribe
-
     public void downloadData(DataDownloadEvent event) {
         if (Urls.getBaseUrl().equals(Urls.INVALID_LINK)) {
             showErrorDialog("Invalid Api", "Api link doesn't seem to be valid");
@@ -1071,10 +1084,11 @@ public class MainActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         unbindService(customTabsServiceConnection);
-        if (handler != null)
-        {
+        if (handler != null) {
             handler.removeCallbacks(runnable);
         }
+        if(disposable != null && !disposable.isDisposed())
+            disposable.dispose();
     }
 
     @Override

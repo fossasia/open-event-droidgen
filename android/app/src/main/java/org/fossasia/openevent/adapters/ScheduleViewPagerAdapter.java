@@ -18,8 +18,6 @@ public class ScheduleViewPagerAdapter extends FragmentPagerAdapter {
     private List<Fragment> mFragmentList = new ArrayList<>();
     private List<String> mFragmentTitleList = new ArrayList<>();
 
-    private List<String> event_days = DbSingleton.getInstance().getDateList();
-
 
     public ScheduleViewPagerAdapter(FragmentManager manager) {
         super(manager);
@@ -36,7 +34,8 @@ public class ScheduleViewPagerAdapter extends FragmentPagerAdapter {
     }
 
     public void addFragment(Fragment fragment, String title, int day) {
-        event_days = DbSingleton.getInstance().getDateList();
+        List<String> event_days = DbSingleton.getInstance().getDateList();
+
         Bundle bundle = new Bundle();
         String dayString = event_days.get(day);
         bundle.putString(ConstantStrings.EVENT_DAY, dayString);

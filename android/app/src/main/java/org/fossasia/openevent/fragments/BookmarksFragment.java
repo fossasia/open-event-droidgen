@@ -35,6 +35,7 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
@@ -65,6 +66,7 @@ public class BookmarksFragment extends BaseFragment implements SearchView.OnQuer
     private AppBarLayout.LayoutParams layoutParams;
     private int SCROLL_OFF = 0;
 
+    private CompositeDisposable compositeDisposable;
 
     @Override
     public void onResume() {
@@ -73,7 +75,7 @@ public class BookmarksFragment extends BaseFragment implements SearchView.OnQuer
             try {
 
                 final DbSingleton dbSingleton = DbSingleton.getInstance();
-                dbSingleton.getBookmarkIdsObservable()
+                compositeDisposable.add(dbSingleton.getBookmarkIdsObservable()
                         .subscribe(new Consumer<ArrayList<Integer>>() {
                             @Override
                             public void accept(@NonNull ArrayList<Integer> ids) throws Exception {
@@ -99,8 +101,7 @@ public class BookmarksFragment extends BaseFragment implements SearchView.OnQuer
 
                                 }
                             }
-                        });
-
+                        }));
 
             } catch (ParseException e) {
                 Timber.e("Parsing Error Occurred at BookmarksFragment::onResume.");
@@ -132,6 +133,8 @@ public class BookmarksFragment extends BaseFragment implements SearchView.OnQuer
         setHasOptionsMenu(true);
 
         View view = super.onCreateView(inflater, container, savedInstanceState);
+
+        compositeDisposable = new CompositeDisposable();
 
         //setting the grid layout to cut-off white space in tablet view
         DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
@@ -193,6 +196,13 @@ public class BookmarksFragment extends BaseFragment implements SearchView.OnQuer
             bundle.putString(SEARCH, searchText);
         }
         super.onSaveInstanceState(bundle);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if(compositeDisposable != null && !compositeDisposable.isDisposed())
+            compositeDisposable.dispose();
     }
 
     @Override

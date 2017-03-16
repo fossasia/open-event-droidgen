@@ -33,6 +33,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
@@ -43,18 +44,33 @@ import timber.log.Timber;
  */
 public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, RecyclerView.ViewHolder> {
 
-    public static final int SPONSOR = 0;
-    public static final int CATEGORY = 1;
+    private static final int SPONSOR = 0;
+    private static final int CATEGORY = 1;
 
     private Context context;
     private Activity activity;
     private boolean customTabsSupported;
+
+    private CompositeDisposable disposable;
 
     public SponsorsListAdapter(Context context, List<Sponsor> sponsors, Activity activity, boolean customTabsSupported) {
         super(sponsors);
         this.context = context;
         this.activity = activity;
         this.customTabsSupported = customTabsSupported;
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        disposable = new CompositeDisposable();
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
+        if(disposable != null && !disposable.isDisposed())
+            disposable.dispose();
     }
 
     @Override
@@ -92,7 +108,7 @@ public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, RecyclerView.Vie
             }
             sponsorViewHolder.sponsorType.setText(currentSponsor.getType());
 
-            NetworkUtils.isActiveInternetPresentObservable()
+            disposable.add(NetworkUtils.isActiveInternetPresentObservable()
                     .subscribeOn(Schedulers.computation())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Consumer<Boolean>() {
@@ -111,7 +127,7 @@ public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, RecyclerView.Vie
                                         .into(sponsorViewHolder.sponsorImage);
                             }
                         }
-                    });
+                    }));
 
             Picasso.with(sponsorViewHolder.sponsorImage.getContext())
                     .load(uri)
@@ -123,7 +139,7 @@ public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, RecyclerView.Vie
             sponsorViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View view) {
-                    DbSingleton.getInstance().getSponsorListObservable()
+                    disposable.add(DbSingleton.getInstance().getSponsorListObservable()
                             .subscribe(new Consumer<ArrayList<Sponsor>>() {
                                 @Override
                                 public void accept(@NonNull ArrayList<Sponsor> sponsors) throws Exception {
@@ -152,12 +168,11 @@ public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, RecyclerView.Vie
                                         Timber.d(sponsorUrl);
                                     }
                                 }
-                            });
+                            }));
 
                 }
             });
         } else if (holder instanceof CategoryViewHolder) {
-
             CategoryViewHolder categoryViewHolder = (CategoryViewHolder) holder;
             categoryViewHolder.sponsorCategory.setText(getItem(position).toString());
         }
@@ -165,13 +180,13 @@ public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, RecyclerView.Vie
 
     public void refresh() {
         clear();
-        DbSingleton.getInstance().getSponsorListObservable()
+        disposable.add(DbSingleton.getInstance().getSponsorListObservable()
                 .subscribe(new Consumer<ArrayList<Sponsor>>() {
                     @Override
                     public void accept(@NonNull ArrayList<Sponsor> sponsors) throws Exception {
                         animateTo(sponsors);
                     }
-                });
+                }));
     }
 
     @Override
@@ -180,7 +195,7 @@ public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, RecyclerView.Vie
 
     }
 
-    protected class SponsorViewHolder extends RecyclerView.ViewHolder {
+    class SponsorViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.sponsor_image)
         ImageView sponsorImage;
@@ -188,18 +203,18 @@ public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, RecyclerView.Vie
         @BindView(R.id.sponsor_type)
         TextView sponsorType;
 
-        public SponsorViewHolder(View itemView) {
+        SponsorViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
     }
 
-    protected class CategoryViewHolder extends RecyclerView.ViewHolder {
+    class CategoryViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.sponsor_category)
         TextView sponsorCategory;
 
-        public CategoryViewHolder(View itemView) {
+        CategoryViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }

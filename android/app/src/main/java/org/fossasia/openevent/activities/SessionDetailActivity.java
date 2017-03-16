@@ -48,6 +48,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
@@ -110,11 +111,15 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
 
     private boolean isHideToolbarView = false;
 
+    private CompositeDisposable disposable;
+
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        disposable = new CompositeDisposable();
 
         setSupportActionBar(toolbar);
         if(getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -131,16 +136,16 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
         final List<Speaker> speakers = new ArrayList<>();
         adapter = new SessionSpeakerListAdapter(speakers, this);
 
-        dbSingleton.getSpeakersbySessionNameObservable(title)
+        disposable.add(dbSingleton.getSpeakersbySessionNameObservable(title)
                 .subscribe(new Consumer<ArrayList<Speaker>>() {
                     @Override
                     public void accept(@NonNull ArrayList<Speaker> speakerList) {
                         speakers.addAll(speakerList);
                         adapter.notifyDataSetChanged();
                     }
-                });
+                }));
 
-        dbSingleton.getSessionByIdObservable(id)
+        disposable.add(dbSingleton.getSessionByIdObservable(id)
                 .subscribe(new Consumer<Session>() {
                     @Override
                     public void accept(@NonNull Session receivedSession) {
@@ -164,7 +169,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
                                     }
                                 });
                     }
-                });
+                }));
 
         speakersRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         speakersRecyclerView.setAdapter(adapter);
@@ -174,7 +179,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
     private void updateSession() {
         updateFloatingIcon();
 
-        dbSingleton.getMicrolocationByIdObservable(session.getMicrolocation().getId())
+        disposable.add(dbSingleton.getMicrolocationByIdObservable(session.getMicrolocation().getId())
                 .subscribe(new Consumer<Microlocation>() {
                     @Override
                     public void accept(Microlocation microlocation) {
@@ -185,7 +190,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
                     public void accept(@NonNull Throwable throwable) throws Exception {
                         text_room1.setText("Not decided yet");
                     }
-                });
+                }));
 
         text_title.setText(title);
         if (TextUtils.isEmpty(session.getSubtitle())) {
@@ -231,21 +236,21 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
             public void accept(Boolean bookmarked) {
                 if(bookmarked) {
                     Timber.tag(TAG).d("Bookmark Removed");
-                    dbSingleton.deleteBookmarksObservable(session.getId()).subscribe();
+                    disposable.add(dbSingleton.deleteBookmarksObservable(session.getId()).subscribe());
 
                     fabSessionBookmark.setImageResource(R.drawable.ic_bookmark_outline_white_24dp);
                     Snackbar.make(speakersRecyclerView, R.string.removed_bookmark, Snackbar.LENGTH_LONG)
                             .setAction(R.string.undo, new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    dbSingleton.addBookmarksObservable(session.getId()).subscribe();
+                                    disposable.add(dbSingleton.addBookmarksObservable(session.getId()).subscribe());
                                     fabSessionBookmark.setImageResource(R.drawable.ic_bookmark_white_24dp);
                                     WidgetUpdater.updateWidget(getApplicationContext());
                                 }
                             }).show();
                 } else {
                     Timber.tag(TAG).d("Bookmarked");
-                    dbSingleton.addBookmarksObservable(session.getId()).subscribe();
+                    disposable.add(dbSingleton.addBookmarksObservable(session.getId()).subscribe());
                     fabSessionBookmark.setImageResource(R.drawable.ic_bookmark_white_24dp);
                     createNotification();
                     Toast.makeText(SessionDetailActivity.this, R.string.added_bookmark, Toast.LENGTH_SHORT).show();
@@ -253,7 +258,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
             }
         };
 
-        dbSingleton.isBookmarkedObservable(session.getId())
+        disposable.add(dbSingleton.isBookmarkedObservable(session.getId())
                 .subscribe(new Consumer<Boolean>() {
                     @Override
                     public void accept(Boolean bookmarked) {
@@ -265,13 +270,13 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
                             fabSessionBookmark.setImageResource(R.drawable.ic_bookmark_outline_white_24dp);
                         }
                     }
-                });
+                }));
 
         fabSessionBookmark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                dbSingleton.isBookmarkedObservable(session.getId())
-                        .subscribe(bookmarkConsumer);
+                disposable.add(dbSingleton.isBookmarkedObservable(session.getId())
+                        .subscribe(bookmarkConsumer));
                 WidgetUpdater.updateWidget(getApplicationContext());
             }
         });
@@ -280,6 +285,13 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
     @Override
     protected int getLayoutResource() {
         return R.layout.activity_sessions_detail;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(disposable != null && !disposable.isDisposed())
+            disposable.dispose();
     }
 
     @Override

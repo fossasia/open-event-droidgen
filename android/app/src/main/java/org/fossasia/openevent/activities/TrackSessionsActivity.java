@@ -25,6 +25,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 
 /**
@@ -49,6 +50,8 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
 
     private static final int trackWiseSessionList = 4;
 
+    private CompositeDisposable disposable;
+
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.recyclerView) RecyclerView sessionsRecyclerView;
     @BindView(R.id.txt_no_sessions) TextView noSessionsView;
@@ -57,6 +60,8 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setBackgroundDrawable(null);
+
+        disposable = new CompositeDisposable();
 
         setSupportActionBar(toolbar);
         if(getSupportActionBar() != null) {
@@ -89,7 +94,7 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
         sessionsRecyclerView.scrollToPosition(SessionsListAdapter.listPosition);
         sessionsRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        dbSingleton.getSessionbyTracksnameObservable(track)
+        disposable.add(dbSingleton.getSessionbyTracksnameObservable(track)
                 .subscribe(new Consumer<ArrayList<Session>>() {
                     @Override
                     public void accept(@NonNull ArrayList<Session> sessions) throws Exception {
@@ -99,7 +104,7 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
 
                         handleVisibility();
                     }
-                });
+                }));
 
         handleVisibility();
     }
@@ -125,6 +130,13 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
             bundle.putString(SEARCH, searchText);
         }
         super.onSaveInstanceState(bundle);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(disposable != null && !disposable.isDisposed())
+            disposable.dispose();
     }
 
     @Override
