@@ -42,4 +42,7 @@
     <!--ProgressBar-->
     <dimen name="top_progressbar_margin">-10dp</dimen>
     <dimen name="bottom_progressbar_margin">-6dp</dimen>
+
+    <!--NavBar-->
+    <dimen name="nav_bar_width">300dp</dimen>
 </resources>

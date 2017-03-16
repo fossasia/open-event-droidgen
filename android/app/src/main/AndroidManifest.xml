@@ -26,6 +26,7 @@
             android:name=".activities.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/SplashTheme"
+            android:hardwareAccelerated="true"
             android:configChanges="orientation|screenSize|keyboardHidden">
             <intent-filter>
                 <data android:scheme="org.fossasia.openevent" android:host="open" />

@@ -155,7 +155,6 @@ public class MainActivity extends BaseActivity {
     private CustomTabsClient customTabsClient;
     private Runnable runnable;
     private Handler handler;
-    private long timer = 2000;
     private CallbackManager callbackManager;
 
     public static Intent createLaunchFragmentIntent(Context context) {
@@ -375,7 +374,7 @@ public class MainActivity extends BaseActivity {
     private void setUpNavDrawer() {
         if (toolbar != null) {
             final ActionBar ab = getSupportActionBar();
-            assert ab != null;
+            if(ab == null) return;
             smoothActionBarToggle = new SmoothActionBarDrawerToggle(this,
                     drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
 
@@ -383,7 +382,7 @@ public class MainActivity extends BaseActivity {
                 public void onDrawerStateChanged(int newState) {
                     super.onDrawerStateChanged(newState);
 
-                    if(toolbar.getTitle().equals(R.string.title_section_tracks)) {
+                    if(toolbar.getTitle().equals(getString(R.string.title_section_tracks))) {
                         navigationView.setCheckedItem(R.id.nav_tracks);
                     }
                 }
@@ -448,15 +447,15 @@ public class MainActivity extends BaseActivity {
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                    public boolean onNavigationItemSelected(@android.support.annotation.NonNull MenuItem menuItem) {
                         final int id = menuItem.getItemId();
                         drawerLayout.closeDrawers();
-                        new Handler().postDelayed(new Runnable() {
+                        drawerLayout.postDelayed(new Runnable() {
                             @Override
                             public void run() {
                                 doMenuAction(id);
                             }
-                        }, 250);
+                        }, 300);
                         DbSingleton dbSingleton = DbSingleton.getInstance();
                         if (id == R.id.nav_bookmarks && dbSingleton.isBookmarksTableEmpty()){
                             return false;
@@ -651,8 +650,9 @@ public class MainActivity extends BaseActivity {
                         .setPositiveButton(android.R.string.ok, null)
                         .create();
                 aboutUs.show();
-                ((TextView)aboutUs.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
-                final TextView aboutUsTV = (TextView) aboutUs.findViewById(android.R.id.message);
+
+                TextView aboutUsTV = (TextView) aboutUs.findViewById(android.R.id.message);
+                if(aboutUsTV == null) break;
                 aboutUsTV.setMovementMethod(LinkMovementMethod.getInstance());
                 if (customTabsSupported) {
                     SpannableString welcomeAlertSpannable = new SpannableString(aboutUsTV.getText());
@@ -691,6 +691,7 @@ public class MainActivity extends BaseActivity {
                     }
                 };
                 handler = new Handler();
+                long timer = 2000;
                 handler.postDelayed(runnable, timer);
             }
         } else {
