@@ -24,6 +24,7 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
@@ -34,7 +35,7 @@ import timber.log.Timber;
 public class LocationsListAdapter extends BaseRVAdapter<Microlocation, LocationsListAdapter.LocationViewHolder> implements StickyRecyclerHeadersAdapter {
 
     private Context context;
-    public static int listPosition;
+    private CompositeDisposable disposable;
 
     public LocationsListAdapter(Context context, List<Microlocation> microLocations) {
         super(microLocations);
@@ -93,7 +94,7 @@ public class LocationsListAdapter extends BaseRVAdapter<Microlocation, Locations
             public void onClick(View v) {
                 Intent intent = new Intent(context, LocationActivity.class);
                 intent.putExtra(ConstantStrings.MICROLOCATIONS, location.getName());
-                listPosition = holder.getAdapterPosition();
+                holder.getAdapterPosition();
                 context.startActivity(intent);
             }
         });
@@ -101,13 +102,26 @@ public class LocationsListAdapter extends BaseRVAdapter<Microlocation, Locations
 
     public void refresh() {
         clear();
-        DbSingleton.getInstance().getMicrolocationsListObservable()
+        disposable.add(DbSingleton.getInstance().getMicrolocationsListObservable()
                 .subscribe(new Consumer<ArrayList<Microlocation>>() {
                     @Override
                     public void accept(@NonNull ArrayList<Microlocation> microlocations) throws Exception {
                         animateTo(microlocations);
                     }
-                });
+                }));
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        disposable = new CompositeDisposable();
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
+        if(disposable != null && !disposable.isDisposed())
+            disposable.dispose();
     }
 
     @Override
@@ -128,7 +142,7 @@ public class LocationsListAdapter extends BaseRVAdapter<Microlocation, Locations
         textView.setText(String.valueOf(getItem(position).getName().charAt(0)));
     }
 
-    protected class LocationViewHolder extends RecyclerView.ViewHolder {
+    class LocationViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.location_name)
         TextView locationName;
@@ -136,7 +150,7 @@ public class LocationsListAdapter extends BaseRVAdapter<Microlocation, Locations
         @BindView(R.id.location_floor)
         TextView locationFloor;
 
-        public LocationViewHolder(View itemView) {
+        LocationViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }

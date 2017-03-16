@@ -28,6 +28,7 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
@@ -38,6 +39,8 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
 
     private Context context;
     private String eventDate;
+
+    private CompositeDisposable disposable;
 
     @SuppressWarnings("all")
     Filter filter = new Filter() {
@@ -107,7 +110,7 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
             public void onClick(View v) {
                 final String sessionName = currentSession.getTitle();
 
-                DbSingleton.getInstance().getTrackbyIdObservable(currentSession.getTrack().getId())
+                disposable.add(DbSingleton.getInstance().getTrackbyIdObservable(currentSession.getTrack().getId())
                         .subscribe(new Consumer<Track>() {
                             @Override
                             public void accept(@NonNull Track track) throws Exception {
@@ -118,20 +121,33 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
                                 intent.putExtra(ConstantStrings.ID, currentSession.getId());
                                 context.startActivity(intent);
                             }
-                        });
+                        }));
             }
         });
     }
 
     public void refresh() {
         clear();
-        DbSingleton.getInstance().getSessionByDateObservable(eventDate, SortOrder.sortOrderSchedule(context))
+        disposable.add(DbSingleton.getInstance().getSessionByDateObservable(eventDate, SortOrder.sortOrderSchedule(context))
                 .subscribe(new Consumer<ArrayList<Session>>() {
                     @Override
                     public void accept(@NonNull ArrayList<Session> sessions) throws Exception {
                         animateTo(sessions);
                     }
-                });
+                }));
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        disposable = new CompositeDisposable();
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
+        if(disposable != null && !disposable.isDisposed())
+            disposable.dispose();
     }
 
     @Override
@@ -170,7 +186,7 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
         }
     }
 
-    protected class DayScheduleViewHolder extends RecyclerView.ViewHolder {
+    class DayScheduleViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.slot_start_time)
         TextView startTime;
@@ -188,7 +204,7 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
         TextView slotLocation;
 
 
-        public DayScheduleViewHolder(View itemView) {
+        DayScheduleViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
