@@ -490,7 +490,7 @@ public class MainActivity extends BaseActivity {
         addShadowToAppBar(true);
         switch (menuItemId) {
             case R.id.nav_tracks:
-                atHome = false;
+                atHome = true;
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_frame, new TracksFragment(), FRAGMENT_TAG_TRACKS).commit();
                 if (getSupportActionBar() != null) {
@@ -688,7 +688,7 @@ public class MainActivity extends BaseActivity {
                 }
                 break;
             case R.id.nav_home:
-                atHome = true;
+                atHome = false;
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_frame, new AboutFragment(), FRAGMENT_TAG_REST).commit();
                 if (getSupportActionBar() != null) {
