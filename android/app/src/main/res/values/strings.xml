@@ -13,7 +13,6 @@
     <string name="session_location_icon">This is a location icon.</string>
 
     <!-- Main menu_speakers -->
-    <string name="menu_home">Home</string>
     <string name="menu_tracks">Tracks</string>
     <string name="menu_bookmarks">Bookmarks</string>
     <string name="menu_speakers">Speakers</string>
@@ -195,15 +194,5 @@
     <!--Misc Strings-->
     <string name="time_separator" translatable="false">\u0020-\u0020</string>
     <string name="delimiter" translatable="false">,\u0020\u0020</string>
-
-    <!--About Screen-->
-    <string name="welcome_message">Welcome to FOSSASIA Summit 2017!</string>
-    <string name="event_open">EVENT OPEN</string>
-    <string name="event_venue">VENUE</string>
-    <string name="organiser_description">ORGANISERS DESCRIPTION</string>
-    <string name="read_more">Read More</string>
-    <string name="read_less">Read Less</string>
-    <string name="more_details">For more details check </string>
-    <string name="social_links">SOCIAL LINKS</string>
 
 </resources>

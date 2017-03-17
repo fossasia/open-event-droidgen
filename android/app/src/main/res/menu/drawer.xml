@@ -3,11 +3,6 @@
         android:id="@+id/menu_top"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_home"
-            android:checked="true"
-            android:icon="@drawable/ic_home_black_24dp"
-            android:title="@string/menu_home" />
-        <item
             android:id="@+id/nav_tracks"
             android:checked="true"
             android:icon="@drawable/ic_event_white_24dp"
@@ -56,7 +51,6 @@
             android:id="@+id/nav_about"
             android:icon="@drawable/ic_info_black_24dp"
             android:title="@string/menu_about" />
-
     </group>
 
 </menu>
