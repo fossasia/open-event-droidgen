@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import org.fossasia.openevent.data.Event;
 import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.data.Session;
+import org.fossasia.openevent.data.SocialLink;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Sponsor;
 import org.fossasia.openevent.data.Track;
@@ -136,6 +137,11 @@ public class DbSingleton {
     public Version getVersionIds() {
         getReadOnlyDatabase();
         return databaseOperations.getVersionIds(mDb);
+    }
+
+    public List<SocialLink> getSocialLink(){
+        getReadOnlyDatabase();
+        return databaseOperations.getSocialLink(mDb);
     }
 
     public void addBookmarks(int bookmarkId) {

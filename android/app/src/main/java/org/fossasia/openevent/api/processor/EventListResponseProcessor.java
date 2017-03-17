@@ -2,6 +2,7 @@ package org.fossasia.openevent.api.processor;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.data.Event;
+import org.fossasia.openevent.data.SocialLink;
 import org.fossasia.openevent.data.Version;
 import org.fossasia.openevent.dbutils.DataDownloadManager;
 import org.fossasia.openevent.dbutils.DbSingleton;
@@ -26,6 +27,7 @@ import timber.log.Timber;
 public class EventListResponseProcessor implements Callback<Event> {
     private static final String TAG = "EVENT";
     private int counterRequests;
+    private SocialLink socialLink;
 
     @Override
     public void onResponse(Call<Event> call, final Response<Event> response) {
@@ -39,7 +41,10 @@ public class EventListResponseProcessor implements Callback<Event> {
                     String event_query = event.generateSql();
                     Version version = response.body().getVersion();
                     counterRequests = 0;
-
+                    for (int i = 0; i < event.getSocialLink().size(); i++) {
+                        socialLink = event.getSocialLink().get(i);
+                        queries.add(socialLink.generateSql());
+                    }
                     if ((dbSingleton.getVersionIds() == null)) {
                         queries.add(version.generateSql());
                         queries.add(event_query);
