@@ -26,8 +26,8 @@ android {
         applicationId "org.fossasia.openevent"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 100
-        versionName "1.0.0"
+        versionCode 101
+        versionName "1.0.1"
 
         vectorDrawables.useSupportLibrary = true
 

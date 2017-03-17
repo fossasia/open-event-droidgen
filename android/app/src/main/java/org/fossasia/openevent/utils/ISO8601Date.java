@@ -93,7 +93,7 @@ public final class ISO8601Date {
         String final1 = s.toString();
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault());
-        format.setTimeZone(TimeZone.getTimeZone("GMT"));
+        format.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
 
         Date date = null;
         try {
