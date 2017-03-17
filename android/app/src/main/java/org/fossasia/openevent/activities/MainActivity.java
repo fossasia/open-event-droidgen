@@ -108,6 +108,10 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.branch.indexing.BranchUniversalObject;
+import io.branch.referral.Branch;
+import io.branch.referral.BranchError;
+import io.branch.referral.util.LinkProperties;
 import io.reactivex.Completable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
@@ -115,10 +119,6 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.internal.observers.CallbackCompletableObserver;
-import io.branch.indexing.BranchUniversalObject;
-import io.branch.referral.Branch;
-import io.branch.referral.BranchError;
-import io.branch.referral.util.LinkProperties;
 import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
@@ -1046,7 +1046,7 @@ public class MainActivity extends BaseActivity {
         if (!sharedPreferences.getBoolean(ConstantStrings.DATABASE_RECORDS_EXIST, false)) {
             //TODO: Add and Take counter value from to config.json
             sharedPreferences.edit().putBoolean(ConstantStrings.DATABASE_RECORDS_EXIST, true).apply();
-            counter = 6;
+            counter = 5;
             readJsonAsset(Urls.EVENT);
             readJsonAsset(Urls.TRACKS);
             readJsonAsset(Urls.SPEAKERS);
