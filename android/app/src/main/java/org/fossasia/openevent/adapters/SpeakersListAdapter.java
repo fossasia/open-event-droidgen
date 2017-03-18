@@ -3,7 +3,10 @@ package org.fossasia.openevent.adapters;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.support.graphics.drawable.VectorDrawableCompat;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -87,7 +90,7 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakersListAdap
     @Override
     public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
         super.onDetachedFromRecyclerView(recyclerView);
-        if(disposable != null && !disposable.isDisposed())
+        if (disposable != null && !disposable.isDisposed())
             disposable.dispose();
     }
 
@@ -105,7 +108,7 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakersListAdap
     }
 
     @Override
-    public void onBindViewHolder(RecyclerViewHolder holder, final int position) {
+    public void onBindViewHolder(final RecyclerViewHolder holder, final int position) {
         final Speaker current = getItem(position);
 
         String photoUri = current.getPhoto();
@@ -124,10 +127,26 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakersListAdap
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String speakerName = current.getName();
-                Intent intent = new Intent(activity, SpeakerDetailsActivity.class);
-                intent.putExtra(Speaker.SPEAKER, speakerName);
-                activity.startActivity(intent);
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    holder.speakerName.setTransitionName(activity.getString(R.string.activity_speaker_name_text_trans));
+                    holder.speakerImage.setTransitionName(activity.getString(R.string.activity_speaker_image_trans));
+
+                    Pair<View, String> pair1 = Pair.create((View) holder.speakerImage, holder.speakerImage.getTransitionName());
+                    Pair<View, String> pair2 = Pair.create((View) holder.speakerName, holder.speakerName.getTransitionName());
+                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, pair1, pair2);
+                    String speakerName = current.getName();
+                    Intent intent = new Intent(activity, SpeakerDetailsActivity.class);
+                    intent.putExtra(Speaker.SPEAKER, speakerName);
+                    activity.startActivity(intent,options.toBundle());
+
+                } else {
+
+                    String speakerName = current.getName();
+                    Intent intent = new Intent(activity, SpeakerDetailsActivity.class);
+                    intent.putExtra(Speaker.SPEAKER, speakerName);
+                    activity.startActivity(intent);
+                }
             }
         });
     }

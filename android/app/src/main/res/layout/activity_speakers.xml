@@ -39,6 +39,7 @@
                     android:contentDescription="@null"
                     android:fitsSystemWindows="true"
                     android:scaleType="centerCrop"
+                    android:transitionName="@string/activity_speaker_image_trans"
                     app:layout_collapseMode="parallax" />
 
                 <View
@@ -72,6 +73,7 @@
                     android:textSize="@dimen/heading_text_size"
                     android:textStyle="bold"
                     tools:targetApi="jelly_bean"
+                    android:transitionName="@string/activity_speaker_name_text_trans"
                     tools:text="Title" />
 
                 <TextView
