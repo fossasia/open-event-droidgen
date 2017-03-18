@@ -20,6 +20,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -486,27 +487,16 @@ public class MainActivity extends BaseActivity {
     }
 
     private void doMenuAction(int menuItemId) {
-        final FragmentManager fragmentManager = getSupportFragmentManager();
+        //final FragmentManager fragmentManager = getSupportFragmentManager();
         addShadowToAppBar(true);
         switch (menuItemId) {
             case R.id.nav_tracks:
                 atHome = true;
-                fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, new TracksFragment(), FRAGMENT_TAG_TRACKS).commit();
-                if (getSupportActionBar() != null) {
-                    getSupportActionBar().setTitle(R.string.menu_tracks);
-                }
-                appBarLayout.setExpanded(true, true);
+                replaceFragment(new TracksFragment(),getString(R.string.menu_tracks));
                 break;
             case R.id.nav_schedule:
                 atHome = false;
-                fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, new ScheduleFragment(), FRAGMENT_TAG_REST).commit();
-                addShadowToAppBar(false);
-                if (getSupportActionBar() != null) {
-                    getSupportActionBar().setTitle(R.string.menu_schedule);
-                }
-                appBarLayout.setExpanded(true, true);
+                replaceFragment(new ScheduleFragment(),getString(R.string.menu_schedule));
                 break;
             case R.id.nav_bookmarks:
                 DbSingleton dbSingleton = DbSingleton.getInstance();
@@ -518,12 +508,8 @@ public class MainActivity extends BaseActivity {
                                 if(!empty) {
                                     Timber.d("no");
                                     atHome = false;
-                                    fragmentManager.beginTransaction()
-                                            .replace(R.id.content_frame, new BookmarksFragment(), FRAGMENT_TAG_REST).commit();
-                                    if (getSupportActionBar() != null) {
-                                        getSupportActionBar().setTitle(R.string.menu_bookmarks);
-                                    }
-                                    appBarLayout.setExpanded(true, true);
+                                    replaceFragment(new BookmarksFragment(),getString(R.string.menu_bookmarks));
+
                                 } else {
                                     Timber.d("yes");
                                     DialogFactory.createSimpleActionDialog(
@@ -539,44 +525,28 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.nav_speakers:
                 atHome = false;
-                fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, new SpeakersListFragment(), FRAGMENT_TAG_REST).commit();
-                if (getSupportActionBar() != null) {
-                    getSupportActionBar().setTitle(R.string.menu_speakers);
-                }
-                appBarLayout.setExpanded(true, true);
+                replaceFragment(new SpeakersListFragment(),getString(R.string.menu_speakers));
+
                 break;
             case R.id.nav_sponsors:
                 atHome = false;
-                fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, new SponsorsFragment(), FRAGMENT_TAG_REST).commit();
-                if (getSupportActionBar() != null) {
-                    getSupportActionBar().setTitle(R.string.menu_sponsor);
-                }
-                appBarLayout.setExpanded(true, true);
+                replaceFragment(new SponsorsFragment(),getString(R.string.menu_sponsor));
+
                 break;
             case R.id.nav_locations:
                 atHome = false;
-                fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, new LocationsFragment(), FRAGMENT_TAG_REST).commit();
-                if (getSupportActionBar() != null) {
-                    getSupportActionBar().setTitle(R.string.menu_locations);
-                }
-                appBarLayout.setExpanded(true, true);
+
+                replaceFragment(new LocationsFragment(),getString(R.string.menu_locations));
+
                 break;
             case R.id.nav_map:
                 atHome = false;
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-                fragmentTransaction.replace(R.id.content_frame,
-                        ((OpenEventApp) getApplication())
-                                .getMapModuleFactory()
-                                .provideMapModule()
-                                .provideMapFragment(), FRAGMENT_TAG_REST).commit();
-                if (getSupportActionBar() != null) {
-                    getSupportActionBar().setTitle(R.string.menu_map);
-                }
-                appBarLayout.setExpanded(true, true);
+                replaceFragment( ((OpenEventApp) getApplication())
+                        .getMapModuleFactory()
+                        .provideMapModule()
+                        .provideMapFragment(),getString(R.string.menu_map));
+
                 break;
             case R.id.nav_settings:
                 final Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
@@ -689,12 +659,7 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.nav_home:
                 atHome = false;
-                fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, new AboutFragment(), FRAGMENT_TAG_REST).commit();
-                if (getSupportActionBar() != null) {
-                    getSupportActionBar().setTitle(R.string.menu_home);
-                }
-                appBarLayout.setExpanded(true, true);
+                replaceFragment(new AboutFragment(),getString(R.string.menu_about));
                 break;
         }
         currentMenuItemId = menuItemId;
@@ -1109,6 +1074,20 @@ public class MainActivity extends BaseActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         callbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+
+    /**
+     *  Common method for fragment transaction
+     */
+    private void replaceFragment(Fragment fragment,String toolBarTitle){
+        final FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_frame, fragment, FRAGMENT_TAG_TRACKS).commit();
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(toolBarTitle);
+        }
+        appBarLayout.setExpanded(true, true);
     }
 
 }
