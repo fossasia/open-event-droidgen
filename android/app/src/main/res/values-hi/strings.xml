@@ -2,7 +2,6 @@
 <resources>
     <string name="action_settings">सेटिंग्स</string>
     <string name="default_mode_notification">डिफ़ॉल्ट मोड अधिसूचना</string>
-    <string name="default_mode_api">डिफ़ॉल्ट मोड एपीआई </string>
     <string name="download_failed"> डाउनलोड विफल</string>
     <string name="menu_bookmarks"> बुकमार्क</string>
     <string name="menu_locations">स्थान</string>
@@ -12,7 +11,6 @@
     <string name="menu_tracks">ट्राक्स</string>
     <string name="refresh_failed">ताज़ा नहीं कर सका</string>
     <string name="download_complete">डाउनलोड हो गया</string>
-    <string name="settings_mode_api">एपीआई मोड</string>
     <string name="settings_mode_notification"> अधिसूचना मोड</string>
     <string name="share">शेयर</string>
     <string name="share_links">शेयरिंग यूआरएल</string>

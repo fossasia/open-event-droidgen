@@ -21,10 +21,10 @@
     <string name="menu_map">Map</string>
     <string name="menu_locations">Locations</string>
     <string name="menu_settings">Settings</string>
-    <string name="menu_share" translatable="false">Share</string>
+    <string name="menu_share">Share</string>
     <string name="menu_about">About us</string>
     <string name="session">Session Detail</string>
-    <string name="menu_schedule" translatable="false">Schedule</string>
+    <string name="menu_schedule">Schedule</string>
     <string name="descriptionEmpty">Description: To be updated soon</string>
 
 

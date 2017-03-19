@@ -142,5 +142,4 @@
     <string name="open_your_web_brower_to_finish_connection_setting">افتح المتصفح الخاص بك للانتهاء من اعدادات الاتصال</string>
     <string name="removed_bookmark">تم ازالة المفضلة</string>
     <string name="added_bookmark">تم اضافة المفضلة</string>
-    <string name="menu_schedule" translatable="false"></string>
 </resources>
