@@ -63,7 +63,6 @@
     <string name="message_3">有关更多信息，请在Google Play Store上查看此应用：</string>
     <string name="fmt_floor">"楼： "</string>
     <string name="noBookmark">没有书签的议程！！</string>
-    <string name="default_mode_api">开发者</string>
     
     <!--About us text-->
     <string name="about_text">由<a href="https://github.com/fossasia/open-event-android/graphs/contributors">FOSSASIA贡献者编写。</a>.
