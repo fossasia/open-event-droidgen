@@ -1,12 +1,11 @@
 package org.fossasia.openevent.fragments;
 
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -54,9 +53,7 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
 
     private List<Microlocation> mLocations = new ArrayList<>();
     private LocationsListAdapter locationsListAdapter;
-
-    private GridLayoutManager gridLayoutManager;
-
+    
     private String searchText = "";
 
     private SearchView searchView;
@@ -91,8 +88,8 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
         int spanCount = (int) (width/200.00);
 
         locationsRecyclerView.setHasFixedSize(true);
-        gridLayoutManager = new GridLayoutManager(getActivity(), spanCount);
-        locationsRecyclerView.setLayoutManager(gridLayoutManager);
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        locationsRecyclerView.setLayoutManager(linearLayoutManager);
         locationsListAdapter = new LocationsListAdapter(getContext(), mLocations);
         locationsRecyclerView.setAdapter(locationsListAdapter);
 
@@ -109,7 +106,7 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
             public boolean onPreDraw() {
                 toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
                 layoutParams = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
-                if (gridLayoutManager.findLastCompletelyVisibleItemPosition() == gridLayoutManager.getChildCount() - 1) {
+                if (linearLayoutManager.findLastCompletelyVisibleItemPosition() == linearLayoutManager.getChildCount() - 1) {
                     layoutParams.setScrollFlags(SCROLL_OFF);
                     toolbar.setLayoutParams(layoutParams);
                 }
@@ -204,15 +201,6 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
         searchView.setOnQueryTextListener(this);
         searchView.setQuery(searchText, false);
 
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
-        float width = displayMetrics.widthPixels / displayMetrics.density;
-        int spanCount = (int) (width / 200.00);
-        gridLayoutManager.setSpanCount(spanCount);
     }
 
     @Override
