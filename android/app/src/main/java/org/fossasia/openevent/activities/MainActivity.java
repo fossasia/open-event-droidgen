@@ -81,7 +81,6 @@ import org.fossasia.openevent.events.ShowNetworkDialogEvent;
 import org.fossasia.openevent.events.SpeakerDownloadEvent;
 import org.fossasia.openevent.events.SponsorDownloadEvent;
 import org.fossasia.openevent.events.TracksDownloadEvent;
-import org.fossasia.openevent.fragments.AboutFragment;
 import org.fossasia.openevent.fragments.BookmarksFragment;
 import org.fossasia.openevent.fragments.LocationsFragment;
 import org.fossasia.openevent.fragments.ScheduleFragment;
@@ -133,8 +132,6 @@ public class MainActivity extends BaseActivity {
     private static final String NAV_ITEM = "navItem";
 
     private static final String BOOKMARK = "bookmarks";
-
-    private static final String FRAGMENT_TAG_HOME = "FTAGH";
 
     private final String FRAGMENT_TAG_TRACKS = "FTAGT";
 
@@ -303,7 +300,7 @@ public class MainActivity extends BaseActivity {
         });
 
         if (savedInstanceState == null) {
-            currentMenuItemId = R.id.nav_home;
+            currentMenuItemId = R.id.nav_tracks;
         } else {
             currentMenuItemId = savedInstanceState.getInt(STATE_FRAGMENT);
         }
@@ -312,8 +309,7 @@ public class MainActivity extends BaseActivity {
             currentMenuItemId = R.id.nav_bookmarks;
         }
 
-        if (getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_HOME) == null &&
-                getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_TRACKS) == null && getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_REST) == null) {
+        if (getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_TRACKS) == null && getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_REST) == null) {
             doMenuAction(currentMenuItemId);
         }
     }
@@ -373,8 +369,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-        menu.clear();
+        getMenuInflater().inflate(R.menu.menu_tracks, menu);
         return true;
     }
 
@@ -687,15 +682,6 @@ public class MainActivity extends BaseActivity {
                     aboutUsTV.setText(welcomeAlertSpannable);
                 }
                 break;
-            case R.id.nav_home:
-                atHome = false;
-                fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, new AboutFragment(), FRAGMENT_TAG_REST).commit();
-                if (getSupportActionBar() != null) {
-                    getSupportActionBar().setTitle(R.string.menu_home);
-                }
-                appBarLayout.setExpanded(true, true);
-                break;
         }
         currentMenuItemId = menuItemId;
     }
@@ -724,11 +710,11 @@ public class MainActivity extends BaseActivity {
             }
         } else {
             atHome = true;
-            fragmentManager.beginTransaction().replace(R.id.content_frame, new AboutFragment(), FRAGMENT_TAG_HOME).commit();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, new TracksFragment(), FRAGMENT_TAG_TRACKS).commit();
             if (getSupportActionBar() != null) {
-                getSupportActionBar().setTitle(R.string.menu_home);
+                getSupportActionBar().setTitle(R.string.menu_tracks);
             }
-            navigationView.setCheckedItem(R.id.nav_home);
+            navigationView.setCheckedItem(R.id.nav_tracks);
         }
     }
 
