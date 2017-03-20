@@ -81,7 +81,6 @@ import org.fossasia.openevent.events.ShowNetworkDialogEvent;
 import org.fossasia.openevent.events.SpeakerDownloadEvent;
 import org.fossasia.openevent.events.SponsorDownloadEvent;
 import org.fossasia.openevent.events.TracksDownloadEvent;
-import org.fossasia.openevent.fragments.AboutFragment;
 import org.fossasia.openevent.fragments.BookmarksFragment;
 import org.fossasia.openevent.fragments.LocationsFragment;
 import org.fossasia.openevent.fragments.ScheduleFragment;
@@ -303,7 +302,7 @@ public class MainActivity extends BaseActivity {
         });
 
         if (savedInstanceState == null) {
-            currentMenuItemId = R.id.nav_home;
+            currentMenuItemId = R.id.nav_tracks;
         } else {
             currentMenuItemId = savedInstanceState.getInt(STATE_FRAGMENT);
         }
@@ -687,15 +686,6 @@ public class MainActivity extends BaseActivity {
                     aboutUsTV.setText(welcomeAlertSpannable);
                 }
                 break;
-            case R.id.nav_home:
-                atHome = false;
-                fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, new AboutFragment(), FRAGMENT_TAG_REST).commit();
-                if (getSupportActionBar() != null) {
-                    getSupportActionBar().setTitle(R.string.menu_home);
-                }
-                appBarLayout.setExpanded(true, true);
-                break;
         }
         currentMenuItemId = menuItemId;
     }
@@ -722,13 +712,6 @@ public class MainActivity extends BaseActivity {
                 long timer = 2000;
                 handler.postDelayed(runnable, timer);
             }
-        } else {
-            atHome = true;
-            fragmentManager.beginTransaction().replace(R.id.content_frame, new AboutFragment(), FRAGMENT_TAG_HOME).commit();
-            if (getSupportActionBar() != null) {
-                getSupportActionBar().setTitle(R.string.menu_home);
-            }
-            navigationView.setCheckedItem(R.id.nav_home);
         }
     }
 
