@@ -44,11 +44,11 @@ public final class SortOrder {
         prefsSort = PreferenceManager.getDefaultSharedPreferences(context);
         switch (prefsSort.getInt(PREF_SORT, 0)) {
             case SORT_TYPE_ONE:
-                //By TRACKS
-                return DbContract.Sessions.TITLE;
-            case SORT_TYPE_SECOND:
                 //By START_TIME
                 return DbContract.Sessions.START_TIME;
+            case SORT_TYPE_SECOND:
+                //By TRACKS
+                return DbContract.Sessions.TITLE;
             default:
                 return DbContract.Sessions.START_TIME;
         }

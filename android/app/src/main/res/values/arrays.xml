@@ -19,8 +19,8 @@
         <item>@string/dialog_sort_country</item>
     </integer-array>
     <integer-array name="session_sort">
-        <item>@string/dialog_sort_tracks</item>
         <item>@string/dialog_sort_sessions</item>
+        <item>@string/dialog_sort_tracks</item>
     </integer-array>
 
 </resources>
