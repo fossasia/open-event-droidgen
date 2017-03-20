@@ -7,7 +7,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical">
 
@@ -40,7 +40,7 @@
 
                     <TextView
                         android:id="@+id/welcomeMessage"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.7"
                         android:padding="@dimen/padding_medium"
@@ -255,38 +255,42 @@
 
                     <ImageView
                         android:id="@+id/img_facebook"
-                        android:layout_width="@dimen/social_image_icon"
-                        android:layout_height="@dimen/social_image_icon"
-                        android:layout_margin="@dimen/padding_medium"
-                        android:onClick="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/padding_large"
+                        android:clickable="true"
                         android:tag="@string/fb"
+                        android:background="?attr/selectableItemBackgroundBorderless"
                         app:srcCompat="@drawable/ic_facebook_24dp" />
 
                     <ImageView
                         android:id="@+id/img_twitter"
-                        android:layout_width="@dimen/social_image_icon"
-                        android:layout_height="@dimen/social_image_icon"
-                        android:layout_margin="@dimen/padding_medium"
-                        android:onClick="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/padding_large"
+                        android:clickable="true"
                         android:tag="@string/twitter"
+                        android:background="?attr/selectableItemBackgroundBorderless"
                         app:srcCompat="@drawable/ic_twitter_24dp" />
 
                     <ImageView
                         android:id="@+id/img_linkedin"
-                        android:layout_width="@dimen/social_image_icon"
-                        android:layout_height="@dimen/social_image_icon"
-                        android:layout_margin="@dimen/padding_medium"
-                        android:onClick="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/padding_large"
+                        android:clickable="true"
                         android:tag="@string/linkedin"
+                        android:background="?attr/selectableItemBackgroundBorderless"
                         app:srcCompat="@drawable/ic_linkedin_24dp" />
 
                     <ImageView
                         android:id="@+id/img_github"
-                        android:layout_width="@dimen/social_image_icon"
-                        android:layout_height="@dimen/social_image_icon"
-                        android:layout_margin="@dimen/padding_medium"
-                        android:onClick="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/padding_large"
+                        android:clickable="true"
                         android:tag="@string/github"
+                        android:background="?attr/selectableItemBackgroundBorderless"
                         app:srcCompat="@drawable/ic_github_24dp" />
                 </LinearLayout>
 

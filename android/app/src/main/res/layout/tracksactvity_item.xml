@@ -50,18 +50,20 @@
 
                         <ImageView
                             android:id="@+id/session_bookmark_status"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:layout_margin="3dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="6dp"
                             android:contentDescription="@string/session_bookmark_status"
+                            android:background="?attr/selectableItemBackgroundBorderless"
                             app:srcCompat="@drawable/ic_bookmark_border_white_24dp" />
 
                         <ImageView
                             android:id="@+id/shareImageIcon"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:layout_margin="3dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="6dp"
                             android:contentDescription="@string/session_share_icon"
+                            android:background="?attr/selectableItemBackgroundBorderless"
                             app:srcCompat="@drawable/ic_share_white_24dp" />
                     </LinearLayout>
 
