@@ -32,8 +32,16 @@ public class HeaderViewCache implements HeaderProvider {
         long headerId = mAdapter.getHeaderId(position);
 
         View header = mHeaderViews.get(headerId);
-        if (header == null) {
-            //TODO - recycle views
+
+        if(header != null) {
+            if (header.getWidth() != parent.getWidth()) {
+                int widthSpec = View.MeasureSpec.makeMeasureSpec(parent.getWidth(), View.MeasureSpec.EXACTLY);
+                int childWidth = ViewGroup.getChildMeasureSpec(widthSpec,
+                        parent.getPaddingLeft() + parent.getPaddingRight(), header.getLayoutParams().width);
+                header.measure(childWidth, header.getHeight());
+                header.layout(0, 0, parent.getWidth(), header.getHeight());
+            }
+        }else {
             RecyclerView.ViewHolder viewHolder = mAdapter.onCreateHeaderViewHolder(parent);
             mAdapter.onBindHeaderViewHolder(viewHolder, position);
             header = viewHolder.itemView;
