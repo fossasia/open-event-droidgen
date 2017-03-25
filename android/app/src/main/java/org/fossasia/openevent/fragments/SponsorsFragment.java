@@ -2,18 +2,15 @@ package org.fossasia.openevent.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
@@ -54,9 +51,6 @@ public class SponsorsFragment extends BaseFragment {
     RecyclerView sponsorsRecyclerView;
 
     private LinearLayoutManager linearLayoutManager;
-    private Toolbar toolbar;
-    private AppBarLayout.LayoutParams layoutParams;
-    private int SCROLL_OFF = 0;
 
     private CompositeDisposable compositeDisposable;
 
@@ -83,32 +77,6 @@ public class SponsorsFragment extends BaseFragment {
         sponsorsRecyclerView.setAdapter(sponsorsListAdapter);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         sponsorsRecyclerView.setLayoutManager(linearLayoutManager);
-        sponsorsRecyclerView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-            @Override
-            public boolean onPreDraw() {
-                toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
-                layoutParams = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
-                if (linearLayoutManager.findLastCompletelyVisibleItemPosition() == linearLayoutManager.getChildCount() - 1) {
-                    layoutParams.setScrollFlags(SCROLL_OFF);
-                    toolbar.setLayoutParams(layoutParams);
-                }
-                sponsorsRecyclerView.getViewTreeObserver().removeOnPreDrawListener(this);
-                return false;
-            }
-        });
-
-        //scrollup shows actionbar
-        sponsorsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                if(dy < 0){
-                    AppBarLayout appBarLayout;
-                    appBarLayout = (AppBarLayout) getActivity().findViewById(R.id.appbar);
-                    appBarLayout.setExpanded(true);
-                }
-            }
-        });
 
         compositeDisposable.add(dbSingleton.getSponsorListObservable()
                 .subscribe(new Consumer<ArrayList<Sponsor>>() {
@@ -146,8 +114,6 @@ public class SponsorsFragment extends BaseFragment {
         OpenEventApp.getEventBus().unregister(this);
         if(compositeDisposable != null && !compositeDisposable.isDisposed())
             compositeDisposable.dispose();
-        layoutParams.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL);
-        toolbar.setLayoutParams(layoutParams);
     }
 
     @Subscribe
