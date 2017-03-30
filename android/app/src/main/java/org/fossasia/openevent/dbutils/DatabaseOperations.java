@@ -31,13 +31,13 @@ public class DatabaseOperations {
 
     private static final String DESCENDING = " DESC";
 
-//    private static final String SELECT_ALL = "SELECT * FROM ";
-//
-//    private static final String WHERE = " WHERE ";
+    //private static final String SELECT_ALL = "SELECT * FROM ";
+
+    //private static final String WHERE = " WHERE ";
 
     private static final String EQUAL = " == ";
 
-//    private static final String LIKE = " LIKE ";
+    //private static final String LIKE = " LIKE ";
 
     private static final String ORDERBY = " ORDER BY ";
 
@@ -203,6 +203,7 @@ public class DatabaseOperations {
                         cur.getInt(cur.getColumnIndex(DbContract.Speakers.ID)),
                         cur.getString(cur.getColumnIndex(DbContract.Speakers.NAME)),
                         cur.getString(cur.getColumnIndex(DbContract.Speakers.PHOTO)),
+                        cur.getString(cur.getColumnIndex(DbContract.Speakers.THUMBNAIL)),
                         cur.getString(cur.getColumnIndex(DbContract.Speakers.BIO)),
                         cur.getString(cur.getColumnIndex(DbContract.Speakers.EMAIL)),
                         cur.getString(cur.getColumnIndex(DbContract.Speakers.WEB)),
@@ -685,6 +686,7 @@ public class DatabaseOperations {
                     speakersCursor.getInt(speakersCursor.getColumnIndex(DbContract.Speakers.ID)),
                     speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.NAME)),
                     speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.PHOTO)),
+                    speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.THUMBNAIL)),
                     speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.BIO)),
                     speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.EMAIL)),
                     speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.WEB)),
@@ -799,7 +801,7 @@ public class DatabaseOperations {
         ArrayList<Session> sessions = new ArrayList<>();
         Session s;
         if (sessionCursor != null && sessionCursor.moveToFirst()) {
-            if (cursor.getCount() > 0) {
+            if (cursor!= null && cursor.getCount() > 0) {
                 while (!sessionCursor.isAfterLast()) {
                     try {
                         int microlocationId = sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.MICROLOCATION));
@@ -903,6 +905,7 @@ public class DatabaseOperations {
                         speakersCursor.getInt(speakersCursor.getColumnIndex(DbContract.Speakers.ID)),
                         speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.NAME)),
                         speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.PHOTO)),
+                        speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.THUMBNAIL)),
                         speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.BIO)),
                         speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.EMAIL)),
                         speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.WEB)),

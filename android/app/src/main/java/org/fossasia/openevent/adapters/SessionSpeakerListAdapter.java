@@ -51,12 +51,8 @@ public class SessionSpeakerListAdapter extends BaseRVAdapter<Speaker, SessionSpe
     public void onBindViewHolder(RecyclerViewHolder holder, final int position) {
         final Speaker current = getItem(position);
 
-        String photoUri = current.getPhoto();
-
-        Uri uri = Uri.parse(photoUri);
-
         Picasso.with(holder.speakerImage.getContext())
-                .load(uri)
+                .load(Uri.parse(current.getThumbnail()))
                 .placeholder(VectorDrawableCompat.create(activity.getResources(), R.drawable.ic_account_circle_grey_24dp, null))
                 .transform(new CircleTransform())
                 .into(holder.speakerImage);
