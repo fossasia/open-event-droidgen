@@ -712,6 +712,14 @@ public class MainActivity extends BaseActivity {
                 long timer = 2000;
                 handler.postDelayed(runnable, timer);
             }
+        }else {
+            atHome = true;
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, new TracksFragment(), FRAGMENT_TAG_TRACKS).commit();
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setTitle(R.string.menu_tracks);
+            }
+            appBarLayout.setExpanded(true, true);
         }
     }
 
