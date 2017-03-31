@@ -27,6 +27,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.ref.WeakReference;
 import java.util.Locale;
 
 import io.branch.referral.Branch;
@@ -44,7 +45,7 @@ public class OpenEventApp extends Application {
     public static String sDefSystemLanguage;
     static Handler handler;
     private static Bus eventBus;
-    private static Context context;
+    private static WeakReference<Context> context;
     private MapModuleFactory mapModuleFactory;
     SharedPreferences sharedPreferences;
 
@@ -65,14 +66,14 @@ public class OpenEventApp extends Application {
     }
 
     public static Context getAppContext() {
-        return OpenEventApp.context;
+        return context.get();
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
         handler = new Handler(Looper.getMainLooper());
-        OpenEventApp.context = getApplicationContext();
+        context = new WeakReference<>(getApplicationContext());
 
         Branch.getAutoInstance(this);
         FacebookSdk.sdkInitialize(this);
