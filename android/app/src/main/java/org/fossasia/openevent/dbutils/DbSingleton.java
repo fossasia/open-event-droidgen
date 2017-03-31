@@ -33,8 +33,6 @@ public class DbSingleton {
 
     private static DbSingleton mInstance;
 
-    private static Context mContext;
-
     private static DbHelper mDbHelper;
 
     private SQLiteDatabase mDb;
@@ -43,21 +41,17 @@ public class DbSingleton {
 
     // visible for testing
     public DbSingleton(Context context) {
-        mContext = context;
-        mDbHelper = new DbHelper(mContext);
-
+        mDbHelper = new DbHelper(context);
     }
 
     /**
      * Only Exposed for testing purposes, either way Singletons suck.
      *
      * @param mDb     the readable/writable database
-     * @param context A sane context (Application context please)
      * @param helper  A DB Helper
      */
-    public DbSingleton(SQLiteDatabase mDb, Context context, DbHelper helper) {
+    public DbSingleton(SQLiteDatabase mDb, DbHelper helper) {
         this.mDb = mDb;
-        mContext = context;
         mDbHelper = helper;
     }
 
