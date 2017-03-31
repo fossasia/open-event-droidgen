@@ -240,9 +240,7 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
 
     @Subscribe
     public void refreshData(RefreshUiEvent event) {
-        /**
-         * if adapter has not initialised, no point in refreshing it.
-         * */
+        // if adapter has not initialised, no point in refreshing it/
         if (dayScheduleAdapter != null)
             dayScheduleAdapter.refresh();
 
@@ -294,7 +292,7 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
                     }
                 };
                 //show snackbar will be useful if user have blocked notification for this app
-                Snackbar snackbar = showNotificationSnackBar.showSnackBar();
+                showNotificationSnackBar.showSnackBar();
                 //show notification (Only when connected to WiFi)
                 showNotificationSnackBar.buildNotification();
             }

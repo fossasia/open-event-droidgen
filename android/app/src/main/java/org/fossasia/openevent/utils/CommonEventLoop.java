@@ -1,6 +1,7 @@
 package org.fossasia.openevent.utils;
 
 import android.os.Looper;
+import android.support.annotation.NonNull;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -16,7 +17,7 @@ import timber.log.Timber;
 public class CommonEventLoop {
     private ScheduledExecutorService m_executor = Executors.newSingleThreadScheduledExecutor(new ThreadFactory() {
         @Override
-        public Thread newThread(Runnable r) {
+        public Thread newThread(@NonNull Runnable r) {
             return new LooperThread(r);
         }
     });

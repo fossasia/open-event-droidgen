@@ -63,6 +63,7 @@
     <!--Menu Titles-->
     <string name="search">Search</string>
     <string name="share">Share</string>
+    <string name="add_to_calendar">Add to Calendar</string>
 
 
     <!--Search Titles-->
@@ -205,5 +206,6 @@
     <string name="read_less">Read Less</string>
     <string name="more_details">For more details check </string>
     <string name="social_links">SOCIAL LINKS</string>
+    <string name="location_not_decided">Not decided yet</string>
 
 </resources>

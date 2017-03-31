@@ -5,8 +5,8 @@ apply plugin: 'android-apt'
 def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
 def buildTime = new Date().format("yyyy-MM-dd'T'HH:mm'Z'", TimeZone.getTimeZone("UTC"))
 
-def isTravis = "true".equals(System.getenv("TRAVIS"))
-def preDexEnabled = "true".equals(System.getProperty("pre-dex", "true"))
+def isTravis = "true" == System.getenv("TRAVIS")
+def preDexEnabled = "true" == System.getProperty("pre-dex", "true")
 def SUPPORT_LIB_VERSION = "25.1.1"
 
 android {

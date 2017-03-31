@@ -4,7 +4,6 @@ import android.database.DatabaseUtils;
 
 import com.google.gson.annotations.SerializedName;
 
-import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.utils.StringUtils;
 

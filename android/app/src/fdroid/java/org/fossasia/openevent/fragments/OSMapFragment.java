@@ -67,7 +67,7 @@ public class OSMapFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        rootView = inflater.inflate(R.layout.fragment_map, null);
+        rootView = inflater.inflate(R.layout.fragment_map, container);
         return rootView;
     }
 

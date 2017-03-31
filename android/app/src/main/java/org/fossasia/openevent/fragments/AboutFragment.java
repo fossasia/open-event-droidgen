@@ -64,8 +64,7 @@ public class AboutFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        return rootView;
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
