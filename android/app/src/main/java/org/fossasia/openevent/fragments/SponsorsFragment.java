@@ -188,7 +188,7 @@ public class SponsorsFragment extends BaseFragment {
                     }
                 };
                 //show snackbar will be useful if user have blocked notification for this app
-                Snackbar snackbar = showNotificationSnackBar.showSnackBar();
+                showNotificationSnackBar.showSnackBar();
                 //show notification (Only when connected to WiFi)
                 showNotificationSnackBar.buildNotification();
             }

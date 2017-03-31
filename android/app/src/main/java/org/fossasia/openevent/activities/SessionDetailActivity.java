@@ -28,7 +28,6 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
@@ -52,7 +51,6 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
-import static android.text.Html.FROM_HTML_MODE_LEGACY;
 
 /**
  * User: MananWason
@@ -188,7 +186,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(@NonNull Throwable throwable) throws Exception {
-                        text_room1.setText("Not decided yet");
+                        text_room1.setText(R.string.location_not_decided);
                     }
                 }));
 
@@ -220,8 +218,8 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
         summary.setMovementMethod(LinkMovementMethod.getInstance());
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            result = Html.fromHtml(session.getDescription(), FROM_HTML_MODE_LEGACY);
-            summary.setText(Html.fromHtml(session.getSummary(), FROM_HTML_MODE_LEGACY));
+            result = Html.fromHtml(session.getDescription(), Html.FROM_HTML_MODE_LEGACY);
+            summary.setText(Html.fromHtml(session.getSummary(), Html.FROM_HTML_MODE_LEGACY));
         } else {
             result = Html.fromHtml(session.getDescription());
             summary.setText(Html.fromHtml(session.getSummary()));
@@ -289,7 +287,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
     @Override
     public void onBackPressed() {
         if (fabSessionBookmark.getVisibility() == View.GONE) {
-            /** hide fragment again on back pressed and show session views **/
+            // Hide fragment again on back pressed and show session views
             mapFragment.setVisibility(View.GONE);
             fabSessionBookmark.setVisibility(View.VISIBLE);
             if (scrollView.getVisibility() == View.GONE) {
@@ -307,7 +305,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_map:
-                /** Hide all the views except the frame layout **/
+                // Hide all the views except the frame layout
                 scrollView.setVisibility(View.GONE);
                 appBarLayout.setVisibility(View.GONE);
                 fabSessionBookmark.setVisibility(View.GONE);

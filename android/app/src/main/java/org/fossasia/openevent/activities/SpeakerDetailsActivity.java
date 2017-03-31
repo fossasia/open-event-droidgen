@@ -53,7 +53,6 @@ import butterknife.BindView;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
-import timber.log.Timber;
 
 /**
  * Created by MananWason on 30-06-2015.

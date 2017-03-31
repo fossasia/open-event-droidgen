@@ -62,7 +62,6 @@ public class BookmarkAlarmService extends IntentService {
     void handleStart(Intent intent, int startId) {
         NotificationManager mManager = (NotificationManager) this.getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
         int id = intent.getIntExtra(ConstantStrings.SESSION, 0);
-        String session_timings = intent.getStringExtra(ConstantStrings.SESSION_TIMING);
         String session_date;
         DbSingleton dbSingleton = DbSingleton.getInstance();
         Session session = dbSingleton.getSessionById(id);
@@ -78,7 +77,7 @@ public class BookmarkAlarmService extends IntentService {
 
         String start = ISO8601Date.get12HourTime(ISO8601Date.getDateObject(session.getStartTime()));
         String end = ISO8601Date.get12HourTime(ISO8601Date.getDateObject(session.getEndTime()));
-        session_timings = start + " - " + end;
+        String session_timings = start + " - " + end;
         session_date = ISO8601Date.getDate(ISO8601Date.getDateObject(session.getStartTime()));
 
 
