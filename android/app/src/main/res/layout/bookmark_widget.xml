@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -14,18 +13,14 @@
         android:layout_height="@dimen/main_menu_item_height"
         android:background="@color/color_primary">
 
-        <ImageButton
+        <ImageView
             android:layout_width="30dp"
-            android:scaleX="1.2"
-            android:scaleY="1.2"
-            android:layout_height="match_parent"
+            android:layout_height="30dp"
             android:layout_margin="8dp"
             android:id="@+id/bookmark_image"
             android:layout_gravity="center"
-            android:backgroundTint="#00000000"
-            android:tint="@color/white"
             android:contentDescription="@string/logo_widget"
-            android:src="@drawable/ic_bookmark_outline_black_24dp" />
+            android:src="@drawable/ic_noti_bookmark" />
 
         <TextView
             android:layout_width="match_parent"
@@ -33,12 +28,12 @@
             android:layout_gravity="center_vertical"
             android:layout_marginTop="8dp"
             android:layout_marginStart="2dp"
+            android:layout_marginLeft="2dp"
             android:layout_marginBottom="8dp"
             android:layout_toRightOf="@+id/bookmark_image"
+            android:layout_toEndOf="@+id/bookmark_image"
             android:text="@string/bookmarks"
-            android:textColor="@color/white"
-            android:fontFamily="sans-serif"
-            android:textSize="26sp" />
+            style="@style/Base.TextAppearance.AppCompat.Large.Inverse" />
 
     </RelativeLayout>
 
