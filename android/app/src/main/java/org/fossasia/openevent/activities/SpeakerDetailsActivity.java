@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.customtabs.CustomTabsCallback;
 import android.support.customtabs.CustomTabsClient;
@@ -223,7 +224,14 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
     private void loadSpeakerDetails() {
 
         speakerName.setText(selectedSpeaker.getName());
-        speakerDesignation.setText(String.format("%s %s", selectedSpeaker.getPosition(), selectedSpeaker.getOrganisation()));
+        if (!TextUtils.isEmpty(selectedSpeaker.getPosition()) && !TextUtils.isEmpty(selectedSpeaker.getOrganisation()))
+            speakerDesignation.setText(String.format("%s, %s", selectedSpeaker.getPosition(), selectedSpeaker.getOrganisation()));
+        else if (!TextUtils.isEmpty(selectedSpeaker.getPosition()))
+            speakerDesignation.setText(selectedSpeaker.getPosition());
+        else if (!TextUtils.isEmpty(selectedSpeaker.getOrganisation()))
+            speakerDesignation.setText(selectedSpeaker.getOrganisation());
+        else
+            speakerDesignation.setVisibility(View.GONE);
 
         boolean customTabsSupported;
         Intent customTabIntent = new Intent("android.support.customtabs.action.CustomTabsService");
@@ -277,7 +285,11 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
             website.setVisibility(View.GONE);
         }
 
-        biography.setText(Html.fromHtml(selectedSpeaker.getShortBiography()));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+            biography.setText(Html.fromHtml(selectedSpeaker.getShortBiography(), Html.FROM_HTML_MODE_LEGACY));
+        } else {
+            biography.setText(Html.fromHtml(selectedSpeaker.getShortBiography()));
+        }
         biography.setMovementMethod(LinkMovementMethod.getInstance());
 
         OpenEventApp.getEventBus().register(this);
