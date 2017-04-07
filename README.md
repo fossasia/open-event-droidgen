@@ -5,7 +5,7 @@
 [![Join the chat at https://gitter.im/fossasia/open-event-android](https://badges.gitter.im/fossasia/open-event-android.svg)](https://gitter.im/fossasia/open-event-android?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Preview the app](https://img.shields.io/badge/Preview-Appetize.io-orange.svg)](https://appetize.io/app/2rfx5pavny47jnb1qzwg204fr8)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/d32f87844a9346d09f3e8ad09600d3e1)](https://www.codacy.com/app/dev_19/open-event-android?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=fossasia/open-event-android&amp;utm_campaign=Badge_Grade)
-[![Mailing List](https://img.shields.io/badge/Mailing%20List-FOSSASIA-blue.svg)](mailto: fossasia@googlegroups.com)
+[![Mailing List](https://img.shields.io/badge/Mailing%20List-FOSSASIA-blue.svg)](mailto:fossasia@googlegroups.com)
 
 
 The Open Event Android project consists of two components. The **App Generator** is a web application that is hosted on a server and generates an event Android app from a zip with JSON and binary files ([examples here](http://github.com/fossasia/open-event)) or through an API. The second component we are developing in the project is a generic **Android app** - the output of the app generator. The mobile app can be installed on any Android device for browsing information about the event. Updates can be made automatically through API endpoint connections from an online source (e.g. server), which needs to defined in the provided event zip with the JSON files. The Android app has a standard configuration file, that sets the details of the app (e.g. color scheme, logo of event, link to JSON app data).
@@ -32,15 +32,18 @@ A sample app for testing purposes is automatically built after commits in the re
 
 ### Screenshots of a sample Android app
 
-<img src="https://cloud.githubusercontent.com/assets/17262180/23652908/96d8b274-0350-11e7-88c9-339987c09929.png" height = '480' width="270">
-<img src="https://cloud.githubusercontent.com/assets/17262180/23652918/9d538520-0350-11e7-991b-39111bf62045.png" height = '480' width="270">
+<img src="https://cloud.githubusercontent.com/assets/3874064/24617232/fda8fd04-18b0-11e7-9c11-9b54dd8cde31.png" height = '480' width="270">
+<img src="https://cloud.githubusercontent.com/assets/3874064/24597065/ffaf7042-1860-11e7-993c-dc4a5c611362.png" height = '480' width="270">
+<img src="https://cloud.githubusercontent.com/assets/3874064/24597075/0d39f26e-1861-11e7-83be-cfe9255f44b6.png" height = '480' width="270">
 <img src="https://cloud.githubusercontent.com/assets/17262180/23652925/a13478a2-0350-11e7-8261-84e4e8c170e3.png" height = '480' width="270">
-<img src="https://cloud.githubusercontent.com/assets/17262180/23652949/b9317342-0350-11e7-98cd-f9ee70b0c0ff.png" height = '480' width="270">
-<img src="https://cloud.githubusercontent.com/assets/17262180/23652963/c16b8dea-0350-11e7-8ea1-d6af95f87529.png" height = '480' width="270">
-<img src="https://cloud.githubusercontent.com/assets/17262180/23652968/c9f248e6-0350-11e7-9b43-3eea45388362.png" height = '480' width="270">
-<img src="https://cloud.githubusercontent.com/assets/17262180/23652981/d77d07e4-0350-11e7-84e0-f32292262029.png" height = '480' width="270">
-<img src="https://cloud.githubusercontent.com/assets/17262180/23652992/dd859584-0350-11e7-813a-fe6eafd4a133.png" height = '480' width="270">
+<img src="https://cloud.githubusercontent.com/assets/3874064/24597077/1088e146-1861-11e7-8ac4-fb1a19a76722.png" height = '480' width="270">
+<img src="https://cloud.githubusercontent.com/assets/3874064/24597080/15ab8dea-1861-11e7-8d9c-e881e8dff4a2.png" height = '480' width="270">
+<img src="https://cloud.githubusercontent.com/assets/3874064/24616380/93fa5e5e-18ae-11e7-883c-89c0ccadfb9c.png" height = '480' width="270">
+<img src="https://cloud.githubusercontent.com/assets/3874064/24616400/9ec320e6-18ae-11e7-994b-bf77fcd4f147.png" height = '480' width="270">
+<img src="https://cloud.githubusercontent.com/assets/3874064/24597072/09df6a22-1861-11e7-9005-1bbfe3fba3ad.png" height = '480' width="270">
 <img src="https://cloud.githubusercontent.com/assets/17262180/23680497/6fe02358-03b1-11e7-8e63-32eb53a4dff2.png" height = '480' width="270">
+<img src="https://cloud.githubusercontent.com/assets/3874064/24617062/88ee253e-18b0-11e7-822d-dced5fac5b60.png" height = '480' width="270">
+<img src="https://cloud.githubusercontent.com/assets/3874064/24617128/c17d3c96-18b0-11e7-9278-3f52a278b63a.png" height = '480' width="270">
 
 ### Android App Development Set up
 
