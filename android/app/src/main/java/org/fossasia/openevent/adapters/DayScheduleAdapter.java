@@ -47,7 +47,7 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             DbSingleton instance = DbSingleton.getInstance();
-            List<Session> sessionList = instance.getSessionbyDate(eventDate, SortOrder.sortOrderSchedule(context));
+            List<Session> sessionList = instance.getSessionsByDate(eventDate, SortOrder.sortOrderSchedule(context));
             final ArrayList<Session> filteredSessionsList = new ArrayList<>();
             String query = constraint.toString().toLowerCase(Locale.getDefault());
             for (Session session : sessionList) {
@@ -110,7 +110,7 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
             public void onClick(View v) {
                 final String sessionName = currentSession.getTitle();
 
-                disposable.add(DbSingleton.getInstance().getTrackbyIdObservable(currentSession.getTrack().getId())
+                disposable.add(DbSingleton.getInstance().getTrackByIdObservable(currentSession.getTrack().getId())
                         .subscribe(new Consumer<Track>() {
                             @Override
                             public void accept(@NonNull Track track) throws Exception {
@@ -128,7 +128,7 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
 
     public void refresh() {
         clear();
-        disposable.add(DbSingleton.getInstance().getSessionByDateObservable(eventDate, SortOrder.sortOrderSchedule(context))
+        disposable.add(DbSingleton.getInstance().getSessionsByDateObservable(eventDate, SortOrder.sortOrderSchedule(context))
                 .subscribe(new Consumer<ArrayList<Session>>() {
                     @Override
                     public void accept(@NonNull ArrayList<Session> sessions) throws Exception {

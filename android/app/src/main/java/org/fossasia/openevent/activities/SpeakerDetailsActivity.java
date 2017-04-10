@@ -109,7 +109,7 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
         if(getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         collapsingToolbarLayout.setTitle(" ");
 
-        disposable.add(dbSingleton.getSpeakerbySpeakersnameObservable(speaker)
+        disposable.add(dbSingleton.getSpeakerBySpeakerNameObservable(speaker)
                 .subscribe(new Consumer<Speaker>() {
                     @Override
                     public void accept(@NonNull Speaker speaker) throws Exception {
@@ -133,7 +133,7 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
         sessionRecyclerView.setAdapter(sessionsListAdapter);
         sessionRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        disposable.add(dbSingleton.getSessionbySpeakersNameObservable(speaker)
+        disposable.add(dbSingleton.getSessionsBySpeakersNameObservable(speaker)
                 .subscribe(new Consumer<ArrayList<Session>>() {
                     @Override
                     public void accept(@NonNull ArrayList<Session> sessions) throws Exception {
@@ -295,7 +295,7 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
         gridLayoutManager.setSpanCount(spanCount);
 
         final DbSingleton dbSingleton = DbSingleton.getInstance();
-        disposable.add(dbSingleton.getSessionbySpeakersNameObservable(speaker)
+        disposable.add(dbSingleton.getSessionsBySpeakersNameObservable(speaker)
                 .subscribe(new Consumer<ArrayList<Session>>() {
                     @Override
                     public void accept(@NonNull ArrayList<Session> sessions) throws Exception {

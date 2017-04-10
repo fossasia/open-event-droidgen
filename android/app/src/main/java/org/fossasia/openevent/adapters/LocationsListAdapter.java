@@ -47,7 +47,7 @@ public class LocationsListAdapter extends BaseRVAdapter<Microlocation, Locations
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             DbSingleton instance = DbSingleton.getInstance();
-            List<Microlocation> microlocations = instance.getMicrolocationsList();
+            List<Microlocation> microlocations = instance.getMicrolocationList();
             final ArrayList<Microlocation> filteredLocationList = new ArrayList<>();
             String query = constraint.toString().toLowerCase(Locale.getDefault());
             for (Microlocation microlocation : microlocations) {
@@ -102,7 +102,7 @@ public class LocationsListAdapter extends BaseRVAdapter<Microlocation, Locations
 
     public void refresh() {
         clear();
-        disposable.add(DbSingleton.getInstance().getMicrolocationsListObservable()
+        disposable.add(DbSingleton.getInstance().getMicrolocationListObservable()
                 .subscribe(new Consumer<ArrayList<Microlocation>>() {
                     @Override
                     public void accept(@NonNull ArrayList<Microlocation> microlocations) throws Exception {

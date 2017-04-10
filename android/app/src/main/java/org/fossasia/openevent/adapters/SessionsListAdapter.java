@@ -82,7 +82,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
         protected FilterResults performFiltering(CharSequence constraint) {
             DbSingleton instance = DbSingleton.getInstance();
             // TODO: Use a query to do this, iterating over an entire set is pretty bad
-            List<Session> sessionList = instance.getSessionbyTracksname(trackName);
+            List<Session> sessionList = instance.getSessionsByTrackName(trackName);
             final ArrayList<Session> filteredSessionList = new ArrayList<>();
             String query = constraint.toString().toLowerCase(Locale.getDefault());
             for (Session session : sessionList) {
@@ -166,7 +166,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
         final DbSingleton dbSingleton;
         dbSingleton = DbSingleton.getInstance();
 
-        disposable.add(dbSingleton.getSpeakersbySessionNameObservable(session.getTitle())
+        disposable.add(dbSingleton.getSpeakersBySessionNameObservable(session.getTitle())
                 .map(new Function<ArrayList<Speaker>, String>() {
                     @Override
                     public String apply(@NonNull ArrayList<Speaker> speakers) throws Exception {
@@ -267,7 +267,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
             public void onClick(View v) {
                 final String sessionName = session.getTitle();
                 Timber.d(session.getTitle());
-                disposable.add(dbSingleton.getTrackbyIdObservable(session.getTrack().getId())
+                disposable.add(dbSingleton.getTrackByIdObservable(session.getTrack().getId())
                         .subscribe(new Consumer<Track>() {
                             @Override
                             public void accept(@NonNull Track track) throws Exception {
@@ -315,7 +315,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
     public void refresh() {
         Timber.d("Refreshing session List from db");
         clear();
-        disposable.add(DbSingleton.getInstance().getSessionbyTracksnameObservable(trackName)
+        disposable.add(DbSingleton.getInstance().getSessionsByTrackNameObservable(trackName)
                 .subscribe(new Consumer<ArrayList<Session>>() {
                     @Override
                     public void accept(@NonNull ArrayList<Session> sessions) throws Exception {

@@ -69,12 +69,12 @@ public class DatabaseOperations {
                     // TODO: Look for more elegent way to solve microlocation being null problem
                     Microlocation microlocation;
                     if (microlocationId != 0) {
-                        microlocation = new Microlocation(microlocationId, getMicroLocationById(microlocationId, mDb).getName());
+                        microlocation = new Microlocation(microlocationId, getMicrolocationById(microlocationId, mDb).getName());
                     } else {
                         microlocation = new Microlocation(0, "Not decided yet");
                     }
                     int trackId = cur.getInt(cur.getColumnIndex(DbContract.Sessions.TRACK));
-                    Track track = new Track(trackId, getTracksbyTracksId(trackId, mDb).getName());
+                    Track track = new Track(trackId, getTrackByTrackId(trackId, mDb).getName());
 
                     s = new Session(
                             cur.getInt(cur.getColumnIndex(DbContract.Sessions.ID)),
@@ -120,12 +120,12 @@ public class DatabaseOperations {
                 int microlocationId = cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.MICROLOCATION));
                 Microlocation microlocation;
                 if (microlocationId != 0) {
-                    microlocation = new Microlocation(microlocationId, getMicroLocationById(microlocationId, mDb).getName());
+                    microlocation = new Microlocation(microlocationId, getMicrolocationById(microlocationId, mDb).getName());
                 } else {
                     microlocation = new Microlocation(0, "Not decided yet");
                 }
                 int trackId = cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.TRACK));
-                Track track = new Track(trackId, getTracksbyTracksId(trackId, mDb).getName());
+                Track track = new Track(trackId, getTrackByTrackId(trackId, mDb).getName());
 
                 session = new Session(
                         cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.ID)),
@@ -149,7 +149,7 @@ public class DatabaseOperations {
         return session;
     }
 
-    org.fossasia.openevent.data.Microlocation getMicroLocationById(int id, SQLiteDatabase mDb) {
+    org.fossasia.openevent.data.Microlocation getMicrolocationById(int id, SQLiteDatabase mDb) {
         String selection = DbContract.Microlocation.ID + EQUAL + id;
         Cursor cursor = mDb.query(
                 DbContract.Microlocation.TABLE_NAME,
@@ -352,7 +352,7 @@ public class DatabaseOperations {
     }
 
 
-    ArrayList<org.fossasia.openevent.data.Microlocation> getMicrolocationsList(SQLiteDatabase mDb) {
+    ArrayList<org.fossasia.openevent.data.Microlocation> getMicrolocationList(SQLiteDatabase mDb) {
         String sortOrder = DbContract.Microlocation.NAME + ASCENDING;
         Cursor cursor = mDb.query(
                 DbContract.Microlocation.TABLE_NAME,
@@ -384,7 +384,7 @@ public class DatabaseOperations {
         return microlocations;
     }
 
-    ArrayList<Session> getSessionbyTracksname(String trackName, SQLiteDatabase mDb) {
+    ArrayList<Session> getSessionsByTrackName(String trackName, SQLiteDatabase mDb) {
         String tracksColumnSelection = DbContract.Tracks.NAME + EQUAL + DatabaseUtils.sqlEscapeString(trackName);
         String[] columns = {DbContract.Tracks.ID, DbContract.Tracks.NAME};
         Cursor tracksCursor = mDb.query(
@@ -427,12 +427,12 @@ public class DatabaseOperations {
                         int microlocationId = sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.MICROLOCATION));
                         Microlocation microlocation;
                         if (microlocationId != 0) {
-                            microlocation = new Microlocation(microlocationId, getMicroLocationById(microlocationId, mDb).getName());
+                            microlocation = new Microlocation(microlocationId, getMicrolocationById(microlocationId, mDb).getName());
                         } else {
                             microlocation = new Microlocation(0, "Not decided yet");
                         }
                         int trackId = sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.TRACK));
-                        Track track = new Track(trackId, getTracksbyTracksId(trackId, mDb).getName());
+                        Track track = new Track(trackId, getTrackByTrackId(trackId, mDb).getName());
 
                         session = new Session(
                                 sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.ID)),
@@ -450,7 +450,7 @@ public class DatabaseOperations {
                         );
                         sessions.add(session);
                     } catch (ParseException e) {
-                        Timber.e("Parsing Error Occurred at DatabaseOperations::getSessionbyTracksname.");
+                        Timber.e("Parsing Error Occurred at DatabaseOperations::getSessionsByTrackName.");
                     }
                     sessionCursor.moveToNext();
                 }
@@ -461,7 +461,7 @@ public class DatabaseOperations {
         return sessions;
     }
 
-    org.fossasia.openevent.data.Track getTracksbyTracksname(String trackName, SQLiteDatabase mDb) {
+    org.fossasia.openevent.data.Track getTrackByTrackName(String trackName, SQLiteDatabase mDb) {
         String tracksColumnSelection = DbContract.Tracks.NAME + EQUAL + DatabaseUtils.sqlEscapeString(trackName);
 
         Cursor tracksCursor = mDb.query(
@@ -490,7 +490,7 @@ public class DatabaseOperations {
 
     }
 
-    org.fossasia.openevent.data.Track getTracksbyTracksId(int id, SQLiteDatabase mDb) {
+    org.fossasia.openevent.data.Track getTrackByTrackId(int id, SQLiteDatabase mDb) {
         String tracksColumnSelection = DbContract.Tracks.ID + EQUAL + DatabaseUtils.sqlEscapeString(String.valueOf(id));
 
         Cursor tracksCursor = mDb.query(
@@ -567,7 +567,7 @@ public class DatabaseOperations {
         }
     }
 
-    ArrayList<Session> getSessionbySpeakersname(String speakerName, SQLiteDatabase mDb) {
+    ArrayList<Session> getSessionsBySpeakerName(String speakerName, SQLiteDatabase mDb) {
         String speakerColumnSelection = DbContract.Speakers.NAME + EQUAL + DatabaseUtils.sqlEscapeString(speakerName);
         String[] columns = {DbContract.Speakers.ID, DbContract.Speakers.NAME};
         Cursor speakersCursor = mDb.query(
@@ -635,12 +635,12 @@ public class DatabaseOperations {
                     int microlocationId = sessionTableCursor.getInt(sessionTableCursor.getColumnIndex(DbContract.Sessions.MICROLOCATION));
                     Microlocation microlocation;
                     if (microlocationId != 0) {
-                        microlocation = new Microlocation(microlocationId, getMicroLocationById(microlocationId, mDb).getName());
+                        microlocation = new Microlocation(microlocationId, getMicrolocationById(microlocationId, mDb).getName());
                     } else {
                         microlocation = new Microlocation(0, "Not decided yet");
                     }
                     int trackId = sessionTableCursor.getInt(sessionTableCursor.getColumnIndex(DbContract.Sessions.TRACK));
-                    Track track = new Track(trackId, getTracksbyTracksId(trackId, mDb).getName());
+                    Track track = new Track(trackId, getTrackByTrackId(trackId, mDb).getName());
 
                     session = new Session(
                             sessionTableCursor.getInt(sessionTableCursor.getColumnIndex(DbContract.Sessions.ID)),
@@ -658,7 +658,7 @@ public class DatabaseOperations {
                     );
                     sessions.add(session);
                 } catch (ParseException e) {
-                    Timber.e("Parsing Error Occurred at DatabaseOperations::getSessionbySpeakersname.");
+                    Timber.e("Parsing Error Occurred at DatabaseOperations::getSessionsBySpeakerName.");
                 }
             } while (sessionTableCursor.moveToNext());
             sessionTableCursor.close();
@@ -668,7 +668,7 @@ public class DatabaseOperations {
         return sessions;
     }
 
-    Speaker getSpeakerbySpeakersname(String speakerName, SQLiteDatabase mDb) {
+    Speaker getSpeakerBySpeakerName(String speakerName, SQLiteDatabase mDb) {
         String speakerColumnSelection = DbContract.Speakers.NAME + EQUAL + DatabaseUtils.sqlEscapeString(speakerName);
         Cursor speakersCursor = mDb.query(
                 DbContract.Speakers.TABLE_NAME,
@@ -763,7 +763,7 @@ public class DatabaseOperations {
         return location;
     }
 
-    ArrayList<Session> getSessionbyLocationname(String locationName, SQLiteDatabase mDb) {
+    ArrayList<Session> getSessionsByLocationName(String locationName, SQLiteDatabase mDb) {
         String locationColumnSelection = DbContract.Microlocation.NAME + EQUAL + DatabaseUtils.sqlEscapeString(locationName);
         String[] columns = {DbContract.Microlocation.ID, DbContract.Speakers.NAME};
         Cursor cursor = mDb.query(
@@ -805,12 +805,12 @@ public class DatabaseOperations {
                         int microlocationId = sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.MICROLOCATION));
                         Microlocation microlocation;
                         if (microlocationId != 0) {
-                            microlocation = new Microlocation(microlocationId, getMicroLocationById(microlocationId, mDb).getName());
+                            microlocation = new Microlocation(microlocationId, getMicrolocationById(microlocationId, mDb).getName());
                         } else {
                             microlocation = new Microlocation(0, "Not decided yet");
                         }
                         int trackId = sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.TRACK));
-                        Track track = new Track(trackId, getTracksbyTracksId(trackId, mDb).getName());
+                        Track track = new Track(trackId, getTrackByTrackId(trackId, mDb).getName());
 
                         s = new Session(
                                 sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.ID)),
@@ -829,7 +829,7 @@ public class DatabaseOperations {
                         sessions.add(s);
 
                     } catch (ParseException e) {
-                        Timber.e("Parsing Error Occurred at DatabaseOperations::getSessionbyLocationname.");
+                        Timber.e("Parsing Error Occurred at DatabaseOperations::getSessionsByLocationName.");
                     }
                     sessionCursor.moveToNext();
                 }
@@ -841,7 +841,7 @@ public class DatabaseOperations {
         return sessions;
     }
 
-    ArrayList<Speaker> getSpeakersbySessionName(String sessionName, SQLiteDatabase mDb) {
+    ArrayList<Speaker> getSpeakersBySessionName(String sessionName, SQLiteDatabase mDb) {
         String sessionColumnSelection = DbContract.Sessions.TITLE + EQUAL + DatabaseUtils.sqlEscapeString(sessionName);
         String[] columns = {DbContract.Sessions.ID, DbContract.Sessions.TITLE};
         Cursor sessionsCursor = mDb.query(
@@ -959,7 +959,7 @@ public class DatabaseOperations {
         return check;
     }
 
-    Session getSessionbySessionname(String sessionName, SQLiteDatabase mDb) {
+    Session getSessionBySessionName(String sessionName, SQLiteDatabase mDb) {
         String sessionColumnSelection = DbContract.Sessions.TITLE + EQUAL + DatabaseUtils.sqlEscapeString(sessionName);
         Cursor cursor = mDb.query(
                 DbContract.Sessions.TABLE_NAME,
@@ -976,12 +976,12 @@ public class DatabaseOperations {
                 int microlocationId = cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.MICROLOCATION));
                 Microlocation microlocation;
                 if (microlocationId != 0) {
-                    microlocation = new Microlocation(microlocationId, getMicroLocationById(microlocationId, mDb).getName());
+                    microlocation = new Microlocation(microlocationId, getMicrolocationById(microlocationId, mDb).getName());
                 } else {
                     microlocation = new Microlocation(0, "Not decided yet");
                 }
                 int trackId = cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.TRACK));
-                Track track = new Track(trackId, getTracksbyTracksId(trackId, mDb).getName());
+                Track track = new Track(trackId, getTrackByTrackId(trackId, mDb).getName());
 
                 session = new Session(
                         cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.ID)),
@@ -999,7 +999,7 @@ public class DatabaseOperations {
 
                 );
             } catch (ParseException e) {
-                Timber.e("Parsing Error Occurred at DatabaseOperations::getSessionbySessionname.");
+                Timber.e("Parsing Error Occurred at DatabaseOperations::getSessionBySessionName.");
             }
 
             cursor.close();
@@ -1058,7 +1058,7 @@ public class DatabaseOperations {
 
     }
 
-    ArrayList<Session> getSessionbyDate(String date, String sortOrder, SQLiteDatabase mDb) {
+    ArrayList<Session> getSessionsByDate(String date, String sortOrder, SQLiteDatabase mDb) {
 
         String sessionColumnSelection = DbContract.Sessions.START_DATE + EQUAL +
                 DatabaseUtils.sqlEscapeString(date);
@@ -1083,12 +1083,12 @@ public class DatabaseOperations {
                     int microlocationId = sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.MICROLOCATION));
                     Microlocation microlocation;
                     if (microlocationId != 0) {
-                        microlocation = new Microlocation(microlocationId, getMicroLocationById(microlocationId, mDb).getName());
+                        microlocation = new Microlocation(microlocationId, getMicrolocationById(microlocationId, mDb).getName());
                     } else {
                         microlocation = new Microlocation(0, "Not decided yet");
                     }
                     int trackId = sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.TRACK));
-                    Track track = new Track(trackId, getTracksbyTracksId(trackId, mDb).getName());
+                    Track track = new Track(trackId, getTrackByTrackId(trackId, mDb).getName());
 
                     session = new Session(
                             sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.ID)),
@@ -1106,7 +1106,7 @@ public class DatabaseOperations {
                     );
                     sessions.add(session);
                 } catch (ParseException e) {
-                    Timber.e("Parsing Error Occurred at DatabaseOperations::getSessionbyDatename.");
+                    Timber.e("Parsing Error Occurred at DatabaseOperations::getSessionsByDate.");
                 }
                 sessionCursor.moveToNext();
             }

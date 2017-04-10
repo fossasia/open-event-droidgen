@@ -91,7 +91,7 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
         sessionRecyclerView.scrollToPosition(SessionsListAdapter.listPosition);
         sessionRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        disposable.add(dbSingleton.getSessionbyLocationNameObservable(location)
+        disposable.add(dbSingleton.getSessionsByLocationNameObservable(location)
                 .subscribe(new Consumer<ArrayList<Session>>() {
                     @Override
                     public void accept(@NonNull ArrayList<Session> sessions) throws Exception {
@@ -165,7 +165,7 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
     public boolean onQueryTextChange(final String query) {
         DbSingleton dbSingleton = DbSingleton.getInstance();
 
-        disposable.add(dbSingleton.getSessionbyLocationNameObservable(location)
+        disposable.add(dbSingleton.getSessionsByLocationNameObservable(location)
                 .subscribe(new Consumer<ArrayList<Session>>() {
                     @Override
                     public void accept(@NonNull ArrayList<Session> sessions) throws Exception {
