@@ -133,8 +133,6 @@ public class MainActivity extends BaseActivity {
 
     private static final String BOOKMARK = "bookmarks";
 
-    private static final String FRAGMENT_TAG_HOME = "FTAGH";
-
     private final String FRAGMENT_TAG_TRACKS = "FTAGT";
 
     private final String FRAGMENT_TAG_REST = "FTAGR";
@@ -311,8 +309,7 @@ public class MainActivity extends BaseActivity {
             currentMenuItemId = R.id.nav_bookmarks;
         }
 
-        if (getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_HOME) == null &&
-                getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_TRACKS) == null && getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_REST) == null) {
+        if (getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_TRACKS) == null && getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_REST) == null) {
             doMenuAction(currentMenuItemId);
         }
     }
@@ -372,8 +369,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-        menu.clear();
+        getMenuInflater().inflate(R.menu.menu_tracks, menu);
         return true;
     }
 
@@ -712,6 +708,13 @@ public class MainActivity extends BaseActivity {
                 long timer = 2000;
                 handler.postDelayed(runnable, timer);
             }
+        } else {
+            atHome = true;
+            fragmentManager.beginTransaction().replace(R.id.content_frame, new TracksFragment(), FRAGMENT_TAG_TRACKS).commit();
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setTitle(R.string.menu_tracks);
+            }
+            navigationView.setCheckedItem(R.id.nav_tracks);
         }
     }
 
