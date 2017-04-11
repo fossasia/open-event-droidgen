@@ -134,7 +134,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
         final List<Speaker> speakers = new ArrayList<>();
         adapter = new SessionSpeakerListAdapter(speakers, this);
 
-        disposable.add(dbSingleton.getSpeakersbySessionNameObservable(title)
+        disposable.add(dbSingleton.getSpeakersBySessionNameObservable(title)
                 .subscribe(new Consumer<ArrayList<Speaker>>() {
                     @Override
                     public void accept(@NonNull ArrayList<Speaker> speakerList) {
@@ -157,7 +157,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
                     @Override
                     public void accept(Throwable throwable) {
                         // If error occurs, we load by name
-                        dbSingleton.getSessionbySessionnameObservable(title)
+                        dbSingleton.getSessionBySessionNameObservable(title)
                                 .subscribe(new Consumer<Session>() {
                                     @Override
                                     public void accept(@NonNull Session receivedSession) {

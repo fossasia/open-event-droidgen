@@ -192,23 +192,23 @@ public class DbSingleton {
         }).compose(this.<ArrayList<Sponsor>>applySchedulers());
     }
 
-    public ArrayList<Microlocation> getMicrolocationsList() {
+    public ArrayList<Microlocation> getMicrolocationList() {
         getReadOnlyDatabase();
-        return databaseOperations.getMicrolocationsList(mDb);
+        return databaseOperations.getMicrolocationList(mDb);
     }
 
-    public Observable<ArrayList<Microlocation>> getMicrolocationsListObservable() {
+    public Observable<ArrayList<Microlocation>> getMicrolocationListObservable() {
         return Observable.fromCallable(new Callable<ArrayList<Microlocation>>() {
             @Override
             public ArrayList<Microlocation> call() throws Exception {
-                return getMicrolocationsList();
+                return getMicrolocationList();
             }
         }).compose(this.<ArrayList<Microlocation>>applySchedulers());
     }
 
     public Microlocation getMicrolocationById(int id) {
         getReadOnlyDatabase();
-        return databaseOperations.getMicroLocationById(id, mDb);
+        return databaseOperations.getMicrolocationById(id, mDb);
     }
 
     public Observable<Microlocation> getMicrolocationByIdObservable(final int id) {
@@ -220,15 +220,15 @@ public class DbSingleton {
         }).compose(this.<Microlocation>applySchedulers());
     }
 
-    public ArrayList<Session> getSessionbyTracksname(String trackName) {
-        return databaseOperations.getSessionbyTracksname(trackName, mDb);
+    public ArrayList<Session> getSessionsByTrackName(String trackName) {
+        return databaseOperations.getSessionsByTrackName(trackName, mDb);
     }
 
-    public Observable<ArrayList<Session>> getSessionbyTracksnameObservable(final String trackName) {
+    public Observable<ArrayList<Session>> getSessionsByTrackNameObservable(final String trackName) {
         return Observable.fromCallable(new Callable<ArrayList<Session>>() {
             @Override
             public ArrayList<Session> call() throws Exception {
-                return getSessionbyTracksname(trackName);
+                return getSessionsByTrackName(trackName);
             }
         }).compose(this.<ArrayList<Session>>applySchedulers());
     }
@@ -247,98 +247,98 @@ public class DbSingleton {
         }).compose(this.<List<String>>applySchedulers());
     }
 
-    public ArrayList<Session> getSessionbyDate(String date, String sortOrder) {
-        return databaseOperations.getSessionbyDate(date, sortOrder, mDb);
+    public ArrayList<Session> getSessionsByDate(String date, String sortOrder) {
+        return databaseOperations.getSessionsByDate(date, sortOrder, mDb);
     }
 
-    public Observable<ArrayList<Session>> getSessionByDateObservable(final String date, final String sortOrder) {
+    public Observable<ArrayList<Session>> getSessionsByDateObservable(final String date, final String sortOrder) {
         return Observable.fromCallable(new Callable<ArrayList<Session>>() {
             @Override
             public ArrayList<Session> call() throws Exception {
-                return getSessionbyDate(date, sortOrder);
+                return getSessionsByDate(date, sortOrder);
             }
         }).compose(this.<ArrayList<Session>>applySchedulers());
     }
 
-    public ArrayList<Session> getSessionbySpeakersName(String speakerName) {
-        return databaseOperations.getSessionbySpeakersname(speakerName, mDb);
+    public ArrayList<Session> getSessionsBySpeakerName(String speakerName) {
+        return databaseOperations.getSessionsBySpeakerName(speakerName, mDb);
     }
 
-    public Observable<ArrayList<Session>> getSessionbySpeakersNameObservable(final String speakerName) {
+    public Observable<ArrayList<Session>> getSessionsBySpeakersNameObservable(final String speakerName) {
         return Observable.fromCallable(new Callable<ArrayList<Session>>() {
             @Override
             public ArrayList<Session> call() throws Exception {
-                return getSessionbySpeakersName(speakerName);
+                return getSessionsBySpeakerName(speakerName);
             }
         }).compose(this.<ArrayList<Session>>applySchedulers());
     }
 
-    public ArrayList<Session> getSessionbyLocationName(String locationName) {
-        return databaseOperations.getSessionbyLocationname(locationName, mDb);
+    public ArrayList<Session> getSessionsByLocationName(String locationName) {
+        return databaseOperations.getSessionsByLocationName(locationName, mDb);
     }
 
-    public Observable<ArrayList<Session>> getSessionbyLocationNameObservable(final String locationName) {
+    public Observable<ArrayList<Session>> getSessionsByLocationNameObservable(final String locationName) {
         return Observable.fromCallable(new Callable<ArrayList<Session>>() {
             @Override
             public ArrayList<Session> call() throws Exception {
-                return getSessionbyLocationName(locationName);
+                return getSessionsByLocationName(locationName);
             }
         }).compose(this.<ArrayList<Session>>applySchedulers());
     }
 
-    public ArrayList<Speaker> getSpeakersbySessionName(String sessionName) {
+    public ArrayList<Speaker> getSpeakersBySessionName(String sessionName) {
         getReadOnlyDatabase();
-        return databaseOperations.getSpeakersbySessionName(sessionName, mDb);
+        return databaseOperations.getSpeakersBySessionName(sessionName, mDb);
     }
 
-    public Observable<ArrayList<Speaker>> getSpeakersbySessionNameObservable(final String sessionName) {
+    public Observable<ArrayList<Speaker>> getSpeakersBySessionNameObservable(final String sessionName) {
         return Observable.fromCallable(new Callable<ArrayList<Speaker>>() {
             @Override
             public ArrayList<Speaker> call() throws Exception {
-                return getSpeakersbySessionName(sessionName);
+                return getSpeakersBySessionName(sessionName);
             }
         }).compose(this.<ArrayList<Speaker>>applySchedulers());
     }
 
-    public Track getTrackbyName(String trackName) {
-        return databaseOperations.getTracksbyTracksname(trackName, mDb);
+    public Track getTrackByName(String trackName) {
+        return databaseOperations.getTrackByTrackName(trackName, mDb);
     }
 
-    public Track getTrackbyId(int id) {
-        return databaseOperations.getTracksbyTracksId(id, mDb);
+    public Track getTrackById(int id) {
+        return databaseOperations.getTrackByTrackId(id, mDb);
     }
 
-    public Observable<Track> getTrackbyIdObservable(final int id) {
+    public Observable<Track> getTrackByIdObservable(final int id) {
         return Observable.fromCallable(new Callable<Track>() {
             @Override
             public Track call() throws Exception {
-                return getTrackbyId(id);
+                return getTrackById(id);
             }
         }).compose(this.<Track>applySchedulers());
     }
 
-    public Speaker getSpeakerbySpeakersname(String speakerName) {
-        return databaseOperations.getSpeakerbySpeakersname(speakerName, mDb);
+    public Speaker getSpeakerBySpeakerName(String speakerName) {
+        return databaseOperations.getSpeakerBySpeakerName(speakerName, mDb);
     }
 
-    public Observable<Speaker> getSpeakerbySpeakersnameObservable(final String speakerName) {
+    public Observable<Speaker> getSpeakerBySpeakerNameObservable(final String speakerName) {
         return Observable.fromCallable(new Callable<Speaker>() {
             @Override
             public Speaker call() throws Exception {
-                return getSpeakerbySpeakersname(speakerName);
+                return getSpeakerBySpeakerName(speakerName);
             }
         }).compose(this.<Speaker>applySchedulers());
     }
 
-    public Session getSessionbySessionname(String sessionName) {
-        return databaseOperations.getSessionbySessionname(sessionName, mDb);
+    public Session getSessionBySessionName(String sessionName) {
+        return databaseOperations.getSessionBySessionName(sessionName, mDb);
     }
 
-    public Observable<Session> getSessionbySessionnameObservable(final String sessionName) {
+    public Observable<Session> getSessionBySessionNameObservable(final String sessionName) {
         return Observable.fromCallable(new Callable<Session>() {
             @Override
             public Session call() throws Exception {
-                return getSessionbySessionname(sessionName);
+                return getSessionBySessionName(sessionName);
             }
         }).compose(this.<Session>applySchedulers());
     }
@@ -383,7 +383,7 @@ public class DbSingleton {
         }).compose(this.<ArrayList<Integer>>applySchedulers());
     }
 
-    public Microlocation getLocationByLocationname(String LocationName) {
+    public Microlocation getLocationByLocationName(String LocationName) {
         return databaseOperations.getLocationByName(LocationName, mDb);
     }
 

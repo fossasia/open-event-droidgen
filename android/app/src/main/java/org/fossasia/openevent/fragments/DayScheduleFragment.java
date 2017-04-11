@@ -125,7 +125,7 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
             }
         });
 
-        compositeDisposable.add(DbSingleton.getInstance().getSessionByDateObservable(date, SortOrder.sortOrderSchedule(getActivity()))
+        compositeDisposable.add(DbSingleton.getInstance().getSessionsByDateObservable(date, SortOrder.sortOrderSchedule(getActivity()))
                 .subscribe(new Consumer<ArrayList<Session>>() {
                     @Override
                     public void accept(@NonNull ArrayList<Session> sortedSessions) throws Exception {
