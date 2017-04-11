@@ -21,13 +21,21 @@ import com.squareup.otto.Subscribe;
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.SponsorsListAdapter;
+import org.fossasia.openevent.data.Sponsor;
 import org.fossasia.openevent.dbutils.DataDownloadManager;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.SponsorDownloadEvent;
 import org.fossasia.openevent.utils.NetworkUtils;
 import org.fossasia.openevent.utils.ShowNotificationSnackBar;
 
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
 /**
@@ -35,6 +43,7 @@ import timber.log.Timber;
  */
 public class SponsorsFragment extends BaseFragment {
 
+    private List<Sponsor> mSponsors = new ArrayList<>();
     private SponsorsListAdapter sponsorsListAdapter;
 
     @BindView(R.id.txt_no_sponsors)
@@ -44,12 +53,12 @@ public class SponsorsFragment extends BaseFragment {
     @BindView(R.id.list_sponsors)
     RecyclerView sponsorsRecyclerView;
 
-    private Snackbar snackbar;
-
     private LinearLayoutManager linearLayoutManager;
     private Toolbar toolbar;
     private AppBarLayout.LayoutParams layoutParams;
     private int SCROLL_OFF = 0;
+
+    private CompositeDisposable compositeDisposable;
 
     @Nullable
     @Override
@@ -59,6 +68,8 @@ public class SponsorsFragment extends BaseFragment {
         final View view = super.onCreateView(inflater, container, savedInstanceState);
 
         OpenEventApp.getEventBus().register(this);
+        compositeDisposable = new CompositeDisposable();
+
         final DbSingleton dbSingleton = DbSingleton.getInstance();
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -67,7 +78,7 @@ public class SponsorsFragment extends BaseFragment {
                 refresh();
             }
         });
-        sponsorsListAdapter = new SponsorsListAdapter(getContext(), dbSingleton.getSponsorList(),
+        sponsorsListAdapter = new SponsorsListAdapter(getContext(), mSponsors,
                 getActivity(), true);
         sponsorsRecyclerView.setAdapter(sponsorsListAdapter);
         linearLayoutManager = new LinearLayoutManager(getActivity());
@@ -86,7 +97,35 @@ public class SponsorsFragment extends BaseFragment {
             }
         });
 
+        //scrollup shows actionbar
+        sponsorsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if(dy < 0){
+                    AppBarLayout appBarLayout;
+                    appBarLayout = (AppBarLayout) getActivity().findViewById(R.id.appbar);
+                    appBarLayout.setExpanded(true);
+                }
+            }
+        });
 
+        compositeDisposable.add(dbSingleton.getSponsorListObservable()
+                .subscribe(new Consumer<ArrayList<Sponsor>>() {
+                    @Override
+                    public void accept(@NonNull ArrayList<Sponsor> sponsors) throws Exception {
+                        mSponsors.clear();
+                        mSponsors.addAll(sponsors);
+
+                        sponsorsListAdapter.notifyDataSetChanged();
+                        handleVisibility();
+                    }
+                }));
+
+        return view;
+    }
+
+    private void handleVisibility() {
         if (sponsorsListAdapter.getItemCount() != 0) {
             noSponsorsView.setVisibility(View.GONE);
             sponsorsRecyclerView.setVisibility(View.VISIBLE);
@@ -94,8 +133,6 @@ public class SponsorsFragment extends BaseFragment {
             noSponsorsView.setVisibility(View.VISIBLE);
             sponsorsRecyclerView.setVisibility(View.GONE);
         }
-
-        return view;
     }
 
     @Override
@@ -107,38 +144,42 @@ public class SponsorsFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         OpenEventApp.getEventBus().unregister(this);
+        if(compositeDisposable != null && !compositeDisposable.isDisposed())
+            compositeDisposable.dispose();
         layoutParams.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL);
         toolbar.setLayoutParams(layoutParams);
     }
 
     @Subscribe
     public void sponsorDownloadDone(SponsorDownloadEvent event) {
+        if(swipeRefreshLayout == null)
+            return;
 
         swipeRefreshLayout.setRefreshing(false);
         if (event.isState()) {
             sponsorsListAdapter.refresh();
             Timber.d("Refresh done");
-
         } else {
-            if (getActivity() != null) {
-                Snackbar.make(getView(), getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        refresh();
-                    }
-                }).show();
-            }
+            Snackbar.make(swipeRefreshLayout, getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    refresh();
+                }
+            }).show();
             Timber.d("Refresh not done");
-
         }
     }
 
     private void refresh() {
-        if (NetworkUtils.haveNetworkConnection(getActivity())) {
-            if (NetworkUtils.isActiveInternetPresent()) {
+        NetworkUtils.checkConnection(new WeakReference<>(getContext()), new NetworkUtils.NetworkStateReceiverListener() {
+            @Override
+            public void activeConnection() {
                 //Internet is working
                 DataDownloadManager.getInstance().downloadSponsors();
-            } else {
+            }
+
+            @Override
+            public void inactiveConnection() {
                 //Device is connected to WI-FI or Mobile Data but Internet is not working
                 ShowNotificationSnackBar showNotificationSnackBar = new ShowNotificationSnackBar(getContext(),getView(),swipeRefreshLayout) {
                     @Override
@@ -147,19 +188,27 @@ public class SponsorsFragment extends BaseFragment {
                     }
                 };
                 //show snackbar will be useful if user have blocked notification for this app
-                snackbar = showNotificationSnackBar.showSnackBar();
-                //show notification
+                showNotificationSnackBar.showSnackBar();
+                //show notification (Only when connected to WiFi)
                 showNotificationSnackBar.buildNotification();
             }
-        } else {
-            Snackbar.make(getView(), getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    refresh();
-                }
-            }).show();
-            OpenEventApp.getEventBus().post(new SponsorDownloadEvent(true));
-        }
+
+            @Override
+            public void networkAvailable() {
+                // Network is available but we need to wait for activity
+            }
+
+            @Override
+            public void networkUnavailable() {
+                Snackbar.make(swipeRefreshLayout, getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        refresh();
+                    }
+                }).show();
+                OpenEventApp.getEventBus().post(new SponsorDownloadEvent(true));
+            }
+        });
     }
 
     @Override

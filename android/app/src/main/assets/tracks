@@ -1,2153 +1,1134 @@
 [
     {
-        "color": "#3DC8C3", 
-        "description": "OpenTech and IoT", 
-        "id": 1, 
-        "location": "Level 3, Level 3, Dalton Hall", 
-        "name": "OpenTech and IoT", 
+        "description": null,
         "sessions": [
             {
-                "id": 1, 
-                "title": "Grand Opening"
-            }, 
+                "id": 3022,
+                "title": "Lunch Break"
+            },
             {
-                "id": 2, 
-                "title": "The story of FOSSASIA 2016, The Internet of Things and Me"
-            }, 
+                "id": 3020,
+                "title": "Coffee Break"
+            },
             {
-                "id": 3, 
-                "title": "Welcome at the Centre of Science Education in Singapore"
-            }, 
+                "id": 3021,
+                "title": "Coffee Break"
+            }
+        ],
+        "color": "#94868c",
+        "track_image_url": null,
+        "location": null,
+        "id": 273,
+        "name": "Breaks"
+    },
+    {
+        "description": null,
+        "sessions": [
             {
-                "id": 4, 
-                "title": "A Funny Thing Happened On My Way To The Science Centre"
-            }, 
+                "id": 2873,
+                "title": "Seasons of Debian : Summer of Code & Winter of Outreachy"
+            },
             {
-                "id": 5, 
-                "title": "Sex, Circuits, and Deep House"
-            }, 
+                "id": 2831,
+                "title": "Open Build Service in Debian."
+            },
             {
-                "id": 6, 
-                "title": "Rethinking Drone Delivery with Open Source"
-            }, 
+                "id": 3010,
+                "title": "Debian Booth - Exhibition "
+            },
             {
-                "id": 7, 
-                "title": "Tea and Coffee Break"
-            }, 
+                "id": 2851,
+                "title": "PGP/GPG Key signing event - Exhibition"
+            },
             {
-                "id": 8, 
-                "title": "UNESCO YouthMobile"
-            }, 
+                "id": 2929,
+                "title": "Debian - The Best Linux Distribution"
+            }
+        ],
+        "color": "#CC0066",
+        "track_image_url": null,
+        "location": null,
+        "id": 268,
+        "name": "Debian Mini-Debconf"
+    },
+    {
+        "description": null,
+        "sessions": [
             {
-                "id": 9, 
-                "title": "Science and Open Source Program at Google"
-            }, 
+                "id": 2865,
+                "title": "Using FOSS to flip education is a student's power."
+            },
             {
-                "id": 10, 
-                "title": "#NefertitiHack and Cultural Commons \"The Other Nefertiti\""
-            }, 
+                "id": 2928,
+                "title": "Building OSS communities with kids in Japan"
+            },
             {
-                "id": 11, 
-                "title": "Lunch"
-            }, 
+                "id": 2827,
+                "title": "NUSMods - Revolutionizing university life with Open Source"
+            },
             {
-                "id": 12, 
-                "title": "Managing A Healthy GitHub Community"
-            }, 
+                "id": 2823,
+                "title": "LibreOffice / ODF Migration in Taiwan"
+            },
             {
-                "id": 13, 
-                "title": "What's new in systemd in 2016?"
-            }, 
+                "id": 2822,
+                "title": "The common bot - species, development and breeding"
+            },
             {
-                "id": 14, 
-                "title": "Legalese.io: smart contracts, dumb lawyers, and you"
-            }, 
+                "id": 2852,
+                "title": "Taking the Internet Back"
+            },
             {
-                "id": 15, 
-                "title": "BBC micro:bit - Next generation teaching tools"
-            }, 
+                "id": 2839,
+                "title": "Liberating Education: Free Software in the STEM Classroom"
+            },
             {
-                "id": 16, 
-                "title": "Going through era of IoT with MySQL 5.7"
-            }, 
+                "id": 3019,
+                "title": "Civic Hacking and its importance "
+            },
             {
-                "id": 17, 
-                "title": "IOT with Espert"
-            }, 
+                "id": 2876,
+                "title": "Promoting Open Technology in World's Freest Economy - Hong Kong"
+            },
             {
-                "id": 50, 
-                "title": "Open Event Orga Server Project"
-            }, 
+                "id": 2900,
+                "title": "The Promise of Collaborative Magic"
+            },
             {
-                "id": 18, 
-                "title": "ExpEYES: Pocket Science Lab - Developing Open Source Science Experiments with FOSSASIA  "
-            }, 
+                "id": 2951,
+                "title": "How to raise a creative child"
+            },
             {
-                "id": 19, 
-                "title": "End of Sessions"
-            }, 
+                "id": 2953,
+                "title": "WikiToLearn : Bringing academia to the Internet era - a revolution in knowledge sharing"
+            }
+        ],
+        "color": "#9d75b5",
+        "track_image_url": null,
+        "location": null,
+        "id": 221,
+        "name": "Internet, Society & Politics"
+    },
+    {
+        "description": null,
+        "sessions": [
             {
-                "id": 20, 
-                "title": "Pub Crawl at Clarke Quay"
-            }, 
+                "id": 2847,
+                "title": "Coccinelle: Finding bugs in the Linux Kernel"
+            },
             {
-                "id": 21, 
-                "title": "Google Summer of Code and Google Code-In "
-            }, 
+                "id": 2826,
+                "title": "Configuration Management on the Laptop "
+            },
             {
-                "id": 22, 
-                "title": "You got Design with that? Design Thinking for your projects"
-            }, 
+                "id": 2844,
+                "title": "Clone as free as you want"
+            },
             {
-                "id": 23, 
-                "title": "Linking the word's languages in the Open Multilingual Wordnet"
-            }, 
+                "id": 2842,
+                "title": "SELinux introduction - workshop 1hr"
+            },
             {
-                "id": 24, 
-                "title": "Big Data with Short Messages"
-            }, 
+                "id": 3024,
+                "title": "Analysis of algorithms for efficient load balancing in distributed systems"
+            },
             {
-                "id": 25, 
-                "title": "Code Review for DevOps"
-            }, 
+                "id": 2825,
+                "title": "Recommending Code Changes for Automatic Backporting of Linux Device Drivers"
+            },
             {
-                "id": 26, 
+                "id": 2892,
+                "title": "KVM Nested Virtualization: Workings and Usecases - workshop 30mins"
+            },
+            {
+                "id": 2893,
+                "title": "The Qemu/KVM ecosystem: Navigating the code!"
+            },
+            {
+                "id": 2909,
+                "title": "Fastest boot, boot from NVDIMM"
+            },
+            {
+                "id": 2913,
+                "title": "Hello Wayland, Goodbye X11 - The year of the Linux desktop! - workshop 1hr"
+            },
+            {
+                "id": 2927,
+                "title": "Linux-Sunxi: Community behind Allwinner SOCs mainline support"
+            },
+            {
+                "id": 2920,
+                "title": "FreeBSD is not a Linux Distro"
+            },
+            {
+                "id": 2919,
+                "title": "Industrial IO and You- Nonsense Hacks! - workshop 1hr"
+            },
+            {
+                "id": 2946,
+                "title": "How to custom our owen plymouth theme."
+            },
+            {
+                "id": 2945,
+                "title": "Develop UEFI with openSUSE"
+            }
+        ],
+        "color": "#c77398",
+        "track_image_url": null,
+        "location": null,
+        "id": 224,
+        "name": "Kernel & Platform"
+    },
+    {
+        "description": null,
+        "sessions": [
+            {
+                "id": 2967,
+                "title": "How to teach an elephant to dance rock'n'roll"
+            },
+            {
+                "id": 2974,
+                "title": "Massive Multi-node setup with Postgres and BDR in Retail System"
+            },
+            {
+                "id": 2944,
+                "title": "What’s coming next in Parallel Query ?"
+            },
+            {
+                "id": 2943,
+                "title": "Keynote for pgDay Asia"
+            },
+            {
+                "id": 2964,
+                "title": "PostgreSQL Security. How Do We Think?"
+            },
+            {
+                "id": 2966,
+                "title": "PostGIS in Agribotics"
+            },
+            {
+                "id": 2965,
+                "title": "AWS Aurora"
+            },
+            {
+                "id": 2961,
+                "title": "What does PostgreSQL mean for your business? "
+            },
+            {
+                "id": 2963,
+                "title": "PostgreSQL: WAL for DBAs"
+            }
+        ],
+        "color": "#4ac950",
+        "track_image_url": null,
+        "location": null,
+        "id": 272,
+        "name": "Database - PGDay"
+    },
+    {
+        "description": null,
+        "sessions": [
+            {
+                "id": 2931,
+                "title": "Two opensource RDBMS: mariadb vs postgresql"
+            }
+        ],
+        "color": "#4ac950",
+        "track_image_url": null,
+        "location": null,
+        "id": 271,
+        "name": "Database"
+    },
+    {
+        "description": null,
+        "sessions": [
+            {
+                "id": 2819,
+                "title": "MicroPython workshop using NodeMCU - workshop 2hrs"
+            },
+            {
+                "id": 2956,
+                "title": "Scientific computing using Cython: Best of both worlds!"
+            },
+            {
+                "id": 2897,
+                "title": "Alohomora: Unlocking Magical Bits in Python"
+            },
+            {
+                "id": 2921,
+                "title": "Learning adventures with Python in Science"
+            },
+            {
+                "id": 2970,
+                "title": "Observations from a Python programmer learning Go lang"
+            },
+            {
+                "id": 2820,
+                "title": "The trends in choosing licenses in Python ecosystem"
+            }
+        ],
+        "color": "#f2da04",
+        "track_image_url": null,
+        "location": null,
+        "id": 265,
+        "name": "Python"
+    },
+    {
+        "description": null,
+        "sessions": [
+            {
+                "id": 2878,
+                "title": "MidiChlrorians, Microbes, Mud, and the Force IRL - workshop 1hr"
+            },
+            {
+                "id": 2981,
+                "title": "Rock your Rainbow - Using an Open source Spectrometer - workshop 1hr"
+            },
+            {
+                "id": 2982,
+                "title": "Rock your Rainbow Exhibition"
+            },
+            {
+                "id": 2889,
+                "title": "Mission Mars – Fourth Horizon (Hands-on Workshop) "
+            },
+            {
+                "id": 2912,
+                "title": "OpenChrom for Opensource Chemistry"
+            },
+            {
+                "id": 2960,
+                "title": "Rust Programming Language for Newbies"
+            }
+        ],
+        "color": "#1e78ff",
+        "track_image_url": null,
+        "location": null,
+        "id": 219,
+        "name": "Science"
+    },
+    {
+        "description": null,
+        "sessions": [
+            {
+                "id": 2798,
+                "title": " Development and delivery of innovative public services for citizens and businesses"
+            },
+            {
+                "id": 2799,
+                "title": "Government Digital Transformation"
+            },
+            {
+                "id": 3028,
+                "title": "#CodeHeat Contest Ceremony"
+            },
+            {
+                "id": 2987,
+                "title": "Lightning Talks"
+            },
+            {
+                "id": 2977,
+                "title": "Tea Linux OS, Designed for Programmer / Developer"
+            },
+            {
+                "id": 3029,
+                "title": "Summit Awesomeness"
+            },
+            {
+                "id": 2988,
+                "title": "Lightning Talks"
+            },
+            {
+                "id": 2980,
+                "title": "'K'oding with KDE"
+            },
+            {
+                "id": 2990,
+                "title": "Open AI Assistants"
+            },
+            {
+                "id": 3002,
+                "title": "Microsoft Booth - Exhibition"
+            },
+            {
+                "id": 3005,
+                "title": "FOSSASIA Table (Sign-up corner) - Exhibition"
+            },
+            {
+                "id": 3003,
+                "title": "Google Booth - Exhibition "
+            },
+            {
+                "id": 3013,
+                "title": "FOSSASIA Summit 2017 - Wrap Up"
+            },
+            {
+                "id": 3011,
+                "title": "Brain-Computer Interfaces and AI"
+            },
+            {
+                "id": 3008,
+                "title": "Credativ Booth - Exhibition "
+            },
+            {
+                "id": 3014,
+                "title": "FOSSASIA Summit 2017 - Welcome"
+            },
+            {
+                "id": 2858,
+                "title": "LEO Satellite Reception and Doppler-Shift Correction with an SDR built on the Novena's FPRF and FPGA"
+            },
+            {
+                "id": 3016,
+                "title": "Artificial Intelligence and Science"
+            },
+            {
+                "id": 3015,
+                "title": "Artificial Intelligence and Machine Learning Personal Assistants"
+            },
+            {
+                "id": 2861,
+                "title": "Let's Make Technology more Inclusive"
+            },
+            {
+                "id": 2948,
+                "title": "The Wikimedia free software community: Learn ways to get involved."
+            },
+            {
+                "id": 2797,
+                "title": "Protecting privacy with free software"
+            },
+            {
+                "id": 3017,
+                "title": "FOSSASIA What's Next"
+            },
+            {
+                "id": 2983,
+                "title": "Microsoft + Open Source: Empowering Customers"
+            },
+            {
+                "id": 3018,
+                "title": "Artificial Intelligence - Panel"
+            },
+            {
+                "id": 2868,
+                "title": "An overview of KDE - Software, Platform and Contributing"
+            },
+            {
+                "id": 2986,
+                "title": "Unconference"
+            },
+            {
+                "id": 2985,
+                "title": "Unconference"
+            },
+            {
+                "id": 2884,
+                "title": "Welcome message from Science Centre Singapore"
+            },
+            {
+                "id": 2918,
+                "title": "The Open Source World of Natural Language Processing"
+            },
+            {
+                "id": 2925,
+                "title": "Google Code-in "
+            },
+            {
+                "id": 2938,
+                "title": "Contributing to Google Cloud Open Source Projects"
+            },
+            {
+                "id": 2843,
+                "title": "Shogun, a language agnostic machine learning library"
+            }
+        ],
+        "color": "#ff3737",
+        "track_image_url": null,
+        "location": null,
+        "id": 216,
+        "name": "Open Tech"
+    },
+    {
+        "description": null,
+        "sessions": [
+            {
+                "id": 2975,
+                "title": "State of OpenStreetMap Data in Asia"
+            },
+            {
+                "id": 2824,
+                "title": "Connecting design, culture, art, and technology across the archipelago"
+            },
+            {
+                "id": 2808,
+                "title": "The Least You Can Do About Usability in Open Source"
+            },
+            {
+                "id": 2994,
+                "title": "Capturing the Community One Click at a Time"
+            },
+            {
+                "id": 2829,
+                "title": "Nico-Tech, Tech for fun community and culture in Japan"
+            },
+            {
+                "id": 2837,
+                "title": "Building an Open Source Village - we need your help! - workshop 1hr"
+            },
+            {
+                "id": 2830,
+                "title": "Expectations from Open Source Designers"
+            },
+            {
+                "id": 3012,
                 "title": "Group Photo"
-            }, 
+            },
             {
-                "id": 27, 
-                "title": "Lunch"
-            }, 
+                "id": 2866,
+                "title": "Integrated Physical Computing on the Web"
+            },
             {
-                "id": 28, 
-                "title": "OpenTech Lightning Talks"
-            }, 
+                "id": 2871,
+                "title": "Open Source Agency Branding – Designing for Open Source"
+            },
             {
-                "id": 29, 
-                "title": "Distributed Multi Dimensional Anomaly Detection in OpenStack Logs"
-            }, 
+                "id": 2922,
+                "title": "Open Source Agency Branding – Designing for Open Source"
+            },
             {
-                "id": 30, 
-                "title": "Become an OAuth2 provider using Spring Security"
-            }, 
-            {
-                "id": 31, 
-                "title": "Continuous Integration and Continuous Delivery for Open Source and Free Software Development"
-            }, 
-            {
-                "id": 32, 
-                "title": "LabPlot, interactive graphing and analysis of scientific data"
-            }, 
-            {
-                "id": 33, 
-                "title": "FarmMind Technologies"
-            }, 
-            {
-                "id": 34, 
-                "title": "PyData Singapore"
-            }, 
-            {
-                "id": 35, 
-                "title": "Building Real time Tracking System using IoT and Django"
-            }, 
-            {
-                "id": 36, 
-                "title": "PipaJS - a module for ExpressJS"
-            }, 
-            {
-                "id": 37, 
-                "title": " GoG(gas-o-gauge) - A smart IoT based solution for tracking fuel levels and Kitchen Intelligence"
-            }, 
-            {
-                "id": 38, 
-                "title": "Contributing to F/OSS Project with Inkscape"
-            }, 
-            {
-                "id": 39, 
-                "title": "Loklak - Building the twitter integration to Distributed tweet search server and endless possibilities"
-            }, 
-            {
-                "id": 40, 
-                "title": "Have you met Pike?"
-            }, 
-            {
-                "id": 41, 
-                "title": "Open Source and Free Software"
-            }, 
-            {
-                "id": 61, 
-                "title": "Tips for successful app monetization for developers"
-            }, 
-            {
-                "id": 42, 
-                "title": "Data Science in Financial Institutes"
-            }, 
-            {
-                "id": 43, 
-                "title": "My journey in FOSS with Pharo & FOSSASIA"
-            }, 
-            {
-                "id": 44, 
-                "title": "JSPM is the javascript package manager from future"
-            }, 
-            {
-                "id": 45, 
-                "title": "Spatial Data Mining"
-            }, 
-            {
-                "id": 46, 
-                "title": "Meet MariaDB Server 10.1"
-            }, 
-            {
-                "id": 47, 
-                "title": "Modular vs Monolith – The Structure of Node.JS Applications"
-            }, 
-            {
-                "id": 48, 
-                "title": "A trip to Pluto with OpenSpace"
-            }, 
-            {
-                "id": 49, 
-                "title": "Network of networks in the OpenMRS medical records platform"
-            }, 
-            {
-                "id": 51, 
-                "title": "Free Communication with Free Software"
-            }, 
-            {
-                "id": 52, 
-                "title": "End of Sessions and Social Event (Invitation Only)"
-            }, 
-            {
-                "id": 53, 
-                "title": "Creative Confidence "
-            }, 
-            {
-                "id": 54, 
-                "title": "Yes we Cone"
-            }, 
-            {
-                "id": 55, 
-                "title": "QA in the Open"
-            }, 
-            {
-                "id": 56, 
-                "title": "#NEWPALMYRA, #FREEBASSEL, and the Preservation of Cultural Heritage"
-            }, 
-            {
-                "id": 57, 
-                "title": "Lunch"
-            }, 
-            {
-                "id": 58, 
-                "title": "LibreOffice 5 and beyond"
-            }, 
-            {
-                "id": 59, 
-                "title": "Open Source Imaging Mass Spectrometry Software"
-            }, 
-            {
-                "id": 60, 
-                "title": "Hyperledger - The Open Source Blockchain"
-            }, 
-            {
-                "id": 62, 
-                "title": "How I left my word processor and embraced Asciidoc"
-            }, 
-            {
-                "id": 63, 
-                "title": "Successfully Managing Distributed Teams"
-            }, 
-            {
-                "id": 64, 
-                "title": "Science Hack Day - Winning teams announced & given awards/medals in main hall"
-            }, 
-            {
-                "id": 65, 
-                "title": "Rebuildling Cultural Heritage with #NEWPALMYRA"
-            }, 
-            {
-                "id": 66, 
-                "title": "Creating patterns is like mapping the night sky"
-            }, 
-            {
-                "id": 67, 
-                "title": "DIY Circuit Board Workshop"
-            }, 
-            {
-                "id": 68, 
-                "title": "ExpEYES: Pocket Science Lab  "
-            }, 
-            {
-                "id": 69, 
-                "title": "#NefertitiHack and Cultural Commons \"The Other Nefertiti\""
-            }, 
-            {
-                "id": 70, 
-                "title": "#NefertitiHack and Cultural Commons \"The Other Nefertiti\""
-            }, 
-            {
-                "id": 71, 
-                "title": "Closing Notes of FOSSASIA 2016"
+                "id": 2891,
+                "title": "Introduction to the Classical Language Toolkit & Archive"
             }
-        ], 
-        "track_image_url": null
-    }, 
+        ],
+        "color": "#9c7171",
+        "track_image_url": null,
+        "location": null,
+        "id": 222,
+        "name": "Design, Art, Community"
+    },
     {
-        "color": "#1485CC", 
-        "description": "OpenTech Workshops", 
-        "id": 2, 
-        "location": "Level 3, Lewis Lab", 
-        "name": "OpenTech Workshops", 
+        "description": null,
         "sessions": [
             {
-                "id": 80, 
-                "title": "Procedural Content Generation with Clojure"
-            }, 
+                "id": 2840,
+                "title": "Bears attack your code: Adding coala and gitmate to your workflows"
+            },
             {
-                "id": 81, 
-                "title": "Demo Session"
-            }, 
+                "id": 2940,
+                "title": "Better Testing Through Statistics"
+            },
             {
-                "id": 72, 
-                "title": "Deep Learning: From Inception to Dreams"
-            }, 
+                "id": 2880,
+                "title": "Minishift: Openshift Origin at your desk !"
+            },
             {
-                "id": 73, 
-                "title": "Demo Session"
-            }, 
+                "id": 2848,
+                "title": "Deploying and Upgrading OpenStack using Docker Containers"
+            },
             {
-                "id": 74, 
-                "title": "Demo Session"
-            }, 
+                "id": 2854,
+                "title": "GitLFS - How to handle large files in Git"
+            },
             {
-                "id": 75, 
-                "title": "Demo Session"
-            }, 
+                "id": 2857,
+                "title": "Modern Source and Version Control with Git"
+            },
             {
-                "id": 76, 
-                "title": "Group Photo"
-            }, 
+                "id": 2870,
+                "title": "Micro Usability Testing in Engineering"
+            },
             {
-                "id": 77, 
-                "title": "Lunch"
-            }, 
+                "id": 2890,
+                "title": "Automating your data-center with Ansible and ManageIQ"
+            },
             {
-                "id": 78, 
-                "title": "Writing Plugins for IntelliJ IDEA"
-            }, 
+                "id": 2899,
+                "title": "Robot Framework - Smarter Way to Automate Test"
+            },
             {
-                "id": 79, 
-                "title": "Demo Session"
-            }, 
+                "id": 2902,
+                "title": "Why you should use Mercurial"
+            },
             {
-                "id": 82, 
-                "title": "Build your own IoT Empire - From Games to MQTT and Back"
-            }, 
+                "id": 2910,
+                "title": "Building and Using Micro Linux Distributions for Docker "
+            },
             {
-                "id": 83, 
-                "title": "Build your own IoT Empire - From Games to MQTT and Back"
-            }, 
+                "id": 2911,
+                "title": "ManageIQ - the open-source management platform for your hybrid IT environments"
+            },
             {
-                "id": 84, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 85, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 86, 
-                "title": "End of Sessions and Social Event (Invitation Only)"
-            }, 
-            {
-                "id": 87, 
-                "title": "GitHub Workshop"
-            }, 
-            {
-                "id": 88, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 89, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 90, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 91, 
-                "title": "Lunch"
-            }, 
-            {
-                "id": 92, 
-                "title": "Building Truly Native Apps with NativeScript"
-            }, 
-            {
-                "id": 93, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 94, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 95, 
-                "title": "Practical Computerized Home Automation"
-            }, 
-            {
-                "id": 96, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 97, 
-                "title": "Closing Notes"
+                "id": 2937,
+                "title": "Non-native English speakers in Open Source communities: A True Story"
             }
-        ], 
-        "track_image_url": null
-    }, 
+        ],
+        "color": "#cf8c56",
+        "track_image_url": null,
+        "location": null,
+        "id": 269,
+        "name": "DevOps"
+    },
     {
-        "color": "#B21212", 
-        "description": "Tech Kids I", 
-        "id": 3, 
-        "location": "Level 1, Digital Design Studio", 
-        "name": "Tech Kids I", 
+        "description": null,
         "sessions": [
             {
-                "id": 114, 
-                "title": "Demo Session"
-            }, 
+                "id": 2916,
+                "title": "Developing learning tools for Hearing impaired children by using open-source web application"
+            },
             {
-                "id": 113, 
-                "title": "Mobile development for students"
-            }, 
+                "id": 2815,
+                "title": "Low cost functional prosthetic devices"
+            },
             {
-                "id": 98, 
-                "title": "Mobile development for students"
-            }, 
-            {
-                "id": 99, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 100, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 101, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 102, 
-                "title": "Workshop: Make Your First Android App"
-            }, 
-            {
-                "id": 103, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 104, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 105, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 106, 
-                "title": "Group Photo"
-            }, 
-            {
-                "id": 107, 
-                "title": "Lunch"
-            }, 
-            {
-                "id": 108, 
-                "title": "Building a mind-mapping application in smalltalk using roassal"
-            }, 
-            {
-                "id": 109, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 110, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 111, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 112, 
-                "title": "End of Sessions"
-            }, 
-            {
-                "id": 115, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 116, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 117, 
-                "title": "Lunch"
-            }, 
-            {
-                "id": 118, 
-                "title": "Creative Confidence"
-            }, 
-            {
-                "id": 119, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 120, 
-                "title": "Pocket Science Lab  - Learn Science by Exploring and Experimenting "
-            }, 
-            {
-                "id": 121, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 122, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 123, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 124, 
-                "title": "Closing Notes in Main Hall (Level 3, Dalton Hall)"
+                "id": 2915,
+                "title": "Bahmni: Open source EMR/Hospital system for low resource settings"
             }
-        ], 
-        "track_image_url": null
-    }, 
+        ],
+        "color": "#7e9c7e",
+        "track_image_url": null,
+        "location": null,
+        "id": 223,
+        "name": "Health Tech"
+    },
     {
-        "color": "#9EFF56", 
-        "description": "Tech Kids II", 
-        "id": 4, 
-        "location": "Level 1, Digital Design Studio", 
-        "name": "Tech Kids II", 
+        "description": null,
         "sessions": [
             {
-                "id": 125, 
-                "title": "Design Making Program"
-            }, 
+                "id": 2999,
+                "title": "Adding Support for Android Auto to your App - workshop 1hr"
+            },
             {
-                "id": 126, 
-                "title": "Demo Session"
-            }, 
+                "id": 2821,
+                "title": "Enhancing sign-in UX using Smart Lock on Android"
+            },
             {
-                "id": 127, 
-                "title": "Demo Session"
-            }, 
+                "id": 2841,
+                "title": "Mifos Android Field Operations App Version 3"
+            },
             {
-                "id": 128, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 129, 
-                "title": "3D Modeling for Kids"
-            }, 
-            {
-                "id": 130, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 131, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 132, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 133, 
-                "title": "Group Photo"
-            }, 
-            {
-                "id": 134, 
-                "title": "Lunch"
-            }, 
-            {
-                "id": 135, 
-                "title": "IoT for kids"
-            }, 
-            {
-                "id": 136, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 137, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 138, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 139, 
-                "title": "End of Sessions"
-            }, 
-            {
-                "id": 140, 
-                "title": "Introduction to the Raspberry Pi for total Newbies"
-            }, 
-            {
-                "id": 141, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 142, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 143, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 144, 
-                "title": "Lunch"
-            }, 
-            {
-                "id": 145, 
-                "title": "Physical Open Source  Gaming - How to Build Your own Customized Game Controller for Multiplayer Fun"
-            }, 
-            {
-                "id": 146, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 147, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 148, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 149, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 150, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 151, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 152, 
-                "title": "Hong Phuc Dang"
+                "id": 2834,
+                "title": "Building the app for the Prime Minister's Office"
             }
-        ], 
-        "track_image_url": null
-    }, 
+        ],
+        "color": "#b852d1",
+        "track_image_url": null,
+        "location": null,
+        "id": 274,
+        "name": "Android"
+    },
     {
-        "color": "#E8782C", 
-        "description": "Tech Kids III", 
-        "id": 5, 
-        "location": "Level 1, Observatory Room", 
-        "name": "Tech Kids III", 
+        "description": null,
         "sessions": [
             {
-                "id": 153, 
-                "title": "Digital Fabrication For Kids"
-            }, 
+                "id": 2867,
+                "title": "Blockchain Software for Hardware: The Canaan AvalonMiner Open Source Embedded System"
+            },
             {
-                "id": 154, 
-                "title": "Demo Session"
-            }, 
+                "id": 2989,
+                "title": "Blockchain Technologies - Hyperledger"
+            },
             {
-                "id": 155, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 156, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 157, 
-                "title": "Group Photo"
-            }, 
-            {
-                "id": 158, 
-                "title": "Lunch"
-            }, 
-            {
-                "id": 159, 
-                "title": "Electronics Made Easy"
-            }, 
-            {
-                "id": 160, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 161, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 162, 
-                "title": "Scratch 4 Arduino"
-            }, 
-            {
-                "id": 163, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 164, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 165, 
-                "title": "End of Sessions"
+                "id": 2992,
+                "title": "Daimler - Blockchain in the Automotive Industry"
             }
-        ], 
-        "track_image_url": null
-    }, 
+        ],
+        "color": "#AD1457",
+        "track_image_url": null,
+        "location": null,
+        "id": 267,
+        "name": "Blockchain"
+    },
     {
-        "color": "#FF3046", 
-        "description": "Hardware and IoT", 
-        "id": 6, 
-        "location": "Level 1, Eco Garden Lab", 
-        "name": "Hardware and IoT", 
+        "description": null,
         "sessions": [
             {
-                "id": 187, 
-                "title": "Demo Session"
-            }, 
+                "id": 3027,
+                "title": "Migrating Legacy Backends to Serverless in Parallel"
+            },
             {
-                "id": 166, 
-                "title": "Ambient Dynamix: Adaptive gateway to IoT"
-            }, 
+                "id": 2800,
+                "title": "Open Event Web App"
+            },
             {
-                "id": 167, 
-                "title": "Open Source Drones"
-            }, 
+                "id": 2978,
+                "title": "HTTP/2 with Node.js"
+            },
             {
-                "id": 168, 
-                "title": "Demo Session"
-            }, 
+                "id": 2809,
+                "title": "Scaling Open Event Server with Kubernetes"
+            },
             {
-                "id": 169, 
-                "title": "Unleash the potential of NVDIMM Namespaces"
-            }, 
+                "id": 2810,
+                "title": "Problems of Japan's enterprise HTML5 and how to resolve it with hifive"
+            },
             {
-                "id": 170, 
-                "title": "Treasure Hunts, Indoor Navigation and the Physical Web: Adventures in JavaScript and Bluetooth Beacons"
-            }, 
+                "id": 2942,
+                "title": "Developing your functional Mediawiki Extension in 80 Minutes - workshop 2hrs"
+            },
             {
-                "id": 188, 
-                "title": "Javascript and IOT"
-            }, 
+                "id": 3001,
+                "title": "How to setup a Nextcloud instance and start to collaborate with others - Workshop 1hr"
+            },
             {
-                "id": 171, 
-                "title": "BBC micro:bit and Python"
-            }, 
+                "id": 2976,
+                "title": "WebAssembly: now web is a new compiler target architecture"
+            },
             {
-                "id": 172, 
-                "title": "End of Sessions"
-            }, 
+                "id": 2803,
+                "title": "Agile Workflow and Best Practices in the Open Event Android App Generator Project"
+            },
             {
-                "id": 173, 
-                "title": "Pub Crawl at Clarke Quay"
-            }, 
+                "id": 2817,
+                "title": "Fast and easy to build a mobile app (FOSSASIA registration app) with NATIVESCRIPT "
+            },
             {
-                "id": 174, 
-                "title": "Smart guidance for blind"
-            }, 
+                "id": 2838,
+                "title": "Creating the Ultimate Front End UI for a Single Page Application"
+            },
             {
-                "id": 175, 
-                "title": "Machine Tools: How companies like Apple, Xiaomi and Samsung manufacture at scale?"
-            }, 
+                "id": 2801,
+                "title": "Open Event API"
+            },
             {
-                "id": 176, 
-                "title": "#IoT REX: Kinetic Origami"
-            }, 
+                "id": 2859,
+                "title": "Deploy Open Event Organizer Server"
+            },
             {
-                "id": 177, 
-                "title": "Demo Session"
-            }, 
+                "id": 3026,
+                "title": "Migrating Legacy Backends to Serverless in Parallel"
+            },
             {
-                "id": 178, 
-                "title": "Group Photo"
-            }, 
+                "id": 2875,
+                "title": "Future of Web"
+            },
             {
-                "id": 179, 
-                "title": "Lunch"
-            }, 
+                "id": 2888,
+                "title": "An Introduction to the Open Event Android Project and it's capabilities."
+            },
             {
-                "id": 180, 
-                "title": "Building an open-source satellite tracker to talk via satellites"
-            }, 
+                "id": 2887,
+                "title": "Setting up and using the Open Event apk generator to get your own event app"
+            },
             {
-                "id": 181, 
-                "title": "Hacking with ARM devices on Linux"
-            }, 
+                "id": 2896,
+                "title": "Progressive web app - Browser Based offline support"
+            },
             {
-                "id": 182, 
-                "title": "Tizen - An open platform for consumer electronics - What is it & what do you want it to be"
-            }, 
+                "id": 2936,
+                "title": "WebRTC - future of Video Chats"
+            },
             {
-                "id": 183, 
-                "title": "Demo Session"
-            }, 
+                "id": 2947,
+                "title": "A beginner-level workshop on how to get started with MediaWiki development"
+            },
             {
-                "id": 184, 
-                "title": "Open Source Voice synthesizer and DIY Pop music in Japan"
-            }, 
-            {
-                "id": 185, 
-                "title": "Project Zygote - Lego for the Internet of Things"
-            }, 
-            {
-                "id": 186, 
-                "title": "Open Source Hardware and Software for Radiation Physics"
-            }, 
-            {
-                "id": 189, 
-                "title": "Making Interactive Circuits with GPIO and Raspberry Pi"
-            }, 
-            {
-                "id": 190, 
-                "title": "End of Sessions and Social Event (Invitation Only)"
+                "id": 2971,
+                "title": "Creating your own Pokemon-world in Web based Virtual Reality"
             }
-        ], 
-        "track_image_url": null
-    }, 
+        ],
+        "color": "#74cae6",
+        "track_image_url": null,
+        "location": null,
+        "id": 264,
+        "name": "Web & Mobile"
+    },
     {
-        "color": "#BF532E", 
-        "description": "DevOps", 
-        "id": 7, 
-        "location": "Level 3, Planck Lab", 
-        "name": "DevOps", 
+        "description": null,
         "sessions": [
             {
-                "id": 191, 
-                "title": "Technologies developed by Red Hat"
-            }, 
+                "id": 2991,
+                "title": "Add your own AI rules and data set to SUSI AI Assistant"
+            },
             {
-                "id": 192, 
-                "title": "oVirt Integration With Foreman And Katello - Bringing Your Virtualized Data-Center Into The Next Level"
-            }, 
+                "id": 3023,
+                "title": "Brain-Computer Interfaces and AI - Exhibition"
+            },
             {
-                "id": 193, 
-                "title": "Comparing virtualization and containers"
-            }, 
+                "id": 2811,
+                "title": "Twitter Wall using Loklak APIs"
+            },
             {
-                "id": 194, 
-                "title": "Globalizing your software"
-            }, 
+                "id": 2828,
+                "title": "Applied analysis with scikit-learn  "
+            },
             {
-                "id": 195, 
-                "title": "Containers and systemd"
-            }, 
+                "id": 2816,
+                "title": "Getting started with open source game playing AIs"
+            },
             {
-                "id": 196, 
-                "title": "The Julia Programming Language"
-            }, 
+                "id": 2853,
+                "title": "Introduction to the Microsoft Cognitive Toolkit (Deep Learning Framework)"
+            },
             {
-                "id": 197, 
-                "title": "End of Sessions"
-            }, 
+                "id": 2814,
+                "title": "\"College Elections with loklak\" (loklak is Distributed Social Media Message Search Server)"
+            },
             {
-                "id": 198, 
-                "title": "Pub Crawl at Clarke Quay"
-            }, 
+                "id": 2984,
+                "title": "Leveraging loklak to build applications and analytics using twitter data - An introduction to AskSusi - workshop 1hr"
+            },
             {
-                "id": 199, 
-                "title": "Orchestrating Cloud infrastructure using Terraform"
-            }, 
+                "id": 2872,
+                "title": "Integrating Machine Translation into Intelligent Computer Assisted Language Learning "
+            },
             {
-                "id": 200, 
-                "title": "7 Tips to design  web-centric, high performance applications: A DB Architect’s Perspective"
-            }, 
+                "id": 2894,
+                "title": "PetaBencana.id: Software as Infrastructure"
+            },
             {
-                "id": 220, 
-                "title": "Concurrency & Parallelism  in Ruby"
-            }, 
+                "id": 2895,
+                "title": "Machine Learning and Medical Imaging: The Future of Early Cancer Detection"
+            },
             {
-                "id": 201, 
-                "title": "coala - Code Analysis Made Simple"
-            }, 
+                "id": 2903,
+                "title": "Artificial Intelligence: The Recent Past"
+            },
             {
-                "id": 202, 
-                "title": "Group Photo"
-            }, 
+                "id": 2923,
+                "title": "Logging at Scale, Billion+ messages, 100K msg/sec"
+            },
             {
-                "id": 203, 
-                "title": "Lunch"
-            }, 
+                "id": 2934,
+                "title": "Deep Learning - D.I.Y. - workshop 1hr"
+            },
             {
-                "id": 204, 
-                "title": "oVirt - Development of shared storage management system in the virualization world"
-            }, 
+                "id": 2957,
+                "title": "Machine Learning for source code analysis"
+            },
             {
-                "id": 205, 
-                "title": "Demo Session"
-            }, 
+                "id": 2969,
+                "title": "Machine Learning using Open Source R"
+            },
             {
-                "id": 206, 
-                "title": "The oVirt Way - General Product Overview"
-            }, 
-            {
-                "id": 207, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 208, 
-                "title": "Let Builder write the Jenkins Jobs (JJB)"
-            }, 
-            {
-                "id": 209, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 210, 
-                "title": "End of Sessions and Social Event (Invitation Only)"
-            }, 
-            {
-                "id": 211, 
-                "title": "Ansible 101"
-            }, 
-            {
-                "id": 212, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 213, 
-                "title": "Scalable Datastores for a Containerized World: Crate"
-            }, 
-            {
-                "id": 214, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 215, 
-                "title": "Lunch"
-            }, 
-            {
-                "id": 216, 
-                "title": "Introduction to Modern DevOps with Docker"
-            }, 
-            {
-                "id": 217, 
-                "title": "Introduction to Kubernetes"
-            }, 
-            {
-                "id": 218, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 219, 
-                "title": "Agile Application delivery with Containers & Cloud-Native tools"
-            }, 
-            {
-                "id": 221, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 222, 
-                "title": "Closing Notes in Main Hall (Level 3, Dalton Hall)"
+                "id": 2812,
+                "title": "Centralized Logs using ELK (Elasticsearch, Logstash, Kibana) Stack - workshop 1hr"
             }
-        ], 
-        "track_image_url": null
-    }, 
+        ],
+        "color": "#4da898",
+        "track_image_url": null,
+        "location": null,
+        "id": 266,
+        "name": "AI & Machine Learning"
+    },
     {
-        "color": "#FFF22A", 
-        "description": "WebTech", 
-        "id": 8, 
-        "location": "Level 3, Faraday Lab", 
-        "name": "WebTech", 
+        "description": null,
         "sessions": [
             {
-                "id": 240, 
-                "title": "Joerg Henning"
-            }, 
+                "id": 2832,
+                "title": "Transactional Data Dictionary in MySQL 8.0 : An Internal Server Component That Matters"
+            },
             {
-                "id": 241, 
-                "title": "Sebastiaan Deckers"
-            }, 
+                "id": 2835,
+                "title": "MySQL Group Replication"
+            },
             {
-                "id": 223, 
-                "title": "Introduction to webcompat.com"
-            }, 
+                "id": 2856,
+                "title": "Introduction to MySQL Performance Tuning - workshop 1hr"
+            },
             {
-                "id": 224, 
-                "title": "A look at FOSSASIA API"
-            }, 
+                "id": 2869,
+                "title": "State of the Dolphin"
+            },
             {
-                "id": 225, 
-                "title": "Firefox OS, WebAPI and Hybrid Application"
-            }, 
+                "id": 2836,
+                "title": "MySQL Replication: Latest Developments"
+            },
             {
-                "id": 226, 
-                "title": "How open source ERP is slowly changing the business world"
-            }, 
+                "id": 2877,
+                "title": "An Overview of Security Features in MySQL 5.7"
+            },
             {
-                "id": 227, 
-                "title": "Group Photo"
-            }, 
+                "id": 2882,
+                "title": "MySQL Performance Schema : A great insight of running MySQL server"
+            },
             {
-                "id": 228, 
-                "title": "Lunch"
-            }, 
+                "id": 2879,
+                "title": "JSON support in MySQL"
+            },
             {
-                "id": 229, 
-                "title": "Mozilla on Connected Devices, MozVR & Firefox Developer Tools"
-            }, 
+                "id": 2883,
+                "title": "Mysql Optimizer Features in 5.7 and 8.0"
+            },
             {
-                "id": 230, 
-                "title": "Chat bots "
-            }, 
+                "id": 2914,
+                "title": "MySQL operations in Docker - workshop 1.5 h"
+            },
             {
-                "id": 231, 
-                "title": "Free Real-time Communications (SIP, XMPP, WebRTC)"
-            }, 
+                "id": 2933,
+                "title": "Unleash the power of Generated/Virtual Columns in MySQL"
+            },
             {
-                "id": 232, 
-                "title": "Demo Session"
-            }, 
+                "id": 2935,
+                "title": "The State of the Art of MySQL Replication"
+            },
             {
-                "id": 233, 
-                "title": "Introduction to GraphQL (or How I Learned To Stop Worrying about REST APIs)"
-            }, 
+                "id": 2941,
+                "title": "MySQL High Availability with Group Replication"
+            },
             {
-                "id": 234, 
-                "title": "Go Apitest - test and document that!"
-            }, 
+                "id": 2968,
+                "title": "pgpool"
+            },
             {
-                "id": 235, 
-                "title": "Introduction to React JavaScript Framework"
-            }, 
-            {
-                "id": 236, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 237, 
-                "title": "Firefox OS - Fast Track to IoT"
-            }, 
-            {
-                "id": 238, 
-                "title": "End of Sessions and Social Event (Invitation Only)"
-            }, 
-            {
-                "id": 239, 
-                "title": "NodeSchool"
-            }, 
-            {
-                "id": 242, 
-                "title": "Tim Oxley"
-            }, 
-            {
-                "id": 243, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 244, 
-                "title": "Nodeschool"
-            }, 
-            {
-                "id": 245, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 246, 
-                "title": "NodeSchool"
-            }, 
-            {
-                "id": 247, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 248, 
-                "title": "WebAudio School"
-            }, 
-            {
-                "id": 249, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 250, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 251, 
-                "title": "Closing Notes in Main Hall (Level 3, Dalton Hall)"
+                "id": 2962,
+                "title": "Running Highly Available Postgres in AWS RDS"
             }
-        ], 
-        "track_image_url": null
-    }, 
+        ],
+        "color": "#4ac950",
+        "track_image_url": null,
+        "location": null,
+        "id": 253,
+        "name": "Database - MySQL Day"
+    },
     {
-        "color": "#1C9ECC", 
-        "description": "Python", 
-        "id": 9, 
-        "location": "Level 3, Pauling Lab", 
-        "name": "Python", 
+        "description": null,
         "sessions": [
             {
-                "id": 252, 
-                "title": "Python at FOSSASIA 2016"
-            }, 
+                "id": 2802,
+                "title": "Create your beautiful CV with ShareLatex - workshop 2hrs"
+            },
             {
-                "id": 253, 
-                "title": "Test driven development with pytest"
-            }, 
+                "id": 2807,
+                "title": "Git and Github for beginners - Workshop 2 h"
+            },
             {
-                "id": 254, 
-                "title": "Dive deep into Fedora Infra"
-            }, 
+                "id": 2806,
+                "title": "Introduction to Chatbot development - workshop 1hr"
+            },
             {
-                "id": 255, 
-                "title": "Tunir the simple CI"
-            }, 
+                "id": 2996,
+                "title": "micro:bit with MicroPython"
+            },
             {
-                "id": 256, 
-                "title": "Group Photo"
-            }, 
+                "id": 2997,
+                "title": "Open Event Web App: Deploy open event webapp to Google Cloud - workshop 2hr"
+            },
             {
-                "id": 257, 
-                "title": "Lunch"
-            }, 
+                "id": 2998,
+                "title": "Create a personal portfolio site using GitHub Pages - workshop 2hrs"
+            },
             {
-                "id": 258, 
-                "title": "Command Line Application Design in Python"
-            }, 
+                "id": 3000,
+                "title": "Software Translation with WebLate"
+            },
             {
-                "id": 259, 
-                "title": "Using Python Client to talk with Zanata Server"
-            }, 
+                "id": 3006,
+                "title": "Google Code-In"
+            },
             {
-                "id": 260, 
-                "title": "Python in my Science Classroom"
-            }, 
+                "id": 2833,
+                "title": "Tech Kid Track: Make a DIY Paper Spectrometer - workshop 2hr"
+            },
             {
-                "id": 261, 
-                "title": "Building a proper UI/UX for the wiki engine (GSoC'15 Project) "
-            }, 
+                "id": 2850,
+                "title": "Introduction to Git version control system - workshop 1hr"
+            },
             {
-                "id": 262, 
-                "title": "ircb - A versatile, scalable IRC Bouncer, as a service, for humans"
-            }, 
+                "id": 2805,
+                "title": "Make Your First Android App - workshop 2hrs"
+            },
             {
-                "id": 263, 
-                "title": "Python 3 101"
-            }, 
+                "id": 2864,
+                "title": "Make an Outreach Video with Free Video Editor (VideoPad)"
+            },
             {
-                "id": 264, 
-                "title": "Demo Session"
-            }, 
+                "id": 2949,
+                "title": "Creative Confidence Booth - Exhibition"
+            },
             {
-                "id": 265, 
-                "title": "Demo Session"
-            }, 
+                "id": 2950,
+                "title": "Kids Hack Day-Quick Edition - workshop 2hrs"
+            },
             {
-                "id": 266, 
-                "title": "End of Sessions and Social Event (Invitation Only)"
-            }, 
-            {
-                "id": 267, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 268, 
-                "title": "Leveraging Telegram API and nltk to implement interactive user interfaces for businesses"
-            }, 
-            {
-                "id": 269, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 270, 
-                "title": "Building user centric applications using the Loklak and Twitter API - An example of Complaint registrations"
-            }, 
-            {
-                "id": 271, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 272, 
-                "title": "Lunch"
-            }, 
-            {
-                "id": 273, 
-                "title": "Openess in Quality: Migrating testing framework from bash to pytest"
-            }, 
-            {
-                "id": 274, 
-                "title": "Multibody Dynamics and Control with Python"
-            }, 
-            {
-                "id": 275, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 276, 
-                "title": "Symbolic Computation with Python using SymPy"
-            }, 
-            {
-                "id": 277, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 278, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 279, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 280, 
-                "title": "Closing Notes in Main Hall (Level 3, Dalton Hall)"
+                "id": 2804,
+                "title": "PyGame 101 Codelab - workshop 2hrs"
             }
-        ], 
-        "track_image_url": null
-    }, 
+        ],
+        "color": "#e0d802",
+        "track_image_url": null,
+        "location": null,
+        "id": 225,
+        "name": "Tech Kids"
+    },
     {
-        "color": "#E0331F", 
-        "description": "Big Data/Open Data", 
-        "id": 10, 
-        "location": "Level 3, Fermi Lab", 
-        "name": "Big Data/Open Data", 
+        "description": null,
         "sessions": [
             {
-                "id": 281, 
-                "title": "opendetection.com"
-            }, 
+                "id": 2995,
+                "title": "FreedomBox - Exhibition"
+            },
             {
-                "id": 282, 
-                "title": "Demo Session"
-            }, 
+                "id": 2845,
+                "title": "Writing a VLC playlist parser in Lua"
+            },
             {
-                "id": 283, 
-                "title": "Collaborative Spelling Dictionary"
-            }, 
+                "id": 2993,
+                "title": "openSUSE Asia Community - Exhibition"
+            },
             {
-                "id": 284, 
-                "title": "Uncovering of a heavily obfuscated public API by Singapore Government"
-            }, 
+                "id": 3007,
+                "title": "Brave Browser & Community - Exhibition"
+            },
             {
-                "id": 285, 
-                "title": "Ask Me Anything about Search Engines History and Future (altavista -> Google -> Bing -> Wolfram Alpha -> Social Graph -> ?)"
-            }, 
+                "id": 2863,
+                "title": "Taming the fantastic beast of the Java Virtual Machine - workshop 1hr"
+            },
             {
-                "id": 286, 
-                "title": "End of Sessions"
-            }, 
+                "id": 2898,
+                "title": "The 1960s elegance behind Go's regexp"
+            },
             {
-                "id": 287, 
-                "title": "Pub Crawl"
-            }, 
+                "id": 2901,
+                "title": "Shell scripting in Haskell for scalability - workshop 1hr"
+            },
             {
-                "id": 288, 
-                "title": "Wikilore"
-            }, 
+                "id": 2908,
+                "title": "Haxe: a language that compiles to JS, Java, C#, PHP, Python, and more"
+            },
             {
-                "id": 289, 
-                "title": "Mining public large-scale datasets \\w open-source tools: Apache Zeppelin (incubating), Spark and Juju"
-            }, 
+                "id": 2924,
+                "title": "Hello World: Revisiting the first C program we write - workshop 2hr"
+            },
             {
-                "id": 290, 
-                "title": "Streaming anomaly detection for Big Data/Internet of Things"
-            }, 
+                "id": 2917,
+                "title": "WikiToLearn Desktop Client "
+            },
             {
-                "id": 291, 
-                "title": "Introduction about Apache Solr, standalone enterprise search server with a REST-like API"
-            }, 
-            {
-                "id": 292, 
-                "title": "Group Photo"
-            }, 
-            {
-                "id": 293, 
-                "title": "Lunch"
-            }, 
-            {
-                "id": 294, 
-                "title": "HOT Export Tool"
-            }, 
-            {
-                "id": 295, 
-                "title": "Open Source Geospatial - Projects and Possibilities"
-            }, 
-            {
-                "id": 296, 
-                "title": "How to setup, make and build clients for open Twitter data"
-            }, 
-            {
-                "id": 297, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 298, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 299, 
-                "title": "Elasticsearch: You know, for search! and more!"
-            }, 
-            {
-                "id": 300, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 301, 
-                "title": "End of Sessions and Social Event (Invitation Only)"
-            }, 
-            {
-                "id": 302, 
-                "title": "Content Translation on Wikipedia"
-            }, 
-            {
-                "id": 303, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 304, 
-                "title": "Developing for Open Event"
-            }, 
-            {
-                "id": 305, 
-                "title": "Manan Wason"
-            }, 
-            {
-                "id": 306, 
-                "title": "Lunch"
-            }, 
-            {
-                "id": 307, 
-                "title": "How to develop app based using the loklak API"
-            }, 
-            {
-                "id": 308, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 309, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 310, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 311, 
-                "title": "Voice Programming in Java"
-            }, 
-            {
-                "id": 312, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 313, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 314, 
-                "title": "Closing Notes in Main Hall (Level 3, Dalton Hall)"
+                "id": 2959,
+                "title": "Fedora Infrastructure Dev Sprint - workshop 2hrs"
             }
-        ], 
-        "track_image_url": null
-    }, 
+        ],
+        "color": "#ffab3f",
+        "track_image_url": null,
+        "location": null,
+        "id": 217,
+        "name": "Open Source Software"
+    },
     {
-        "color": "#B062A1", 
-        "description": "Databases", 
-        "id": 11, 
-        "location": "Level 2, Herschel Lab", 
-        "name": "Databases", 
+        "description": null,
         "sessions": [
             {
-                "id": 315, 
-                "title": "Migration from Oracle to PostgreSQL - The problems and the solutions -"
-            }, 
+                "id": 2958,
+                "title": "Unified Programming Model For Multiple Devices(An OpenCL Approach)"
+            },
             {
-                "id": 316, 
-                "title": "Demo Session"
-            }, 
+                "id": 2818,
+                "title": "Basics of Arm Neon assembly on an Computer Vision example - workshop 2hrs"
+            },
             {
-                "id": 317, 
-                "title": "Data Warehouse in a PG / Greenplum / Vitesse DB environment"
-            }, 
+                "id": 3004,
+                "title": "Open Hardware Universe - Exhibition"
+            },
             {
-                "id": 318, 
-                "title": "Demo Session"
-            }, 
+                "id": 2860,
+                "title": "Docker Swarm Cluster with Raspberry Pi's"
+            },
             {
-                "id": 319, 
-                "title": "Group Photo"
-            }, 
+                "id": 2846,
+                "title": "Automatic Mushroom Farming with Open Tech"
+            },
             {
-                "id": 320, 
-                "title": "Lunch"
-            }, 
+                "id": 2939,
+                "title": "Building a Better Thermostat"
+            },
             {
-                "id": 321, 
-                "title": "Tales from Production with PostgreSQL at Scale"
-            }, 
+                "id": 2907,
+                "title": "Are You Killing Mr. Jenkins?"
+            },
             {
-                "id": 322, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 323, 
-                "title": "Hadoop and PostgreSQL -- An Odd Job?"
-            }, 
-            {
-                "id": 324, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 325, 
-                "title": "Data Warehousing on PostgreSQL"
-            }, 
-            {
-                "id": 326, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 327, 
-                "title": "(Ab)using 4D indexing in PostGIS 2.2 with Postgres 9.5 to give you the perfect match"
-            }, 
-            {
-                "id": 328, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 329, 
-                "title": "PostgreSQL fun at Lightning Talks"
-            }, 
-            {
-                "id": 330, 
-                "title": "End of Sessions and Social Event for Speakers, Volunteers, Partners in Movie Studio"
-            }, 
-            {
-                "id": 331, 
-                "title": "End of Sessions and Social Event (Invitation Only)"
-            }, 
-            {
-                "id": 332, 
-                "title": "MySQL Performance Schema - A great insight of MySQL server execution"
-            }, 
-            {
-                "id": 333, 
-                "title": "Unlocking New Big Data Insights with Hadoop & MySQL "
-            }, 
-            {
-                "id": 334, 
-                "title": "Enhanced High Availability using MySQL Group Replication"
-            }, 
-            {
-                "id": 335, 
-                "title": "Metadata Storage for Transactional Databases"
-            }, 
-            {
-                "id": 336, 
-                "title": "Lunch"
-            }, 
-            {
-                "id": 337, 
-                "title": "Crash course in Graph Databases"
-            }, 
-            {
-                "id": 338, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 339, 
-                "title": "Powering IoT with MySQL & JSON"
-            }, 
-            {
-                "id": 340, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 341, 
-                "title": "Closing Notes in Main Hall (Level 3, Dalton Hall)"
+                "id": 2930,
+                "title": "Be an IoT Developer for a day - DIY IoT for Conference Visualization - workshop 2hrs"
             }
-        ], 
-        "track_image_url": null
-    }, 
+        ],
+        "color": "#c45b1f",
+        "track_image_url": null,
+        "location": null,
+        "id": 218,
+        "name": "Hardware & Making"
+    },
     {
-        "color": "#1CCCC5", 
-        "description": "Internet, Society, Community", 
-        "id": 12, 
-        "location": "Level 2, Einstein Room", 
-        "name": "Internet, Society, Community", 
+        "description": null,
         "sessions": [
             {
-                "id": 350, 
-                "title": "Journey as a Freelance Web Developer"
-            }, 
+                "id": 2886,
+                "title": "Improving fault detection and real time detailed analytics with Telemetry."
+            },
             {
-                "id": 351, 
-                "title": "Opening up yourself"
-            }, 
+                "id": 2979,
+                "title": "Building a Micro AI company in 2017"
+            },
             {
-                "id": 352, 
-                "title": "How to be an IETF champion"
-            }, 
+                "id": 2813,
+                "title": "Virtual Reality OS: Open Source, Of Singapore"
+            },
             {
-                "id": 353, 
-                "title": "Demo Session"
-            }, 
+                "id": 3009,
+                "title": "Jobs Board - Exhibition "
+            },
             {
-                "id": 354, 
-                "title": "Group Photo"
-            }, 
+                "id": 2855,
+                "title": "Lessons from {distributed,remote,virtual} communities and companies - workshop 1hr"
+            },
             {
-                "id": 355, 
-                "title": "Lunch"
-            }, 
+                "id": 3025,
+                "title": "A startup's guide to product development"
+            },
             {
-                "id": 342, 
-                "title": "Why are we (Still) wasting food? How technology can help"
-            }, 
+                "id": 2885,
+                "title": "Building Enterprise Software Today: A partnership in openness"
+            },
             {
-                "id": 343, 
-                "title": "The Smart City - Where mammals and computers live together in mutually programming harmony like pure water touching clear sky"
-            }, 
-            {
-                "id": 344, 
-                "title": "Who owns my notebook? or why I want to run coreboot on every device"
-            }, 
-            {
-                "id": 345, 
-                "title": "Adoption of open standards and FLOS Software in the public sector"
-            }, 
-            {
-                "id": 346, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 347, 
-                "title": "The FOSS ecosystem and business development in Vietnam"
-            }, 
-            {
-                "id": 348, 
-                "title": "End of Sessions"
-            }, 
-            {
-                "id": 349, 
-                "title": "Pub Crawl at Clarke Quay"
-            }, 
-            {
-                "id": 356, 
-                "title": "Curating the open community of developers, designers and makers"
-            }, 
-            {
-                "id": 357, 
-                "title": "India's fight for Netneutrality and Open Internet"
-            }, 
-            {
-                "id": 358, 
-                "title": "Ensuring Patent Non-Aggression in Linux and OSS Projects"
-            }, 
-            {
-                "id": 359, 
-                "title": "Anatomy of a Software Patent for a foss developer"
-            }, 
-            {
-                "id": 360, 
-                "title": "How we work together to reduce the patent risk on open source"
-            }, 
-            {
-                "id": 361, 
-                "title": "How to Share Open Source"
-            }, 
-            {
-                "id": 362, 
-                "title": "FOSS in Indonesia Election"
-            }, 
-            {
-                "id": 363, 
-                "title": "What's next?"
-            }, 
-            {
-                "id": 364, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 365, 
-                "title": "End of Sessions and Social Event (Invitation Only)"
+                "id": 2973,
+                "title": "Legalese: Software Eats Contract Drafting"
             }
-        ], 
-        "track_image_url": null
-    }, 
+        ],
+        "color": "#fa8181",
+        "track_image_url": null,
+        "location": null,
+        "id": 220,
+        "name": "Startup and Business Development"
+    },
     {
-        "color": "#5972B0", 
-        "description": "Privacy and Security", 
-        "id": 13, 
-        "location": "Level 2, Einstein Hall", 
-        "name": "Privacy and Security", 
+        "description": null,
         "sessions": [
             {
-                "id": 366, 
-                "title": "Functionality, Security, Usability: Choose any two. Or GNOME. "
-            }, 
+                "id": 2954,
+                "title": "NTPSec: Securing the Internet's Critical Infrastructure"
+            },
             {
-                "id": 367, 
-                "title": "Demo Session"
-            }, 
+                "id": 2862,
+                "title": "Web Application Security - owasp top 10 vulnerabilities"
+            },
             {
-                "id": 368, 
-                "title": "Not all security flaws are born equal"
-            }, 
+                "id": 2849,
+                "title": "Attack of things"
+            },
             {
-                "id": 369, 
-                "title": "Privly - Share Privately"
-            }, 
+                "id": 2874,
+                "title": "Brave Browser and Communities - Exhibition "
+            },
             {
-                "id": 370, 
-                "title": "Lunch"
-            }, 
+                "id": 2881,
+                "title": "Network monitoring with FOSS"
+            },
             {
-                "id": 371, 
-                "title": "Ring a decentralized and secure communication platform"
-            }, 
+                "id": 2926,
+                "title": "p≡p ≡ pretty Easy privacy: making privacy the default for everyone"
+            },
             {
-                "id": 372, 
-                "title": "Demo Session"
-            }, 
+                "id": 2932,
+                "title": "IoT - Secure MQTT/HTTP Apis using Node-Red - workshop 1hr"
+            },
             {
-                "id": 373, 
-                "title": "Intrusion Detection with AIDE"
-            }, 
-            {
-                "id": 374, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 375, 
-                "title": "Closing Notes in Main Hall (Level 3, Dalton Hall)"
+                "id": 2972,
+                "title": "OpenSec and Why WebAppSec Matters"
             }
-        ], 
-        "track_image_url": null
-    }, 
-    {
-        "color": "#FF3C11", 
-        "description": "Science Hack Day", 
-        "id": 14, 
-        "location": "Level 1, Tinkering Studio", 
-        "name": "Science Hack Day", 
-        "sessions": [
-            {
-                "id": 376, 
-                "title": "Breakfast Snacks"
-            }, 
-            {
-                "id": 377, 
-                "title": "Welcome and Introduction from Science Centre"
-            }, 
-            {
-                "id": 378, 
-                "title": "Science Hack Day in Asia"
-            }, 
-            {
-                "id": 379, 
-                "title": "Lightning talks - Participants present their hacking ideas and call for co-workers"
-            }, 
-            {
-                "id": 380, 
-                "title": "Rebuildling Cultural Heritage with #NEWPALMYRA"
-            }, 
-            {
-                "id": 381, 
-                "title": "Creating patterns is like mapping the night sky"
-            }, 
-            {
-                "id": 382, 
-                "title": "DIY Circuit Board Workshop"
-            }, 
-            {
-                "id": 383, 
-                "title": "ExpEYES: Pocket Science Lab  "
-            }, 
-            {
-                "id": 384, 
-                "title": "#NefertitiHack and Cultural Commons \"The Other Nefertiti\""
-            }, 
-            {
-                "id": 385, 
-                "title": "#NefertitiHack and Cultural Commons \"The Other Nefertiti\""
-            }, 
-            {
-                "id": 386, 
-                "title": "Groups - Participants form groups to work on hacking ideas"
-            }, 
-            {
-                "id": 387, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 388, 
-                "title": "Group Photo"
-            }, 
-            {
-                "id": 389, 
-                "title": "Lunch"
-            }, 
-            {
-                "id": 390, 
-                "title": "Science Hack Begins"
-            }, 
-            {
-                "id": 391, 
-                "title": "Rebuildling Cultural Heritage with #NEWPALMYRA"
-            }, 
-            {
-                "id": 392, 
-                "title": "Creating patterns is like mapping the night sky"
-            }, 
-            {
-                "id": 393, 
-                "title": "DIY Circuit Board Workshop"
-            }, 
-            {
-                "id": 394, 
-                "title": "ExpEYES: Pocket Science Lab  "
-            }, 
-            {
-                "id": 395, 
-                "title": "#NefertitiHack and Cultural Commons \"The Other Nefertiti\""
-            }, 
-            {
-                "id": 396, 
-                "title": "#NefertitiHack and Cultural Commons \"The Other Nefertiti\""
-            }, 
-            {
-                "id": 397, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 398, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 399, 
-                "title": "End of Sessions and Social Event (Invitation Only)"
-            }, 
-            {
-                "id": 400, 
-                "title": "Breakfast"
-            }, 
-            {
-                "id": 401, 
-                "title": "Science Hack Day continues"
-            }, 
-            {
-                "id": 402, 
-                "title": "Rebuildling Cultural Heritage with #NEWPALMYRA"
-            }, 
-            {
-                "id": 403, 
-                "title": "Creating patterns is like mapping the night sky"
-            }, 
-            {
-                "id": 404, 
-                "title": "DIY Circuit Board Workshop"
-            }, 
-            {
-                "id": 405, 
-                "title": "ExpEYES: Pocket Science Lab  "
-            }, 
-            {
-                "id": 406, 
-                "title": "#NefertitiHack and Cultural Commons \"The Other Nefertiti\""
-            }, 
-            {
-                "id": 407, 
-                "title": "#NefertitiHack and Cultural Commons \"The Other Nefertiti\""
-            }, 
-            {
-                "id": 408, 
-                "title": "Lunch"
-            }, 
-            {
-                "id": 409, 
-                "title": "Science Hack continues"
-            }, 
-            {
-                "id": 410, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 411, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 412, 
-                "title": "Hack stops"
-            }, 
-            {
-                "id": 413, 
-                "title": "Hack demos begin"
-            }, 
-            {
-                "id": 414, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 415, 
-                "title": "Science Hackers move to Main Hall"
-            }, 
-            {
-                "id": 416, 
-                "title": "Winning teams announced & given awards/medals in Main Hall"
-            }, 
-            {
-                "id": 417, 
-                "title": "Closing Notes in Main Hall (Level 3, Dalton Hall)"
-            }
-        ], 
-        "track_image_url": null
-    }, 
-    {
-        "color": "#84CC12", 
-        "description": "Linux and MiniDebConf", 
-        "id": 15, 
-        "location": "Level 1, Observatory Room", 
-        "name": "Linux and MiniDebConf", 
-        "sessions": [
-            {
-                "id": 425, 
-                "title": "Linux Btrfs"
-            }, 
-            {
-                "id": 426, 
-                "title": "Tracing With ftrace"
-            }, 
-            {
-                "id": 427, 
-                "title": "Closing Notes in Main Hall (Level 3, Dalton Hall)"
-            }, 
-            {
-                "id": 418, 
-                "title": "Let's talk systemd!"
-            }, 
-            {
-                "id": 419, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 420, 
-                "title": "Using the systemd Journal for Your Daily Work"
-            }, 
-            {
-                "id": 421, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 422, 
-                "title": "GNOME 3.20 - Get it while it's fresh!"
-            }, 
-            {
-                "id": 423, 
-                "title": "Lunch"
-            }, 
-            {
-                "id": 424, 
-                "title": "Reproducible Builds - fulfilling the original promise of free software"
-            }
-        ], 
-        "track_image_url": null
-    }, 
-    {
-        "color": "#CC8312", 
-        "description": "Design, VR, 3D", 
-        "id": 16, 
-        "location": "Level 1, Eco Garden Lab", 
-        "name": "Design, VR, 3D", 
-        "sessions": [
-            {
-                "id": 428, 
-                "title": "Processing - Learn to code by art"
-            }, 
-            {
-                "id": 429, 
-                "title": "Aware User Interface"
-            }, 
-            {
-                "id": 430, 
-                "title": "Open Source WebVR development"
-            }, 
-            {
-                "id": 431, 
-                "title": "Open Source Design – how we do it in ownCloud"
-            }, 
-            {
-                "id": 432, 
-                "title": "Lunch"
-            }, 
-            {
-                "id": 433, 
-                "title": "Exploring the beauty of algorithms with generative art"
-            }, 
-            {
-                "id": 434, 
-                "title": "Automating android games using image processing"
-            }, 
-            {
-                "id": 435, 
-                "title": "Exploring how designer can contribute to Open Source"
-            }, 
-            {
-                "id": 436, 
-                "title": "Demo Session"
-            }, 
-            {
-                "id": 437, 
-                "title": "Closing Notes in Main Hall (Level 3, Dalton Hall)"
-            }
-        ], 
-        "track_image_url": null
-    }, 
-    {
-        "color": "#992EFF", 
-        "description": "Exhibition", 
-        "id": 17, 
-        "location": "Level 1, Ground Floor, Scientist For a day, Hall A", 
-        "name": "Exhibition", 
-        "sessions": [
-            {
-                "id": 438, 
-                "title": "ChorusText open assistive device"
-            }, 
-            {
-                "id": 439, 
-                "title": "ESPresso Lite"
-            }, 
-            {
-                "id": 440, 
-                "title": "ESPresso Lite"
-            }, 
-            {
-                "id": 441, 
-                "title": "Science Hacks with PSL@Fossasia"
-            }, 
-            {
-                "id": 442, 
-                "title": "Free Real-time communications lounge"
-            }, 
-            {
-                "id": 443, 
-                "title": "Ring a decentralized and secure communication platform"
-            }, 
-            {
-                "id": 444, 
-                "title": "FOSSASIA"
-            }, 
-            {
-                "id": 445, 
-                "title": "Deepin Desktop System Demo"
-            }, 
-            {
-                "id": 446, 
-                "title": "Developers looking for designers? Show off your project!"
-            }, 
-            {
-                "id": 447, 
-                "title": "coala"
-            }, 
-            {
-                "id": 448, 
-                "title": "RedHat"
-            }, 
-            {
-                "id": 449, 
-                "title": "MySQL"
-            }, 
-            {
-                "id": 450, 
-                "title": "UNESCO YouthMobile"
-            }, 
-            {
-                "id": 451, 
-                "title": "Creative Confidence"
-            }, 
-            {
-                "id": 452, 
-                "title": "Enriching Student Experience"
-            }, 
-            {
-                "id": 453, 
-                "title": "Master of Science Technopreneurship & Innovation Programme (MSc TIP)"
-            }, 
-            {
-                "id": 454, 
-                "title": "End of Exhibition"
-            }, 
-            {
-                "id": 455, 
-                "title": "Pub Crawl at Clarke Quay"
-            }, 
-            {
-                "id": 456, 
-                "title": "ChorusText open assistive device"
-            }, 
-            {
-                "id": 457, 
-                "title": "Introduction to ESPresso Lite"
-            }, 
-            {
-                "id": 458, 
-                "title": "ESPresso Lite"
-            }, 
-            {
-                "id": 459, 
-                "title": "Science Hacks with PSL@Fossasia"
-            }, 
-            {
-                "id": 460, 
-                "title": "Free Real-time communications lounge"
-            }, 
-            {
-                "id": 461, 
-                "title": "Ring a decentralized and secure communication platform"
-            }, 
-            {
-                "id": 462, 
-                "title": "FOSSASIA"
-            }, 
-            {
-                "id": 463, 
-                "title": "Deepin Desktop System Demo"
-            }, 
-            {
-                "id": 464, 
-                "title": "CryptoParty and/or key signing event"
-            }, 
-            {
-                "id": 465, 
-                "title": "Developers looking for designers? Show off your project!"
-            }, 
-            {
-                "id": 466, 
-                "title": "coala"
-            }, 
-            {
-                "id": 467, 
-                "title": "RedHat"
-            }, 
-            {
-                "id": 468, 
-                "title": "MySQL"
-            }, 
-            {
-                "id": 469, 
-                "title": "UNESCO YouthMobile"
-            }, 
-            {
-                "id": 470, 
-                "title": "Creative Confidence"
-            }, 
-            {
-                "id": 471, 
-                "title": "Enriching Student Experience"
-            }, 
-            {
-                "id": 472, 
-                "title": "Master of Science Technopreneurship & Innovation Programme (MSc TIP)"
-            }, 
-            {
-                "id": 473, 
-                "title": "End of Exhibition"
-            }, 
-            {
-                "id": 474, 
-                "title": "Social Event"
-            }, 
-            {
-                "id": 475, 
-                "title": "ChorusText open assistive device"
-            }, 
-            {
-                "id": 476, 
-                "title": "Introduction to ESPresso Lite"
-            }, 
-            {
-                "id": 477, 
-                "title": "ESPresso Lite"
-            }, 
-            {
-                "id": 478, 
-                "title": "Science Hacks with PSL@Fossasia"
-            }, 
-            {
-                "id": 479, 
-                "title": "Free Real-time communications lounge"
-            }, 
-            {
-                "id": 480, 
-                "title": "Ring a decentralized and secure communication platform"
-            }, 
-            {
-                "id": 481, 
-                "title": "FOSSASIA"
-            }, 
-            {
-                "id": 482, 
-                "title": "Deepin Desktop System Demo"
-            }, 
-            {
-                "id": 483, 
-                "title": "CryptoParty and/or key signing event"
-            }, 
-            {
-                "id": 484, 
-                "title": "Developers looking for designers? Show off your project!"
-            }, 
-            {
-                "id": 485, 
-                "title": "coala"
-            }, 
-            {
-                "id": 486, 
-                "title": "RedHat"
-            }, 
-            {
-                "id": 487, 
-                "title": "MySQL"
-            }, 
-            {
-                "id": 488, 
-                "title": "UNESCO YouthMobile"
-            }, 
-            {
-                "id": 489, 
-                "title": "Creative Confidence"
-            }, 
-            {
-                "id": 490, 
-                "title": "Enriching Student Experience"
-            }, 
-            {
-                "id": 491, 
-                "title": "Master of Science Technopreneurship & Innovation Programme (MSc TIP)"
-            }, 
-            {
-                "id": 492, 
-                "title": "End of Exhibition"
-            }, 
-            {
-                "id": 493, 
-                "title": "FOSSASIA 2016 Closes"
-            }
-        ], 
-        "track_image_url": null
-    }, 
-    {
-        "color": "#59B077", 
-        "description": "Social Event", 
-        "id": 18, 
-        "location": "Level 2, Newton ", 
-        "name": "Social Event", 
-        "sessions": [], 
-        "track_image_url": null
+        ],
+        "color": "#3e5e8f",
+        "track_image_url": null,
+        "location": null,
+        "id": 270,
+        "name": "Security and Privacy"
     }
 ]

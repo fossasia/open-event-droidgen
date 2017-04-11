@@ -1,81 +1,92 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_frame"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white">
+    android:layout_marginLeft="@dimen/layout_margin_large"
+    android:layout_marginStart="@dimen/layout_margin_large"
+    android:layout_marginRight="@dimen/layout_margin_medium"
+    android:layout_marginEnd="@dimen/layout_margin_medium"
+    android:paddingLeft="@dimen/padding_large"
+    android:paddingStart="@dimen/padding_large"
+    android:paddingRight="@dimen/padding_large"
+    android:paddingEnd="@dimen/padding_large"
+    android:paddingTop="@dimen/padding_medium">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <LinearLayout
+        android:id="@+id/ll_sessionDetails"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/start_time"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:gravity="center_vertical"
-            android:paddingLeft="72dp"
-            android:paddingRight="72dp"
-            android:textColor="@color/cardview_dark_background"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            tools:text="start_time" />
+            android:id="@+id/slot_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:paddingBottom="@dimen/padding_small"
+            android:paddingTop="@dimen/padding_small"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            tools:text="Slot Title" />
+
+        <TextView
+            android:id="@+id/slot_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:paddingBottom="@dimen/padding_small"
+            android:paddingTop="@dimen/padding_small"
+            android:textSize="@dimen/text_size_small"
+            tools:text="Slot Description" />
 
         <LinearLayout
-            android:id="@+id/touch_area"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingBottom="8dp">
+            android:paddingBottom="@dimen/padding_small"
+            android:paddingTop="@dimen/padding_small">
 
-            <ImageView
-                android:id="@+id/icon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginLeft="24dp"
-                android:layout_marginRight="24dp"
-                android:layout_marginTop="8dp"
-                android:contentDescription="@null"
-                android:src="@drawable/ic_access_time_grey600_18dp" />
-
-            <LinearLayout
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/slot_start_time"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:orientation="vertical">
+                android:textSize="@dimen/text_size_small"
+                tools:text="12:00" />
 
-                <TextView
-                    android:id="@+id/slot_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="24dp"
-                    android:layout_marginRight="24dp"
-                    android:layout_marginTop="8dp"
-                    android:ellipsize="end"
-                    android:textColor="@color/cardview_dark_background"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    tools:text="Title" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/time_separator" />
 
-                <TextView
-                    android:id="@+id/timings"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginTop="4dp"
-                    android:textColor="@color/cardview_dark_background"
-                    android:textSize="14sp"
-                    tools:text="9:00 AM - 11:30 AM / Room 1" />
-            </LinearLayout>
+            <TextView
+                android:id="@+id/slot_end_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_small"
+                tools:text="1:00" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/delimiter" />
+
+            <TextView
+                android:id="@+id/slot_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textSize="@dimen/text_size_small"
+                tools:text="Slot Location" />
         </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.8dp"
-            android:background="?android:attr/listDivider" />
     </LinearLayout>
-</FrameLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.8dp"
+        android:layout_marginTop="@dimen/layout_margin_medium"
+        android:background="?android:attr/listDivider"
+        android:layout_below="@id/ll_sessionDetails"/>
+</RelativeLayout>

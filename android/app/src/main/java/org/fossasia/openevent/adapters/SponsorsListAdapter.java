@@ -3,6 +3,7 @@ package org.fossasia.openevent.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.Snackbar;
@@ -16,17 +17,25 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Sponsor;
 import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.utils.NetworkUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 /**
@@ -35,18 +44,33 @@ import timber.log.Timber;
  */
 public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, RecyclerView.ViewHolder> {
 
-    public static final int SPONSOR = 0;
-    public static final int CATEGORY = 1;
+    private static final int SPONSOR = 0;
+    private static final int CATEGORY = 1;
 
     private Context context;
     private Activity activity;
     private boolean customTabsSupported;
+
+    private CompositeDisposable disposable;
 
     public SponsorsListAdapter(Context context, List<Sponsor> sponsors, Activity activity, boolean customTabsSupported) {
         super(sponsors);
         this.context = context;
         this.activity = activity;
         this.customTabsSupported = customTabsSupported;
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        disposable = new CompositeDisposable();
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
+        if(disposable != null && !disposable.isDisposed())
+            disposable.dispose();
     }
 
     @Override
@@ -73,10 +97,10 @@ public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, RecyclerView.Vie
 
             final SponsorViewHolder sponsorViewHolder = (SponsorViewHolder) holder;
             DisplayMetrics displayMetrics = (sponsorViewHolder.sponsorImage.getContext().getResources().getDisplayMetrics());
-            int width = displayMetrics.widthPixels;
-            int height = displayMetrics.heightPixels;
-            Uri uri;
-            Sponsor currentSponsor = getItem(position);
+            final int width = displayMetrics.widthPixels;
+            final int height = displayMetrics.heightPixels;
+            final Uri uri;
+            final Sponsor currentSponsor = getItem(position);
             if (!currentSponsor.getLogo().startsWith("https://")) {
                 uri = Uri.parse(Urls.getBaseUrl() + currentSponsor.getLogo());
             } else {
@@ -84,43 +108,71 @@ public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, RecyclerView.Vie
             }
             sponsorViewHolder.sponsorType.setText(currentSponsor.getType());
 
+            disposable.add(NetworkUtils.isActiveInternetPresentObservable()
+                    .subscribeOn(Schedulers.computation())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<Boolean>() {
+                        @Override
+                        public void accept(@NonNull Boolean isActive) throws Exception {
+                            if(!isActive) {
+
+                                Picasso.with(context)
+                                        .cancelTag("ONLINE");
+
+                                Picasso.with(context)
+                                        .load(uri)
+                                        .resize(width, (height / 6))
+                                        .centerInside()
+                                        .networkPolicy(NetworkPolicy.OFFLINE)
+                                        .into(sponsorViewHolder.sponsorImage);
+                            }
+                        }
+                    }));
+
             Picasso.with(sponsorViewHolder.sponsorImage.getContext())
                     .load(uri)
                     .resize(width, (height / 6))
                     .centerInside()
+                    .tag("ONLINE")
                     .into(sponsorViewHolder.sponsorImage);
 
             sponsorViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
-                    List<Sponsor> objects = DbSingleton.getInstance().getSponsorList();
-                    Sponsor sponsor = objects.get(sponsorViewHolder.getAdapterPosition());
-                    String sponsorUrl = sponsor.getUrl();
-                    if (!sponsorUrl.startsWith("http") && !sponsorUrl.startsWith("https")) {
-                        sponsorUrl = "http://" + sponsorUrl;
-                    }
-                    if (Patterns.WEB_URL.matcher(sponsorUrl).matches()) {
-                        if (customTabsSupported) {
-                            CustomTabsIntent.Builder customTabsBuilder = new CustomTabsIntent.Builder();
+                public void onClick(final View view) {
+                    disposable.add(DbSingleton.getInstance().getSponsorListObservable()
+                            .subscribe(new Consumer<ArrayList<Sponsor>>() {
+                                @Override
+                                public void accept(@NonNull ArrayList<Sponsor> sponsors) throws Exception {
+                                    Sponsor sponsor = sponsors.get(sponsorViewHolder.getAdapterPosition());
+                                    String sponsorUrl = sponsor.getUrl();
+                                    if (!sponsorUrl.startsWith("http") && !sponsorUrl.startsWith("https")) {
+                                        sponsorUrl = "http://" + sponsorUrl;
+                                    }
+                                    if (Patterns.WEB_URL.matcher(sponsorUrl).matches()) {
+                                        if (customTabsSupported) {
+                                            CustomTabsIntent.Builder customTabsBuilder = new CustomTabsIntent.Builder();
 
-                            customTabsBuilder.setToolbarColor(ContextCompat.getColor(context, R.color.color_primary));
-                            customTabsBuilder.setStartAnimations(context, R.anim.slide_in_right, R.anim.slide_out_left);
-                            customTabsBuilder.setExitAnimations(context, R.anim.slide_in_left, R.anim.slide_out_right);
+                                            customTabsBuilder.setToolbarColor(ContextCompat.getColor(context, R.color.color_primary));
+                                            customTabsBuilder.setCloseButtonIcon(BitmapFactory.decodeResource(context.getResources(),R.drawable.ic_arrow_back_white_cct_24dp));
+                                            customTabsBuilder.setStartAnimations(context, R.anim.slide_in_right, R.anim.slide_out_left);
+                                            customTabsBuilder.setExitAnimations(context, R.anim.slide_in_left, R.anim.slide_out_right);
 
-                            CustomTabsIntent customTabsIntent = customTabsBuilder.build();
-                            customTabsIntent.launchUrl(activity, Uri.parse(sponsorUrl));
-                        } else {
-                            Intent sponsorsIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(sponsorUrl));
-                            context.startActivity(sponsorsIntent);
-                        }
-                    } else {
-                        Snackbar.make(v, R.string.invalid_url, Snackbar.LENGTH_LONG).show();
-                        Timber.d(sponsorUrl);
-                    }
+                                            CustomTabsIntent customTabsIntent = customTabsBuilder.build();
+                                            customTabsIntent.launchUrl(activity, Uri.parse(sponsorUrl));
+                                        } else {
+                                            Intent sponsorsIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(sponsorUrl));
+                                            context.startActivity(sponsorsIntent);
+                                        }
+                                    } else {
+                                        Snackbar.make(view, R.string.invalid_url, Snackbar.LENGTH_LONG).show();
+                                        Timber.d(sponsorUrl);
+                                    }
+                                }
+                            }));
+
                 }
             });
         } else if (holder instanceof CategoryViewHolder) {
-
             CategoryViewHolder categoryViewHolder = (CategoryViewHolder) holder;
             categoryViewHolder.sponsorCategory.setText(getItem(position).toString());
         }
@@ -128,7 +180,13 @@ public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, RecyclerView.Vie
 
     public void refresh() {
         clear();
-        animateTo(DbSingleton.getInstance().getSponsorList());
+        disposable.add(DbSingleton.getInstance().getSponsorListObservable()
+                .subscribe(new Consumer<ArrayList<Sponsor>>() {
+                    @Override
+                    public void accept(@NonNull ArrayList<Sponsor> sponsors) throws Exception {
+                        animateTo(sponsors);
+                    }
+                }));
     }
 
     @Override
@@ -137,7 +195,7 @@ public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, RecyclerView.Vie
 
     }
 
-    protected class SponsorViewHolder extends RecyclerView.ViewHolder {
+    class SponsorViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.sponsor_image)
         ImageView sponsorImage;
@@ -145,18 +203,18 @@ public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, RecyclerView.Vie
         @BindView(R.id.sponsor_type)
         TextView sponsorType;
 
-        public SponsorViewHolder(View itemView) {
+        SponsorViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
     }
 
-    protected class CategoryViewHolder extends RecyclerView.ViewHolder {
+    class CategoryViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.sponsor_category)
         TextView sponsorCategory;
 
-        public CategoryViewHolder(View itemView) {
+        CategoryViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }

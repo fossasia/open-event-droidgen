@@ -37,6 +37,8 @@ public class BookmarkWidgetRemoteViewsService extends RemoteViewsService {
 
     private static final int INDEX_BOOKMARK_END_TIME = 3;
 
+    private static final int INDEX_BOOKMARK_DATE= 4;
+
     private final String ID = "id";
 
     private final String TITLE = "title";
@@ -44,6 +46,8 @@ public class BookmarkWidgetRemoteViewsService extends RemoteViewsService {
     private final String START_TIME = "startTime";
 
     private final String END_TIME = "endTime";
+
+    private final String DATE = "sessionDate";
 
     private ArrayList<Integer> bookmarkedIds;
 
@@ -61,8 +65,7 @@ public class BookmarkWidgetRemoteViewsService extends RemoteViewsService {
             private MatrixCursor data = null;
 
             @Override
-            public void onCreate() {
-            }
+            public void onCreate() {}
 
             @Override
             public void onDataSetChanged() {
@@ -73,14 +76,15 @@ public class BookmarkWidgetRemoteViewsService extends RemoteViewsService {
                 try {
                     bookmarkedIds = dbSingleton.getBookmarkIds();
 
-                    String[] columns = new String[]{ID, TITLE, START_TIME, END_TIME};
+                    String[] columns = new String[]{ID, TITLE, START_TIME, END_TIME, DATE};
                     data = new MatrixCursor(columns);
 
                     for (Integer id : bookmarkedIds) {
                         Session session = dbSingleton.getSessionById(id);
                         String start = ISO8601Date.get12HourTime(ISO8601Date.getDateObject(session.getStartTime()));
                         String end = ISO8601Date.get12HourTime(ISO8601Date.getDateObject(session.getEndTime()));
-                        data.addRow(new Object[]{id, session.getTitle(), start, end});
+                        String date = ISO8601Date.getDate(ISO8601Date.getDateObject(session.getStartTime()));
+                        data.addRow(new Object[]{id, session.getTitle(), start, end, date});
                     }
                 } catch (Exception e) {
                     Timber.e("Parsing Error Occurred at BookmarkWidgetRemoteViewsService::onDataSetChanged.");
@@ -112,20 +116,19 @@ public class BookmarkWidgetRemoteViewsService extends RemoteViewsService {
                 String title = data.getString(INDEX_BOOKMARK_TITLE);
                 String start = data.getString(INDEX_BOOKMARK_START_TIME);
                 String end = data.getString(INDEX_BOOKMARK_END_TIME);
+                String date = data.getString(INDEX_BOOKMARK_DATE);
                 int id = data.getInt(INDEX_BOOKMARK_ID);
                 RemoteViews views = new RemoteViews(getPackageName(),
                         R.layout.widget_list_item);
 
-                views.setTextViewText(R.id.title_widget_bookmarks, getString(R.string.bullet) + "  " + title);
-                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
+                views.setTextViewText(R.id.title_widget_bookmarks, title);
 
-                    if (widgetWidth > LESS_DETAIL_SIZE) {
-                        views.setTextViewText(R.id.startTime_widget_bookmarks, start);
-                        views.setTextViewText(R.id.endTime_widget_bookmarks, end);
-                    } else {
-                        views.setTextViewText(R.id.startTime_widget_bookmarks, "");
-                        views.setTextViewText(R.id.endTime_widget_bookmarks, "");
-                    }
+                if (widgetWidth > LESS_DETAIL_SIZE) {
+                    views.setTextViewText(R.id.date_widget_bookmarks, date);
+                    views.setTextViewText(R.id.time_widget_bookmarks, start + " to " + end);
+                } else {
+                    views.setTextViewText(R.id.date_widget_bookmarks, "");
+                    views.setTextViewText(R.id.time_widget_bookmarks, "");
                 }
 
                 final Intent fillInIntent = new Intent();

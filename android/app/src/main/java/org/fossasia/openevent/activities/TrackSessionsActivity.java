@@ -1,5 +1,6 @@
 package org.fossasia.openevent.activities;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -15,10 +16,17 @@ import android.widget.TextView;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.SessionsListAdapter;
+import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.ConstantStrings;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
 
 /**
  * User: MananWason
@@ -30,11 +38,19 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
 
     private SessionsListAdapter sessionsListAdapter;
 
+    private GridLayoutManager gridLayoutManager;
+
     private String track;
 
-    private String searchText = "";
+    private List<Session> mSessions = new ArrayList<>();
+
+    private String searchText;
 
     private SearchView searchView;
+
+    private static final int trackWiseSessionList = 4;
+
+    private CompositeDisposable disposable;
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.recyclerView) RecyclerView sessionsRecyclerView;
@@ -43,6 +59,9 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setBackgroundDrawable(null);
+
+        disposable = new CompositeDisposable();
 
         setSupportActionBar(toolbar);
         if(getSupportActionBar() != null) {
@@ -68,14 +87,30 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
         int spanCount = (int) (width/250.00);
 
         sessionsRecyclerView.setHasFixedSize(true);
-        final GridLayoutManager gridLayoutManager = new GridLayoutManager(this,spanCount);
+        gridLayoutManager = new GridLayoutManager(this, spanCount);
         sessionsRecyclerView.setLayoutManager(gridLayoutManager);
-        sessionsListAdapter = new SessionsListAdapter(this, dbSingleton.getSessionbyTracksname(track));
+        sessionsListAdapter = new SessionsListAdapter(this, mSessions, trackWiseSessionList);
         sessionsRecyclerView.setAdapter(sessionsListAdapter);
         sessionsRecyclerView.scrollToPosition(SessionsListAdapter.listPosition);
         sessionsRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        if (sessionsListAdapter.getItemCount() != 0) {
+        disposable.add(dbSingleton.getSessionsByTrackNameObservable(track)
+                .subscribe(new Consumer<ArrayList<Session>>() {
+                    @Override
+                    public void accept(@NonNull ArrayList<Session> sessions) throws Exception {
+                        mSessions.clear();
+                        mSessions.addAll(sessions);
+                        sessionsListAdapter.notifyDataSetChanged();
+
+                        handleVisibility();
+                    }
+                }));
+
+        handleVisibility();
+    }
+
+    private void handleVisibility() {
+        if (!mSessions.isEmpty()) {
             noSessionsView.setVisibility(View.GONE);
             sessionsRecyclerView.setVisibility(View.VISIBLE);
         } else {
@@ -98,6 +133,13 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(disposable != null && !disposable.isDisposed())
+            disposable.dispose();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_search_sessions:
@@ -117,6 +159,15 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
             searchView.setQuery(searchText, false);
         }
         return true;
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
+        float width = displayMetrics.widthPixels / displayMetrics.density;
+        int spanCount = (int) (width / 250.00);
+        gridLayoutManager.setSpanCount(spanCount);
     }
 
     @Override

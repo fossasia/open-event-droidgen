@@ -14,6 +14,7 @@ import org.fossasia.openevent.activities.LocationActivity;
 import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.ConstantStrings;
+import org.fossasia.openevent.views.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -22,16 +23,19 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
 /**
  * User: MananWason
  * Date: 8/18/2015
  */
-public class LocationsListAdapter extends BaseRVAdapter<Microlocation, LocationsListAdapter.LocationViewHolder> {
+public class LocationsListAdapter extends BaseRVAdapter<Microlocation, LocationsListAdapter.LocationViewHolder> implements StickyRecyclerHeadersAdapter {
 
     private Context context;
-    public static int listPosition;
+    private CompositeDisposable disposable;
 
     public LocationsListAdapter(Context context, List<Microlocation> microLocations) {
         super(microLocations);
@@ -43,7 +47,7 @@ public class LocationsListAdapter extends BaseRVAdapter<Microlocation, Locations
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             DbSingleton instance = DbSingleton.getInstance();
-            List<Microlocation> microlocations = instance.getMicrolocationsList();
+            List<Microlocation> microlocations = instance.getMicrolocationList();
             final ArrayList<Microlocation> filteredLocationList = new ArrayList<>();
             String query = constraint.toString().toLowerCase(Locale.getDefault());
             for (Microlocation microlocation : microlocations) {
@@ -90,7 +94,7 @@ public class LocationsListAdapter extends BaseRVAdapter<Microlocation, Locations
             public void onClick(View v) {
                 Intent intent = new Intent(context, LocationActivity.class);
                 intent.putExtra(ConstantStrings.MICROLOCATIONS, location.getName());
-                listPosition = holder.getAdapterPosition();
+                holder.getAdapterPosition();
                 context.startActivity(intent);
             }
         });
@@ -98,10 +102,47 @@ public class LocationsListAdapter extends BaseRVAdapter<Microlocation, Locations
 
     public void refresh() {
         clear();
-        animateTo(DbSingleton.getInstance().getMicrolocationsList());
+        disposable.add(DbSingleton.getInstance().getMicrolocationListObservable()
+                .subscribe(new Consumer<ArrayList<Microlocation>>() {
+                    @Override
+                    public void accept(@NonNull ArrayList<Microlocation> microlocations) throws Exception {
+                        animateTo(microlocations);
+                    }
+                }));
     }
 
-    protected class LocationViewHolder extends RecyclerView.ViewHolder {
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        disposable = new CompositeDisposable();
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
+        if(disposable != null && !disposable.isDisposed())
+            disposable.dispose();
+    }
+
+    @Override
+    public long getHeaderId(int position) {
+        return getItem(position).getName().charAt(0);
+    }
+
+    @Override
+    public RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.recycler_view_header, parent, false);
+        return new RecyclerView.ViewHolder(view) {};
+    }
+
+    @Override
+    public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
+        TextView textView = (TextView) holder.itemView.findViewById(R.id.recyclerview_view_header);
+        textView.setText(String.valueOf(getItem(position).getName().charAt(0)));
+    }
+
+    class LocationViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.location_name)
         TextView locationName;
@@ -109,7 +150,7 @@ public class LocationsListAdapter extends BaseRVAdapter<Microlocation, Locations
         @BindView(R.id.location_floor)
         TextView locationFloor;
 
-        public LocationViewHolder(View itemView) {
+        LocationViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }

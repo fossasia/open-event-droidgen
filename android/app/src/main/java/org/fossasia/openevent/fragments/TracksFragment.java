@@ -32,10 +32,16 @@ import org.fossasia.openevent.events.RefreshUiEvent;
 import org.fossasia.openevent.events.TracksDownloadEvent;
 import org.fossasia.openevent.utils.NetworkUtils;
 import org.fossasia.openevent.utils.ShowNotificationSnackBar;
+import org.fossasia.openevent.views.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
 
 /**
  * User: MananWason
@@ -45,6 +51,7 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
 
     final private String SEARCH = "searchText";
 
+    private List<Track> mTracks = new ArrayList<>();
     private TracksListAdapter tracksListAdapter;
 
     @BindView(R.id.tracks_swipe_refresh) SwipeRefreshLayout swipeRefreshLayout;
@@ -64,6 +71,8 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
     private AppBarLayout.LayoutParams layoutParams;
     private int SCROLL_OFF = 0;
 
+    private CompositeDisposable compositeDisposable;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
@@ -71,9 +80,9 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
         OpenEventApp.getEventBus().register(this);
+        compositeDisposable = new CompositeDisposable();
         dbSingleton = DbSingleton.getInstance();
-        List<Track> mTracks = dbSingleton.getTrackList();
-        setVisibility();
+        handleVisibility();
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -92,6 +101,15 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
         tracksRecyclerView.setLayoutManager(linearLayoutManager);
         tracksListAdapter = new TracksListAdapter(getContext(), mTracks);
         tracksRecyclerView.setAdapter(tracksListAdapter);
+
+        final StickyRecyclerHeadersDecoration headersDecoration = new StickyRecyclerHeadersDecoration(tracksListAdapter);
+        tracksRecyclerView.addItemDecoration(headersDecoration);
+        tracksListAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override public void onChanged() {
+                headersDecoration.invalidateHeaders();
+            }
+        });
+
         tracksRecyclerView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
             public boolean onPreDraw() {
@@ -108,10 +126,35 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
         if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
             searchText = savedInstanceState.getString(SEARCH);
         }
+        //scrollup shows actionbar
+        tracksRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if(dy < 0){
+                    AppBarLayout appBarLayout;
+                    appBarLayout = (AppBarLayout) getActivity().findViewById(R.id.appbar);
+                    appBarLayout.setExpanded(true);
+                }
+            }
+        });
+
+        compositeDisposable.add(dbSingleton.getTrackListObservable()
+                .subscribe(new Consumer<List<Track>>() {
+                    @Override
+                    public void accept(@NonNull List<Track> tracks) throws Exception {
+                        mTracks.clear();
+                        mTracks.addAll(tracks);
+
+                        tracksListAdapter.notifyDataSetChanged();
+                        handleVisibility();
+                    }
+                }));
+
         return view;
     }
 
-    public void setVisibility() {
+    public void handleVisibility() {
         if (!dbSingleton.getTrackList().isEmpty()) {
             noTracksView.setVisibility(View.GONE);
             tracksRecyclerView.setVisibility(View.VISIBLE);
@@ -130,6 +173,8 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
     public void onDestroyView() {
         super.onDestroyView();
         OpenEventApp.getEventBus().unregister(this);
+        if(compositeDisposable != null && !compositeDisposable.isDisposed())
+            compositeDisposable.dispose();
         layoutParams.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL);
         toolbar.setLayoutParams(layoutParams);
     }
@@ -181,7 +226,7 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
 
     @Subscribe
     public void RefreshData(RefreshUiEvent event) {
-        setVisibility();
+        handleVisibility();
         if (searchText.length() == 0) {
             tracksListAdapter.refresh();
         }
@@ -192,8 +237,11 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
         if(swipeRefreshLayout!=null)
             swipeRefreshLayout.setRefreshing(false);
         if (event.isState()) {
-            tracksListAdapter.refresh();
-
+            if (!searchView.getQuery().toString().isEmpty() && !searchView.isIconified()) {
+                tracksListAdapter.getFilter().filter(searchView.getQuery());
+            } else {
+                tracksListAdapter.refresh();
+            }
         } else {
             if (getActivity() != null) {
                 Snackbar.make(windowFrame, getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, new View.OnClickListener() {
@@ -207,13 +255,17 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
     }
 
     private void refresh() {
-        if (NetworkUtils.haveNetworkConnection(getActivity())) {
-            if (NetworkUtils.isActiveInternetPresent()) {
+        NetworkUtils.checkConnection(new WeakReference<>(getContext()), new NetworkUtils.NetworkStateReceiverListener() {
+            @Override
+            public void activeConnection() {
                 //Internet is working
                 DataDownloadManager.getInstance().downloadTracks();
-            } else {
+            }
+
+            @Override
+            public void inactiveConnection() {
                 //set is refreshing false as let user to login
-                if (swipeRefreshLayout.isRefreshing()) {
+                if (swipeRefreshLayout != null && swipeRefreshLayout.isRefreshing()) {
                     swipeRefreshLayout.setRefreshing(false);
                 }
                 //Device is connected to WI-FI or Mobile Data but Internet is not working
@@ -225,16 +277,24 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
                 };
                 //show snackbar will be useful if user have blocked notification for this app
                 snackbar = showNotificationSnackBar.showSnackBar();
-                //show notification
+                //show notification (Only when connected to WiFi)
                 showNotificationSnackBar.buildNotification();
             }
-        } else {
-            if (snackbar!=null && snackbar.isShown()) {
-                snackbar.dismiss();
+
+            @Override
+            public void networkAvailable() {
+                // Network is available but we need to wait for activity
             }
-            OpenEventApp.getEventBus().post(new TracksDownloadEvent(false));
-        }
-        setVisibility();
+
+            @Override
+            public void networkUnavailable() {
+                if (snackbar!=null && snackbar.isShown()) {
+                    snackbar.dismiss();
+                }
+                OpenEventApp.getEventBus().post(new TracksDownloadEvent(false));
+            }
+        });
+
     }
 
 }

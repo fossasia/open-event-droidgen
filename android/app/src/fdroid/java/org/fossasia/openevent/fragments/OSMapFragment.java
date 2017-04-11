@@ -1,9 +1,12 @@
 package org.fossasia.openevent.fragments;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -11,6 +14,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +24,12 @@ import android.widget.ZoomControls;
 
 import org.fossasia.openevent.BuildConfig;
 import org.fossasia.openevent.R;
+import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Event;
+import org.fossasia.openevent.data.Microlocation;
+import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.utils.ConstantStrings;
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.util.GeoPoint;
@@ -45,18 +54,20 @@ public class OSMapFragment extends Fragment {
     private View rootView;
 
     private Snackbar snackbar;
+
+    private SharedPreferences sharedPreferences;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         OpenStreetMapTileProviderConstants.setUserAgentValue(BuildConfig.APPLICATION_ID);
-
-        setHasOptionsMenu(true);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+//        setHasOptionsMenu(true);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        rootView = inflater.inflate(R.layout.fragment_map, null);
+        rootView = inflater.inflate(R.layout.fragment_map, container,false);
         return rootView;
     }
 
@@ -70,15 +81,39 @@ public class OSMapFragment extends Fragment {
         Resources resources = getContext().getResources();
         int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
         if (resourceId > 0) {
-            Toast.makeText(getActivity(), ""+resources.getDimensionPixelSize(resourceId), Toast.LENGTH_SHORT).show();
             zoomControls.setPadding(0, 0, 0, resources.getDimensionPixelSize(resourceId) + 4);
         }
         mapView.setBuiltInZoomControls(false);
         mapView.setMultiTouchControls(true);
-        Event event = DbSingleton.getInstance().getEventDetails();
-        setDestinationLatitude(event.getLatitude());
-        setDestinationLongitude(event.getLongitude());
-        setDestinationName(event.getLocationName());
+
+        try{
+            int id = sharedPreferences.getInt(ConstantStrings.SESSION_MAP_ID,-1);
+            if(id != -1){
+                Session session =  DbSingleton.getInstance().getSessionById(id);
+                int location_id = session.getMicrolocation().getId();
+                Microlocation microlocation =  DbSingleton.getInstance().getMicrolocationById(location_id);
+                if (microlocation.getLatitude() == 0 && microlocation.getLongitude() == 0) {
+                    Event event = DbSingleton.getInstance().getEventDetails();
+                    setDestinationLatitude(event.getLatitude());
+                    setDestinationLongitude(event.getLongitude());
+                    setDestinationName(event.getLocationName());
+                } else {
+                    setDestinationLatitude(microlocation.getLatitude());
+                    setDestinationLongitude(microlocation.getLongitude());
+                    setDestinationName(microlocation.getName());
+                }
+            } else{
+                Event event = DbSingleton.getInstance().getEventDetails();
+                setDestinationLatitude(event.getLatitude());
+                setDestinationLongitude(event.getLongitude());
+                setDestinationName(event.getLocationName());
+            }
+        }catch (Exception e) {
+            Event event = DbSingleton.getInstance().getEventDetails();
+            setDestinationLatitude(event.getLatitude());
+            setDestinationLongitude(event.getLongitude());
+            setDestinationName(event.getLocationName());
+        }
         GeoPoint geoPoint = new GeoPoint(getDestinationLatitude(), getDestinationLongitude());
         mapView.getController().setCenter(geoPoint);
         mapView.getController().setZoom(17);
@@ -150,10 +185,11 @@ public class OSMapFragment extends Fragment {
 
     }
 
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//
-//    }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
+        inflater.inflate(R.menu.menu_map,menu);
+    }
 
     @Override
     public void onDestroy() {
@@ -165,12 +201,18 @@ public class OSMapFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        /*switch (item.getItemId()) {
-            case R.id.directions:
-                launchDirections();
-                return true;
-        }*/
-        return false;
+        switch (item.getItemId()) {
+            case R.id.share_map_url:
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.putExtra(Intent.EXTRA_TEXT, Urls.WEB_APP_URL_BASIC + Urls.MAP);
+                intent.putExtra(Intent.EXTRA_SUBJECT, "Sharing URL");
+                intent.setType("text/plain");
+                startActivity(Intent.createChooser(intent, "Share URL"));
+                break;
+            default:
+                //do nothing
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 //    private void launchDirections() {

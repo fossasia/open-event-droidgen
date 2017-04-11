@@ -280,7 +280,7 @@ class Generator:
             self.update_status('Package signed.')
         elif 'zipaligning' in output_line:
             self.update_status('Verifying the package.')
-        elif 'Verification succesful' in output_line:
+        elif 'Verification successful' in output_line:
             self.update_status('Package verified.')
         elif output_line == 'done':
             self.update_status('Application has been generated. Please wait.')

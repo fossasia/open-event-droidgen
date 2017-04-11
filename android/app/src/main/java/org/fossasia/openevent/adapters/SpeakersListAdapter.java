@@ -3,6 +3,7 @@ package org.fossasia.openevent.adapters;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -16,7 +17,6 @@ import com.squareup.picasso.Picasso;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.activities.SpeakerDetailsActivity;
-import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.dbutils.DbSingleton;
 
@@ -26,6 +26,9 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
 import static org.fossasia.openevent.utils.SortOrder.sortOrderSpeaker;
@@ -37,6 +40,7 @@ import static org.fossasia.openevent.utils.SortOrder.sortOrderSpeaker;
 public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakersListAdapter.RecyclerViewHolder> {
 
     private Activity activity;
+    private CompositeDisposable disposable;
 
     @SuppressWarnings("all")
     Filter filter = new Filter() {
@@ -75,6 +79,19 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakersListAdap
     }
 
     @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        disposable = new CompositeDisposable();
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
+        if(disposable != null && !disposable.isDisposed())
+            disposable.dispose();
+    }
+
+    @Override
     public Filter getFilter() {
         return filter;
     }
@@ -91,16 +108,13 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakersListAdap
     public void onBindViewHolder(RecyclerViewHolder holder, final int position) {
         final Speaker current = getItem(position);
 
-        String photoUri = Urls.getBaseUrl() + current.getPhoto();
-        Uri uri = Uri.parse(photoUri);
-
         Picasso.with(holder.speakerImage.getContext())
-                .load(uri)
-                .placeholder(R.drawable.ic_account_circle_grey_24dp)
+                .load(Uri.parse(current.getThumbnail()))
+                .placeholder(VectorDrawableCompat.create(activity.getResources(), R.drawable.ic_account_circle_grey_24dp, null))
                 .into(holder.speakerImage);
 
         holder.speakerName.setText(TextUtils.isEmpty(current.getName()) ? "" : current.getName());
-        holder.speakerDesignation.setText(String.format("%s%s", current.getPosition(), current.getOrganisation()));
+        holder.speakerDesignation.setText(String.format("%s %s", current.getPosition(), current.getOrganisation()));
         holder.speakerCountry.setText(String.format("%s", current.getCountry()));
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -116,10 +130,16 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakersListAdap
 
     public void refresh() {
         clear();
-        animateTo(DbSingleton.getInstance().getSpeakerList(sortOrderSpeaker(activity)));
+        disposable.add(DbSingleton.getInstance().getSpeakerListObservable(sortOrderSpeaker(activity))
+                .subscribe(new Consumer<List<Speaker>>() {
+                    @Override
+                    public void accept(@NonNull List<Speaker> speakers) throws Exception {
+                        animateTo(speakers);
+                    }
+                }));
     }
 
-    protected class RecyclerViewHolder extends RecyclerView.ViewHolder {
+    class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.speakers_list_image)
         ImageView speakerImage;
@@ -133,7 +153,7 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakersListAdap
         @BindView(R.id.speakers_list_country)
         TextView speakerCountry;
 
-        public RecyclerViewHolder(View itemView) {
+        RecyclerViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }

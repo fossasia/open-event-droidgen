@@ -3,6 +3,7 @@ package org.fossasia.openevent.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +14,12 @@ import org.fossasia.openevent.R;
 import org.fossasia.openevent.activities.SessionDetailActivity;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Track;
+import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.ISO8601Date;
 import org.fossasia.openevent.utils.SortOrder;
+import org.fossasia.openevent.views.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,22 +27,27 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
 /**
  * Created by Manan Wason on 17/06/16.
  */
-public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapter.DayScheduleViewHolder> {
+public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapter.DayScheduleViewHolder> implements StickyRecyclerHeadersAdapter {
 
     private Context context;
     private String eventDate;
+
+    private CompositeDisposable disposable;
 
     @SuppressWarnings("all")
     Filter filter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             DbSingleton instance = DbSingleton.getInstance();
-            List<Session> sessionList = instance.getSessionbyDate(eventDate, SortOrder.sortOrderSchedule(context));
+            List<Session> sessionList = instance.getSessionsByDate(eventDate, SortOrder.sortOrderSchedule(context));
             final ArrayList<Session> filteredSessionsList = new ArrayList<>();
             String query = constraint.toString().toLowerCase(Locale.getDefault());
             for (Session session : sessionList) {
@@ -84,27 +92,62 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
         String endTime = ISO8601Date.get12HourTime(ISO8601Date.getDateObject(currentSession.getEndTime()));
 
         holder.startTime.setText(startTime);
+        holder.endTime.setText(endTime);
         holder.slotTitle.setText(currentSession.getTitle());
-        holder.timings.setText(String.format("%s - %s", startTime, endTime));
+        if (currentSession.getSummary().isEmpty()) {
+            holder.slotDescription.setVisibility(View.GONE);
+        } else {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                holder.slotDescription.setText(Html.fromHtml(currentSession.getSummary(), Html.FROM_HTML_MODE_LEGACY));
+            } else {
+                holder.slotDescription.setText(Html.fromHtml(currentSession.getSummary()));
+            }
+        }
+        holder.slotLocation.setText(currentSession.getMicrolocation().getName());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String sessionName = currentSession.getTitle();
-                Track track = DbSingleton.getInstance().getTrackbyId(currentSession.getTrack().getId());
-                String trackName = track.getName();
-                Intent intent = new Intent(context, SessionDetailActivity.class);
-                intent.putExtra(ConstantStrings.SESSION, sessionName);
-                intent.putExtra(ConstantStrings.TRACK, trackName);
-                intent.putExtra(ConstantStrings.ID, currentSession.getId());
-                context.startActivity(intent);
+                final String sessionName = currentSession.getTitle();
+
+                disposable.add(DbSingleton.getInstance().getTrackByIdObservable(currentSession.getTrack().getId())
+                        .subscribe(new Consumer<Track>() {
+                            @Override
+                            public void accept(@NonNull Track track) throws Exception {
+                                String trackName = track.getName();
+                                Intent intent = new Intent(context, SessionDetailActivity.class);
+                                intent.putExtra(ConstantStrings.SESSION, sessionName);
+                                intent.putExtra(ConstantStrings.TRACK, trackName);
+                                intent.putExtra(ConstantStrings.ID, currentSession.getId());
+                                context.startActivity(intent);
+                            }
+                        }));
             }
         });
     }
 
     public void refresh() {
         clear();
-        animateTo(DbSingleton.getInstance().getSessionbyDate(eventDate, SortOrder.sortOrderSchedule(context)));
+        disposable.add(DbSingleton.getInstance().getSessionsByDateObservable(eventDate, SortOrder.sortOrderSchedule(context))
+                .subscribe(new Consumer<ArrayList<Session>>() {
+                    @Override
+                    public void accept(@NonNull ArrayList<Session> sessions) throws Exception {
+                        animateTo(sessions);
+                    }
+                }));
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        disposable = new CompositeDisposable();
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
+        if(disposable != null && !disposable.isDisposed())
+            disposable.dispose();
     }
 
     @Override
@@ -112,18 +155,56 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
         return filter;
     }
 
-    protected class DayScheduleViewHolder extends RecyclerView.ViewHolder {
+    @Override
+    public long getHeaderId(int position) {
+        String id = "";
+        if (SortOrder.sortOrderSchedule(context).equals(DbContract.Sessions.TITLE)) {
+            return getItem(position).getTitle().charAt(0);
+        } else if (SortOrder.sortOrderSchedule(context).equals(DbContract.Sessions.START_TIME)) {
+            id = ISO8601Date.get24HourTime(ISO8601Date.getDateObject(getItem(position).getStartTime()));
+            id = id.replace(":", "");
+            id = id.replace(" ", "");
+        }
+        return Long.valueOf(id);
+    }
 
-        @BindView(R.id.start_time)
+    @Override
+    public RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.recycler_view_header, parent, false);
+        return new RecyclerView.ViewHolder(view) {};
+    }
+
+    @Override
+    public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
+        TextView textView = (TextView) holder.itemView.findViewById(R.id.recyclerview_view_header);
+        
+        if (SortOrder.sortOrderSchedule(context).equals(DbContract.Sessions.TITLE)) {
+            textView.setText(String.valueOf(getItem(position).getTitle().charAt(0)));
+        } else if (SortOrder.sortOrderSchedule(context).equals(DbContract.Sessions.START_TIME)) {
+            textView.setText(ISO8601Date.get12HourTime(ISO8601Date.getDateObject(getItem(position).getStartTime())));
+        }
+    }
+
+    class DayScheduleViewHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.slot_start_time)
         TextView startTime;
+
+        @BindView(R.id.slot_end_time)
+        TextView endTime;
 
         @BindView(R.id.slot_title)
         TextView slotTitle;
 
-        @BindView(R.id.timings)
-        TextView timings;
+        @BindView(R.id.slot_description)
+        TextView slotDescription;
 
-        public DayScheduleViewHolder(View itemView) {
+        @BindView(R.id.slot_location)
+        TextView slotLocation;
+
+
+        DayScheduleViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }

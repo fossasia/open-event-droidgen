@@ -79,15 +79,19 @@ public final class ISO8601Date {
         return dateFormat.format(date);
     }
 
+    public static  String getDate(final Date date) {
+       SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMM d, yyyy", Locale.getDefault());
+        dateFormat.setTimeZone(getEventTimezone());
+        return dateFormat.format(date);
+    }
+
 
     public static Date getDateObject(final String iso8601String) {
         setEventTimezone();
-        StringBuilder s = new StringBuilder();
-        s.append(iso8601String).append("Z");
-        String final1 = s.toString();
+        String final1 = iso8601String + "Z";
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault());
-        format.setTimeZone(TimeZone.getTimeZone("GMT"));
+        format.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
 
         Date date = null;
         try {

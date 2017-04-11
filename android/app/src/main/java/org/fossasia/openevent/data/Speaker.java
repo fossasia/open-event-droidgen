@@ -4,7 +4,6 @@ import android.database.DatabaseUtils;
 
 import com.google.gson.annotations.SerializedName;
 
-import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.utils.StringUtils;
 
@@ -24,8 +23,10 @@ public class Speaker {
 
     private String photo;
 
-    @SerializedName("long_biography")
-    private String bio;
+    private String thumbnail;
+
+    @SerializedName("short_biography")
+    private String shortBiography;
 
     private String email;
 
@@ -48,23 +49,25 @@ public class Speaker {
 
     private String country;
 
-    public Speaker(int id, String name, String photo,
-                   String bio, String email, String web,
+    public Speaker(int id, String name, String photo, String thumbnail,
+                   String shortBiography, String email, String website,
                    String twitter, String facebook, String github,
-                   String linkedin, String organisation,
-                   String position, int[] session, String country) {
+                   String linkedin, String organisation, String position,
+                   ArrayList<Session> sessionArrayList, String country) {
         this.id = id;
         this.name = name;
-        this.photo = Urls.BASE_URL + photo;
-        this.bio = bio;
+        this.photo = photo;
+        this.thumbnail = thumbnail;
+        this.shortBiography = shortBiography;
         this.email = email;
-        this.website = web;
+        this.website = website;
         this.twitter = twitter;
         this.facebook = facebook;
         this.github = github;
         this.linkedin = linkedin;
         this.organisation = organisation;
         this.position = position;
+        this.sessionArrayList = sessionArrayList;
         this.country = country;
     }
 
@@ -92,12 +95,20 @@ public class Speaker {
         this.photo = photo;
     }
 
-    public String getBio() {
-        return bio;
+    public String getThumbnail() {
+        return thumbnail;
     }
 
-    public void setBio(String bio) {
-        this.bio = bio;
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
+    }
+
+    public String getShortBiography() {
+        return shortBiography;
+    }
+
+    public void setShortBiography(String shortBiography) {
+        this.shortBiography = shortBiography;
     }
 
     public String getEmail() {
@@ -181,14 +192,15 @@ public class Speaker {
     }
 
     public String generateSql() {
-        String query_normal = "INSERT INTO %s VALUES ('%d', %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);";
+        String query_normal = "INSERT INTO %s VALUES ('%d', %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);";
         return String.format(Locale.ENGLISH,
                 query_normal,
                 DbContract.Speakers.TABLE_NAME,
                 id,
                 DatabaseUtils.sqlEscapeString(StringUtils.optionalString(name)),
                 DatabaseUtils.sqlEscapeString(StringUtils.optionalString(photo)),
-                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(bio)),
+                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(thumbnail)),
+                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(shortBiography)),
                 DatabaseUtils.sqlEscapeString(StringUtils.optionalString(email)),
                 DatabaseUtils.sqlEscapeString(StringUtils.optionalString(website)),
                 DatabaseUtils.sqlEscapeString(StringUtils.optionalString(facebook)),

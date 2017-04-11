@@ -23,6 +23,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         Timber.i("Activity onCreate: total instances %d", ++count);
         super.onCreate(savedInstanceState);
+        getWindow().setBackgroundDrawable(null);
 
         setContentView(getLayoutResource());
         ButterKnife.bind(this);

@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -41,9 +42,14 @@ import org.fossasia.openevent.utils.NetworkUtils;
 import org.fossasia.openevent.utils.ShowNotificationSnackBar;
 import org.fossasia.openevent.views.MarginDecoration;
 
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
 import static org.fossasia.openevent.utils.SortOrder.sortOrderSpeaker;
@@ -60,7 +66,10 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
     @BindView(R.id.txt_no_speakers)  TextView noSpeakersView;
     @BindView(R.id.rv_speakers) RecyclerView speakersRecyclerView;
 
+    private List<Speaker> mSpeakers = new ArrayList<>();
     private SpeakersListAdapter speakersListAdapter;
+
+    private GridLayoutManager gridLayoutManager;
 
     private String searchText = "";
 
@@ -68,11 +77,11 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
 
     private int sortType;
 
-    private Snackbar snackbar;
     private Toolbar toolbar;
     private AppBarLayout.LayoutParams layoutParams;
     private int SCROLL_OFF = 0;
-    private int spanCount = 2;
+
+    private CompositeDisposable compositeDisposable;
 
     @Nullable
     @Override
@@ -82,22 +91,23 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
         OpenEventApp.getEventBus().register(this);
+        compositeDisposable = new CompositeDisposable();
 
         final DbSingleton dbSingleton = DbSingleton.getInstance();
-        final List<Speaker> mSpeakers = dbSingleton.getSpeakerList(sortOrderSpeaker(getActivity()));
+
         prefsSort = PreferenceManager.getDefaultSharedPreferences(getActivity());
         sortType = prefsSort.getInt(PREF_SORT, 0);
 
         //setting the grid layout to cut-off white space in tablet view
         DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
         float width = displayMetrics.widthPixels / displayMetrics.density;
-        int spanCount = (int) (width/150.00);
+        final int spanCount = (int) (width/150.00);
 
         speakersRecyclerView.addItemDecoration(new MarginDecoration(getContext()));
         speakersRecyclerView.setHasFixedSize(true);
         speakersListAdapter = new SpeakersListAdapter(mSpeakers, getActivity());
         speakersRecyclerView.setAdapter(speakersListAdapter);
-        final GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),spanCount);
+        gridLayoutManager = new GridLayoutManager(getActivity(), spanCount);
         speakersRecyclerView.setLayoutManager(gridLayoutManager);
         speakersRecyclerView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
@@ -122,6 +132,39 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
         if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
             searchText = savedInstanceState.getString(SEARCH);
         }
+
+        //scrollup shows actionbar
+        speakersRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if(dy < 0){
+                    AppBarLayout appBarLayout;
+                    appBarLayout = (AppBarLayout) getActivity().findViewById(R.id.appbar);
+                    appBarLayout.setExpanded(true);
+                }
+            }
+        });
+
+        compositeDisposable.add(dbSingleton.getSpeakerListObservable(sortOrderSpeaker(getActivity()))
+                .subscribe(new Consumer<List<Speaker>>() {
+                    @Override
+                    public void accept(@NonNull List<Speaker> speakers) throws Exception {
+                        mSpeakers.clear();
+                        mSpeakers.addAll(speakers);
+
+                        speakersListAdapter.notifyDataSetChanged();
+
+                        handleVisibility();
+                    }
+                }));
+
+        handleVisibility();
+
+        return view;
+    }
+
+    private void handleVisibility() {
         if (!mSpeakers.isEmpty()) {
             noSpeakersView.setVisibility(View.GONE);
             speakersRecyclerView.setVisibility(View.VISIBLE);
@@ -129,7 +172,6 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
             noSpeakersView.setVisibility(View.VISIBLE);
             speakersRecyclerView.setVisibility(View.GONE);
         }
-        return view;
     }
 
     @Override
@@ -141,6 +183,8 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
     public void onDestroyView() {
         super.onDestroyView();
         OpenEventApp.getEventBus().unregister(this);
+        if(compositeDisposable != null && !compositeDisposable.isDisposed())
+            compositeDisposable.dispose();
         layoutParams.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL);
         toolbar.setLayoutParams(layoutParams);
     }
@@ -198,33 +242,51 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
         searchView.setQuery(searchText, false);
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
+        float width = displayMetrics.widthPixels / displayMetrics.density;
+        int spanCount = (int) (width / 150.00);
+        gridLayoutManager.setSpanCount(spanCount);
+    }
+
     @Subscribe
     public void speakerDownloadDone(SpeakerDownloadEvent event) {
+        if(swipeRefreshLayout == null)
+            return;
+
         swipeRefreshLayout.setRefreshing(false);
         if (event.isState()) {
-            speakersListAdapter.refresh();
+            if (!searchView.getQuery().toString().isEmpty() && !searchView.isIconified()) {
+                speakersListAdapter.getFilter().filter(searchView.getQuery());
+            } else {
+                speakersListAdapter.refresh();
+            }
             Timber.i("Speaker download completed");
         } else {
-            if (getActivity() != null) {
-                Snackbar.make(getView(), getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        refresh();
-                    }
-                }).show();
-            }
+            Snackbar.make(swipeRefreshLayout, getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    refresh();
+                }
+            }).show();
             Timber.i("Speaker download failed.");
         }
     }
 
     private void refresh() {
-        if (NetworkUtils.haveNetworkConnection(getActivity())) {
-            if (NetworkUtils.isActiveInternetPresent()) {
+        NetworkUtils.checkConnection(new WeakReference<>(getContext()), new NetworkUtils.NetworkStateReceiverListener() {
+            @Override
+            public void activeConnection() {
                 //Internet is working
                 DataDownloadManager.getInstance().downloadSpeakers();
-            } else {
+            }
+
+            @Override
+            public void inactiveConnection() {
                 //set is refreshing false as let user to login
-                if (swipeRefreshLayout.isRefreshing()) {
+                if (swipeRefreshLayout != null && swipeRefreshLayout.isRefreshing()) {
                     swipeRefreshLayout.setRefreshing(false);
                 }
                 //Device is connected to WI-FI or Mobile Data but Internet is not working
@@ -235,13 +297,21 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
                     }
                 };
                 //show snackbar will be useful if user have blocked notification for this app
-                snackbar = showNotificationSnackBar.showSnackBar();
-                //show notification
+                showNotificationSnackBar.showSnackBar();
+                //show notification (Only when connected to WiFi)
                 showNotificationSnackBar.buildNotification();
             }
-        } else {
-            OpenEventApp.getEventBus().post(new SpeakerDownloadEvent(false));
-        }
+
+            @Override
+            public void networkAvailable() {
+                // Network is available but we need to wait for activity
+            }
+
+            @Override
+            public void networkUnavailable() {
+                OpenEventApp.getEventBus().post(new SpeakerDownloadEvent(false));
+            }
+        });
     }
 
     @Override

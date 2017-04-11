@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import org.fossasia.openevent.activities.TrackSessionsActivity;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.ConstantStrings;
+import org.fossasia.openevent.views.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,17 +28,22 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
 /**
  * User: MananWason
  * Date: 07-06-2015
  */
-public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.RecyclerViewHolder> {
+public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.RecyclerViewHolder> implements StickyRecyclerHeadersAdapter {
 
     private Context context;
     private ColorGenerator colorGenerator = ColorGenerator.MATERIAL;
     private TextDrawable.IBuilder drawableBuilder = TextDrawable.builder().round();
+    private CompositeDisposable disposable;
+
     @SuppressWarnings("all")
     Filter filter = new Filter() {
         @Override
@@ -70,6 +77,19 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.Re
     }
 
     @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        disposable = new CompositeDisposable();
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
+        if(disposable != null && !disposable.isDisposed())
+            disposable.dispose();
+    }
+
+    @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.item_track, parent, false);
@@ -81,7 +101,11 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.Re
         final Track currentTrack = getItem(position);
 
         holder.trackTitle.setText(currentTrack.getName());
-        holder.trackDescription.setText(currentTrack.getDescription());
+        if(!TextUtils.isEmpty(currentTrack.getDescription())) {
+            holder.trackDescription.setText(currentTrack.getDescription());
+        } else {
+            holder.trackDescription.setVisibility(View.GONE);
+        }
 
         TextDrawable drawable = drawableBuilder.build(String.valueOf(currentTrack.getName().charAt(0)), colorGenerator.getColor(currentTrack.getName()));
         holder.trackImageIcon.setImageDrawable(drawable);
@@ -101,7 +125,13 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.Re
     public void refresh() {
         Timber.d("Refreshing tracks from db");
         clear();
-        animateTo(DbSingleton.getInstance().getTrackList());
+        disposable.add(DbSingleton.getInstance().getTrackListObservable()
+                .subscribe(new Consumer<List<Track>>() {
+                    @Override
+                    public void accept(@NonNull List<Track> tracks) throws Exception {
+                        animateTo(tracks);
+                    }
+                }));
     }
 
     @Override
@@ -109,7 +139,25 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.Re
         return filter;
     }
 
-    protected class RecyclerViewHolder extends RecyclerView.ViewHolder {
+    @Override
+    public long getHeaderId(int position) {
+        return getItem(position).getName().charAt(0);
+    }
+
+    @Override
+    public RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.recycler_view_header, parent, false);
+        return new RecyclerView.ViewHolder(view) {};
+    }
+
+    @Override
+    public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
+        TextView textView = (TextView) holder.itemView.findViewById(R.id.recyclerview_view_header);
+        textView.setText(String.valueOf(getItem(position).getName().charAt(0)));
+    }
+
+    class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.imageView)
         ImageView trackImageIcon;
@@ -120,7 +168,7 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.Re
         @BindView(R.id.track_description)
         TextView trackDescription;
 
-        public RecyclerViewHolder(View itemView) {
+        RecyclerViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }

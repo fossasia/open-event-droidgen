@@ -63,6 +63,32 @@ public class DbContract {
 
 
     }
+    public static abstract class SocialLink implements BaseColumns {
+        public static final String TABLE_NAME = "sociallinks";
+
+        public static final String NAME = "name";
+
+        public static final String LINK = "link";
+
+        public static final String ID = "id";
+
+        public static final String[] FULL_PROJECTION = {
+                LINK,
+                ID,
+                NAME
+        };
+
+        public static final String CREATE_TABLE =
+                "CREATE TABLE " + TABLE_NAME
+                        + " ("
+                        + LINK + TEXT_TYPE + COMMA_SEP
+                        + ID + TEXT_TYPE + COMMA_SEP
+                        + NAME + TEXT_TYPE
+                        + " );";
+        public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
+
+
+    }
 
     public static abstract class Speakers implements BaseColumns {
         public static final String TABLE_NAME = "speakers";
@@ -73,7 +99,9 @@ public class DbContract {
 
         public static final String PHOTO = "photo";
 
-        public static final String BIO = "bio";
+        public static final String THUMBNAIL = "thumbnail";
+
+        public static final String BIO = "shortBiography";
 
         public static final String EMAIL = "email";
 
@@ -97,6 +125,7 @@ public class DbContract {
                 ID,
                 NAME,
                 PHOTO,
+                THUMBNAIL,
                 BIO,
                 EMAIL,
                 WEB,
@@ -115,6 +144,7 @@ public class DbContract {
                         + ID + INT_TYPE + PRIMARY_KEY + COMMA_SEP
                         + NAME + TEXT_TYPE + COMMA_SEP
                         + PHOTO + TEXT_TYPE + COMMA_SEP
+                        + THUMBNAIL + TEXT_TYPE + COMMA_SEP
                         + BIO + TEXT_TYPE + COMMA_SEP
                         + EMAIL + TEXT_TYPE + COMMA_SEP
                         + WEB + TEXT_TYPE + COMMA_SEP
@@ -152,32 +182,6 @@ public class DbContract {
                         + _ID + INT_TYPE + PRIMARY_KEY + COMMA_SEP
                         + SESSION_ID + INT_TYPE + COMMA_SEP
                         + SPEAKER_ID + INT_TYPE
-                        + " );";
-
-        public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
-    }
-
-    public static abstract class ServerSessionIdMapping implements BaseColumns {
-        public static final String TABLE_NAME = "serversessionid";
-
-        public static final String _ID = "_id";
-
-        public static final String SERVER_ID = "serverid";
-
-        public static final String LOCAL_ID = "localid";
-
-
-        public static final String[] FULL_PROJECTION = {
-                SERVER_ID,
-                LOCAL_ID
-        };
-
-        public static final String CREATE_TABLE =
-                "CREATE TABLE IF NOT EXISTS " + TABLE_NAME
-                        + " ("
-                        + _ID + INT_TYPE + PRIMARY_KEY + COMMA_SEP
-                        + SERVER_ID + INT_TYPE + COMMA_SEP
-                        + LOCAL_ID + INT_TYPE
                         + " );";
 
         public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
@@ -404,6 +408,10 @@ public class DbContract {
 
         public static final String TIMEZONE = "timezone";
 
+        public static final String DESCRIPTION = "description";
+
+        public static final String ORG_DESCRIPTION = "organizer_description";
+
         public static final String[] FULL_PROJECTION = {
                 ID,
                 NAME,
@@ -415,7 +423,9 @@ public class DbContract {
                 LONGITUDE,
                 LOCATION_NAME,
                 EVENT_URL,
-                TIMEZONE
+                TIMEZONE,
+                DESCRIPTION,
+                ORG_DESCRIPTION
         };
 
         public static final String CREATE_TABLE =
@@ -431,7 +441,9 @@ public class DbContract {
                         + LONGITUDE + REAL_TYPE + COMMA_SEP
                         + LOCATION_NAME + TEXT_TYPE + COMMA_SEP
                         + EVENT_URL + TEXT_TYPE + COMMA_SEP
-                        + TIMEZONE + TEXT_TYPE
+                        + TIMEZONE + TEXT_TYPE + COMMA_SEP
+                        + DESCRIPTION + TEXT_TYPE + COMMA_SEP
+                        + ORG_DESCRIPTION + TEXT_TYPE
                         + " );";
 
         public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;

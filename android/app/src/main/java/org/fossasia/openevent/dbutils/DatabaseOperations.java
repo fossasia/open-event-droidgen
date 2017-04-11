@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import org.fossasia.openevent.data.Event;
 import org.fossasia.openevent.data.Session;
+import org.fossasia.openevent.data.SocialLink;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Sponsor;
 import org.fossasia.openevent.data.Version;
@@ -23,28 +24,31 @@ import timber.log.Timber;
  * Created by MananWason on 24-06-2015.
  */
 public class DatabaseOperations {
-    public static final String TAG=DatabaseOperations.class.getSimpleName();
+
+    public static final String TAG = DatabaseOperations.class.getSimpleName();
+
     private static final String ASCENDING = " ASC";
 
-//    private static final String DESCENDING = " DESC";
-//
-//    private static final String SELECT_ALL = "SELECT * FROM ";
-//
-//    private static final String WHERE = " WHERE ";
+    private static final String DESCENDING = " DESC";
+
+    //private static final String SELECT_ALL = "SELECT * FROM ";
+
+    //private static final String WHERE = " WHERE ";
 
     private static final String EQUAL = " == ";
 
-//    private static final String LIKE = " LIKE ";
+    //private static final String LIKE = " LIKE ";
 
     private static final String ORDERBY = " ORDER BY ";
 
-    private static final String IN= " IN ";
+    private static final String IN = " IN ";
 
     private Event event;
 
-    public ArrayList<Session> getSessionList(SQLiteDatabase mDb) {
+    ArrayList<Session> getSessionList(SQLiteDatabase mDb) {
 
         String sortOrder = DbContract.Sessions.ID + ASCENDING;
+
         Cursor cur = mDb.query(
                 DbContract.Sessions.TABLE_NAME,
                 DbContract.Sessions.FULL_PROJECTION,
@@ -58,40 +62,47 @@ public class DatabaseOperations {
         ArrayList<Session> sessions = new ArrayList<>();
         Session s;
 
-        cur.moveToFirst();
-        while (!cur.isAfterLast()) {
-            try {
-                int microlocationId = cur.getInt(cur.getColumnIndex(DbContract.Sessions.MICROLOCATION));
-                Microlocation microlocation = new Microlocation(microlocationId, getMicroLocationById(microlocationId, mDb).getName());
-                int trackId = cur.getInt(cur.getColumnIndex(DbContract.Sessions.TRACK));
-                Track track = new Track(trackId, getTracksbyTracksId(trackId, mDb).getName());
+        if (cur != null && cur.moveToFirst()) {
+            while (!cur.isAfterLast()) {
+                try {
+                    int microlocationId = cur.getInt(cur.getColumnIndex(DbContract.Sessions.MICROLOCATION));
+                    // TODO: Look for more elegent way to solve microlocation being null problem
+                    Microlocation microlocation;
+                    if (microlocationId != 0) {
+                        microlocation = new Microlocation(microlocationId, getMicrolocationById(microlocationId, mDb).getName());
+                    } else {
+                        microlocation = new Microlocation(0, "Not decided yet");
+                    }
+                    int trackId = cur.getInt(cur.getColumnIndex(DbContract.Sessions.TRACK));
+                    Track track = new Track(trackId, getTrackByTrackId(trackId, mDb).getName());
 
-                s = new Session(
-                        cur.getInt(cur.getColumnIndex(DbContract.Sessions.ID)),
-                        cur.getString(cur.getColumnIndex(DbContract.Sessions.TITLE)),
-                        cur.getString(cur.getColumnIndex(DbContract.Sessions.SUBTITLE)),
-                        cur.getString(cur.getColumnIndex(DbContract.Sessions.SUMMARY)),
-                        cur.getString(cur.getColumnIndex(DbContract.Sessions.DESCRIPTION)),
-                        cur.getString(cur.getColumnIndex(DbContract.Sessions.START_TIME)),
-                        cur.getString(cur.getColumnIndex(DbContract.Sessions.END_TIME)),
-                        cur.getString(cur.getColumnIndex(DbContract.Sessions.START_DATE)),
-                        cur.getString(cur.getColumnIndex(DbContract.Sessions.TYPE)),
-                        track,
-                        cur.getString(cur.getColumnIndex(DbContract.Sessions.LEVEL)),
-                        microlocation
+                    s = new Session(
+                            cur.getInt(cur.getColumnIndex(DbContract.Sessions.ID)),
+                            cur.getString(cur.getColumnIndex(DbContract.Sessions.TITLE)),
+                            cur.getString(cur.getColumnIndex(DbContract.Sessions.SUBTITLE)),
+                            cur.getString(cur.getColumnIndex(DbContract.Sessions.SUMMARY)),
+                            cur.getString(cur.getColumnIndex(DbContract.Sessions.DESCRIPTION)),
+                            cur.getString(cur.getColumnIndex(DbContract.Sessions.START_TIME)),
+                            cur.getString(cur.getColumnIndex(DbContract.Sessions.END_TIME)),
+                            cur.getString(cur.getColumnIndex(DbContract.Sessions.START_DATE)),
+                            cur.getString(cur.getColumnIndex(DbContract.Sessions.TYPE)),
+                            track,
+                            cur.getString(cur.getColumnIndex(DbContract.Sessions.LEVEL)),
+                            microlocation
 
-                );
-                sessions.add(s);
-            } catch (ParseException e) {
-                Timber.e("Parsing Error Occurred at DatabaseOperations::getSessionList.");
+                    );
+                    sessions.add(s);
+                } catch (ParseException e) {
+                    Timber.e("Parsing Error Occurred at DatabaseOperations::getSessionList.");
+                }
+                cur.moveToNext();
             }
-            cur.moveToNext();
+            cur.close();
         }
-        cur.close();
         return sessions;
     }
 
-    public Session getSessionById(int id, SQLiteDatabase mDb) {
+    Session getSessionById(int id, SQLiteDatabase mDb) {
         String selection = DbContract.Sessions.ID + EQUAL + id;
         Cursor cursor = mDb.query(
                 DbContract.Sessions.TABLE_NAME,
@@ -103,37 +114,42 @@ public class DatabaseOperations {
                 null
         );
         Session session = null;
-        cursor.moveToFirst();
-        //Should return only one due to UNIQUE constraint
-        try {
-            int microlocationId = cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.MICROLOCATION));
-            Microlocation microlocation = new Microlocation(microlocationId, getMicroLocationById(microlocationId, mDb).getName());
-            int trackId = cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.TRACK));
-            Track track = new Track(trackId, getTracksbyTracksId(trackId, mDb).getName());
+        if (cursor != null && cursor.moveToFirst()) {
+            //Should return only one due to UNIQUE constraint
+            try {
+                int microlocationId = cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.MICROLOCATION));
+                Microlocation microlocation;
+                if (microlocationId != 0) {
+                    microlocation = new Microlocation(microlocationId, getMicrolocationById(microlocationId, mDb).getName());
+                } else {
+                    microlocation = new Microlocation(0, "Not decided yet");
+                }
+                int trackId = cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.TRACK));
+                Track track = new Track(trackId, getTrackByTrackId(trackId, mDb).getName());
 
-            session = new Session(
-                    cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.ID)),
-                    cursor.getString(cursor.getColumnIndex(DbContract.Sessions.TITLE)),
-                    cursor.getString(cursor.getColumnIndex(DbContract.Sessions.SUBTITLE)),
-                    cursor.getString(cursor.getColumnIndex(DbContract.Sessions.SUMMARY)),
-                    cursor.getString(cursor.getColumnIndex(DbContract.Sessions.DESCRIPTION)),
-                    cursor.getString(cursor.getColumnIndex(DbContract.Sessions.START_TIME)),
-                    cursor.getString(cursor.getColumnIndex(DbContract.Sessions.END_TIME)),
-                    cursor.getString(cursor.getColumnIndex(DbContract.Sessions.START_DATE)),
-                    cursor.getString(cursor.getColumnIndex(DbContract.Sessions.TYPE)),
-                    track,
-                    cursor.getString(cursor.getColumnIndex(DbContract.Sessions.LEVEL)),
-                    microlocation
-            );
-        } catch (ParseException e) {
-            Timber.e("Parsing Error Occurred at DatabaseOperations::getSessionById.");
+                session = new Session(
+                        cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.ID)),
+                        cursor.getString(cursor.getColumnIndex(DbContract.Sessions.TITLE)),
+                        cursor.getString(cursor.getColumnIndex(DbContract.Sessions.SUBTITLE)),
+                        cursor.getString(cursor.getColumnIndex(DbContract.Sessions.SUMMARY)),
+                        cursor.getString(cursor.getColumnIndex(DbContract.Sessions.DESCRIPTION)),
+                        cursor.getString(cursor.getColumnIndex(DbContract.Sessions.START_TIME)),
+                        cursor.getString(cursor.getColumnIndex(DbContract.Sessions.END_TIME)),
+                        cursor.getString(cursor.getColumnIndex(DbContract.Sessions.START_DATE)),
+                        cursor.getString(cursor.getColumnIndex(DbContract.Sessions.TYPE)),
+                        track,
+                        cursor.getString(cursor.getColumnIndex(DbContract.Sessions.LEVEL)),
+                        microlocation
+                );
+            } catch (ParseException e) {
+                Timber.e("Parsing Error Occurred at DatabaseOperations::getSessionById.");
+            }
+            cursor.close();
         }
-        cursor.close();
-
         return session;
     }
 
-    public org.fossasia.openevent.data.Microlocation getMicroLocationById(int id, SQLiteDatabase mDb) {
+    org.fossasia.openevent.data.Microlocation getMicrolocationById(int id, SQLiteDatabase mDb) {
         String selection = DbContract.Microlocation.ID + EQUAL + id;
         Cursor cursor = mDb.query(
                 DbContract.Microlocation.TABLE_NAME,
@@ -146,25 +162,25 @@ public class DatabaseOperations {
         );
 
         org.fossasia.openevent.data.Microlocation location = null;
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
+        if (cursor != null && cursor.moveToFirst()) {
+            while (!cursor.isAfterLast()) {
 
-            //Should return only one due to UNIQUE constraint
-            location = new org.fossasia.openevent.data.Microlocation(
-                    cursor.getInt(cursor.getColumnIndex(DbContract.Microlocation.ID)),
-                    cursor.getString(cursor.getColumnIndex(DbContract.Microlocation.NAME)),
-                    cursor.getFloat(cursor.getColumnIndex(DbContract.Microlocation.LATITUDE)),
-                    cursor.getFloat(cursor.getColumnIndex(DbContract.Microlocation.LONGITUDE)),
-                    cursor.getInt(cursor.getColumnIndex(DbContract.Microlocation.FLOOR))
-            );
-            cursor.moveToNext();
+                //Should return only one due to UNIQUE constraint
+                location = new org.fossasia.openevent.data.Microlocation(
+                        cursor.getInt(cursor.getColumnIndex(DbContract.Microlocation.ID)),
+                        cursor.getString(cursor.getColumnIndex(DbContract.Microlocation.NAME)),
+                        cursor.getFloat(cursor.getColumnIndex(DbContract.Microlocation.LATITUDE)),
+                        cursor.getFloat(cursor.getColumnIndex(DbContract.Microlocation.LONGITUDE)),
+                        cursor.getInt(cursor.getColumnIndex(DbContract.Microlocation.FLOOR))
+                );
+                cursor.moveToNext();
+            }
+            cursor.close();
         }
-        cursor.close();
-
         return location;
     }
 
-    public List<Speaker> getSpeakerList(SQLiteDatabase mDb, String sortBy) {
+    List<Speaker> getSpeakerList(SQLiteDatabase mDb, String sortBy) {
 
         String sortOrder = sortBy + ASCENDING;
         Cursor cur = mDb.query(
@@ -181,33 +197,35 @@ public class DatabaseOperations {
         List<Speaker> speakers = new ArrayList<>();
         Speaker s;
 
-        cur.moveToFirst();
-        while (!cur.isAfterLast()) {
-            s = new Speaker(
-                    cur.getInt(cur.getColumnIndex(DbContract.Speakers.ID)),
-                    cur.getString(cur.getColumnIndex(DbContract.Speakers.NAME)),
-                    cur.getString(cur.getColumnIndex(DbContract.Speakers.PHOTO)),
-                    cur.getString(cur.getColumnIndex(DbContract.Speakers.BIO)),
-                    cur.getString(cur.getColumnIndex(DbContract.Speakers.EMAIL)),
-                    cur.getString(cur.getColumnIndex(DbContract.Speakers.WEB)),
-                    cur.getString(cur.getColumnIndex(DbContract.Speakers.TWITTER)),
-                    cur.getString(cur.getColumnIndex(DbContract.Speakers.FACEBOOK)),
-                    cur.getString(cur.getColumnIndex(DbContract.Speakers.GITHUB)),
-                    cur.getString(cur.getColumnIndex(DbContract.Speakers.LINKEDIN)),
-                    cur.getString(cur.getColumnIndex(DbContract.Speakers.ORGANISATION)),
-                    cur.getString(cur.getColumnIndex(DbContract.Speakers.POSITION)),
-                    null,
-                    cur.getString(cur.getColumnIndex(DbContract.Speakers.COUNTRY))
+        if (cur != null && cur.moveToFirst()) {
+            while (!cur.isAfterLast()) {
+                s = new Speaker(
+                        cur.getInt(cur.getColumnIndex(DbContract.Speakers.ID)),
+                        cur.getString(cur.getColumnIndex(DbContract.Speakers.NAME)),
+                        cur.getString(cur.getColumnIndex(DbContract.Speakers.PHOTO)),
+                        cur.getString(cur.getColumnIndex(DbContract.Speakers.THUMBNAIL)),
+                        cur.getString(cur.getColumnIndex(DbContract.Speakers.BIO)),
+                        cur.getString(cur.getColumnIndex(DbContract.Speakers.EMAIL)),
+                        cur.getString(cur.getColumnIndex(DbContract.Speakers.WEB)),
+                        cur.getString(cur.getColumnIndex(DbContract.Speakers.TWITTER)),
+                        cur.getString(cur.getColumnIndex(DbContract.Speakers.FACEBOOK)),
+                        cur.getString(cur.getColumnIndex(DbContract.Speakers.GITHUB)),
+                        cur.getString(cur.getColumnIndex(DbContract.Speakers.LINKEDIN)),
+                        cur.getString(cur.getColumnIndex(DbContract.Speakers.ORGANISATION)),
+                        cur.getString(cur.getColumnIndex(DbContract.Speakers.POSITION)),
+                        null,
+                        cur.getString(cur.getColumnIndex(DbContract.Speakers.COUNTRY))
 
-            );
-            speakers.add(s);
-            cur.moveToNext();
+                );
+                speakers.add(s);
+                cur.moveToNext();
+            }
+            cur.close();
         }
-        cur.close();
         return speakers;
     }
 
-    public Version getVersionIds(SQLiteDatabase mDb) {
+    Version getVersionIds(SQLiteDatabase mDb) {
 
         Cursor cursor = mDb.query(
                 DbContract.Versions.TABLE_NAME,
@@ -239,8 +257,36 @@ public class DatabaseOperations {
         }
     }
 
-    public List<org.fossasia.openevent.data.Track> getTrackList(SQLiteDatabase mDb) {
-        String sortOrder = DbContract.Tracks.ID + ASCENDING;
+    List<SocialLink> getSocialLink(SQLiteDatabase mDb) {
+
+        Cursor cursor = mDb.query(
+                DbContract.SocialLink.TABLE_NAME,
+                DbContract.SocialLink.FULL_PROJECTION,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+
+        List<SocialLink> socialLinks = new ArrayList<>();
+        SocialLink currentSocialLink;
+        if (cursor != null && cursor.moveToFirst()) {
+            while (!cursor.isAfterLast()) {
+                currentSocialLink = new SocialLink(
+                        cursor.getString(cursor.getColumnIndex(DbContract.SocialLink.LINK)),
+                        cursor.getString(cursor.getColumnIndex(DbContract.SocialLink.ID)),
+                        cursor.getString(cursor.getColumnIndex(DbContract.SocialLink.NAME)));
+                socialLinks.add(currentSocialLink);
+                cursor.moveToNext();
+            }
+            cursor.close();
+        }
+        return socialLinks;
+    }
+
+    List<org.fossasia.openevent.data.Track> getTrackList(SQLiteDatabase mDb) {
+        String sortOrder = DbContract.Tracks.NAME + ASCENDING;
         Cursor cursor = mDb.query(
                 DbContract.Tracks.TABLE_NAME,
                 DbContract.Tracks.FULL_PROJECTION,
@@ -253,24 +299,25 @@ public class DatabaseOperations {
         List<org.fossasia.openevent.data.Track> tracks = new ArrayList<>();
         org.fossasia.openevent.data.Track track;
 
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            track = new org.fossasia.openevent.data.Track(
-                    cursor.getInt(cursor.getColumnIndex(DbContract.Tracks.ID)),
-                    cursor.getString(cursor.getColumnIndex(DbContract.Tracks.NAME)),
-                    cursor.getString(cursor.getColumnIndex(DbContract.Tracks.DESCRIPTION)),
-                    cursor.getString(cursor.getColumnIndex(DbContract.Tracks.IMAGE))
-            );
-            tracks.add(track);
-            cursor.moveToNext();
+        if (cursor != null && cursor.moveToFirst()) {
+            while (!cursor.isAfterLast()) {
+                track = new org.fossasia.openevent.data.Track(
+                        cursor.getInt(cursor.getColumnIndex(DbContract.Tracks.ID)),
+                        cursor.getString(cursor.getColumnIndex(DbContract.Tracks.NAME)),
+                        cursor.getString(cursor.getColumnIndex(DbContract.Tracks.DESCRIPTION)),
+                        cursor.getString(cursor.getColumnIndex(DbContract.Tracks.IMAGE))
+                );
+                tracks.add(track);
+                cursor.moveToNext();
+            }
+            cursor.close();
         }
-        cursor.close();
         return tracks;
     }
 
 
-    public ArrayList<Sponsor> getSponsorList(SQLiteDatabase mDb) {
-        String sortOrder = DbContract.Sponsors.LEVEL + ASCENDING + ", " + DbContract.Sponsors.NAME + ASCENDING;
+    ArrayList<Sponsor> getSponsorList(SQLiteDatabase mDb) {
+        String sortOrder = DbContract.Sponsors.LEVEL + DESCENDING + ", " + DbContract.Sponsors.NAME + ASCENDING;
         Cursor cursor = mDb.query(
                 DbContract.Sponsors.TABLE_NAME,
                 DbContract.Sponsors.FULL_PROJECTION,
@@ -284,29 +331,29 @@ public class DatabaseOperations {
         ArrayList<Sponsor> sponsors = new ArrayList<>();
         Sponsor sponsor;
 
-        cursor.moveToFirst();
+        if (cursor != null && cursor.moveToFirst()) {
+            while (!cursor.isAfterLast()) {
+                sponsor = new Sponsor(
+                        cursor.getInt(cursor.getColumnIndex(DbContract.Sponsors.ID)),
+                        cursor.getString(cursor.getColumnIndex(DbContract.Sponsors.NAME)),
+                        cursor.getString(cursor.getColumnIndex(DbContract.Sponsors.URL)),
+                        cursor.getString(cursor.getColumnIndex(DbContract.Sponsors.LOGO_URL)),
+                        cursor.getString(cursor.getColumnIndex(DbContract.Sponsors.TYPE)),
+                        cursor.getInt(cursor.getColumnIndex(DbContract.Sponsors.LEVEL))
 
-        while (!cursor.isAfterLast()) {
-            sponsor = new Sponsor(
-                    cursor.getInt(cursor.getColumnIndex(DbContract.Sponsors.ID)),
-                    cursor.getString(cursor.getColumnIndex(DbContract.Sponsors.NAME)),
-                    cursor.getString(cursor.getColumnIndex(DbContract.Sponsors.URL)),
-                    cursor.getString(cursor.getColumnIndex(DbContract.Sponsors.LOGO_URL)),
-                    cursor.getString(cursor.getColumnIndex(DbContract.Sponsors.TYPE)),
-                    cursor.getInt(cursor.getColumnIndex(DbContract.Sponsors.LEVEL))
+                );
+                sponsor.changeSponsorTypeToString(cursor.getString(cursor.getColumnIndex(DbContract.Sponsors.TYPE)));
 
-            );
-            sponsor.changeSponsorTypeToString(cursor.getString(cursor.getColumnIndex(DbContract.Sponsors.TYPE)));
-
-            sponsors.add(sponsor);
-            cursor.moveToNext();
+                sponsors.add(sponsor);
+                cursor.moveToNext();
+            }
+            cursor.close();
         }
-        cursor.close();
         return sponsors;
     }
 
 
-    public ArrayList<org.fossasia.openevent.data.Microlocation> getMicrolocationsList(SQLiteDatabase mDb) {
+    ArrayList<org.fossasia.openevent.data.Microlocation> getMicrolocationList(SQLiteDatabase mDb) {
         String sortOrder = DbContract.Microlocation.NAME + ASCENDING;
         Cursor cursor = mDb.query(
                 DbContract.Microlocation.TABLE_NAME,
@@ -321,23 +368,24 @@ public class DatabaseOperations {
         ArrayList<org.fossasia.openevent.data.Microlocation> microlocations = new ArrayList<>();
         org.fossasia.openevent.data.Microlocation microlocation;
 
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            microlocation = new org.fossasia.openevent.data.Microlocation(
-                    cursor.getInt(cursor.getColumnIndex(DbContract.Microlocation.ID)),
-                    cursor.getString(cursor.getColumnIndex(DbContract.Microlocation.NAME)),
-                    cursor.getFloat(cursor.getColumnIndex(DbContract.Microlocation.LATITUDE)),
-                    cursor.getFloat(cursor.getColumnIndex(DbContract.Microlocation.LONGITUDE)),
-                    cursor.getInt(cursor.getColumnIndex(DbContract.Microlocation.FLOOR))
-            );
-            microlocations.add(microlocation);
-            cursor.moveToNext();
+        if (cursor != null && cursor.moveToFirst()) {
+            while (!cursor.isAfterLast()) {
+                microlocation = new org.fossasia.openevent.data.Microlocation(
+                        cursor.getInt(cursor.getColumnIndex(DbContract.Microlocation.ID)),
+                        cursor.getString(cursor.getColumnIndex(DbContract.Microlocation.NAME)),
+                        cursor.getFloat(cursor.getColumnIndex(DbContract.Microlocation.LATITUDE)),
+                        cursor.getFloat(cursor.getColumnIndex(DbContract.Microlocation.LONGITUDE)),
+                        cursor.getInt(cursor.getColumnIndex(DbContract.Microlocation.FLOOR))
+                );
+                microlocations.add(microlocation);
+                cursor.moveToNext();
+            }
+            cursor.close();
         }
-        cursor.close();
         return microlocations;
     }
 
-    public ArrayList<Session> getSessionbyTracksname(String trackName, SQLiteDatabase mDb) {
+    ArrayList<Session> getSessionsByTrackName(String trackName, SQLiteDatabase mDb) {
         String tracksColumnSelection = DbContract.Tracks.NAME + EQUAL + DatabaseUtils.sqlEscapeString(trackName);
         String[] columns = {DbContract.Tracks.ID, DbContract.Tracks.NAME};
         Cursor tracksCursor = mDb.query(
@@ -349,64 +397,72 @@ public class DatabaseOperations {
                 null,
                 null
         );
-        int trackSelected;
-        tracksCursor.moveToFirst();
-        trackSelected = tracksCursor.getInt(tracksCursor.getColumnIndex(DbContract.Speakers.ID));
-
-        //Select columns having track id same as that obtained previously
-        String sessionColumnSelection = DbContract.Sessions.TRACK + EQUAL +
-                DatabaseUtils.sqlEscapeString(String.valueOf(trackSelected));
-
-        //Order
-        String sortOrder = DbContract.Sessions.ID + ASCENDING;
-
-        Cursor sessionCursor = mDb.query(
-                DbContract.Sessions.TABLE_NAME,
-                DbContract.Sessions.FULL_PROJECTION,
-                sessionColumnSelection,
-                null,
-                null,
-                null,
-                sortOrder
-        );
 
         ArrayList<Session> sessions = new ArrayList<>();
         Session session;
-        sessionCursor.moveToFirst();
-        //Should return only one due to UNIQUE constraint
-        while (!sessionCursor.isAfterLast()) {
-            try {
-                int microlocationId = sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.MICROLOCATION));
-                Microlocation microlocation = new Microlocation(microlocationId, getMicroLocationById(microlocationId, mDb).getName());
-                int trackId = sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.TRACK));
-                Track track = new Track(trackId, getTracksbyTracksId(trackId, mDb).getName());
+        int trackSelected;
+        if (tracksCursor != null && tracksCursor.moveToFirst()) {
+            trackSelected = tracksCursor.getInt(tracksCursor.getColumnIndex(DbContract.Speakers.ID));
 
-                session = new Session(
-                        sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.ID)),
-                        sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.TITLE)),
-                        sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.SUBTITLE)),
-                        sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.SUMMARY)),
-                        sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.DESCRIPTION)),
-                        sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.START_TIME)),
-                        sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.END_TIME)),
-                        sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.START_DATE)),
-                        sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.TYPE)),
-                        track,
-                        sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.LEVEL)),
-                        microlocation
-                );
-                sessions.add(session);
-            } catch (ParseException e) {
-                Timber.e("Parsing Error Occurred at DatabaseOperations::getSessionbyTracksname.");
+            //Select columns having track id same as that obtained previously
+            String sessionColumnSelection = DbContract.Sessions.TRACK + EQUAL +
+                    DatabaseUtils.sqlEscapeString(String.valueOf(trackSelected));
+
+            //Order
+            String sortOrder = DbContract.Sessions.START_TIME + ASCENDING;
+
+            Cursor sessionCursor = mDb.query(
+                    DbContract.Sessions.TABLE_NAME,
+                    DbContract.Sessions.FULL_PROJECTION,
+                    sessionColumnSelection,
+                    null,
+                    null,
+                    null,
+                    sortOrder
+            );
+
+            if (sessionCursor != null && sessionCursor.moveToFirst()) {
+                //Should return only one due to UNIQUE constraint
+                while (!sessionCursor.isAfterLast()) {
+                    try {
+                        int microlocationId = sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.MICROLOCATION));
+                        Microlocation microlocation;
+                        if (microlocationId != 0) {
+                            microlocation = new Microlocation(microlocationId, getMicrolocationById(microlocationId, mDb).getName());
+                        } else {
+                            microlocation = new Microlocation(0, "Not decided yet");
+                        }
+                        int trackId = sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.TRACK));
+                        Track track = new Track(trackId, getTrackByTrackId(trackId, mDb).getName());
+
+                        session = new Session(
+                                sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.ID)),
+                                sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.TITLE)),
+                                sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.SUBTITLE)),
+                                sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.SUMMARY)),
+                                sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.DESCRIPTION)),
+                                sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.START_TIME)),
+                                sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.END_TIME)),
+                                sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.START_DATE)),
+                                sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.TYPE)),
+                                track,
+                                sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.LEVEL)),
+                                microlocation
+                        );
+                        sessions.add(session);
+                    } catch (ParseException e) {
+                        Timber.e("Parsing Error Occurred at DatabaseOperations::getSessionsByTrackName.");
+                    }
+                    sessionCursor.moveToNext();
+                }
+                tracksCursor.close();
+                sessionCursor.close();
             }
-            sessionCursor.moveToNext();
         }
-        tracksCursor.close();
-        sessionCursor.close();
         return sessions;
     }
 
-    public org.fossasia.openevent.data.Track getTracksbyTracksname(String trackName, SQLiteDatabase mDb) {
+    org.fossasia.openevent.data.Track getTrackByTrackName(String trackName, SQLiteDatabase mDb) {
         String tracksColumnSelection = DbContract.Tracks.NAME + EQUAL + DatabaseUtils.sqlEscapeString(trackName);
 
         Cursor tracksCursor = mDb.query(
@@ -419,20 +475,23 @@ public class DatabaseOperations {
                 null
         );
 
-        tracksCursor.moveToFirst();
+        org.fossasia.openevent.data.Track selected = null;
 
-        org.fossasia.openevent.data.Track selected = new org.fossasia.openevent.data.Track(
-                tracksCursor.getInt(tracksCursor.getColumnIndex(DbContract.Tracks.ID)),
-                tracksCursor.getString(tracksCursor.getColumnIndex(DbContract.Tracks.NAME)),
-                tracksCursor.getString(tracksCursor.getColumnIndex(DbContract.Tracks.DESCRIPTION)),
-                tracksCursor.getString(tracksCursor.getColumnIndex(DbContract.Tracks.IMAGE))
-        );
-        tracksCursor.close();
+        if (tracksCursor != null && tracksCursor.moveToFirst()) {
+
+            selected = new org.fossasia.openevent.data.Track(
+                    tracksCursor.getInt(tracksCursor.getColumnIndex(DbContract.Tracks.ID)),
+                    tracksCursor.getString(tracksCursor.getColumnIndex(DbContract.Tracks.NAME)),
+                    tracksCursor.getString(tracksCursor.getColumnIndex(DbContract.Tracks.DESCRIPTION)),
+                    tracksCursor.getString(tracksCursor.getColumnIndex(DbContract.Tracks.IMAGE))
+            );
+            tracksCursor.close();
+        }
         return selected;
 
     }
 
-    public org.fossasia.openevent.data.Track getTracksbyTracksId(int id, SQLiteDatabase mDb) {
+    org.fossasia.openevent.data.Track getTrackByTrackId(int id, SQLiteDatabase mDb) {
         String tracksColumnSelection = DbContract.Tracks.ID + EQUAL + DatabaseUtils.sqlEscapeString(String.valueOf(id));
 
         Cursor tracksCursor = mDb.query(
@@ -445,17 +504,19 @@ public class DatabaseOperations {
                 null
         );
 
-        tracksCursor.moveToFirst();
+        org.fossasia.openevent.data.Track selected = null;
 
-        org.fossasia.openevent.data.Track selected = new org.fossasia.openevent.data.Track(
-                tracksCursor.getInt(tracksCursor.getColumnIndex(DbContract.Tracks.ID)),
-                tracksCursor.getString(tracksCursor.getColumnIndex(DbContract.Tracks.NAME)),
-                tracksCursor.getString(tracksCursor.getColumnIndex(DbContract.Tracks.DESCRIPTION)),
-                tracksCursor.getString(tracksCursor.getColumnIndex(DbContract.Tracks.IMAGE))
-        );
-        tracksCursor.close();
+        if (tracksCursor != null && tracksCursor.moveToFirst()) {
+
+            selected = new org.fossasia.openevent.data.Track(
+                    tracksCursor.getInt(tracksCursor.getColumnIndex(DbContract.Tracks.ID)),
+                    tracksCursor.getString(tracksCursor.getColumnIndex(DbContract.Tracks.NAME)),
+                    tracksCursor.getString(tracksCursor.getColumnIndex(DbContract.Tracks.DESCRIPTION)),
+                    tracksCursor.getString(tracksCursor.getColumnIndex(DbContract.Tracks.IMAGE))
+            );
+            tracksCursor.close();
+        }
         return selected;
-
     }
 
     public void insertQueries(ArrayList<String> queries, DbHelper mDbHelper) {
@@ -476,7 +537,7 @@ public class DatabaseOperations {
     }
 
 
-    public void clearDatabaseTable(String table, DbHelper mDbHelper) {
+    void clearDatabaseTable(String table, DbHelper mDbHelper) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         db.beginTransaction();
         try {
@@ -492,7 +553,7 @@ public class DatabaseOperations {
         }
     }
 
-    public void clearDatabase(DbHelper mDbHelper) {
+    void clearDatabase(DbHelper mDbHelper) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         db.beginTransaction();
         try {
@@ -507,7 +568,7 @@ public class DatabaseOperations {
         }
     }
 
-    public ArrayList<Session> getSessionbySpeakersname(String speakerName, SQLiteDatabase mDb) {
+    ArrayList<Session> getSessionsBySpeakerName(String speakerName, SQLiteDatabase mDb) {
         String speakerColumnSelection = DbContract.Speakers.NAME + EQUAL + DatabaseUtils.sqlEscapeString(speakerName);
         String[] columns = {DbContract.Speakers.ID, DbContract.Speakers.NAME};
         Cursor speakersCursor = mDb.query(
@@ -547,44 +608,16 @@ public class DatabaseOperations {
             sortedSessionIds.add(sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessionsspeakers.SESSION_ID)));
             sessionCursor.moveToNext();
         }
-
         sessionCursor.close();
-        StringBuilder builder= new StringBuilder(DbContract.ServerSessionIdMapping.SERVER_ID + IN+"( ");
-        for (Integer integer:sortedSessionIds){
-            builder.append(integer).append(',');
-        }
-        builder.deleteCharAt(builder.length()-1);
-        builder.append(')');
-        String mappingSelection = builder.toString();
-        ArrayList<Integer> sessionIds = new ArrayList<>();
-
-
-        Cursor mappingCursor = mDb.query(
-                DbContract.ServerSessionIdMapping.TABLE_NAME,
-                DbContract.ServerSessionIdMapping.FULL_PROJECTION,
-                mappingSelection,
-                null,
-                null,
-                null,
-                null
-        );
-
-        mappingCursor.moveToFirst();
-        //Should return only one due to UNIQUE constraint
-        while (!mappingCursor.isAfterLast()) {
-            sessionIds.add(mappingCursor.getInt(mappingCursor.getColumnIndex(DbContract.ServerSessionIdMapping.LOCAL_ID)));
-            mappingCursor.moveToNext();
-        }
-        mappingCursor.close();
-
 
         ArrayList<Session> sessions = new ArrayList<>();
-        builder=new StringBuilder(DbContract.Sessions.ID + IN +"( ");
-        for (Integer sessionId:sessionIds){
+        StringBuilder builder = new StringBuilder(DbContract.Sessions.ID + IN + "( ");
+        for (Integer sessionId : sortedSessionIds) {
             builder.append(sessionId).append(',');
         }
-        builder.deleteCharAt(builder.length()-1);
+        builder.deleteCharAt(builder.length() - 1);
         builder.append(')');
+        String sortOrder = DbContract.Sessions.START_TIME + ASCENDING;
         String sessionTableColumnSelection = builder.toString();
         Cursor sessionTableCursor = mDb.query(
                 DbContract.Sessions.TABLE_NAME,
@@ -593,7 +626,7 @@ public class DatabaseOperations {
                 null,
                 null,
                 null,
-                null
+                sortOrder
         );
 
         Session session;
@@ -601,9 +634,14 @@ public class DatabaseOperations {
             do {
                 try {
                     int microlocationId = sessionTableCursor.getInt(sessionTableCursor.getColumnIndex(DbContract.Sessions.MICROLOCATION));
-                    Microlocation microlocation = new Microlocation(microlocationId, getMicroLocationById(microlocationId, mDb).getName());
+                    Microlocation microlocation;
+                    if (microlocationId != 0) {
+                        microlocation = new Microlocation(microlocationId, getMicrolocationById(microlocationId, mDb).getName());
+                    } else {
+                        microlocation = new Microlocation(0, "Not decided yet");
+                    }
                     int trackId = sessionTableCursor.getInt(sessionTableCursor.getColumnIndex(DbContract.Sessions.TRACK));
-                    Track track = new Track(trackId, getTracksbyTracksId(trackId, mDb).getName());
+                    Track track = new Track(trackId, getTrackByTrackId(trackId, mDb).getName());
 
                     session = new Session(
                             sessionTableCursor.getInt(sessionTableCursor.getColumnIndex(DbContract.Sessions.ID)),
@@ -621,9 +659,9 @@ public class DatabaseOperations {
                     );
                     sessions.add(session);
                 } catch (ParseException e) {
-                    Timber.e("Parsing Error Occurred at DatabaseOperations::getSessionbySpeakersname.");
+                    Timber.e("Parsing Error Occurred at DatabaseOperations::getSessionsBySpeakerName.");
                 }
-            }while (sessionTableCursor.moveToNext());
+            } while (sessionTableCursor.moveToNext());
             sessionTableCursor.close();
 
         }
@@ -631,7 +669,7 @@ public class DatabaseOperations {
         return sessions;
     }
 
-    public Speaker getSpeakerbySpeakersname(String speakerName, SQLiteDatabase mDb) {
+    Speaker getSpeakerBySpeakerName(String speakerName, SQLiteDatabase mDb) {
         String speakerColumnSelection = DbContract.Speakers.NAME + EQUAL + DatabaseUtils.sqlEscapeString(speakerName);
         Cursor speakersCursor = mDb.query(
                 DbContract.Speakers.TABLE_NAME,
@@ -642,31 +680,33 @@ public class DatabaseOperations {
                 null,
                 null
         );
-        Speaker speaker;
-        speakersCursor.moveToFirst();
-        speaker = new Speaker(
-                speakersCursor.getInt(speakersCursor.getColumnIndex(DbContract.Speakers.ID)),
-                speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.NAME)),
-                speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.PHOTO)),
-                speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.BIO)),
-                speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.EMAIL)),
-                speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.WEB)),
-                speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.TWITTER)),
-                speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.FACEBOOK)),
-                speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.GITHUB)),
-                speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.LINKEDIN)),
-                speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.ORGANISATION)),
-                speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.POSITION)),
-                null,
-                speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.COUNTRY))
+        Speaker speaker = null;
+        if (speakersCursor != null && speakersCursor.moveToFirst()) {
+            speaker = new Speaker(
+                    speakersCursor.getInt(speakersCursor.getColumnIndex(DbContract.Speakers.ID)),
+                    speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.NAME)),
+                    speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.PHOTO)),
+                    speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.THUMBNAIL)),
+                    speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.BIO)),
+                    speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.EMAIL)),
+                    speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.WEB)),
+                    speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.TWITTER)),
+                    speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.FACEBOOK)),
+                    speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.GITHUB)),
+                    speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.LINKEDIN)),
+                    speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.ORGANISATION)),
+                    speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.POSITION)),
+                    null,
+                    speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.COUNTRY))
 
-        );
+            );
 
-        speakersCursor.close();
+            speakersCursor.close();
+        }
         return speaker;
     }
 
-    public Event getEventDetails(SQLiteDatabase mDb) {
+    Event getEventDetails(SQLiteDatabase mDb) {
         Cursor cursor = mDb.query(
                 DbContract.Event.TABLE_NAME,
                 DbContract.Event.FULL_PROJECTION,
@@ -689,7 +729,9 @@ public class DatabaseOperations {
                     cursor.getFloat(cursor.getColumnIndex(DbContract.Event.LONGITUDE)),
                     cursor.getString(cursor.getColumnIndex(DbContract.Event.LOCATION_NAME)),
                     cursor.getString(cursor.getColumnIndex(DbContract.Event.EVENT_URL)),
-                    cursor.getString(cursor.getColumnIndex(DbContract.Event.TIMEZONE)));
+                    cursor.getString(cursor.getColumnIndex(DbContract.Event.TIMEZONE)),
+                    cursor.getString(cursor.getColumnIndex(DbContract.Event.DESCRIPTION)),
+                    cursor.getString(cursor.getColumnIndex(DbContract.Event.ORG_DESCRIPTION)));
             cursor.close();
         }
         return event;
@@ -697,7 +739,7 @@ public class DatabaseOperations {
     }
 
 
-    public org.fossasia.openevent.data.Microlocation getLocationByName(String speakerName, SQLiteDatabase mDb) {
+    org.fossasia.openevent.data.Microlocation getLocationByName(String speakerName, SQLiteDatabase mDb) {
         String locationColumnSelection = DbContract.Microlocation.NAME + EQUAL + DatabaseUtils.sqlEscapeString(speakerName);
         Cursor locationCursor = mDb.query(
                 DbContract.Microlocation.TABLE_NAME,
@@ -708,21 +750,22 @@ public class DatabaseOperations {
                 null,
                 null
         );
-        org.fossasia.openevent.data.Microlocation location;
-        locationCursor.moveToFirst();
-        location = new org.fossasia.openevent.data.Microlocation(
-                locationCursor.getInt(locationCursor.getColumnIndex(DbContract.Microlocation.ID)),
-                locationCursor.getString(locationCursor.getColumnIndex(DbContract.Microlocation.NAME)),
-                locationCursor.getFloat(locationCursor.getColumnIndex(DbContract.Microlocation.LATITUDE)),
-                locationCursor.getFloat(locationCursor.getColumnIndex(DbContract.Microlocation.LONGITUDE)),
-                locationCursor.getInt(locationCursor.getColumnIndex(DbContract.Microlocation.FLOOR))
-        );
+        org.fossasia.openevent.data.Microlocation location = null;
+        if (locationCursor != null && locationCursor.moveToFirst()) {
+            location = new org.fossasia.openevent.data.Microlocation(
+                    locationCursor.getInt(locationCursor.getColumnIndex(DbContract.Microlocation.ID)),
+                    locationCursor.getString(locationCursor.getColumnIndex(DbContract.Microlocation.NAME)),
+                    locationCursor.getFloat(locationCursor.getColumnIndex(DbContract.Microlocation.LATITUDE)),
+                    locationCursor.getFloat(locationCursor.getColumnIndex(DbContract.Microlocation.LONGITUDE)),
+                    locationCursor.getInt(locationCursor.getColumnIndex(DbContract.Microlocation.FLOOR))
+            );
 
-        locationCursor.close();
+            locationCursor.close();
+        }
         return location;
     }
 
-    public ArrayList<Session> getSessionbyLocationname(String locationName, SQLiteDatabase mDb) {
+    ArrayList<Session> getSessionsByLocationName(String locationName, SQLiteDatabase mDb) {
         String locationColumnSelection = DbContract.Microlocation.NAME + EQUAL + DatabaseUtils.sqlEscapeString(locationName);
         String[] columns = {DbContract.Microlocation.ID, DbContract.Speakers.NAME};
         Cursor cursor = mDb.query(
@@ -734,14 +777,15 @@ public class DatabaseOperations {
                 null,
                 null
         );
-        int locationSelected;
-        cursor.moveToFirst();
-        locationSelected = cursor.getInt(cursor.getColumnIndex(DbContract.Microlocation.ID));
+        int locationSelected = 0;
+        if (cursor != null && cursor.moveToFirst()) {
+            locationSelected = cursor.getInt(cursor.getColumnIndex(DbContract.Microlocation.ID));
 
-        cursor.close();
-
+            cursor.close();
+        }
         //Select rows having location id same as that obtained previously
         String sessionColumnSelection = DbContract.Sessions.MICROLOCATION + EQUAL + locationSelected;
+        String sort = DbContract.Sessions.START_TIME + ASCENDING;
 
 
         Cursor sessionCursor = mDb.query(
@@ -751,49 +795,55 @@ public class DatabaseOperations {
                 null,
                 null,
                 null,
-                null
+                sort
         );
 
         ArrayList<Session> sessions = new ArrayList<>();
         Session s;
-        sessionCursor.moveToFirst();
-        if (cursor.getCount() > 0) {
-            while (!sessionCursor.isAfterLast()) {
-                try {
-                    int microlocationId = sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.MICROLOCATION));
-                    Microlocation microlocation = new Microlocation(microlocationId, getMicroLocationById(microlocationId, mDb).getName());
-                    int trackId = sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.TRACK));
-                    Track track = new Track(trackId, getTracksbyTracksId(trackId, mDb).getName());
+        if (sessionCursor != null && sessionCursor.moveToFirst()) {
+            if (cursor!= null && cursor.getCount() > 0) {
+                while (!sessionCursor.isAfterLast()) {
+                    try {
+                        int microlocationId = sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.MICROLOCATION));
+                        Microlocation microlocation;
+                        if (microlocationId != 0) {
+                            microlocation = new Microlocation(microlocationId, getMicrolocationById(microlocationId, mDb).getName());
+                        } else {
+                            microlocation = new Microlocation(0, "Not decided yet");
+                        }
+                        int trackId = sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.TRACK));
+                        Track track = new Track(trackId, getTrackByTrackId(trackId, mDb).getName());
 
-                    s = new Session(
-                            sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.ID)),
-                            sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.TITLE)),
-                            sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.SUBTITLE)),
-                            sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.SUMMARY)),
-                            sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.DESCRIPTION)),
-                            sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.START_TIME)),
-                            sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.END_TIME)),
-                            sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.START_DATE)),
-                            sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.TYPE)),
-                            track,
-                            sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.LEVEL)),
-                            microlocation
-                    );
-                    sessions.add(s);
+                        s = new Session(
+                                sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.ID)),
+                                sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.TITLE)),
+                                sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.SUBTITLE)),
+                                sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.SUMMARY)),
+                                sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.DESCRIPTION)),
+                                sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.START_TIME)),
+                                sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.END_TIME)),
+                                sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.START_DATE)),
+                                sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.TYPE)),
+                                track,
+                                sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.LEVEL)),
+                                microlocation
+                        );
+                        sessions.add(s);
 
-                } catch (ParseException e) {
-                    Timber.e("Parsing Error Occurred at DatabaseOperations::getSessionbyLocationname.");
+                    } catch (ParseException e) {
+                        Timber.e("Parsing Error Occurred at DatabaseOperations::getSessionsByLocationName.");
+                    }
+                    sessionCursor.moveToNext();
                 }
-                sessionCursor.moveToNext();
+            } else {
+                return sessions;
             }
-        } else {
-            return sessions;
+            sessionCursor.close();
         }
-        sessionCursor.close();
         return sessions;
     }
 
-    public ArrayList<Speaker> getSpeakersbySessionName(String sessionName, SQLiteDatabase mDb) {
+    ArrayList<Speaker> getSpeakersBySessionName(String sessionName, SQLiteDatabase mDb) {
         String sessionColumnSelection = DbContract.Sessions.TITLE + EQUAL + DatabaseUtils.sqlEscapeString(sessionName);
         String[] columns = {DbContract.Sessions.ID, DbContract.Sessions.TITLE};
         Cursor sessionsCursor = mDb.query(
@@ -805,12 +855,12 @@ public class DatabaseOperations {
                 null,
                 null
         );
-        int sessionSelected;
-        sessionsCursor.moveToFirst();
-        sessionSelected = sessionsCursor.getInt(sessionsCursor.getColumnIndex(DbContract.Sessions.ID));
+        int sessionSelected = 0;
+        if (sessionsCursor != null && sessionsCursor.moveToFirst()) {
+            sessionSelected = sessionsCursor.getInt(sessionsCursor.getColumnIndex(DbContract.Sessions.ID));
 
-        sessionsCursor.close();
-
+            sessionsCursor.close();
+        }
         String speakersColumnSelection = DbContract.Sessionsspeakers.SESSION_ID + EQUAL + sessionSelected;
 
         String[] columns1 = {DbContract.Sessionsspeakers.SPEAKER_ID};
@@ -826,15 +876,15 @@ public class DatabaseOperations {
         );
 
         ArrayList<Integer> speakersIds = new ArrayList<>();
-        speakerCursor.moveToFirst();
-        //Should return only one due to UNIQUE constraint
-        while (!speakerCursor.isAfterLast()) {
-            speakersIds.add(speakerCursor.getInt(speakerCursor.getColumnIndex(DbContract.Sessionsspeakers.SPEAKER_ID)));
-            speakerCursor.moveToNext();
+        if (speakerCursor != null && speakerCursor.moveToFirst()) {
+            //Should return only one due to UNIQUE constraint
+            while (!speakerCursor.isAfterLast()) {
+                speakersIds.add(speakerCursor.getInt(speakerCursor.getColumnIndex(DbContract.Sessionsspeakers.SPEAKER_ID)));
+                speakerCursor.moveToNext();
+            }
+
+            speakerCursor.close();
         }
-
-        speakerCursor.close();
-
         ArrayList<Speaker> speakers = new ArrayList<>();
 
         for (int i = 0; i < speakersIds.size(); i++) {
@@ -850,31 +900,33 @@ public class DatabaseOperations {
             );
 
             Speaker speaker;
-            speakersCursor.moveToFirst();
-            speaker = new Speaker(
-                    speakersCursor.getInt(speakersCursor.getColumnIndex(DbContract.Speakers.ID)),
-                    speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.NAME)),
-                    speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.PHOTO)),
-                    speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.BIO)),
-                    speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.EMAIL)),
-                    speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.WEB)),
-                    speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.TWITTER)),
-                    speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.FACEBOOK)),
-                    speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.GITHUB)),
-                    speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.LINKEDIN)),
-                    speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.ORGANISATION)),
-                    speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.POSITION)),
-                    null,
-                    speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.COUNTRY))
-            );
-            speakers.add(speaker);
-            speakersCursor.moveToNext();
-            speakersCursor.close();
+            if (speakerCursor != null && speakersCursor.moveToFirst()) {
+                speaker = new Speaker(
+                        speakersCursor.getInt(speakersCursor.getColumnIndex(DbContract.Speakers.ID)),
+                        speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.NAME)),
+                        speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.PHOTO)),
+                        speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.THUMBNAIL)),
+                        speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.BIO)),
+                        speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.EMAIL)),
+                        speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.WEB)),
+                        speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.TWITTER)),
+                        speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.FACEBOOK)),
+                        speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.GITHUB)),
+                        speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.LINKEDIN)),
+                        speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.ORGANISATION)),
+                        speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.POSITION)),
+                        null,
+                        speakersCursor.getString(speakersCursor.getColumnIndex(DbContract.Speakers.COUNTRY))
+                );
+                speakers.add(speaker);
+                speakersCursor.moveToNext();
+                speakersCursor.close();
+            }
         }
         return speakers;
     }
 
-    public boolean isBookmarked(int sessionId, SQLiteDatabase db) {
+    boolean isBookmarked(int sessionId, SQLiteDatabase db) {
         boolean number = false;
         Cursor c = null;
         try {
@@ -894,7 +946,7 @@ public class DatabaseOperations {
         return number;
     }
 
-    public boolean isBookmarksTableEmpty(SQLiteDatabase db) {
+    boolean isBookmarksTableEmpty(SQLiteDatabase db) {
         boolean check = false;
         Cursor c = null;
         try {
@@ -910,7 +962,7 @@ public class DatabaseOperations {
         return check;
     }
 
-    public Session getSessionbySessionname(String sessionName, SQLiteDatabase mDb) {
+    Session getSessionBySessionName(String sessionName, SQLiteDatabase mDb) {
         String sessionColumnSelection = DbContract.Sessions.TITLE + EQUAL + DatabaseUtils.sqlEscapeString(sessionName);
         Cursor cursor = mDb.query(
                 DbContract.Sessions.TABLE_NAME,
@@ -922,38 +974,44 @@ public class DatabaseOperations {
                 null
         );
         Session session = null;
-        cursor.moveToFirst();
-        try {
-            int microlocationId = cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.MICROLOCATION));
-            Microlocation microlocation = new Microlocation(microlocationId, getMicroLocationById(microlocationId, mDb).getName());
-            int trackId = cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.TRACK));
-            Track track = new Track(trackId, getTracksbyTracksId(trackId, mDb).getName());
+        if (cursor != null && cursor.moveToFirst()) {
+            try {
+                int microlocationId = cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.MICROLOCATION));
+                Microlocation microlocation;
+                if (microlocationId != 0) {
+                    microlocation = new Microlocation(microlocationId, getMicrolocationById(microlocationId, mDb).getName());
+                } else {
+                    microlocation = new Microlocation(0, "Not decided yet");
+                }
+                int trackId = cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.TRACK));
+                Track track = new Track(trackId, getTrackByTrackId(trackId, mDb).getName());
 
-            session = new Session(
-                    cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.ID)),
-                    cursor.getString(cursor.getColumnIndex(DbContract.Sessions.TITLE)),
-                    cursor.getString(cursor.getColumnIndex(DbContract.Sessions.SUBTITLE)),
-                    cursor.getString(cursor.getColumnIndex(DbContract.Sessions.SUMMARY)),
-                    cursor.getString(cursor.getColumnIndex(DbContract.Sessions.DESCRIPTION)),
-                    cursor.getString(cursor.getColumnIndex(DbContract.Sessions.START_TIME)),
-                    cursor.getString(cursor.getColumnIndex(DbContract.Sessions.END_TIME)),
-                    cursor.getString(cursor.getColumnIndex(DbContract.Sessions.START_DATE)),
-                    cursor.getString(cursor.getColumnIndex(DbContract.Sessions.TYPE)),
-                    track,
-                    cursor.getString(cursor.getColumnIndex(DbContract.Sessions.LEVEL)),
-                    microlocation
+                session = new Session(
+                        cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.ID)),
+                        cursor.getString(cursor.getColumnIndex(DbContract.Sessions.TITLE)),
+                        cursor.getString(cursor.getColumnIndex(DbContract.Sessions.SUBTITLE)),
+                        cursor.getString(cursor.getColumnIndex(DbContract.Sessions.SUMMARY)),
+                        cursor.getString(cursor.getColumnIndex(DbContract.Sessions.DESCRIPTION)),
+                        cursor.getString(cursor.getColumnIndex(DbContract.Sessions.START_TIME)),
+                        cursor.getString(cursor.getColumnIndex(DbContract.Sessions.END_TIME)),
+                        cursor.getString(cursor.getColumnIndex(DbContract.Sessions.START_DATE)),
+                        cursor.getString(cursor.getColumnIndex(DbContract.Sessions.TYPE)),
+                        track,
+                        cursor.getString(cursor.getColumnIndex(DbContract.Sessions.LEVEL)),
+                        microlocation
 
-            );
-        } catch (ParseException e) {
-            Timber.e("Parsing Error Occurred at DatabaseOperations::getSessionbySessionname.");
+                );
+            } catch (ParseException e) {
+                Timber.e("Parsing Error Occurred at DatabaseOperations::getSessionBySessionName.");
+            }
+
+            cursor.close();
         }
-
-        cursor.close();
         return session;
     }
 
 
-    public ArrayList<Integer> getBookmarkIds(SQLiteDatabase mDb) {
+    ArrayList<Integer> getBookmarkIds(SQLiteDatabase mDb) {
         String sortOrder = DbContract.Bookmarks.SESSION_ID + ASCENDING;
 
         Cursor cursor = mDb.query(
@@ -967,17 +1025,18 @@ public class DatabaseOperations {
         );
 
         ArrayList<Integer> ids = new ArrayList<>();
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            ids.add(cursor.getInt(cursor.getColumnIndex(DbContract.Bookmarks.SESSION_ID)));
-            cursor.moveToNext();
-        }
+        if (cursor != null && cursor.moveToFirst()) {
+            while (!cursor.isAfterLast()) {
+                ids.add(cursor.getInt(cursor.getColumnIndex(DbContract.Bookmarks.SESSION_ID)));
+                cursor.moveToNext();
+            }
 
-        cursor.close();
+            cursor.close();
+        }
         return ids;
     }
 
-    public void insertQuery(String query, DbHelper mDbHelper) {
+    void insertQuery(String query, DbHelper mDbHelper) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         db.beginTransaction();
         db.execSQL(query);
@@ -986,7 +1045,7 @@ public class DatabaseOperations {
         db.endTransaction();
     }
 
-    public void addBookmarksToDb(int id) {
+    void addBookmarksToDb(int id) {
         String insertQuery = "INSERT INTO %s VALUES ('%d');";
         String query = String.format(Locale.ENGLISH,
                 insertQuery,
@@ -997,14 +1056,15 @@ public class DatabaseOperations {
         dbSingleton.insertQuery(query);
     }
 
-    public void deleteBookmarks(int id, SQLiteDatabase db) {
+    void deleteBookmarks(int id, SQLiteDatabase db) {
         db.delete(DbContract.Bookmarks.TABLE_NAME, DbContract.Bookmarks.SESSION_ID + "=" + id, null);
 
     }
 
-    public ArrayList<Session> getSessionbyDate(String date, String sortOrder, SQLiteDatabase mDb) {
+    ArrayList<Session> getSessionsByDate(String date, String sortOrder, SQLiteDatabase mDb) {
 
-        String sessionColumnSelection = DbContract.Sessions.START_DATE + EQUAL + DatabaseUtils.sqlEscapeString(date);
+        String sessionColumnSelection = DbContract.Sessions.START_DATE + EQUAL +
+                DatabaseUtils.sqlEscapeString(date);
 
         String order = sortOrder + ASCENDING;
 
@@ -1018,53 +1078,59 @@ public class DatabaseOperations {
                 order
         );
 
-
         ArrayList<Session> sessions = new ArrayList<>();
         Session session;
-        sessionCursor.moveToFirst();
-        while (!sessionCursor.isAfterLast()) {
-            try {
-                int microlocationId = sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.MICROLOCATION));
-                Microlocation microlocation = new Microlocation(microlocationId, getMicroLocationById(microlocationId, mDb).getName());
-                int trackId = sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.TRACK));
-                Track track = new Track(trackId, getTracksbyTracksId(trackId, mDb).getName());
+        if (sessionCursor != null && sessionCursor.moveToFirst()) {
+            while (!sessionCursor.isAfterLast()) {
+                try {
+                    int microlocationId = sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.MICROLOCATION));
+                    Microlocation microlocation;
+                    if (microlocationId != 0) {
+                        microlocation = new Microlocation(microlocationId, getMicrolocationById(microlocationId, mDb).getName());
+                    } else {
+                        microlocation = new Microlocation(0, "Not decided yet");
+                    }
+                    int trackId = sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.TRACK));
+                    Track track = new Track(trackId, getTrackByTrackId(trackId, mDb).getName());
 
-                session = new Session(
-                        sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.ID)),
-                        sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.TITLE)),
-                        sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.SUBTITLE)),
-                        sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.SUMMARY)),
-                        sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.DESCRIPTION)),
-                        sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.START_TIME)),
-                        sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.END_TIME)),
-                        sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.START_DATE)),
-                        sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.TYPE)),
-                        track,
-                        sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.LEVEL)),
-                        microlocation
-                );
-                sessions.add(session);
-            } catch (ParseException e) {
-                Timber.e("Parsing Error Occurred at DatabaseOperations::getSessionbyDatename.");
+                    session = new Session(
+                            sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.ID)),
+                            sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.TITLE)),
+                            sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.SUBTITLE)),
+                            sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.SUMMARY)),
+                            sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.DESCRIPTION)),
+                            sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.START_TIME)),
+                            sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.END_TIME)),
+                            sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.START_DATE)),
+                            sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.TYPE)),
+                            track,
+                            sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.LEVEL)),
+                            microlocation
+                    );
+                    sessions.add(session);
+                } catch (ParseException e) {
+                    Timber.e("Parsing Error Occurred at DatabaseOperations::getSessionsByDate.");
+                }
+                sessionCursor.moveToNext();
             }
-            sessionCursor.moveToNext();
+            sessionCursor.close();
         }
-        sessionCursor.close();
         return sessions;
 
     }
 
-    public List<String> getDateList(SQLiteDatabase mDb) {
+    List<String> getDateList(SQLiteDatabase mDb) {
         Cursor cursor = mDb.rawQuery("SELECT * FROM " + DbContract.EventDates.TABLE_NAME + ORDERBY + DbContract.EventDates.DATE + ASCENDING + ";", null);
         List<String> dates = new ArrayList<>();
         String date;
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            date = cursor.getString(cursor.getColumnIndex(DbContract.EventDates.DATE));
-            dates.add(date);
-            cursor.moveToNext();
+        if (cursor != null && cursor.moveToFirst()) {
+            while (!cursor.isAfterLast()) {
+                date = cursor.getString(cursor.getColumnIndex(DbContract.EventDates.DATE));
+                dates.add(date);
+                cursor.moveToNext();
+            }
+            cursor.close();
         }
-        cursor.close();
         return dates;
     }
 }

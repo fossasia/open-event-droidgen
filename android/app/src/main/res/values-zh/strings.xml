@@ -2,7 +2,6 @@
 <resources>
     <string name="action_settings">設定</string>
     <string name="default_mode_notification">十分鐘前</string>
-    <string name="default_mode_api">開發者</string>
     <string name="download_failed">下載失敗，請檢查你的網路連線</string>
     <string name="menu_bookmarks">書籤</string>
     <string name="menu_locations">位置</string>
@@ -12,7 +11,6 @@
     <string name="menu_tracks">議程軌</string>
     <string name="refresh_failed">重新整理失敗</string>
     <string name="download_complete">下載完成</string>
-    <string name="settings_mode_api">API模式</string>
     <string name="settings_mode_notification">通知模式</string>
     <string name="share">分享</string>
     <string name="share_links">分享網址</string>
