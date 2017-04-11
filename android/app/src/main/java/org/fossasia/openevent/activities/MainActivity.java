@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
+import android.support.annotation.Nullable;
 import android.support.customtabs.CustomTabsCallback;
 import android.support.customtabs.CustomTabsClient;
 import android.support.customtabs.CustomTabsServiceConnection;
@@ -21,14 +22,13 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
@@ -85,6 +85,7 @@ import org.fossasia.openevent.utils.NetworkUtils;
 import org.fossasia.openevent.utils.ShowNotificationSnackBar;
 import org.fossasia.openevent.utils.SmoothActionBarDrawerToggle;
 import org.fossasia.openevent.utils.Utils;
+import org.fossasia.openevent.utils.Views;
 import org.fossasia.openevent.views.CustomTabsSpan;
 import org.fossasia.openevent.widget.DialogFactory;
 
@@ -104,44 +105,35 @@ import io.reactivex.schedulers.Schedulers;
 import io.realm.Realm;
 import timber.log.Timber;
 
-import static org.fossasia.openevent.R.id.headerDrawer;
-
 public class MainActivity extends BaseActivity {
 
-    private final static String STATE_FRAGMENT = "stateFragment";
-
+    private static final String STATE_FRAGMENT = "stateFragment";
     private static final String NAV_ITEM = "navItem";
-
     private static final String BOOKMARK = "bookmarks";
-
-    private static final String FRAGMENT_TAG_HOME = "FTAGH";
-
-    private final String FRAGMENT_TAG_TRACKS = "FTAGT";
-
-    private final String FRAGMENT_TAG_REST = "FTAGR";
+    private static final String FRAGMENT_TAG_HOME = "HOME_FRAGMENT";
+    private static final String FRAGMENT_TAG_REST = "REST_FRAGMENTS";
 
     private boolean fromServer = true;
+    private boolean atHome = true;
+    private boolean backPressedOnce;
+    private boolean mTwoPane;
+    private boolean customTabsSupported;
+    private int currentMenuItemId;
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.nav_view) NavigationView navigationView;
     @BindView(R.id.layout_main) CoordinatorLayout mainFrame;
     @BindView(R.id.appbar) AppBarLayout appBarLayout;
-
+    @Nullable @BindView(R.id.drawer) DrawerLayout drawerLayout;
     private ImageView headerView;
 
-    private DrawerLayout drawerLayout;
     private Context context;
+    private Dialog dialogNetworkNotification;
+    private FragmentManager fragmentManager;
     private SharedPreferences sharedPreferences;
-    private boolean atHome = true;
-    private boolean backPressedOnce = false;
-    private int currentMenuItemId;
-    private boolean mTwoPane = false;
-    private boolean customTabsSupported;
+
     private CustomTabsServiceConnection customTabsServiceConnection;
     private CustomTabsClient customTabsClient;
-    private Runnable runnable;
-    private Handler handler;
-    public static Dialog dialogNetworkNotiff;
 
     private DownloadCompleteHandler completeHandler;
 
@@ -175,18 +167,15 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         context = this;
+        ((OpenEventApp) getApplicationContext()).attachMainActivity(this);
         ButterKnife.setDebug(true);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        fragmentManager = getSupportFragmentManager();
         sharedPreferences.edit().putInt(ConstantStrings.SESSION_MAP_ID, -1).apply();
         setTheme(R.style.AppTheme_NoActionBar_MainTheme);
         super.onCreate(savedInstanceState);
 
-        if(findViewById(R.id.drawer)!=null) {
-            drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-            mTwoPane = false;
-        } else {
-            mTwoPane = true;
-        }
+        mTwoPane = drawerLayout == null;
 
         disposable = new CompositeDisposable();
 
@@ -203,7 +192,7 @@ public class MainActivity extends BaseActivity {
                 sharedPreferences.edit().putBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true).apply();
             }
         } else {
-            downloadFromServer();
+            setupConnection();
         }
 
         if (savedInstanceState == null) {
@@ -216,71 +205,6 @@ public class MainActivity extends BaseActivity {
                 getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_REST) == null) {
             doMenuAction(currentMenuItemId);
         }
-    }
-
-    private void downloadFromServer(){
-        NetworkUtils.checkConnection(new WeakReference<>(this), new NetworkUtils.NetworkStateReceiverListener() {
-            @Override
-            public void activeConnection() {
-                //Internet is working
-                if (!sharedPreferences.getBoolean(ConstantStrings.IS_DOWNLOAD_DONE, false)) {
-                    DialogFactory.createDownloadDialog(context, R.string.download_assets, R.string.charges_warning, (dialogInterface, button) -> {
-                        if (button==DialogInterface.BUTTON_POSITIVE) {
-                            fromServer = true;
-                            Boolean preference = sharedPreferences.getBoolean(getResources().getString(R.string.download_mode_key), true);
-                            if (preference) {
-                                disposable.add(NetworkUtils.haveNetworkConnectionObservable(MainActivity.this)
-                                        .subscribeOn(Schedulers.io())
-                                        .observeOn(AndroidSchedulers.mainThread())
-                                        .subscribe(connected -> {
-                                            if (connected) {
-                                                OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
-                                            } else {
-                                                final Snackbar snackbar = Snackbar.make(mainFrame, R.string.internet_preference_warning, Snackbar.LENGTH_INDEFINITE);
-                                                snackbar.setAction(R.string.yes, view -> downloadFromAssets());
-                                                snackbar.show();
-                                            }
-                                        }));
-                            } else {
-                                OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
-                            }
-                        } else if (button==DialogInterface.BUTTON_NEGATIVE) {
-                            fromServer = false;
-                            downloadFromAssets();
-                        }
-                    }).show();
-                } else {
-                    completeHandler.hide();
-                }
-            }
-
-            @Override
-            public void inactiveConnection() {
-                //Device is connected to WI-FI or Mobile Data but Internet is not working
-                ShowNotificationSnackBar showNotificationSnackBar = new ShowNotificationSnackBar(MainActivity.this,mainFrame,null) {
-                    @Override
-                    public void refreshClicked() {
-                        OpenEventApp.getEventBus().unregister(this);
-                        OpenEventApp.getEventBus().register(this);
-                    }
-                };
-                //show snackbar
-                showNotificationSnackBar.showSnackBar();
-                //snow notification (Only when connected to WiFi)
-                showNotificationSnackBar.buildNotification();
-            }
-
-            @Override
-            public void networkAvailable() {
-                // Waiting for connectivity
-            }
-
-            @Override
-            public void networkUnavailable() {
-                Snackbar.make(mainFrame, R.string.display_offline_schedule, Snackbar.LENGTH_LONG).show();
-                downloadFromAssets();
-            }
-        });
     }
 
     private void setUpCustomTab() {
@@ -317,7 +241,6 @@ public class MainActivity extends BaseActivity {
         OpenEventApp.getEventBus().register(this);
     }
 
-
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putInt(STATE_FRAGMENT, currentMenuItemId);
@@ -352,7 +275,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void setUpNavDrawer() {
-        headerView = (ImageView) navigationView.getHeaderView(0).findViewById(headerDrawer);
+        headerView = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.headerDrawer);
         if (toolbar != null && !mTwoPane) {
             final ActionBar ab = getSupportActionBar();
             if(ab == null) return;
@@ -382,6 +305,8 @@ public class MainActivity extends BaseActivity {
         String logo = event.getLogo();
         if (!logo.isEmpty()) {
             OpenEventApp.picassoWithCache.load(logo).into(headerView);
+        } else {
+            OpenEventApp.picassoWithCache.load(R.mipmap.ic_launcher).into(headerView);
         }
     }
 
@@ -417,6 +342,80 @@ public class MainActivity extends BaseActivity {
         saveEventDates(event);
     }
 
+    private void startDownloadFromNetwork() {
+        fromServer = true;
+        boolean preference = sharedPreferences.getBoolean(getResources().getString(R.string.download_mode_key), true);
+        if (preference) {
+            disposable.add(NetworkUtils.haveNetworkConnectionObservable(MainActivity.this)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(isConnected -> {
+                        if (isConnected) {
+                            OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
+                        } else {
+                            final Snackbar snackbar = Snackbar.make(mainFrame, R.string.internet_preference_warning, Snackbar.LENGTH_INDEFINITE);
+                            snackbar.setAction(R.string.yes, view -> downloadFromAssets());
+                            snackbar.show();
+                        }
+                    }));
+        } else {
+            OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
+        }
+    }
+
+    private void setupConnection() {
+        NetworkUtils.checkConnection(new WeakReference<>(this), new NetworkUtils.NetworkStateReceiverListener() {
+            @Override
+            public void activeConnection() {
+                //Internet is working
+                if (!sharedPreferences.getBoolean(ConstantStrings.IS_DOWNLOAD_DONE, false)) {
+                    DialogFactory.createDownloadDialog(context, R.string.download_assets, R.string.charges_warning,
+                            (dialogInterface, button) -> {
+                                switch (button) {
+                                    case DialogInterface.BUTTON_POSITIVE:
+                                        startDownloadFromNetwork();
+                                        break;
+                                    case DialogInterface.BUTTON_NEGATIVE:
+                                        downloadFromAssets();
+                                        break;
+                                    default:
+                                        // No action to be taken
+                                }
+                    }).show();
+                } else {
+                    completeHandler.hide();
+                }
+            }
+
+            @Override
+            public void inactiveConnection() {
+                //Device is connected to WI-FI or Mobile Data but Internet is not working
+                ShowNotificationSnackBar showNotificationSnackBar = new ShowNotificationSnackBar(MainActivity.this,mainFrame, null) {
+                    @Override
+                    public void refreshClicked() {
+                        OpenEventApp.getEventBus().unregister(this);
+                        OpenEventApp.getEventBus().register(this);
+                    }
+                };
+                //show snackbar
+                showNotificationSnackBar.showSnackBar();
+                //snow notification (Only when connected to WiFi)
+                showNotificationSnackBar.buildNotification();
+            }
+
+            @Override
+            public void networkAvailable() {
+                // Waiting for connectivity
+            }
+
+            @Override
+            public void networkUnavailable() {
+                Snackbar.make(mainFrame, R.string.display_offline_schedule, Snackbar.LENGTH_LONG).show();
+                downloadFromAssets();
+            }
+        });
+    }
+
     private void downloadFailed(final DownloadEvent event) {
         Snackbar.make(mainFrame, getString(R.string.download_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, view -> {
             if (event == null)
@@ -440,126 +439,107 @@ public class MainActivity extends BaseActivity {
         });
     }
 
+    private void shareApplication() {
+        try {
+            Intent shareIntent = new Intent();
+            shareIntent.setAction(Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+            shareIntent.putExtra(Intent.EXTRA_TEXT, String.format(getString(R.string.whatsapp_promo_msg_template),
+                    String.format(getString(R.string.app_share_url),getPackageName())));
+            startActivity(shareIntent);
+        }
+        catch (Exception e) {
+            Snackbar.make(mainFrame, getString(R.string.error_msg_retry), Snackbar.LENGTH_SHORT).show();
+        }
+    }
+
+    private void showAboutDialog() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String app_name = sharedPreferences.getString(ConstantStrings.APP_NAME, "");
+        String org_description = sharedPreferences.getString(ConstantStrings.ORG_DESCRIPTION, "");
+
+        final AlertDialog aboutUs = new AlertDialog.Builder(this)
+                .setTitle(app_name)
+                .setMessage(Views.fromHtml(org_description))
+                .setIcon(R.mipmap.ic_launcher)
+                .setPositiveButton(android.R.string.ok, null)
+                .create();
+        aboutUs.show();
+
+        TextView aboutUsTV = (TextView) aboutUs.findViewById(android.R.id.message);
+        if(aboutUsTV == null) return;
+        aboutUsTV.setMovementMethod(LinkMovementMethod.getInstance());
+        if (customTabsSupported) {
+            SpannableString welcomeAlertSpannable = new SpannableString(aboutUsTV.getText());
+            URLSpan[] spans = welcomeAlertSpannable.getSpans(0, welcomeAlertSpannable.length(), URLSpan.class);
+            for (URLSpan span : spans) {
+                CustomTabsSpan newSpan = new CustomTabsSpan(span.getURL(), getApplicationContext(), this,
+                        customTabsClient.newSession(new CustomTabsCallback()));
+                welcomeAlertSpannable.setSpan(newSpan, welcomeAlertSpannable.getSpanStart(span),
+                        welcomeAlertSpannable.getSpanEnd(span),
+                        Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+                welcomeAlertSpannable.removeSpan(span);
+            }
+            aboutUsTV.setText(welcomeAlertSpannable);
+        }
+    }
+
+    private void replaceFragment(Fragment fragment, int title) {
+        boolean isAtHome = false;
+        String TAG = FRAGMENT_TAG_REST;
+
+        if(fragment instanceof AboutFragment) {
+            isAtHome = true;
+            TAG = FRAGMENT_TAG_HOME;
+        }
+
+        atHome = isAtHome;
+
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_frame, fragment, TAG).commit();
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(title);
+        }
+        appBarLayout.setExpanded(true, true);
+    }
+
     private void doMenuAction(int menuItemId) {
-        final FragmentManager fragmentManager = getSupportFragmentManager();
+        addShadowToAppBar(true);
         switch (menuItemId) {
             case R.id.nav_home:
-                atHome = true;
-                fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, new AboutFragment(), FRAGMENT_TAG_HOME).commit();
-                if (getSupportActionBar() != null) {
-                    getSupportActionBar().setTitle(R.string.menu_home);
-                }
-                if (currentMenuItemId == R.id.nav_schedule){
-                    addShadowToAppBar(false);
-                }
+                replaceFragment(new AboutFragment(), R.string.menu_home);
                 break;
             case R.id.nav_tracks:
-                atHome = false;
-                fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, new TracksFragment(), FRAGMENT_TAG_REST).commit();
-                addShadowToAppBar(true);
-                if (getSupportActionBar() != null) {
-                    getSupportActionBar().setTitle(R.string.menu_tracks);
-                }
+                replaceFragment(new TracksFragment(), R.string.menu_tracks);
                 break;
             case R.id.nav_schedule:
-                atHome = false;
-                fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, new ScheduleFragment(), FRAGMENT_TAG_REST).commit();
                 addShadowToAppBar(false);
-                if (getSupportActionBar() != null) {
-                    getSupportActionBar().setTitle(R.string.menu_schedule);
-                }
+                replaceFragment(new ScheduleFragment(), R.string.menu_schedule);
                 break;
             case R.id.nav_speakers:
-                atHome = false;
-                fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, new SpeakersListFragment(), FRAGMENT_TAG_REST).commit();
-                addShadowToAppBar(true);
-                if (getSupportActionBar() != null) {
-                    getSupportActionBar().setTitle(R.string.menu_speakers);
-                }
+                replaceFragment(new SpeakersListFragment(), R.string.menu_speakers);
                 break;
             case R.id.nav_sponsors:
-                atHome = false;
-                fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, new SponsorsFragment(), FRAGMENT_TAG_REST).commit();
-                addShadowToAppBar(true);
-                if (getSupportActionBar() != null) {
-                    getSupportActionBar().setTitle(R.string.menu_sponsor);
-                }
+                replaceFragment(new SponsorsFragment(), R.string.menu_sponsor);
                 break;
             case R.id.nav_locations:
-                atHome = false;
-                fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, new LocationsFragment(), FRAGMENT_TAG_REST).commit();
-                addShadowToAppBar(true);
-                if (getSupportActionBar() != null) {
-                    getSupportActionBar().setTitle(R.string.menu_locations);
-                }
+                replaceFragment(new LocationsFragment(), R.string.menu_locations);
                 break;
             case R.id.nav_map:
-                atHome = false;
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-                fragmentTransaction.replace(R.id.content_frame,
-                        ((OpenEventApp) getApplication())
-                                .getMapModuleFactory()
-                                .provideMapModule()
-                                .provideMapFragment(), FRAGMENT_TAG_REST).commit();
-                addShadowToAppBar(true);
-                if (getSupportActionBar() != null) {
-                    getSupportActionBar().setTitle("");
-                }
+                replaceFragment(((OpenEventApp) getApplication())
+                        .getMapModuleFactory()
+                        .provideMapModule()
+                        .provideMapFragment(), R.string.menu_map);
                 break;
             case R.id.nav_settings:
                 final Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivity(intent);
                 break;
             case R.id.nav_share:
-                try {
-                    Intent shareIntent = new Intent();
-                    shareIntent.setAction(Intent.ACTION_SEND);
-                    shareIntent.setType("text/plain");
-                    shareIntent.putExtra(Intent.EXTRA_TEXT, String.format(getString(R.string.whatsapp_promo_msg_template),
-                            String.format(getString(R.string.app_share_url),getPackageName())));
-                    startActivity(shareIntent);
-                }
-                catch (Exception e) {
-                    Snackbar.make(mainFrame, getString(R.string.error_msg_retry), Snackbar.LENGTH_SHORT).show();
-                }
+                shareApplication();
                 break;
             case R.id.nav_about:
-
-                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-                String app_name = sharedPreferences.getString(ConstantStrings.APP_NAME, "");
-                String org_description = sharedPreferences.getString(ConstantStrings.ORG_DESCRIPTION, "");
-
-                final AlertDialog aboutUs = new AlertDialog.Builder(this)
-                        .setTitle(app_name)
-                        .setMessage(Html.fromHtml(org_description))
-                        .setIcon(R.mipmap.ic_launcher)
-                        .setPositiveButton(android.R.string.ok, null)
-                        .create();
-                aboutUs.show();
-
-                TextView aboutUsTV = (TextView) aboutUs.findViewById(android.R.id.message);
-                if(aboutUsTV == null) break;
-                aboutUsTV.setMovementMethod(LinkMovementMethod.getInstance());
-                if (customTabsSupported) {
-                    SpannableString welcomeAlertSpannable = new SpannableString(aboutUsTV.getText());
-                    URLSpan[] spans = welcomeAlertSpannable.getSpans(0, welcomeAlertSpannable.length(), URLSpan.class);
-                    for (URLSpan span : spans) {
-                        CustomTabsSpan newSpan = new CustomTabsSpan(span.getURL(), getApplicationContext(), this,
-                                customTabsClient.newSession(new CustomTabsCallback()));
-                        welcomeAlertSpannable.setSpan(newSpan, welcomeAlertSpannable.getSpanStart(span),
-                                welcomeAlertSpannable.getSpanEnd(span),
-                                Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-                        welcomeAlertSpannable.removeSpan(span);
-                    }
-                    aboutUsTV.setText(welcomeAlertSpannable);
-                }
+                showAboutDialog();
                 break;
             default:
                 //Do nothing
@@ -570,7 +550,6 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         if(!mTwoPane) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
             if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
                 drawerLayout.closeDrawer(GravityCompat.START);
             } else if (atHome) {
@@ -580,34 +559,22 @@ public class MainActivity extends BaseActivity {
                     backPressedOnce = true;
                     Snackbar snackbar = Snackbar.make(mainFrame, R.string.press_back_again, 2000);
                     snackbar.show();
-                    runnable = () -> backPressedOnce = false;
-                    handler = new Handler();
-                    long timer = 2000;
-                    handler.postDelayed(runnable, timer);
+                    new Handler().postDelayed(() -> backPressedOnce = false, 2000);
                 }
             } else {
-                atHome = true;
-                fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, new AboutFragment(), FRAGMENT_TAG_REST).commit();
-                if (getSupportActionBar() != null) {
-                    getSupportActionBar().setTitle(R.string.menu_home);
-                }
-                if (currentMenuItemId == R.id.nav_schedule) {
-                    addShadowToAppBar(false);
-                }
+                replaceFragment(new AboutFragment(), R.string.menu_home);
             }
         }
     }
 
     public void addShadowToAppBar(boolean addShadow) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
+            return;
+
         if (addShadow) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                appBarLayout.setElevation(12);
-            }
+            appBarLayout.setElevation(12);
         } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                appBarLayout.setElevation(0);
-            }
+            appBarLayout.setElevation(0);
         }
     }
 
@@ -628,12 +595,12 @@ public class MainActivity extends BaseActivity {
     }
 
     private void startDownload() {
-        realmRepo.clearVersions().subscribe(() -> {
-            Timber.d("Cleared JSON db versions");
-        }, throwable -> {
-            throwable.printStackTrace();
-            Timber.e(throwable);
-        });
+        realmRepo.clearVersions().subscribe(
+                () -> Timber.d("Cleared JSON db versions"),
+                throwable -> {
+                    throwable.printStackTrace();
+                    Timber.e(throwable);
+                });
 
         DataDownloadManager.getInstance().downloadEvents();
         startDownloadListener();
@@ -650,6 +617,11 @@ public class MainActivity extends BaseActivity {
         builder.show();
     }
 
+    public void dismissDialogNetworkNotification() {
+        if (dialogNetworkNotification != null)
+            dialogNetworkNotification.dismiss();
+    }
+
     @Subscribe
     public void noInternet(NoInternetEvent event) {
         downloadFailed(null);
@@ -658,14 +630,17 @@ public class MainActivity extends BaseActivity {
     @Subscribe
     public void showNetworkDialog(ShowNetworkDialogEvent event) {
         completeHandler.hide();
-        dialogNetworkNotiff = DialogFactory.createSimpleActionDialog(this,
-                R.string.net_unavailable,
-                R.string.turn_on,
-                (dialog, which) -> {
-                    Intent setNetworkIntent = new Intent(Settings.ACTION_SETTINGS);
-                    startActivity(setNetworkIntent);
-                });
-        dialogNetworkNotiff.show();
+        if (dialogNetworkNotification == null) {
+            dialogNetworkNotification = DialogFactory.createSimpleActionDialog(this,
+                    R.string.net_unavailable,
+                    R.string.turn_on,
+                    (dialog, which) -> {
+                        Intent setNetworkIntent = new Intent(Settings.ACTION_SETTINGS);
+                        startActivity(setNetworkIntent);
+                    });
+        }
+
+        dialogNetworkNotification.show();
     }
 
     @Subscribe
@@ -798,7 +773,7 @@ public class MainActivity extends BaseActivity {
     }
 
     public void downloadFromAssets() {
-
+        fromServer = false;
         if (!sharedPreferences.getBoolean(ConstantStrings.DATABASE_RECORDS_EXIST, false)) {
             //TODO: Add and Take counter value from to config.json
             sharedPreferences.edit().putBoolean(ConstantStrings.DATABASE_RECORDS_EXIST, true).apply();
@@ -829,7 +804,8 @@ public class MainActivity extends BaseActivity {
                     InputStream inputStream = getAssets().open(name);
                     int size = inputStream.available();
                     byte[] buffer = new byte[size];
-                    inputStream.read(buffer);
+                    if (inputStream.read(buffer) == -1)
+                        Timber.d("Empty Stream");
                     inputStream.close();
                     json = new String(buffer, "UTF-8");
                 } catch (IOException e) {
@@ -844,15 +820,13 @@ public class MainActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         unbindService(customTabsServiceConnection);
-        if (handler != null) {
-            handler.removeCallbacks(runnable);
-        }
         if(disposable != null && !disposable.isDisposed())
             disposable.dispose();
         if(event != null)
             event.removeAllChangeListeners();
         if(completeHandler != null)
             completeHandler.stopListening();
+        ((OpenEventApp) getApplicationContext()).detachMainActivity();
     }
 
     @Override
