@@ -1,6 +1,5 @@
 package org.fossasia.openevent.activities;
 
-import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -21,8 +20,8 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -220,7 +219,87 @@ public class MainActivity extends BaseActivity {
 
         disposable = new CompositeDisposable();
 
-        setupConnection();
+        NetworkUtils.checkConnection(new WeakReference<Context>(this), new NetworkUtils.NetworkStateReceiverListener() {
+            @Override
+            public void activeConnection() {
+                //Internet is working
+                if (!sharedPreferences.getBoolean(ConstantStrings.IS_DOWNLOAD_DONE, false)) {
+                    DialogFactory.createDownloadDialog(context, R.string.download_assets, R.string.charges_warning, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int button) {
+                            if (button==DialogInterface.BUTTON_POSITIVE) {
+                                DbSingleton.getInstance().clearDatabaseObservable()
+                                        .observeOn(AndroidSchedulers.mainThread())
+                                        .subscribe(new CallbackCompletableObserver(new Action() {
+                                            @Override
+                                            public void run() throws Exception {
+                                                Boolean preference = sharedPreferences.getBoolean(getResources().getString(R.string.download_mode_key), true);
+                                                if (preference) {
+                                                    disposable.add(NetworkUtils.haveNetworkConnectionObservable(MainActivity.this)
+                                                            .subscribeOn(Schedulers.io())
+                                                            .observeOn(AndroidSchedulers.mainThread())
+                                                            .subscribe(new Consumer<Boolean>() {
+                                                                @Override
+                                                                public void accept(@NonNull Boolean connected) throws Exception {
+                                                                    if (connected) {
+                                                                        OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
+                                                                        sharedPreferences.edit().putBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true).apply();
+                                                                    } else {
+                                                                        final Snackbar snackbar = Snackbar.make(mainFrame, R.string.internet_preference_warning, Snackbar.LENGTH_INDEFINITE);
+                                                                        snackbar.setAction(R.string.yes, new View.OnClickListener() {
+                                                                            @Override
+                                                                            public void onClick(View view) {
+                                                                                downloadFromAssets();
+                                                                            }
+                                                                        });
+                                                                        snackbar.show();
+                                                                    }
+                                                                }
+                                                            }));
+                                                } else {
+                                                    OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
+                                                    sharedPreferences.edit().putBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true).apply();
+                                                }
+                                            }
+                                        }));
+
+                            } else if (button==DialogInterface.BUTTON_NEGATIVE) {
+                                downloadFromAssets();
+                            }
+                        }
+                    }).show();
+                } else {
+                    downloadProgress.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void inactiveConnection() {
+                //Device is connected to WI-FI or Mobile Data but Internet is not working
+                ShowNotificationSnackBar showNotificationSnackBar = new ShowNotificationSnackBar(MainActivity.this,mainFrame,null) {
+                    @Override
+                    public void refreshClicked() {
+                        OpenEventApp.getEventBus().unregister(this);
+                        OpenEventApp.getEventBus().register(this);
+                    }
+                };
+                //show snackbar
+                showNotificationSnackBar.showSnackBar();
+                //snow notification (Only when connected to WiFi)
+                showNotificationSnackBar.buildNotification();
+            }
+
+            @Override
+            public void networkAvailable() {
+                // Waiting for connectivity
+            }
+
+            @Override
+            public void networkUnavailable() {
+                Snackbar.make(mainFrame, R.string.display_offline_schedule, Snackbar.LENGTH_LONG).show();
+                downloadFromAssets();
+            }
+        });
 
         if (savedInstanceState == null) {
             currentMenuItemId = R.id.nav_tracks;
@@ -365,104 +444,6 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    private void startDownloadFromNetwork() {
-
-        final Consumer<Boolean> connected = new Consumer<Boolean>() {
-            @Override
-            public void accept(@NonNull Boolean connected) throws Exception {
-                if (connected) {
-                    OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
-                    sharedPreferences.edit().putBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true).apply();
-                } else {
-                    final Snackbar snackbar = Snackbar.make(mainFrame, R.string.internet_preference_warning, Snackbar.LENGTH_INDEFINITE);
-                    snackbar.setAction(R.string.yes, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            downloadFromAssets();
-                        }
-                    });
-                    snackbar.show();
-                }
-            }
-        };
-
-        CallbackCompletableObserver dbCleared = new CallbackCompletableObserver(new Action() {
-            @Override
-            public void run() throws Exception {
-                Boolean preference = sharedPreferences.getBoolean(getResources().getString(R.string.download_mode_key), true);
-                if (preference) {
-                    disposable.add(NetworkUtils.haveNetworkConnectionObservable(MainActivity.this)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(connected));
-                } else {
-                    OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
-                    sharedPreferences.edit().putBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true).apply();
-                }
-            }
-        });
-
-        DbSingleton.getInstance().clearDatabaseObservable()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(dbCleared);
-    }
-
-    private void setupConnection() {
-        NetworkUtils.checkConnection(new WeakReference<Context>(this), new NetworkUtils.NetworkStateReceiverListener() {
-            @Override
-            public void activeConnection() {
-                //Internet is working
-                if (!sharedPreferences.getBoolean(ConstantStrings.IS_DOWNLOAD_DONE, false)) {
-                    DialogFactory.createDownloadDialog(context, R.string.download_assets, R.string.charges_warning, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int button) {
-                            switch (button) {
-                                case DialogInterface.BUTTON_POSITIVE:
-                                    startDownloadFromNetwork();
-                                    break;
-                                case DialogInterface.BUTTON_NEGATIVE:
-                                    downloadFromAssets();
-                                    break;
-                                default:
-                                    // No action to be taken
-                            }
-
-                        }
-                    }).show();
-                } else {
-                    downloadProgress.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void inactiveConnection() {
-                //Device is connected to WI-FI or Mobile Data but Internet is not working
-                ShowNotificationSnackBar showNotificationSnackBar = new ShowNotificationSnackBar(MainActivity.this,mainFrame,null) {
-                    @Override
-                    public void refreshClicked() {
-                        OpenEventApp.getEventBus().unregister(this);
-                        OpenEventApp.getEventBus().register(this);
-                    }
-                };
-                //show snackbar
-                showNotificationSnackBar.showSnackBar();
-                //snow notification (Only when connected to WiFi)
-                showNotificationSnackBar.buildNotification();
-            }
-
-            @Override
-            public void networkAvailable() {
-                // Waiting for connectivity
-            }
-
-            @Override
-            public void networkUnavailable() {
-                Snackbar.make(mainFrame, R.string.display_offline_schedule, Snackbar.LENGTH_LONG).show();
-                downloadFromAssets();
-            }
-        });
-    }
-
     private void downloadFailed(final DownloadEvent event) {
         downloadProgress.setVisibility(View.GONE);
         Snackbar.make(mainFrame, getString(R.string.download_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, new View.OnClickListener() {
@@ -503,135 +484,28 @@ public class MainActivity extends BaseActivity {
                 });
     }
 
-    private void shareApplication() {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = this.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.dialog_share, mainFrame);
-        Button shareApp = (Button)dialogView.findViewById(R.id.share_app);
-        Button facebookInvite = (Button)dialogView.findViewById(R.id.facebook_invite);
-        dialogBuilder.setView(dialogView);
-        final AlertDialog alertDialog = dialogBuilder.create();
-        shareApp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    Intent shareIntent = new Intent();
-                    shareIntent.setAction(Intent.ACTION_SEND);
-                    shareIntent.setType("text/plain");
-                    shareIntent.putExtra(Intent.EXTRA_TEXT,
-                            String.format(getString(R.string.whatsapp_promo_msg_template),
-                                    String.format(getString(R.string.app_share_url),getPackageName())));
-                    startActivity(shareIntent);
-                }
-                catch (Exception e) {
-                    Snackbar.make(mainFrame, getString(R.string.error_msg_retry), Snackbar.LENGTH_SHORT).show();
-                }
-            }
-        });
-        facebookInvite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                @SuppressLint("HardwareIds") BranchUniversalObject branchUniversalObject = new BranchUniversalObject()
-                        .setCanonicalIdentifier("user/" + Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID))
-                        .setTitle(getString(R.string.invite_title))
-                        .setContentDescription(getString(R.string.invite_content_description))
-                        .setContentImageUrl(getString(R.string.share_fb_preview_url))
-                        .addContentMetadata("userId", Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID))
-                        .addContentMetadata("packageName", getPackageName());
-
-                LinkProperties linkProperties = new LinkProperties()
-                        .setChannel(getString(R.string.facebook))
-                        .setFeature(getString(R.string.invite_via_facebook));
-
-                branchUniversalObject.generateShortUrl(MainActivity.this, linkProperties, new Branch.BranchLinkCreateListener() {
-                    @Override
-                    public void onLinkCreate(String url, BranchError error) {
-                        if (error == null && AppInviteDialog.canShow()) {
-                            AppInviteContent content = new AppInviteContent.Builder()
-                                    .setApplinkUrl(url)
-                                    .setPreviewImageUrl(getString(R.string.share_fb_preview_url))
-                                    .build();
-                            AppInviteDialog appInviteDialog = new AppInviteDialog(MainActivity.this);
-                            appInviteDialog.registerCallback(callbackManager, new FacebookCallback<AppInviteDialog.Result>() {
-                                @Override
-                                public void onSuccess(AppInviteDialog.Result result) {
-                                    alertDialog.cancel();
-                                }
-
-                                @Override
-                                public void onCancel() {
-
-                                }
-
-                                @Override
-                                public void onError(FacebookException e) {
-                                    Snackbar.make(mainFrame, getString(R.string.error_msg_retry), Snackbar.LENGTH_SHORT).show();
-                                }
-                            });
-                            AppInviteDialog.show(MainActivity.this, content);
-                        }
-                    }
-                });
-            }
-        });
-        alertDialog.show();
-    }
-
-    private void showAboutDialog() {
-        AlertDialog aboutUs = new AlertDialog.Builder(this)
-                .setTitle(R.string.app_name)
-                .setMessage(R.string.about_text)
-                .setIcon(R.mipmap.ic_launcher)
-                .setPositiveButton(android.R.string.ok, null)
-                .create();
-        aboutUs.show();
-
-        TextView aboutUsTV = (TextView) aboutUs.findViewById(android.R.id.message);
-        if(aboutUsTV == null) return;
-        aboutUsTV.setMovementMethod(LinkMovementMethod.getInstance());
-        if (customTabsSupported) {
-            SpannableString welcomeAlertSpannable = new SpannableString(aboutUsTV.getText());
-            URLSpan[] spans = welcomeAlertSpannable.getSpans(0, welcomeAlertSpannable.length(), URLSpan.class);
-            for (URLSpan span : spans) {
-                CustomTabsSpan newSpan = new CustomTabsSpan(span.getURL(), getApplicationContext(), this,
-                        customTabsClient.newSession(new CustomTabsCallback()));
-                welcomeAlertSpannable.setSpan(newSpan, welcomeAlertSpannable.getSpanStart(span),
-                        welcomeAlertSpannable.getSpanEnd(span),
-                        Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-                welcomeAlertSpannable.removeSpan(span);
-            }
-            aboutUsTV.setText(welcomeAlertSpannable);
-        }
-    }
-
-    private void replaceFragment(Fragment fragment, int title) {
-        boolean isAtHome = false;
-        String TAG = FRAGMENT_TAG_REST;
-
-        if(fragment instanceof TracksFragment) {
-            isAtHome = true;
-            TAG = FRAGMENT_TAG_TRACKS;
-        }
-
-        atHome = isAtHome;
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.content_frame, fragment, TAG).commit();
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(title);
-        }
-        appBarLayout.setExpanded(true, true);
-    }
-
     private void doMenuAction(int menuItemId) {
+        final FragmentManager fragmentManager = getSupportFragmentManager();
         addShadowToAppBar(true);
         switch (menuItemId) {
             case R.id.nav_tracks:
-                replaceFragment(new TracksFragment(), R.string.menu_tracks);
+                atHome = true;
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_frame, new TracksFragment(), FRAGMENT_TAG_TRACKS).commit();
+                if (getSupportActionBar() != null) {
+                    getSupportActionBar().setTitle(R.string.menu_tracks);
+                }
+                appBarLayout.setExpanded(true, true);
                 break;
             case R.id.nav_schedule:
-                replaceFragment(new ScheduleFragment(), R.string.menu_schedule);
+                atHome = false;
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_frame, new ScheduleFragment(), FRAGMENT_TAG_REST).commit();
+                addShadowToAppBar(false);
+                if (getSupportActionBar() != null) {
+                    getSupportActionBar().setTitle(R.string.menu_schedule);
+                }
+                appBarLayout.setExpanded(true, true);
                 break;
             case R.id.nav_bookmarks:
                 DbSingleton dbSingleton = DbSingleton.getInstance();
@@ -641,8 +515,16 @@ public class MainActivity extends BaseActivity {
                             public void accept(@NonNull Boolean empty) throws Exception {
                                 Timber.d("Empty %s", empty);
                                 if(!empty) {
-                                    replaceFragment(new BookmarksFragment(), R.string.menu_bookmarks);
+                                    Timber.d("no");
+                                    atHome = false;
+                                    fragmentManager.beginTransaction()
+                                            .replace(R.id.content_frame, new BookmarksFragment(), FRAGMENT_TAG_REST).commit();
+                                    if (getSupportActionBar() != null) {
+                                        getSupportActionBar().setTitle(R.string.menu_bookmarks);
+                                    }
+                                    appBarLayout.setExpanded(true, true);
                                 } else {
+                                    Timber.d("yes");
                                     DialogFactory.createSimpleActionDialog(
                                             context,
                                             R.string.bookmarks,
@@ -655,19 +537,45 @@ public class MainActivity extends BaseActivity {
                         }));
                 break;
             case R.id.nav_speakers:
-                replaceFragment(new SpeakersListFragment(), R.string.menu_speakers);
+                atHome = false;
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_frame, new SpeakersListFragment(), FRAGMENT_TAG_REST).commit();
+                if (getSupportActionBar() != null) {
+                    getSupportActionBar().setTitle(R.string.menu_speakers);
+                }
+                appBarLayout.setExpanded(true, true);
                 break;
             case R.id.nav_sponsors:
-                replaceFragment(new SponsorsFragment(), R.string.menu_sponsor);
+                atHome = false;
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_frame, new SponsorsFragment(), FRAGMENT_TAG_REST).commit();
+                if (getSupportActionBar() != null) {
+                    getSupportActionBar().setTitle(R.string.menu_sponsor);
+                }
+                appBarLayout.setExpanded(true, true);
                 break;
             case R.id.nav_locations:
-                replaceFragment(new LocationsFragment(), R.string.menu_locations);
+                atHome = false;
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_frame, new LocationsFragment(), FRAGMENT_TAG_REST).commit();
+                if (getSupportActionBar() != null) {
+                    getSupportActionBar().setTitle(R.string.menu_locations);
+                }
+                appBarLayout.setExpanded(true, true);
                 break;
             case R.id.nav_map:
-                replaceFragment(((OpenEventApp) getApplication())
-                        .getMapModuleFactory()
-                        .provideMapModule()
-                        .provideMapFragment(), R.string.menu_map);
+                atHome = false;
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                fragmentTransaction.replace(R.id.content_frame,
+                        ((OpenEventApp) getApplication())
+                                .getMapModuleFactory()
+                                .provideMapModule()
+                                .provideMapFragment(), FRAGMENT_TAG_REST).commit();
+                if (getSupportActionBar() != null) {
+                    getSupportActionBar().setTitle(R.string.menu_map);
+                }
+                appBarLayout.setExpanded(true, true);
                 break;
             case R.id.nav_settings:
                 final Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
@@ -680,10 +588,103 @@ public class MainActivity extends BaseActivity {
                 });
                 break;
             case R.id.nav_share:
-                shareApplication();
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+                LayoutInflater inflater = this.getLayoutInflater();
+                View dialogView = inflater.inflate(R.layout.dialog_share, mainFrame, false);
+                Button shareApp = (Button)dialogView.findViewById(R.id.share_app);
+                Button facebookInvite = (Button)dialogView.findViewById(R.id.facebook_invite);
+                dialogBuilder.setView(dialogView);
+                final AlertDialog alertDialog = dialogBuilder.create();
+                shareApp.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        try {
+                            Intent shareIntent = new Intent();
+                            shareIntent.setAction(Intent.ACTION_SEND);
+                            shareIntent.setType("text/plain");
+                            shareIntent.putExtra(Intent.EXTRA_TEXT,
+                                    String.format(getString(R.string.whatsapp_promo_msg_template),
+                                            String.format(getString(R.string.app_share_url),getPackageName())));
+                            startActivity(shareIntent);
+                        }
+                        catch (Exception e) {
+                            Snackbar.make(mainFrame, getString(R.string.error_msg_retry), Snackbar.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+                facebookInvite.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        BranchUniversalObject branchUniversalObject = new BranchUniversalObject()
+                                .setCanonicalIdentifier("user/" + Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID))
+                                .setTitle(getString(R.string.invite_title))
+                                .setContentDescription(getString(R.string.invite_content_description))
+                                .setContentImageUrl(getString(R.string.share_fb_preview_url))
+                                .addContentMetadata("userId", Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID))
+                                .addContentMetadata("packageName", getPackageName());
+
+                        LinkProperties linkProperties = new LinkProperties()
+                                .setChannel(getString(R.string.facebook))
+                                .setFeature(getString(R.string.invite_via_facebook));
+
+                        branchUniversalObject.generateShortUrl(MainActivity.this, linkProperties, new Branch.BranchLinkCreateListener() {
+                            @Override
+                            public void onLinkCreate(String url, BranchError error) {
+                                if (error == null && AppInviteDialog.canShow()) {
+                                    AppInviteContent content = new AppInviteContent.Builder()
+                                            .setApplinkUrl(url)
+                                            .setPreviewImageUrl(getString(R.string.share_fb_preview_url))
+                                            .build();
+                                    AppInviteDialog appInviteDialog = new AppInviteDialog(MainActivity.this);
+                                    appInviteDialog.registerCallback(callbackManager, new FacebookCallback<AppInviteDialog.Result>() {
+                                        @Override
+                                        public void onSuccess(AppInviteDialog.Result result) {
+                                            alertDialog.cancel();
+                                        }
+
+                                        @Override
+                                        public void onCancel() {
+
+                                        }
+
+                                        @Override
+                                        public void onError(FacebookException e) {
+                                            Snackbar.make(mainFrame, getString(R.string.error_msg_retry), Snackbar.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                    AppInviteDialog.show(MainActivity.this, content);
+                                }
+                            }
+                        });
+                    }
+                });
+                alertDialog.show();
                 break;
             case R.id.nav_about:
-                showAboutDialog();
+                final AlertDialog aboutUs = new AlertDialog.Builder(this)
+                        .setTitle(R.string.app_name)
+                        .setMessage(R.string.about_text)
+                        .setIcon(R.mipmap.ic_launcher)
+                        .setPositiveButton(android.R.string.ok, null)
+                        .create();
+                aboutUs.show();
+
+                TextView aboutUsTV = (TextView) aboutUs.findViewById(android.R.id.message);
+                if(aboutUsTV == null) break;
+                aboutUsTV.setMovementMethod(LinkMovementMethod.getInstance());
+                if (customTabsSupported) {
+                    SpannableString welcomeAlertSpannable = new SpannableString(aboutUsTV.getText());
+                    URLSpan[] spans = welcomeAlertSpannable.getSpans(0, welcomeAlertSpannable.length(), URLSpan.class);
+                    for (URLSpan span : spans) {
+                        CustomTabsSpan newSpan = new CustomTabsSpan(span.getURL(), getApplicationContext(), this,
+                                customTabsClient.newSession(new CustomTabsCallback()));
+                        welcomeAlertSpannable.setSpan(newSpan, welcomeAlertSpannable.getSpanStart(span),
+                                welcomeAlertSpannable.getSpanEnd(span),
+                                Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+                        welcomeAlertSpannable.removeSpan(span);
+                    }
+                    aboutUsTV.setText(welcomeAlertSpannable);
+                }
                 break;
         }
         currentMenuItemId = menuItemId;
@@ -691,6 +692,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
         } else if (atHome) {
@@ -907,7 +909,7 @@ public class MainActivity extends BaseActivity {
                                 Type listType = new TypeToken<List<Track>>() {
                                 }.getType();
                                 List<Track> tracks = gson.fromJson(json, listType);
-                                ArrayList<String> queries = new ArrayList<>();
+                                ArrayList<String> queries = new ArrayList<String>();
                                 for (Track current : tracks) {
                                     queries.add(current.generateSql());
                                 }
@@ -946,7 +948,7 @@ public class MainActivity extends BaseActivity {
                         }.getType();
                         List<Speaker> speakers = gson.fromJson(json, listType);
 
-                        ArrayList<String> queries = new ArrayList<>();
+                        ArrayList<String> queries = new ArrayList<String>();
                         for (Speaker current : speakers) {
                             for (int i = 0; i < current.getSession().size(); i++) {
                                 SessionSpeakersMapping sessionSpeakersMapping = new SessionSpeakersMapping(current.getSession().get(i).getId(), current.getId());
@@ -974,7 +976,7 @@ public class MainActivity extends BaseActivity {
                                 Type listType = new TypeToken<List<Sponsor>>() {
                                 }.getType();
                                 List<Sponsor> sponsors = gson.fromJson(json, listType);
-                                ArrayList<String> queries = new ArrayList<>();
+                                ArrayList<String> queries = new ArrayList<String>();
                                 for (Sponsor current : sponsors) {
                                     queries.add(current.generateSql());
                                 }
@@ -997,7 +999,7 @@ public class MainActivity extends BaseActivity {
                                 Type listType = new TypeToken<List<Microlocation>>() {
                                 }.getType();
                                 List<Microlocation> microlocations = gson.fromJson(json, listType);
-                                ArrayList<String> queries = new ArrayList<>();
+                                ArrayList<String> queries = new ArrayList<String>();
                                 for (Microlocation current : microlocations) {
                                     queries.add(current.generateSql());
                                 }
