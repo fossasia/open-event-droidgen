@@ -32,9 +32,7 @@ A sample app for testing purposes is automatically built after commits in the re
 
 ### Screenshots of a sample Android app
 
-<img src="https://cloud.githubusercontent.com/assets/3874064/24617232/fda8fd04-18b0-11e7-9c11-9b54dd8cde31.png" height = '480' width="270">
-<img src="https://cloud.githubusercontent.com/assets/3874064/24597065/ffaf7042-1860-11e7-993c-dc4a5c611362.png" height = '480' width="270">
-<img src="https://cloud.githubusercontent.com/assets/3874064/24597075/0d39f26e-1861-11e7-83be-cfe9255f44b6.png" height = '480' width="270">
+<img src="https://cloud.githubusercontent.com/assets/3874064/24617232/fda8fd04-18b0-11e7-9c11-9b54dd8cde31.png" height = '480' width="270"> <img src="https://cloud.githubusercontent.com/assets/3874064/24597065/ffaf7042-1860-11e7-993c-dc4a5c611362.png" height = '480' width="270"> <img src="https://cloud.githubusercontent.com/assets/3874064/24597075/0d39f26e-1861-11e7-83be-cfe9255f44b6.png" height = '480' width="270">
 <img src="https://cloud.githubusercontent.com/assets/17262180/23652925/a13478a2-0350-11e7-8261-84e4e8c170e3.png" height = '480' width="270">
 <img src="https://cloud.githubusercontent.com/assets/3874064/24597077/1088e146-1861-11e7-8ac4-fb1a19a76722.png" height = '480' width="270">
 <img src="https://cloud.githubusercontent.com/assets/3874064/24597080/15ab8dea-1861-11e7-8d9c-e881e8dff4a2.png" height = '480' width="270">
