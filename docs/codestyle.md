@@ -26,5 +26,3 @@ Some **DONT's**
 - All constants should be CAPS. e.g `MINIMUM_TIMEOUT_ERROR_EXTERNAL`
 - Always use `Locale.ENGLISH` when using `String.format()` unless the format itself is locale dependent e.g. `String query = String.format(Locale.ENGLISH,...`
 - Never concat `null` with `""` (Empty String). It will become `"null"` e.g. `String.equals("" + null, "null") == TRUE`
-
-Optionally if you want to make life easier, you can download the Styles Settings Jar from [here](https://dl.dropboxusercontent.com/u/10123399/fossasia_codestyle.jar) and use autoformat before submission.
