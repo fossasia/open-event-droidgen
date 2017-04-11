@@ -14,6 +14,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.TextUtils;
+import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,6 +64,8 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
     private static final int locationWiseSessionList = 1;
     private static final int trackWiseSessionList = 4;
     private static final int speakerWiseSessionList = 2;
+
+    private static SparseIntArray colorMap = new SparseIntArray();
 
     private ColorGenerator colorGenerator = ColorGenerator.MATERIAL;
     private TextDrawable.IBuilder drawableBuilder = TextDrawable.builder().round();
@@ -155,16 +158,32 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
 
         holder.sessionTitle.setText(session.getTitle());
         holder.sessionSubtitle.setText(session.getSubtitle());
-        TextDrawable drawable = drawableBuilder.build(String.valueOf(session.getTrack().getName().charAt(0)), colorGenerator.getColor(session.getTrack().getName()));
+
+        final DbSingleton dbSingleton = DbSingleton.getInstance();
+
+        int storedColor = colorMap.get(session.getTrack().getId(), -1);
+        if(storedColor == -1) {
+            storedColor = colorGenerator.getColor(session.getTrack().getName());
+            disposable.add(dbSingleton.getTrackByIdObservable(session.getTrack().getId())
+                    .subscribe(new Consumer<Track>() {
+                        @Override
+                        public void accept(@NonNull Track track) throws Exception {
+                            int color = Color.parseColor(track.getColor());
+                            TextDrawable drawable = drawableBuilder.build(String.valueOf(session.getTrack().getName().charAt(0)), color);
+                            holder.trackImageIcon.setImageDrawable(drawable);
+
+                            colorMap.put(session.getTrack().getId(), color);
+                        }
+                    }));
+        }
+
+        TextDrawable drawable = drawableBuilder.build(String.valueOf(session.getTrack().getName().charAt(0)), storedColor);
         holder.trackImageIcon.setImageDrawable(drawable);
         holder.trackImageIcon.setBackgroundColor(Color.TRANSPARENT);
         holder.sessionTrack.setText(session.getTrack().getName());
         holder.sessionDate.setText(date);
         holder.sessionTime.setText(ISO8601Date.get12HourTime(ISO8601Date.getDateObject(session.getStartTime())) + " - " + ISO8601Date.get12HourTime(ISO8601Date.getDateObject(session.getEndTime())));
         holder.sessionLocation.setText(session.getMicrolocation().getName());
-
-        final DbSingleton dbSingleton;
-        dbSingleton = DbSingleton.getInstance();
 
         disposable.add(dbSingleton.getSpeakersBySessionNameObservable(session.getTitle())
                 .map(new Function<ArrayList<Speaker>, String>() {
@@ -202,6 +221,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
             case speakerWiseSessionList:
                 holder.sessionSpeaker.setVisibility(View.GONE);
                 holder.speakerIcon.setVisibility(View.GONE);
+                color = storedColor;
                 break;
             default:
         }

@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
-import com.amulyakhare.textdrawable.util.ColorGenerator;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.activities.TrackSessionsActivity;
@@ -40,7 +39,6 @@ import timber.log.Timber;
 public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.RecyclerViewHolder> implements StickyRecyclerHeadersAdapter {
 
     private Context context;
-    private ColorGenerator colorGenerator = ColorGenerator.MATERIAL;
     private TextDrawable.IBuilder drawableBuilder = TextDrawable.builder().round();
     private CompositeDisposable disposable;
 
@@ -107,7 +105,7 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.Re
             holder.trackDescription.setVisibility(View.GONE);
         }
 
-        TextDrawable drawable = drawableBuilder.build(String.valueOf(currentTrack.getName().charAt(0)), colorGenerator.getColor(currentTrack.getName()));
+        TextDrawable drawable = drawableBuilder.build(String.valueOf(currentTrack.getName().charAt(0)), Color.parseColor(currentTrack.getColor()));
         holder.trackImageIcon.setImageDrawable(drawable);
         holder.trackImageIcon.setBackgroundColor(Color.TRANSPARENT);
 
