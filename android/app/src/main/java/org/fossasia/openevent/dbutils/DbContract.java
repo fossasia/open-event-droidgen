@@ -99,6 +99,8 @@ public class DbContract {
 
         public static final String PHOTO = "photo";
 
+        public static final String THUMBNAIL = "thumbnail";
+
         public static final String BIO = "shortBiography";
 
         public static final String EMAIL = "email";
@@ -123,6 +125,7 @@ public class DbContract {
                 ID,
                 NAME,
                 PHOTO,
+                THUMBNAIL,
                 BIO,
                 EMAIL,
                 WEB,
@@ -141,6 +144,7 @@ public class DbContract {
                         + ID + INT_TYPE + PRIMARY_KEY + COMMA_SEP
                         + NAME + TEXT_TYPE + COMMA_SEP
                         + PHOTO + TEXT_TYPE + COMMA_SEP
+                        + THUMBNAIL + TEXT_TYPE + COMMA_SEP
                         + BIO + TEXT_TYPE + COMMA_SEP
                         + EMAIL + TEXT_TYPE + COMMA_SEP
                         + WEB + TEXT_TYPE + COMMA_SEP

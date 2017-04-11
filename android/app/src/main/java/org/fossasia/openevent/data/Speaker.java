@@ -23,6 +23,8 @@ public class Speaker {
 
     private String photo;
 
+    private String thumbnail;
+
     @SerializedName("short_biography")
     private String shortBiography;
 
@@ -47,23 +49,25 @@ public class Speaker {
 
     private String country;
 
-    public Speaker(int id, String name, String photo,
-                   String bio, String email, String web,
+    public Speaker(int id, String name, String photo, String thumbnail,
+                   String shortBiography, String email, String website,
                    String twitter, String facebook, String github,
-                   String linkedin, String organisation,
-                   String position, int[] session, String country) {
+                   String linkedin, String organisation, String position,
+                   ArrayList<Session> sessionArrayList, String country) {
         this.id = id;
         this.name = name;
         this.photo = photo;
-        this.shortBiography = bio;
+        this.thumbnail = thumbnail;
+        this.shortBiography = shortBiography;
         this.email = email;
-        this.website = web;
+        this.website = website;
         this.twitter = twitter;
         this.facebook = facebook;
         this.github = github;
         this.linkedin = linkedin;
         this.organisation = organisation;
         this.position = position;
+        this.sessionArrayList = sessionArrayList;
         this.country = country;
     }
 
@@ -89,6 +93,14 @@ public class Speaker {
 
     public void setPhoto(String photo) {
         this.photo = photo;
+    }
+
+    public String getThumbnail() {
+        return thumbnail;
+    }
+
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
     }
 
     public String getShortBiography() {
@@ -180,13 +192,14 @@ public class Speaker {
     }
 
     public String generateSql() {
-        String query_normal = "INSERT INTO %s VALUES ('%d', %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);";
+        String query_normal = "INSERT INTO %s VALUES ('%d', %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);";
         return String.format(Locale.ENGLISH,
                 query_normal,
                 DbContract.Speakers.TABLE_NAME,
                 id,
                 DatabaseUtils.sqlEscapeString(StringUtils.optionalString(name)),
                 DatabaseUtils.sqlEscapeString(StringUtils.optionalString(photo)),
+                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(thumbnail)),
                 DatabaseUtils.sqlEscapeString(StringUtils.optionalString(shortBiography)),
                 DatabaseUtils.sqlEscapeString(StringUtils.optionalString(email)),
                 DatabaseUtils.sqlEscapeString(StringUtils.optionalString(website)),
