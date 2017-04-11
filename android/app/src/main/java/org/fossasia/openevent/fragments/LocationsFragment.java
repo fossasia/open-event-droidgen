@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
+import com.futuremind.recyclerviewfastscroll.FastScroller;
 import com.squareup.otto.Subscribe;
 
 import org.fossasia.openevent.OpenEventApp;
@@ -50,6 +51,7 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
     @BindView(R.id.locations_swipe_refresh) SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.list_locations) RecyclerView locationsRecyclerView;
     @BindView(R.id.txt_no_microlocations) TextView noMicrolocationsView;
+    @BindView(R.id.fastscroll) FastScroller fastScroller;
 
     private List<Microlocation> mLocations = new ArrayList<>();
     private LocationsListAdapter locationsListAdapter;
@@ -92,6 +94,10 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
         locationsRecyclerView.setLayoutManager(linearLayoutManager);
         locationsListAdapter = new LocationsListAdapter(getContext(), mLocations);
         locationsRecyclerView.setAdapter(locationsListAdapter);
+        locationsRecyclerView.setVerticalScrollBarEnabled(false);
+
+        //Has to be called AFTER RecyclerView.setAdapter()
+        fastScroller.setRecyclerView(locationsRecyclerView);
 
         final StickyRecyclerHeadersDecoration headersDecoration = new StickyRecyclerHeadersDecoration(locationsListAdapter);
         locationsRecyclerView.addItemDecoration(headersDecoration);

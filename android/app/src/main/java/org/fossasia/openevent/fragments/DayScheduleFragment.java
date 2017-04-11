@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.futuremind.recyclerviewfastscroll.FastScroller;
 import com.squareup.otto.Subscribe;
 
 import org.fossasia.openevent.OpenEventApp;
@@ -61,6 +62,7 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
     @BindView(R.id.schedule_swipe_refresh) SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.list_schedule) RecyclerView dayRecyclerView;
     @BindView(R.id.txt_no_schedule) TextView noSchedule;
+    @BindView(R.id.fastscroll) FastScroller fastScroller;
 
     private List<Session> mSessions = new ArrayList<>();
     private DayScheduleAdapter dayScheduleAdapter;
@@ -100,6 +102,10 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
         dayScheduleAdapter = new DayScheduleAdapter(mSessions, getContext());
         dayRecyclerView.setAdapter(dayScheduleAdapter);
         dayScheduleAdapter.setEventDate(date);
+        dayRecyclerView.setVerticalScrollBarEnabled(false);
+
+        //Has to be called AFTER RecyclerView.setAdapter()
+        fastScroller.setRecyclerView(dayRecyclerView);
 
         final StickyRecyclerHeadersDecoration headersDecoration = new StickyRecyclerHeadersDecoration(dayScheduleAdapter);
         dayRecyclerView.addItemDecoration(headersDecoration);

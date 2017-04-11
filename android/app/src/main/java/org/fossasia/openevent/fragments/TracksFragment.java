@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
+import com.futuremind.recyclerviewfastscroll.FastScroller;
 import com.squareup.otto.Subscribe;
 
 import org.fossasia.openevent.OpenEventApp;
@@ -58,6 +59,7 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
     @BindView(R.id.txt_no_tracks) TextView noTracksView;
     @BindView(R.id.list_tracks) RecyclerView tracksRecyclerView;
     @BindView(R.id.tracks_frame) View windowFrame;
+    @BindView(R.id.fastscroll) FastScroller fastScroller;
 
     private String searchText = "";
 
@@ -101,6 +103,10 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
         tracksRecyclerView.setLayoutManager(linearLayoutManager);
         tracksListAdapter = new TracksListAdapter(getContext(), mTracks);
         tracksRecyclerView.setAdapter(tracksListAdapter);
+        tracksRecyclerView.setVerticalScrollBarEnabled(false);
+
+        //Has to be called AFTER RecyclerView.setAdapter()
+        fastScroller.setRecyclerView(tracksRecyclerView);
 
         final StickyRecyclerHeadersDecoration headersDecoration = new StickyRecyclerHeadersDecoration(tracksListAdapter);
         tracksRecyclerView.addItemDecoration(headersDecoration);

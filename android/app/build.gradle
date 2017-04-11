@@ -84,6 +84,7 @@ dependencies {
     compile "com.android.support:design:${SUPPORT_LIB_VERSION}"
     compile "com.android.support:customtabs:${SUPPORT_LIB_VERSION}"
     compile "com.android.support:palette-v7:${SUPPORT_LIB_VERSION}"
+    compile 'com.futuremind.recyclerfastscroll:fastscroll:0.2.5'
     compile 'com.squareup.retrofit2:retrofit:2.0.0'
     compile 'com.squareup.retrofit2:converter-gson:2.0.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.2.0'

@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.TextView;
 
+import com.futuremind.recyclerviewfastscroll.SectionTitleProvider;
+
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.activities.SessionDetailActivity;
 import org.fossasia.openevent.data.Session;
@@ -35,7 +37,7 @@ import timber.log.Timber;
 /**
  * Created by Manan Wason on 17/06/16.
  */
-public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapter.DayScheduleViewHolder> implements StickyRecyclerHeadersAdapter {
+public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapter.DayScheduleViewHolder> implements StickyRecyclerHeadersAdapter, SectionTitleProvider {
 
     private Context context;
     private String eventDate;
@@ -184,6 +186,18 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
         } else if (SortOrder.sortOrderSchedule(context).equals(DbContract.Sessions.START_TIME)) {
             textView.setText(ISO8601Date.get12HourTime(ISO8601Date.getDateObject(getItem(position).getStartTime())));
         }
+    }
+
+    @Override
+    public String getSectionTitle(int position) {
+        if(!(position < 0 || position >= getItemCount())) {
+            if (SortOrder.sortOrderSchedule(context).equals(DbContract.Sessions.TITLE)) {
+                return String.valueOf(getItem(position).getTitle().charAt(0));
+            } else if (SortOrder.sortOrderSchedule(context).equals(DbContract.Sessions.START_TIME)) {
+                return ISO8601Date.get12HourTime(ISO8601Date.getDateObject(getItem(position).getStartTime()));
+            }
+        }
+        return "";
     }
 
     class DayScheduleViewHolder extends RecyclerView.ViewHolder {

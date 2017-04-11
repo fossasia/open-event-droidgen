@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.TextView;
 
+import com.futuremind.recyclerviewfastscroll.SectionTitleProvider;
+
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.activities.LocationActivity;
 import org.fossasia.openevent.data.Microlocation;
@@ -32,7 +34,7 @@ import timber.log.Timber;
  * User: MananWason
  * Date: 8/18/2015
  */
-public class LocationsListAdapter extends BaseRVAdapter<Microlocation, LocationsListAdapter.LocationViewHolder> implements StickyRecyclerHeadersAdapter {
+public class LocationsListAdapter extends BaseRVAdapter<Microlocation, LocationsListAdapter.LocationViewHolder> implements StickyRecyclerHeadersAdapter, SectionTitleProvider {
 
     private Context context;
     private CompositeDisposable disposable;
@@ -140,6 +142,14 @@ public class LocationsListAdapter extends BaseRVAdapter<Microlocation, Locations
     public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
         TextView textView = (TextView) holder.itemView.findViewById(R.id.recyclerview_view_header);
         textView.setText(String.valueOf(getItem(position).getName().charAt(0)));
+    }
+
+    @Override
+    public String getSectionTitle(int position) {
+        if(!(position < 0 || position >= getItemCount())) {
+            return String.valueOf(getItem(position).getName().charAt(0));
+        }
+        return "";
     }
 
     class LocationViewHolder extends RecyclerView.ViewHolder {

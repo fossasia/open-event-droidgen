@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
+import com.futuremind.recyclerviewfastscroll.SectionTitleProvider;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.activities.TrackSessionsActivity;
@@ -37,7 +38,7 @@ import timber.log.Timber;
  * User: MananWason
  * Date: 07-06-2015
  */
-public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.RecyclerViewHolder> implements StickyRecyclerHeadersAdapter {
+public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.RecyclerViewHolder> implements StickyRecyclerHeadersAdapter, SectionTitleProvider {
 
     private Context context;
     private ColorGenerator colorGenerator = ColorGenerator.MATERIAL;
@@ -155,6 +156,14 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.Re
     public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
         TextView textView = (TextView) holder.itemView.findViewById(R.id.recyclerview_view_header);
         textView.setText(String.valueOf(getItem(position).getName().charAt(0)));
+    }
+
+    @Override
+    public String getSectionTitle(int position) {
+        if(!(position < 0 || position >= getItemCount())) {
+            return String.valueOf(getItem(position).getName().charAt(0));
+        }
+        return "";
     }
 
     class RecyclerViewHolder extends RecyclerView.ViewHolder {
