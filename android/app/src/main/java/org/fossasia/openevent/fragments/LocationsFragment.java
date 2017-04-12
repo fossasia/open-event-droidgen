@@ -98,7 +98,8 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
             searchText = savedInstanceState.getString(SEARCH);
         }
 
-        compositeDisposable.add(dbSingleton.getMicrolocationsListObservable()
+
+        compositeDisposable.add(dbSingleton.getMicrolocationListObservable()
                 .subscribe(new Consumer<ArrayList<Microlocation>>() {
                     @Override
                     public void accept(@NonNull ArrayList<Microlocation> microlocations) throws Exception {

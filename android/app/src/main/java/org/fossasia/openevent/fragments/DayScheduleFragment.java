@@ -112,7 +112,7 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
             searchText = savedInstanceState.getString(SEARCH);
         }
 
-        compositeDisposable.add(DbSingleton.getInstance().getSessionByDateObservable(date, SortOrder.sortOrderSchedule(getActivity()))
+        compositeDisposable.add(DbSingleton.getInstance().getSessionsByDateObservable(date, SortOrder.sortOrderSchedule(getActivity()))
                 .subscribe(new Consumer<ArrayList<Session>>() {
                     @Override
                     public void accept(@NonNull ArrayList<Session> sortedSessions) throws Exception {
@@ -227,9 +227,7 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
 
     @Subscribe
     public void refreshData(RefreshUiEvent event) {
-        /**
-         * if adapter has not initialised, no point in refreshing it.
-         * */
+        // if adapter has not initialised, no point in refreshing it/
         if (dayScheduleAdapter != null)
             dayScheduleAdapter.refresh();
 
@@ -281,7 +279,7 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
                     }
                 };
                 //show snackbar will be useful if user have blocked notification for this app
-                Snackbar snackbar = showNotificationSnackBar.showSnackBar();
+                showNotificationSnackBar.showSnackBar();
                 //show notification (Only when connected to WiFi)
                 showNotificationSnackBar.buildNotification();
             }

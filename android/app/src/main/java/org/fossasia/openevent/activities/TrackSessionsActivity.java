@@ -94,7 +94,7 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
         sessionsRecyclerView.scrollToPosition(SessionsListAdapter.listPosition);
         sessionsRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        disposable.add(dbSingleton.getSessionbyTracksnameObservable(track)
+        disposable.add(dbSingleton.getSessionsByTrackNameObservable(track)
                 .subscribe(new Consumer<ArrayList<Session>>() {
                     @Override
                     public void accept(@NonNull ArrayList<Session> sessions) throws Exception {

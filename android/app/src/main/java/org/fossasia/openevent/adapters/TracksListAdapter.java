@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,6 @@ import com.amulyakhare.textdrawable.util.ColorGenerator;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.activities.TrackSessionsActivity;
-import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.ConstantStrings;
@@ -101,7 +101,11 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.Re
         final Track currentTrack = getItem(position);
 
         holder.trackTitle.setText(currentTrack.getName());
-        holder.trackDescription.setText(currentTrack.getDescription());
+        if(!TextUtils.isEmpty(currentTrack.getDescription())) {
+            holder.trackDescription.setText(currentTrack.getDescription());
+        } else {
+            holder.trackDescription.setVisibility(View.GONE);
+        }
 
         TextDrawable drawable = drawableBuilder.build(String.valueOf(currentTrack.getName().charAt(0)), colorGenerator.getColor(currentTrack.getName()));
         holder.trackImageIcon.setImageDrawable(drawable);

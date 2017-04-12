@@ -47,7 +47,7 @@ public class DatabaseTest extends AndroidTestCase {
         String sponsorQuery = sponsor.generateSql();
         Timber.tag("Sponsor").d(sponsorQuery);
         queries.add(sponsorQuery);
-        Speaker speaker = new Speaker(5, "manan", "manan.   png", "manan wason", "IIITD",
+        Speaker speaker = new Speaker(5, "manan", "manan.png", "manan-small.png", "manan wason", "IIITD",
                 "mananwason.me", "twitter.com/mananwason", "facebook.com/mananwason",
                 "github.com/mananwason", "linkedin.com/mananwason", "fossasia", "gsoc student", null, "india");
         String speakerQuery = speaker.generateSql();

@@ -65,8 +65,7 @@ public class BookmarkWidgetRemoteViewsService extends RemoteViewsService {
             private MatrixCursor data = null;
 
             @Override
-            public void onCreate() {
-            }
+            public void onCreate() {}
 
             @Override
             public void onDataSetChanged() {
@@ -123,15 +122,13 @@ public class BookmarkWidgetRemoteViewsService extends RemoteViewsService {
                         R.layout.widget_list_item);
 
                 views.setTextViewText(R.id.title_widget_bookmarks, title);
-                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
 
-                    if (widgetWidth > LESS_DETAIL_SIZE) {
-                        views.setTextViewText(R.id.date_widget_bookmarks, date);
-                        views.setTextViewText(R.id.time_widget_bookmarks, start + " to " + end);
-                    } else {
-                        views.setTextViewText(R.id.date_widget_bookmarks, "");
-                        views.setTextViewText(R.id.time_widget_bookmarks, "");
-                    }
+                if (widgetWidth > LESS_DETAIL_SIZE) {
+                    views.setTextViewText(R.id.date_widget_bookmarks, date);
+                    views.setTextViewText(R.id.time_widget_bookmarks, start + " to " + end);
+                } else {
+                    views.setTextViewText(R.id.date_widget_bookmarks, "");
+                    views.setTextViewText(R.id.time_widget_bookmarks, "");
                 }
 
                 final Intent fillInIntent = new Intent();

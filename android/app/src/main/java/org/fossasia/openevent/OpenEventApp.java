@@ -12,8 +12,12 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.facebook.FacebookSdk;
+import com.facebook.stetho.Stetho;
+import com.facebook.stetho.okhttp3.StethoInterceptor;
+import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
+import com.squareup.picasso.Picasso;
 
 import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.dbutils.DbSingleton;
@@ -27,9 +31,11 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.ref.WeakReference;
 import java.util.Locale;
 
 import io.branch.referral.Branch;
+import okhttp3.OkHttpClient;
 import timber.log.Timber;
 
 /**
@@ -44,7 +50,7 @@ public class OpenEventApp extends Application {
     public static String sDefSystemLanguage;
     static Handler handler;
     private static Bus eventBus;
-    private static Context context;
+    private static WeakReference<Context> context;
     private MapModuleFactory mapModuleFactory;
     SharedPreferences sharedPreferences;
 
@@ -65,14 +71,14 @@ public class OpenEventApp extends Application {
     }
 
     public static Context getAppContext() {
-        return OpenEventApp.context;
+        return context.get();
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
         handler = new Handler(Looper.getMainLooper());
-        OpenEventApp.context = getApplicationContext();
+        context = new WeakReference<>(getApplicationContext());
 
         Branch.getAutoInstance(this);
         FacebookSdk.sdkInitialize(this);
@@ -81,10 +87,21 @@ public class OpenEventApp extends Application {
         sDefSystemLanguage = Locale.getDefault().getDisplayLanguage();
 
         if (BuildConfig.DEBUG) {
+            // Create an InitializerBuilder
+            Stetho.initializeWithDefaults(getApplicationContext());
+
+            //Initialize Stetho Interceptor into OkHttp client
+            OkHttpClient httpClient = new OkHttpClient.Builder().addNetworkInterceptor(new StethoInterceptor()).build();
+
+            //Initialize Picasso
+            Picasso picasso = new Picasso.Builder(this).downloader(new OkHttp3Downloader(httpClient)).build();
+            Picasso.setSingletonInstance(picasso);
+
             Timber.plant(new Timber.DebugTree());
         } else {
             Timber.plant(new CrashReportingTree());
         }
+
         DbSingleton.init(this);
         mapModuleFactory = new MapModuleFactory();
         registerReceiver(new NetworkConnectivityChangeReceiver(), new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));

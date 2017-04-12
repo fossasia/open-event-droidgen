@@ -32,4 +32,4 @@ git branch -D apk
 git branch -m apk
 
 # Force push to origin since histories are unrelated
-git push origin apk --force > /dev/null
+git push origin apk --force --quiet > /dev/null

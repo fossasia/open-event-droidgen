@@ -43,8 +43,14 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/actionbar_gradient_dark" />
+                    android:layout_height="150dp"
+                    android:background="@drawable/scrim_top" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/scrim_bottom" />
             </FrameLayout>
 
             <android.support.v7.widget.Toolbar
@@ -67,7 +73,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-condensed"
-                    android:paddingBottom="@dimen/padding_small"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/heading_text_size"
                     android:textStyle="bold"
@@ -80,7 +85,8 @@
                     android:layout_height="wrap_content"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/text_size"
-                    tools:text="Subtitle" />
+                    tools:text="Subtitle"
+                    android:paddingBottom="@dimen/padding_small"/>
 
             </LinearLayout>
 
@@ -188,7 +194,7 @@
                     android:id="@+id/recyclerView_speakers"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    tools:listitem="@layout/item_speaker" />
+                    tools:listitem="@layout/tracksactvity_item" />
 
                 <TextView
                     android:id="@+id/txt_no_sessions"

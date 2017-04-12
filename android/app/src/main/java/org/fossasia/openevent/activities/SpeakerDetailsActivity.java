@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.customtabs.CustomTabsCallback;
 import android.support.customtabs.CustomTabsClient;
@@ -53,7 +54,6 @@ import butterknife.BindView;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
-import timber.log.Timber;
 
 /**
  * Created by MananWason on 30-06-2015.
@@ -110,7 +110,7 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
         if(getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         collapsingToolbarLayout.setTitle(" ");
 
-        disposable.add(dbSingleton.getSpeakerbySpeakersnameObservable(speaker)
+        disposable.add(dbSingleton.getSpeakerBySpeakerNameObservable(speaker)
                 .subscribe(new Consumer<Speaker>() {
                     @Override
                     public void accept(@NonNull Speaker speaker) throws Exception {
@@ -134,7 +134,7 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
         sessionRecyclerView.setAdapter(sessionsListAdapter);
         sessionRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        disposable.add(dbSingleton.getSessionbySpeakersNameObservable(speaker)
+        disposable.add(dbSingleton.getSessionsBySpeakersNameObservable(speaker)
                 .subscribe(new Consumer<ArrayList<Session>>() {
                     @Override
                     public void accept(@NonNull ArrayList<Session> sessions) throws Exception {
@@ -224,7 +224,14 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
     private void loadSpeakerDetails() {
 
         speakerName.setText(selectedSpeaker.getName());
-        speakerDesignation.setText(String.format("%s %s", selectedSpeaker.getPosition(), selectedSpeaker.getOrganisation()));
+        if (!TextUtils.isEmpty(selectedSpeaker.getPosition()) && !TextUtils.isEmpty(selectedSpeaker.getOrganisation()))
+            speakerDesignation.setText(String.format("%s, %s", selectedSpeaker.getPosition(), selectedSpeaker.getOrganisation()));
+        else if (!TextUtils.isEmpty(selectedSpeaker.getPosition()))
+            speakerDesignation.setText(selectedSpeaker.getPosition());
+        else if (!TextUtils.isEmpty(selectedSpeaker.getOrganisation()))
+            speakerDesignation.setText(selectedSpeaker.getOrganisation());
+        else
+            speakerDesignation.setVisibility(View.GONE);
 
         boolean customTabsSupported;
         Intent customTabIntent = new Intent("android.support.customtabs.action.CustomTabsService");
@@ -278,7 +285,11 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
             website.setVisibility(View.GONE);
         }
 
-        biography.setText(Html.fromHtml(selectedSpeaker.getShortBiography()));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+            biography.setText(Html.fromHtml(selectedSpeaker.getShortBiography(), Html.FROM_HTML_MODE_LEGACY));
+        } else {
+            biography.setText(Html.fromHtml(selectedSpeaker.getShortBiography()));
+        }
         biography.setMovementMethod(LinkMovementMethod.getInstance());
 
         OpenEventApp.getEventBus().register(this);
@@ -296,7 +307,7 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
         gridLayoutManager.setSpanCount(spanCount);
 
         final DbSingleton dbSingleton = DbSingleton.getInstance();
-        disposable.add(dbSingleton.getSessionbySpeakersNameObservable(speaker)
+        disposable.add(dbSingleton.getSessionsBySpeakersNameObservable(speaker)
                 .subscribe(new Consumer<ArrayList<Session>>() {
                     @Override
                     public void accept(@NonNull ArrayList<Session> sessions) throws Exception {

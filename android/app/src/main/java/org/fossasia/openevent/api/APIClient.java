@@ -1,5 +1,8 @@
 package org.fossasia.openevent.api;
 
+import com.facebook.stetho.okhttp3.StethoInterceptor;
+
+import org.fossasia.openevent.BuildConfig;
 import org.fossasia.openevent.api.network.OpenEventAPI;
 
 import java.util.concurrent.TimeUnit;
@@ -27,11 +30,15 @@ public final class APIClient {
     private final OpenEventAPI openEventAPI;
 
     public APIClient() {
-        OkHttpClient okHttpClient = new OkHttpClient().newBuilder()
+        OkHttpClient.Builder okHttpClientBuilder = new OkHttpClient().newBuilder()
                 .connectTimeout(CONNECT_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)
-                .readTimeout(READ_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)
-                .addInterceptor(new HttpLoggingInterceptor().
-                        setLevel(HttpLoggingInterceptor.Level.BASIC))
+                .readTimeout(READ_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS);
+
+        if(BuildConfig.DEBUG)
+            okHttpClientBuilder.addNetworkInterceptor(new StethoInterceptor());
+
+        OkHttpClient okHttpClient = okHttpClientBuilder.addInterceptor(new HttpLoggingInterceptor()
+                .setLevel(HttpLoggingInterceptor.Level.BASIC))
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()

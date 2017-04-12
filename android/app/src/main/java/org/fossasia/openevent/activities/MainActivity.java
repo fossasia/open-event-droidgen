@@ -584,7 +584,7 @@ public class MainActivity extends BaseActivity {
             case R.id.nav_share:
                 AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
                 LayoutInflater inflater = this.getLayoutInflater();
-                View dialogView = inflater.inflate(R.layout.dialog_share, null);
+                View dialogView = inflater.inflate(R.layout.dialog_share, mainFrame, false);
                 Button shareApp = (Button)dialogView.findViewById(R.id.share_app);
                 Button facebookInvite = (Button)dialogView.findViewById(R.id.facebook_invite);
                 dialogBuilder.setView(dialogView);
@@ -706,6 +706,14 @@ public class MainActivity extends BaseActivity {
                 long timer = 2000;
                 handler.postDelayed(runnable, timer);
             }
+        }else {
+            atHome = true;
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, new TracksFragment(), FRAGMENT_TAG_TRACKS).commit();
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setTitle(R.string.menu_tracks);
+            }
+            appBarLayout.setExpanded(true, true);
         }
     }
 
