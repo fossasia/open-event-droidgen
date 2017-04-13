@@ -54,9 +54,6 @@ public class SponsorsFragment extends BaseFragment {
     RecyclerView sponsorsRecyclerView;
 
     private LinearLayoutManager linearLayoutManager;
-    private Toolbar toolbar;
-    private AppBarLayout.LayoutParams layoutParams;
-    private int SCROLL_OFF = 0;
 
     private CompositeDisposable compositeDisposable;
 
@@ -83,32 +80,6 @@ public class SponsorsFragment extends BaseFragment {
         sponsorsRecyclerView.setAdapter(sponsorsListAdapter);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         sponsorsRecyclerView.setLayoutManager(linearLayoutManager);
-        sponsorsRecyclerView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-            @Override
-            public boolean onPreDraw() {
-                toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
-                layoutParams = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
-                if (linearLayoutManager.findLastCompletelyVisibleItemPosition() == linearLayoutManager.getChildCount() - 1) {
-                    layoutParams.setScrollFlags(SCROLL_OFF);
-                    toolbar.setLayoutParams(layoutParams);
-                }
-                sponsorsRecyclerView.getViewTreeObserver().removeOnPreDrawListener(this);
-                return false;
-            }
-        });
-
-        //scrollup shows actionbar
-        sponsorsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                if(dy < 0){
-                    AppBarLayout appBarLayout;
-                    appBarLayout = (AppBarLayout) getActivity().findViewById(R.id.appbar);
-                    appBarLayout.setExpanded(true);
-                }
-            }
-        });
 
         compositeDisposable.add(dbSingleton.getSponsorListObservable()
                 .subscribe(new Consumer<ArrayList<Sponsor>>() {
@@ -146,8 +117,6 @@ public class SponsorsFragment extends BaseFragment {
         OpenEventApp.getEventBus().unregister(this);
         if(compositeDisposable != null && !compositeDisposable.isDisposed())
             compositeDisposable.dispose();
-        layoutParams.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL);
-        toolbar.setLayoutParams(layoutParams);
     }
 
     @Subscribe
