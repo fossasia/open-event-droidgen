@@ -285,6 +285,19 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        dbSingleton.getSessionBySessionNameObservable(title)
+                .subscribe(new Consumer<Session>() {
+                    @Override
+                    public void accept(@NonNull Session receivedSession) {
+                        session = receivedSession;
+                        updateFloatingIcon();
+                    }
+                });
+    }
+
+    @Override
     public void onBackPressed() {
         if (fabSessionBookmark.getVisibility() == View.GONE) {
             // Hide fragment again on back pressed and show session views
