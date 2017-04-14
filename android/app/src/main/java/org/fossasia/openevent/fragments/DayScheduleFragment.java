@@ -83,7 +83,7 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        sortType = sharedPreferences.getInt(ConstantStrings.PREF_SORT, 0);
+        sortType = sharedPreferences.getInt(ConstantStrings.PREF_SORT, 2);
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
         compositeDisposable = new CompositeDisposable();
@@ -153,6 +153,12 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
     public void onStart() {
         OpenEventApp.getEventBus().register(this);
         super.onStart();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        sortType = sharedPreferences.getInt(ConstantStrings.PREF_SORT, 2);
     }
 
     @Override
