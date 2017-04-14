@@ -11,12 +11,18 @@
     <string name="date">நாள்:</string>
     <string name="default_mode_notification">10 நிமிடங்கள்</string>
     <string name="dialog_error_title">பிழை</string>
-    <string name="dialog_sort_country">நாடு</string>
-    <string name="dialog_sort_name">சபாநாயகர் பெயர்</string>
-    <string name="dialog_sort_organisation">அமைப்பு</string>
-    <string name="dialog_sort_sessions">ஆரம்பிக்கும் நேரம்</string>
     <string name="dialog_sort_title">வரிசைப்படுத்து</string>
-    <string name="dialog_sort_tracks">தடங்கள்</string>
+
+    <!--Speaker Sort Dialog text-->
+    <string name="dialog_sort_by_country">நாடு</string>
+    <string name="dialog_sort_by_speaker_name">சபாநாயகர் பெயர்</string>
+    <string name="dialog_sort_by_organisation">அமைப்பு</string>
+
+    <!--Session Sort Dialog text-->
+    <string name="dialog_sort_by_title">தலைப்பு</string>
+    <string name="dialog_sort_by_tracks">தடங்கள்</string>
+    <string name="dialog_sort_by_start_time">ஆரம்பிக்கும் நேரம்</string>
+
     <string name="diamond">வைர</string>
     <string name="display_offline_schedule">இல்லை இணைய இணைப்பு, பழைய கால காண்பிக்கும்</string>
     <string name="download_assets">நீங்கள் இப்போது சமீபத்திய அட்டவணை மேம்படுத்த விரும்புகிறீர்களா?</string>

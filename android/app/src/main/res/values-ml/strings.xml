@@ -89,13 +89,14 @@
     <string name="dialog_sort_title">ഇങ്ങനെ അടുക്കുക</string>
 
     <!--Speaker Sort Dialog text-->
-    <string name="dialog_sort_organisation">സംഘടന</string>
-    <string name="dialog_sort_country">രാജ്യം</string>
-    <string name="dialog_sort_name">സ്പീക്കർ പേര്</string>
+    <string name="dialog_sort_by_organisation">സംഘടന</string>
+    <string name="dialog_sort_by_country">രാജ്യം</string>
+    <string name="dialog_sort_by_speaker_name">സ്പീക്കർ പേര്</string>
 
     <!--Session Sort Dialog text-->
-    <string name="dialog_sort_tracks">ട്രാക്കുകൾ</string>
-    <string name="dialog_sort_sessions">ആരംഭ സമയം</string>
+    <string name="dialog_sort_by_title">തലക്കെട്ട്</string>
+    <string name="dialog_sort_by_tracks">ട്രാക്കുകൾ</string>
+    <string name="dialog_sort_by_start_time">ആരംഭ സമയം</string>
 
 
     <string name="download_assets">നിങ്ങൾ ഇപ്പോൾ പുതിയ ഷെഡ്യൂൾ അപ്ഡേറ്റ് ചെയ്യണോ?</string>
