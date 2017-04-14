@@ -77,7 +77,7 @@ public class ScheduleFragment extends BaseFragment {
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+                //Called when the current page is scrolled
             }
 
             @Override
@@ -87,7 +87,7 @@ public class ScheduleFragment extends BaseFragment {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
+                //Called when the scroll state changes
             }
         });
     }
