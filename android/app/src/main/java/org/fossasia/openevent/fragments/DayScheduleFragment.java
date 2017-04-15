@@ -182,7 +182,7 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putInt(ConstantStrings.PREF_SORT, which);
                                 editor.apply();
-                                dayScheduleAdapter.refresh();
+                                refreshAdapter();
                                 dialog.dismiss();
                             }
                         });
@@ -241,11 +241,7 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
         swipeRefreshLayout.setRefreshing(false);
         if (event.isState()) {
             if (dayScheduleAdapter != null && searchView != null) {
-                if (!searchView.getQuery().toString().isEmpty() && !searchView.isIconified()) {
-                    dayScheduleAdapter.getFilter().filter(searchView.getQuery());
-                } else {
-                    dayScheduleAdapter.refresh();
-                }
+                refreshAdapter();
             }
         } else {
             Snackbar.make(swipeRefreshLayout, getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, new View.OnClickListener() {
@@ -296,5 +292,13 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
         });
     }
 
-
+    private void refreshAdapter(){
+        if (dayScheduleAdapter != null && searchView != null) {
+            if (!searchView.getQuery().toString().isEmpty() && !searchView.isIconified()) {
+                dayScheduleAdapter.getFilter().filter(searchView.getQuery());
+            } else {
+                dayScheduleAdapter.refresh();
+            }
+        }
+    }
 }
