@@ -105,6 +105,7 @@
     <string name="website">website</string>
     <string name="menu_speaker_sort">Sort</string>
     <string name="dialog_sort_title">Sort By</string>
+    <string name="dialog_filter_title">Filter by</string>
 
     <!--Speaker Sort Dialog text-->
     <string name="dialog_sort_organisation">Organisation</string>
