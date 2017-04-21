@@ -23,7 +23,7 @@ mkdir -p lib
 gcloud auth activate-service-account --key-file eventyay-b6f445785c27.json
 export GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/eventyay-b6f445785c27.json
 gcloud config set project eventyay
-gcloud container clusters get-credentials eventyay-cluster
+gcloud container clusters get-credentials staging-cluster
 cd kubernetes/images/generator
 docker build --build-arg COMMIT_HASH=$COMMIT_HASH --build-arg BRANCH=$BRANCH --build-arg REPOSITORY=$REPOSITORY --no-cache -t gcr.io/eventyay/generators/android:$COMMIT_HASH .
 docker tag gcr.io/eventyay/generators/android:$COMMIT_HASH gcr.io/eventyay/generators/android:latest
