@@ -94,6 +94,10 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
         gridLayoutManager = new GridLayoutManager(this, spanCount);
         sessionsRecyclerView.setLayoutManager(gridLayoutManager);
         sessionsListAdapter = new SessionsListAdapter(this, mSessions, trackWiseSessionList);
+        if(searchText!=null){
+            sessionsListAdapter.setTrackName(track);
+            sessionsListAdapter.getFilter().filter(searchText);
+        }
         sessionsRecyclerView.setAdapter(sessionsListAdapter);
         sessionsRecyclerView.scrollToPosition(SessionsListAdapter.listPosition);
         sessionsRecyclerView.setItemAnimator(new DefaultItemAnimator());
