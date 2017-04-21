@@ -19,16 +19,19 @@ public class Track {
 
     private String name;
 
+    private String color;
+
     private String description;
 
     @SerializedName("track_image_url")
     private String image;
 
-    public Track(int id, String name, String description, String image) {
+    public Track(int id, String name, String description, String image, String color) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.image = image;
+        this.color = color;
     }
 
     public String getImage() {
@@ -64,14 +67,23 @@ public class Track {
         this.description = description;
     }
 
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
     public String generateSql() {
-        String insertQuery = "INSERT INTO %s VALUES ('%d', %s, %s , %s);";
+        String insertQuery = "INSERT INTO %s VALUES ('%d', %s, %s , %s, %s);";
         return String.format(Locale.ENGLISH,
                 insertQuery,
                 DbContract.Tracks.TABLE_NAME,
                 id,
                 DatabaseUtils.sqlEscapeString(StringUtils.optionalString(name)),
                 DatabaseUtils.sqlEscapeString(StringUtils.optionalString(description)),
-                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(image)));
+                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(image)),
+                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(color)));
     }
 }

@@ -304,6 +304,15 @@ public class DbSingleton {
         return databaseOperations.getTrackByTrackName(trackName, mDb);
     }
 
+    public Observable<Track> getTrackByNameObservable(final String trackName) {
+        return Observable.fromCallable(new Callable<Track>() {
+            @Override
+            public Track call() throws Exception {
+                return getTrackByName(trackName);
+            }
+        }).compose(this.<Track>applySchedulers());
+    }
+
     public Track getTrackById(int id) {
         return databaseOperations.getTrackByTrackId(id, mDb);
     }

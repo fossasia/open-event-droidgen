@@ -4,6 +4,9 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
@@ -35,10 +38,12 @@ import org.fossasia.openevent.adapters.SessionSpeakerListAdapter;
 import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
+import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.receivers.NotificationAlarmReceiver;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.ISO8601Date;
+import org.fossasia.openevent.utils.Views;
 import org.fossasia.openevent.utils.WidgetUpdater;
 
 import java.util.ArrayList;
@@ -196,6 +201,24 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
         }
         text_subtitle.setText(session.getSubtitle());
         text_track.setText(trackName);
+
+        disposable.add(dbSingleton.getTrackByIdObservable(session.getTrack().getId())
+                .subscribe(new Consumer<Track>() {
+                    @Override
+                    public void accept(@NonNull Track track) throws Exception {
+                        int color = Color.parseColor(track.getColor());
+                        int darkColor = Views.getDarkColor(color);
+
+                        toolbar.setBackgroundColor(color);
+                        collapsingToolbarLayout.setBackgroundColor(color);
+                        collapsingToolbarLayout.setContentScrimColor(darkColor);
+
+                        if(Views.isCompatible(Build.VERSION_CODES.LOLLIPOP))
+                            getWindow().setStatusBarColor(darkColor);
+
+                        fabSessionBookmark.setBackgroundTintList(ColorStateList.valueOf(darkColor));
+                    }
+                }));
 
         String date = ISO8601Date.getTimeZoneDateString(
                 ISO8601Date.getDateObject(session.getStartTime())).split(",")[0] + ","

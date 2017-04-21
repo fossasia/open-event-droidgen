@@ -265,11 +265,14 @@ public class DbContract {
 
         public static final String IMAGE = "image";
 
+        public static final String COLOR = "color";
+
         public static final String[] FULL_PROJECTION = {
                 ID,
                 NAME,
                 DESCRIPTION,
-                IMAGE
+                IMAGE,
+                COLOR
         };
 
         public static final String CREATE_TABLE =
@@ -278,7 +281,8 @@ public class DbContract {
                         + ID + INT_TYPE + PRIMARY_KEY + COMMA_SEP
                         + NAME + TEXT_TYPE + COMMA_SEP
                         + DESCRIPTION + TEXT_TYPE + COMMA_SEP
-                        + IMAGE + TEXT_TYPE
+                        + IMAGE + TEXT_TYPE + COMMA_SEP
+                        + COLOR + TEXT_TYPE
                         + " );";
 
         public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;

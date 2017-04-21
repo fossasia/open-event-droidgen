@@ -69,7 +69,7 @@ public class DatabaseTest extends AndroidTestCase {
         String versionQuery = version.generateSql();
         Timber.tag("VERSION").d(versionQuery);
         queries.add(versionQuery);
-        Track track = new Track(6, "android", "open source mobile os by google", "https://farm8.staticflickr.com/7575/15355329014_3cb3eb0c74_b.jpg");
+        Track track = new Track(6, "android", "open source mobile os by google", "https://farm8.staticflickr.com/7575/15355329014_3cb3eb0c74_b.jpg", "#33b5e5");
         String trackQuery = track.generateSql();
         Timber.tag("Track").d(trackQuery);
         queries.add(trackQuery);

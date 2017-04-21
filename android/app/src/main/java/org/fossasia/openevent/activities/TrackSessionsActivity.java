@@ -1,6 +1,8 @@
 package org.fossasia.openevent.activities;
 
 import android.content.res.Configuration;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -17,8 +19,10 @@ import android.widget.TextView;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.SessionsListAdapter;
 import org.fossasia.openevent.data.Session;
+import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.ConstantStrings;
+import org.fossasia.openevent.utils.Views;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,6 +97,21 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
         sessionsRecyclerView.setAdapter(sessionsListAdapter);
         sessionsRecyclerView.scrollToPosition(SessionsListAdapter.listPosition);
         sessionsRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        disposable.add(dbSingleton.getTrackByNameObservable(track)
+                .subscribe(new Consumer<Track>() {
+                    @Override
+                    public void accept(@NonNull Track track) throws Exception {
+                        final int color = Color.parseColor(track.getColor());
+                        toolbar.setBackgroundColor(color);
+
+                        sessionsListAdapter.setColor(color);
+
+                        if(Views.isCompatible(Build.VERSION_CODES.LOLLIPOP)) {
+                            getWindow().setStatusBarColor(Views.getDarkColor(color));
+                        }
+                    }
+                }));
 
         disposable.add(dbSingleton.getSessionsByTrackNameObservable(track)
                 .subscribe(new Consumer<ArrayList<Session>>() {
