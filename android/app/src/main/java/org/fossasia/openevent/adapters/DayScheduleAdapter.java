@@ -1,14 +1,8 @@
 package org.fossasia.openevent.adapters;
 
-import android.content.Context;
-import android.content.Intent;
-import android.support.v7.widget.RecyclerView;
-import android.text.Html;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Filter;
-import android.widget.TextView;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.activities.SessionDetailActivity;
@@ -21,10 +15,15 @@ import org.fossasia.openevent.utils.ISO8601Date;
 import org.fossasia.openevent.utils.SortOrder;
 import org.fossasia.openevent.views.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
+import android.content.Context;
+import android.content.Intent;
+import android.support.v7.widget.RecyclerView;
+import android.text.Html;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.annotations.NonNull;
@@ -39,7 +38,7 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
 
     private Context context;
     private String eventDate;
-
+    private ArrayList<String> distinctTracks;
     private CompositeDisposable disposable;
 
     @SuppressWarnings("all")
@@ -49,6 +48,7 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
             DbSingleton instance = DbSingleton.getInstance();
             List<Session> sessionList = instance.getSessionsByDate(eventDate, SortOrder.sortOrderSchedule(context));
             final ArrayList<Session> filteredSessionsList = new ArrayList<>();
+            distinctTracks  = new ArrayList<String>();
             String query = constraint.toString().toLowerCase(Locale.getDefault());
             for (Session session : sessionList) {
                 final String text = session.getTitle().toLowerCase(Locale.getDefault());
@@ -72,6 +72,7 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
     public DayScheduleAdapter(List<Session> sessions, Context context) {
         super(sessions);
         this.context = context;
+        distinctTracks  = new ArrayList<String>();
     }
 
     public void setEventDate(String eventDate) {
@@ -158,8 +159,11 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
     @Override
     public long getHeaderId(int position) {
         String id = "";
-        if (SortOrder.sortOrderSchedule(context).equals(DbContract.Sessions.TITLE)) {
-            return getItem(position).getTitle().charAt(0);
+        if (SortOrder.sortOrderSchedule(context).equals(DbContract.Sessions.TRACK)) {
+            if (distinctTracks != null && !distinctTracks.contains(getItem(position).getTrack().getName())) {
+                distinctTracks.add(getItem(position).getTrack().getName());
+            }
+            return distinctTracks.indexOf(getItem(position).getTrack().getName());
         } else if (SortOrder.sortOrderSchedule(context).equals(DbContract.Sessions.START_TIME)) {
             id = ISO8601Date.get24HourTime(ISO8601Date.getDateObject(getItem(position).getStartTime()));
             id = id.replace(":", "");
@@ -179,8 +183,8 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
     public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
         TextView textView = (TextView) holder.itemView.findViewById(R.id.recyclerview_view_header);
         
-        if (SortOrder.sortOrderSchedule(context).equals(DbContract.Sessions.TITLE)) {
-            textView.setText(String.valueOf(getItem(position).getTitle().charAt(0)));
+        if (SortOrder.sortOrderSchedule(context).equals(DbContract.Sessions.TRACK)) {
+            textView.setText(String.valueOf(getItem(position).getTrack().getName()));
         } else if (SortOrder.sortOrderSchedule(context).equals(DbContract.Sessions.START_TIME)) {
             textView.setText(ISO8601Date.get12HourTime(ISO8601Date.getDateObject(getItem(position).getStartTime())));
         }

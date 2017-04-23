@@ -1,11 +1,11 @@
 package org.fossasia.openevent.utils;
 
+import org.fossasia.openevent.dbutils.DbContract;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-
-import org.fossasia.openevent.dbutils.DbContract;
 
 /**
  * User: anupam (Opticod)
@@ -48,7 +48,7 @@ public final class SortOrder {
                 return DbContract.Sessions.START_TIME;
             case SORT_TYPE_SECOND:
                 //By TRACKS
-                return DbContract.Sessions.TITLE;
+                return DbContract.Sessions.TRACK;
             default:
                 return DbContract.Sessions.START_TIME;
         }
