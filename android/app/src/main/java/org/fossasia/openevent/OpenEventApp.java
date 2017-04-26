@@ -20,6 +20,7 @@ import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
 import org.fossasia.openevent.api.Urls;
+import org.fossasia.openevent.cache.PicassoCache;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.ConnectionCheckEvent;
 import org.fossasia.openevent.events.ShowNetworkDialogEvent;
@@ -51,6 +52,7 @@ public class OpenEventApp extends Application {
     static Handler handler;
     private static Bus eventBus;
     private static WeakReference<Context> context;
+    private static PicassoCache picassoCache;
     private MapModuleFactory mapModuleFactory;
     SharedPreferences sharedPreferences;
 
@@ -72,6 +74,14 @@ public class OpenEventApp extends Application {
 
     public static Context getAppContext() {
         return context.get();
+    }
+
+    public static Picasso getPicassoWithCache(){
+        return picassoCache.getPicassoInstance(getAppContext());
+    }
+
+    public static Picasso getPicassoWithCache(Context context){
+        return picassoCache.getPicassoInstance(context);
     }
 
     @Override
@@ -96,6 +106,9 @@ public class OpenEventApp extends Application {
             //Initialize Picasso
             Picasso picasso = new Picasso.Builder(this).downloader(new OkHttp3Downloader(httpClient)).build();
             Picasso.setSingletonInstance(picasso);
+
+            //Initialize PicassoCache
+            picassoCache = new PicassoCache(this);
 
             Timber.plant(new Timber.DebugTree());
         } else {
