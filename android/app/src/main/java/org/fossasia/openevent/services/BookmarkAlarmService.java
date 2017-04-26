@@ -18,9 +18,6 @@ import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.ISO8601Date;
 
-/**
- * Created by Manan Wason on 21/08/15.
- */
 public class BookmarkAlarmService extends IntentService {
 
     public BookmarkAlarmService(String name) {
@@ -50,8 +47,6 @@ public class BookmarkAlarmService extends IntentService {
     public int onStartCommand(Intent intent, int flags, int startId) {
         handleStart(intent, startId);
         return START_NOT_STICKY;
-
-
     }
 
     @Override
@@ -92,7 +87,7 @@ public class BookmarkAlarmService extends IntentService {
         intent1.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
-        mManager.notify(1, mBuilder.build());
+        mManager.notify(session.getId(), mBuilder.build());
     }
 
 }
