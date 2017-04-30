@@ -38,7 +38,16 @@ ENV PATH ${PATH}:/opt/tools
 # Setup environment
 ENV ANDROID_HOME /opt/android-sdk-linux
 ENV WORKSPACE /data/workspace
+
 RUN mkdir -p $WORKSPACE
+
+ENV GENERATOR_WORKING_DIR ${WORKSPACE}/temp/
+ENV KEYSTORE_PATH ${WORKSPACE}/generator.keystore
+ENV KEYSTORE_PASSWORD generator
+ENV KEY_ALIAS generator
+# Prepare working folders
+ENV GENERATOR_WORKING_DIR ${WORKSPACE}/temp/
+
 WORKDIR $WORKSPACE
 
 COPY android.sh .
