@@ -6,6 +6,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Rect;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -42,6 +45,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -122,7 +126,7 @@ import io.reactivex.internal.observers.CallbackCompletableObserver;
 import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements LocationListener{
 
 
     private static final String COUNTER_TAG = "Donecounter";
@@ -135,9 +139,16 @@ public class MainActivity extends BaseActivity {
 
     private static final String FRAGMENT_TAG_HOME = "FTAGH";
 
+    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10;
+
+    private static final long MIN_TIME_BW_UPDATES = 1000 * 60 * 1;
+
     private final String FRAGMENT_TAG_TRACKS = "FTAGT";
 
     private final String FRAGMENT_TAG_REST = "FTAGR";
+
+    private double longitude;
+    private double latitude;
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.nav_view) NavigationView navigationView;
@@ -185,6 +196,84 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+    }
+
+    void getLocation() {
+
+        Location loc = null;
+        LocationManager locationManager;
+        try {
+            locationManager = (LocationManager) this.getSystemService(LOCATION_SERVICE);
+            boolean checkGPS = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+            boolean checkNetwork = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
+            if (!checkGPS && !checkNetwork) {
+                Toast.makeText(this, "No Service Provider Available", Toast.LENGTH_SHORT).show();
+            }
+            else {
+
+                if (checkNetwork) {
+
+                    try {
+                        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+
+                        if (locationManager != null) {
+                            loc = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                        }
+
+                        if (loc != null) {
+                            latitude = loc.getLatitude();
+                            longitude = loc.getLongitude();
+                        }
+                    }
+                    catch(SecurityException e){
+
+                    }
+                }
+            }
+            // if GPS Enabled get lat/long using GPS Services
+            if (checkGPS) {
+
+                if (loc == null) {
+                    try {
+                        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+
+                        if (locationManager != null) {
+                            loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                            if (loc != null) {
+                                latitude = loc.getLatitude();
+                                longitude = loc.getLongitude();
+                            }
+                        }
+                    } catch (SecurityException e) {
+
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             View v = getCurrentFocus();
@@ -217,7 +306,12 @@ public class MainActivity extends BaseActivity {
         setUpProgressBar();
         setUpCustomTab();
 
+        getLocation();
         disposable = new CompositeDisposable();
+
+        if(latitude!=0.0 && longitude!=0.0){
+            Toast.makeText(this, "Location is " + latitude + " " + longitude, Toast.LENGTH_LONG).show();
+        }
 
         NetworkUtils.checkConnection(new WeakReference<Context>(this), new NetworkUtils.NetworkStateReceiverListener() {
             @Override
