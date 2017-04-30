@@ -162,8 +162,10 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
         final DbSingleton dbSingleton = DbSingleton.getInstance();
 
         int storedColor = colorMap.get(session.getTrack().getId(), -1);
-        if(storedColor == -1) {
+        Timber.d("Type : %d", type);
+        if(storedColor == -1 && type != trackWiseSessionList) {
             storedColor = colorGenerator.getColor(session.getTrack().getName());
+
             disposable.add(dbSingleton.getTrackByIdObservable(session.getTrack().getId())
                     .subscribe(new Consumer<Track>() {
                         @Override
@@ -171,10 +173,13 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
                             int color = Color.parseColor(track.getColor());
                             TextDrawable drawable = drawableBuilder.build(String.valueOf(session.getTrack().getName().charAt(0)), color);
                             holder.trackImageIcon.setImageDrawable(drawable);
+                            holder.sessionHeader.setBackgroundColor(color);
 
                             colorMap.put(session.getTrack().getId(), color);
                         }
                     }));
+        } else if(type != trackWiseSessionList) {
+            color = storedColor;
         }
 
         TextDrawable drawable = drawableBuilder.build(String.valueOf(session.getTrack().getName().charAt(0)), storedColor);
@@ -221,7 +226,6 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
             case speakerWiseSessionList:
                 holder.sessionSpeaker.setVisibility(View.GONE);
                 holder.speakerIcon.setVisibility(View.GONE);
-                color = storedColor;
                 break;
             default:
         }
