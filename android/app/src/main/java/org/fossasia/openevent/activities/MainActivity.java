@@ -437,6 +437,18 @@ public class MainActivity extends BaseActivity {
                                 ImageView headerDrawer = (ImageView) findViewById(R.id.headerDrawer);
                                 Picasso.with(getApplicationContext()).load(event.getLogo()).into(headerDrawer);
                             }
+                            navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+                                @Override
+                                public boolean onNavigationItemSelected(@android.support.annotation.NonNull MenuItem item) {
+                                    if (currentMenuItemId == R.id.nav_home){
+                                        FragmentManager fragmentManager = getSupportFragmentManager();
+                                        fragmentManager.beginTransaction()
+                                                .replace(R.id.content_frame, new AboutFragment(), FRAGMENT_TAG_REST).commit();
+                                    }
+                                    return false;
+                                }
+                            });
+
                         }
 
                     }
