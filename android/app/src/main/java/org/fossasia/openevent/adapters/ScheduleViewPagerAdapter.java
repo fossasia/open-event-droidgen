@@ -41,7 +41,7 @@ public class ScheduleViewPagerAdapter extends FragmentPagerAdapter {
         bundle.putString(ConstantStrings.EVENT_DAY, dayString);
         fragment.setArguments(bundle);
         mFragmentList.add(fragment);
-        mFragmentTitleList.add(title);
+        mFragmentTitleList.add(dayString);
     }
 
     @Override
