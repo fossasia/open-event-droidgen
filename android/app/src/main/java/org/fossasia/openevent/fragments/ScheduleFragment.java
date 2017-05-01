@@ -203,7 +203,7 @@ public class ScheduleFragment extends BaseFragment {
                             }
                         }
                         if(count!=0) {
-                            filtersText.setText("Filters" + "(" + count +")" + " : " + tracksFiltered);
+                            filtersText.setText("Filters" + "(" + count +")" + ": " + tracksFiltered);
                             filterBar.setVisibility(View.VISIBLE);
                         } else {
                             filterBar.setVisibility(View.GONE);
