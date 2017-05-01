@@ -43,6 +43,7 @@ import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.receivers.NotificationAlarmReceiver;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.ISO8601Date;
+import org.fossasia.openevent.utils.TrackColors;
 import org.fossasia.openevent.utils.Views;
 import org.fossasia.openevent.utils.WidgetUpdater;
 
@@ -127,11 +128,10 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
         setSupportActionBar(toolbar);
         if(getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        final int id;
-
         title = getIntent().getStringExtra(ConstantStrings.SESSION);
         trackName = getIntent().getStringExtra(ConstantStrings.TRACK);
-        id = getIntent().getIntExtra(ConstantStrings.ID, 0);
+        final int id = getIntent().getIntExtra(ConstantStrings.ID, 0);
+        int trackId = getIntent().getIntExtra(ConstantStrings.TRACK_ID, -1);
         Timber.tag(TAG).d(title);
 
         appBarLayout.addOnOffsetChangedListener(this);
@@ -177,6 +177,29 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
         speakersRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         speakersRecyclerView.setAdapter(adapter);
         speakersRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        int color = TrackColors.getColor(trackId);
+        if(trackId == -1 || color == -1) {
+            disposable.add(dbSingleton.getTrackByNameObservable(trackName)
+                    .subscribe(new Consumer<Track>() {
+                        @Override
+                        public void accept(@NonNull Track track) throws Exception {
+                            int color = Color.parseColor(track.getColor());
+
+                            setUiColor(color);
+
+                            TrackColors.storeColor(track.getId(), color);
+                        }
+                    }, new Consumer<Throwable>() {
+                        @Override
+                        public void accept(@NonNull Throwable throwable) throws Exception {
+                            Timber.d("No track for name %s", trackName);
+                        }
+                    }));
+        } else {
+            setUiColor(color);
+            Timber.d("Cached color loaded for ID %d", trackId);
+        }
     }
 
     private void updateSession() {
@@ -201,24 +224,6 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
         }
         text_subtitle.setText(session.getSubtitle());
         text_track.setText(trackName);
-
-        disposable.add(dbSingleton.getTrackByIdObservable(session.getTrack().getId())
-                .subscribe(new Consumer<Track>() {
-                    @Override
-                    public void accept(@NonNull Track track) throws Exception {
-                        int color = Color.parseColor(track.getColor());
-                        int darkColor = Views.getDarkColor(color);
-
-                        toolbar.setBackgroundColor(color);
-                        collapsingToolbarLayout.setBackgroundColor(color);
-                        collapsingToolbarLayout.setContentScrimColor(darkColor);
-
-                        if(Views.isCompatible(Build.VERSION_CODES.LOLLIPOP))
-                            getWindow().setStatusBarColor(darkColor);
-
-                        fabSessionBookmark.setBackgroundTintList(ColorStateList.valueOf(darkColor));
-                    }
-                }));
 
         String date = ISO8601Date.getTimeZoneDateString(
                 ISO8601Date.getDateObject(session.getStartTime())).split(",")[0] + ","
@@ -293,6 +298,19 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
                 WidgetUpdater.updateWidget(getApplicationContext());
             }
         });
+    }
+
+    private void setUiColor(int color) {
+        int darkColor = Views.getDarkColor(color);
+
+        toolbar.setBackgroundColor(color);
+        collapsingToolbarLayout.setBackgroundColor(color);
+        collapsingToolbarLayout.setContentScrimColor(darkColor);
+
+        if(Views.isCompatible(Build.VERSION_CODES.LOLLIPOP))
+            getWindow().setStatusBarColor(darkColor);
+
+        fabSessionBookmark.setBackgroundTintList(ColorStateList.valueOf(darkColor));
     }
 
     @Override

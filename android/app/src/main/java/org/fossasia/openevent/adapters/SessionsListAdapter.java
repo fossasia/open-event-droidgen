@@ -14,7 +14,6 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.TextUtils;
-import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +35,7 @@ import org.fossasia.openevent.receivers.NotificationAlarmReceiver;
 import org.fossasia.openevent.utils.BookmarksListChangeListener;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.ISO8601Date;
+import org.fossasia.openevent.utils.TrackColors;
 import org.fossasia.openevent.utils.WidgetUpdater;
 
 import java.util.ArrayList;
@@ -64,8 +64,6 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
     private static final int locationWiseSessionList = 1;
     private static final int trackWiseSessionList = 4;
     private static final int speakerWiseSessionList = 2;
-
-    private static SparseIntArray colorMap = new SparseIntArray();
 
     private ColorGenerator colorGenerator = ColorGenerator.MATERIAL;
     private TextDrawable.IBuilder drawableBuilder = TextDrawable.builder().round();
@@ -161,8 +159,9 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
 
         final DbSingleton dbSingleton = DbSingleton.getInstance();
 
-        int storedColor = colorMap.get(session.getTrack().getId(), -1);
-        Timber.d("Type : %d", type);
+        final int trackId = session.getTrack().getId();
+
+        int storedColor = TrackColors.getColor(trackId);
         if(storedColor == -1 && type != trackWiseSessionList) {
             storedColor = colorGenerator.getColor(session.getTrack().getName());
 
@@ -175,7 +174,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
                             holder.trackImageIcon.setImageDrawable(drawable);
                             holder.sessionHeader.setBackgroundColor(color);
 
-                            colorMap.put(session.getTrack().getId(), color);
+                            TrackColors.storeColor(trackId, color);
                         }
                     }));
         } else if(type != trackWiseSessionList) {
@@ -300,6 +299,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
                                 intent.putExtra(ConstantStrings.SESSION, sessionName);
                                 intent.putExtra(ConstantStrings.TRACK, trackName);
                                 intent.putExtra(ConstantStrings.ID, session.getId());
+                                intent.putExtra(ConstantStrings.TRACK_ID, track.getId());
                                 listPosition = holder.getLayoutPosition();
                                 context.startActivity(intent);
                             }
