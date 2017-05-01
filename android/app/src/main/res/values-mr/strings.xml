@@ -64,7 +64,7 @@
     <string name="message_1"> या वेळी ते बोलत आहे </string>
     <string name="message_2"> विषयांवर: </string>
     <string name="message_3"> अधिक माहितीसाठी गुगल प्ले स्टोअरवर अनुप्रयोग तपासा करीता: </string>
-    <string name="fmt_floor">"मजला : "</string>
+    <string name="fmt_floor">"मजला: "</string>
     <string name="noBookmark">अद्याप कोणतेही बुकमार्क सत्र !!</string>
 
     <!--About us text-->
