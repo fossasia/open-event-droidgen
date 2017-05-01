@@ -72,7 +72,7 @@
     <string name="message_1"> سيتكلم في </string>
     <string name="message_2"> عن: </string>
     <string name="message_3"> للمزيد من المعلومات تفقد هذا التطبيق على متجر جوجل بلاي: </string>
-    <string name="fmt_floor">"الدور : "</string>
+    <string name="fmt_floor">"الدور: "</string>
     <string name="noBookmark">ليس هناك محاضرات مفضلة بعد !!</string>
 
     <!--About us text-->
@@ -112,7 +112,7 @@
     <string name="charges_warning">قد تحاسب على رسوم الانترنت</string>
     <string name="tracks">المسار:</string>
     <string name="date">التاريخ:</string>
-    <string name="start_time">وقت البدأ :</string>
+    <string name="start_time">وقت البدأ:</string>
     <string name="end_time">وقت الانتهاء:</string>
     <string name="location">المكان:</string>
     <string name="speakers">المتحدث:</string>

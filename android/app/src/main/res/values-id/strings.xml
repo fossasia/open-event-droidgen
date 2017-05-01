@@ -64,7 +64,7 @@
     <string name="message_1"> akan berbicara di </string>
     <string name="message_2"> pada topik: </string>
     <string name="message_3"> Untuk informasi lebih lanjut tentang aplikasi ini cek di Google Play Store: </string>
-    <string name="fmt_floor">"Lantai : "</string>
+    <string name="fmt_floor">"Lantai: "</string>
     <string name="noBookmark">Tidak ada sesi yang di-bookmark !!</string>
 
     <!--About us text-->
