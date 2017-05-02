@@ -19,6 +19,7 @@ import org.fossasia.openevent.activities.TrackSessionsActivity;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.ConstantStrings;
+import org.fossasia.openevent.utils.TrackColors;
 import org.fossasia.openevent.views.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
 import java.util.ArrayList;
@@ -105,16 +106,22 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.Re
             holder.trackDescription.setVisibility(View.GONE);
         }
 
-        TextDrawable drawable = drawableBuilder.build(String.valueOf(currentTrack.getName().charAt(0)), Color.parseColor(currentTrack.getColor()));
+        int trackColor = Color.parseColor(currentTrack.getColor());
+        TextDrawable drawable = drawableBuilder.build(String.valueOf(currentTrack.getName().charAt(0)), trackColor);
         holder.trackImageIcon.setImageDrawable(drawable);
         holder.trackImageIcon.setBackgroundColor(Color.TRANSPARENT);
+
+        // Store the track color in color cache
+        TrackColors.storeColor(currentTrack.getId(), trackColor);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String trackTitle = currentTrack.getName();
                 Intent intent = new Intent(context, TrackSessionsActivity.class);
-                intent.putExtra(ConstantStrings.TRACK, trackTitle);
+                intent.putExtra(ConstantStrings.TRACK, currentTrack.getName());
+
+                // Send Track ID to Activity to leverage color cache
+                intent.putExtra(ConstantStrings.TRACK_ID, currentTrack.getId());
                 context.startActivity(intent);
             }
         });
