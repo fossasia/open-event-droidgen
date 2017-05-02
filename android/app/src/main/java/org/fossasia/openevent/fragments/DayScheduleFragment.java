@@ -65,7 +65,7 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
     private DayScheduleAdapter dayScheduleAdapter;
 
     private String date;
-
+    private int sortType;
     private SharedPreferences sharedPreferences;
     private CompositeDisposable compositeDisposable;
     private String[] mTracksNames;
