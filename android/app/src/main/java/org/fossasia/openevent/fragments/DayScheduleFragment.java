@@ -1,6 +1,8 @@
 package org.fossasia.openevent.fragments;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
@@ -35,10 +37,9 @@ import org.fossasia.openevent.views.stickyheadersrecyclerview.StickyRecyclerHead
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
-
 import butterknife.BindView;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
@@ -64,11 +65,11 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
     private DayScheduleAdapter dayScheduleAdapter;
 
     private String date;
-
+    private int sortType;
+    private SharedPreferences sharedPreferences;
     private CompositeDisposable compositeDisposable;
     private String[] mTracksNames;
     private boolean[] mSelectedTracks;
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,6 +80,8 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        sortType = sharedPreferences.getInt(ConstantStrings.PREF_SORT, 2);
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
         compositeDisposable = new CompositeDisposable();
@@ -184,6 +187,12 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
     public void onStart() {
         OpenEventApp.getEventBus().register(this);
         super.onStart();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        sortType = sharedPreferences.getInt(ConstantStrings.PREF_SORT, 2);
     }
 
     @Override

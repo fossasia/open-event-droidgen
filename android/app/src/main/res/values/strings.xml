@@ -108,13 +108,14 @@
     <string name="dialog_filter_title">Filter by</string>
 
     <!--Speaker Sort Dialog text-->
-    <string name="dialog_sort_organisation">Organisation</string>
-    <string name="dialog_sort_country">Country</string>
-    <string name="dialog_sort_name">Speaker Name</string>
+    <string name="dialog_sort_by_organisation">Organisation</string>
+    <string name="dialog_sort_by_country">Country</string>
+    <string name="dialog_sort_by_speaker_name">Speaker Name</string>
 
     <!--Session Sort Dialog text-->
-    <string name="dialog_sort_tracks">Tracks</string>
-    <string name="dialog_sort_sessions">Start Time</string>
+    <string name="dialog_sort_by_title">Title</string>
+    <string name="dialog_sort_by_tracks">Tracks</string>
+    <string name="dialog_sort_by_start_time">Start Time</string>
 
 
     <string name="launcher_icon" translatable="false">Launcher Icon</string>

@@ -81,13 +81,14 @@
     <string name="dialog_sort_title">Urut berdasarkan</string>
 
     <!--Speaker Sort Dialog text-->
-    <string name="dialog_sort_organisation">Organisasi</string>
-    <string name="dialog_sort_country">Negara</string>
-    <string name="dialog_sort_name">Nama pembicara</string>
+    <string name="dialog_sort_by_organisation">Organisasi</string>
+    <string name="dialog_sort_by_country">Negara</string>
+    <string name="dialog_sort_by_speaker_name">Nama pembicara</string>
 
     <!--Session Sort Dialog text-->
-    <string name="dialog_sort_tracks">Jalur</string>
-    <string name="dialog_sort_sessions">Waktu mulai</string>
+    <string name="dialog_sort_by_title">Judul</string>
+    <string name="dialog_sort_by_tracks">Jalur</string>
+    <string name="dialog_sort_by_start_time">Waktu mulai</string>
 
 
     <string name="download_assets">Apakah Anda ingin memperbaruhi jadwal?</string>

@@ -120,6 +120,23 @@ public class ScheduleFragment extends BaseFragment {
                 }));
 
         viewPager.setAdapter(adapter);
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                //Called when the current page is scrolled
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                adapter.getItem(position).onResume();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                //Called when the scroll state changes
+            }
+        });
     }
 
     public void viewPagerScroll() {

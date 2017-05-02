@@ -27,13 +27,21 @@ public class DatabaseOperations {
 
     public static final String TAG = DatabaseOperations.class.getSimpleName();
 
+    private static final String SELECT = "SELECT ";
+
+    private static final String FROM = " FROM ";
+
+    private static final String WHERE = " WHERE ";
+
+    private static final String AND = " AND ";
+
     private static final String ASCENDING = " ASC";
 
     private static final String DESCENDING = " DESC";
 
-    //private static final String SELECT_ALL = "SELECT * FROM ";
+    private static final String COMMA_SEP = ",";
 
-    //private static final String WHERE = " WHERE ";
+    private static final String DOT = ".";
 
     private static final String EQUAL = " == ";
 
@@ -1028,15 +1036,42 @@ public class DatabaseOperations {
 
         String order = sortOrder + ASCENDING;
 
-        Cursor sessionCursor = mDb.query(
-                DbContract.Sessions.TABLE_NAME,
-                DbContract.Sessions.FULL_PROJECTION,
-                sessionColumnSelection,
-                null,
-                null,
-                null,
-                order
-        );
+        Cursor sessionCursor;
+
+        if(sortOrder.equals(DbContract.Sessions.TRACK)){
+            String projection = DbContract.Sessions.TABLE_NAME + DOT + DbContract.Sessions.ID + COMMA_SEP
+                    + DbContract.Sessions.TITLE + COMMA_SEP
+                    + DbContract.Sessions.SUBTITLE + COMMA_SEP
+                    + DbContract.Sessions.SUMMARY + COMMA_SEP
+                    + DbContract.Sessions.TABLE_NAME + DOT +DbContract.Sessions.DESCRIPTION+ COMMA_SEP
+                    + DbContract.Sessions.START_TIME + COMMA_SEP
+                    + DbContract.Sessions.END_TIME + COMMA_SEP
+                    + DbContract.Sessions.START_DATE + COMMA_SEP
+                    + DbContract.Sessions.TYPE + COMMA_SEP
+                    + DbContract.Sessions.TRACK + COMMA_SEP
+                    + DbContract.Sessions.LEVEL + COMMA_SEP
+                    + DbContract.Sessions.MICROLOCATION;
+
+            String sql = SELECT + projection
+                    + FROM + DbContract.Sessions.TABLE_NAME + COMMA_SEP + DbContract.Tracks.TABLE_NAME
+                    + WHERE + DbContract.Sessions.TABLE_NAME + DOT + DbContract.Sessions.TRACK
+                    + EQUAL + DbContract.Tracks.TABLE_NAME + DOT + DbContract.Tracks.ID
+                    + AND + DbContract.Sessions.START_DATE + EQUAL + DatabaseUtils.sqlEscapeString(date)
+                    + ORDERBY + DbContract.Tracks.TABLE_NAME + DOT + DbContract.Tracks.NAME + ASCENDING;
+
+            sessionCursor = mDb.rawQuery(sql,null);
+        }else {
+            sessionCursor = mDb.query(
+                    DbContract.Sessions.TABLE_NAME,
+                    DbContract.Sessions.FULL_PROJECTION,
+                    sessionColumnSelection,
+                    null,
+                    null,
+                    null,
+                    order
+            );
+        }
+
 
         ArrayList<Session> sessions = new ArrayList<>();
         Session session;

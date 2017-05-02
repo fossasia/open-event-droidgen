@@ -14,7 +14,7 @@ import org.fossasia.openevent.dbutils.DbContract;
 
 public final class SortOrder {
 
-    public static final int SORT_TYPE_ONE = 0;
+    public static final int SORT_TYPE_FIRST = 0;
     public static final int SORT_TYPE_SECOND = 1;
     public static final int SORT_TYPE_THIRD = 2;
     private static final String PREF_SORT = "sortType";
@@ -26,7 +26,7 @@ public final class SortOrder {
     public static String sortOrderSpeaker(Activity activity) {
         prefsSort = PreferenceManager.getDefaultSharedPreferences(activity);
         switch (prefsSort.getInt(PREF_SORT, 0)) {
-            case SORT_TYPE_ONE:
+            case SORT_TYPE_FIRST:
                 //By NAME
                 return DbContract.Speakers.NAME;
             case SORT_TYPE_SECOND:
@@ -42,13 +42,16 @@ public final class SortOrder {
 
     public static String sortOrderSchedule(Context context) {
         prefsSort = PreferenceManager.getDefaultSharedPreferences(context);
-        switch (prefsSort.getInt(PREF_SORT, 0)) {
-            case SORT_TYPE_ONE:
-                //By START_TIME
-                return DbContract.Sessions.START_TIME;
+        switch (prefsSort.getInt(PREF_SORT, 2)) {
+            case SORT_TYPE_FIRST:
+                //By TITLE
+                return DbContract.Sessions.TITLE;
             case SORT_TYPE_SECOND:
                 //By TRACKS
-                return DbContract.Sessions.TITLE;
+                return DbContract.Sessions.TRACK;
+            case SORT_TYPE_THIRD:
+                //By START_TIME
+                return DbContract.Sessions.START_TIME;
             default:
                 return DbContract.Sessions.START_TIME;
         }

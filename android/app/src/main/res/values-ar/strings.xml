@@ -90,13 +90,14 @@
     <string name="dialog_sort_title">ترتيب حسب</string>
 
     <!--Speaker Sort Dialog text-->
-    <string name="dialog_sort_organisation">المؤسسة</string>
-    <string name="dialog_sort_country">الدولة</string>
-    <string name="dialog_sort_name">اسم المتحدث</string>
+    <string name="dialog_sort_by_organisation">المؤسسة</string>
+    <string name="dialog_sort_by_country">الدولة</string>
+    <string name="dialog_sort_by_speaker_name">اسم المتحدث</string>
 
     <!--Session Sort Dialog text-->
-    <string name="dialog_sort_tracks">المسارات</string>
-    <string name="dialog_sort_sessions">وقت البدأ</string>
+    <string name="dialog_sort_by_title">عنوان</string>
+    <string name="dialog_sort_by_tracks">المسارات</string>
+    <string name="dialog_sort_by_start_time">وقت البدأ</string>
 
 
     <string name="download_assets">هل ترغب في تحديث الجدول الان؟</string>

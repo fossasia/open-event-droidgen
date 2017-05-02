@@ -85,13 +85,14 @@
     <string name="dialog_sort_title">Sortează după</string>
 
     <!--Speaker Sort Dialog text-->
-    <string name="dialog_sort_organisation">Organizaţie</string>
-    <string name="dialog_sort_country">Ţară</string>
-    <string name="dialog_sort_name">Numele invitatului</string>
+    <string name="dialog_sort_by_organisation">Organizaţie</string>
+    <string name="dialog_sort_by_country">Ţară</string>
+    <string name="dialog_sort_by_speaker_name">Numele invitatului</string>
 
     <!--Session Sort Dialog text-->
-    <string name="dialog_sort_tracks">Trasee</string>
-    <string name="dialog_sort_sessions">Data de început</string>
+    <string name="dialog_sort_by_title">Titlu</string>
+    <string name="dialog_sort_by_tracks">Trasee</string>
+    <string name="dialog_sort_by_start_time">Data de început</string>
 
 
     <string name="download_assets">Doreşti să actualizezi programul la cea mai nouă versiune?</string>

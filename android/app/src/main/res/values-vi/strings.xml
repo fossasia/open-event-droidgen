@@ -90,13 +90,14 @@
     <string name="dialog_sort_title">Sắp xếp theo</string>
 
     <!--Speaker Sort Dialog text-->
-    <string name="dialog_sort_organisation">Tổ chức</string>
-    <string name="dialog_sort_country">Quốc gia</string>
-    <string name="dialog_sort_name">Tên diễn giả</string>
+    <string name="dialog_sort_by_organisation">Tổ chức</string>
+    <string name="dialog_sort_by_country">Quốc gia</string>
+    <string name="dialog_sort_by_speaker_name">Tên diễn giả</string>
 
     <!--Session Sort Dialog text-->
-    <string name="dialog_sort_tracks">Chủ đề</string>
-    <string name="dialog_sort_sessions">Thời gian bắt đầu</string>
+    <string name="dialog_sort_by_title">Chức vụ</string>
+    <string name="dialog_sort_by_tracks">Chủ đề</string>
+    <string name="dialog_sort_by_start_time">Thời gian bắt đầu</string>
 
 
     <string name="download_assets">Bạn có muốn cập nhật thời gian biểu bây giờ?</string>
