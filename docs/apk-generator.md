@@ -1,6 +1,18 @@
-TODO : Outline the working of apk-generator. 
+## How apk is generated using the Android apk generator
 
-[https://github.com/fossasia/open-event-android/issues/1433](https://github.com/fossasia/open-event-android/issues/1433)
+## **Getting the data from uploaded zip/url**
+
+<img src="https://cloud.githubusercontent.com/assets/13241256/25476117/c06fd0e4-2b56-11e7-8162-2798126c7865.png">
+
+The web server and the celery worker run as two separate instances. Data is passed between them via redis. Jobs with payload are added to redis by the web app.
+The moment the `GENERATE ANDROID APP` button is pressed, a `POST` request through function `process` is being made in the file `open-event-android/apk-generator/v2/app/views/__init__.py` where the respective email and the data source is stored.
+
+<img src="https://cloud.githubusercontent.com/assets/13241256/25605338/d9d994d2-2f27-11e7-8ecc-49cc21f046e2.jpeg">
+
+A celery task is created with a payload containing the data submitting by the user. In case of a file, it is saved and the payload contains the path to the file, whereas in case of an API endpoint, the payload contains the url.
+After that, the page tells the user that his request is being processed.Now, the celery worker will start processing the task in the background with the help of the function `generate_app_task` which will further call function `generate_app_task_base` both in the file `open-event-android/apk-generator/v2/app/tasks/__init__.py`. An object of the class `generator` is created in `generate_app_task_base` function which is used to call the `generate` method that returns the apk url.
+
+<img src="https://cloud.githubusercontent.com/assets/13241256/25605337/d9670200-2f27-11e7-85bb-8300b7b24d18.jpeg">
 
 ## **Generating the app**
 
