@@ -1,7 +1,5 @@
 package org.fossasia.openevent.fragments;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -40,7 +38,8 @@ import org.fossasia.openevent.views.stickyheadersrecyclerview.StickyRecyclerHead
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.HashMap;
+import java.util.Map;
 import butterknife.BindView;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
