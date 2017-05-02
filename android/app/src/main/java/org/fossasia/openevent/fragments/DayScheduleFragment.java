@@ -65,10 +65,10 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
 
     private String date;
 
+    private SharedPreferences sharedPreferences;
     private CompositeDisposable compositeDisposable;
     private String[] mTracksNames;
     private boolean[] mSelectedTracks;
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
