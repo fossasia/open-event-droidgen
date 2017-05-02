@@ -39,15 +39,19 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
 
     private Context context;
     private String eventDate;
-
+    private final List<Session> sessionList = new ArrayList<>();
     private CompositeDisposable disposable;
+
+    private ArrayList<String> tracks;
 
     @SuppressWarnings("all")
     Filter filter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            DbSingleton instance = DbSingleton.getInstance();
-            List<Session> sessionList = instance.getSessionsByDate(eventDate, SortOrder.sortOrderSchedule(context));
+            sessionList.clear();
+            for (int i=0 ; i<getItemCount();i++) {
+                sessionList.add(getItem(i));
+            }
             final ArrayList<Session> filteredSessionsList = new ArrayList<>();
             String query = constraint.toString().toLowerCase(Locale.getDefault());
             for (Session session : sessionList) {
@@ -72,6 +76,7 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
     public DayScheduleAdapter(List<Session> sessions, Context context) {
         super(sessions);
         this.context = context;
+        tracks  = new ArrayList<String>();
     }
 
     public void setEventDate(String eventDate) {
@@ -126,17 +131,6 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
         });
     }
 
-    public void refresh() {
-        clear();
-        disposable.add(DbSingleton.getInstance().getSessionsByDateObservable(eventDate, SortOrder.sortOrderSchedule(context))
-                .subscribe(new Consumer<ArrayList<Session>>() {
-                    @Override
-                    public void accept(@NonNull ArrayList<Session> sessions) throws Exception {
-                        animateTo(sessions);
-                    }
-                }));
-    }
-
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
@@ -160,7 +154,13 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
         String id = "";
         if (SortOrder.sortOrderSchedule(context).equals(DbContract.Sessions.TITLE)) {
             return getItem(position).getTitle().charAt(0);
-        } else if (SortOrder.sortOrderSchedule(context).equals(DbContract.Sessions.START_TIME)) {
+        } else if (SortOrder.sortOrderSchedule(context).equals(DbContract.Sessions.TRACK)){
+            if (tracks != null && !tracks.contains(getItem(position).getTrack().getName())) {
+                tracks.add(getItem(position).getTrack().getName());
+            }
+            return tracks.indexOf(getItem(position).getTrack().getName());
+        }
+        else if (SortOrder.sortOrderSchedule(context).equals(DbContract.Sessions.START_TIME)) {
             id = ISO8601Date.get24HourTime(ISO8601Date.getDateObject(getItem(position).getStartTime()));
             id = id.replace(":", "");
             id = id.replace(" ", "");
@@ -181,7 +181,10 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
         
         if (SortOrder.sortOrderSchedule(context).equals(DbContract.Sessions.TITLE)) {
             textView.setText(String.valueOf(getItem(position).getTitle().charAt(0)));
-        } else if (SortOrder.sortOrderSchedule(context).equals(DbContract.Sessions.START_TIME)) {
+        } else if (SortOrder.sortOrderSchedule(context).equals(DbContract.Sessions.TRACK)){
+            textView.setText(String.valueOf(getItem(position).getTrack().getName()));
+        }
+        else if (SortOrder.sortOrderSchedule(context).equals(DbContract.Sessions.START_TIME)) {
             textView.setText(ISO8601Date.get12HourTime(ISO8601Date.getDateObject(getItem(position).getStartTime())));
         }
     }
@@ -208,6 +211,5 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
-
     }
 }

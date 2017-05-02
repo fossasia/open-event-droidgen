@@ -84,13 +84,14 @@
     <string name="dialog_sort_title">Ordenar Por</string>
 
     <!--Speaker Sort Dialog text-->
-    <string name="dialog_sort_organisation">Organización</string>
-    <string name="dialog_sort_country">País</string>
-    <string name="dialog_sort_name">Nombre del orador</string>
+    <string name="dialog_sort_by_organisation">Organización</string>
+    <string name="dialog_sort_by_country">País</string>
+    <string name="dialog_sort_by_speaker_name">Nombre del orador</string>
 
     <!--Session Sort Dialog text-->
-    <string name="dialog_sort_tracks">Las Pistas</string>
-    <string name="dialog_sort_sessions">Hora de la charla</string>
+    <string name="dialog_sort_by_title">Título</string>
+    <string name="dialog_sort_by_tracks">Las Pistas</string>
+    <string name="dialog_sort_by_start_time">Hora de la charla</string>
 
 
     <string name="download_assets">¿Desea actualizar el horario?</string>

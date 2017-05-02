@@ -219,7 +219,7 @@ function startPoll() {
                         break;
                     case 'SUCCESS':
                         if (res.hasOwnProperty('result')) {
-                            downloadUrl = res.result;
+                            downloadUrl = res.result.hasOwnProperty('message') ? res.result.message : res.result;
                             enableDownloadButton();
                         } else {
                             showError();

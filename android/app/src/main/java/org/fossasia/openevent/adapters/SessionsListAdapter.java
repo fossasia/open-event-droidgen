@@ -35,6 +35,7 @@ import org.fossasia.openevent.receivers.NotificationAlarmReceiver;
 import org.fossasia.openevent.utils.BookmarksListChangeListener;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.ISO8601Date;
+import org.fossasia.openevent.utils.TrackColors;
 import org.fossasia.openevent.utils.WidgetUpdater;
 
 import java.util.ArrayList;
@@ -155,16 +156,38 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
 
         holder.sessionTitle.setText(session.getTitle());
         holder.sessionSubtitle.setText(session.getSubtitle());
-        TextDrawable drawable = drawableBuilder.build(String.valueOf(session.getTrack().getName().charAt(0)), colorGenerator.getColor(session.getTrack().getName()));
+
+        final DbSingleton dbSingleton = DbSingleton.getInstance();
+
+        final int trackId = session.getTrack().getId();
+
+        int storedColor = TrackColors.getColor(trackId);
+        if(storedColor == -1 && type != trackWiseSessionList) {
+            storedColor = colorGenerator.getColor(session.getTrack().getName());
+
+            disposable.add(dbSingleton.getTrackByIdObservable(session.getTrack().getId())
+                    .subscribe(new Consumer<Track>() {
+                        @Override
+                        public void accept(@NonNull Track track) throws Exception {
+                            int color = Color.parseColor(track.getColor());
+                            TextDrawable drawable = drawableBuilder.build(String.valueOf(session.getTrack().getName().charAt(0)), color);
+                            holder.trackImageIcon.setImageDrawable(drawable);
+                            holder.sessionHeader.setBackgroundColor(color);
+
+                            TrackColors.storeColor(trackId, color);
+                        }
+                    }));
+        } else if(type != trackWiseSessionList) {
+            color = storedColor;
+        }
+
+        TextDrawable drawable = drawableBuilder.build(String.valueOf(session.getTrack().getName().charAt(0)), storedColor);
         holder.trackImageIcon.setImageDrawable(drawable);
         holder.trackImageIcon.setBackgroundColor(Color.TRANSPARENT);
         holder.sessionTrack.setText(session.getTrack().getName());
         holder.sessionDate.setText(date);
         holder.sessionTime.setText(ISO8601Date.get12HourTime(ISO8601Date.getDateObject(session.getStartTime())) + " - " + ISO8601Date.get12HourTime(ISO8601Date.getDateObject(session.getEndTime())));
         holder.sessionLocation.setText(session.getMicrolocation().getName());
-
-        final DbSingleton dbSingleton;
-        dbSingleton = DbSingleton.getInstance();
 
         disposable.add(dbSingleton.getSpeakersBySessionNameObservable(session.getTitle())
                 .map(new Function<ArrayList<Speaker>, String>() {
@@ -276,6 +299,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
                                 intent.putExtra(ConstantStrings.SESSION, sessionName);
                                 intent.putExtra(ConstantStrings.TRACK, trackName);
                                 intent.putExtra(ConstantStrings.ID, session.getId());
+                                intent.putExtra(ConstantStrings.TRACK_ID, track.getId());
                                 listPosition = holder.getLayoutPosition();
                                 context.startActivity(intent);
                             }

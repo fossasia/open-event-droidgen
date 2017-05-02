@@ -64,7 +64,7 @@
     <string name="message_1"> या वेळी ते बोलत आहे </string>
     <string name="message_2"> विषयांवर: </string>
     <string name="message_3"> अधिक माहितीसाठी गुगल प्ले स्टोअरवर अनुप्रयोग तपासा करीता: </string>
-    <string name="fmt_floor">"मजला : "</string>
+    <string name="fmt_floor">"मजला: "</string>
     <string name="noBookmark">अद्याप कोणतेही बुकमार्क सत्र !!</string>
 
     <!--About us text-->
@@ -82,13 +82,14 @@
     <string name="dialog_sort_title">क्रमवारी लावा</string>
 
     <!--Speaker Sort Dialog text-->
-    <string name="dialog_sort_organisation">संघटना</string>
-    <string name="dialog_sort_country">देश</string>
-    <string name="dialog_sort_name">स्पीकर नाव</string>
+    <string name="dialog_sort_by_organisation">संघटना</string>
+    <string name="dialog_sort_by_country">देश</string>
+    <string name="dialog_sort_by_speaker_name">स्पीकर नाव</string>
 
     <!--Session Sort Dialog text-->
-    <string name="dialog_sort_tracks">ट्रॅक</string>
-    <string name="dialog_sort_sessions">सुरवातीची वेळ</string>
+    <string name="dialog_sort_by_title">शीर्षक</string>
+    <string name="dialog_sort_by_tracks">ट्रॅक</string>
+    <string name="dialog_sort_by_start_time">सुरवातीची वेळ</string>
 
 
     <string name="download_assets">आपण आता नवीन वेळापत्रक अद्यतनित करू इच्छिता?</string>

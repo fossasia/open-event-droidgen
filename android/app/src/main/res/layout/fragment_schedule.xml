@@ -22,11 +22,81 @@
         app:tabSelectedTextColor="@android:color/white"
         tools:targetApi="lollipop" />
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewpager"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tabLayout"
-        android:background="@android:color/white" />
+        android:layout_height="match_parent">
 
+        <LinearLayout
+            android:id="@+id/filter_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/color_accent">
+
+            <TextView
+                android:id="@+id/filter_text"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="@color/white"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_margin="8dp"/>
+
+            <ImageView
+                android:id="@+id/close_filter"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                app:srcCompat="@drawable/ic_close_24dp"
+                android:layout_margin="3dp"/>
+
+        </LinearLayout>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:layout_below="@+id/filter_bar"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/schedule_fab_sort"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_above="@+id/schedule_fab_filter"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            app:srcCompat="@drawable/ic_sort_white_24dp"
+            android:visibility="gone"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/schedule_fab_filter"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_above="@+id/schedule_fab"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            app:srcCompat="@drawable/ic_filter_24dp"
+            android:visibility="gone"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/schedule_fab"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            app:srcCompat="@drawable/ic_plus_24dp" />
+
+    </RelativeLayout>
 </android.support.design.widget.AppBarLayout>

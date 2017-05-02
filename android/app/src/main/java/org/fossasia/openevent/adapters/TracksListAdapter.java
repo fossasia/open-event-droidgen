@@ -13,13 +13,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
-import com.amulyakhare.textdrawable.util.ColorGenerator;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.activities.TrackSessionsActivity;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.ConstantStrings;
+import org.fossasia.openevent.utils.TrackColors;
 import org.fossasia.openevent.views.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
 import java.util.ArrayList;
@@ -40,7 +40,6 @@ import timber.log.Timber;
 public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.RecyclerViewHolder> implements StickyRecyclerHeadersAdapter {
 
     private Context context;
-    private ColorGenerator colorGenerator = ColorGenerator.MATERIAL;
     private TextDrawable.IBuilder drawableBuilder = TextDrawable.builder().round();
     private CompositeDisposable disposable;
 
@@ -107,16 +106,22 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.Re
             holder.trackDescription.setVisibility(View.GONE);
         }
 
-        TextDrawable drawable = drawableBuilder.build(String.valueOf(currentTrack.getName().charAt(0)), colorGenerator.getColor(currentTrack.getName()));
+        int trackColor = Color.parseColor(currentTrack.getColor());
+        TextDrawable drawable = drawableBuilder.build(String.valueOf(currentTrack.getName().charAt(0)), trackColor);
         holder.trackImageIcon.setImageDrawable(drawable);
         holder.trackImageIcon.setBackgroundColor(Color.TRANSPARENT);
+
+        // Store the track color in color cache
+        TrackColors.storeColor(currentTrack.getId(), trackColor);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String trackTitle = currentTrack.getName();
                 Intent intent = new Intent(context, TrackSessionsActivity.class);
-                intent.putExtra(ConstantStrings.TRACK, trackTitle);
+                intent.putExtra(ConstantStrings.TRACK, currentTrack.getName());
+
+                // Send Track ID to Activity to leverage color cache
+                intent.putExtra(ConstantStrings.TRACK_ID, currentTrack.getId());
                 context.startActivity(intent);
             }
         });
