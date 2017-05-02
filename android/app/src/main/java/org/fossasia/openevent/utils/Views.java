@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
 import android.support.v4.graphics.drawable.DrawableCompat;
@@ -66,5 +67,12 @@ public final class Views {
     public static void setTint(ImageView imageView, int tintColor) {
         Drawable wrapped = DrawableCompat.wrap(imageView.getDrawable());
         DrawableCompat.setTint(wrapped, tintColor);
+    }
+
+    public static int getDarkColor(int color) {
+        float[] hsv = new float[3];
+        Color.colorToHSV(color, hsv);
+        hsv[2] *= 0.8f;
+        return Color.HSVToColor(hsv);
     }
 }

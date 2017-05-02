@@ -1,10 +1,6 @@
 package org.fossasia.openevent.fragments;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
@@ -39,7 +35,9 @@ import org.fossasia.openevent.views.stickyheadersrecyclerview.StickyRecyclerHead
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import io.reactivex.annotations.NonNull;
@@ -62,15 +60,14 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
     @BindView(R.id.txt_no_schedule) TextView noSchedule;
 
     private List<Session> mSessions = new ArrayList<>();
+    private List<Session> mSessionsFiltered = new ArrayList<>();
     private DayScheduleAdapter dayScheduleAdapter;
 
     private String date;
 
-    private int sortType;
-
-    private SharedPreferences sharedPreferences;
-
     private CompositeDisposable compositeDisposable;
+    private String[] mTracksNames;
+    private boolean[] mSelectedTracks;
 
 
     @Override
@@ -92,11 +89,14 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
             @Override
             public void onRefresh() {
                 refresh();
+                if(mSelectedTracks != null && mTracksNames != null) {
+                    filter(mTracksNames,mSelectedTracks);
+                }
             }
         });
 
         dayRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        dayScheduleAdapter = new DayScheduleAdapter(mSessions, getContext());
+        dayScheduleAdapter = new DayScheduleAdapter(mSessionsFiltered, getContext());
         dayRecyclerView.setAdapter(dayScheduleAdapter);
         dayScheduleAdapter.setEventDate(date);
 
@@ -118,6 +118,8 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
                     public void accept(@NonNull ArrayList<Session> sortedSessions) throws Exception {
                         mSessions.clear();
                         mSessions.addAll(sortedSessions);
+                        mSessionsFiltered.clear();
+                        mSessionsFiltered.addAll(sortedSessions);
                         handleVisibility();
                     }
                 }));
@@ -127,9 +129,40 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
         return view;
     }
 
+    public void filter(String[] tracksNames, boolean[] isSelectedTrack) {
+        int count = 0;
+        mTracksNames = tracksNames;
+        mSelectedTracks = isSelectedTrack;
+        mSessionsFiltered.clear();
+
+        Map<String, Boolean> tracks = new HashMap<>();
+        for(int i=0 ; i<isSelectedTrack.length ; i++) {
+            if(isSelectedTrack[i]) {
+                count++;
+            }
+            tracks.put(tracksNames[i],isSelectedTrack[i]);
+        }
+
+        if (count != 0) {
+           for(int i=0 ; i<mSessions.size() ; i++) {
+               if (tracks.get(mSessions.get(i).getTrack().getName())) {
+                   mSessionsFiltered.add(mSessions.get(i));
+               }
+           }
+        } else {
+            mSessionsFiltered.addAll(mSessions);
+        }
+
+        if(searchText!=null)
+            dayScheduleAdapter.getFilter().filter(searchText);
+
+        dayScheduleAdapter.notifyDataSetChanged();
+        handleVisibility();
+    }
+
     private void handleVisibility() {
         if (dayRecyclerView != null && noSchedule != null) {
-            if (!mSessions.isEmpty()) {
+            if (!mSessionsFiltered.isEmpty()) {
                 noSchedule.setVisibility(View.GONE);
             } else {
                 noSchedule.setVisibility(View.VISIBLE);
@@ -177,25 +210,6 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_sort_schedule:
-                final AlertDialog.Builder dialogSort = new AlertDialog.Builder(getActivity())
-                        .setTitle(R.string.dialog_sort_title)
-                        .setSingleChoiceItems(R.array.session_sort, sortType, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                sortType = which;
-                                SharedPreferences.Editor editor = sharedPreferences.edit();
-                                editor.putInt(ConstantStrings.PREF_SORT, which);
-                                editor.apply();
-                                dayScheduleAdapter.refresh();
-                                dialog.dismiss();
-                            }
-                        });
-
-                dialogSort.show();
-                break;
-        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -215,12 +229,22 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
 
     @Override
     public boolean onQueryTextChange(String query) {
+        searchText = query;
+
         if (!TextUtils.isEmpty(query)) {
-            searchText = query;
-            dayScheduleAdapter.getFilter().filter(searchText);
+            if(mSelectedTracks != null && mTracksNames != null) {
+                refreshSchedule();
+            } else {
+                dayScheduleAdapter.getFilter().filter(searchText);
+            }
         } else {
-            if(dayScheduleAdapter!=null)
-                dayScheduleAdapter.refresh();
+            if(dayScheduleAdapter!=null) {
+                if(mSelectedTracks != null && mTracksNames != null) {
+                    filter(mTracksNames,mSelectedTracks);
+                } else {
+                    refreshSchedule();
+                }
+            }
         }
         return true;
     }
@@ -234,9 +258,9 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
     @Subscribe
     public void refreshData(RefreshUiEvent event) {
         // if adapter has not initialised, no point in refreshing it/
-        if (dayScheduleAdapter != null)
-            dayScheduleAdapter.refresh();
-
+        if (dayScheduleAdapter != null) {
+            refreshSchedule();
+        }
     }
 
     @Subscribe
@@ -250,7 +274,7 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
                 if (!searchView.getQuery().toString().isEmpty() && !searchView.isIconified()) {
                     dayScheduleAdapter.getFilter().filter(searchView.getQuery());
                 } else {
-                    dayScheduleAdapter.refresh();
+                    refreshSchedule();
                 }
             }
         } else {
@@ -261,6 +285,24 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
                 }
             }).show();
         }
+    }
+
+    public void refreshSchedule() {
+        compositeDisposable.add(DbSingleton.getInstance().getSessionsByDateObservable(date, SortOrder.sortOrderSchedule(getActivity()))
+                .subscribe(new Consumer<ArrayList<Session>>() {
+                    @Override
+                    public void accept(@NonNull ArrayList<Session> sortedSessions) throws Exception {
+                        mSessions.clear();
+                        mSessions.addAll(sortedSessions);
+                        mSessionsFiltered.clear();
+                        mSessionsFiltered.addAll(sortedSessions);
+                        if(mSelectedTracks != null && mTracksNames != null) {
+                            filter(mTracksNames,mSelectedTracks);
+                        }
+                        dayScheduleAdapter.notifyDataSetChanged();
+                        handleVisibility();
+                    }
+                }));
     }
 
     private void refresh() {
@@ -301,6 +343,4 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
             }
         });
     }
-
-
 }

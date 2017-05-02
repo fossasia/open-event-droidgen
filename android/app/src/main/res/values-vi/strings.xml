@@ -72,7 +72,7 @@
     <string name="message_1"> đang thuyết trình tại </string>
     <string name="message_2"> về chủ đề: </string>
     <string name="message_3"> Thông tin chi tiết truy cập ứng dụng này trên Google Play Store: </string>
-    <string name="fmt_floor">"Tầng : "</string>
+    <string name="fmt_floor">"Tầng: "</string>
     <string name="noBookmark">Không có sự kiện nào được đánh dấu !!</string>
 
     <!--About us text-->

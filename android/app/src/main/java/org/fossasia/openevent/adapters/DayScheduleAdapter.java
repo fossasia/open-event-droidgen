@@ -39,7 +39,7 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
 
     private Context context;
     private String eventDate;
-
+    private final List<Session> sessionList = new ArrayList<>();
     private CompositeDisposable disposable;
 
     private ArrayList<String> tracks;
@@ -48,8 +48,10 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
     Filter filter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            DbSingleton instance = DbSingleton.getInstance();
-            List<Session> sessionList = instance.getSessionsByDate(eventDate, SortOrder.sortOrderSchedule(context));
+            sessionList.clear();
+            for (int i=0 ; i<getItemCount();i++) {
+                sessionList.add(getItem(i));
+            }
             final ArrayList<Session> filteredSessionsList = new ArrayList<>();
             String query = constraint.toString().toLowerCase(Locale.getDefault());
             for (Session session : sessionList) {
@@ -127,17 +129,6 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
                         }));
             }
         });
-    }
-
-    public void refresh() {
-        clear();
-        disposable.add(DbSingleton.getInstance().getSessionsByDateObservable(eventDate, SortOrder.sortOrderSchedule(context))
-                .subscribe(new Consumer<ArrayList<Session>>() {
-                    @Override
-                    public void accept(@NonNull ArrayList<Session> sessions) throws Exception {
-                        animateTo(sessions);
-                    }
-                }));
     }
 
     @Override
@@ -220,6 +211,5 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
-
     }
 }

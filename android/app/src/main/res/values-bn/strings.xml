@@ -65,7 +65,7 @@
     <string name="message_1"> এ কথা বলছেন</string>
     <string name="message_2"> বিষয়ের উপর: </string>
     <string name="message_3"> আরো তথ্য জানার জন্য গুগল প্লে স্টরে এই এপ দেখতে পারেন: </string>
-    <string name="fmt_floor">"মেঝে : "</string>
+    <string name="fmt_floor">"মেঝে: "</string>
     <string name="noBookmark">এখনও কোন বুকমার্ক নেই!!</string>
 
     <!--About us text-->

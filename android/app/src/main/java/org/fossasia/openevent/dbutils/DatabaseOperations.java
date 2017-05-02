@@ -298,7 +298,8 @@ public class DatabaseOperations {
                         cursor.getInt(cursor.getColumnIndex(DbContract.Tracks.ID)),
                         cursor.getString(cursor.getColumnIndex(DbContract.Tracks.NAME)),
                         cursor.getString(cursor.getColumnIndex(DbContract.Tracks.DESCRIPTION)),
-                        cursor.getString(cursor.getColumnIndex(DbContract.Tracks.IMAGE))
+                        cursor.getString(cursor.getColumnIndex(DbContract.Tracks.IMAGE)),
+                        cursor.getString(cursor.getColumnIndex(DbContract.Tracks.COLOR))
                 );
                 tracks.add(track);
                 cursor.moveToNext();
@@ -469,7 +470,8 @@ public class DatabaseOperations {
                     tracksCursor.getInt(tracksCursor.getColumnIndex(DbContract.Tracks.ID)),
                     tracksCursor.getString(tracksCursor.getColumnIndex(DbContract.Tracks.NAME)),
                     tracksCursor.getString(tracksCursor.getColumnIndex(DbContract.Tracks.DESCRIPTION)),
-                    tracksCursor.getString(tracksCursor.getColumnIndex(DbContract.Tracks.IMAGE))
+                    tracksCursor.getString(tracksCursor.getColumnIndex(DbContract.Tracks.IMAGE)),
+                    tracksCursor.getString(tracksCursor.getColumnIndex(DbContract.Tracks.COLOR))
             );
             tracksCursor.close();
         }
@@ -498,7 +500,8 @@ public class DatabaseOperations {
                     tracksCursor.getInt(tracksCursor.getColumnIndex(DbContract.Tracks.ID)),
                     tracksCursor.getString(tracksCursor.getColumnIndex(DbContract.Tracks.NAME)),
                     tracksCursor.getString(tracksCursor.getColumnIndex(DbContract.Tracks.DESCRIPTION)),
-                    tracksCursor.getString(tracksCursor.getColumnIndex(DbContract.Tracks.IMAGE))
+                    tracksCursor.getString(tracksCursor.getColumnIndex(DbContract.Tracks.IMAGE)),
+                    tracksCursor.getString(tracksCursor.getColumnIndex(DbContract.Tracks.COLOR))
             );
             tracksCursor.close();
         }
