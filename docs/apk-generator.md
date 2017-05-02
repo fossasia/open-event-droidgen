@@ -2,6 +2,42 @@ TODO : Outline the working of apk-generator.
 
 [https://github.com/fossasia/open-event-android/issues/1433](https://github.com/fossasia/open-event-android/issues/1433)
 
+## **Generating the app**
+
+### Normalizing the data
+
+First, the `normalize` function of [generator.py](../apk-generator/v2/app/generator/generator.py) is called with the creator email, API endpoint URL and the zip file as arguments. The task of normalize function is to replace the specific data inside app source files like app name, event name and logo, etc to customize the app according to the provided event data.
+- Firstly, it checks if API endpoint or payload zip is provided or not, and sends error to the client if it isn't
+- Then according to the type of data provided, it prepares to load the data:  
+    - URL Endpoint:
+        - Saves the API link for further use
+        - Creates the assets directory in application
+        - Loads the `/event` data from endpoint into JSON  
+    - Payload Zip:
+        - Extracts the zip
+        - Saves the event JSON data from file
+- Loads the required event data from the JSON
+- Parses and downloads the event logo and background
+
+### Building the app
+
+When the `generate` function is called, the app build process takes place in the following steps:
+- Prepares the source by removing the previously present files like logos and JSON files in assets
+- Generates the app package name and `config.json` containing the
+    - Creator Email
+    - App name
+    - API link
+- Resizes the logo and background images in various Android DPIs
+- Replaces the static string throughout the project with the event specific ones
+- Loads the asset JSON files of in `assets` folder
+- Prepares the build tools by loading its version and path
+- *Executes the [build script](../apk-generator/v2/scripts/build_apk.sh)* which does the following:
+    - Build the release version of the app
+    - Sign the app with key using the key path, store password and alias loaded from environment variables
+    - Zipalign the app
+- Copies the generated release apk in a public `app` folder and generate apk url
+- Return the generated apk URL and optionally notifies socket.IO client about the completion of process
+
 
 ## **Delivery Options**
 
