@@ -39,9 +39,12 @@ public abstract class Urls {
 
     public static final String BASE_GET_URL_ALT = "https://raw.githubusercontent.com/fossasia/open-event/master/testapi/";
 
+    // Replace the template in getAppLink() if changing it
     public static final String APP_LINK = "https://app_link_goes_here.com";
 
     public static final String INVALID_LINK = "http://abc//";
+
+    public static final String GOOGLE_PLAY_HOME = "https://play.google.com/store";
 
 
     public static String getBaseUrl() {
@@ -59,5 +62,15 @@ public abstract class Urls {
             BASE_URL = "http://abc//";
 
         }
+    }
+
+    /**
+     * Checks if the app link is replaced by the generator, if not
+     * returns null which is to be checked by caller to make decision
+     * accordingly.
+     * @return String
+     */
+    public static String getAppLink() {
+        return APP_LINK.equals("https://app_link_goes_here.com")?GOOGLE_PLAY_HOME:APP_LINK;
     }
 }

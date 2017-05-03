@@ -211,4 +211,9 @@ public class Speaker {
                 DatabaseUtils.sqlEscapeString(StringUtils.optionalString(position)),
                 DatabaseUtils.sqlEscapeString(StringUtils.optionalString(country)));
     }
+
+    @Override
+    public String toString() {
+        return getName();
+    }
 }

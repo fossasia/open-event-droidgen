@@ -46,6 +46,7 @@ import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.ConnectionCheckEvent;
 import org.fossasia.openevent.utils.SpeakerIntent;
+import org.fossasia.openevent.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -346,21 +347,18 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
                 sendIntent.putExtra(Intent.EXTRA_SUBJECT, getResources().getString(R.string.subject));
-                StringBuilder message = new StringBuilder();
-                message.append(String.format("%s %s %s %s\n\n",
+                String message = String.format("%s %s %s %s\n\n",
                         selectedSpeaker.getName(),
                         getResources().getString(R.string.message_1),
                         getResources().getString(R.string.app_name),
-                        getResources().getString(R.string.message_2)));
-                for (Session m : mSessions) {
-                    message.append(m.getTitle())
-                            .append(",");
-                }
-                message.append(String.format("\n\n%s (%s)\n%s",
-                        getResources().getString(R.string.message_3),
-                        Urls.APP_LINK,
-                        selectedSpeaker.getPhoto()));
-                sendIntent.putExtra(Intent.EXTRA_TEXT, message.toString());
+                        getResources().getString(R.string.message_2)) +
+                        StringUtils.join(mSessions, ", ") +
+                        String.format("\n\n%s (%s)\n%s",
+                                getResources().getString(R.string.message_3),
+                                Urls.getAppLink(),
+                                selectedSpeaker.getPhoto());
+
+                sendIntent.putExtra(Intent.EXTRA_TEXT, message);
                 sendIntent.setType("text/plain");
                 startActivity(Intent.createChooser(sendIntent, selectedSpeaker.getEmail()));
                 return true;
