@@ -43,6 +43,7 @@ import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.receivers.NotificationAlarmReceiver;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.ISO8601Date;
+import org.fossasia.openevent.utils.StringUtils;
 import org.fossasia.openevent.utils.TrackColors;
 import org.fossasia.openevent.utils.Views;
 import org.fossasia.openevent.utils.WidgetUpdater;
@@ -56,7 +57,6 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import timber.log.Timber;
-
 
 /**
  * User: MananWason
@@ -72,7 +72,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
     private Session session;
 
     private String timings;
-    private String FRAGMENT_TAG_REST = "fgtr";
+    private static final String FRAGMENT_TAG_REST = "fgtr";
 
     @BindView(R.id.toolbar)
     protected Toolbar toolbar;
@@ -109,7 +109,8 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
     @BindView(R.id.nested_scrollview_session_detail)
     protected NestedScrollView scrollView;
 
-    private String trackName, title;
+    private String trackName, title, location;
+    private List<Speaker> speakers = new ArrayList<>();
 
     private Spanned result;
 
@@ -136,7 +137,6 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
 
         appBarLayout.addOnOffsetChangedListener(this);
 
-        final List<Speaker> speakers = new ArrayList<>();
         adapter = new SessionSpeakerListAdapter(speakers, this);
 
         disposable.add(dbSingleton.getSpeakersBySessionNameObservable(title)
@@ -210,12 +210,14 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
                 .subscribe(new Consumer<Microlocation>() {
                     @Override
                     public void accept(Microlocation microlocation) {
+                        location = microlocation.getName();
                         text_room1.setText(microlocation.getName());
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(@NonNull Throwable throwable) throws Exception {
-                        text_room1.setText(R.string.location_not_decided);
+                        location = getString(R.string.location_not_decided);
+                        text_room1.setText(location);
                     }
                 }));
 
@@ -380,13 +382,17 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
                 String startTime = ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(session.getStartTime()));
                 String endTime = ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(session.getEndTime()));
                 StringBuilder shareText = new StringBuilder();
-                shareText.append(String.format("Session Track: %s \nTitle: %s \nStart Time: %s \nEnd Time: %s\n",
-                        trackName, title, startTime, endTime));
+                shareText.append(String.format("Session Track: %s \n" +
+                                "Title: %s \n" +
+                                "Start Time: %s \n" +
+                                "End Time: %s\n" +
+                                "Speakers: %s\n" +
+                                "Location: %s",
+                        trackName, title, startTime, endTime, StringUtils.join(speakers, ", "), location));
                 if (!result.toString().isEmpty()) {
                     shareText.append("\nDescription: ").append(result.toString());
-                } else {
-                    shareText.append(getString(R.string.descriptionEmpty));
                 }
+
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
                 sendIntent.putExtra(Intent.EXTRA_TEXT, shareText.toString());

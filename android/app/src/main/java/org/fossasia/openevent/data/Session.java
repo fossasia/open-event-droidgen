@@ -12,7 +12,6 @@ import org.fossasia.openevent.utils.StringUtils;
 import java.text.ParseException;
 import java.util.Locale;
 
-
 /**
  * Created by championswimmer on 16/5/15.
  */
@@ -184,5 +183,10 @@ public class Session {
                 track.getId(),
                 DatabaseUtils.sqlEscapeString(StringUtils.optionalString(level)),
                 microlocation.getId());
+    }
+
+    @Override
+    public String toString() {
+        return getTitle();
     }
 }
