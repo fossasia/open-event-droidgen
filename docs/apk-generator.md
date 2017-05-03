@@ -2,17 +2,17 @@
 
 ## **Getting the data from uploaded zip/url**
 
-![Apk Generator](screenshots/androidgenerator.png)
+![Apk Generator](images/androidgenerator.png)
 
 The web server and the celery worker run as two separate instances. Data is passed between them via redis. Jobs with payload are added to redis by the web app.
 The moment the `GENERATE ANDROID APP` button is pressed, a `POST` request through function `process` is being made in the file `open-event-android/apk-generator/v2/app/views/__init__.py` where the respective email and the data source is stored.
 
-![Generator Process](screenshots/generator.jpeg)
+![Generator Process](images/generator.jpeg)
 
 A celery task is created with a payload containing the data submitting by the user. In case of a file, it is saved and the payload contains the path to the file, whereas in case of an API endpoint, the payload contains the url.
 After that, the page tells the user that his request is being processed.Now, the celery worker will start processing the task in the background with the help of the function `generate_app_task` which will further call function `generate_app_task_base` both in the file `open-event-android/apk-generator/v2/app/tasks/__init__.py`. An object of the class `generator` is created in `generate_app_task_base` function which is used to call the `generate` method that returns the apk url.
 
-![Celery Task](screenshots/celery_task.jpeg)
+![Celery Task](images/celery_task.jpeg)
 
 ## **Generating the app**
 
@@ -62,7 +62,7 @@ notification.py has two functions
 - send  (under development)
 - send_mail_via_smtp_  (for sending mails)
     
-<img width="1008" alt="screen shot 2017-04-27 at 12 59 00 pm" src="https://cloud.githubusercontent.com/assets/12716067/25472568/68d05186-2b49-11e7-99ce-f44e99648323.png">
+![Mailing Code](images/mailcode.png)
 
 2. ### Direct download 
 On clicking the Download button `/app/<string:identifier>/download` url is hit with `GET` method `app_download(identifier)` in `open-event-android/apk-generator/v2/app/views/api.py`
@@ -70,6 +70,6 @@ identifier is the argument which is the filename of the file.
 It is downloaded to the location with path as  `BASE_DIR/app/static/releases/filename.apk`
 If the above file is not present then the download is aborted otherwise it returns the absolute path of the downloaded file.
 
-<img width="1061" alt="screen shot 2017-04-27 at 12 56 26 pm" src="https://cloud.githubusercontent.com/assets/12716067/25472498/1fd66178-2b49-11e7-9344-2e1291f8e803.png">
+![App Download Code](images/downloadapp.png)
 
-![ezgif-2-380502cc24](https://cloud.githubusercontent.com/assets/12716067/25478083/703b47dc-2b5d-11e7-9956-9d11d7ce5956.gif)
+![Webapp Working](images/webapp.gif)
