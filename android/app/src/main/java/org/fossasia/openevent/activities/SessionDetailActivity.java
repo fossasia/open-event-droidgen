@@ -175,7 +175,6 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
                 }));
 
         speakersRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        speakersRecyclerView.setNestedScrollingEnabled(false);
         speakersRecyclerView.setAdapter(adapter);
         speakersRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
