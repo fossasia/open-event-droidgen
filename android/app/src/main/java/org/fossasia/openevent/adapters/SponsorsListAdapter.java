@@ -18,8 +18,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.NetworkPolicy;
-import com.squareup.picasso.Picasso;
 
+import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Sponsor;
@@ -116,10 +116,10 @@ public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, RecyclerView.Vie
                         public void accept(@NonNull Boolean isActive) throws Exception {
                             if(!isActive) {
 
-                                Picasso.with(context)
+                                OpenEventApp.getPicassoWithCache(context)
                                         .cancelTag("ONLINE");
 
-                                Picasso.with(context)
+                                OpenEventApp.getPicassoWithCache(context)
                                         .load(uri)
                                         .resize(width, (height / 6))
                                         .centerInside()
@@ -129,7 +129,7 @@ public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, RecyclerView.Vie
                         }
                     }));
 
-            Picasso.with(sponsorViewHolder.sponsorImage.getContext())
+            OpenEventApp.getPicassoWithCache(sponsorViewHolder.sponsorImage.getContext())
                     .load(uri)
                     .resize(width, (height / 6))
                     .centerInside()

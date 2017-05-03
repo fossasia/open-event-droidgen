@@ -13,8 +13,7 @@ import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
+import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.activities.SpeakerDetailsActivity;
 import org.fossasia.openevent.data.Speaker;
@@ -108,7 +107,7 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakersListAdap
     public void onBindViewHolder(RecyclerViewHolder holder, final int position) {
         final Speaker current = getItem(position);
 
-        Picasso.with(holder.speakerImage.getContext())
+        OpenEventApp.getPicassoWithCache(holder.speakerImage.getContext())
                 .load(Uri.parse(current.getThumbnail()))
                 .placeholder(VectorDrawableCompat.create(activity.getResources(), R.drawable.ic_account_circle_grey_24dp, null))
                 .into(holder.speakerImage);
