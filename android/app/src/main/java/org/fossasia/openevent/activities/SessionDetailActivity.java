@@ -4,6 +4,9 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
@@ -35,10 +38,13 @@ import org.fossasia.openevent.adapters.SessionSpeakerListAdapter;
 import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
+import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.receivers.NotificationAlarmReceiver;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.ISO8601Date;
+import org.fossasia.openevent.utils.TrackColors;
+import org.fossasia.openevent.utils.Views;
 import org.fossasia.openevent.utils.WidgetUpdater;
 
 import java.util.ArrayList;
@@ -122,11 +128,10 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
         setSupportActionBar(toolbar);
         if(getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        final int id;
-
         title = getIntent().getStringExtra(ConstantStrings.SESSION);
         trackName = getIntent().getStringExtra(ConstantStrings.TRACK);
-        id = getIntent().getIntExtra(ConstantStrings.ID, 0);
+        final int id = getIntent().getIntExtra(ConstantStrings.ID, 0);
+        int trackId = getIntent().getIntExtra(ConstantStrings.TRACK_ID, -1);
         Timber.tag(TAG).d(title);
 
         appBarLayout.addOnOffsetChangedListener(this);
@@ -173,6 +178,29 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
         speakersRecyclerView.setNestedScrollingEnabled(false);
         speakersRecyclerView.setAdapter(adapter);
         speakersRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        int color = TrackColors.getColor(trackId);
+        if(trackId == -1 || color == -1) {
+            disposable.add(dbSingleton.getTrackByNameObservable(trackName)
+                    .subscribe(new Consumer<Track>() {
+                        @Override
+                        public void accept(@NonNull Track track) throws Exception {
+                            int color = Color.parseColor(track.getColor());
+
+                            setUiColor(color);
+
+                            TrackColors.storeColor(track.getId(), color);
+                        }
+                    }, new Consumer<Throwable>() {
+                        @Override
+                        public void accept(@NonNull Throwable throwable) throws Exception {
+                            Timber.d("No track for name %s", trackName);
+                        }
+                    }));
+        } else {
+            setUiColor(color);
+            Timber.d("Cached color loaded for ID %d", trackId);
+        }
     }
 
     private void updateSession() {
@@ -273,6 +301,19 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
         });
     }
 
+    private void setUiColor(int color) {
+        int darkColor = Views.getDarkColor(color);
+
+        toolbar.setBackgroundColor(color);
+        collapsingToolbarLayout.setBackgroundColor(color);
+        collapsingToolbarLayout.setContentScrimColor(darkColor);
+
+        if(Views.isCompatible(Build.VERSION_CODES.LOLLIPOP))
+            getWindow().setStatusBarColor(darkColor);
+
+        fabSessionBookmark.setBackgroundTintList(ColorStateList.valueOf(darkColor));
+    }
+
     @Override
     protected int getLayoutResource() {
         return R.layout.activity_sessions_detail;
@@ -283,6 +324,19 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
         super.onDestroy();
         if(disposable != null && !disposable.isDisposed())
             disposable.dispose();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        dbSingleton.getSessionBySessionNameObservable(title)
+                .subscribe(new Consumer<Session>() {
+                    @Override
+                    public void accept(@NonNull Session receivedSession) {
+                        session = receivedSession;
+                        updateFloatingIcon();
+                    }
+                });
     }
 
     @Override

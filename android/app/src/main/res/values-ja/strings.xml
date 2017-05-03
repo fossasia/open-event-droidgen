@@ -66,7 +66,7 @@
     <string name="message_1"> が話しています </string>
     <string name="message_2"> トピック: </string>
     <string name="message_3"> 詳細情報はこのアプリを Google Play ストアでチェックしてください: </string>
-    <string name="fmt_floor">"フロア : "</string>
+    <string name="fmt_floor">"フロア: "</string>
     <string name="noBookmark">まだセッションがブックマークされていません !!</string>
 
     <!--About us text-->
@@ -84,13 +84,14 @@
     <string name="dialog_sort_title">並び順</string>
 
     <!--Speaker Sort Dialog text-->
-    <string name="dialog_sort_organisation">組織</string>
-    <string name="dialog_sort_country">国</string>
-    <string name="dialog_sort_name">スピーカー名</string>
+    <string name="dialog_sort_by_organisation">組織</string>
+    <string name="dialog_sort_by_country">国</string>
+    <string name="dialog_sort_by_speaker_name">スピーカー名</string>
 
     <!--Session Sort Dialog text-->
-    <string name="dialog_sort_tracks">トラック</string>
-    <string name="dialog_sort_sessions">開始時刻</string>
+    <string name="dialog_sort_by_title">タイトル</string>
+    <string name="dialog_sort_by_tracks">トラック</string>
+    <string name="dialog_sort_by_start_time">開始時刻</string>
 
 
     <string name="download_assets">今すぐ最新のスケジュールに更新しますか?</string>

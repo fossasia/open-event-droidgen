@@ -82,13 +82,14 @@
     <string name="dialog_sort_title">연사 순서</string>
 
     <!--Speaker Sort Dialog text-->
-    <string name="dialog_sort_organisation">연사 회사 또는 단체</string>
-    <string name="dialog_sort_country">연사 국적</string>
-    <string name="dialog_sort_name">연사 이름</string>
+    <string name="dialog_sort_by_organisation">연사 회사 또는 단체</string>
+    <string name="dialog_sort_by_country">연사 국적</string>
+    <string name="dialog_sort_by_speaker_name">연사 이름</string>
 
     <!--Session Sort Dialog text-->
-    <string name="dialog_sort_tracks">트랙</string>
-    <string name="dialog_sort_sessions">세션</string>
+    <string name="dialog_sort_by_title"></string>
+    <string name="dialog_sort_by_tracks">트랙</string>
+    <string name="dialog_sort_by_start_time">세션</string>
 
 
     <string name="download_assets">일정을 업데이트 하시겠습니까?</string>

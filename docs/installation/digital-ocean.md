@@ -10,7 +10,7 @@ This guide will show you how to deploy Open Event Android App Generator on Digit
 
 * Once droplet has been created, you will get email from DigitalOcean with its information IP Address, username and password.
 
-![droplet_email](https://cloud.githubusercontent.com/assets/4047597/17770515/e2ea6f4c-655b-11e6-9211-78257a083e82.png)
+![droplet_email](../images/digitalocean-droplet.png)
 
 * Open a terminal window and ssh into the server. The command is `ssh USERNAME@IP`. When run, it will ask for the password you got through email. Ctrl-Shift-V to paste the password and ENTER. An example has been given below.
 

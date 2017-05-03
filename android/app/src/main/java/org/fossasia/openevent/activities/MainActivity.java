@@ -122,6 +122,8 @@ import io.reactivex.internal.observers.CallbackCompletableObserver;
 import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
+import static org.fossasia.openevent.R.id.headerDrawer;
+
 public class MainActivity extends BaseActivity {
 
 
@@ -145,6 +147,8 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.layout_main) CoordinatorLayout mainFrame;
     @BindView(R.id.drawer) DrawerLayout drawerLayout;
     @BindView(R.id.appbar) AppBarLayout appBarLayout;
+
+    private ImageView headerView;
 
     private Context context;
     private SharedPreferences sharedPreferences;
@@ -212,12 +216,13 @@ public class MainActivity extends BaseActivity {
         sharedPreferences.edit().putInt(ConstantStrings.SESSION_MAP_ID, -1).apply();
         setTheme(R.style.AppTheme_NoActionBar_MainTheme);
         super.onCreate(savedInstanceState);
+
+        disposable = new CompositeDisposable();
+
         setUpToolbar();
         setUpNavDrawer();
         setUpProgressBar();
         setUpCustomTab();
-
-        disposable = new CompositeDisposable();
 
         NetworkUtils.checkConnection(new WeakReference<Context>(this), new NetworkUtils.NetworkStateReceiverListener() {
             @Override
@@ -390,6 +395,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void setUpNavDrawer() {
+        headerView = (ImageView) navigationView.getHeaderView(0).findViewById(headerDrawer);
         if (toolbar != null) {
             final ActionBar ab = getSupportActionBar();
             if(ab == null) return;
@@ -410,6 +416,28 @@ public class MainActivity extends BaseActivity {
             ab.setDisplayHomeAsUpEnabled(true);
             ab.setDisplayHomeAsUpEnabled(true);
             smoothActionBarToggle.syncState();
+
+            disposable.add(DbSingleton.getInstance().getEventDetailsObservable()
+                    .subscribe(new Consumer<Event>() {
+                        @Override
+                        public void accept(Event event) throws Exception {
+                            setNavHeader(event);
+                        }
+                    }, new Consumer<Throwable>() {
+                        @Override
+                        public void accept(@NonNull Throwable throwable) throws Exception {
+                            Timber.d("Event not found. %s", throwable.getMessage());
+                        }
+                    }));
+        }
+    }
+
+    private void setNavHeader(Event event) {
+        if(event == null)
+            return;
+        String logo = event.getLogo();
+        if (!logo.isEmpty()) {
+            Picasso.with(getApplicationContext()).load(logo).into(headerView);
         }
     }
 
@@ -432,11 +460,7 @@ public class MainActivity extends BaseActivity {
                                             Timber.d("Download done");
                                         }
                                     }));
-
-                            if(!event.getLogo().isEmpty()) {
-                                ImageView headerDrawer = (ImageView) findViewById(R.id.headerDrawer);
-                                Picasso.with(getApplicationContext()).load(event.getLogo()).into(headerDrawer);
-                            }
+                            setNavHeader(event);
                         }
 
                     }
@@ -495,7 +519,6 @@ public class MainActivity extends BaseActivity {
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle(R.string.menu_tracks);
                 }
-                appBarLayout.setExpanded(true, true);
                 break;
             case R.id.nav_schedule:
                 atHome = false;
@@ -505,7 +528,6 @@ public class MainActivity extends BaseActivity {
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle(R.string.menu_schedule);
                 }
-                appBarLayout.setExpanded(true, true);
                 break;
             case R.id.nav_bookmarks:
                 DbSingleton dbSingleton = DbSingleton.getInstance();
@@ -522,7 +544,6 @@ public class MainActivity extends BaseActivity {
                                     if (getSupportActionBar() != null) {
                                         getSupportActionBar().setTitle(R.string.menu_bookmarks);
                                     }
-                                    appBarLayout.setExpanded(true, true);
                                 } else {
                                     Timber.d("yes");
                                     DialogFactory.createSimpleActionDialog(
@@ -543,7 +564,6 @@ public class MainActivity extends BaseActivity {
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle(R.string.menu_speakers);
                 }
-                appBarLayout.setExpanded(true, true);
                 break;
             case R.id.nav_sponsors:
                 atHome = false;
@@ -552,7 +572,6 @@ public class MainActivity extends BaseActivity {
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle(R.string.menu_sponsor);
                 }
-                appBarLayout.setExpanded(true, true);
                 break;
             case R.id.nav_locations:
                 atHome = false;
@@ -561,7 +580,6 @@ public class MainActivity extends BaseActivity {
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle(R.string.menu_locations);
                 }
-                appBarLayout.setExpanded(true, true);
                 break;
             case R.id.nav_map:
                 atHome = false;
@@ -575,7 +593,6 @@ public class MainActivity extends BaseActivity {
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle(R.string.menu_map);
                 }
-                appBarLayout.setExpanded(true, true);
                 break;
             case R.id.nav_settings:
                 final Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
@@ -719,7 +736,6 @@ public class MainActivity extends BaseActivity {
             if (getSupportActionBar() != null) {
                 getSupportActionBar().setTitle(R.string.menu_tracks);
             }
-            appBarLayout.setExpanded(true, true);
         }
     }
 

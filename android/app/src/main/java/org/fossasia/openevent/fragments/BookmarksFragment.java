@@ -4,14 +4,12 @@ import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,7 +17,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.SessionsListAdapter;
@@ -61,10 +58,6 @@ public class BookmarksFragment extends BaseFragment implements SearchView.OnQuer
 
     private ArrayList<Integer> bookmarkedIds;
     private List<Session> mSessions = new ArrayList<>();
-
-    private Toolbar toolbar;
-    private AppBarLayout.LayoutParams layoutParams;
-    private int SCROLL_OFF = 0;
 
     private CompositeDisposable compositeDisposable;
 
@@ -152,35 +145,10 @@ public class BookmarksFragment extends BaseFragment implements SearchView.OnQuer
         bookmarkedTracks.setAdapter(sessionsListAdapter);
         gridLayoutManager = new GridLayoutManager(getActivity(), spanCount);
         bookmarkedTracks.setLayoutManager(gridLayoutManager);
-        bookmarkedTracks.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-            @Override
-            public boolean onPreDraw() {
-                toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
-                layoutParams = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
-                if (gridLayoutManager.findLastCompletelyVisibleItemPosition() == gridLayoutManager.getChildCount() - 1) {
-                    layoutParams.setScrollFlags(SCROLL_OFF);
-                    toolbar.setLayoutParams(layoutParams);
-                }
-                bookmarkedTracks.getViewTreeObserver().removeOnPreDrawListener(this);
-                return false;
-            }
-        });
 
         if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
             searchText = savedInstanceState.getString(SEARCH);
         }
-        //scrollup shows actionbar
-        bookmarkedTracks.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                if(dy < 0){
-                    AppBarLayout appBarLayout;
-                    appBarLayout = (AppBarLayout) getActivity().findViewById(R.id.appbar);
-                    appBarLayout.setExpanded(true);
-                }
-            }
-        });
 
         return view;
     }
@@ -273,7 +241,5 @@ public class BookmarksFragment extends BaseFragment implements SearchView.OnQuer
     @Override
     public void onDestroy() {
         super.onDestroy();
-        layoutParams.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL);
-        toolbar.setLayoutParams(layoutParams);
     }
 }

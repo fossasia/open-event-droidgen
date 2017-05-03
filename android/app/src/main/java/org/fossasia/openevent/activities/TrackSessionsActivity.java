@@ -1,6 +1,8 @@
 package org.fossasia.openevent.activities;
 
 import android.content.res.Configuration;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -17,8 +19,11 @@ import android.widget.TextView;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.SessionsListAdapter;
 import org.fossasia.openevent.data.Session;
+import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.ConstantStrings;
+import org.fossasia.openevent.utils.TrackColors;
+import org.fossasia.openevent.utils.Views;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +32,7 @@ import butterknife.BindView;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
+import timber.log.Timber;
 
 /**
  * User: MananWason
@@ -90,9 +96,34 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
         gridLayoutManager = new GridLayoutManager(this, spanCount);
         sessionsRecyclerView.setLayoutManager(gridLayoutManager);
         sessionsListAdapter = new SessionsListAdapter(this, mSessions, trackWiseSessionList);
+        if(searchText!=null){
+            sessionsListAdapter.setTrackName(track);
+            sessionsListAdapter.getFilter().filter(searchText);
+        }
         sessionsRecyclerView.setAdapter(sessionsListAdapter);
         sessionsRecyclerView.scrollToPosition(SessionsListAdapter.listPosition);
         sessionsRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        int trackId = getIntent().getIntExtra(ConstantStrings.TRACK_ID, -1);
+
+        int color = TrackColors.getColor(trackId);
+
+        // Either track ID was not sent or color is not in cache
+        if(trackId == -1 || color == -1) {
+            disposable.add(dbSingleton.getTrackByNameObservable(track)
+                    .subscribe(new Consumer<Track>() {
+                        @Override
+                        public void accept(@NonNull Track track) throws Exception {
+                            int color = Color.parseColor(track.getColor());
+                            setUiColor(color);
+
+                            TrackColors.storeColor(track.getId(), color);
+                        }
+                    }));
+        } else {
+            setUiColor(color);
+            Timber.d("Cached color loaded for ID %d", trackId);
+        }
 
         disposable.add(dbSingleton.getSessionsByTrackNameObservable(track)
                 .subscribe(new Consumer<ArrayList<Session>>() {
@@ -116,6 +147,16 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
         } else {
             noSessionsView.setVisibility(View.VISIBLE);
             sessionsRecyclerView.setVisibility(View.GONE);
+        }
+    }
+
+    private void setUiColor(int color) {
+        toolbar.setBackgroundColor(color);
+
+        sessionsListAdapter.setColor(color);
+
+        if(Views.isCompatible(Build.VERSION_CODES.LOLLIPOP)) {
+            getWindow().setStatusBarColor(Views.getDarkColor(color));
         }
     }
 

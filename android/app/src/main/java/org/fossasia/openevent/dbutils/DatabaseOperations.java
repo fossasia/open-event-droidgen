@@ -27,13 +27,21 @@ public class DatabaseOperations {
 
     public static final String TAG = DatabaseOperations.class.getSimpleName();
 
+    private static final String SELECT = "SELECT ";
+
+    private static final String FROM = " FROM ";
+
+    private static final String WHERE = " WHERE ";
+
+    private static final String AND = " AND ";
+
     private static final String ASCENDING = " ASC";
 
     private static final String DESCENDING = " DESC";
 
-    //private static final String SELECT_ALL = "SELECT * FROM ";
+    private static final String COMMA_SEP = ",";
 
-    //private static final String WHERE = " WHERE ";
+    private static final String DOT = ".";
 
     private static final String EQUAL = " == ";
 
@@ -49,7 +57,7 @@ public class DatabaseOperations {
 
         String sortOrder = DbContract.Sessions.ID + ASCENDING;
 
-        Cursor cur = mDb.query(
+        Cursor cursor = mDb.query(
                 DbContract.Sessions.TABLE_NAME,
                 DbContract.Sessions.FULL_PROJECTION,
                 null,
@@ -60,44 +68,36 @@ public class DatabaseOperations {
         );
 
         ArrayList<Session> sessions = new ArrayList<>();
-        Session s;
+        Session session;
 
-        if (cur != null && cur.moveToFirst()) {
-            while (!cur.isAfterLast()) {
+        if (cursor != null && cursor.moveToFirst()) {
+            while (!cursor.isAfterLast()) {
                 try {
-                    int microlocationId = cur.getInt(cur.getColumnIndex(DbContract.Sessions.MICROLOCATION));
-                    // TODO: Look for more elegent way to solve microlocation being null problem
-                    Microlocation microlocation;
-                    if (microlocationId != 0) {
-                        microlocation = new Microlocation(microlocationId, getMicrolocationById(microlocationId, mDb).getName());
-                    } else {
-                        microlocation = new Microlocation(0, "Not decided yet");
-                    }
-                    int trackId = cur.getInt(cur.getColumnIndex(DbContract.Sessions.TRACK));
-                    Track track = new Track(trackId, getTrackByTrackId(trackId, mDb).getName());
+                    Microlocation microlocation = getMicrolocationFromCursor(cursor, mDb);
+                    Track track = getTrackFromCursor(cursor, mDb);
 
-                    s = new Session(
-                            cur.getInt(cur.getColumnIndex(DbContract.Sessions.ID)),
-                            cur.getString(cur.getColumnIndex(DbContract.Sessions.TITLE)),
-                            cur.getString(cur.getColumnIndex(DbContract.Sessions.SUBTITLE)),
-                            cur.getString(cur.getColumnIndex(DbContract.Sessions.SUMMARY)),
-                            cur.getString(cur.getColumnIndex(DbContract.Sessions.DESCRIPTION)),
-                            cur.getString(cur.getColumnIndex(DbContract.Sessions.START_TIME)),
-                            cur.getString(cur.getColumnIndex(DbContract.Sessions.END_TIME)),
-                            cur.getString(cur.getColumnIndex(DbContract.Sessions.START_DATE)),
-                            cur.getString(cur.getColumnIndex(DbContract.Sessions.TYPE)),
+                    session = new Session(
+                            cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.ID)),
+                            cursor.getString(cursor.getColumnIndex(DbContract.Sessions.TITLE)),
+                            cursor.getString(cursor.getColumnIndex(DbContract.Sessions.SUBTITLE)),
+                            cursor.getString(cursor.getColumnIndex(DbContract.Sessions.SUMMARY)),
+                            cursor.getString(cursor.getColumnIndex(DbContract.Sessions.DESCRIPTION)),
+                            cursor.getString(cursor.getColumnIndex(DbContract.Sessions.START_TIME)),
+                            cursor.getString(cursor.getColumnIndex(DbContract.Sessions.END_TIME)),
+                            cursor.getString(cursor.getColumnIndex(DbContract.Sessions.START_DATE)),
+                            cursor.getString(cursor.getColumnIndex(DbContract.Sessions.TYPE)),
                             track,
-                            cur.getString(cur.getColumnIndex(DbContract.Sessions.LEVEL)),
+                            cursor.getString(cursor.getColumnIndex(DbContract.Sessions.LEVEL)),
                             microlocation
 
                     );
-                    sessions.add(s);
+                    sessions.add(session);
                 } catch (ParseException e) {
                     Timber.e("Parsing Error Occurred at DatabaseOperations::getSessionList.");
                 }
-                cur.moveToNext();
+                cursor.moveToNext();
             }
-            cur.close();
+            cursor.close();
         }
         return sessions;
     }
@@ -117,15 +117,8 @@ public class DatabaseOperations {
         if (cursor != null && cursor.moveToFirst()) {
             //Should return only one due to UNIQUE constraint
             try {
-                int microlocationId = cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.MICROLOCATION));
-                Microlocation microlocation;
-                if (microlocationId != 0) {
-                    microlocation = new Microlocation(microlocationId, getMicrolocationById(microlocationId, mDb).getName());
-                } else {
-                    microlocation = new Microlocation(0, "Not decided yet");
-                }
-                int trackId = cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.TRACK));
-                Track track = new Track(trackId, getTrackByTrackId(trackId, mDb).getName());
+                Microlocation microlocation = getMicrolocationFromCursor(cursor, mDb);
+                Track track = getTrackFromCursor(cursor, mDb);
 
                 session = new Session(
                         cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.ID)),
@@ -305,7 +298,8 @@ public class DatabaseOperations {
                         cursor.getInt(cursor.getColumnIndex(DbContract.Tracks.ID)),
                         cursor.getString(cursor.getColumnIndex(DbContract.Tracks.NAME)),
                         cursor.getString(cursor.getColumnIndex(DbContract.Tracks.DESCRIPTION)),
-                        cursor.getString(cursor.getColumnIndex(DbContract.Tracks.IMAGE))
+                        cursor.getString(cursor.getColumnIndex(DbContract.Tracks.IMAGE)),
+                        cursor.getString(cursor.getColumnIndex(DbContract.Tracks.COLOR))
                 );
                 tracks.add(track);
                 cursor.moveToNext();
@@ -425,15 +419,8 @@ public class DatabaseOperations {
                 //Should return only one due to UNIQUE constraint
                 while (!sessionCursor.isAfterLast()) {
                     try {
-                        int microlocationId = sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.MICROLOCATION));
-                        Microlocation microlocation;
-                        if (microlocationId != 0) {
-                            microlocation = new Microlocation(microlocationId, getMicrolocationById(microlocationId, mDb).getName());
-                        } else {
-                            microlocation = new Microlocation(0, "Not decided yet");
-                        }
-                        int trackId = sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.TRACK));
-                        Track track = new Track(trackId, getTrackByTrackId(trackId, mDb).getName());
+                        Microlocation microlocation = getMicrolocationFromCursor(sessionCursor, mDb);
+                        Track track = getTrackFromCursor(sessionCursor, mDb);
 
                         session = new Session(
                                 sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.ID)),
@@ -483,7 +470,8 @@ public class DatabaseOperations {
                     tracksCursor.getInt(tracksCursor.getColumnIndex(DbContract.Tracks.ID)),
                     tracksCursor.getString(tracksCursor.getColumnIndex(DbContract.Tracks.NAME)),
                     tracksCursor.getString(tracksCursor.getColumnIndex(DbContract.Tracks.DESCRIPTION)),
-                    tracksCursor.getString(tracksCursor.getColumnIndex(DbContract.Tracks.IMAGE))
+                    tracksCursor.getString(tracksCursor.getColumnIndex(DbContract.Tracks.IMAGE)),
+                    tracksCursor.getString(tracksCursor.getColumnIndex(DbContract.Tracks.COLOR))
             );
             tracksCursor.close();
         }
@@ -512,7 +500,8 @@ public class DatabaseOperations {
                     tracksCursor.getInt(tracksCursor.getColumnIndex(DbContract.Tracks.ID)),
                     tracksCursor.getString(tracksCursor.getColumnIndex(DbContract.Tracks.NAME)),
                     tracksCursor.getString(tracksCursor.getColumnIndex(DbContract.Tracks.DESCRIPTION)),
-                    tracksCursor.getString(tracksCursor.getColumnIndex(DbContract.Tracks.IMAGE))
+                    tracksCursor.getString(tracksCursor.getColumnIndex(DbContract.Tracks.IMAGE)),
+                    tracksCursor.getString(tracksCursor.getColumnIndex(DbContract.Tracks.COLOR))
             );
             tracksCursor.close();
         }
@@ -633,15 +622,8 @@ public class DatabaseOperations {
         if (sessionTableCursor != null && sessionTableCursor.moveToFirst()) {
             do {
                 try {
-                    int microlocationId = sessionTableCursor.getInt(sessionTableCursor.getColumnIndex(DbContract.Sessions.MICROLOCATION));
-                    Microlocation microlocation;
-                    if (microlocationId != 0) {
-                        microlocation = new Microlocation(microlocationId, getMicrolocationById(microlocationId, mDb).getName());
-                    } else {
-                        microlocation = new Microlocation(0, "Not decided yet");
-                    }
-                    int trackId = sessionTableCursor.getInt(sessionTableCursor.getColumnIndex(DbContract.Sessions.TRACK));
-                    Track track = new Track(trackId, getTrackByTrackId(trackId, mDb).getName());
+                    Microlocation microlocation = getMicrolocationFromCursor(sessionTableCursor, mDb);
+                    Track track = getTrackFromCursor(sessionTableCursor, mDb);
 
                     session = new Session(
                             sessionTableCursor.getInt(sessionTableCursor.getColumnIndex(DbContract.Sessions.ID)),
@@ -799,22 +781,15 @@ public class DatabaseOperations {
         );
 
         ArrayList<Session> sessions = new ArrayList<>();
-        Session s;
+        Session session;
         if (sessionCursor != null && sessionCursor.moveToFirst()) {
             if (cursor!= null && cursor.getCount() > 0) {
                 while (!sessionCursor.isAfterLast()) {
                     try {
-                        int microlocationId = sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.MICROLOCATION));
-                        Microlocation microlocation;
-                        if (microlocationId != 0) {
-                            microlocation = new Microlocation(microlocationId, getMicrolocationById(microlocationId, mDb).getName());
-                        } else {
-                            microlocation = new Microlocation(0, "Not decided yet");
-                        }
-                        int trackId = sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.TRACK));
-                        Track track = new Track(trackId, getTrackByTrackId(trackId, mDb).getName());
+                        Microlocation microlocation = getMicrolocationFromCursor(sessionCursor, mDb);
+                        Track track = getTrackFromCursor(sessionCursor, mDb);
 
-                        s = new Session(
+                        session = new Session(
                                 sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.ID)),
                                 sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.TITLE)),
                                 sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.SUBTITLE)),
@@ -828,7 +803,7 @@ public class DatabaseOperations {
                                 sessionCursor.getString(sessionCursor.getColumnIndex(DbContract.Sessions.LEVEL)),
                                 microlocation
                         );
-                        sessions.add(s);
+                        sessions.add(session);
 
                     } catch (ParseException e) {
                         Timber.e("Parsing Error Occurred at DatabaseOperations::getSessionsByLocationName.");
@@ -976,15 +951,8 @@ public class DatabaseOperations {
         Session session = null;
         if (cursor != null && cursor.moveToFirst()) {
             try {
-                int microlocationId = cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.MICROLOCATION));
-                Microlocation microlocation;
-                if (microlocationId != 0) {
-                    microlocation = new Microlocation(microlocationId, getMicrolocationById(microlocationId, mDb).getName());
-                } else {
-                    microlocation = new Microlocation(0, "Not decided yet");
-                }
-                int trackId = cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.TRACK));
-                Track track = new Track(trackId, getTrackByTrackId(trackId, mDb).getName());
+                Microlocation microlocation = getMicrolocationFromCursor(cursor, mDb);
+                Track track = getTrackFromCursor(cursor, mDb);
 
                 session = new Session(
                         cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.ID)),
@@ -1068,30 +1036,50 @@ public class DatabaseOperations {
 
         String order = sortOrder + ASCENDING;
 
-        Cursor sessionCursor = mDb.query(
-                DbContract.Sessions.TABLE_NAME,
-                DbContract.Sessions.FULL_PROJECTION,
-                sessionColumnSelection,
-                null,
-                null,
-                null,
-                order
-        );
+        Cursor sessionCursor;
+
+        if(sortOrder.equals(DbContract.Sessions.TRACK)){
+            String projection = DbContract.Sessions.TABLE_NAME + DOT + DbContract.Sessions.ID + COMMA_SEP
+                    + DbContract.Sessions.TITLE + COMMA_SEP
+                    + DbContract.Sessions.SUBTITLE + COMMA_SEP
+                    + DbContract.Sessions.SUMMARY + COMMA_SEP
+                    + DbContract.Sessions.TABLE_NAME + DOT +DbContract.Sessions.DESCRIPTION+ COMMA_SEP
+                    + DbContract.Sessions.START_TIME + COMMA_SEP
+                    + DbContract.Sessions.END_TIME + COMMA_SEP
+                    + DbContract.Sessions.START_DATE + COMMA_SEP
+                    + DbContract.Sessions.TYPE + COMMA_SEP
+                    + DbContract.Sessions.TRACK + COMMA_SEP
+                    + DbContract.Sessions.LEVEL + COMMA_SEP
+                    + DbContract.Sessions.MICROLOCATION;
+
+            String sql = SELECT + projection
+                    + FROM + DbContract.Sessions.TABLE_NAME + COMMA_SEP + DbContract.Tracks.TABLE_NAME
+                    + WHERE + DbContract.Sessions.TABLE_NAME + DOT + DbContract.Sessions.TRACK
+                    + EQUAL + DbContract.Tracks.TABLE_NAME + DOT + DbContract.Tracks.ID
+                    + AND + DbContract.Sessions.START_DATE + EQUAL + DatabaseUtils.sqlEscapeString(date)
+                    + ORDERBY + DbContract.Tracks.TABLE_NAME + DOT + DbContract.Tracks.NAME + ASCENDING;
+
+            sessionCursor = mDb.rawQuery(sql,null);
+        }else {
+            sessionCursor = mDb.query(
+                    DbContract.Sessions.TABLE_NAME,
+                    DbContract.Sessions.FULL_PROJECTION,
+                    sessionColumnSelection,
+                    null,
+                    null,
+                    null,
+                    order
+            );
+        }
+
 
         ArrayList<Session> sessions = new ArrayList<>();
         Session session;
         if (sessionCursor != null && sessionCursor.moveToFirst()) {
             while (!sessionCursor.isAfterLast()) {
                 try {
-                    int microlocationId = sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.MICROLOCATION));
-                    Microlocation microlocation;
-                    if (microlocationId != 0) {
-                        microlocation = new Microlocation(microlocationId, getMicrolocationById(microlocationId, mDb).getName());
-                    } else {
-                        microlocation = new Microlocation(0, "Not decided yet");
-                    }
-                    int trackId = sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.TRACK));
-                    Track track = new Track(trackId, getTrackByTrackId(trackId, mDb).getName());
+                    Microlocation microlocation = getMicrolocationFromCursor(sessionCursor, mDb);
+                    Track track = getTrackFromCursor(sessionCursor, mDb);
 
                     session = new Session(
                             sessionCursor.getInt(sessionCursor.getColumnIndex(DbContract.Sessions.ID)),
@@ -1132,5 +1120,29 @@ public class DatabaseOperations {
             cursor.close();
         }
         return dates;
+    }
+
+    private Microlocation getMicrolocationFromCursor(Cursor cursor, SQLiteDatabase mDb){
+        int microlocationId = cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.MICROLOCATION));
+        Microlocation microlocation = new Microlocation(0, "Not decided yet");
+        if (microlocationId != 0) {
+            org.fossasia.openevent.data.Microlocation ml = getMicrolocationById(microlocationId, mDb);
+            if(ml != null) {
+                microlocation = new Microlocation(microlocationId, ml.getName());
+            }
+        }
+        return microlocation;
+    }
+
+    private Track getTrackFromCursor(Cursor cursor, SQLiteDatabase mDb){
+        int trackId = cursor.getInt(cursor.getColumnIndex(DbContract.Sessions.TRACK));
+        Track track = new Track(0,"Not decided yet");
+        if(trackId != 0) {
+            org.fossasia.openevent.data.Track t = getTrackByTrackId(trackId, mDb);
+            if(t != null) {
+                track = new Track(trackId, t.getName());
+            }
+        }
+        return track;
     }
 }

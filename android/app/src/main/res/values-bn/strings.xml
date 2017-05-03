@@ -65,7 +65,7 @@
     <string name="message_1"> এ কথা বলছেন</string>
     <string name="message_2"> বিষয়ের উপর: </string>
     <string name="message_3"> আরো তথ্য জানার জন্য গুগল প্লে স্টরে এই এপ দেখতে পারেন: </string>
-    <string name="fmt_floor">"মেঝে : "</string>
+    <string name="fmt_floor">"মেঝে: "</string>
     <string name="noBookmark">এখনও কোন বুকমার্ক নেই!!</string>
 
     <!--About us text-->
@@ -83,13 +83,14 @@
     <string name="dialog_sort_title">ক্রমানুসার</string>
 
     <!--Speaker Sort Dialog text-->
-    <string name="dialog_sort_organisation">সংগঠন</string>
-    <string name="dialog_sort_country">দেশ</string>
-    <string name="dialog_sort_name">বক্তার নাম</string>
+    <string name="dialog_sort_by_organisation">সংগঠন</string>
+    <string name="dialog_sort_by_country">দেশ</string>
+    <string name="dialog_sort_by_speaker_name">বক্তার নাম</string>
 
     <!--Session Sort Dialog text-->
-    <string name="dialog_sort_tracks">ট্রাক</string>
-    <string name="dialog_sort_sessions">সময় শুরু</string>
+    <string name="dialog_sort_by_title">খেতাব</string>
+    <string name="dialog_sort_by_tracks">ট্রাক</string>
+    <string name="dialog_sort_by_start_time">সময় শুরু</string>
 
 
     <string name="download_assets">আপনি কি সর্বশেষ সময়সূচি তে আপগ্রেড করতে চান?</string>

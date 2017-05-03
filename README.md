@@ -32,16 +32,18 @@ A sample app for testing purposes is automatically built after commits in the re
 
 ### Screenshots of a sample Android app
 
-<img src="https://cloud.githubusercontent.com/assets/3874064/24617232/fda8fd04-18b0-11e7-9c11-9b54dd8cde31.png" height = '480' width="270"> <img src="https://cloud.githubusercontent.com/assets/3874064/24597065/ffaf7042-1860-11e7-993c-dc4a5c611362.png" height = '480' width="270"> <img src="https://cloud.githubusercontent.com/assets/3874064/24597075/0d39f26e-1861-11e7-83be-cfe9255f44b6.png" height = '480' width="270">
-<img src="https://cloud.githubusercontent.com/assets/17262180/23652925/a13478a2-0350-11e7-8261-84e4e8c170e3.png" height = '480' width="270">
-<img src="https://cloud.githubusercontent.com/assets/3874064/24597077/1088e146-1861-11e7-8ac4-fb1a19a76722.png" height = '480' width="270">
-<img src="https://cloud.githubusercontent.com/assets/3874064/24597080/15ab8dea-1861-11e7-8d9c-e881e8dff4a2.png" height = '480' width="270">
-<img src="https://cloud.githubusercontent.com/assets/3874064/24616380/93fa5e5e-18ae-11e7-883c-89c0ccadfb9c.png" height = '480' width="270">
-<img src="https://cloud.githubusercontent.com/assets/3874064/24616400/9ec320e6-18ae-11e7-994b-bf77fcd4f147.png" height = '480' width="270">
-<img src="https://cloud.githubusercontent.com/assets/3874064/24597072/09df6a22-1861-11e7-9005-1bbfe3fba3ad.png" height = '480' width="270">
-<img src="https://cloud.githubusercontent.com/assets/17262180/23680497/6fe02358-03b1-11e7-8e63-32eb53a4dff2.png" height = '480' width="270">
-<img src="https://cloud.githubusercontent.com/assets/3874064/24617062/88ee253e-18b0-11e7-822d-dced5fac5b60.png" height = '480' width="270">
-<img src="https://cloud.githubusercontent.com/assets/3874064/24617128/c17d3c96-18b0-11e7-9278-3f52a278b63a.png" height = '480' width="270">
+<img src="docs/images/app-drawer.png" height = '480' width="270">
+<img src="docs/images/app-tracks.png" height = '480' width="270">
+<img src="docs/images/app-schedule.png" height = '480' width="270">
+<img src="docs/images/app-speakers.png" height = '480' width="270">
+<img src="docs/images/app-sponsors.png" height = '480' width="270">
+<img src="docs/images/app-locations.png" height = '480' width="270">
+<img src="docs/images/app-speaker-detail.png" height = '480' width="270">
+<img src="docs/images/app-location-detail.png" height = '480' width="270">
+<img src="docs/images/app-event-detail.png" height = '480' width="270">
+<img src="docs/images/app-map.png" height = '480' width="270">
+<img src="docs/images/app-settings.png" height = '480' width="270">
+<img src="docs/images/app-invite.png" height = '480' width="270">
 
 ### Android App Development Set up
 

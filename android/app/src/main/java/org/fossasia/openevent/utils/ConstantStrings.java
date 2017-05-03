@@ -1,11 +1,10 @@
 package org.fossasia.openevent.utils;
 
-/**
- * Created by MananWason on 16-07-2015.
- */
 public class ConstantStrings {
 
     public static final String TRACK = "TRACK";
+
+    public static final String TRACK_ID = "TRACK_ID";
 
     public static final String SESSION = "SESSION";
 

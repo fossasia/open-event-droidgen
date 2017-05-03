@@ -90,13 +90,14 @@
     <string name="dialog_sort_title">सर्ट गरेर</string>
 
     <!--Speaker Sort Dialog text-->
-    <string name="dialog_sort_organisation">संगठन</string>
-    <string name="dialog_sort_country">देश</string>
-    <string name="dialog_sort_name">अध्यक्ष नाम</string>
+    <string name="dialog_sort_by_organisation">संगठन</string>
+    <string name="dialog_sort_by_country">देश</string>
+    <string name="dialog_sort_by_speaker_name">अध्यक्ष नाम</string>
 
     <!--Session Sort Dialog text-->
-    <string name="dialog_sort_tracks">ट्रयाक</string>
-    <string name="dialog_sort_sessions">समय सुरु</string>
+    <string name="dialog_sort_by_title">शीर्षक</string>
+    <string name="dialog_sort_by_tracks">ट्रयाक</string>
+    <string name="dialog_sort_by_start_time">समय सुरु</string>
 
 
     <string name="download_assets">तपाईं अब नयाँ तालिका अद्यावधिक गर्न चाहनुहुन्छ?</string>

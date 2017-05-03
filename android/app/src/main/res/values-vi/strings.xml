@@ -72,7 +72,7 @@
     <string name="message_1"> đang thuyết trình tại </string>
     <string name="message_2"> về chủ đề: </string>
     <string name="message_3"> Thông tin chi tiết truy cập ứng dụng này trên Google Play Store: </string>
-    <string name="fmt_floor">"Tầng : "</string>
+    <string name="fmt_floor">"Tầng: "</string>
     <string name="noBookmark">Không có sự kiện nào được đánh dấu !!</string>
 
     <!--About us text-->
@@ -90,13 +90,14 @@
     <string name="dialog_sort_title">Sắp xếp theo</string>
 
     <!--Speaker Sort Dialog text-->
-    <string name="dialog_sort_organisation">Tổ chức</string>
-    <string name="dialog_sort_country">Quốc gia</string>
-    <string name="dialog_sort_name">Tên diễn giả</string>
+    <string name="dialog_sort_by_organisation">Tổ chức</string>
+    <string name="dialog_sort_by_country">Quốc gia</string>
+    <string name="dialog_sort_by_speaker_name">Tên diễn giả</string>
 
     <!--Session Sort Dialog text-->
-    <string name="dialog_sort_tracks">Chủ đề</string>
-    <string name="dialog_sort_sessions">Thời gian bắt đầu</string>
+    <string name="dialog_sort_by_title">Chức vụ</string>
+    <string name="dialog_sort_by_tracks">Chủ đề</string>
+    <string name="dialog_sort_by_start_time">Thời gian bắt đầu</string>
 
 
     <string name="download_assets">Bạn có muốn cập nhật thời gian biểu bây giờ?</string>

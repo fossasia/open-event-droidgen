@@ -80,13 +80,14 @@
     <string name="dialog_sort_title">排序方式</string>
     
     <!--Speaker Sort Dialog text-->
-    <string name="dialog_sort_organisation">组织</string>
-    <string name="dialog_sort_country">国家</string>
-    <string name="dialog_sort_name">演讲者名称</string>
+    <string name="dialog_sort_by_organisation">组织</string>
+    <string name="dialog_sort_by_country">国家</string>
+    <string name="dialog_sort_by_speaker_name">演讲者名称</string>
     
      <!--Session Sort Dialog text-->
-    <string name="dialog_sort_tracks">曲目</string>
-    <string name="dialog_sort_sessions">开始时间</string><![CDATA[
+    <string name="dialog_sort_by_title">标题</string>
+    <string name="dialog_sort_by_tracks">曲目</string>
+    <string name="dialog_sort_by_start_time">开始时间</string><![CDATA[
 
         
     
