@@ -171,6 +171,9 @@ public class BookmarksFragment extends BaseFragment implements SearchView.OnQuer
         super.onDestroyView();
         if(compositeDisposable != null && !compositeDisposable.isDisposed())
             compositeDisposable.dispose();
+
+        // Remove listeners to fix memory leak
+        if(searchView != null) searchView.setOnQueryTextListener(null);
     }
 
     @Override
