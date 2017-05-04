@@ -143,6 +143,10 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
         OpenEventApp.getEventBus().unregister(this);
         if(compositeDisposable != null && !compositeDisposable.isDisposed())
             compositeDisposable.dispose();
+
+        // Remove listeners to fix memory leak
+        if(swipeRefreshLayout != null) swipeRefreshLayout.setOnRefreshListener(null);
+        if(searchView != null) searchView.setOnQueryTextListener(null);
     }
 
     @Override

@@ -181,6 +181,10 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
         super.onDestroyView();
         if(compositeDisposable != null && !compositeDisposable.isDisposed())
             compositeDisposable.dispose();
+
+        // Remove listeners to fix memory leak
+        if(swipeRefreshLayout != null) swipeRefreshLayout.setOnRefreshListener(null);
+        if(searchView != null) searchView.setOnQueryTextListener(null);
     }
 
     @Override

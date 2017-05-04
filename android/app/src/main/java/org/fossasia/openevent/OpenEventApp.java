@@ -15,6 +15,8 @@ import com.facebook.FacebookSdk;
 import com.facebook.stetho.Stetho;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.jakewharton.picasso.OkHttp3Downloader;
+import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
@@ -74,6 +76,13 @@ public class OpenEventApp extends Application {
         return context.get();
     }
 
+    private RefWatcher refWatcher;
+
+    public static RefWatcher getRefWatcher(Context context) {
+        OpenEventApp application = (OpenEventApp) context.getApplicationContext();
+        return application.refWatcher;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -85,6 +94,13 @@ public class OpenEventApp extends Application {
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getAppContext());
         sDefSystemLanguage = Locale.getDefault().getDisplayLanguage();
+
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
+        }
+        refWatcher = LeakCanary.install(this);
 
         if (BuildConfig.DEBUG) {
             // Create an InitializerBuilder

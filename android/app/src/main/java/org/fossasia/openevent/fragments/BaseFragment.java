@@ -8,6 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.squareup.leakcanary.RefWatcher;
+
+import org.fossasia.openevent.OpenEventApp;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -31,6 +35,9 @@ public abstract class BaseFragment extends Fragment {
         super.onDestroyView();
 
         unbinder.unbind();
+
+        RefWatcher refWatcher = OpenEventApp.getRefWatcher(getActivity());
+        refWatcher.watch(this);
     }
 
 

@@ -2,18 +2,15 @@ package org.fossasia.openevent.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
@@ -117,6 +114,9 @@ public class SponsorsFragment extends BaseFragment {
         OpenEventApp.getEventBus().unregister(this);
         if(compositeDisposable != null && !compositeDisposable.isDisposed())
             compositeDisposable.dispose();
+
+        // Remove listeners to fix memory leak
+        if(swipeRefreshLayout != null) swipeRefreshLayout.setOnRefreshListener(null);
     }
 
     @Subscribe
