@@ -73,3 +73,32 @@ If the above file is not present then the download is aborted otherwise it retur
 ![App Download Code](images/downloadapp.png)
 
 ![Webapp Working](images/webapp.gif)
+
+### Keeping the repo size small
+
+After each travis build, apk artifacts are generated which are pushed on the apk branch. As each apk file gets uploaded, the repo size keeps increasing as git does not store incremental changes of binary files, and instead stores them as full sized blobs.  
+So, in order to remove stale apk files from the repository and thus keep the size of the repo small, this code is used from `upload_apk.sh`
+
+
+```shell
+# Create a new branch that will contains only latest apk
+git checkout --orphan latest-apk-only
+
+# Add generated APKs.
+git add -f .
+git commit -m "Update Sample Apk generated from $TRAVIS_BRANCH branch."
+
+# Delete current apk branch
+git branch -D apk
+# Rename current branch to apk
+git branch -m apk
+
+# Force push to origin since histories are unrelated
+git push origin apk --force --quiet > /dev/null
+```
+
+- Create a new `orphan` branch for only the latest apk. Orphan branches work like when you create a new project and do `git init`, meaning they are devoid of any previous files commited in the repo and start fresh. This branch's name is `latest-apk-only`
+- Add all the (apk) files and commit them
+- Then delete the old `apk` branch since it contains state app which is not needed in git history
+- Rename current branch to `apk` branch
+- Force push results to `apk` branch of origin to update the online repository according to local copy. Forced push is needed because the git history and hence the refs are modified in local repo and hence online repo won't be able to merge the changes automatically. Since we are not concerned about the history of `apk` branch, we quietly force push the apk to it.
