@@ -1,5 +1,7 @@
 package org.fossasia.openevent.fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -215,6 +217,25 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_sort_schedule:
+                final AlertDialog.Builder dialogSort = new AlertDialog.Builder(getActivity())
+                        .setTitle(R.string.dialog_sort_title)
+                        .setSingleChoiceItems(R.array.session_sort, sortType, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                sortType = which;
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putInt(ConstantStrings.PREF_SORT, which);
+                                editor.apply();
+                                refreshAdapter();
+                                dialog.dismiss();
+                            }
+                        });
+
+                dialogSort.show();
+                break;
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -276,11 +297,7 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
         swipeRefreshLayout.setRefreshing(false);
         if (event.isState()) {
             if (dayScheduleAdapter != null && searchView != null) {
-                if (!searchView.getQuery().toString().isEmpty() && !searchView.isIconified()) {
-                    dayScheduleAdapter.getFilter().filter(searchView.getQuery());
-                } else {
-                    refreshSchedule();
-                }
+                refreshAdapter();
             }
         } else {
             Snackbar.make(swipeRefreshLayout, getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, new View.OnClickListener() {
@@ -347,5 +364,15 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
                 OpenEventApp.getEventBus().post(new SessionDownloadEvent(false));
             }
         });
+    }
+  
+    private void refreshAdapter(){
+        if (dayScheduleAdapter != null && searchView != null) {
+            if (!searchView.getQuery().toString().isEmpty() && !searchView.isIconified()) {
+                dayScheduleAdapter.getFilter().filter(searchView.getQuery());
+            } else {
+                dayScheduleAdapter.refresh();
+            }
+        }
     }
 }
