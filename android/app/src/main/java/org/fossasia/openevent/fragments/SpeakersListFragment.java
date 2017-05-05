@@ -3,7 +3,6 @@ package org.fossasia.openevent.fragments;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -30,7 +29,6 @@ import com.squareup.otto.Subscribe;
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.SpeakersListAdapter;
-import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.dbutils.DataDownloadManager;
 import org.fossasia.openevent.dbutils.DbSingleton;
@@ -172,13 +170,6 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.share_speakers_url:
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.putExtra(Intent.EXTRA_TEXT, Urls.WEB_APP_URL_BASIC + Urls.SPEAKERS);
-                intent.putExtra(Intent.EXTRA_SUBJECT, R.string.share_links);
-                intent.setType("text/plain");
-                startActivity(Intent.createChooser(intent, getResources().getString(R.string.share_links)));
-                break;
             case R.id.action_sort:
 
                 final AlertDialog.Builder dialogSort = new AlertDialog.Builder(getActivity())
