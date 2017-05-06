@@ -181,7 +181,7 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
                                 SharedPreferences.Editor editor = prefsSort.edit();
                                 editor.putInt(PREF_SORT, which);
                                 editor.apply();
-                                speakersListAdapter.refresh();
+                                refreshAdapter();
                                 dialog.dismiss();
                             }
                         });
@@ -219,11 +219,7 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
 
         swipeRefreshLayout.setRefreshing(false);
         if (event.isState()) {
-            if (!searchView.getQuery().toString().isEmpty() && !searchView.isIconified()) {
-                speakersListAdapter.getFilter().filter(searchView.getQuery());
-            } else {
-                speakersListAdapter.refresh();
-            }
+            refreshAdapter();
             Timber.i("Speaker download completed");
         } else {
             Snackbar.make(swipeRefreshLayout, getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, new View.OnClickListener() {
@@ -273,6 +269,16 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
                 OpenEventApp.getEventBus().post(new SpeakerDownloadEvent(false));
             }
         });
+    }
+
+    private void refreshAdapter(){
+         if (speakersListAdapter != null && searchView != null) {
+            if (!searchView.getQuery().toString().isEmpty() && !searchView.isIconified()) {
+                speakersListAdapter.getFilter().filter(searchView.getQuery());
+            } else {
+                speakersListAdapter.refresh();
+            }
+         }
     }
 
     @Override
