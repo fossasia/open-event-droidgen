@@ -596,13 +596,7 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.nav_settings:
                 final Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-                smoothActionBarToggle.runWhenIdle(new Runnable() {
-                    @Override
-                    public void run() {
-                        startActivity(intent);
-                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                    }
-                });
+                startActivity(intent);
                 break;
             case R.id.nav_share:
                 AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
