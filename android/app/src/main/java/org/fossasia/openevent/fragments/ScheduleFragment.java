@@ -22,7 +22,7 @@ import org.fossasia.openevent.adapters.ScheduleViewPagerAdapter;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.ConstantStrings;
-import org.fossasia.openevent.utils.Days;
+import org.fossasia.openevent.utils.ISO8601Date;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,7 +33,6 @@ import butterknife.OnClick;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
 
 /**
  * Created by Manan Wason on 16/06/16.
@@ -87,16 +86,15 @@ public class ScheduleFragment extends BaseFragment {
         DbSingleton dbSingleton = DbSingleton.getInstance();
 
         compositeDisposable.add(dbSingleton.getDateListObservable()
-                .map(new Function<List<String>, Integer>() {
+                .subscribe(new Consumer<List<String>>() {
                     @Override
-                    public Integer apply(@NonNull List<String> event_days) throws Exception {
-                        return event_days.size();
-                    }
-                }).subscribe(new Consumer<Integer>() {
-                    @Override
-                    public void accept(@NonNull Integer daysOfEvent) throws Exception {
-                        for (int i = 0; i < daysOfEvent; i++) {
-                            adapter.addFragment(new DayScheduleFragment(), Days.values()[i].toString(), i);
+                    public void accept(@NonNull List<String> eventDayList) throws Exception {
+                        int eventDays = eventDayList.size();
+                        for(int i = 0; i < eventDays; i++) {
+                            String date = eventDayList.get(i);
+
+                            adapter.addFragment(new DayScheduleFragment(),
+                                    ISO8601Date.getTimeZoneDateFromString(date), date);
                             adapter.notifyDataSetChanged();
                         }
                     }

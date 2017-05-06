@@ -50,6 +50,14 @@ public final class ISO8601Date {
         return fromCalendar(currentDate).split("T")[0];
     }
 
+    public static String getTimeZoneDateFromString(String dateString) throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-DD", Locale.getDefault());
+        formatter.setTimeZone(getEventTimezone());
+        Date date = formatter.parse(dateString);
+        SimpleDateFormat newFormat = new SimpleDateFormat("d MMM", Locale.getDefault());
+
+        return newFormat.format(date);
+    }
 
     public static String getTimeZoneDateString(final Date date) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("EE, dd MMM yyyy, HH:mm, z", Locale.getDefault());
