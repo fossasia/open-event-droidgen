@@ -249,7 +249,6 @@ public class MainActivity extends BaseActivity {
                                                                 public void accept(@NonNull Boolean connected) throws Exception {
                                                                     if (connected) {
                                                                         OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
-                                                                        sharedPreferences.edit().putBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true).apply();
                                                                     } else {
                                                                         final Snackbar snackbar = Snackbar.make(mainFrame, R.string.internet_preference_warning, Snackbar.LENGTH_INDEFINITE);
                                                                         snackbar.setAction(R.string.yes, new View.OnClickListener() {
@@ -449,6 +448,10 @@ public class MainActivity extends BaseActivity {
                     @Override
                     public void accept(@NonNull Event event) throws Exception {
                         if (event != null) {
+
+                            // Event successfully loaded, set data downloaded to true
+                            sharedPreferences.edit().putBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true).apply();
+
                             getDaysBetweenDates(
                                     ISO8601Date.getDateObject(event.getStart()), ISO8601Date.getDateObject(event.getEnd()))
                                     .observeOn(AndroidSchedulers.mainThread())
@@ -835,7 +838,6 @@ public class MainActivity extends BaseActivity {
                 syncComplete();
             }
         } else {
-
             downloadFailed(event);
         }
     }
