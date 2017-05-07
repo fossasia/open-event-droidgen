@@ -61,33 +61,7 @@
             android:layout_below="@+id/filter_bar"/>
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/schedule_fab_sort"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_above="@+id/schedule_fab_filter"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            app:srcCompat="@drawable/ic_sort_white_24dp"
-            android:visibility="gone"/>
-
-        <android.support.design.widget.FloatingActionButton
             android:id="@+id/schedule_fab_filter"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_above="@+id/schedule_fab"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            app:srcCompat="@drawable/ic_filter_24dp"
-            android:visibility="gone"/>
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/schedule_fab"
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:layout_alignParentBottom="true"
@@ -96,7 +70,7 @@
             android:layout_marginBottom="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
-            app:srcCompat="@drawable/ic_plus_24dp" />
+            app:srcCompat="@drawable/ic_filter_24dp"/>
 
     </RelativeLayout>
 </android.support.design.widget.AppBarLayout>
