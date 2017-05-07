@@ -90,18 +90,34 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
         sessionRecyclerView.setAdapter(sessionsListAdapter);
         sessionRecyclerView.scrollToPosition(SessionsListAdapter.listPosition);
         sessionRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        if (searchText != null) {
+            disposable.add(dbSingleton.getSessionsByLocationNameObservable(location)
+                    .subscribe(new Consumer<ArrayList<Session>>() {
+                        @Override
+                        public void accept(@NonNull ArrayList<Session> sessions) throws Exception {
+                            mSessions.clear();
+                            mSessions.addAll(sessions);
+                            final List<Session> filteredModelList = filter(mSessions,
+                                    searchText.toLowerCase(Locale.getDefault()));
+                            Timber.tag("xyz").d("%d %d", mSessions.size(), filteredModelList.size());
+                            sessionsListAdapter.notifyDataSetChanged();
+                            sessionsListAdapter.animateTo(filteredModelList);
+                            sessionRecyclerView.scrollToPosition(0);
+                        }
+                    }));
+        } else {
+            disposable.add(dbSingleton.getSessionsByLocationNameObservable(location)
+                    .subscribe(new Consumer<ArrayList<Session>>() {
+                        @Override
+                        public void accept(@NonNull ArrayList<Session> sessions) throws Exception {
+                            mSessions.clear();
+                            mSessions.addAll(sessions);
+                            sessionsListAdapter.notifyDataSetChanged();
 
-        disposable.add(dbSingleton.getSessionsByLocationNameObservable(location)
-                .subscribe(new Consumer<ArrayList<Session>>() {
-                    @Override
-                    public void accept(@NonNull ArrayList<Session> sessions) throws Exception {
-                        mSessions.clear();
-                        mSessions.addAll(sessions);
-                        sessionsListAdapter.notifyDataSetChanged();
-
-                        handleVisibility();
-                    }
-                }));
+                            handleVisibility();
+                        }
+                    }));
+        }
 
         handleVisibility();
     }
