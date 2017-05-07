@@ -3,6 +3,7 @@ package org.fossasia.openevent.fragments;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -118,6 +119,8 @@ public class ScheduleFragment extends BaseFragment {
                 }));
 
         viewPager.setAdapter(adapter);
+        viewPager.setPageMargin(dpToPx(15));
+        viewPager.setPageMarginDrawable(R.color.grey);
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -135,6 +138,10 @@ public class ScheduleFragment extends BaseFragment {
                 //Called when the scroll state changes
             }
         });
+    }
+
+    private int dpToPx(int dp) {
+        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
 
     public void viewPagerScroll() {
