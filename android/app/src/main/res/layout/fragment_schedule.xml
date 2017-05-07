@@ -18,7 +18,7 @@
         app:tabIndicatorHeight="3dp"
         app:tabMaxWidth="150dp"
         app:tabMinWidth="100dp"
-        app:tabMode="fixed"
+        app:tabMode="scrollable"
         app:tabSelectedTextColor="@android:color/white"
         tools:targetApi="lollipop" />
 
