@@ -353,10 +353,10 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
                         getResources().getString(R.string.app_name),
                         getResources().getString(R.string.message_2)) +
                         StringUtils.join(mSessions, ", ") +
-                        String.format("\n\n%s (%s)\n%s",
+                        String.format("\n\n%s (%s)\n",
                                 getResources().getString(R.string.message_3),
-                                Urls.getAppLink(),
-                                selectedSpeaker.getPhoto());
+                                Urls.getAppLink()
+                                  );
 
                 sendIntent.putExtra(Intent.EXTRA_TEXT, message);
                 sendIntent.setType("text/plain");
