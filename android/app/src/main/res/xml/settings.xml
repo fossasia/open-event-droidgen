@@ -5,7 +5,7 @@
 
 
     <SwitchPreference
-        android:defaultValue="false"
+        android:defaultValue="true"
         android:key="@string/download_mode_key"
         android:summary="@string/summary_mode_download"
         android:title="@string/settings_mode_download" />
@@ -21,7 +21,7 @@
         <ListPreference
             android:defaultValue="@string/default_mode_notification"
             android:dialogTitle="@string/settings_mode_notification"
-            android:title="Interval"
+            android:title="@string/notification_interval_title"
             android:entries="@array/notification_mode_values"
             android:entryValues="@array/notification_mode_values"
             android:key="@string/notification_key" />
