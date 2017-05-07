@@ -11,6 +11,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -42,15 +43,12 @@ public class ScheduleFragment extends BaseFragment {
 
     @BindView(R.id.viewpager) ViewPager viewPager;
     @BindView(R.id.tabLayout) TabLayout scheduleTabLayout;
-    @BindView(R.id.schedule_fab) FloatingActionButton fabOpenClose;
     @BindView(R.id.schedule_fab_filter) FloatingActionButton fabFilter;
-    @BindView(R.id.schedule_fab_sort) FloatingActionButton fabSort;
     @BindView(R.id.filter_text) TextView filtersText;
     @BindView(R.id.close_filter) ImageView closeFilterBarButton;
     @BindView(R.id.filter_bar) LinearLayout filterBar;
 
     private CompositeDisposable compositeDisposable;
-    private boolean fabmenuVisible = false;
     private int sortType;
     private SharedPreferences sharedPreferences;
     private ScheduleViewPagerAdapter adapter;
@@ -166,40 +164,29 @@ public class ScheduleFragment extends BaseFragment {
         });
     }
 
-    @OnClick (R.id.schedule_fab)
-    public void showMenu() {
-        if(!fabmenuVisible) {
-            fabFilter.setVisibility(View.VISIBLE);
-            fabSort.setVisibility(View.VISIBLE);
-            fabOpenClose.setImageResource(R.drawable.ic_close_24dp);
-            fabmenuVisible = true;
-        } else {
-            fabFilter.setVisibility(View.GONE);
-            fabSort.setVisibility(View.GONE);
-            fabOpenClose.setImageResource(R.drawable.ic_plus_24dp);
-            fabmenuVisible = false;
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_sort:
+                final AlertDialog.Builder dialogSort = new AlertDialog.Builder(getActivity())
+                        .setTitle(R.string.dialog_sort_title)
+                        .setSingleChoiceItems(R.array.session_sort, sortType, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                sortType = which;
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putInt(ConstantStrings.PREF_SORT, which);
+                                editor.apply();
+                                ScheduleViewPagerAdapter scheduleViewPagerAdapter = (ScheduleViewPagerAdapter) viewPager.getAdapter();
+                                DayScheduleFragment dayScheduleFragment = (DayScheduleFragment)scheduleViewPagerAdapter.getItem(viewPager.getCurrentItem());
+                                dayScheduleFragment.refreshSchedule();
+                                dialog.dismiss();
+                            }
+                        });
+
+                dialogSort.show();
         }
-    }
-
-    @OnClick (R.id.schedule_fab_sort)
-    public void sortSchedule() {
-        final AlertDialog.Builder dialogSort = new AlertDialog.Builder(getActivity())
-                .setTitle(R.string.dialog_sort_title)
-                .setSingleChoiceItems(R.array.session_sort, sortType, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        sortType = which;
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putInt(ConstantStrings.PREF_SORT, which);
-                        editor.apply();
-                        ScheduleViewPagerAdapter scheduleViewPagerAdapter = (ScheduleViewPagerAdapter) viewPager.getAdapter();
-                        DayScheduleFragment dayScheduleFragment = (DayScheduleFragment)scheduleViewPagerAdapter.getItem(viewPager.getCurrentItem());
-                        dayScheduleFragment.refreshSchedule();
-                        dialog.dismiss();
-                    }
-                });
-
-        dialogSort.show();
+        return super.onOptionsItemSelected(item);
     }
 
     @OnClick (R.id.schedule_fab_filter)
@@ -241,7 +228,6 @@ public class ScheduleFragment extends BaseFragment {
 
         dialogSort.show();
     }
-
 
     @OnClick (R.id.close_filter)
     public void closeFilterBar() {
