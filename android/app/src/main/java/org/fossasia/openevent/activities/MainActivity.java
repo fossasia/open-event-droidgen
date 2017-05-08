@@ -1,5 +1,6 @@
 package org.fossasia.openevent.activities;
 
+import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -66,6 +67,7 @@ import org.fossasia.openevent.data.Sponsor;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DataDownloadManager;
 import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.events.ConnectionCheckEvent;
 import org.fossasia.openevent.events.CounterEvent;
 import org.fossasia.openevent.events.DataDownloadEvent;
 import org.fossasia.openevent.events.DownloadEvent;
@@ -164,6 +166,7 @@ public class MainActivity extends BaseActivity {
     private Runnable runnable;
     private Handler handler;
     private CallbackManager callbackManager;
+    public static Dialog dialog;
 
     private CompositeDisposable disposable;
 
@@ -860,10 +863,11 @@ public class MainActivity extends BaseActivity {
 
     }
 
+
     @Subscribe
     public void showNetworkDialog(ShowNetworkDialogEvent event) {
         downloadProgress.setVisibility(View.GONE);
-        DialogFactory.createSimpleActionDialog(this,
+        dialog = DialogFactory.createSimpleActionDialog(this,
                 R.string.net_unavailable,
                 R.string.turn_on,
                 new DialogInterface.OnClickListener() {
@@ -872,7 +876,8 @@ public class MainActivity extends BaseActivity {
                         Intent setNetworkIntent = new Intent(Settings.ACTION_SETTINGS);
                         startActivity(setNetworkIntent);
                     }
-                }).show();
+                });
+        dialog.show();
     }
 
     @Subscribe

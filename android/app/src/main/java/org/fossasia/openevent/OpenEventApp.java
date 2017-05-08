@@ -1,7 +1,11 @@
 package org.fossasia.openevent;
 
+import android.app.AlertDialog;
 import android.app.Application;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -9,6 +13,7 @@ import android.net.ConnectivityManager;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.util.Log;
 
 import com.facebook.FacebookSdk;
@@ -21,6 +26,7 @@ import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
+import org.fossasia.openevent.activities.MainActivity;
 import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.ConnectionCheckEvent;
@@ -28,6 +34,7 @@ import org.fossasia.openevent.events.ShowNetworkDialogEvent;
 import org.fossasia.openevent.modules.MapModuleFactory;
 import org.fossasia.openevent.receivers.NetworkConnectivityChangeReceiver;
 import org.fossasia.openevent.utils.ConstantStrings;
+import org.fossasia.openevent.widget.DialogFactory;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -67,7 +74,7 @@ public class OpenEventApp extends Application {
         handler.post(new Runnable() {
             @Override
             public void run() {
-                getEventBus().post(event);
+                    getEventBus().post(event);
             }
         });
     }
@@ -158,6 +165,10 @@ public class OpenEventApp extends Application {
     public void onConnectionChangeReact(ConnectionCheckEvent event) {
         if (event.connState()) {
             Timber.d("[NetNotif] %s", "Connected to Internet");
+
+            if(MainActivity.dialog != null)
+                MainActivity.dialog.dismiss();
+
         } else {
             Timber.d("[NetNotif] %s", "Not connected to Internet");
             postEventOnUIThread(new ShowNetworkDialogEvent());
