@@ -34,6 +34,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -45,6 +46,7 @@ import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.ConnectionCheckEvent;
+import org.fossasia.openevent.utils.NetworkUtils;
 import org.fossasia.openevent.utils.SpeakerIntent;
 import org.fossasia.openevent.utils.StringUtils;
 
@@ -52,9 +54,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by MananWason on 30-06-2015.
@@ -217,8 +221,28 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
         };
         speakerImage.setTag(imageTarget);
 
+        NetworkUtils.isActiveInternetPresentObservable()
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Boolean>() {
+
+                    @Override
+                    public void accept(@NonNull Boolean isActive) throws Exception {
+                        if(!isActive) {
+
+                            Picasso.with(SpeakerDetailsActivity.this)
+                                    .cancelTag("ONLINE");
+                            Picasso.with(SpeakerDetailsActivity.this)
+                                    .load(Uri.parse(selectedSpeaker.getPhoto()))
+                                    .networkPolicy(NetworkPolicy.OFFLINE)
+                                    .into(imageTarget);
+                        }
+                    }
+                });
+
         Picasso.with(SpeakerDetailsActivity.this)
                 .load(Uri.parse(selectedSpeaker.getPhoto()))
+                .tag("ONLINE")
                 .into(imageTarget);
     }
 

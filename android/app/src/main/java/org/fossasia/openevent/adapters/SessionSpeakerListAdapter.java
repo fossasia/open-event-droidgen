@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import org.fossasia.openevent.R;
@@ -19,13 +20,16 @@ import org.fossasia.openevent.activities.SpeakerDetailsActivity;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.CircleTransform;
+import org.fossasia.openevent.utils.NetworkUtils;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 import static org.fossasia.openevent.utils.SortOrder.sortOrderSpeaker;
 
@@ -48,13 +52,35 @@ public class SessionSpeakerListAdapter extends BaseRVAdapter<Speaker, SessionSpe
     }
 
     @Override
-    public void onBindViewHolder(RecyclerViewHolder holder, final int position) {
+    public void onBindViewHolder(final RecyclerViewHolder holder, final int position) {
         final Speaker current = getItem(position);
+
+        NetworkUtils.isActiveInternetPresentObservable()
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Boolean>() {
+
+                    @Override
+                    public void accept(@NonNull Boolean isActive) throws Exception {
+                        if(!isActive) {
+                            Picasso.with(holder.speakerImage.getContext())
+                                    .cancelTag("ONLINE");
+
+                            Picasso.with(holder.speakerImage.getContext())
+                                    .load(Uri.parse(current.getThumbnail()))
+                                    .placeholder(VectorDrawableCompat.create(activity.getResources(), R.drawable.ic_account_circle_grey_24dp, null))
+                                    .transform(new CircleTransform())
+                                    .networkPolicy(NetworkPolicy.OFFLINE)
+                                    .into(holder.speakerImage);
+                        }
+                    }
+                });
 
         Picasso.with(holder.speakerImage.getContext())
                 .load(Uri.parse(current.getThumbnail()))
                 .placeholder(VectorDrawableCompat.create(activity.getResources(), R.drawable.ic_account_circle_grey_24dp, null))
                 .transform(new CircleTransform())
+                .tag("ONLINE")
                 .into(holder.speakerImage);
 
         holder.speakerName.setText(TextUtils.isEmpty(current.getName()) ? "" : current.getName());
