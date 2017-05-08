@@ -34,6 +34,7 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.URLSpan;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -251,7 +252,6 @@ public class MainActivity extends BaseActivity {
                                                                 public void accept(@NonNull Boolean connected) throws Exception {
                                                                     if (connected) {
                                                                         OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
-                                                                        sharedPreferences.edit().putBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true).apply();
                                                                     } else {
                                                                         final Snackbar snackbar = Snackbar.make(mainFrame, R.string.internet_preference_warning, Snackbar.LENGTH_INDEFINITE);
                                                                         snackbar.setAction(R.string.yes, new View.OnClickListener() {
@@ -380,9 +380,9 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-        menu.clear();
-        return true;
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.drawer, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     private void setUpToolbar() {
@@ -451,6 +451,10 @@ public class MainActivity extends BaseActivity {
                     @Override
                     public void accept(@NonNull Event event) throws Exception {
                         if (event != null) {
+
+                            // Event successfully loaded, set data downloaded to true
+                            sharedPreferences.edit().putBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true).apply();
+
                             getDaysBetweenDates(
                                     ISO8601Date.getDateObject(event.getStart()), ISO8601Date.getDateObject(event.getEnd()))
                                     .observeOn(AndroidSchedulers.mainThread())
@@ -599,13 +603,7 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.nav_settings:
                 final Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-                smoothActionBarToggle.runWhenIdle(new Runnable() {
-                    @Override
-                    public void run() {
-                        startActivity(intent);
-                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                    }
-                });
+                startActivity(intent);
                 break;
             case R.id.nav_share:
                 AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
@@ -843,7 +841,6 @@ public class MainActivity extends BaseActivity {
                 syncComplete();
             }
         } else {
-
             downloadFailed(event);
         }
     }

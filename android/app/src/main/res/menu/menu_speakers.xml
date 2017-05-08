@@ -11,11 +11,6 @@
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="collapseActionView|ifRoom" />
     <item
-        android:id="@+id/share_speakers_url"
-        android:icon="@drawable/ic_share_white_24dp"
-        android:title="@string/share"
-        app:showAsAction="collapseActionView|ifRoom" />
-    <item
         android:id="@+id/action_sort"
         android:icon="@drawable/ic_sort_white_24dp"
         android:title="@string/menu_speaker_sort"

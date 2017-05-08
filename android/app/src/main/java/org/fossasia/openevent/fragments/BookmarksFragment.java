@@ -66,36 +66,45 @@ public class BookmarksFragment extends BaseFragment implements SearchView.OnQuer
         super.onResume();
         if (sessionsListAdapter != null) {
             try {
-
                 final DbSingleton dbSingleton = DbSingleton.getInstance();
-                compositeDisposable.add(dbSingleton.getBookmarkIdsObservable()
-                        .subscribe(new Consumer<ArrayList<Integer>>() {
-                            @Override
-                            public void accept(@NonNull ArrayList<Integer> ids) throws Exception {
-                                bookmarkedIds = ids;
-
-                                sessionsListAdapter.clear();
-                                for (int i = 0; i < bookmarkedIds.size(); i++) {
-                                    Integer id = bookmarkedIds.get(i);
-
-                                    final int index = i;
-                                    dbSingleton.getSessionByIdObservable(id)
-                                            .subscribe(new Consumer<Session>() {
-                                                @Override
-                                                public void accept(@NonNull Session session) throws Exception {
-                                                    mSessions.add(session);
-
-                                                    sessionsListAdapter.notifyItemInserted(index);
-
-                                                    if(index == bookmarkedIds.size())
-                                                        handleVisibility();
-                                                }
-                                            });
-
+                if (searchText != null) {
+                    ArrayList<Session> Sessions = new ArrayList<>();
+                    try {
+                        ArrayList<Integer> bookmarkedIds = dbSingleton.getBookmarkIds();
+                        for (int i = 0; i < bookmarkedIds.size(); i++) {
+                            Integer id = bookmarkedIds.get(i);
+                            Session session = dbSingleton.getSessionById(id);
+                            Sessions.add(session);
+                        }
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    final List<Session> filteredModelList = filter(Sessions, searchText.toLowerCase(Locale.getDefault()));
+                    sessionsListAdapter.animateTo(filteredModelList);
+                } else {
+                    compositeDisposable.add(dbSingleton.getBookmarkIdsObservable()
+                            .subscribe(new Consumer<ArrayList<Integer>>() {
+                                @Override
+                                public void accept(@NonNull ArrayList<Integer> ids) throws Exception {
+                                    bookmarkedIds = ids;
+                                    sessionsListAdapter.clear();
+                                    for (int i = 0; i < bookmarkedIds.size(); i++) {
+                                        Integer id = bookmarkedIds.get(i);
+                                        final int index = i;
+                                        dbSingleton.getSessionByIdObservable(id)
+                                                .subscribe(new Consumer<Session>() {
+                                                    @Override
+                                                    public void accept(@NonNull Session session) throws Exception {
+                                                        mSessions.add(session);
+                                                        sessionsListAdapter.notifyItemInserted(index);
+                                                        if (index == bookmarkedIds.size())
+                                                            handleVisibility();
+                                                    }
+                                                });
+                                    }
                                 }
-                            }
-                        }));
-
+                            }));
+                }
             } catch (ParseException e) {
                 Timber.e("Parsing Error Occurred at BookmarksFragment::onResume.");
             }
