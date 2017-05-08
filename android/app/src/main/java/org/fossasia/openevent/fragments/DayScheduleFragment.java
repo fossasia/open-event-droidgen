@@ -213,7 +213,8 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        menu.clear();
+        super.onCreateOptionsMenu(menu, inflater);
+
         searchText = "";
         inflater.inflate(R.menu.menu_schedule, menu);
         MenuItem item = menu.findItem(R.id.action_search_schedule);
@@ -222,7 +223,6 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
         if (searchText != null) {
             searchView.setQuery(searchText, false);
         }
-        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
