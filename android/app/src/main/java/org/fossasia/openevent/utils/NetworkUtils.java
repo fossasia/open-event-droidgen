@@ -23,6 +23,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import timber.log.Timber;
 
 /**
  * Created by championswimmer on 21/6/16.
@@ -55,7 +56,7 @@ public class NetworkUtils extends BroadcastReceiver {
             netInfos = new ArrayList<>(Arrays.asList(cm.getAllNetworkInfo()));
         }
         for (NetworkInfo ni : netInfos) {
-            if (ni.getTypeName().equalsIgnoreCase("WIFI"))
+            if (ni != null && ni.getTypeName().equalsIgnoreCase("WIFI"))
                 if (ni.isConnected())
                     return true;
         }
@@ -76,7 +77,7 @@ public class NetworkUtils extends BroadcastReceiver {
             netInfos = new ArrayList<>(Arrays.asList(cm.getAllNetworkInfo()));
         }
         for (NetworkInfo ni : netInfos) {
-            if (ni.getTypeName().equalsIgnoreCase("MOBILE") && ni.isConnected())
+            if (ni != null && ni.getTypeName().equalsIgnoreCase("MOBILE") && ni.isConnected())
                     return true;
         }
         return false;
@@ -89,7 +90,6 @@ public class NetworkUtils extends BroadcastReceiver {
             int returnVal = p1.waitFor();
             return (returnVal==0);
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return false;
@@ -144,7 +144,7 @@ public class NetworkUtils extends BroadcastReceiver {
                 .subscribe(new Consumer<Boolean>() {
                     @Override
                     public void accept(@NonNull Boolean hasConnection) throws Exception {
-                        if(hasConnection) {
+                        if (hasConnection) {
                             listener.networkAvailable();
                             isActiveInternetPresentObservable()
                                     .subscribeOn(Schedulers.computation())
@@ -152,7 +152,7 @@ public class NetworkUtils extends BroadcastReceiver {
                                     .subscribe(new Consumer<Boolean>() {
                                         @Override
                                         public void accept(@NonNull Boolean isActive) throws Exception {
-                                            if(isActive) {
+                                            if (isActive) {
                                                 listener.activeConnection();
                                             } else {
                                                 listener.inactiveConnection();
@@ -162,6 +162,12 @@ public class NetworkUtils extends BroadcastReceiver {
                         } else {
                             listener.networkUnavailable();
                         }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(@NonNull Throwable throwable) throws Exception {
+                        throwable.printStackTrace();
+                        Timber.e("Network Determination Error : %s", throwable.getMessage());
                     }
                 });
     }
