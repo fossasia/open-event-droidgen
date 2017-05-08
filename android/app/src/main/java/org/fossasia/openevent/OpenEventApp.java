@@ -1,11 +1,7 @@
 package org.fossasia.openevent;
 
-import android.app.AlertDialog;
 import android.app.Application;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -13,7 +9,6 @@ import android.net.ConnectivityManager;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
-import android.provider.Settings;
 import android.util.Log;
 
 import com.facebook.FacebookSdk;
@@ -34,7 +29,6 @@ import org.fossasia.openevent.events.ShowNetworkDialogEvent;
 import org.fossasia.openevent.modules.MapModuleFactory;
 import org.fossasia.openevent.receivers.NetworkConnectivityChangeReceiver;
 import org.fossasia.openevent.utils.ConstantStrings;
-import org.fossasia.openevent.widget.DialogFactory;
 import org.json.JSONException;
 import org.json.JSONObject;
 
