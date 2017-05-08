@@ -68,7 +68,7 @@ public class OpenEventApp extends Application {
         handler.post(new Runnable() {
             @Override
             public void run() {
-                    getEventBus().post(event);
+                getEventBus().post(event);
             }
         });
     }
