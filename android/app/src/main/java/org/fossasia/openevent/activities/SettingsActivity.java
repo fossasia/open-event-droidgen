@@ -36,12 +36,17 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
     private SharedPreferences preferences;
     private AppCompatDelegate mDelegate;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getDelegate().installViewFactory();
         getDelegate().onCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
+
+        overridePendingTransition(R.anim.slide_in_right, R.anim.stay_in_place);
+
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        PreferenceManager.setDefaultValues(this,R.xml.settings,false);
         addPreferencesFromResource(R.xml.settings);
         setContentView(R.layout.activity_settings);
         setToolbar();
@@ -152,6 +157,13 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
     protected void onDestroy() {
         super.onDestroy();
         getDelegate().onDestroy();
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        SettingsActivity.this.overridePendingTransition(0,R.anim.slide_out_right);
+
     }
 
     private void setToolbar() {

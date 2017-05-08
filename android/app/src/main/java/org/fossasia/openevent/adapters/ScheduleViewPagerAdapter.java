@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.ConstantStrings;
 
 import java.util.ArrayList;
@@ -33,15 +32,13 @@ public class ScheduleViewPagerAdapter extends FragmentPagerAdapter {
         return mFragmentList.size();
     }
 
-    public void addFragment(Fragment fragment, String title, int day) {
-        List<String> event_days = DbSingleton.getInstance().getDateList();
-
+    public void addFragment(final Fragment fragment, final String title, String dayArgument) {
         Bundle bundle = new Bundle();
-        String dayString = event_days.get(day);
-        bundle.putString(ConstantStrings.EVENT_DAY, dayString);
+        bundle.putString(ConstantStrings.EVENT_DAY, dayArgument);
         fragment.setArguments(bundle);
+
         mFragmentList.add(fragment);
-        mFragmentTitleList.add(dayString);
+        mFragmentTitleList.add(title);
     }
 
     @Override

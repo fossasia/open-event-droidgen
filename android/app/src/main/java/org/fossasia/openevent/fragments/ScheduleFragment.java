@@ -3,6 +3,7 @@ package org.fossasia.openevent.fragments;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -10,6 +11,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -22,7 +24,7 @@ import org.fossasia.openevent.adapters.ScheduleViewPagerAdapter;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.ConstantStrings;
-import org.fossasia.openevent.utils.Days;
+import org.fossasia.openevent.utils.ISO8601Date;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,7 +35,6 @@ import butterknife.OnClick;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
 
 /**
  * Created by Manan Wason on 16/06/16.
@@ -42,15 +43,12 @@ public class ScheduleFragment extends BaseFragment {
 
     @BindView(R.id.viewpager) ViewPager viewPager;
     @BindView(R.id.tabLayout) TabLayout scheduleTabLayout;
-    @BindView(R.id.schedule_fab) FloatingActionButton fabOpenClose;
     @BindView(R.id.schedule_fab_filter) FloatingActionButton fabFilter;
-    @BindView(R.id.schedule_fab_sort) FloatingActionButton fabSort;
     @BindView(R.id.filter_text) TextView filtersText;
     @BindView(R.id.close_filter) ImageView closeFilterBarButton;
     @BindView(R.id.filter_bar) LinearLayout filterBar;
 
     private CompositeDisposable compositeDisposable;
-    private boolean fabmenuVisible = false;
     private int sortType;
     private SharedPreferences sharedPreferences;
     private ScheduleViewPagerAdapter adapter;
@@ -87,16 +85,15 @@ public class ScheduleFragment extends BaseFragment {
         DbSingleton dbSingleton = DbSingleton.getInstance();
 
         compositeDisposable.add(dbSingleton.getDateListObservable()
-                .map(new Function<List<String>, Integer>() {
+                .subscribe(new Consumer<List<String>>() {
                     @Override
-                    public Integer apply(@NonNull List<String> event_days) throws Exception {
-                        return event_days.size();
-                    }
-                }).subscribe(new Consumer<Integer>() {
-                    @Override
-                    public void accept(@NonNull Integer daysOfEvent) throws Exception {
-                        for (int i = 0; i < daysOfEvent; i++) {
-                            adapter.addFragment(new DayScheduleFragment(), Days.values()[i].toString(), i);
+                    public void accept(@NonNull List<String> eventDayList) throws Exception {
+                        int eventDays = eventDayList.size();
+                        for(int i = 0; i < eventDays; i++) {
+                            String date = eventDayList.get(i);
+
+                            adapter.addFragment(new DayScheduleFragment(),
+                                    ISO8601Date.getTimeZoneDateFromString(date), date);
                             adapter.notifyDataSetChanged();
                         }
                     }
@@ -120,6 +117,8 @@ public class ScheduleFragment extends BaseFragment {
                 }));
 
         viewPager.setAdapter(adapter);
+        viewPager.setPageMargin(dpToPx(15));
+        viewPager.setPageMarginDrawable(R.color.grey);
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -137,6 +136,10 @@ public class ScheduleFragment extends BaseFragment {
                 //Called when the scroll state changes
             }
         });
+    }
+
+    private int dpToPx(int dp) {
+        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
 
     public void viewPagerScroll() {
@@ -161,40 +164,29 @@ public class ScheduleFragment extends BaseFragment {
         });
     }
 
-    @OnClick (R.id.schedule_fab)
-    public void showMenu() {
-        if(!fabmenuVisible) {
-            fabFilter.setVisibility(View.VISIBLE);
-            fabSort.setVisibility(View.VISIBLE);
-            fabOpenClose.setImageResource(R.drawable.ic_close_24dp);
-            fabmenuVisible = true;
-        } else {
-            fabFilter.setVisibility(View.GONE);
-            fabSort.setVisibility(View.GONE);
-            fabOpenClose.setImageResource(R.drawable.ic_plus_24dp);
-            fabmenuVisible = false;
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_sort:
+                final AlertDialog.Builder dialogSort = new AlertDialog.Builder(getActivity())
+                        .setTitle(R.string.dialog_sort_title)
+                        .setSingleChoiceItems(R.array.session_sort, sortType, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                sortType = which;
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putInt(ConstantStrings.PREF_SORT, which);
+                                editor.apply();
+                                ScheduleViewPagerAdapter scheduleViewPagerAdapter = (ScheduleViewPagerAdapter) viewPager.getAdapter();
+                                DayScheduleFragment dayScheduleFragment = (DayScheduleFragment)scheduleViewPagerAdapter.getItem(viewPager.getCurrentItem());
+                                dayScheduleFragment.refreshSchedule();
+                                dialog.dismiss();
+                            }
+                        });
+
+                dialogSort.show();
         }
-    }
-
-    @OnClick (R.id.schedule_fab_sort)
-    public void sortSchedule() {
-        final AlertDialog.Builder dialogSort = new AlertDialog.Builder(getActivity())
-                .setTitle(R.string.dialog_sort_title)
-                .setSingleChoiceItems(R.array.session_sort, sortType, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        sortType = which;
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putInt(ConstantStrings.PREF_SORT, which);
-                        editor.apply();
-                        ScheduleViewPagerAdapter scheduleViewPagerAdapter = (ScheduleViewPagerAdapter) viewPager.getAdapter();
-                        DayScheduleFragment dayScheduleFragment = (DayScheduleFragment)scheduleViewPagerAdapter.getItem(viewPager.getCurrentItem());
-                        dayScheduleFragment.refreshSchedule();
-                        dialog.dismiss();
-                    }
-                });
-
-        dialogSort.show();
+        return super.onOptionsItemSelected(item);
     }
 
     @OnClick (R.id.schedule_fab_filter)
@@ -236,7 +228,6 @@ public class ScheduleFragment extends BaseFragment {
 
         dialogSort.show();
     }
-
 
     @OnClick (R.id.close_filter)
     public void closeFilterBar() {
