@@ -10,8 +10,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.text.Html;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -22,6 +20,7 @@ import org.fossasia.openevent.data.Event;
 import org.fossasia.openevent.data.SocialLink;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.ISO8601Date;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -142,13 +141,6 @@ public class AboutFragment extends BaseFragment {
                }
            });
        }
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        menu.clear();
-
     }
 
     @TargetApi(16)

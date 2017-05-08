@@ -195,7 +195,7 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        menu.clear();
+
         inflater.inflate(R.menu.menu_speakers, menu);
         MenuItem item = menu.findItem(R.id.action_search_speakers);
         searchView = (SearchView) MenuItemCompat.getActionView(item);

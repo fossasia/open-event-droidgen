@@ -33,7 +33,6 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.URLSpan;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -373,13 +372,6 @@ public class MainActivity extends BaseActivity {
     public boolean onPrepareOptionsMenu(final Menu menu) {
         setupDrawerContent(navigationView);
         return super.onPrepareOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.drawer, menu);
-        return super.onCreateOptionsMenu(menu);
     }
 
     private void setUpToolbar() {

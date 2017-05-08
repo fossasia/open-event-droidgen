@@ -160,13 +160,12 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        menu.clear();
+
         inflater.inflate(R.menu.menu_locations_fragment, menu);
         MenuItem item = menu.findItem(R.id.action_search_locations);
         searchView = (SearchView) MenuItemCompat.getActionView(item);
         searchView.setOnQueryTextListener(this);
         searchView.setQuery(searchText, false);
-
     }
 
     @Override

@@ -166,7 +166,8 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        menu.clear();
+        super.onCreateOptionsMenu(menu, inflater);
+
         inflater.inflate(R.menu.menu_tracks, menu);
         MenuItem item = menu.findItem(R.id.action_search_tracks);
         searchView = (SearchView) MenuItemCompat.getActionView(item);
@@ -174,7 +175,6 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
         if (searchText != null) {
             searchView.setQuery(searchText, false);
         }
-        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override

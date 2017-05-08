@@ -193,7 +193,7 @@ public class BookmarksFragment extends BaseFragment implements SearchView.OnQuer
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        menu.clear();
+
         inflater.inflate(R.menu.menu_bookmarks, menu);
         searchView = (SearchView) menu.findItem(R.id.search_bookmarks).getActionView();
         searchView.setOnQueryTextListener(this);
