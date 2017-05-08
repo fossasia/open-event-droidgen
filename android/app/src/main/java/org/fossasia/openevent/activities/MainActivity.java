@@ -607,7 +607,6 @@ public class MainActivity extends BaseActivity {
                 LayoutInflater inflater = this.getLayoutInflater();
                 View dialogView = inflater.inflate(R.layout.dialog_share, mainFrame, false);
                 Button shareApp = (Button)dialogView.findViewById(R.id.share_app);
-//                Button facebookInvite = (Button)dialogView.findViewById(R.id.facebook_invite);
                 dialogBuilder.setView(dialogView);
                 final AlertDialog alertDialog = dialogBuilder.create();
                 shareApp.setOnClickListener(new View.OnClickListener() {
