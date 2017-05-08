@@ -160,8 +160,8 @@ public class OpenEventApp extends Application {
         if (event.connState()) {
             Timber.d("[NetNotif] %s", "Connected to Internet");
 
-            if(MainActivity.dialog != null)
-                MainActivity.dialog.dismiss();
+            if(MainActivity.dialogNetworkNotiff != null)
+                MainActivity.dialogNetworkNotiff.dismiss();
 
         } else {
             Timber.d("[NetNotif] %s", "Not connected to Internet");

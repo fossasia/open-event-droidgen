@@ -166,7 +166,7 @@ public class MainActivity extends BaseActivity {
     private Runnable runnable;
     private Handler handler;
     private CallbackManager callbackManager;
-    public static Dialog dialog;
+    public static Dialog dialogNetworkNotiff;
 
     private CompositeDisposable disposable;
 
@@ -863,7 +863,7 @@ public class MainActivity extends BaseActivity {
     @Subscribe
     public void showNetworkDialog(ShowNetworkDialogEvent event) {
         downloadProgress.setVisibility(View.GONE);
-        dialog = DialogFactory.createSimpleActionDialog(this,
+        dialogNetworkNotiff = DialogFactory.createSimpleActionDialog(this,
                 R.string.net_unavailable,
                 R.string.turn_on,
                 new DialogInterface.OnClickListener() {
@@ -873,7 +873,7 @@ public class MainActivity extends BaseActivity {
                         startActivity(setNetworkIntent);
                     }
                 });
-        dialog.show();
+        dialogNetworkNotiff.show();
     }
 
     @Subscribe
