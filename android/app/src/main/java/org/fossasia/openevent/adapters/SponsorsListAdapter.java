@@ -107,6 +107,7 @@ public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, RecyclerView.Vie
                 uri = Uri.parse(currentSponsor.getLogo());
             }
             sponsorViewHolder.sponsorType.setText(currentSponsor.getType());
+            sponsorViewHolder.sponsorName.setText(currentSponsor.getName());
 
             disposable.add(NetworkUtils.isActiveInternetPresentObservable()
                     .subscribeOn(Schedulers.computation())
@@ -202,6 +203,9 @@ public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, RecyclerView.Vie
 
         @BindView(R.id.sponsor_type)
         TextView sponsorType;
+
+        @BindView(R.id.sponsor_name)
+        TextView sponsorName;
 
         SponsorViewHolder(View itemView) {
             super(itemView);
