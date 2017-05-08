@@ -21,6 +21,7 @@ import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
+import org.fossasia.openevent.activities.MainActivity;
 import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.events.ConnectionCheckEvent;
@@ -158,6 +159,10 @@ public class OpenEventApp extends Application {
     public void onConnectionChangeReact(ConnectionCheckEvent event) {
         if (event.connState()) {
             Timber.d("[NetNotif] %s", "Connected to Internet");
+
+            if(MainActivity.dialogNetworkNotiff != null)
+                MainActivity.dialogNetworkNotiff.dismiss();
+
         } else {
             Timber.d("[NetNotif] %s", "Not connected to Internet");
             postEventOnUIThread(new ShowNetworkDialogEvent());
