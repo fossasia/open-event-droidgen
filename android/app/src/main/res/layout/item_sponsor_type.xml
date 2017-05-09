@@ -14,11 +14,10 @@
 
     <TextView
         android:id="@+id/sponsor_category"
-        android:layout_width="79dp"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:textSize="@dimen/text_size"
         android:textStyle="bold|italic"
         tools:text="Sponsor" />
-
 </LinearLayout>
