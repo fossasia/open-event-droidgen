@@ -17,7 +17,14 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/layout_margin_small"
             android:contentDescription="@string/sponsor_image" />
-
+        <TextView
+            android:id="@+id/sponsor_name"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:textSize="@dimen/text_size"
+            android:textStyle="bold"
+            tools:text="Sponsor Name" />
         <TextView
             android:id="@+id/sponsor_type"
             android:layout_width="wrap_content"
