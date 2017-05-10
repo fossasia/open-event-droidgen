@@ -11,7 +11,6 @@ import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.facebook.FacebookSdk;
 import com.facebook.stetho.Stetho;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.jakewharton.picasso.OkHttp3Downloader;
@@ -91,7 +90,6 @@ public class OpenEventApp extends Application {
         context = new WeakReference<>(getApplicationContext());
 
         Branch.getAutoInstance(this);
-        FacebookSdk.sdkInitialize(this);
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getAppContext());
         sDefSystemLanguage = Locale.getDefault().getDisplayLanguage();
