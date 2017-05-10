@@ -345,6 +345,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
     public void onBackPressed() {
         if (fabSessionBookmark.getVisibility() == View.GONE) {
             // Hide fragment again on back pressed and show session views
+            appBarLayout.setExpanded(true);
             mapFragment.setVisibility(View.GONE);
             fabSessionBookmark.setVisibility(View.VISIBLE);
             if (scrollView.getVisibility() == View.GONE) {
@@ -362,11 +363,11 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_map:
-                // Hide all the views except the frame layout
+                // Hide all the views except the frame layout and appbar layout
                 scrollView.setVisibility(View.GONE);
-                appBarLayout.setVisibility(View.GONE);
                 fabSessionBookmark.setVisibility(View.GONE);
 
+                appBarLayout.setExpanded(false);
                 mapFragment.setVisibility(View.VISIBLE);
 
                 FragmentManager fragmentManager = getSupportFragmentManager();
