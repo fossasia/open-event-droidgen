@@ -115,20 +115,14 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
     @Override
     public void onResume() {
         super.onResume();
-        prefNotification.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                prefNotification.setSummary((String) newValue);
-                return true;
-            }
+        prefNotification.setOnPreferenceChangeListener((preference, newValue) -> {
+            prefNotification.setSummary((String) newValue);
+            return true;
         });
 
-        languagePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                startActivity(new Intent((Settings.ACTION_LOCALE_SETTINGS)));
-                return true;
-            }
+        languagePreference.setOnPreferenceClickListener(preference -> {
+            startActivity(new Intent((Settings.ACTION_LOCALE_SETTINGS)));
+            return true;
         });
 
 

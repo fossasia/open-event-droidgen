@@ -26,9 +26,7 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
 import static org.fossasia.openevent.utils.SortOrder.sortOrderSpeaker;
@@ -41,6 +39,8 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakersListAdap
 
     private Activity activity;
     private CompositeDisposable disposable;
+    private List<String> distinctOrgs = new ArrayList<>();
+    private List<String> distinctCountry = new ArrayList<>();
 
     @SuppressWarnings("all")
     Filter filter = new Filter() {
@@ -108,8 +108,21 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakersListAdap
     public void onBindViewHolder(RecyclerViewHolder holder, final int position) {
         final Speaker current = getItem(position);
 
-        String thumbnail = current.getThumbnail();
+        //adding distinct org and country (note size of array will never be greater than 2)
+        if(distinctOrgs.isEmpty()){
+            distinctOrgs.add(current.getOrganisation());
+        }else if(distinctOrgs.size()==1 && (!current.getOrganisation().equals(distinctOrgs.get(0)))){
+            distinctOrgs.add(current.getOrganisation());
+        }
 
+        if(distinctCountry.isEmpty()){
+            distinctCountry.add(current.getCountry());
+        }else if(distinctCountry.size()==1 && (!current.getCountry().equals(distinctCountry.get(0)))){
+            distinctCountry.add(current.getCountry());
+        }
+
+
+        String thumbnail = current.getThumbnail();
         if(thumbnail != null) {
             Picasso.with(holder.speakerImage.getContext())
                     .load(Uri.parse(thumbnail))
@@ -121,26 +134,26 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakersListAdap
         holder.speakerDesignation.setText(String.format("%s %s", current.getPosition(), current.getOrganisation()));
         holder.speakerCountry.setText(String.format("%s", current.getCountry()));
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String speakerName = current.getName();
-                Intent intent = new Intent(activity, SpeakerDetailsActivity.class);
-                intent.putExtra(Speaker.SPEAKER, speakerName);
-                activity.startActivity(intent);
-            }
+        holder.itemView.setOnClickListener(v -> {
+            String speakerName = current.getName();
+            Intent intent = new Intent(activity, SpeakerDetailsActivity.class);
+            intent.putExtra(Speaker.SPEAKER, speakerName);
+            activity.startActivity(intent);
         });
+    }
+
+    public int getDistinctOrgs(){
+        return distinctOrgs.size();
+    }
+
+    public int getDistinctCountry(){
+        return distinctCountry.size();
     }
 
     public void refresh() {
         clear();
         disposable.add(DbSingleton.getInstance().getSpeakerListObservable(sortOrderSpeaker(activity))
-                .subscribe(new Consumer<List<Speaker>>() {
-                    @Override
-                    public void accept(@NonNull List<Speaker> speakers) throws Exception {
-                        animateTo(speakers);
-                    }
-                }));
+                .subscribe(this::animateTo));
     }
 
     class RecyclerViewHolder extends RecyclerView.ViewHolder {

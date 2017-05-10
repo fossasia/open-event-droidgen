@@ -35,10 +35,8 @@ import android.widget.TextView;
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.SessionSpeakerListAdapter;
-import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
-import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.receivers.NotificationAlarmReceiver;
 import org.fossasia.openevent.utils.ConstantStrings;
@@ -53,7 +51,6 @@ import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
-import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import timber.log.Timber;
@@ -140,38 +137,26 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
         adapter = new SessionSpeakerListAdapter(speakers, this);
 
         disposable.add(dbSingleton.getSpeakersBySessionNameObservable(title)
-                .subscribe(new Consumer<ArrayList<Speaker>>() {
-                    @Override
-                    public void accept(@NonNull ArrayList<Speaker> speakerList) {
-                        speakers.addAll(speakerList);
-                        adapter.notifyDataSetChanged();
-                    }
+                .subscribe(speakerList -> {
+                    speakers.addAll(speakerList);
+                    adapter.notifyDataSetChanged();
                 }));
 
         disposable.add(dbSingleton.getSessionByIdObservable(id)
-                .subscribe(new Consumer<Session>() {
-                    @Override
-                    public void accept(@NonNull Session receivedSession) {
-                        // If successfully received Session
-                        session = receivedSession;
-                        sharedPreferences.edit().putInt(ConstantStrings.SESSION_MAP_ID, id).apply();
+                .subscribe(receivedSession -> {
+                    // If successfully received Session
+                    session = receivedSession;
+                    sharedPreferences.edit().putInt(ConstantStrings.SESSION_MAP_ID, id).apply();
 
-                        updateSession();
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) {
-                        // If error occurs, we load by name
-                        dbSingleton.getSessionBySessionNameObservable(title)
-                                .subscribe(new Consumer<Session>() {
-                                    @Override
-                                    public void accept(@NonNull Session receivedSession) {
-                                        session = receivedSession;
-                                        sharedPreferences.edit().putInt(ConstantStrings.SESSION_MAP_ID, -1).apply();
-                                        updateSession();
-                                    }
-                                });
-                    }
+                    updateSession();
+                }, throwable -> {
+                    // If error occurs, we load by name
+                    dbSingleton.getSessionBySessionNameObservable(title)
+                            .subscribe(receivedSession -> {
+                                session = receivedSession;
+                                sharedPreferences.edit().putInt(ConstantStrings.SESSION_MAP_ID, -1).apply();
+                                updateSession();
+                            });
                 }));
 
         speakersRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
@@ -182,21 +167,13 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
         int color = TrackColors.getColor(trackId);
         if(trackId == -1 || color == -1) {
             disposable.add(dbSingleton.getTrackByNameObservable(trackName)
-                    .subscribe(new Consumer<Track>() {
-                        @Override
-                        public void accept(@NonNull Track track) throws Exception {
-                            int color = Color.parseColor(track.getColor());
+                    .subscribe(track -> {
+                        int color1 = Color.parseColor(track.getColor());
 
-                            setUiColor(color);
+                        setUiColor(color1);
 
-                            TrackColors.storeColor(track.getId(), color);
-                        }
-                    }, new Consumer<Throwable>() {
-                        @Override
-                        public void accept(@NonNull Throwable throwable) throws Exception {
-                            Timber.d("No track for name %s", trackName);
-                        }
-                    }));
+                        TrackColors.storeColor(track.getId(), color1);
+                    }, throwable -> Timber.d("No track for name %s", trackName)));
         } else {
             setUiColor(color);
             Timber.d("Cached color loaded for ID %d", trackId);
@@ -207,18 +184,12 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
         updateFloatingIcon();
 
         disposable.add(dbSingleton.getMicrolocationByIdObservable(session.getMicrolocation().getId())
-                .subscribe(new Consumer<Microlocation>() {
-                    @Override
-                    public void accept(Microlocation microlocation) {
-                        location = microlocation.getName();
-                        text_room1.setText(microlocation.getName());
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(@NonNull Throwable throwable) throws Exception {
-                        location = getString(R.string.location_not_decided);
-                        text_room1.setText(location);
-                    }
+                .subscribe(microlocation -> {
+                    location = microlocation.getName();
+                    text_room1.setText(microlocation.getName());
+                }, throwable -> {
+                    location = getString(R.string.location_not_decided);
+                    text_room1.setText(location);
                 }));
 
         text_title.setText(title);
@@ -260,46 +231,37 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
     }
 
     private void updateFloatingIcon() {
-        final Consumer<Boolean> bookmarkConsumer = new Consumer<Boolean>() {
-            @Override
-            public void accept(Boolean bookmarked) {
-                if(bookmarked) {
-                    Timber.tag(TAG).d("Bookmark Removed");
-                    disposable.add(dbSingleton.deleteBookmarksObservable(session.getId()).subscribe());
+        final Consumer<Boolean> bookmarkConsumer = bookmarked -> {
+            if(bookmarked) {
+                Timber.tag(TAG).d("Bookmark Removed");
+                disposable.add(dbSingleton.deleteBookmarksObservable(session.getId()).subscribe());
 
-                    fabSessionBookmark.setImageResource(R.drawable.ic_bookmark_outline_white_24dp);
-                    Snackbar.make(speakersRecyclerView, R.string.removed_bookmark, Snackbar.LENGTH_SHORT).show();
-                } else {
-                    Timber.tag(TAG).d("Bookmarked");
-                    disposable.add(dbSingleton.addBookmarksObservable(session.getId()).subscribe());
-                    fabSessionBookmark.setImageResource(R.drawable.ic_bookmark_white_24dp);
-                    createNotification();
-                    Snackbar.make(speakersRecyclerView, R.string.added_bookmark, Snackbar.LENGTH_SHORT).show();
-                }
+                fabSessionBookmark.setImageResource(R.drawable.ic_bookmark_outline_white_24dp);
+                Snackbar.make(speakersRecyclerView, R.string.removed_bookmark, Snackbar.LENGTH_SHORT).show();
+            } else {
+                Timber.tag(TAG).d("Bookmarked");
+                disposable.add(dbSingleton.addBookmarksObservable(session.getId()).subscribe());
+                fabSessionBookmark.setImageResource(R.drawable.ic_bookmark_white_24dp);
+                createNotification();
+                Snackbar.make(speakersRecyclerView, R.string.added_bookmark, Snackbar.LENGTH_SHORT).show();
             }
         };
 
         disposable.add(dbSingleton.isBookmarkedObservable(session.getId())
-                .subscribe(new Consumer<Boolean>() {
-                    @Override
-                    public void accept(Boolean bookmarked) {
-                        if(bookmarked) {
-                            Timber.tag(TAG).d("Bookmarked");
-                            fabSessionBookmark.setImageResource(R.drawable.ic_bookmark_white_24dp);
-                        } else {
-                            Timber.tag(TAG).d("Bookmark Removed");
-                            fabSessionBookmark.setImageResource(R.drawable.ic_bookmark_outline_white_24dp);
-                        }
+                .subscribe(bookmarked -> {
+                    if(bookmarked) {
+                        Timber.tag(TAG).d("Bookmarked");
+                        fabSessionBookmark.setImageResource(R.drawable.ic_bookmark_white_24dp);
+                    } else {
+                        Timber.tag(TAG).d("Bookmark Removed");
+                        fabSessionBookmark.setImageResource(R.drawable.ic_bookmark_outline_white_24dp);
                     }
                 }));
 
-        fabSessionBookmark.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                disposable.add(dbSingleton.isBookmarkedObservable(session.getId())
-                        .subscribe(bookmarkConsumer));
-                WidgetUpdater.updateWidget(getApplicationContext());
-            }
+        fabSessionBookmark.setOnClickListener(view -> {
+            disposable.add(dbSingleton.isBookmarkedObservable(session.getId())
+                    .subscribe(bookmarkConsumer));
+            WidgetUpdater.updateWidget(getApplicationContext());
         });
     }
 
@@ -309,6 +271,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
         toolbar.setBackgroundColor(color);
         collapsingToolbarLayout.setBackgroundColor(color);
         collapsingToolbarLayout.setContentScrimColor(darkColor);
+        Views.changeGlowColor(color,scrollView);
 
         if(Views.isCompatible(Build.VERSION_CODES.LOLLIPOP))
             getWindow().setStatusBarColor(darkColor);
@@ -332,12 +295,9 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
     protected void onResume() {
         super.onResume();
         dbSingleton.getSessionBySessionNameObservable(title)
-                .subscribe(new Consumer<Session>() {
-                    @Override
-                    public void accept(@NonNull Session receivedSession) {
-                        session = receivedSession;
-                        updateFloatingIcon();
-                    }
+                .subscribe(receivedSession -> {
+                    session = receivedSession;
+                    updateFloatingIcon();
                 });
     }
 

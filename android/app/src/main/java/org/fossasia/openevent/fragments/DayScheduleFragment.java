@@ -40,9 +40,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Consumer;
 
 /**
  * Created by Manan Wason on 17/06/16.
@@ -85,13 +83,10 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
 
         compositeDisposable = new CompositeDisposable();
 
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                refresh();
-                if(mSelectedTracks != null && mTracksNames != null) {
-                    filter(mTracksNames,mSelectedTracks);
-                }
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            refresh();
+            if(mSelectedTracks != null && mTracksNames != null) {
+                filter(mTracksNames,mSelectedTracks);
             }
         });
 
@@ -113,15 +108,12 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
         }
 
         compositeDisposable.add(DbSingleton.getInstance().getSessionsByDateObservable(date, SortOrder.sortOrderSchedule(getActivity()))
-                .subscribe(new Consumer<ArrayList<Session>>() {
-                    @Override
-                    public void accept(@NonNull ArrayList<Session> sortedSessions) throws Exception {
-                        mSessions.clear();
-                        mSessions.addAll(sortedSessions);
-                        mSessionsFiltered.clear();
-                        mSessionsFiltered.addAll(sortedSessions);
-                        handleVisibility();
-                    }
+                .subscribe(sortedSessions -> {
+                    mSessions.clear();
+                    mSessions.addAll(sortedSessions);
+                    mSessionsFiltered.clear();
+                    mSessionsFiltered.addAll(sortedSessions);
+                    handleVisibility();
                 }));
 
         handleVisibility();
@@ -276,30 +268,23 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
                 }
             }
         } else {
-            Snackbar.make(swipeRefreshLayout, getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    refresh();
-                }
-            }).show();
+            Snackbar.make(swipeRefreshLayout, getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG)
+                    .setAction(R.string.retry_download, view -> refresh()).show();
         }
     }
 
     public void refreshSchedule() {
         compositeDisposable.add(DbSingleton.getInstance().getSessionsByDateObservable(date, SortOrder.sortOrderSchedule(getActivity()))
-                .subscribe(new Consumer<ArrayList<Session>>() {
-                    @Override
-                    public void accept(@NonNull ArrayList<Session> sortedSessions) throws Exception {
-                        mSessions.clear();
-                        mSessions.addAll(sortedSessions);
-                        mSessionsFiltered.clear();
-                        mSessionsFiltered.addAll(sortedSessions);
-                        if(mSelectedTracks != null && mTracksNames != null) {
-                            filter(mTracksNames,mSelectedTracks);
-                        }
-                        dayScheduleAdapter.notifyDataSetChanged();
-                        handleVisibility();
+                .subscribe(sortedSessions -> {
+                    mSessions.clear();
+                    mSessions.addAll(sortedSessions);
+                    mSessionsFiltered.clear();
+                    mSessionsFiltered.addAll(sortedSessions);
+                    if(mSelectedTracks != null && mTracksNames != null) {
+                        filter(mTracksNames,mSelectedTracks);
                     }
+                    dayScheduleAdapter.notifyDataSetChanged();
+                    handleVisibility();
                 }));
     }
 

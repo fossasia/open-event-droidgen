@@ -33,9 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Consumer;
 
 /**
  * User: MananWason
@@ -67,12 +65,7 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
         compositeDisposable = new CompositeDisposable();
 
         final DbSingleton dbSingleton = DbSingleton.getInstance();
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                refresh();
-            }
-        });
+        swipeRefreshLayout.setOnRefreshListener(this::refresh);
 
 
         //setting the grid layout to cut-off white space in tablet view
@@ -99,15 +92,12 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
         }
 
         compositeDisposable.add(dbSingleton.getMicrolocationListObservable()
-                .subscribe(new Consumer<ArrayList<Microlocation>>() {
-                    @Override
-                    public void accept(@NonNull ArrayList<Microlocation> microlocations) throws Exception {
-                        mLocations.clear();
-                        mLocations.addAll(microlocations);
+                .subscribe(microlocations -> {
+                    mLocations.clear();
+                    mLocations.addAll(microlocations);
 
-                        locationsListAdapter.notifyDataSetChanged();
-                        handleVisibility();
-                    }
+                    locationsListAdapter.notifyDataSetChanged();
+                    handleVisibility();
                 }));
 
         handleVisibility();
@@ -215,12 +205,8 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
             locationsListAdapter.refresh();
 
         } else {
-            Snackbar.make(swipeRefreshLayout, getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    refresh();
-                }
-            }).show();
+            Snackbar.make(swipeRefreshLayout, getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG)
+                    .setAction(R.string.retry_download, view -> refresh()).show();
         }
     }
 

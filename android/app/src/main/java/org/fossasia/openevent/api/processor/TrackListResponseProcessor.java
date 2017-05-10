@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Completable;
-import io.reactivex.functions.Action;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -27,23 +26,20 @@ public class TrackListResponseProcessor implements Callback<List<Track>> {
     @Override
     public void onResponse(Call<List<Track>> call, final Response<List<Track>> response) {
         if (response.isSuccessful()) {
-            Completable.fromAction(new Action() {
-                @Override
-                public void run() throws Exception {
-                    ArrayList<String> queries = new ArrayList<>();
+            Completable.fromAction(() -> {
+                ArrayList<String> queries = new ArrayList<>();
 
-                    for (Track track : response.body()) {
-                        String query = track.generateSql();
-                        queries.add(query);
-                        Timber.d(query);
-                    }
-
-                    DbSingleton dbSingleton = DbSingleton.getInstance();
-                    dbSingleton.clearTable(DbContract.Tracks.TABLE_NAME);
-                    dbSingleton.insertQueries(queries);
-
-                    OpenEventApp.postEventOnUIThread(new TracksDownloadEvent(true));
+                for (Track track : response.body()) {
+                    String query = track.generateSql();
+                    queries.add(query);
+                    Timber.d(query);
                 }
+
+                DbSingleton dbSingleton = DbSingleton.getInstance();
+                dbSingleton.clearTable(DbContract.Tracks.TABLE_NAME);
+                dbSingleton.insertQueries(queries);
+
+                OpenEventApp.postEventOnUIThread(new TracksDownloadEvent(true));
             }).subscribeOn(Schedulers.computation()).subscribe();
         } else {
             OpenEventApp.getEventBus().post(new TracksDownloadEvent(false));
