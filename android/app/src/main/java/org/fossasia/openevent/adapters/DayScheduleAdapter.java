@@ -49,7 +49,7 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             sessionList.clear();
-            for (int i = 0; i < getItemCount(); i++) {
+            for (int i=0 ; i<getItemCount();i++) {
                 sessionList.add(getItem(i));
             }
             final ArrayList<Session> filteredSessionsList = new ArrayList<>();
@@ -76,7 +76,7 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
     public DayScheduleAdapter(List<Session> sessions, Context context) {
         super(sessions);
         this.context = context;
-        tracks = new ArrayList<String>();
+        tracks  = new ArrayList<String>();
     }
 
     public void setEventDate(String eventDate) {
@@ -95,15 +95,6 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
         final Session currentSession = getItem(position);
         String startTime = ISO8601Date.get12HourTime(ISO8601Date.getDateObject(currentSession.getStartTime()));
         String endTime = ISO8601Date.get12HourTime(ISO8601Date.getDateObject(currentSession.getEndTime()));
-
-        /*We are following 12 hour format so changing 00 PM to 12 PM */
-        if (startTime.charAt(0) == '0' && startTime.charAt(1) == '0') {
-            startTime = "12" + startTime.substring(2);
-        }
-
-        if (endTime.charAt(0) == '0' && endTime.charAt(1) == '0') {
-            endTime = "12" + endTime.substring(2);
-        }
 
         holder.startTime.setText(startTime);
         holder.endTime.setText(endTime);
@@ -149,7 +140,7 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
     @Override
     public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
         super.onDetachedFromRecyclerView(recyclerView);
-        if (disposable != null && !disposable.isDisposed())
+        if(disposable != null && !disposable.isDisposed())
             disposable.dispose();
     }
 
@@ -163,12 +154,13 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
         String id = "";
         if (SortOrder.sortOrderSchedule(context).equals(DbContract.Sessions.TITLE)) {
             return getItem(position).getTitle().charAt(0);
-        } else if (SortOrder.sortOrderSchedule(context).equals(DbContract.Sessions.TRACK)) {
+        } else if (SortOrder.sortOrderSchedule(context).equals(DbContract.Sessions.TRACK)){
             if (tracks != null && !tracks.contains(getItem(position).getTrack().getName())) {
                 tracks.add(getItem(position).getTrack().getName());
             }
             return tracks.indexOf(getItem(position).getTrack().getName());
-        } else if (SortOrder.sortOrderSchedule(context).equals(DbContract.Sessions.START_TIME)) {
+        }
+        else if (SortOrder.sortOrderSchedule(context).equals(DbContract.Sessions.START_TIME)) {
             id = ISO8601Date.get24HourTime(ISO8601Date.getDateObject(getItem(position).getStartTime()));
             id = id.replace(":", "");
             id = id.replace(" ", "");
@@ -180,27 +172,20 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
     public RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.recycler_view_header, parent, false);
-        return new RecyclerView.ViewHolder(view) {
-        };
+        return new RecyclerView.ViewHolder(view) {};
     }
 
     @Override
     public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
         TextView textView = (TextView) holder.itemView.findViewById(R.id.recyclerview_view_header);
-
+        
         if (SortOrder.sortOrderSchedule(context).equals(DbContract.Sessions.TITLE)) {
             textView.setText(String.valueOf(getItem(position).getTitle().charAt(0)));
-        } else if (SortOrder.sortOrderSchedule(context).equals(DbContract.Sessions.TRACK)) {
+        } else if (SortOrder.sortOrderSchedule(context).equals(DbContract.Sessions.TRACK)){
             textView.setText(String.valueOf(getItem(position).getTrack().getName()));
-        } else if (SortOrder.sortOrderSchedule(context).equals(DbContract.Sessions.START_TIME)) {
-
-            /*We are following 12 hour format so changing 00 PM to 12 PM */
-            String timeInTitle = ISO8601Date.get12HourTime(ISO8601Date.getDateObject(getItem(position).getStartTime()));
-
-            if (timeInTitle.charAt(0) == '0' && timeInTitle.charAt(1) == '0') {
-                timeInTitle = "12" + timeInTitle.substring(2);
-            }
-            textView.setText(timeInTitle);
+        }
+        else if (SortOrder.sortOrderSchedule(context).equals(DbContract.Sessions.START_TIME)) {
+            textView.setText(ISO8601Date.get12HourTime(ISO8601Date.getDateObject(getItem(position).getStartTime())));
         }
     }
 

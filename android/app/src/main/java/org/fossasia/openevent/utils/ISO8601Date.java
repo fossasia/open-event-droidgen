@@ -82,7 +82,7 @@ public final class ISO8601Date {
 
     public static String get12HourTime(final Date date) {
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("KK:mm a", Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a", Locale.getDefault());
         dateFormat.setTimeZone(getEventTimezone());
         return dateFormat.format(date);
     }
