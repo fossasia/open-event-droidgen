@@ -3,6 +3,7 @@ package org.fossasia.openevent.fragments;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.Menu;
@@ -17,6 +18,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.fossasia.openevent.R;
@@ -56,6 +58,19 @@ public class MapsFragment extends SupportMapFragment
                     CameraPosition.builder().target(location).zoom(15f).bearing(0).tilt(0).build()));
 
             mMap = map;
+
+            mMap.getUiSettings().setMapToolbarEnabled(true);
+            mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(Marker marker) {
+
+                    Intent mapIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(
+                            "http://maps.google.com/maps?saddr=51.5, 0.125&daddr="+ location.latitude + ", " + location.longitude));
+                    startActivity(mapIntent);
+
+                    return true;
+                }
+            });
         }
     }
 
