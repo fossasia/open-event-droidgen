@@ -6,6 +6,11 @@
     android:orientation="vertical"
     tools:context=".activities.LocationActivity">
 
+    <FrameLayout
+        android:id="@+id/content_frame_location"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

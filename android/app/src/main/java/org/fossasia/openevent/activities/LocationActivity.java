@@ -2,6 +2,8 @@ package org.fossasia.openevent.activities;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,9 +11,11 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.SessionsListAdapter;
 import org.fossasia.openevent.data.Session;
@@ -36,6 +40,8 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
     final private String SEARCH = "searchText";
 
     private SessionsListAdapter sessionsListAdapter;
+
+    private final String FRAGMENT_TAG_LOCATION = "FTAGR";
 
     private GridLayoutManager gridLayoutManager;
 
@@ -155,11 +161,24 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.menu_tracks, menu);
-        searchView = (SearchView) menu.findItem(R.id.action_search_tracks).getActionView();
+        getMenuInflater().inflate(R.menu.menu_location_activity, menu);
+        searchView = (SearchView) menu.findItem(R.id.action_search_tracks_location).getActionView();
         searchView.setOnQueryTextListener(this);
         searchView.setQuery(searchText, false);
         return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_map_location:
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.content_frame_location, ((OpenEventApp) getApplication()).getMapModuleFactory().provideMapModule().provideMapFragment(), FRAGMENT_TAG_LOCATION).commit();
+                return true;
+
+            default:
+                return true;
+        }
     }
 
     @Override
