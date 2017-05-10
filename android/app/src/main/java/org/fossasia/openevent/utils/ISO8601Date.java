@@ -51,11 +51,11 @@ public final class ISO8601Date {
     }
 
     public static String getTimeZoneDateFromString(String dateString) throws ParseException {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-DD", Locale.getDefault());
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         formatter.setTimeZone(getEventTimezone());
         Date date = formatter.parse(dateString);
         SimpleDateFormat newFormat = new SimpleDateFormat("d MMM", Locale.getDefault());
-
+        newFormat.setTimeZone(getEventTimezone());
         return newFormat.format(date);
     }
 
