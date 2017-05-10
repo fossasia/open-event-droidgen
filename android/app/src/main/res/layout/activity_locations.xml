@@ -1,8 +1,8 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".activities.LocationActivity">
 
@@ -19,21 +19,10 @@
             app:popupTheme="@style/PopupOverlay" />
     </android.support.design.widget.AppBarLayout>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/layout_margin_small"
-        android:layout_marginTop="@dimen/layout_margin_small"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/txt_no_sessions"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal|center_vertical"
-            android:text="@string/noSessions"
-            android:textAppearance="?android:textAppearanceMedium"
-            android:textColor="@color/secondary_text" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView_locations"
@@ -41,5 +30,16 @@
             android:layout_height="match_parent"
             tools:listitem="@layout/item_location" />
 
-    </LinearLayout>
-</LinearLayout>
+        <TextView
+            android:id="@+id/txt_no_sessions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/noSessions"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textColor="@color/secondary_text" />
+
+    </FrameLayout>
+
+
+</android.support.design.widget.CoordinatorLayout>
