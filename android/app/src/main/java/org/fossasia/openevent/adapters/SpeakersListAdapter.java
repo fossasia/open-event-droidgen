@@ -108,10 +108,14 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakersListAdap
     public void onBindViewHolder(RecyclerViewHolder holder, final int position) {
         final Speaker current = getItem(position);
 
-        Picasso.with(holder.speakerImage.getContext())
-                .load(Uri.parse(current.getThumbnail()))
-                .placeholder(VectorDrawableCompat.create(activity.getResources(), R.drawable.ic_account_circle_grey_24dp, null))
-                .into(holder.speakerImage);
+        String thumbnail = current.getThumbnail();
+
+        if(thumbnail != null) {
+            Picasso.with(holder.speakerImage.getContext())
+                    .load(Uri.parse(thumbnail))
+                    .placeholder(VectorDrawableCompat.create(activity.getResources(), R.drawable.ic_account_circle_grey_24dp, null))
+                    .into(holder.speakerImage);
+        }
 
         holder.speakerName.setText(TextUtils.isEmpty(current.getName()) ? "" : current.getName());
         holder.speakerDesignation.setText(String.format("%s %s", current.getPosition(), current.getOrganisation()));
