@@ -52,23 +52,23 @@ public final class ISO8601Date {
 
     public static String getTimeZoneDateFromString(String dateString) throws ParseException {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        formatter.setTimeZone(getEventTimezone());
+        formatter.setTimeZone(getTimezone());
         Date date = formatter.parse(dateString);
         SimpleDateFormat newFormat = new SimpleDateFormat("d MMM", Locale.getDefault());
-        newFormat.setTimeZone(getEventTimezone());
+        newFormat.setTimeZone(getTimezone());
         return newFormat.format(date);
     }
 
     public static String getTimeZoneDateString(final Date date) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("EE, dd MMM yyyy, HH:mm, z", Locale.getDefault());
-        dateFormat.setTimeZone(getEventTimezone());
+        dateFormat.setTimeZone(getTimezone());
         return dateFormat.format(date);
     }
 
     public static Date getTimeZoneDate(final Date date) {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("EE, dd MMM yyyy, HH:mm, z", Locale.getDefault());
-        dateFormat.setTimeZone(getEventTimezone());
+        dateFormat.setTimeZone(getTimezone());
         String DateToStr = dateFormat.format(date);
         return date;
     }
@@ -76,20 +76,20 @@ public final class ISO8601Date {
     public static String get24HourTime(final Date date) {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm ", Locale.getDefault());
-        dateFormat.setTimeZone(getEventTimezone());
+        dateFormat.setTimeZone(getTimezone());
         return dateFormat.format(date);
     }
 
     public static String get12HourTime(final Date date) {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a", Locale.getDefault());
-        dateFormat.setTimeZone(getEventTimezone());
+        dateFormat.setTimeZone(getTimezone());
         return dateFormat.format(date);
     }
 
     public static  String getDate(final Date date) {
        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMM d, yyyy", Locale.getDefault());
-        dateFormat.setTimeZone(getEventTimezone());
+        dateFormat.setTimeZone(getTimezone());
         return dateFormat.format(date);
     }
 
@@ -108,13 +108,15 @@ public final class ISO8601Date {
             Timber.e("Parsing Error Occurred at ISO8601Date::getDateObject.");
         }
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-
         return date;
     }
 
     private static TimeZone getEventTimezone() {
+        setEventTimezone();
+        return TimeZone.getTimeZone(eventTimezone);
+    }
+
+    private static TimeZone getTimezone() {
         TimeZone selected;
         if (!PreferenceManager.getDefaultSharedPreferences(OpenEventApp.getAppContext()).getBoolean(TIMEZONE_MODE, false)) {
             setEventTimezone();
