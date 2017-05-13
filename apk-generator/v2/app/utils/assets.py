@@ -47,3 +47,14 @@ def resize_background_image(background_path, app_directory):
     background_resized.paste(back)
     background_resized = background_resized.resize((600, 400), Image.ANTIALIAS)
     background_resized.save(destination + "/background.jpg", 'JPEG', quality=80)
+
+def save_logo(logo_path, app_directory):
+    """
+    Loads the event logo as splash image and save it into the app's resources directory
+    :param logo_path: The path to the logo
+    :param app_directory: The path to the app-level working directory
+    :return:
+    """
+    destination = os.path.abspath(app_directory + '/app/src/main/res/drawable/')
+    logo = Image.open(logo_path)
+    logo.save(destination + "/splash_logo.png", 'PNG')

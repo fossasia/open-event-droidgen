@@ -11,7 +11,7 @@ import validators
 from flask import current_app
 
 from app.utils import replace, clear_dir, unzip, get_build_tools_version
-from app.utils.assets import resize_launcher_icon, resize_background_image
+from app.utils.assets import resize_launcher_icon, resize_background_image, save_logo
 from app.utils.libs.asset_resizer import DENSITY_TYPES
 from app.utils.notification import Notification
 
@@ -122,6 +122,7 @@ class Generator:
 
         self.update_status('Generating launcher icons & background image')
 
+        save_logo(self.app_launcher_icon, self.app_working_dir)
         resize_launcher_icon(self.app_launcher_icon, self.app_working_dir)
         resize_background_image(self.app_background_image, self.app_working_dir)
 
