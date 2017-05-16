@@ -11,7 +11,7 @@ spec:
     spec:
       containers:
       - name: android-generator
-        image: gcr.io/eventyay/generators/android:latest
+        image: eventyay/android-generator:latest
         command: ["/bin/sh","-c"]
         args: ["./kubernetes/run.sh"]
         livenessProbe:
