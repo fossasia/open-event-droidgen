@@ -72,6 +72,8 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
 
     private int sortType;
 
+    private int list_options;
+
     private CompositeDisposable compositeDisposable;
 
     @Nullable
@@ -172,9 +174,25 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
         switch (item.getItemId()) {
             case R.id.action_sort:
 
+                int num_orgs=speakersListAdapter.getDistinctOrgs();
+                int num_country = speakersListAdapter.getDistinctCountry();
+
+                if(num_orgs==1 && num_country==1){
+                    list_options = R.array.speaker_sort_name;
+                }
+                else if(num_orgs==1){
+                    list_options = R.array.speaker_sort_name_country;
+                }
+                else if(num_country==1){
+                    list_options = R.array.speaker_sort_name_organisation;
+                }
+                else{
+                    list_options = R.array.speaker_sort_all;
+                }
+
                 final AlertDialog.Builder dialogSort = new AlertDialog.Builder(getActivity())
                         .setTitle(R.string.dialog_sort_title)
-                        .setSingleChoiceItems(R.array.speaker_sort, sortType, new DialogInterface.OnClickListener() {
+                        .setSingleChoiceItems(list_options, sortType, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 sortType = which;
