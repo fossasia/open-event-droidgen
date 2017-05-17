@@ -24,8 +24,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Consumer;
 
 import static org.fossasia.openevent.utils.SortOrder.sortOrderSpeaker;
 
@@ -64,26 +62,18 @@ public class SessionSpeakerListAdapter extends BaseRVAdapter<Speaker, SessionSpe
         holder.speakerName.setText(TextUtils.isEmpty(current.getName()) ? "" : current.getName());
         holder.speakerDesignation.setText(String.format("%s %s", current.getPosition(), current.getOrganisation()));
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String speakerName = current.getName();
-                Intent intent = new Intent(activity, SpeakerDetailsActivity.class);
-                intent.putExtra(Speaker.SPEAKER, speakerName);
-                activity.startActivity(intent);
-            }
+        holder.itemView.setOnClickListener(v -> {
+            String speakerName = current.getName();
+            Intent intent = new Intent(activity, SpeakerDetailsActivity.class);
+            intent.putExtra(Speaker.SPEAKER, speakerName);
+            activity.startActivity(intent);
         });
     }
 
     public void refresh() {
         clear();
         DbSingleton.getInstance().getSpeakerListObservable(sortOrderSpeaker(activity))
-                .subscribe(new Consumer<List<Speaker>>() {
-                    @Override
-                    public void accept(@NonNull List<Speaker> speakers) throws Exception {
-                        animateTo(speakers);
-                    }
-                });
+                .subscribe(this::animateTo);
     }
 
     class RecyclerViewHolder extends RecyclerView.ViewHolder {

@@ -13,7 +13,6 @@ import android.widget.TextView;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.activities.SessionDetailActivity;
 import org.fossasia.openevent.data.Session;
-import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.ConstantStrings;
@@ -27,9 +26,7 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
 /**
@@ -110,24 +107,18 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
         }
         holder.slotLocation.setText(currentSession.getMicrolocation().getName());
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final String sessionName = currentSession.getTitle();
+        holder.itemView.setOnClickListener(v -> {
+            final String sessionName = currentSession.getTitle();
 
-                disposable.add(DbSingleton.getInstance().getTrackByIdObservable(currentSession.getTrack().getId())
-                        .subscribe(new Consumer<Track>() {
-                            @Override
-                            public void accept(@NonNull Track track) throws Exception {
-                                String trackName = track.getName();
-                                Intent intent = new Intent(context, SessionDetailActivity.class);
-                                intent.putExtra(ConstantStrings.SESSION, sessionName);
-                                intent.putExtra(ConstantStrings.TRACK, trackName);
-                                intent.putExtra(ConstantStrings.ID, currentSession.getId());
-                                context.startActivity(intent);
-                            }
-                        }));
-            }
+            disposable.add(DbSingleton.getInstance().getTrackByIdObservable(currentSession.getTrack().getId())
+                    .subscribe(track -> {
+                        String trackName = track.getName();
+                        Intent intent = new Intent(context, SessionDetailActivity.class);
+                        intent.putExtra(ConstantStrings.SESSION, sessionName);
+                        intent.putExtra(ConstantStrings.TRACK, trackName);
+                        intent.putExtra(ConstantStrings.ID, currentSession.getId());
+                        context.startActivity(intent);
+                    }));
         });
     }
 

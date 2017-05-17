@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'jacoco-everywhere'
+apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'android-apt'
 
 def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
@@ -70,6 +71,11 @@ android {
             force "com.android.support:design:${SUPPORT_LIB_VERSION}"
             force "com.android.support:customtabs:${SUPPORT_LIB_VERSION}"
         }
+    }
+
+    compileOptions{
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
