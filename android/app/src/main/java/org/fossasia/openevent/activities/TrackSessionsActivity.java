@@ -19,7 +19,6 @@ import android.widget.TextView;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.SessionsListAdapter;
 import org.fossasia.openevent.data.Session;
-import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.TrackColors;
@@ -29,9 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
 /**
@@ -111,14 +108,11 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
         // Either track ID was not sent or color is not in cache
         if(trackId == -1 || color == -1) {
             disposable.add(dbSingleton.getTrackByNameObservable(track)
-                    .subscribe(new Consumer<Track>() {
-                        @Override
-                        public void accept(@NonNull Track track) throws Exception {
-                            int color = Color.parseColor(track.getColor());
-                            setUiColor(color);
+                    .subscribe(track1 -> {
+                        int color1 = Color.parseColor(track1.getColor());
+                        setUiColor(color1);
 
-                            TrackColors.storeColor(track.getId(), color);
-                        }
+                        TrackColors.storeColor(track1.getId(), color1);
                     }));
         } else {
             setUiColor(color);
@@ -126,15 +120,12 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
         }
 
         disposable.add(dbSingleton.getSessionsByTrackNameObservable(track)
-                .subscribe(new Consumer<ArrayList<Session>>() {
-                    @Override
-                    public void accept(@NonNull ArrayList<Session> sessions) throws Exception {
-                        mSessions.clear();
-                        mSessions.addAll(sessions);
-                        sessionsListAdapter.notifyDataSetChanged();
+                .subscribe(sessions -> {
+                    mSessions.clear();
+                    mSessions.addAll(sessions);
+                    sessionsListAdapter.notifyDataSetChanged();
 
-                        handleVisibility();
-                    }
+                    handleVisibility();
                 }));
 
         handleVisibility();
