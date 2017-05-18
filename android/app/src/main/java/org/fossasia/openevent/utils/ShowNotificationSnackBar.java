@@ -38,17 +38,12 @@ public abstract class ShowNotificationSnackBar {
     public abstract void refreshClicked();
 
     public Snackbar showSnackBar(){
-        snackbar = Snackbar.make(view, R.string.waiting_for_network, Snackbar.LENGTH_INDEFINITE).setAction(R.string.snackbar_refresh_action,
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (swipeRefreshLayout!=null)
-                        {
-                            swipeRefreshLayout.setRefreshing(true);
-                        }
-                        snackbar.dismiss();
-                        refreshClicked();
-                    }
+        snackbar = Snackbar.make(view, R.string.waiting_for_network, Snackbar.LENGTH_INDEFINITE)
+                .setAction(R.string.snackbar_refresh_action, v -> {
+                    if (swipeRefreshLayout!=null)
+                        swipeRefreshLayout.setRefreshing(true);
+                    snackbar.dismiss();
+                    refreshClicked();
                 });
         snackbar.show();
         return snackbar;

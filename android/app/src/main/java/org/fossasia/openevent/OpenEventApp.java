@@ -64,12 +64,7 @@ public class OpenEventApp extends Application {
     }
 
     public static void postEventOnUIThread(final Object event) {
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                getEventBus().post(event);
-            }
-        });
+        handler.post(() -> getEventBus().post(event));
     }
 
     public static Context getAppContext() {
