@@ -28,6 +28,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
@@ -115,6 +116,7 @@ import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 import static org.fossasia.openevent.R.id.headerDrawer;
+import static org.fossasia.openevent.R.string.app_name;
 
 public class MainActivity extends BaseActivity {
 
@@ -612,9 +614,14 @@ public class MainActivity extends BaseActivity {
                 alertDialog.show();
                 break;
             case R.id.nav_about:
+
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+                String app_name = sharedPreferences.getString(ConstantStrings.APP_NAME, "");
+                String org_description = sharedPreferences.getString(ConstantStrings.ORG_DESCRIPTION, "");
+
                 final AlertDialog aboutUs = new AlertDialog.Builder(this)
-                        .setTitle(R.string.app_name)
-                        .setMessage(R.string.about_text)
+                        .setTitle(app_name)
+                        .setMessage(Html.fromHtml(org_description))
                         .setIcon(R.mipmap.ic_launcher)
                         .setPositiveButton(android.R.string.ok, null)
                         .create();

@@ -49,6 +49,7 @@ public class OpenEventApp extends Application {
     public static final String API_LINK = "Api_Link";
     public static final String EMAIL = "Email";
     public static final String APP_NAME = "App_Name";
+
     public static String sDefSystemLanguage;
     static Handler handler;
     private static Bus eventBus;
@@ -117,20 +118,23 @@ public class OpenEventApp extends Application {
         registerReceiver(new NetworkConnectivityChangeReceiver(), new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
         getEventBus().register(this);
 
-        String json = null;
+        String config_json = null;
+        String event_json = null;
+
+        //getting config.json data
         try {
             InputStream inputStream = getAssets().open("config.json");
             int size = inputStream.available();
             byte[] buffer = new byte[size];
             inputStream.read(buffer);
             inputStream.close();
-            json = new String(buffer, "UTF-8");
-
-        } catch (IOException e) {
+            config_json = new String(buffer, "UTF-8");
+        } catch(IOException e) {
             e.printStackTrace();
         }
+
         try {
-            JSONObject jsonObject = new JSONObject(json);
+            JSONObject jsonObject = new JSONObject(config_json);
             String email = jsonObject.has(EMAIL) ? jsonObject.getString(EMAIL) : "";
             String app_name = jsonObject.has(APP_NAME) ? jsonObject.getString(APP_NAME) : "";
             String api_link = jsonObject.has(API_LINK) ? jsonObject.getString(API_LINK) : "";
@@ -140,11 +144,30 @@ public class OpenEventApp extends Application {
             sharedPreferences.edit().putString(ConstantStrings.EMAIL, email).apply();
             sharedPreferences.edit().putString(ConstantStrings.APP_NAME, app_name).apply();
             sharedPreferences.edit().putString(ConstantStrings.BASE_API_URL, api_link).apply();
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
+        //getting event data
+        try {
+            InputStream inputStream = getAssets().open("event");
+            int size = inputStream.available();
+            byte[] buffer = new byte[size];
+            inputStream.read(buffer);
+            inputStream.close();
+            event_json = new String(buffer, "UTF-8");
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            JSONObject jsonObject = new JSONObject(event_json);
+            String org_description = jsonObject.has(ConstantStrings.ORG_DESCRIPTION) ?
+                    jsonObject.getString(ConstantStrings.ORG_DESCRIPTION) : "";
+            sharedPreferences.edit().putString(ConstantStrings.ORG_DESCRIPTION, org_description).apply();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
     }
 

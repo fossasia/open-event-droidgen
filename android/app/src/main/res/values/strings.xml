@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">FOSSASIA 2017</string>
+    <string name="app_name" translatable="false">OpenEvent</string>
 
     <string name="title_section_tracks">Tracks</string>
     <string name="title_section_speakerlist">Speakers</string>
@@ -92,14 +92,6 @@
     <string name="fmt_floor">"Floor: "</string>
     <string name="noBookmark">No bookmarked session yet !!</string>
 
-    <!--About us text-->
-    <string name="about_text">Developed by <a href="https://github.com/fossasia/open-event-android/graphs/contributors">FOSSASIA contributors</a>.
-\n
-\nLicensed under the GNU General Public License v3. Source available on <a href="https://github.com/fossasia/open-event-android">GitHub</a>.
-\n
-\nPlease report all the issues in <a href="https://github.com/fossasia/open-event-android/issues/new">Github Repository Issue Tracker</a>.
-\n
-    </string>
     <string name="invalid_url">Invalid Url</string>
     <string name="dialog_error_title">Error</string>
     <string name="website">website</string>
