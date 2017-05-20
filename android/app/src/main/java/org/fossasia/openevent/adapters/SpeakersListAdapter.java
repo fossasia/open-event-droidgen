@@ -41,6 +41,8 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakersListAdap
 
     private Activity activity;
     private CompositeDisposable disposable;
+    private List<String> distinctOrgs = new ArrayList<>();
+    private List<String> distinctCountry = new ArrayList<>();
 
     @SuppressWarnings("all")
     Filter filter = new Filter() {
@@ -108,8 +110,21 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakersListAdap
     public void onBindViewHolder(RecyclerViewHolder holder, final int position) {
         final Speaker current = getItem(position);
 
-        String thumbnail = current.getThumbnail();
+        //adding distinct org and country (note size of array will never be greater than 2)
+        if(distinctOrgs.isEmpty()){
+            distinctOrgs.add(current.getOrganisation());
+        }else if(distinctOrgs.size()==1 && (!current.getOrganisation().equals(distinctOrgs.get(0)))){
+            distinctOrgs.add(current.getOrganisation());
+        }
 
+        if(distinctCountry.isEmpty()){
+            distinctCountry.add(current.getCountry());
+        }else if(distinctCountry.size()==1 && (!current.getCountry().equals(distinctCountry.get(0)))){
+            distinctCountry.add(current.getCountry());
+        }
+
+
+        String thumbnail = current.getThumbnail();
         if(thumbnail != null) {
             Picasso.with(holder.speakerImage.getContext())
                     .load(Uri.parse(thumbnail))
@@ -130,6 +145,14 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakersListAdap
                 activity.startActivity(intent);
             }
         });
+    }
+
+    public int getDistinctOrgs(){
+        return distinctOrgs.size();
+    }
+
+    public int getDistinctCountry(){
+        return distinctCountry.size();
     }
 
     public void refresh() {
