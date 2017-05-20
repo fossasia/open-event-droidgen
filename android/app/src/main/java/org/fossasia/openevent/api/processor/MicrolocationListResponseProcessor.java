@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Completable;
-import io.reactivex.functions.Action;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -27,21 +26,18 @@ public class MicrolocationListResponseProcessor implements Callback<List<Microlo
     @Override
     public void onResponse(Call<List<Microlocation>> call, final Response<List<Microlocation>> response) {
         if (response.isSuccessful()) {
-            Completable.fromAction(new Action() {
-                @Override
-                public void run() throws Exception {
-                    for (Microlocation microlocation : response.body()) {
-                        String query = microlocation.generateSql();
-                        queries.add(query);
-                        Timber.d(query);
-                    }
-                    DbSingleton dbSingleton = DbSingleton.getInstance();
-
-                    dbSingleton.clearTable(DbContract.Microlocation.TABLE_NAME);
-                    dbSingleton.insertQueries(queries);
-
-                    OpenEventApp.postEventOnUIThread(new MicrolocationDownloadEvent(true));
+            Completable.fromAction(() -> {
+                for (Microlocation microlocation : response.body()) {
+                    String query = microlocation.generateSql();
+                    queries.add(query);
+                    Timber.d(query);
                 }
+                DbSingleton dbSingleton = DbSingleton.getInstance();
+
+                dbSingleton.clearTable(DbContract.Microlocation.TABLE_NAME);
+                dbSingleton.insertQueries(queries);
+
+                OpenEventApp.postEventOnUIThread(new MicrolocationDownloadEvent(true));
             }).subscribeOn(Schedulers.computation()).subscribe();
         } else {
             OpenEventApp.getEventBus().post(new MicrolocationDownloadEvent(false));
