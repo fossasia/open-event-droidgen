@@ -1,5 +1,6 @@
 package org.fossasia.openevent.activities;
 
+import android.annotation.TargetApi;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -10,12 +11,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
+import android.support.annotation.ColorInt;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.EdgeEffectCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -28,6 +31,7 @@ import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EdgeEffect;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -48,6 +52,7 @@ import org.fossasia.openevent.utils.TrackColors;
 import org.fossasia.openevent.utils.Views;
 import org.fossasia.openevent.utils.WidgetUpdater;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -203,6 +208,15 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private static void setEdgeGlowColor(@NonNull EdgeEffectCompat edgeEffect, @ColorInt int color) throws Exception {
+        Field field = EdgeEffectCompat.class.getDeclaredField("mEdgeEffect");
+        field.setAccessible(true);
+        EdgeEffect effect = (EdgeEffect) field.get(edgeEffect);
+        if (effect != null)
+            effect.setColor(color);
+    }
+
     private void updateSession() {
         updateFloatingIcon();
 
@@ -309,6 +323,31 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
         toolbar.setBackgroundColor(color);
         collapsingToolbarLayout.setBackgroundColor(color);
         collapsingToolbarLayout.setContentScrimColor(darkColor);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+            try {
+                Field edgeGlowTop = NestedScrollView.class.getDeclaredField("mEdgeGlowTop");
+                edgeGlowTop.setAccessible(true);
+                Field edgeGlowBottom = NestedScrollView.class.getDeclaredField("mEdgeGlowBottom");
+                edgeGlowBottom.setAccessible(true);
+
+                EdgeEffectCompat ee = (EdgeEffectCompat) edgeGlowTop.get(scrollView);
+                if (ee == null) {
+                    ee = new EdgeEffectCompat(scrollView.getContext());
+                    edgeGlowTop.set(scrollView, ee);
+                }
+                setEdgeGlowColor(ee, color);
+                ee = (EdgeEffectCompat) edgeGlowBottom.get(scrollView);
+                if (ee == null) {
+                    ee = new EdgeEffectCompat(scrollView.getContext());
+                    edgeGlowBottom.set(scrollView, ee);
+                }
+                setEdgeGlowColor(ee, color);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
 
         if(Views.isCompatible(Build.VERSION_CODES.LOLLIPOP))
             getWindow().setStatusBarColor(darkColor);
