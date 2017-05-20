@@ -324,6 +324,9 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
         collapsingToolbarLayout.setBackgroundColor(color);
         collapsingToolbarLayout.setContentScrimColor(darkColor);
 
+        /*Check if the version is above Lollipop to change the edge glow color according to the
+        session detail activity color*/
+        
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
             try {
