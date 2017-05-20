@@ -13,7 +13,18 @@
         <item>1 Hour</item>
         <item>12 Hour</item>
     </string-array>
-    <integer-array name="speaker_sort">
+    <integer-array name="speaker_sort_name">
+        <item>@string/dialog_sort_by_speaker_name</item>
+    </integer-array>
+    <integer-array name="speaker_sort_name_country">
+        <item>@string/dialog_sort_by_speaker_name</item>
+        <item>@string/dialog_sort_by_country</item>
+    </integer-array>
+    <integer-array name="speaker_sort_name_organisation">
+        <item>@string/dialog_sort_by_speaker_name</item>
+        <item>@string/dialog_sort_by_organisation</item>
+    </integer-array>
+    <integer-array name="speaker_sort_all">
         <item>@string/dialog_sort_by_speaker_name</item>
         <item>@string/dialog_sort_by_organisation</item>
         <item>@string/dialog_sort_by_country</item>
