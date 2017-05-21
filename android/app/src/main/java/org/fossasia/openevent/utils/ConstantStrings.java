@@ -14,6 +14,8 @@ public class ConstantStrings {
 
     public static final String APP_NAME = "APP_NAME";
 
+    public static final String ORG_DESCRIPTION = "organizer_description";
+
     public static final String BASE_API_URL = "BASE_API_URL";
 
     public static final String ID = "ID";
