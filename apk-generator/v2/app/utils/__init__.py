@@ -4,7 +4,6 @@ import shutil
 import zipfile
 import os
 from tempfile import mkstemp
-import errno
 
 import bleach
 import hashlib
@@ -76,20 +75,9 @@ def unzip(source_file, target_dir):
     :param target_dir: the path to the destination directory
     :return:
     """
-    with open(source_file, "rb") as zip_src:
-        zip_file = zipfile.ZipFile(zip_src)
-        for member in zip_file.infolist():
-            target_path = os.path.join(target_dir, member.filename)
-            if target_path.endswith('/'):  # folder entry, create
-                try:
-                    os.makedirs(target_path)
-                except (OSError, IOError) as err:
-                    # Windows may complain if the folders already exist
-                    if err.errno != errno.EEXIST:
-                        raise
-                continue
-            with open(target_path, 'wb') as outfile, zip_file.open(member) as infile:
-                shutil.copyfileobj(infile, outfile)
+    zip_file = zipfile.ZipFile(source_file, 'r')
+    zip_file.extractall(target_dir)
+    zip_file.close()
 
 
 def strip_tags(html):
