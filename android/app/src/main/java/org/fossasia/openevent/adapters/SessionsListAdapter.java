@@ -154,6 +154,9 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
         holder.sessionTitle.setText(session.getTitle());
         holder.sessionSubtitle.setText(session.getSubtitle());
 
+        if(session.getSubtitle().isEmpty())
+            holder.sessionSubtitle.setVisibility(View.GONE);
+
         final DbSingleton dbSingleton = DbSingleton.getInstance();
 
         final int trackId = session.getTrack().getId();
