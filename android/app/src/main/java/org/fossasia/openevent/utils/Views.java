@@ -6,10 +6,17 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.NonNull;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v4.widget.EdgeEffectCompat;
+import android.support.v4.widget.NestedScrollView;
 import android.view.ViewTreeObserver;
+import android.widget.EdgeEffect;
 import android.widget.ImageView;
+
+import java.lang.reflect.Field;
 
 import static android.os.Build.VERSION_CODES.JELLY_BEAN;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
@@ -75,4 +82,45 @@ public final class Views {
         hsv[2] *= 0.8f;
         return Color.HSVToColor(hsv);
     }
+
+    /*Check if the version is above Lollipop to change the edge glow color according to the
+    session detail activity color*/
+    public static void changeGlowColor(int color, NestedScrollView scrollView) {
+        
+        try {
+            Field edgeGlowTop = NestedScrollView.class.getDeclaredField("mEdgeGlowTop");
+            edgeGlowTop.setAccessible(true);
+            Field edgeGlowBottom = NestedScrollView.class.getDeclaredField("mEdgeGlowBottom");
+            edgeGlowBottom.setAccessible(true);
+
+            EdgeEffectCompat edgeEffect = (EdgeEffectCompat) edgeGlowTop.get(scrollView);
+            if (edgeEffect == null) {
+                edgeEffect = new EdgeEffectCompat(scrollView.getContext());
+                edgeGlowTop.set(scrollView, edgeEffect);
+            }
+
+            Views.setEdgeGlowColor(edgeEffect, color);
+            edgeEffect = (EdgeEffectCompat) edgeGlowBottom.get(scrollView);
+            if (edgeEffect == null) {
+                edgeEffect = new EdgeEffectCompat(scrollView.getContext());
+                edgeGlowBottom.set(scrollView, edgeEffect);
+            }
+            Views.setEdgeGlowColor(edgeEffect, color);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+    }
+
+    @TargetApi(LOLLIPOP)
+    public static void setEdgeGlowColor(@NonNull EdgeEffectCompat edgeEffect, @ColorInt int color) throws Exception {
+        Field field = EdgeEffectCompat.class.getDeclaredField("mEdgeEffect");
+        field.setAccessible(true);
+        EdgeEffect effect = (EdgeEffect) field.get(edgeEffect);
+        if (effect != null)
+            effect.setColor(color);
+    }
+
+
 }

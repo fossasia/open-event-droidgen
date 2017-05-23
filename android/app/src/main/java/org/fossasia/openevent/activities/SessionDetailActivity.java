@@ -309,6 +309,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
         toolbar.setBackgroundColor(color);
         collapsingToolbarLayout.setBackgroundColor(color);
         collapsingToolbarLayout.setContentScrimColor(darkColor);
+        Views.changeGlowColor(color,scrollView);
 
         if(Views.isCompatible(Build.VERSION_CODES.LOLLIPOP))
             getWindow().setStatusBarColor(darkColor);
