@@ -3,7 +3,7 @@ from app.generator.generator import Generator
 from app.utils.libs.request_context_task import RequestContextTask
 
 
-@celery.task(base=RequestContextTask, name='generate.app', bind=True, throws=(Exception,))
+@celery.task(base=RequestContextTask, name='generate.app', bind=True)
 def generate_app_task(self, config, payload, via_api=False, identifier=None):
     """
     The celery task that starts the generator
