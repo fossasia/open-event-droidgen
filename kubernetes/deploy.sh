@@ -1,6 +1,12 @@
 #!/bin/bash
-echo "Deploying the generator to the kubernetes cluster"
 export DIR=${BASH_SOURCE%/*}
-# Start generator deployment
-kubectl create -f ${DIR}/yamls/generator
-echo "Done. The generator was deployed to kubernetes. :)"
+
+if [ "$1" = "delete" ]; then
+    echo "Clearing the cluster."
+    kubectl delete -f ${DIR}/yamls/generator
+    echo "Done. The project was removed from the cluster."
+elif [ "$1" = "create" ]; then
+    echo "Deploying the project to kubernetes cluster"
+    kubectl create -f ${DIR}/yamls/generator
+    echo "Done. The project was deployed to kubernetes. :)"
+fi

@@ -24,7 +24,8 @@
                 android:layout_height="wrap_content"
                 android:background="@color/color_primary"
                 android:orientation="horizontal"
-                android:padding="@dimen/padding_medium">
+                android:padding="@dimen/padding_medium"
+                android:layout_marginBottom="@dimen/layout_margin_medium">
 
                 <TextView
                     android:id="@+id/session_title"
