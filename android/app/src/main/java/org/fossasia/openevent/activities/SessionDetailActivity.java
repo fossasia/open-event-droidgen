@@ -16,6 +16,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.EdgeEffectCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -48,6 +49,7 @@ import org.fossasia.openevent.utils.TrackColors;
 import org.fossasia.openevent.utils.Views;
 import org.fossasia.openevent.utils.WidgetUpdater;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -310,6 +312,8 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
         collapsingToolbarLayout.setBackgroundColor(color);
         collapsingToolbarLayout.setContentScrimColor(darkColor);
 
+        changeGlowColor(color);
+
         if(Views.isCompatible(Build.VERSION_CODES.LOLLIPOP))
             getWindow().setStatusBarColor(darkColor);
 
@@ -463,6 +467,39 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
             text_title.setMaxLines(2);
             linearLayout.setVisibility(View.VISIBLE);
             isHideToolbarView = !isHideToolbarView;
+        }
+    }
+
+    /*Check if the version is above Lollipop to change the edge glow color according to the
+    session detail activity color*/
+
+    private void changeGlowColor(int color)
+    {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+            try {
+                Field edgeGlowTop = NestedScrollView.class.getDeclaredField("mEdgeGlowTop");
+                edgeGlowTop.setAccessible(true);
+                Field edgeGlowBottom = NestedScrollView.class.getDeclaredField("mEdgeGlowBottom");
+                edgeGlowBottom.setAccessible(true);
+
+                EdgeEffectCompat edgeEffect = (EdgeEffectCompat) edgeGlowTop.get(scrollView);
+                if (edgeEffect == null) {
+                    edgeEffect = new EdgeEffectCompat(scrollView.getContext());
+                    edgeGlowTop.set(scrollView, edgeEffect);
+                }
+
+                Views.setEdgeGlowColor(edgeEffect, color);
+                edgeEffect = (EdgeEffectCompat) edgeGlowBottom.get(scrollView);
+                if (edgeEffect == null) {
+                    edgeEffect = new EdgeEffectCompat(scrollView.getContext());
+                    edgeGlowBottom.set(scrollView, edgeEffect);
+                }
+                Views.setEdgeGlowColor(edgeEffect, color);
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         }
     }
 }

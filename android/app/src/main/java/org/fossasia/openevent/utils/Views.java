@@ -6,10 +6,18 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v4.widget.EdgeEffectCompat;
 import android.view.ViewTreeObserver;
+import android.widget.EdgeEffect;
 import android.widget.ImageView;
+
+import java.lang.reflect.Field;
+
+import io.reactivex.annotations.NonNull;
 
 import static android.os.Build.VERSION_CODES.JELLY_BEAN;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
@@ -74,5 +82,14 @@ public final class Views {
         Color.colorToHSV(color, hsv);
         hsv[2] *= 0.8f;
         return Color.HSVToColor(hsv);
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public static void setEdgeGlowColor(@NonNull EdgeEffectCompat edgeEffect, @ColorInt int color) throws Exception {
+        Field field = EdgeEffectCompat.class.getDeclaredField("mEdgeEffect");
+        field.setAccessible(true);
+        EdgeEffect effect = (EdgeEffect) field.get(edgeEffect);
+        if (effect != null)
+            effect.setColor(color);
     }
 }
