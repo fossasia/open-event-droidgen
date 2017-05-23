@@ -2,6 +2,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: android-generator
+  namespace: web
 spec:
   ports:
   - port: 8080

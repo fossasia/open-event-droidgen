@@ -2,6 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: android-generator
+  namespace: web
   annotations:
     kubernetes.io/tls-acme: "true"
     kubernetes.io/ingress.class: "nginx"
@@ -9,7 +10,7 @@ spec:
   tls:
   - hosts:
     - droidgen.eventyay.com
-    secretName: eventyay-tls
+    secretName: eventyay-droidgen-tls
   rules:
   - host: droidgen.eventyay.com
     http:
