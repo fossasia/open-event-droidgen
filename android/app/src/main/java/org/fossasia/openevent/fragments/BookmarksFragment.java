@@ -17,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.SessionsListAdapter;
@@ -55,6 +56,7 @@ public class BookmarksFragment extends BaseFragment implements SearchView.OnQuer
     private SearchView searchView;
 
     @BindView(R.id.list_bookmarks) RecyclerView bookmarkedTracks;
+    @BindView(R.id.txt_no_bookmark) TextView noBookmarkView;
 
     private ArrayList<Integer> bookmarkedIds;
     private List<Session> mSessions = new ArrayList<>();
@@ -114,17 +116,10 @@ public class BookmarksFragment extends BaseFragment implements SearchView.OnQuer
     private void handleVisibility() {
         if (!bookmarkedIds.isEmpty()) {
             bookmarkedTracks.setVisibility(View.VISIBLE);
+            noBookmarkView.setVisibility(View.GONE);
         } else {
-            DialogFactory.createSimpleActionDialog(getActivity(), R.string.bookmarks, R.string.empty_list, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.content_frame, new TracksFragment(), FRAGMENT_TAG).commit();
-                    ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-                    if(actionBar != null) actionBar.setTitle(R.string.menu_tracks);
-                }
-            }).show();
             bookmarkedTracks.setVisibility(View.GONE);
+            noBookmarkView.setVisibility(View.VISIBLE);
         }
     }
 

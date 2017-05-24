@@ -2,7 +2,18 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/bookmarks_frame"
+    android:background="@android:color/white">
+
+    <TextView
+        android:id="@+id/txt_no_bookmark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/noBookmark"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:textColor="@color/secondary_text" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list_bookmarks"
@@ -12,5 +23,4 @@
         android:paddingBottom="30dp"
         android:scrollbars="vertical"
         tools:listitem="@layout/tracksactvity_item" />
-
 </RelativeLayout>
