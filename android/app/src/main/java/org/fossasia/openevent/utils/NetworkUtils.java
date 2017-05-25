@@ -141,28 +141,23 @@ public class NetworkUtils extends BroadcastReceiver {
         haveNetworkConnectionObservable(reference.get())
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Boolean>() {
-                    @Override
-                    public void accept(@NonNull Boolean hasConnection) throws Exception {
+                .subscribe(hasConnection -> {
                         if (hasConnection) {
                             listener.networkAvailable();
                             isActiveInternetPresentObservable()
                                     .subscribeOn(Schedulers.computation())
                                     .observeOn(AndroidSchedulers.mainThread())
-                                    .subscribe(new Consumer<Boolean>() {
-                                        @Override
-                                        public void accept(@NonNull Boolean isActive) throws Exception {
+                                    .subscribe(isActive -> {
                                             if (isActive) {
                                                 listener.activeConnection();
                                             } else {
                                                 listener.inactiveConnection();
                                             }
-                                        }
                                     });
                         } else {
                             listener.networkUnavailable();
                         }
-                    }
+
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(@NonNull Throwable throwable) throws Exception {

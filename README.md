@@ -1,4 +1,4 @@
-# Open Event Android
+![Open Event Android](https://storage.googleapis.com/eventyay.com/assets/branding/android_branding.png)
 
 [![Build Status](https://travis-ci.org/fossasia/open-event-android.svg?branch=development)](https://travis-ci.org/fossasia/open-event-android?branch=development)
 [![codecov.io](https://codecov.io/github/fossasia/open-event-android/coverage.svg?branch=development)](https://codecov.io/github/fossasia/open-event-android?branch=development)
@@ -32,18 +32,21 @@ A sample app for testing purposes is automatically built after commits in the re
 
 ### Screenshots of a sample Android app
 
-<img src="docs/images/app-drawer.png" height = '480' width="270">
-<img src="docs/images/app-tracks.png" height = '480' width="270">
-<img src="docs/images/app-schedule.png" height = '480' width="270">
-<img src="docs/images/app-speakers.png" height = '480' width="270">
-<img src="docs/images/app-sponsors.png" height = '480' width="270">
-<img src="docs/images/app-locations.png" height = '480' width="270">
-<img src="docs/images/app-speaker-detail.png" height = '480' width="270">
-<img src="docs/images/app-location-detail.png" height = '480' width="270">
-<img src="docs/images/app-event-detail.png" height = '480' width="270">
-<img src="docs/images/app-map.png" height = '480' width="270">
-<img src="docs/images/app-settings.png" height = '480' width="270">
-<img src="docs/images/app-invite.png" height = '480' width="270">
+<p align="center">
+<img src="docs/images/app-drawer.png" height = "480" width="270"> <img src="docs/images/app-tracks.png" height = "480" width="270"> <img src="docs/images/app-schedule.png" height = "480" width="270">
+</p>
+
+<p align="center">
+<img src="docs/images/app-speakers.png" height = "480" width="270"> <img src="docs/images/app-sponsors.png" height = "480" width="270"> <img src="docs/images/app-locations.png" height = "480" width="270">
+</p>
+
+<p align="center">
+<img src="docs/images/app-speaker-detail.png" height = "480" width="270"> <img src="docs/images/app-location-detail.png" height = "480" width="270"> <img src="docs/images/app-event-detail.png" height = "480" width="270">
+</p>
+
+<p align="center">
+<img src="docs/images/app-map.png" height = "480" width="270"> <img src="docs/images/app-settings.png" height = "480" width="270"> <img src="docs/images/app-invite.png" height = "480" width="270">
+</p>
 
 ### Android App Development Set up
 
@@ -97,7 +100,7 @@ Installation instructions for generic servers are [here](docs/installation/gener
 
 #### How to install The Open Event Android App Generator on Google Cloud/Kubernetes
 
-Installation instructions for Google Cloud Kubernetes are [here](docs/installation/kubernetes.md).
+Installation instructions for Google Cloud Kubernetes are [here](docs/installation/gce-kubernetes.md).
 
 #### How to install The Open Event Android App Generator on AWS
 
