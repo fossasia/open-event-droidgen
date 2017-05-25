@@ -40,13 +40,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
 import timber.log.Timber;
 
 /**
@@ -166,16 +166,13 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
             storedColor = colorGenerator.getColor(session.getTrack().getName());
 
             disposable.add(dbSingleton.getTrackByIdObservable(session.getTrack().getId())
-                    .subscribe(new Consumer<Track>() {
-                        @Override
-                        public void accept(@NonNull Track track) throws Exception {
-                            int color = Color.parseColor(track.getColor());
-                            TextDrawable drawable = drawableBuilder.build(String.valueOf(session.getTrack().getName().charAt(0)), color);
-                            holder.trackImageIcon.setImageDrawable(drawable);
-                            holder.sessionHeader.setBackgroundColor(color);
+                    .subscribe(track -> {
+                        int color1 = Color.parseColor(track.getColor());
+                        TextDrawable drawable = drawableBuilder.build(String.valueOf(session.getTrack().getName().charAt(0)), color1);
+                        holder.trackImageIcon.setImageDrawable(drawable);
+                        holder.sessionHeader.setBackgroundColor(color1);
 
-                            TrackColors.storeColor(trackId, color);
-                        }
+                        TrackColors.storeColor(trackId, color1);
                     }));
         } else if(type != trackWiseSessionList) {
             color = storedColor;
@@ -190,28 +187,18 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
         holder.sessionLocation.setText(session.getMicrolocation().getName());
 
         disposable.add(dbSingleton.getSpeakersBySessionNameObservable(session.getTitle())
-                .map(new Function<ArrayList<Speaker>, String>() {
-                    @Override
-                    public String apply(@NonNull ArrayList<Speaker> speakers) throws Exception {
-                        ArrayList<String> speakerName = new ArrayList<>();
+                .map(speakers -> {
+                    ArrayList<String> speakerName = speakers.stream()
+                            .map(Speaker::getName)
+                            .collect(Collectors.toCollection(ArrayList::new));
 
-                        for(Speaker speaker: speakers){
-                            speakerName.add(speaker.getName());
-                        }
-
-                        if(speakers.isEmpty()){
-                            holder.sessionSpeaker.setVisibility(View.GONE);
-                            holder.speakerIcon.setVisibility(View.GONE);
-                        }
-
-                        return TextUtils.join(",", speakerName);
+                    if(speakers.isEmpty()){
+                        holder.sessionSpeaker.setVisibility(View.GONE);
+                        holder.speakerIcon.setVisibility(View.GONE);
                     }
-                }).subscribe(new Consumer<String>() {
-                    @Override
-                    public void accept(@NonNull String speakerList) throws Exception {
-                        holder.sessionSpeaker.setText(speakerList);
-                    }
-                }));
+
+                    return TextUtils.join(",", speakerName);
+                }).subscribe(speakerList -> holder.sessionSpeaker.setText(speakerList)));
 
         switch (type){
             case trackWiseSessionList :

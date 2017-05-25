@@ -23,9 +23,7 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
 /**
@@ -89,26 +87,18 @@ public class LocationsListAdapter extends BaseRVAdapter<Microlocation, Locations
                 holder.itemView.getResources().getString(R.string.fmt_floor),
                 location.getFloor()));
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, LocationActivity.class);
-                intent.putExtra(ConstantStrings.MICROLOCATIONS, location.getName());
-                holder.getAdapterPosition();
-                context.startActivity(intent);
-            }
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, LocationActivity.class);
+            intent.putExtra(ConstantStrings.MICROLOCATIONS, location.getName());
+            holder.getAdapterPosition();
+            context.startActivity(intent);
         });
     }
 
     public void refresh() {
         clear();
         disposable.add(DbSingleton.getInstance().getMicrolocationListObservable()
-                .subscribe(new Consumer<ArrayList<Microlocation>>() {
-                    @Override
-                    public void accept(@NonNull ArrayList<Microlocation> microlocations) throws Exception {
-                        animateTo(microlocations);
-                    }
-                }));
+                .subscribe(microlocations -> animateTo(microlocations)));
     }
 
     @Override

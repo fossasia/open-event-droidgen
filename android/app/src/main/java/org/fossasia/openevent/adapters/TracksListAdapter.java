@@ -28,9 +28,7 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
 /**
@@ -114,16 +112,13 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.Re
         // Store the track color in color cache
         TrackColors.storeColor(currentTrack.getId(), trackColor);
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, TrackSessionsActivity.class);
-                intent.putExtra(ConstantStrings.TRACK, currentTrack.getName());
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, TrackSessionsActivity.class);
+            intent.putExtra(ConstantStrings.TRACK, currentTrack.getName());
 
-                // Send Track ID to Activity to leverage color cache
-                intent.putExtra(ConstantStrings.TRACK_ID, currentTrack.getId());
-                context.startActivity(intent);
-            }
+            // Send Track ID to Activity to leverage color cache
+            intent.putExtra(ConstantStrings.TRACK_ID, currentTrack.getId());
+            context.startActivity(intent);
         });
     }
 
@@ -131,12 +126,7 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.Re
         Timber.d("Refreshing tracks from db");
         clear();
         disposable.add(DbSingleton.getInstance().getTrackListObservable()
-                .subscribe(new Consumer<List<Track>>() {
-                    @Override
-                    public void accept(@NonNull List<Track> tracks) throws Exception {
-                        animateTo(tracks);
-                    }
-                }));
+                .subscribe(this::animateTo));
     }
 
     @Override
