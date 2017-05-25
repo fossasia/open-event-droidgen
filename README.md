@@ -32,18 +32,26 @@ A sample app for testing purposes is automatically built after commits in the re
 
 ### Screenshots of a sample Android app
 
-<img src="docs/images/app-drawer.png" height = '480' width="270">
-<img src="docs/images/app-tracks.png" height = '480' width="270">
-<img src="docs/images/app-schedule.png" height = '480' width="270">
-<img src="docs/images/app-speakers.png" height = '480' width="270">
-<img src="docs/images/app-sponsors.png" height = '480' width="270">
-<img src="docs/images/app-locations.png" height = '480' width="270">
-<img src="docs/images/app-speaker-detail.png" height = '480' width="270">
-<img src="docs/images/app-location-detail.png" height = '480' width="270">
-<img src="docs/images/app-event-detail.png" height = '480' width="270">
-<img src="docs/images/app-map.png" height = '480' width="270">
-<img src="docs/images/app-settings.png" height = '480' width="270">
-<img src="docs/images/app-invite.png" height = '480' width="270">
+ <table>
+    <tr>
+      <td><img src="docs/images/app-drawer.png"></td>
+      <td><img src="docs/images/app-tracks.png"></td>
+      <td><img src="docs/images/app-schedule.png"></td>
+      <td><img src="docs/images/app-speakers.png"></td>
+    </tr>
+    <tr>
+      <td><img src="docs/images/app-sponsors.png"></td>
+      <td><img src="docs/images/app-locations.png"></td>
+      <td><img src="docs/images/app-speaker-detail.png"></td>
+      <td><img src="docs/images/app-location-detail.png"></td>
+    </tr>
+    <tr>
+      <td><img src="docs/images/app-event-detail.png"></td>
+      <td><img src="docs/images/app-map.png"></td>
+      <td><img src="docs/images/app-settings.png"></td>
+      <td><img src="docs/images/app-invite.png"></td>
+    </tr>
+</table>
 
 ### Android App Development Set up
 
