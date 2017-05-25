@@ -15,14 +15,11 @@ import org.fossasia.openevent.data.Version;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
 import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Action;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -72,13 +69,8 @@ public class DbSingleton {
     }
 
     private <T> ObservableTransformer<T, T> applySchedulers() {
-        return new ObservableTransformer<T, T>() {
-            @Override
-            public ObservableSource<T> apply(Observable<T> upstream) {
-                return upstream.subscribeOn(Schedulers.computation())
-                        .observeOn(AndroidSchedulers.mainThread());
-            }
-        };
+        return upstream -> upstream.subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     public ArrayList<Session> getSessionList() {
@@ -92,12 +84,8 @@ public class DbSingleton {
     }
 
     public Observable<Event> getEventDetailsObservable() {
-        return Observable.fromCallable(new Callable<Event>() {
-            @Override
-            public Event call() throws Exception {
-                return getEventDetails();
-            }
-        }).compose(this.<Event>applySchedulers());
+        return Observable.fromCallable(this::getEventDetails)
+                .compose(applySchedulers());
     }
 
     public Session getSessionById(int id) {
@@ -106,12 +94,8 @@ public class DbSingleton {
     }
 
     public Observable<Session> getSessionByIdObservable(final int id) {
-        return Observable.fromCallable(new Callable<Session>() {
-            @Override
-            public Session call() throws Exception {
-                return getSessionById(id);
-            }
-        }).compose(this.<Session>applySchedulers());
+        return Observable.fromCallable(() -> getSessionById(id))
+                .compose(applySchedulers());
     }
 
     public List<Speaker> getSpeakerList(String sortBy) {
@@ -120,12 +104,8 @@ public class DbSingleton {
     }
 
     public Observable<List<Speaker>> getSpeakerListObservable(final String sortBy) {
-        return Observable.fromCallable(new Callable<List<Speaker>>() {
-            @Override
-            public List<Speaker> call() throws Exception {
-                return getSpeakerList(sortBy);
-            }
-        }).compose(this.<List<Speaker>>applySchedulers());
+        return Observable.fromCallable(() -> getSpeakerList(sortBy))
+                .compose(applySchedulers());
     }
 
     public Version getVersionIds() {
@@ -143,12 +123,8 @@ public class DbSingleton {
     }
 
     public Completable addBookmarksObservable(final int bookmarkId) {
-        return Completable.fromAction(new Action() {
-            @Override
-            public void run() throws Exception {
-                addBookmarks(bookmarkId);
-            }
-        }).subscribeOn(Schedulers.computation());
+        return Completable.fromAction(() -> addBookmarks(bookmarkId))
+                .subscribeOn(Schedulers.computation());
     }
 
     public void deleteBookmarks(int bookmarkId) {
@@ -156,12 +132,7 @@ public class DbSingleton {
     }
 
     public Completable deleteBookmarksObservable(final int bookmarkId) {
-        return Completable.fromAction(new Action() {
-            @Override
-            public void run() throws Exception {
-                deleteBookmarks(bookmarkId);
-            }
-        });
+        return Completable.fromAction(() -> deleteBookmarks(bookmarkId));
     }
 
     public List<Track> getTrackList() {
@@ -170,12 +141,8 @@ public class DbSingleton {
     }
 
     public Observable<List<Track>> getTrackListObservable() {
-        return Observable.fromCallable(new Callable<List<Track>>() {
-            @Override
-            public List<Track> call() throws Exception {
-                return getTrackList();
-            }
-        }).compose(this.<List<Track>>applySchedulers());
+        return Observable.fromCallable(this::getTrackList)
+                .compose(applySchedulers());
     }
 
     public ArrayList<Sponsor> getSponsorList() {
@@ -184,12 +151,8 @@ public class DbSingleton {
     }
 
     public Observable<ArrayList<Sponsor>> getSponsorListObservable() {
-        return Observable.fromCallable(new Callable<ArrayList<Sponsor>>() {
-            @Override
-            public ArrayList<Sponsor> call() throws Exception {
-                return getSponsorList();
-            }
-        }).compose(this.<ArrayList<Sponsor>>applySchedulers());
+        return Observable.fromCallable(this::getSponsorList)
+                .compose(applySchedulers());
     }
 
     public ArrayList<Microlocation> getMicrolocationList() {
@@ -198,12 +161,8 @@ public class DbSingleton {
     }
 
     public Observable<ArrayList<Microlocation>> getMicrolocationListObservable() {
-        return Observable.fromCallable(new Callable<ArrayList<Microlocation>>() {
-            @Override
-            public ArrayList<Microlocation> call() throws Exception {
-                return getMicrolocationList();
-            }
-        }).compose(this.<ArrayList<Microlocation>>applySchedulers());
+        return Observable.fromCallable(this::getMicrolocationList)
+                .compose(applySchedulers());
     }
 
     public Microlocation getMicrolocationById(int id) {
@@ -212,12 +171,8 @@ public class DbSingleton {
     }
 
     public Observable<Microlocation> getMicrolocationByIdObservable(final int id) {
-        return Observable.fromCallable(new Callable<Microlocation>() {
-            @Override
-            public Microlocation call() throws Exception {
-                return getMicrolocationById(id);
-            }
-        }).compose(this.<Microlocation>applySchedulers());
+        return Observable.fromCallable(() -> getMicrolocationById(id))
+                .compose(applySchedulers());
     }
 
     public ArrayList<Session> getSessionsByTrackName(String trackName) {
@@ -225,12 +180,8 @@ public class DbSingleton {
     }
 
     public Observable<ArrayList<Session>> getSessionsByTrackNameObservable(final String trackName) {
-        return Observable.fromCallable(new Callable<ArrayList<Session>>() {
-            @Override
-            public ArrayList<Session> call() throws Exception {
-                return getSessionsByTrackName(trackName);
-            }
-        }).compose(this.<ArrayList<Session>>applySchedulers());
+        return Observable.fromCallable(() -> getSessionsByTrackName(trackName))
+                .compose(applySchedulers());
     }
 
     public List<String> getDateList() {
@@ -239,12 +190,8 @@ public class DbSingleton {
     }
 
     public Observable<List<String>> getDateListObservable() {
-        return Observable.fromCallable(new Callable<List<String>>() {
-            @Override
-            public List<String> call() throws Exception {
-                return getDateList();
-            }
-        }).compose(this.<List<String>>applySchedulers());
+        return Observable.fromCallable(this::getDateList)
+                .compose(applySchedulers());
     }
 
     public ArrayList<Session> getSessionsByDate(String date, String sortOrder) {
@@ -252,12 +199,8 @@ public class DbSingleton {
     }
 
     public Observable<ArrayList<Session>> getSessionsByDateObservable(final String date, final String sortOrder) {
-        return Observable.fromCallable(new Callable<ArrayList<Session>>() {
-            @Override
-            public ArrayList<Session> call() throws Exception {
-                return getSessionsByDate(date, sortOrder);
-            }
-        }).compose(this.<ArrayList<Session>>applySchedulers());
+        return Observable.fromCallable(() -> getSessionsByDate(date, sortOrder))
+                .compose(applySchedulers());
     }
 
     public ArrayList<Session> getSessionsBySpeakerName(String speakerName) {
@@ -265,12 +208,8 @@ public class DbSingleton {
     }
 
     public Observable<ArrayList<Session>> getSessionsBySpeakersNameObservable(final String speakerName) {
-        return Observable.fromCallable(new Callable<ArrayList<Session>>() {
-            @Override
-            public ArrayList<Session> call() throws Exception {
-                return getSessionsBySpeakerName(speakerName);
-            }
-        }).compose(this.<ArrayList<Session>>applySchedulers());
+        return Observable.fromCallable(() -> getSessionsBySpeakerName(speakerName))
+                .compose(applySchedulers());
     }
 
     public ArrayList<Session> getSessionsByLocationName(String locationName) {
@@ -278,12 +217,8 @@ public class DbSingleton {
     }
 
     public Observable<ArrayList<Session>> getSessionsByLocationNameObservable(final String locationName) {
-        return Observable.fromCallable(new Callable<ArrayList<Session>>() {
-            @Override
-            public ArrayList<Session> call() throws Exception {
-                return getSessionsByLocationName(locationName);
-            }
-        }).compose(this.<ArrayList<Session>>applySchedulers());
+        return Observable.fromCallable(() -> getSessionsByLocationName(locationName))
+                .compose(applySchedulers());
     }
 
     public ArrayList<Speaker> getSpeakersBySessionName(String sessionName) {
@@ -292,12 +227,8 @@ public class DbSingleton {
     }
 
     public Observable<ArrayList<Speaker>> getSpeakersBySessionNameObservable(final String sessionName) {
-        return Observable.fromCallable(new Callable<ArrayList<Speaker>>() {
-            @Override
-            public ArrayList<Speaker> call() throws Exception {
-                return getSpeakersBySessionName(sessionName);
-            }
-        }).compose(this.<ArrayList<Speaker>>applySchedulers());
+        return Observable.fromCallable(() -> getSpeakersBySessionName(sessionName))
+                .compose(applySchedulers());
     }
 
     public Track getTrackByName(String trackName) {
@@ -305,12 +236,8 @@ public class DbSingleton {
     }
 
     public Observable<Track> getTrackByNameObservable(final String trackName) {
-        return Observable.fromCallable(new Callable<Track>() {
-            @Override
-            public Track call() throws Exception {
-                return getTrackByName(trackName);
-            }
-        }).compose(this.<Track>applySchedulers());
+        return Observable.fromCallable(() -> getTrackByName(trackName))
+                .compose(applySchedulers());
     }
 
     public Track getTrackById(int id) {
@@ -318,12 +245,8 @@ public class DbSingleton {
     }
 
     public Observable<Track> getTrackByIdObservable(final int id) {
-        return Observable.fromCallable(new Callable<Track>() {
-            @Override
-            public Track call() throws Exception {
-                return getTrackById(id);
-            }
-        }).compose(this.<Track>applySchedulers());
+        return Observable.fromCallable(() -> getTrackById(id))
+                .compose(applySchedulers());
     }
 
     public Speaker getSpeakerBySpeakerName(String speakerName) {
@@ -331,12 +254,8 @@ public class DbSingleton {
     }
 
     public Observable<Speaker> getSpeakerBySpeakerNameObservable(final String speakerName) {
-        return Observable.fromCallable(new Callable<Speaker>() {
-            @Override
-            public Speaker call() throws Exception {
-                return getSpeakerBySpeakerName(speakerName);
-            }
-        }).compose(this.<Speaker>applySchedulers());
+        return Observable.fromCallable(() -> getSpeakerBySpeakerName(speakerName))
+                .compose(applySchedulers());
     }
 
     public Session getSessionBySessionName(String sessionName) {
@@ -344,12 +263,8 @@ public class DbSingleton {
     }
 
     public Observable<Session> getSessionBySessionNameObservable(final String sessionName) {
-        return Observable.fromCallable(new Callable<Session>() {
-            @Override
-            public Session call() throws Exception {
-                return getSessionBySessionName(sessionName);
-            }
-        }).compose(this.<Session>applySchedulers());
+        return Observable.fromCallable(() -> getSessionBySessionName(sessionName))
+                .compose(applySchedulers());
     }
 
     public boolean isBookmarked(int sessionId) {
@@ -357,12 +272,8 @@ public class DbSingleton {
     }
 
     public Observable<Boolean> isBookmarkedObservable(final int sessionId) {
-        return Observable.fromCallable(new Callable<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                return isBookmarked(sessionId);
-            }
-        }).compose(this.<Boolean>applySchedulers());
+        return Observable.fromCallable(() -> isBookmarked(sessionId))
+                .compose(applySchedulers());
     }
 
     public boolean isBookmarksTableEmpty() {
@@ -370,12 +281,8 @@ public class DbSingleton {
     }
 
     public Observable<Boolean> isBookmarksTableEmptyObservable() {
-        return Observable.fromCallable(new Callable<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                return isBookmarksTableEmpty();
-            }
-        }).compose(this.<Boolean>applySchedulers());
+        return Observable.fromCallable(this::isBookmarksTableEmpty)
+                .compose(applySchedulers());
     }
 
     public ArrayList<Integer> getBookmarkIds() throws ParseException {
@@ -384,12 +291,8 @@ public class DbSingleton {
     }
 
     public Observable<ArrayList<Integer>> getBookmarkIdsObservable() throws ParseException {
-        return Observable.fromCallable(new Callable<ArrayList<Integer>>() {
-            @Override
-            public ArrayList<Integer> call() throws Exception {
-                return getBookmarkIds();
-            }
-        }).compose(this.<ArrayList<Integer>>applySchedulers());
+        return Observable.fromCallable(this::getBookmarkIds)
+                .compose(applySchedulers());
     }
 
     public Microlocation getLocationByLocationName(String LocationName) {
@@ -401,12 +304,8 @@ public class DbSingleton {
     }
 
     public Completable insertQueriesObservable(final ArrayList<String> queries) {
-        return Completable.fromAction(new Action() {
-            @Override
-            public void run() throws Exception {
-                insertQueries(queries);
-            }
-        }).subscribeOn(Schedulers.computation());
+        return Completable.fromAction(() -> insertQueries(queries))
+                .subscribeOn(Schedulers.computation());
     }
 
     public void insertQuery(String query) {
@@ -414,12 +313,8 @@ public class DbSingleton {
     }
 
     public Completable insertQueryObservable(final String query) {
-        return Completable.fromAction(new Action() {
-            @Override
-            public void run() throws Exception {
-                insertQuery(query);
-            }
-        }).subscribeOn(Schedulers.computation());
+        return Completable.fromAction(() -> insertQuery(query))
+                .subscribeOn(Schedulers.computation());
     }
 
     public void clearTable(String table) {
@@ -431,12 +326,8 @@ public class DbSingleton {
     }
 
     public Completable clearDatabaseObservable() {
-        return Completable.fromAction(new Action() {
-            @Override
-            public void run() throws Exception {
-                clearDatabase();
-            }
-        }).subscribeOn(Schedulers.computation());
+        return Completable.fromAction(this::clearDatabase)
+                .subscribeOn(Schedulers.computation());
     }
 
 }
