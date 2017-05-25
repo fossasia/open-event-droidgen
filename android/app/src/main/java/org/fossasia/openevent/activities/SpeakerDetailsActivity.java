@@ -52,9 +52,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Consumer;
 
 /**
  * Created by MananWason on 30-06-2015.
@@ -112,12 +110,9 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
         collapsingToolbarLayout.setTitle(" ");
 
         disposable.add(dbSingleton.getSpeakerBySpeakerNameObservable(speaker)
-                .subscribe(new Consumer<Speaker>() {
-                    @Override
-                    public void accept(@NonNull Speaker speaker) throws Exception {
-                        selectedSpeaker = speaker;
-                        loadSpeakerDetails();
-                    }
+                .subscribe(speaker1 -> {
+                    selectedSpeaker = speaker1;
+                    loadSpeakerDetails();
                 }));
 
         appBarLayout.addOnOffsetChangedListener(this);
@@ -136,15 +131,12 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
         sessionRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         disposable.add(dbSingleton.getSessionsBySpeakersNameObservable(speaker)
-                .subscribe(new Consumer<ArrayList<Session>>() {
-                    @Override
-                    public void accept(@NonNull ArrayList<Session> sessions) throws Exception {
-                        mSessions.clear();
-                        mSessions.addAll(sessions);
+                .subscribe(sessions -> {
+                    mSessions.clear();
+                    mSessions.addAll(sessions);
 
-                        sessionsListAdapter.notifyDataSetChanged();
-                        handleVisibility();
-                    }
+                    sessionsListAdapter.notifyDataSetChanged();
+                    handleVisibility();
                 }));
 
         handleVisibility();
@@ -176,23 +168,20 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
 
         final Context context = this;
 
-        final Palette.PaletteAsyncListener paletteAsyncListener = new Palette.PaletteAsyncListener() {
-            @Override
-            public void onGenerated(Palette palette) {
-                Palette.Swatch swatch = palette.getDarkVibrantSwatch();
+        final Palette.PaletteAsyncListener paletteAsyncListener = palette -> {
+            Palette.Swatch swatch = palette.getDarkVibrantSwatch();
 
-                int backgroundColor = ContextCompat.getColor(context, R.color.color_primary);
+            int backgroundColor = ContextCompat.getColor(context, R.color.color_primary);
 
-                if(swatch != null) {
-                    backgroundColor = swatch.getRgb();
-                }
-
-                collapsingToolbarLayout.setBackgroundColor(backgroundColor);
-                collapsingToolbarLayout.setStatusBarScrimColor(getDarkColor(backgroundColor));
-                collapsingToolbarLayout.setContentScrimColor(backgroundColor);
-
-                sessionsListAdapter.setColor(backgroundColor);
+            if(swatch != null) {
+                backgroundColor = swatch.getRgb();
             }
+
+            collapsingToolbarLayout.setBackgroundColor(backgroundColor);
+            collapsingToolbarLayout.setStatusBarScrimColor(getDarkColor(backgroundColor));
+            collapsingToolbarLayout.setContentScrimColor(backgroundColor);
+
+            sessionsListAdapter.setColor(backgroundColor);
         };
 
         final Target imageTarget = new Target() {
@@ -309,15 +298,12 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
 
         final DbSingleton dbSingleton = DbSingleton.getInstance();
         disposable.add(dbSingleton.getSessionsBySpeakersNameObservable(speaker)
-                .subscribe(new Consumer<ArrayList<Session>>() {
-                    @Override
-                    public void accept(@NonNull ArrayList<Session> sessions) throws Exception {
-                        mSessions.clear();
-                        mSessions.addAll(sessions);
+                .subscribe(sessions -> {
+                    mSessions.clear();
+                    mSessions.addAll(sessions);
 
-                        sessionsListAdapter.notifyDataSetChanged();
-                        handleVisibility();
-                    }
+                    sessionsListAdapter.notifyDataSetChanged();
+                    handleVisibility();
                 }));
 
         handleVisibility();
