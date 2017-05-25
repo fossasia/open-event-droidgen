@@ -89,57 +89,26 @@ public class AboutFragment extends BaseFragment {
            event_descrption.setText(Html.fromHtml(event.getDescription()));
            venue_details.setText(event.getLocationName());
            event_timing.setText(date);
-           mDescriptionImg.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View v) {
-                   collapseExpandTextView();
-               }
+           mDescriptionImg.setOnClickListener(v -> collapseExpandTextView());
+           readMore.setOnClickListener(v -> {
+               organiser_description.setMaxLines(Integer.MAX_VALUE);
+               readMore.setVisibility(View.GONE);
+               readLess.setVisibility(View.VISIBLE);
            });
-           readMore.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View v) {
-                   organiser_description.setMaxLines(Integer.MAX_VALUE);
-                   readMore.setVisibility(View.GONE);
-                   readLess.setVisibility(View.VISIBLE);
-               }
-           });
-           readLess.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View v) {
-                   organiser_description.setMaxLines(4);
-                   readLess.setVisibility(View.GONE);
-                   readMore.setVisibility(View.VISIBLE);
-               }
+           readLess.setOnClickListener(v -> {
+               organiser_description.setMaxLines(4);
+               readLess.setVisibility(View.GONE);
+               readMore.setVisibility(View.VISIBLE);
            });
 
            final List<SocialLink> socialLinks = DbSingleton.getInstance().getSocialLink();
-           img_twitter.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View v) {
-                    setUpCustomTab(socialLinks.get(2).getLink());
-               }
-           });
+           img_twitter.setOnClickListener(v -> setUpCustomTab(socialLinks.get(2).getLink()));
 
-           img_facebook.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View v) {
-                   setUpCustomTab(socialLinks.get(3).getLink());
-               }
-           });
+           img_facebook.setOnClickListener(v -> setUpCustomTab(socialLinks.get(3).getLink()));
 
-           img_github.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View v) {
-                   setUpCustomTab(socialLinks.get(7).getLink());
-               }
-           });
+           img_github.setOnClickListener(v -> setUpCustomTab(socialLinks.get(7).getLink()));
 
-           img_linkedin.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View v) {
-                   setUpCustomTab(socialLinks.get(8).getLink());
-               }
-           });
+           img_linkedin.setOnClickListener(v -> setUpCustomTab(socialLinks.get(8).getLink()));
        }
     }
 

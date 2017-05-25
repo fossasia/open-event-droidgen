@@ -31,9 +31,7 @@ import org.fossasia.openevent.dbutils.DbSingleton;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Consumer;
 
 public class MapsFragment extends SupportMapFragment
         implements LocationListener, OnMapReadyCallback {
@@ -58,14 +56,11 @@ public class MapsFragment extends SupportMapFragment
         final DbSingleton dbSingleton = DbSingleton.getInstance();
 
         compositeDisposable.add(dbSingleton.getMicrolocationListObservable()
-                .subscribe(new Consumer<ArrayList<Microlocation>>() {
-                    @Override
-                    public void accept(@NonNull ArrayList<Microlocation> microlocations) throws Exception {
-                        mLocations.clear();
-                        mLocations.addAll(microlocations);
-                        if(mMap != null) {
-                            showLocationsOnMap();
-                        }
+                .subscribe(microlocations -> {
+                    mLocations.clear();
+                    mLocations.addAll(microlocations);
+                    if(mMap != null) {
+                        showLocationsOnMap();
                     }
                 }));
     }
@@ -120,13 +115,7 @@ public class MapsFragment extends SupportMapFragment
         try{
             mMap.moveCamera(cameraUpdate);
         }catch (IllegalStateException ise){
-            mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
-
-                @Override
-                public void onMapLoaded() {
-                    mMap.moveCamera(cameraUpdate);
-                }
-            });
+            mMap.setOnMapLoadedCallback(() -> mMap.moveCamera(cameraUpdate));
         }
 
     }

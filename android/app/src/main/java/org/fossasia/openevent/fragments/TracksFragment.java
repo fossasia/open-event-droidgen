@@ -36,9 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Consumer;
 
 /**
  * User: MananWason
@@ -76,12 +74,7 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
         compositeDisposable = new CompositeDisposable();
         dbSingleton = DbSingleton.getInstance();
         handleVisibility();
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                refresh();
-            }
-        });
+        swipeRefreshLayout.setOnRefreshListener(this::refresh);
 
 
         //setting the grid layout to cut-off white space in tablet view
@@ -108,15 +101,12 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
         }
 
         compositeDisposable.add(dbSingleton.getTrackListObservable()
-                .subscribe(new Consumer<List<Track>>() {
-                    @Override
-                    public void accept(@NonNull List<Track> tracks) throws Exception {
-                        mTracks.clear();
-                        mTracks.addAll(tracks);
+                .subscribe(tracks -> {
+                    mTracks.clear();
+                    mTracks.addAll(tracks);
 
-                        tracksListAdapter.notifyDataSetChanged();
-                        handleVisibility();
-                    }
+                    tracksListAdapter.notifyDataSetChanged();
+                    handleVisibility();
                 }));
 
         return view;
@@ -214,12 +204,8 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
             }
         } else {
             if (getActivity() != null) {
-                Snackbar.make(windowFrame, getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        refresh();
-                    }
-                }).show();
+                Snackbar.make(windowFrame, getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG)
+                        .setAction(R.string.retry_download, view -> refresh()).show();
             }
         }
     }

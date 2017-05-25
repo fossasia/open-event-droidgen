@@ -1,6 +1,5 @@
 package org.fossasia.openevent.fragments;
 
-import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -22,7 +21,6 @@ import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.SessionsListAdapter;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.dbutils.DbSingleton;
-import org.fossasia.openevent.utils.BookmarksListChangeListener;
 import org.fossasia.openevent.widget.DialogFactory;
 
 import java.text.ParseException;
@@ -31,9 +29,7 @@ import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
-import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
 /**
@@ -83,25 +79,19 @@ public class BookmarksFragment extends BaseFragment implements SearchView.OnQuer
                     sessionsListAdapter.animateTo(filteredModelList);
                 } else {
                     compositeDisposable.add(dbSingleton.getBookmarkIdsObservable()
-                            .subscribe(new Consumer<ArrayList<Integer>>() {
-                                @Override
-                                public void accept(@NonNull ArrayList<Integer> ids) throws Exception {
-                                    bookmarkedIds = ids;
-                                    sessionsListAdapter.clear();
-                                    for (int i = 0; i < bookmarkedIds.size(); i++) {
-                                        Integer id = bookmarkedIds.get(i);
-                                        final int index = i;
-                                        dbSingleton.getSessionByIdObservable(id)
-                                                .subscribe(new Consumer<Session>() {
-                                                    @Override
-                                                    public void accept(@NonNull Session session) throws Exception {
-                                                        mSessions.add(session);
-                                                        sessionsListAdapter.notifyItemInserted(index);
-                                                        if (index == bookmarkedIds.size())
-                                                            handleVisibility();
-                                                    }
-                                                });
-                                    }
+                            .subscribe(ids -> {
+                                bookmarkedIds = ids;
+                                sessionsListAdapter.clear();
+                                for (int i = 0; i < bookmarkedIds.size(); i++) {
+                                    Integer id = bookmarkedIds.get(i);
+                                    final int index = i;
+                                    dbSingleton.getSessionByIdObservable(id)
+                                            .subscribe(session -> {
+                                                mSessions.add(session);
+                                                sessionsListAdapter.notifyItemInserted(index);
+                                                if (index == bookmarkedIds.size())
+                                                    handleVisibility();
+                                            });
                                 }
                             }));
                 }
@@ -115,14 +105,11 @@ public class BookmarksFragment extends BaseFragment implements SearchView.OnQuer
         if (!bookmarkedIds.isEmpty()) {
             bookmarkedTracks.setVisibility(View.VISIBLE);
         } else {
-            DialogFactory.createSimpleActionDialog(getActivity(), R.string.bookmarks, R.string.empty_list, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.content_frame, new TracksFragment(), FRAGMENT_TAG).commit();
-                    ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-                    if(actionBar != null) actionBar.setTitle(R.string.menu_tracks);
-                }
+            DialogFactory.createSimpleActionDialog(getActivity(), R.string.bookmarks, R.string.empty_list, (dialog, which) -> {
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.content_frame, new TracksFragment(), FRAGMENT_TAG).commit();
+                ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+                if(actionBar != null) actionBar.setTitle(R.string.menu_tracks);
             }).show();
             bookmarkedTracks.setVisibility(View.GONE);
         }
@@ -145,12 +132,7 @@ public class BookmarksFragment extends BaseFragment implements SearchView.OnQuer
 
         bookmarkedTracks.setVisibility(View.VISIBLE);
         sessionsListAdapter = new SessionsListAdapter(getContext(), mSessions, bookmarkedSessionList);
-        sessionsListAdapter.setBookmarksListChangeListener(new BookmarksListChangeListener() {
-            @Override
-            public void onChange() {
-                onResume();
-            }
-        });
+        sessionsListAdapter.setBookmarksListChangeListener(this::onResume);
         bookmarkedTracks.setAdapter(sessionsListAdapter);
         gridLayoutManager = new GridLayoutManager(getActivity(), spanCount);
         bookmarkedTracks.setLayoutManager(gridLayoutManager);

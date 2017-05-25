@@ -2,7 +2,6 @@ package org.fossasia.openevent.fragments;
 
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -42,9 +41,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
 import static org.fossasia.openevent.utils.SortOrder.sortOrderSpeaker;
@@ -103,28 +100,20 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
         gridLayoutManager = new GridLayoutManager(getActivity(), spanCount);
         speakersRecyclerView.setLayoutManager(gridLayoutManager);
 
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                refresh();
-            }
-        });
+        swipeRefreshLayout.setOnRefreshListener(this::refresh);
 
         if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
             searchText = savedInstanceState.getString(SEARCH);
         }
 
         compositeDisposable.add(dbSingleton.getSpeakerListObservable(sortOrderSpeaker(getActivity()))
-                .subscribe(new Consumer<List<Speaker>>() {
-                    @Override
-                    public void accept(@NonNull List<Speaker> speakers) throws Exception {
-                        mSpeakers.clear();
-                        mSpeakers.addAll(speakers);
+                .subscribe(speakers -> {
+                    mSpeakers.clear();
+                    mSpeakers.addAll(speakers);
 
-                        speakersListAdapter.notifyDataSetChanged();
+                    speakersListAdapter.notifyDataSetChanged();
 
-                        handleVisibility();
-                    }
+                    handleVisibility();
                 }));
 
         handleVisibility();
@@ -192,16 +181,13 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
 
                 final AlertDialog.Builder dialogSort = new AlertDialog.Builder(getActivity())
                         .setTitle(R.string.dialog_sort_title)
-                        .setSingleChoiceItems(list_options, sortType, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                sortType = which;
-                                SharedPreferences.Editor editor = prefsSort.edit();
-                                editor.putInt(PREF_SORT, which);
-                                editor.apply();
-                                refreshAdapter();
-                                dialog.dismiss();
-                            }
+                        .setSingleChoiceItems(R.array.speaker_sort, sortType, (dialog, which) -> {
+                            sortType = which;
+                            SharedPreferences.Editor editor = prefsSort.edit();
+                            editor.putInt(PREF_SORT, which);
+                            editor.apply();
+                            refreshAdapter();
+                            dialog.dismiss();
                         });
 
                 dialogSort.show();
@@ -240,12 +226,8 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
             refreshAdapter();
             Timber.i("Speaker download completed");
         } else {
-            Snackbar.make(swipeRefreshLayout, getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    refresh();
-                }
-            }).show();
+            Snackbar.make(swipeRefreshLayout, getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG)
+                    .setAction(R.string.retry_download, view -> refresh()).show();
             Timber.i("Speaker download failed.");
         }
     }
