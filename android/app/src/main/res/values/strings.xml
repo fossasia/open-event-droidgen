@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name" translatable="false">OpenEvent</string>
 
+    <string name="url">2017.fossasia.org</string>
     <string name="title_section_tracks">Tracks</string>
     <string name="title_section_speakerlist">Speakers</string>
     <string name="title_section_location">Locations</string>
