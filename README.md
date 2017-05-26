@@ -1,4 +1,4 @@
-# Open Event Android
+![Open Event Android](https://storage.googleapis.com/eventyay.com/assets/branding/android_branding.png)
 
 [![Build Status](https://travis-ci.org/fossasia/open-event-android.svg?branch=development)](https://travis-ci.org/fossasia/open-event-android?branch=development)
 [![codecov.io](https://codecov.io/github/fossasia/open-event-android/coverage.svg?branch=development)](https://codecov.io/github/fossasia/open-event-android?branch=development)
