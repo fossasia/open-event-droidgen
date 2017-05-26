@@ -31,6 +31,7 @@ def resize_launcher_icon(icon_path, app_directory):
     resizer = AssetResizer(destination, directory_prefix='mipmap', image_filter=Image.ANTIALIAS)
     resizer.mkres()
     resizer.resize(icon_path)
+    os.remove(icon_path)
 
 
 def resize_background_image(background_path, app_directory):
@@ -47,6 +48,7 @@ def resize_background_image(background_path, app_directory):
     background_resized.paste(back)
     background_resized = background_resized.resize((600, 400), Image.ANTIALIAS)
     background_resized.save(destination + "/background.jpg", 'JPEG', quality=80)
+    os.remove(background_path)
 
 def save_logo(logo_path, app_directory):
     """
