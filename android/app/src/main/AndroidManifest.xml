@@ -35,7 +35,14 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.LAUNCHER" />
+
+                <data android:scheme="http"
+                    android:host="2017.fossasia.org"
+                    android:pathPrefix="/tracks" />
             </intent-filter>
         </activity>
         <activity
