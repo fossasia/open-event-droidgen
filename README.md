@@ -32,18 +32,21 @@ A sample app for testing purposes is automatically built after commits in the re
 
 ### Screenshots of a sample Android app
 
-<img src="docs/images/app-drawer.png" height = '480' width="270">
-<img src="docs/images/app-tracks.png" height = '480' width="270">
-<img src="docs/images/app-schedule.png" height = '480' width="270">
-<img src="docs/images/app-speakers.png" height = '480' width="270">
-<img src="docs/images/app-sponsors.png" height = '480' width="270">
-<img src="docs/images/app-locations.png" height = '480' width="270">
-<img src="docs/images/app-speaker-detail.png" height = '480' width="270">
-<img src="docs/images/app-location-detail.png" height = '480' width="270">
-<img src="docs/images/app-event-detail.png" height = '480' width="270">
-<img src="docs/images/app-map.png" height = '480' width="270">
-<img src="docs/images/app-settings.png" height = '480' width="270">
-<img src="docs/images/app-invite.png" height = '480' width="270">
+<p align="center">
+<img src="docs/images/app-drawer.png" height = "480" width="270"> <img src="docs/images/app-tracks.png" height = "480" width="270"> <img src="docs/images/app-schedule.png" height = "480" width="270">
+</p>
+
+<p align="center">
+<img src="docs/images/app-speakers.png" height = "480" width="270"> <img src="docs/images/app-sponsors.png" height = "480" width="270"> <img src="docs/images/app-locations.png" height = "480" width="270">
+</p>
+
+<p align="center">
+<img src="docs/images/app-speaker-detail.png" height = "480" width="270"> <img src="docs/images/app-location-detail.png" height = "480" width="270"> <img src="docs/images/app-event-detail.png" height = "480" width="270">
+</p>
+
+<p align="center">
+<img src="docs/images/app-map.png" height = "480" width="270"> <img src="docs/images/app-settings.png" height = "480" width="270"> <img src="docs/images/app-invite.png" height = "480" width="270">
+</p>
 
 ### Android App Development Set up
 
