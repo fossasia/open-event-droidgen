@@ -5,6 +5,7 @@ import android.database.DatabaseUtils;
 import com.google.gson.annotations.SerializedName;
 
 import org.fossasia.openevent.dbutils.DbContract;
+import org.fossasia.openevent.utils.CompressImage;
 import org.fossasia.openevent.utils.StringUtils;
 
 import java.util.ArrayList;
@@ -88,6 +89,10 @@ public class Speaker {
     }
 
     public String getPhoto() {
+        if (photo.trim().equals("")) {
+            return photo;
+        }
+        photo = CompressImage.compressImage(photo);
         return photo;
     }
 
