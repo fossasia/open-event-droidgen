@@ -1,5 +1,6 @@
 package org.fossasia.openevent.fragments;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -12,7 +13,10 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,6 +34,7 @@ import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.ConstantStrings;
+import org.fossasia.openevent.widget.DialogFactory;
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.util.GeoPoint;
@@ -42,6 +47,8 @@ import java.util.ArrayList;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 public class OSMapFragment extends Fragment {
+
+    private final String FRAGMENT_TAG = "FTAG";
 
     private static double DESTINATION_LATITUDE = 0;
 
@@ -110,9 +117,21 @@ public class OSMapFragment extends Fragment {
             }
         }catch (Exception e) {
             Event event = DbSingleton.getInstance().getEventDetails();
-            setDestinationLatitude(event.getLatitude());
-            setDestinationLongitude(event.getLongitude());
-            setDestinationName(event.getLocationName());
+            if(event != null) {
+                setDestinationLatitude(event.getLatitude());
+                setDestinationLongitude(event.getLongitude());
+                setDestinationName(event.getLocationName());
+            } else {
+                DialogFactory.createSimpleActionDialog(getActivity(), R.string.menu_map, R.string.empty_map, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.content_frame, new TracksFragment(), FRAGMENT_TAG).commit();
+                        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+                        if(actionBar != null) actionBar.setTitle(R.string.menu_tracks);
+                    }
+                }).show();
+            }
         }
         GeoPoint geoPoint = new GeoPoint(getDestinationLatitude(), getDestinationLongitude());
         mapView.getController().setCenter(geoPoint);
