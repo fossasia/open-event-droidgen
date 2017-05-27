@@ -35,7 +35,7 @@ public class BookmarkAlarmService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-
+        //This method is invoked on the worker thread with a request to process intent
     }
 
     @Override

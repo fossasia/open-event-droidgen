@@ -150,10 +150,8 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
 
     @Override
     public void onSaveInstanceState(Bundle bundle) {
-        if (isAdded()) {
-            if (searchView != null) {
-                bundle.putString(SEARCH, searchText);
-            }
+        if (isAdded() && searchView != null) {
+            bundle.putString(SEARCH, searchText);
         }
         super.onSaveInstanceState(bundle);
     }
@@ -192,6 +190,7 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
 
                 dialogSort.show();
                 break;
+            default:
         }
         return super.onOptionsItemSelected(item);
     }

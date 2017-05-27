@@ -105,6 +105,7 @@ public class Sponsor {
             case "Bronze":
                 this.type = OpenEventApp.getAppContext().getString(R.string.bronzeInt);
                 break;
+            default:
         }
     }
 

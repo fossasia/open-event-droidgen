@@ -176,6 +176,7 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
         switch (item.getItemId()) {
             case R.id.action_search_sessions:
                 return true;
+            default:
         }
         return super.onOptionsItemSelected(item);
     }

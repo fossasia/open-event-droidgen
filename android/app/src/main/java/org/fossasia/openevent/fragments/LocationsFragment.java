@@ -126,10 +126,8 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
 
     @Override
     public void onSaveInstanceState(Bundle bundle) {
-        if (isAdded()) {
-            if (searchView != null) {
-                bundle.putString(SEARCH, searchText);
-            }
+        if (isAdded() && searchView != null) {
+            bundle.putString(SEARCH, searchText);
         }
         super.onSaveInstanceState(bundle);
     }

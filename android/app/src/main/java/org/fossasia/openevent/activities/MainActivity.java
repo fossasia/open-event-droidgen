@@ -597,6 +597,7 @@ public class MainActivity extends BaseActivity {
                     aboutUsTV.setText(welcomeAlertSpannable);
                 }
                 break;
+            default:
         }
         currentMenuItemId = menuItemId;
     }

@@ -173,6 +173,8 @@ public class ScheduleFragment extends BaseFragment {
                         });
 
                 dialogSort.show();
+                break;
+            default:
         }
         return super.onOptionsItemSelected(item);
     }

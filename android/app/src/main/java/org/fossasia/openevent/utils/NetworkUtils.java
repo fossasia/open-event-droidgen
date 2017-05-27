@@ -56,9 +56,8 @@ public class NetworkUtils extends BroadcastReceiver {
             netInfos = new ArrayList<>(Arrays.asList(cm.getAllNetworkInfo()));
         }
         for (NetworkInfo ni : netInfos) {
-            if (ni != null && ni.getTypeName().equalsIgnoreCase("WIFI"))
-                if (ni.isConnected())
-                    return true;
+            if (ni != null && ni.getTypeName().equalsIgnoreCase("WIFI") && ni.isConnected())
+                return true;
         }
         return false;
 
