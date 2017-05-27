@@ -45,7 +45,7 @@ public class BookmarkAlarmService extends IntentService {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        handleStart(intent, startId);
+        handleStart(intent);
         return START_NOT_STICKY;
     }
 
@@ -54,7 +54,7 @@ public class BookmarkAlarmService extends IntentService {
         super.onDestroy();
     }
 
-    void handleStart(Intent intent, int startId) {
+    private void handleStart(Intent intent) {
         NotificationManager mManager = (NotificationManager) this.getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
         int id = intent.getIntExtra(ConstantStrings.SESSION, 0);
         String session_date;
