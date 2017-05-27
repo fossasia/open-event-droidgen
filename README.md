@@ -100,7 +100,7 @@ Installation instructions for generic servers are [here](docs/installation/gener
 
 #### How to install The Open Event Android App Generator on Google Cloud/Kubernetes
 
-Installation instructions for Google Cloud Kubernetes are [here](docs/installation/kubernetes.md).
+Installation instructions for Google Cloud Kubernetes are [here](docs/installation/gce-kubernetes.md).
 
 #### How to install The Open Event Android App Generator on AWS
 
