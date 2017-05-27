@@ -185,7 +185,7 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
     }
 
     @Subscribe
-    public void RefreshData(RefreshUiEvent event) {
+    public void refreshData(RefreshUiEvent event) {
         handleVisibility();
         if (searchText.length() == 0) {
             tracksListAdapter.refresh();

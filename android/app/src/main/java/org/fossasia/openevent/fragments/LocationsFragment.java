@@ -196,7 +196,7 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
     }
 
     @Subscribe
-    public void LocationsDownloadDone(MicrolocationDownloadEvent event) {
+    public void onLocationsDownloadDone(MicrolocationDownloadEvent event) {
         if(swipeRefreshLayout == null)
             return;
 
