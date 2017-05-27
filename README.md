@@ -70,6 +70,11 @@ Please find info about the set up of the Android app in your development environ
 - LeakCanary [Docs](https://github.com/square/leakcanary)
 - Picasso [Docs](http://square.github.io/picasso/2.x/picasso/)
 
+### Monitoring of Project Dependencies
+
+Gemnasium monitors the project dependencies and alerts the user about update and security vulnerabilities.
+For more information on Gemnasium [Docs](https://gemnasium.com/features)
+
 ### Devices tested on
 
 | Device        | Android Version           | Skin/ROM      |
