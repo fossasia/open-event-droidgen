@@ -8,7 +8,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -66,12 +65,6 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
 
         final DbSingleton dbSingleton = DbSingleton.getInstance();
         swipeRefreshLayout.setOnRefreshListener(this::refresh);
-
-
-        //setting the grid layout to cut-off white space in tablet view
-        DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
-        float width = displayMetrics.widthPixels / displayMetrics.density;
-        int spanCount = (int) (width/200.00);
 
         locationsRecyclerView.setHasFixedSize(true);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());

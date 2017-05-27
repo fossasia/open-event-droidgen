@@ -181,7 +181,7 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
 
                 final AlertDialog.Builder dialogSort = new AlertDialog.Builder(getActivity())
                         .setTitle(R.string.dialog_sort_title)
-                        .setSingleChoiceItems(R.array.speaker_sort, sortType, (dialog, which) -> {
+                        .setSingleChoiceItems(list_options, sortType, (dialog, which) -> {
                             sortType = which;
                             SharedPreferences.Editor editor = prefsSort.edit();
                             editor.putInt(PREF_SORT, which);
