@@ -51,13 +51,13 @@ title: GCE Kubernetes
 - Create a cluster via the `gcloud` command line tool:
 
     ```
-    gcloud container clusters create opev-cluster
+    gcloud container clusters create droidgen-cluster --cluster-version=1.6.4 --num-nodes=1
     ```
 
 - Get the credentials for `kubectl` to use.
 
     ```
-    gcloud container clusters get-credentials opev-cluster
+    gcloud container clusters get-credentials droidgen-cluster
     ```
 
 ## Deploy our pods, services and deployments
@@ -67,9 +67,10 @@ title: GCE Kubernetes
     ```
     ./kubernetes/deploy.sh standalone-create
     ```
-- Get the IP address of your deployment by running
+- Get the IP address of your deployment by running. (You may need to execute it multiple times until the IP Address is assigned)
 
-    ```angular2html
+    ```
     kubectl get ingress --namespace web android-generator-notls
     ```
+- Wait for a few mins (5-10m) before you move on to the next step.    
 - The generator will be accessible at the above mentioned IP address.
