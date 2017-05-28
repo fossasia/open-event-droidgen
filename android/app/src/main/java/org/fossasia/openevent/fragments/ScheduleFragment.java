@@ -175,6 +175,7 @@ public class ScheduleFragment extends BaseFragment {
                 dialogSort.show();
                 break;
             default:
+                //Do nothing
         }
         return super.onOptionsItemSelected(item);
     }

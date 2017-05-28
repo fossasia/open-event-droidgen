@@ -54,6 +54,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                 onBackPressed();
                 break;
             default:
+                //Do nothing
         }
         return super.onOptionsItemSelected(item);
     }

@@ -17,7 +17,7 @@ import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.ISO8601Date;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import timber.log.Timber;
 
@@ -74,7 +74,7 @@ public class BookmarkWidgetRemoteViewsService extends RemoteViewsService {
                 }
                 DbSingleton dbSingleton = DbSingleton.getInstance();
                 try {
-                    ArrayList<Integer> bookmarkedIds = dbSingleton.getBookmarkIds();
+                    List<Integer> bookmarkedIds = dbSingleton.getBookmarkIds();
 
                     String[] columns = new String[]{ID, TITLE, START_TIME, END_TIME, DATE};
                     data = new MatrixCursor(columns);

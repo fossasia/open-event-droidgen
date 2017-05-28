@@ -177,6 +177,7 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
             case R.id.action_search_sessions:
                 return true;
             default:
+                //Do nothing
         }
         return super.onOptionsItemSelected(item);
     }

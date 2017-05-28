@@ -191,6 +191,7 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
                 dialogSort.show();
                 break;
             default:
+                //Do nothing
         }
         return super.onOptionsItemSelected(item);
     }

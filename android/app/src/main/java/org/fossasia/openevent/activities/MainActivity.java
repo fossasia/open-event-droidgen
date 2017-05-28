@@ -598,6 +598,7 @@ public class MainActivity extends BaseActivity {
                 }
                 break;
             default:
+                //Do nothing
         }
         currentMenuItemId = menuItemId;
     }

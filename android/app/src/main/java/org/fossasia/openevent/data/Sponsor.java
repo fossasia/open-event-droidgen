@@ -106,6 +106,7 @@ public class Sponsor {
                 this.type = OpenEventApp.getAppContext().getString(R.string.bronzeInt);
                 break;
             default:
+                //Do nothing
         }
     }
 
