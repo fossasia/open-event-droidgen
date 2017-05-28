@@ -67,7 +67,6 @@ title: GCE Kubernetes
     ```
     ./kubernetes/deploy.sh standalone-create
     ```
-
 - Get the IP address of your deployment by running. (You may need to execute it multiple times until the IP Address is assigned)
 
     ```
