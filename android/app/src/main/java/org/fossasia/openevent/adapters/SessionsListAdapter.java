@@ -53,26 +53,19 @@ import timber.log.Timber;
  */
 public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdapter.SessionViewHolder> {
 
-    private String trackName;
-    private Context context;
-    public static int listPosition;
-    private int type;
     private static final int locationWiseSessionList = 1;
     private static final int trackWiseSessionList = 4;
     private static final int speakerWiseSessionList = 2;
-
+    public static int listPosition;
+    private String trackName;
+    private Context context;
+    private int type;
     private ColorGenerator colorGenerator = ColorGenerator.MATERIAL;
     private TextDrawable.IBuilder drawableBuilder = TextDrawable.builder().round();
     private BookmarksListChangeListener bookmarksListChangeListener;
 
     private CompositeDisposable disposable;
-
-    public void setBookmarksListChangeListener(BookmarksListChangeListener listener){
-        this.bookmarksListChangeListener = listener;
-    }
-
     private int color;
-
     private Filter filter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
@@ -100,11 +93,15 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
         }
     };
 
-    public SessionsListAdapter(Context context, List<Session> sessions,int type) {
+    public SessionsListAdapter(Context context, List<Session> sessions, int type) {
         super(sessions);
         this.context = context;
         this.color = ContextCompat.getColor(context, R.color.color_primary);
         this.type = type;
+    }
+
+    public void setBookmarksListChangeListener(BookmarksListChangeListener listener) {
+        this.bookmarksListChangeListener = listener;
     }
 
     public void setTrackName(String trackName) {
@@ -125,7 +122,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
     @Override
     public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
         super.onDetachedFromRecyclerView(recyclerView);
-        if(disposable != null && !disposable.isDisposed())
+        if (disposable != null && !disposable.isDisposed())
             disposable.dispose();
     }
 
@@ -152,7 +149,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
         holder.sessionTitle.setText(session.getTitle());
         holder.sessionSubtitle.setText(session.getSubtitle());
 
-        if(session.getSubtitle().isEmpty())
+        if (session.getSubtitle().isEmpty())
             holder.sessionSubtitle.setVisibility(View.GONE);
 
         final DbSingleton dbSingleton = DbSingleton.getInstance();
@@ -160,7 +157,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
         final int trackId = session.getTrack().getId();
 
         int storedColor = TrackColors.getColor(trackId);
-        if(storedColor == -1 && type != trackWiseSessionList) {
+        if (storedColor == -1 && type != trackWiseSessionList) {
             storedColor = colorGenerator.getColor(session.getTrack().getName());
 
             disposable.add(dbSingleton.getTrackByIdObservable(session.getTrack().getId())
@@ -172,7 +169,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
 
                         TrackColors.storeColor(trackId, color1);
                     }));
-        } else if(type != trackWiseSessionList) {
+        } else if (type != trackWiseSessionList) {
             color = storedColor;
         }
 
@@ -191,7 +188,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
                             .toList()
                             .blockingGet();
 
-                    if(speakers.isEmpty()){
+                    if (speakers.isEmpty()) {
                         holder.sessionSpeaker.setVisibility(View.GONE);
                         holder.speakerIcon.setVisibility(View.GONE);
                     }
@@ -199,12 +196,12 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
                     return TextUtils.join(",", speakerName);
                 }).subscribe(speakerList -> holder.sessionSpeaker.setText(speakerList)));
 
-        switch (type){
-            case trackWiseSessionList :
+        switch (type) {
+            case trackWiseSessionList:
                 holder.trackImageIcon.setVisibility(View.GONE);
                 holder.sessionTrack.setVisibility(View.GONE);
                 break;
-            case locationWiseSessionList :
+            case locationWiseSessionList:
                 holder.sessionLocation.setVisibility(View.GONE);
                 holder.locationIcon.setVisibility(View.GONE);
                 break;
@@ -216,16 +213,16 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
         }
 
         disposable.add(dbSingleton.isBookmarkedObservable(session.getId())
-                .subscribe(bookmarked ->{
-                        if(bookmarked) {
-                            holder.sessionBookmarkIcon.setImageResource(R.drawable.ic_bookmark_white_24dp);
-                        } else {
-                            holder.sessionBookmarkIcon.setImageResource(R.drawable.ic_bookmark_border_white_24dp);
-                        }
+                .subscribe(bookmarked -> {
+                    if (bookmarked) {
+                        holder.sessionBookmarkIcon.setImageResource(R.drawable.ic_bookmark_white_24dp);
+                    } else {
+                        holder.sessionBookmarkIcon.setImageResource(R.drawable.ic_bookmark_border_white_24dp);
+                    }
                 }));
 
         final Consumer<Boolean> bookmarkConsumer = bookmarked -> {
-            if(bookmarked) {
+            if (bookmarked) {
                 disposable.add(dbSingleton.deleteBookmarksObservable(session.getId()).subscribe());
 
                 holder.sessionBookmarkIcon.setImageResource(R.drawable.ic_bookmark_border_white_24dp);
@@ -234,15 +231,12 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
                 }
                 if ("MainActivity".equals(context.getClass().getSimpleName())) {
                     Snackbar.make(holder.sessionCard, R.string.removed_bookmark, Snackbar.LENGTH_LONG)
-                            .setAction(R.string.undo, new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    disposable.add(dbSingleton.addBookmarksObservable(session.getId()).subscribe());
-                                    holder.sessionBookmarkIcon.setImageResource(R.drawable.ic_bookmark_white_24dp);
-                                    WidgetUpdater.updateWidget(context);
-                                    if(bookmarksListChangeListener != null){
-                                        bookmarksListChangeListener.onChange();
-                                    }
+                            .setAction(R.string.undo, v -> {
+                                disposable.add(dbSingleton.addBookmarksObservable(session.getId()).subscribe());
+                                holder.sessionBookmarkIcon.setImageResource(R.drawable.ic_bookmark_white_24dp);
+                                WidgetUpdater.updateWidget(context);
+                                if (bookmarksListChangeListener != null) {
+                                    bookmarksListChangeListener.onChange();
                                 }
                             }).show();
                 } else {
@@ -257,31 +251,23 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
             WidgetUpdater.updateWidget(context);
         };
 
-        holder.sessionBookmarkIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                disposable.add(dbSingleton.isBookmarkedObservable(session.getId())
-                        .subscribe(bookmarkConsumer));
-            }
-        });
+        holder.sessionBookmarkIcon.setOnClickListener(v -> disposable.add(dbSingleton.isBookmarkedObservable(session.getId())
+                .subscribe(bookmarkConsumer)));
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final String sessionName = session.getTitle();
-                Timber.d(session.getTitle());
-                disposable.add(dbSingleton.getTrackByIdObservable(session.getTrack().getId())
-                        .subscribe(track -> {
-                            String trackName1 = track.getName();
-                            Intent intent = new Intent(context, SessionDetailActivity.class);
-                            intent.putExtra(ConstantStrings.SESSION, sessionName);
-                            intent.putExtra(ConstantStrings.TRACK, trackName1);
-                            intent.putExtra(ConstantStrings.ID, session.getId());
-                            intent.putExtra(ConstantStrings.TRACK_ID, track.getId());
-                            listPosition = holder.getLayoutPosition();
-                            context.startActivity(intent);
-                        }));
-            }
+        holder.itemView.setOnClickListener(v -> {
+            final String sessionName = session.getTitle();
+            Timber.d(session.getTitle());
+            disposable.add(dbSingleton.getTrackByIdObservable(session.getTrack().getId())
+                    .subscribe(track -> {
+                        String trackName1 = track.getName();
+                        Intent intent = new Intent(context, SessionDetailActivity.class);
+                        intent.putExtra(ConstantStrings.SESSION, sessionName);
+                        intent.putExtra(ConstantStrings.TRACK, trackName1);
+                        intent.putExtra(ConstantStrings.ID, session.getId());
+                        intent.putExtra(ConstantStrings.TRACK_ID, track.getId());
+                        listPosition = holder.getLayoutPosition();
+                        context.startActivity(intent);
+                    }));
         });
 
         // Set color generated by palette on views
@@ -293,6 +279,28 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
         clear();
         disposable.add(DbSingleton.getInstance().getSessionsByTrackNameObservable(trackName)
                 .subscribe(this::animateTo));
+    }
+
+    private void createNotification(Session session) {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(ISO8601Date.getTimeZoneDate(ISO8601Date.getDateObject(session.getStartTime())));
+
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        Integer pref_result = Integer.parseInt(sharedPrefs.getString("notification", "10 mins").substring(0, 2).trim());
+        if (pref_result.equals(1)) {
+            calendar.add(Calendar.HOUR, -1);
+        } else if (pref_result.equals(12)) {
+            calendar.add(Calendar.HOUR, -12);
+        } else {
+            calendar.add(Calendar.MINUTE, -10);
+        }
+        Intent myIntent = new Intent(context, NotificationAlarmReceiver.class);
+        myIntent.putExtra(ConstantStrings.SESSION, session.getId());
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC, calendar.getTimeInMillis(), pendingIntent);
     }
 
     class SessionViewHolder extends RecyclerView.ViewHolder {
@@ -344,28 +352,6 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
             ButterKnife.bind(this, itemView);
         }
 
-    }
-
-    private void createNotification(Session session) {
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(ISO8601Date.getTimeZoneDate(ISO8601Date.getDateObject(session.getStartTime())));
-
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        Integer pref_result = Integer.parseInt(sharedPrefs.getString("notification", "10 mins").substring(0, 2).trim());
-        if (pref_result.equals(1)) {
-            calendar.add(Calendar.HOUR, -1);
-        } else if (pref_result.equals(12)) {
-            calendar.add(Calendar.HOUR, -12);
-        } else {
-            calendar.add(Calendar.MINUTE, -10);
-        }
-        Intent myIntent = new Intent(context, NotificationAlarmReceiver.class);
-        myIntent.putExtra(ConstantStrings.SESSION, session.getId());
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.set(AlarmManager.RTC, calendar.getTimeInMillis(), pendingIntent);
     }
 
 }
