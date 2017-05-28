@@ -17,7 +17,7 @@ import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.ISO8601Date;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import timber.log.Timber;
 
@@ -49,8 +49,6 @@ public class BookmarkWidgetRemoteViewsService extends RemoteViewsService {
 
     private final String DATE = "sessionDate";
 
-    private ArrayList<Integer> bookmarkedIds;
-
     private int LESS_DETAIL_SIZE = 300;
 
     @Override
@@ -65,7 +63,9 @@ public class BookmarkWidgetRemoteViewsService extends RemoteViewsService {
             private MatrixCursor data = null;
 
             @Override
-            public void onCreate() {}
+            public void onCreate() {
+                //Called when your factory is first constructed.
+            }
 
             @Override
             public void onDataSetChanged() {
@@ -74,7 +74,7 @@ public class BookmarkWidgetRemoteViewsService extends RemoteViewsService {
                 }
                 DbSingleton dbSingleton = DbSingleton.getInstance();
                 try {
-                    bookmarkedIds = dbSingleton.getBookmarkIds();
+                    List<Integer> bookmarkedIds = dbSingleton.getBookmarkIds();
 
                     String[] columns = new String[]{ID, TITLE, START_TIME, END_TIME, DATE};
                     data = new MatrixCursor(columns);
@@ -101,7 +101,10 @@ public class BookmarkWidgetRemoteViewsService extends RemoteViewsService {
 
             @Override
             public int getCount() {
-                return data == null ? 0 : data.getCount();
+                if(data != null)
+                    return data.getCount();
+
+                return 0;
             }
 
             @Override

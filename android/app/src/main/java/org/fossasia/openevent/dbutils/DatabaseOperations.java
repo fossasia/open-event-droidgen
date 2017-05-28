@@ -53,7 +53,7 @@ public class DatabaseOperations {
 
     private Event event;
 
-    ArrayList<Session> getSessionList(SQLiteDatabase mDb) {
+    protected ArrayList<Session> getSessionList(SQLiteDatabase mDb) {
 
         String sortOrder = DbContract.Sessions.ID + ASCENDING;
 
@@ -102,7 +102,7 @@ public class DatabaseOperations {
         return sessions;
     }
 
-    Session getSessionById(int id, SQLiteDatabase mDb) {
+    protected Session getSessionById(int id, SQLiteDatabase mDb) {
         String selection = DbContract.Sessions.ID + EQUAL + id;
         Cursor cursor = mDb.query(
                 DbContract.Sessions.TABLE_NAME,
@@ -142,7 +142,7 @@ public class DatabaseOperations {
         return session;
     }
 
-    org.fossasia.openevent.data.Microlocation getMicrolocationById(int id, SQLiteDatabase mDb) {
+    protected org.fossasia.openevent.data.Microlocation getMicrolocationById(int id, SQLiteDatabase mDb) {
         String selection = DbContract.Microlocation.ID + EQUAL + id;
         Cursor cursor = mDb.query(
                 DbContract.Microlocation.TABLE_NAME,
@@ -173,7 +173,7 @@ public class DatabaseOperations {
         return location;
     }
 
-    List<Speaker> getSpeakerList(SQLiteDatabase mDb, String sortBy) {
+    protected List<Speaker> getSpeakerList(SQLiteDatabase mDb, String sortBy) {
 
         String sortOrder = sortBy + ASCENDING;
         Cursor cur = mDb.query(
@@ -218,7 +218,7 @@ public class DatabaseOperations {
         return speakers;
     }
 
-    Version getVersionIds(SQLiteDatabase mDb) {
+    protected Version getVersionIds(SQLiteDatabase mDb) {
 
         Cursor cursor = mDb.query(
                 DbContract.Versions.TABLE_NAME,
@@ -250,7 +250,7 @@ public class DatabaseOperations {
         }
     }
 
-    List<SocialLink> getSocialLink(SQLiteDatabase mDb) {
+    protected List<SocialLink> getSocialLink(SQLiteDatabase mDb) {
 
         Cursor cursor = mDb.query(
                 DbContract.SocialLink.TABLE_NAME,
@@ -278,7 +278,7 @@ public class DatabaseOperations {
         return socialLinks;
     }
 
-    List<org.fossasia.openevent.data.Track> getTrackList(SQLiteDatabase mDb) {
+    protected List<org.fossasia.openevent.data.Track> getTrackList(SQLiteDatabase mDb) {
         String sortOrder = DbContract.Tracks.NAME + ASCENDING;
         Cursor cursor = mDb.query(
                 DbContract.Tracks.TABLE_NAME,
@@ -310,7 +310,7 @@ public class DatabaseOperations {
     }
 
 
-    ArrayList<Sponsor> getSponsorList(SQLiteDatabase mDb) {
+    protected ArrayList<Sponsor> getSponsorList(SQLiteDatabase mDb) {
         String sortOrder = DbContract.Sponsors.LEVEL + DESCENDING + ", " + DbContract.Sponsors.NAME + ASCENDING;
         Cursor cursor = mDb.query(
                 DbContract.Sponsors.TABLE_NAME,
@@ -347,7 +347,7 @@ public class DatabaseOperations {
     }
 
 
-    ArrayList<org.fossasia.openevent.data.Microlocation> getMicrolocationList(SQLiteDatabase mDb) {
+    protected ArrayList<org.fossasia.openevent.data.Microlocation> getMicrolocationList(SQLiteDatabase mDb) {
         String sortOrder = DbContract.Microlocation.NAME + ASCENDING;
         Cursor cursor = mDb.query(
                 DbContract.Microlocation.TABLE_NAME,
@@ -379,7 +379,7 @@ public class DatabaseOperations {
         return microlocations;
     }
 
-    ArrayList<Session> getSessionsByTrackName(String trackName, SQLiteDatabase mDb) {
+    protected ArrayList<Session> getSessionsByTrackName(String trackName, SQLiteDatabase mDb) {
         String tracksColumnSelection = DbContract.Tracks.NAME + EQUAL + DatabaseUtils.sqlEscapeString(trackName);
         String[] columns = {DbContract.Tracks.ID, DbContract.Tracks.NAME};
         Cursor tracksCursor = mDb.query(
@@ -449,7 +449,7 @@ public class DatabaseOperations {
         return sessions;
     }
 
-    org.fossasia.openevent.data.Track getTrackByTrackName(String trackName, SQLiteDatabase mDb) {
+    protected org.fossasia.openevent.data.Track getTrackByTrackName(String trackName, SQLiteDatabase mDb) {
         String tracksColumnSelection = DbContract.Tracks.NAME + EQUAL + DatabaseUtils.sqlEscapeString(trackName);
 
         Cursor tracksCursor = mDb.query(
@@ -479,7 +479,7 @@ public class DatabaseOperations {
 
     }
 
-    org.fossasia.openevent.data.Track getTrackByTrackId(int id, SQLiteDatabase mDb) {
+    protected org.fossasia.openevent.data.Track getTrackByTrackId(int id, SQLiteDatabase mDb) {
         String tracksColumnSelection = DbContract.Tracks.ID + EQUAL + DatabaseUtils.sqlEscapeString(String.valueOf(id));
 
         Cursor tracksCursor = mDb.query(
@@ -526,7 +526,7 @@ public class DatabaseOperations {
     }
 
 
-    void clearDatabaseTable(String table, DbHelper mDbHelper) {
+    protected void clearDatabaseTable(String table, DbHelper mDbHelper) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         db.beginTransaction();
         try {
@@ -542,7 +542,7 @@ public class DatabaseOperations {
         }
     }
 
-    void clearDatabase(DbHelper mDbHelper) {
+    protected void clearDatabase(DbHelper mDbHelper) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         db.beginTransaction();
         try {
@@ -557,7 +557,7 @@ public class DatabaseOperations {
         }
     }
 
-    ArrayList<Session> getSessionsBySpeakerName(String speakerName, SQLiteDatabase mDb) {
+    protected ArrayList<Session> getSessionsBySpeakerName(String speakerName, SQLiteDatabase mDb) {
         String speakerColumnSelection = DbContract.Speakers.NAME + EQUAL + DatabaseUtils.sqlEscapeString(speakerName);
         String[] columns = {DbContract.Speakers.ID, DbContract.Speakers.NAME};
         Cursor speakersCursor = mDb.query(
@@ -651,7 +651,7 @@ public class DatabaseOperations {
         return sessions;
     }
 
-    Speaker getSpeakerBySpeakerName(String speakerName, SQLiteDatabase mDb) {
+    protected Speaker getSpeakerBySpeakerName(String speakerName, SQLiteDatabase mDb) {
         String speakerColumnSelection = DbContract.Speakers.NAME + EQUAL + DatabaseUtils.sqlEscapeString(speakerName);
         Cursor speakersCursor = mDb.query(
                 DbContract.Speakers.TABLE_NAME,
@@ -688,7 +688,7 @@ public class DatabaseOperations {
         return speaker;
     }
 
-    Event getEventDetails(SQLiteDatabase mDb) {
+    protected Event getEventDetails(SQLiteDatabase mDb) {
         Cursor cursor = mDb.query(
                 DbContract.Event.TABLE_NAME,
                 DbContract.Event.FULL_PROJECTION,
@@ -721,7 +721,7 @@ public class DatabaseOperations {
     }
 
 
-    org.fossasia.openevent.data.Microlocation getLocationByName(String speakerName, SQLiteDatabase mDb) {
+    protected org.fossasia.openevent.data.Microlocation getLocationByName(String speakerName, SQLiteDatabase mDb) {
         String locationColumnSelection = DbContract.Microlocation.NAME + EQUAL + DatabaseUtils.sqlEscapeString(speakerName);
         Cursor locationCursor = mDb.query(
                 DbContract.Microlocation.TABLE_NAME,
@@ -747,7 +747,7 @@ public class DatabaseOperations {
         return location;
     }
 
-    ArrayList<Session> getSessionsByLocationName(String locationName, SQLiteDatabase mDb) {
+    protected ArrayList<Session> getSessionsByLocationName(String locationName, SQLiteDatabase mDb) {
         String locationColumnSelection = DbContract.Microlocation.NAME + EQUAL + DatabaseUtils.sqlEscapeString(locationName);
         String[] columns = {DbContract.Microlocation.ID, DbContract.Speakers.NAME};
         Cursor cursor = mDb.query(
@@ -818,7 +818,7 @@ public class DatabaseOperations {
         return sessions;
     }
 
-    ArrayList<Speaker> getSpeakersBySessionName(String sessionName, SQLiteDatabase mDb) {
+    protected ArrayList<Speaker> getSpeakersBySessionName(String sessionName, SQLiteDatabase mDb) {
         String sessionColumnSelection = DbContract.Sessions.TITLE + EQUAL + DatabaseUtils.sqlEscapeString(sessionName);
         String[] columns = {DbContract.Sessions.ID, DbContract.Sessions.TITLE};
         Cursor sessionsCursor = mDb.query(
@@ -901,7 +901,7 @@ public class DatabaseOperations {
         return speakers;
     }
 
-    boolean isBookmarked(int sessionId, SQLiteDatabase db) {
+    protected boolean isBookmarked(int sessionId, SQLiteDatabase db) {
         boolean number = false;
         Cursor c = null;
         try {
@@ -921,7 +921,7 @@ public class DatabaseOperations {
         return number;
     }
 
-    boolean isBookmarksTableEmpty(SQLiteDatabase db) {
+    protected boolean isBookmarksTableEmpty(SQLiteDatabase db) {
         boolean check = false;
         Cursor c = null;
         try {
@@ -937,7 +937,7 @@ public class DatabaseOperations {
         return check;
     }
 
-    Session getSessionBySessionName(String sessionName, SQLiteDatabase mDb) {
+    protected Session getSessionBySessionName(String sessionName, SQLiteDatabase mDb) {
         String sessionColumnSelection = DbContract.Sessions.TITLE + EQUAL + DatabaseUtils.sqlEscapeString(sessionName);
         Cursor cursor = mDb.query(
                 DbContract.Sessions.TABLE_NAME,
@@ -979,7 +979,7 @@ public class DatabaseOperations {
     }
 
 
-    ArrayList<Integer> getBookmarkIds(SQLiteDatabase mDb) {
+    protected ArrayList<Integer> getBookmarkIds(SQLiteDatabase mDb) {
         String sortOrder = DbContract.Bookmarks.SESSION_ID + ASCENDING;
 
         Cursor cursor = mDb.query(
@@ -1004,7 +1004,7 @@ public class DatabaseOperations {
         return ids;
     }
 
-    void insertQuery(String query, DbHelper mDbHelper) {
+    protected void insertQuery(String query, DbHelper mDbHelper) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         db.beginTransaction();
         db.execSQL(query);
@@ -1013,7 +1013,7 @@ public class DatabaseOperations {
         db.endTransaction();
     }
 
-    void addBookmarksToDb(int id) {
+    protected void addBookmarksToDb(int id) {
         String insertQuery = "INSERT INTO %s VALUES ('%d');";
         String query = String.format(Locale.ENGLISH,
                 insertQuery,
@@ -1024,12 +1024,12 @@ public class DatabaseOperations {
         dbSingleton.insertQuery(query);
     }
 
-    void deleteBookmarks(int id, SQLiteDatabase db) {
+    protected void deleteBookmarks(int id, SQLiteDatabase db) {
         db.delete(DbContract.Bookmarks.TABLE_NAME, DbContract.Bookmarks.SESSION_ID + "=" + id, null);
 
     }
 
-    ArrayList<Session> getSessionsByDate(String date, String sortOrder, SQLiteDatabase mDb) {
+    protected ArrayList<Session> getSessionsByDate(String date, String sortOrder, SQLiteDatabase mDb) {
 
         String sessionColumnSelection = DbContract.Sessions.START_DATE + EQUAL +
                 DatabaseUtils.sqlEscapeString(date);
@@ -1107,7 +1107,7 @@ public class DatabaseOperations {
 
     }
 
-    List<String> getDateList(SQLiteDatabase mDb) {
+    protected List<String> getDateList(SQLiteDatabase mDb) {
         Cursor cursor = mDb.rawQuery("SELECT * FROM " + DbContract.EventDates.TABLE_NAME + ORDERBY + DbContract.EventDates.DATE + ASCENDING + ";", null);
         List<String> dates = new ArrayList<>();
         String date;
