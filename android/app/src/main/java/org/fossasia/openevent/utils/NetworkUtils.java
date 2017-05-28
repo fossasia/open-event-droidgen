@@ -45,20 +45,19 @@ public class NetworkUtils extends BroadcastReceiver {
 
     public static boolean haveWifiConnection(Context ctx) {
         ConnectivityManager cm = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
-        ArrayList<NetworkInfo> netInfos = new ArrayList<>();
+        ArrayList<NetworkInfo> networkInfos = new ArrayList<>();
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             for (Network net : cm.getAllNetworks()) {
-                netInfos.add(cm.getNetworkInfo(net));
+                networkInfos.add(cm.getNetworkInfo(net));
             }
         } else {
-            netInfos = new ArrayList<>(Arrays.asList(cm.getAllNetworkInfo()));
+            networkInfos = new ArrayList<>(Arrays.asList(cm.getAllNetworkInfo()));
         }
-        for (NetworkInfo ni : netInfos) {
-            if (ni != null && ni.getTypeName().equalsIgnoreCase("WIFI"))
-                if (ni.isConnected())
-                    return true;
+        for (NetworkInfo networkInfo : networkInfos) {
+            if (networkInfo != null && networkInfo.getTypeName().equalsIgnoreCase("WIFI") && networkInfo.isConnected())
+                return true;
         }
         return false;
 
@@ -66,18 +65,18 @@ public class NetworkUtils extends BroadcastReceiver {
 
     public static boolean haveMobileConnection(Context ctx) {
         ConnectivityManager cm = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
-        ArrayList<NetworkInfo> netInfos = new ArrayList<>();
+        ArrayList<NetworkInfo> networkInfos = new ArrayList<>();
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            for (Network net : cm.getAllNetworks()) {
-                netInfos.add(cm.getNetworkInfo(net));
+            for (Network network : cm.getAllNetworks()) {
+                networkInfos.add(cm.getNetworkInfo(network));
             }
         } else {
-            netInfos = new ArrayList<>(Arrays.asList(cm.getAllNetworkInfo()));
+            networkInfos = new ArrayList<>(Arrays.asList(cm.getAllNetworkInfo()));
         }
-        for (NetworkInfo ni : netInfos) {
-            if (ni != null && ni.getTypeName().equalsIgnoreCase("MOBILE") && ni.isConnected())
+        for (NetworkInfo networkInfo : networkInfos) {
+            if (networkInfo != null && networkInfo.getTypeName().equalsIgnoreCase("MOBILE") && networkInfo.isConnected())
                     return true;
         }
         return false;

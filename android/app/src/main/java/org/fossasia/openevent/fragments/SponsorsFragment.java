@@ -46,8 +46,6 @@ public class SponsorsFragment extends BaseFragment {
     @BindView(R.id.list_sponsors)
     RecyclerView sponsorsRecyclerView;
 
-    private LinearLayoutManager linearLayoutManager;
-
     private CompositeDisposable compositeDisposable;
 
     @Nullable
@@ -66,7 +64,7 @@ public class SponsorsFragment extends BaseFragment {
         sponsorsListAdapter = new SponsorsListAdapter(getContext(), mSponsors,
                 getActivity(), true);
         sponsorsRecyclerView.setAdapter(sponsorsListAdapter);
-        linearLayoutManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         sponsorsRecyclerView.setLayoutManager(linearLayoutManager);
 
         compositeDisposable.add(dbSingleton.getSponsorListObservable()

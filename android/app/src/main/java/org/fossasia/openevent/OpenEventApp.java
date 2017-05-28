@@ -51,11 +51,11 @@ public class OpenEventApp extends Application {
     public static final String APP_NAME = "App_Name";
 
     public static String sDefSystemLanguage;
-    static Handler handler;
+    private static Handler handler;
     private static Bus eventBus;
     private static WeakReference<Context> context;
     private MapModuleFactory mapModuleFactory;
-    SharedPreferences sharedPreferences;
+    private RefWatcher refWatcher;
 
     public static Bus getEventBus() {
         if (eventBus == null) {
@@ -72,8 +72,6 @@ public class OpenEventApp extends Application {
         return context.get();
     }
 
-    private RefWatcher refWatcher;
-
     public static RefWatcher getRefWatcher(Context context) {
         OpenEventApp application = (OpenEventApp) context.getApplicationContext();
         return application.refWatcher;
@@ -87,7 +85,7 @@ public class OpenEventApp extends Application {
 
         Branch.getAutoInstance(this);
 
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getAppContext());
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getAppContext());
         sDefSystemLanguage = Locale.getDefault().getDisplayLanguage();
 
         if (LeakCanary.isInAnalyzerProcess(this)) {

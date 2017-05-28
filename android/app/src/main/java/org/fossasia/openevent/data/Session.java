@@ -150,7 +150,7 @@ public class Session {
         this.microlocation = microlocation;
     }
 
-    public org.fossasia.openevent.data.parsingExtra.Track getTrack() {
+    public Track getTrack() {
         return track;
     }
 

@@ -30,7 +30,7 @@ public class DbSingleton {
 
     private static DbSingleton mInstance;
 
-    private static DbHelper mDbHelper;
+    private DbHelper mDbHelper;
 
     private SQLiteDatabase mDb;
 

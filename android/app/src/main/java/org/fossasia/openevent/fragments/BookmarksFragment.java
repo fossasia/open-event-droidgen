@@ -40,7 +40,7 @@ public class BookmarksFragment extends BaseFragment implements SearchView.OnQuer
 
     private final String FRAGMENT_TAG = "FTAG";
     final private String SEARCH = "org.fossasia.openevent.searchText";
-    SessionsListAdapter sessionsListAdapter;
+    private SessionsListAdapter sessionsListAdapter;
 
     private GridLayoutManager gridLayoutManager;
 

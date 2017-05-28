@@ -212,12 +212,12 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
     }
 
     private List<Session> filter(List<Session> sessions, String query) {
-        query = query.toLowerCase(Locale.getDefault());
+        String queryLowerCase = query.toLowerCase(Locale.getDefault());
 
         final List<Session> filteredTracksList = new ArrayList<>();
         for (Session session : sessions) {
             final String text = session.getTitle().toLowerCase(Locale.getDefault());
-            if (text.contains(query)) {
+            if (text.contains(queryLowerCase)) {
                 filteredTracksList.add(session);
             }
         }

@@ -58,8 +58,6 @@ public class AboutFragment extends BaseFragment {
     @BindView(R.id.event_venue_details)
     TextView venue_details;
 
-    private String url;
-
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);

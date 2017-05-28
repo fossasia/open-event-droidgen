@@ -24,7 +24,6 @@ import timber.log.Timber;
  * Date: 27-05-2015
  */
 public class EventListResponseProcessor implements Callback<Event> {
-    private static final String TAG = "EVENT";
     private int counterRequests;
     private SocialLink socialLink;
 

@@ -59,6 +59,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
     private Context context;
     public static int listPosition;
     private int type;
+    private int color;
     private static final int locationWiseSessionList = 1;
     private static final int trackWiseSessionList = 4;
     private static final int speakerWiseSessionList = 2;
@@ -72,8 +73,6 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
     public void setBookmarksListChangeListener(BookmarksListChangeListener listener){
         this.bookmarksListChangeListener = listener;
     }
-
-    private int color;
 
     private Filter filter = new Filter() {
         @Override

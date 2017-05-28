@@ -76,6 +76,10 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
         tracks  = new ArrayList<String>();
     }
 
+    public String getEventDate() {
+        return eventDate;
+    }
+
     public void setEventDate(String eventDate) {
         this.eventDate = eventDate;
     }

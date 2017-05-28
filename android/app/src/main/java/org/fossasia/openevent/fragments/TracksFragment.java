@@ -8,7 +8,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -76,12 +75,6 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
         handleVisibility();
         swipeRefreshLayout.setOnRefreshListener(this::refresh);
 
-
-        //setting the grid layout to cut-off white space in tablet view
-        DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
-        float width = displayMetrics.widthPixels / displayMetrics.density;
-        int spanCount = (int) (width/200.00);
-
         tracksRecyclerView.setHasFixedSize(true);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         tracksRecyclerView.setLayoutManager(linearLayoutManager);
@@ -141,10 +134,8 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
 
     @Override
     public void onSaveInstanceState(Bundle bundle) {
-        if (isAdded()) {
-            if (searchView != null) {
-                bundle.putString(SEARCH, searchText);
-            }
+        if (isAdded() && searchView != null) {
+            bundle.putString(SEARCH, searchText);
         }
         super.onSaveInstanceState(bundle);
     }
@@ -185,7 +176,7 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
     }
 
     @Subscribe
-    public void RefreshData(RefreshUiEvent event) {
+    public void refreshData(RefreshUiEvent event) {
         handleVisibility();
         if (searchText.length() == 0) {
             tracksListAdapter.refresh();
