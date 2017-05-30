@@ -3,16 +3,10 @@ import os
 import re
 import json
 import sys
-from firebase import firebase
-import requests
 from tempfile import mkstemp
 import subprocess
-from tempfile import mkstemp
 from shutil import move
 from os import remove, close
-import zipfile
-from shutil import copyfile
-
 
 def replace(file_path, pattern, subst):
     # Create temp file

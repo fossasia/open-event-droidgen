@@ -7,11 +7,8 @@ import sys
 import urllib2
 import urllib
 from firebase import firebase
-import requests
-from tempfile import mkstemp
 import subprocess
 from tempfile import mkstemp
-import zipfile
 import shutil
 from shutil import move, copyfile
 from os import remove, close
