@@ -67,7 +67,7 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
         disposable = new CompositeDisposable();
 
         setSupportActionBar(toolbar);
-        if(getSupportActionBar() != null) {
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
         if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
@@ -87,13 +87,13 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
         //setting the grid layout to cut-off white space in tablet view
         DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
         float width = displayMetrics.widthPixels / displayMetrics.density;
-        int spanCount = (int) (width/250.00);
+        int spanCount = (int) (width / 250.00);
 
         sessionsRecyclerView.setHasFixedSize(true);
         gridLayoutManager = new GridLayoutManager(this, spanCount);
         sessionsRecyclerView.setLayoutManager(gridLayoutManager);
         sessionsListAdapter = new SessionsListAdapter(this, mSessions, trackWiseSessionList);
-        if(searchText!=null){
+        if (searchText != null) {
             sessionsListAdapter.setTrackName(track);
             sessionsListAdapter.getFilter().filter(searchText);
         }
@@ -106,7 +106,7 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
         int color = TrackColors.getColor(trackId);
 
         // Either track ID was not sent or color is not in cache
-        if(trackId == -1 || color == -1) {
+        if (trackId == -1 || color == -1) {
             disposable.add(dbSingleton.getTrackByNameObservable(track)
                     .subscribe(track1 -> {
                         int color1 = Color.parseColor(track1.getColor());
@@ -146,8 +146,16 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
 
         sessionsListAdapter.setColor(color);
 
-        if(Views.isCompatible(Build.VERSION_CODES.LOLLIPOP)) {
+        if (Views.isCompatible(Build.VERSION_CODES.LOLLIPOP)) {
             getWindow().setStatusBarColor(Views.getDarkColor(color));
+            sessionsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                    super.onScrollStateChanged(recyclerView, newState);
+                    Views.setEdgeGlowColorRecyclerView(sessionsRecyclerView, color);
+                }
+            });
+
         }
     }
 
@@ -167,7 +175,7 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(disposable != null && !disposable.isDisposed())
+        if (disposable != null && !disposable.isDisposed())
             disposable.dispose();
     }
 

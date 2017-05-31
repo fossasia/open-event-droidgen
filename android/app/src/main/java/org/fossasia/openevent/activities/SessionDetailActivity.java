@@ -59,7 +59,7 @@ import timber.log.Timber;
  * User: MananWason
  * Date: 08-07-2015
  */
-public class SessionDetailActivity extends BaseActivity implements AppBarLayout.OnOffsetChangedListener{
+public class SessionDetailActivity extends BaseActivity implements AppBarLayout.OnOffsetChangedListener {
     private static final String TAG = "Session Detail";
 
     private DbSingleton dbSingleton = DbSingleton.getInstance();
@@ -124,7 +124,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
         disposable = new CompositeDisposable();
 
         setSupportActionBar(toolbar);
-        if(getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         title = getIntent().getStringExtra(ConstantStrings.SESSION);
         trackName = getIntent().getStringExtra(ConstantStrings.TRACK);
@@ -165,7 +165,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
         speakersRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         int color = TrackColors.getColor(trackId);
-        if(trackId == -1 || color == -1) {
+        if (trackId == -1 || color == -1) {
             disposable.add(dbSingleton.getTrackByNameObservable(trackName)
                     .subscribe(track -> {
                         int color1 = Color.parseColor(track.getColor());
@@ -232,7 +232,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
 
     private void updateFloatingIcon() {
         final Consumer<Boolean> bookmarkConsumer = bookmarked -> {
-            if(bookmarked) {
+            if (bookmarked) {
                 Timber.tag(TAG).d("Bookmark Removed");
                 disposable.add(dbSingleton.deleteBookmarksObservable(session.getId()).subscribe());
 
@@ -249,7 +249,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
 
         disposable.add(dbSingleton.isBookmarkedObservable(session.getId())
                 .subscribe(bookmarked -> {
-                    if(bookmarked) {
+                    if (bookmarked) {
                         Timber.tag(TAG).d("Bookmarked");
                         fabSessionBookmark.setImageResource(R.drawable.ic_bookmark_white_24dp);
                     } else {
@@ -271,10 +271,18 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
         toolbar.setBackgroundColor(color);
         collapsingToolbarLayout.setBackgroundColor(color);
         collapsingToolbarLayout.setContentScrimColor(darkColor);
-        Views.changeGlowColor(color,scrollView);
 
-        if(Views.isCompatible(Build.VERSION_CODES.LOLLIPOP))
+        if (Views.isCompatible(Build.VERSION_CODES.LOLLIPOP)) {
             getWindow().setStatusBarColor(darkColor);
+            Views.setEdgeGlowColorScrollView(color, scrollView);
+            speakersRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                    super.onScrollStateChanged(recyclerView, newState);
+                    Views.setEdgeGlowColorRecyclerView(speakersRecyclerView, color);
+                }
+            });
+        }
 
         fabSessionBookmark.setBackgroundTintList(ColorStateList.valueOf(darkColor));
     }
@@ -287,7 +295,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(disposable != null && !disposable.isDisposed())
+        if (disposable != null && !disposable.isDisposed())
             disposable.dispose();
     }
 

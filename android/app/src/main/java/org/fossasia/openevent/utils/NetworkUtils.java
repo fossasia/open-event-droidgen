@@ -16,12 +16,9 @@ import org.fossasia.openevent.events.DataDownloadEvent;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.concurrent.Callable;
 
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
@@ -35,12 +32,7 @@ public class NetworkUtils extends BroadcastReceiver {
     }
 
     public static Single<Boolean> haveNetworkConnectionObservable(final Context context) {
-        return Single.fromCallable(new Callable<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                return haveNetworkConnection(context);
-            }
-        });
+        return Single.fromCallable(() -> haveNetworkConnection(context));
     }
 
     public static boolean haveWifiConnection(Context ctx) {
@@ -77,17 +69,17 @@ public class NetworkUtils extends BroadcastReceiver {
         }
         for (NetworkInfo networkInfo : networkInfos) {
             if (networkInfo != null && networkInfo.getTypeName().equalsIgnoreCase("MOBILE") && networkInfo.isConnected())
-                    return true;
+                return true;
         }
         return false;
 
     }
 
-    public static boolean isActiveInternetPresent(){
+    public static boolean isActiveInternetPresent() {
         try {
             Process p1 = java.lang.Runtime.getRuntime().exec("ping -c 1 www.google.com");
             int returnVal = p1.waitFor();
-            return (returnVal==0);
+            return (returnVal == 0);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -95,12 +87,38 @@ public class NetworkUtils extends BroadcastReceiver {
     }
 
     public static Single<Boolean> isActiveInternetPresentObservable() {
-        return Single.fromCallable(new Callable<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                return isActiveInternetPresent();
-            }
-        });
+        return Single.fromCallable(() -> isActiveInternetPresent());
+    }
+
+    public static void checkConnection(WeakReference<Context> reference, final NetworkStateReceiverListener listener) {
+        if (reference.get() == null || listener == null)
+            return;
+
+        haveNetworkConnectionObservable(reference.get())
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(hasConnection -> {
+
+                    if (hasConnection) {
+                        listener.networkAvailable();
+                        isActiveInternetPresentObservable()
+                                .subscribeOn(Schedulers.computation())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(isActive -> {
+                                    if (isActive) {
+                                        listener.activeConnection();
+                                    } else {
+                                        listener.inactiveConnection();
+                                    }
+                                });
+                    } else {
+                        listener.networkUnavailable();
+                    }
+
+                }, throwable -> {
+                    throwable.printStackTrace();
+                    Timber.e("Network Determination Error : %s", throwable.getMessage());
+                });
     }
 
     @Override
@@ -133,48 +151,13 @@ public class NetworkUtils extends BroadcastReceiver {
 
     }
 
-    public static void checkConnection(WeakReference<Context> reference, final NetworkStateReceiverListener listener) {
-        if(reference.get() == null || listener == null)
-            return;
-
-        haveNetworkConnectionObservable(reference.get())
-                .subscribeOn(Schedulers.computation())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Boolean>() {
-                    @Override
-                    public void accept(@NonNull Boolean hasConnection) throws Exception {
-                        if (hasConnection) {
-                            listener.networkAvailable();
-                            isActiveInternetPresentObservable()
-                                    .subscribeOn(Schedulers.computation())
-                                    .observeOn(AndroidSchedulers.mainThread())
-                                    .subscribe(new Consumer<Boolean>() {
-                                        @Override
-                                        public void accept(@NonNull Boolean isActive) throws Exception {
-                                            if (isActive) {
-                                                listener.activeConnection();
-                                            } else {
-                                                listener.inactiveConnection();
-                                            }
-                                        }
-                                    });
-                        } else {
-                            listener.networkUnavailable();
-                        }
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(@NonNull Throwable throwable) throws Exception {
-                        throwable.printStackTrace();
-                        Timber.e("Network Determination Error : %s", throwable.getMessage());
-                    }
-                });
-    }
-
     public interface NetworkStateReceiverListener {
         void activeConnection();
+
         void inactiveConnection();
+
         void networkAvailable();
+
         void networkUnavailable();
     }
 }

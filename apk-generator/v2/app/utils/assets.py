@@ -57,6 +57,9 @@ def save_logo(logo_path, app_directory):
     :param app_directory: The path to the app-level working directory
     :return:
     """
+    size = 300, 300
+
     destination = os.path.abspath(app_directory + '/app/src/main/res/drawable/')
     logo = Image.open(logo_path)
+    logo.thumbnail(size, Image.ANTIALIAS)
     logo.save(destination + "/splash_logo.png", 'PNG')
