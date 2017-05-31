@@ -458,12 +458,12 @@ public class MainActivity extends BaseActivity {
 
     private void doMenuAction(int menuItemId) {
         final FragmentManager fragmentManager = getSupportFragmentManager();
-        addShadowToAppBar(true);
         switch (menuItemId) {
             case R.id.nav_tracks:
                 atHome = true;
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_frame, new TracksFragment(), FRAGMENT_TAG_TRACKS).commit();
+                addShadowToAppBar(true);
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle(R.string.menu_tracks);
                 }
@@ -490,6 +490,7 @@ public class MainActivity extends BaseActivity {
                                 if (getSupportActionBar() != null) {
                                     getSupportActionBar().setTitle(R.string.menu_bookmarks);
                                 }
+                                addShadowToAppBar(true);
                             } else {
                                 Timber.d("yes");
                                 DialogFactory.createSimpleActionDialog(
@@ -498,7 +499,6 @@ public class MainActivity extends BaseActivity {
                                         R.string.empty_list,
                                         null
                                 ).show();
-                                if (currentMenuItemId == R.id.nav_schedule) addShadowToAppBar(false);
                             }
                         }));
                 break;
@@ -506,6 +506,7 @@ public class MainActivity extends BaseActivity {
                 atHome = false;
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_frame, new SpeakersListFragment(), FRAGMENT_TAG_REST).commit();
+                addShadowToAppBar(true);
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle(R.string.menu_speakers);
                 }
@@ -514,6 +515,7 @@ public class MainActivity extends BaseActivity {
                 atHome = false;
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_frame, new SponsorsFragment(), FRAGMENT_TAG_REST).commit();
+                addShadowToAppBar(true);
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle(R.string.menu_sponsor);
                 }
@@ -522,6 +524,7 @@ public class MainActivity extends BaseActivity {
                 atHome = false;
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_frame, new LocationsFragment(), FRAGMENT_TAG_REST).commit();
+                addShadowToAppBar(true);
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle(R.string.menu_locations);
                 }
@@ -535,6 +538,7 @@ public class MainActivity extends BaseActivity {
                                 .getMapModuleFactory()
                                 .provideMapModule()
                                 .provideMapFragment(), FRAGMENT_TAG_REST).commit();
+                addShadowToAppBar(true);
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle(R.string.menu_map);
                 }
