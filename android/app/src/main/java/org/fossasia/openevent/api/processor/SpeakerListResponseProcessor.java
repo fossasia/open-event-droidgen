@@ -31,10 +31,12 @@ public class SpeakerListResponseProcessor implements Callback<List<Speaker>> {
                 ArrayList<String> queries = new ArrayList<>();
 
                 for (Speaker speaker : response.body()) {
-                    for (int i = 0; i < speaker.getSession().size(); i++) {
-                        SessionSpeakersMapping sessionSpeakersMapping = new SessionSpeakersMapping(speaker.getSession().get(i).getId(), speaker.getId());
-                        String query_ss = sessionSpeakersMapping.generateSql();
-                        queries.add(query_ss);
+                    if (speaker.getSession() != null) {
+                        for (int i = 0; i < speaker.getSession().size(); i++) {
+                            SessionSpeakersMapping sessionSpeakersMapping = new SessionSpeakersMapping(speaker.getSession().get(i).getId(), speaker.getId());
+                            String query_ss = sessionSpeakersMapping.generateSql();
+                            queries.add(query_ss);
+                        }
                     }
                     String query = speaker.generateSql();
                     queries.add(query);

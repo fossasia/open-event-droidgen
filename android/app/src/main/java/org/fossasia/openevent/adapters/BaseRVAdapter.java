@@ -84,7 +84,8 @@ public abstract class BaseRVAdapter<T, V extends RecyclerView.ViewHolder> extend
 
     private void applyAndAnimateAdditions(List<T> newSessions) {
         List<T> dataList = new ArrayList<>(this.dataList);
-        for (int i = 0, count = newSessions.size(); i < count; i++) {
+        int count = newSessions.size();
+        for (int i = 0; i < count; i++) {
             final T data = newSessions.get(i);
             if (!dataList.contains(data)) {
                 addItem(i, data);

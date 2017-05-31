@@ -20,7 +20,7 @@ public class CircleTransform implements Transformation {
         int y = (source.getHeight() - size) / 2;
 
         Bitmap squaredBitmap = Bitmap.createBitmap(source, x, y, size, size);
-        if (squaredBitmap != source) {
+        if (!squaredBitmap.equals(source)) {
             source.recycle();
         }
 

@@ -77,6 +77,7 @@ class Generator:
             self.api_link = endpoint_url
             os.makedirs(self.app_temp_assets)
             event_info = requests.get(endpoint_url + '/event').json()
+            self.download_event_data()
         else:
             unzip(zip_file, self.app_temp_assets)
             with open(self.get_temp_asset_path('/event')) as json_data:
@@ -182,6 +183,33 @@ class Generator:
         self.cleanup()
 
         return apk_url
+
+    def download_event_data(self):
+        """
+        Download all event data from api i.e. event, speakers, sessions etc..
+        :return:
+        """
+        logger.info('Downloading event data')
+        self.save_file_in_temp_assets('event')
+        self.save_file_in_temp_assets('microlocations')
+        self.save_file_in_temp_assets('sessions')
+        self.save_file_in_temp_assets('speakers')
+        self.save_file_in_temp_assets('sponsors')
+        self.save_file_in_temp_assets('tracks')
+        logger.info('Download complete')
+
+    def save_file_in_temp_assets(self, end_point='event'):
+        """
+        Save response from specified end_point in temp assets directory
+        :param end_point:
+        :return:
+        """
+        if self.api_link:
+            response = requests.get(self.api_link + '/' + end_point)
+            file = open(self.get_temp_asset_path(end_point), "w+")
+            file.write(response.text)
+            file.close()
+            logger.info('%s file saved', end_point)
 
     def prepare_source(self):
         """

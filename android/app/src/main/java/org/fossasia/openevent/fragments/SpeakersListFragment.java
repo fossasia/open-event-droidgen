@@ -150,10 +150,8 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
 
     @Override
     public void onSaveInstanceState(Bundle bundle) {
-        if (isAdded()) {
-            if (searchView != null) {
-                bundle.putString(SEARCH, searchText);
-            }
+        if (isAdded() && searchView != null) {
+            bundle.putString(SEARCH, searchText);
         }
         super.onSaveInstanceState(bundle);
     }
@@ -181,7 +179,7 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
 
                 final AlertDialog.Builder dialogSort = new AlertDialog.Builder(getActivity())
                         .setTitle(R.string.dialog_sort_title)
-                        .setSingleChoiceItems(R.array.speaker_sort, sortType, (dialog, which) -> {
+                        .setSingleChoiceItems(list_options, sortType, (dialog, which) -> {
                             sortType = which;
                             SharedPreferences.Editor editor = prefsSort.edit();
                             editor.putInt(PREF_SORT, which);
@@ -192,6 +190,8 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
 
                 dialogSort.show();
                 break;
+            default:
+                //Do nothing
         }
         return super.onOptionsItemSelected(item);
     }
