@@ -77,10 +77,6 @@ public class MapsFragment extends Fragment implements LocationListener, OnMapRea
                 .addChangeListener((microlocations, orderedCollectionChangeSet) -> {
                     mLocations.clear();
                     mLocations.addAll(microlocations);
-                    if(mMap != null) {
-                        showLocationsOnMap();
-                        showEventLocationOnMap();
-                    }
                 });
 
         return view;
@@ -91,6 +87,8 @@ public class MapsFragment extends Fragment implements LocationListener, OnMapRea
         if(map != null){
             mMap = map;
             mMap.getUiSettings().setMapToolbarEnabled(true);
+            showLocationsOnMap();
+            showEventLocationOnMap();
         }
     }
 
