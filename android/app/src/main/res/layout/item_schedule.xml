@@ -1,5 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_frame"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -41,12 +41,9 @@
             android:textSize="@dimen/text_size_small"
             tools:text="Slot Description" />
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingBottom="@dimen/padding_small"
-            android:paddingTop="@dimen/padding_small">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/slot_start_time"
@@ -58,29 +55,55 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/slot_underscore"
+                android:layout_toEndOf="@+id/slot_start_time"
+                android:layout_toRightOf="@+id/slot_start_time"
                 android:text="@string/time_separator" />
 
             <TextView
                 android:id="@+id/slot_end_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/slot_underscore"
+                android:layout_toRightOf="@+id/slot_underscore"
                 android:textSize="@dimen/text_size_small"
                 tools:text="1:00" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/slot_comma"
+                android:layout_toEndOf="@+id/slot_end_time"
+                android:layout_toRightOf="@+id/slot_end_time"
                 android:text="@string/delimiter" />
 
             <TextView
                 android:id="@+id/slot_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/slot_comma"
+                android:layout_toRightOf="@+id/slot_comma"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textSize="@dimen/text_size_small"
                 tools:text="Slot Location" />
-        </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/slot_track"
+                android:layout_marginTop="@dimen/padding_small"
+                android:padding="@dimen/padding_small"
+                android:textStyle="bold"
+                android:layout_below="@+id/slot_location"
+                android:ellipsize="marquee"
+                android:maxLines="1"
+                android:textColor="@color/white"
+                android:background="@drawable/track_tag_background"
+                android:textSize="@dimen/text_size_medium"
+                tools:text="Track" />
+        </RelativeLayout>
+
     </LinearLayout>
 
     <View
@@ -88,5 +111,5 @@
         android:layout_height="0.8dp"
         android:layout_marginTop="@dimen/layout_margin_medium"
         android:background="?android:attr/listDivider"
-        android:layout_below="@id/ll_sessionDetails"/>
+        android:layout_below="@id/ll_sessionDetails" />
 </RelativeLayout>

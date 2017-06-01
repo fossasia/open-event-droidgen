@@ -2,6 +2,8 @@ package org.fossasia.openevent.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -12,12 +14,15 @@ import android.widget.TextView;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.activities.SessionDetailActivity;
+import org.fossasia.openevent.activities.TrackSessionsActivity;
 import org.fossasia.openevent.data.Session;
+import org.fossasia.openevent.data.parsingExtra.Track;
 import org.fossasia.openevent.dbutils.DbContract;
 import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.ISO8601Date;
 import org.fossasia.openevent.utils.SortOrder;
+import org.fossasia.openevent.utils.TrackColors;
 import org.fossasia.openevent.views.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
 import java.util.ArrayList;
@@ -111,6 +116,33 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
         }
         holder.slotLocation.setText(currentSession.getMicrolocation().getName());
 
+        Track currentSessionTrack = currentSession.getTrack();
+        int currentSessionTrackId = currentSessionTrack.getId();
+        int color = TrackColors.getColor(currentSessionTrackId);
+
+        // Color is not in cache
+        if(color == -1) {
+            disposable.add(DbSingleton.getInstance().getTrackByNameObservable(currentSessionTrack.getName())
+                    .subscribe(track1 -> {
+                        int color1 = Color.parseColor(track1.getColor());
+                        holder.slotTrack.getBackground().setColorFilter(color1, PorterDuff.Mode.SRC_ATOP);
+                        TrackColors.storeColor(track1.getId(), color1);
+                    }));
+        } else {
+            holder.slotTrack.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+            Timber.d("Cached color loaded for ID %d", currentSessionTrackId);
+        }
+
+        holder.slotTrack.setText(currentSessionTrack.getName());
+        holder.slotTrack.setOnClickListener(v -> {
+            Intent intent = new Intent(context, TrackSessionsActivity.class);
+            intent.putExtra(ConstantStrings.TRACK, currentSessionTrack.getName());
+
+            // Send Track ID to Activity to leverage color cache
+            intent.putExtra(ConstantStrings.TRACK_ID, currentSession.getId());
+            context.startActivity(intent);
+        });
+
         holder.itemView.setOnClickListener(v -> {
             final String sessionName = currentSession.getTitle();
 
@@ -201,6 +233,8 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
         @BindView(R.id.slot_location)
         TextView slotLocation;
 
+        @BindView(R.id.slot_track)
+        TextView slotTrack;
 
         DayScheduleViewHolder(View itemView) {
             super(itemView);

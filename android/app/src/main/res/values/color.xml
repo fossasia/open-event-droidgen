@@ -13,6 +13,7 @@
     <color name="dark_grey">#A9A9A9</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
+    <color name="track_header_default">#546E7A</color>
     <color name="speakers_listview_primary">#de000000</color>
     <color name="speakers_listview_secondary">#8a000000</color>
 </resources>
