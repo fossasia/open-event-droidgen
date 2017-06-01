@@ -35,7 +35,9 @@ import org.fossasia.openevent.views.stickyheadersrecyclerview.StickyRecyclerHead
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import io.reactivex.disposables.CompositeDisposable;
@@ -116,20 +118,26 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
     }
 
     public void filter(String[] tracksNames, boolean[] isSelectedTrack) {
+        int count = 0;
+        mTracksNames = tracksNames;
+        mSelectedTracks = isSelectedTrack;
         mSessionsFiltered.clear();
 
-        for(int i=0 ; i<mSessions.size() ; i++) {
-            String trackName = mSessions.get(i).getTrack().getName();
-            for(int j=0;j<isSelectedTrack.length; j++){
-
-                String trackName1 = tracksNames[j];
-                if(trackName1.equals(trackName) && isSelectedTrack[j]){
-                    mSessionsFiltered.add(mSessions.get(i));
-                    break;
-                }
+        Map<String, Boolean> tracks = new HashMap<>();
+        for(int i=0 ; i<isSelectedTrack.length ; i++) {
+            if(isSelectedTrack[i]) {
+               count++;
             }
+            tracks.put(tracksNames[i],isSelectedTrack[i]);
         }
-        if(mSessionsFiltered.size()==0){
+
+        if (count != 0) {
+            for(int i=0 ; i<mSessions.size() ; i++) {
+                 if (tracks.get(mSessions.get(i).getTrack().getName())) {
+                    mSessionsFiltered.add(mSessions.get(i));
+                    }
+                }
+            } else {
             mSessionsFiltered.addAll(mSessions);
         }
 
