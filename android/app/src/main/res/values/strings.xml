@@ -12,6 +12,11 @@
     <string name="session_clock_icon">This is a clock icon.</string>
     <string name="session_location_icon">This is a location icon.</string>
 
+    <!-- Download Progress -->
+    <string name="downloading_format">Downloading %s…</string>
+    <string name="event_info">Event Info</string>
+    <string name="sessions">Sessions</string>
+
     <!-- Main menu_speakers -->
     <string name="menu_home">Home</string>
     <string name="menu_tracks">Tracks</string>
