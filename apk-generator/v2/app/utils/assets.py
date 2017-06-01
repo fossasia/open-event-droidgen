@@ -12,11 +12,11 @@ def rename_file(file_path, new_name):
     :param new_name: new name
     :return:
     """
-    path, filename = os.path.split(file_path)
-    filename, file_extension = os.path.splitext(file_path)
+    path = os.path.split(file_path)[0]
+    file_extension = os.path.splitext(file_path)[1]
     new_path = os.path.join(path, new_name + file_extension)
     os.rename(file_path, new_path)
-    return new_path, new_name + file_extension
+    return new_path
 
 
 def resize_launcher_icon(icon_path, app_directory):
@@ -26,7 +26,7 @@ def resize_launcher_icon(icon_path, app_directory):
     :param app_directory: The path to the app-level working directory
     :return:
     """
-    icon_path, filename = rename_file(icon_path, 'ic_launcher')
+    icon_path = rename_file(icon_path, 'ic_launcher')
     destination = os.path.abspath(app_directory + '/app/src/main/')
     resizer = AssetResizer(destination, directory_prefix='mipmap', image_filter=Image.ANTIALIAS)
     resizer.mkres()
