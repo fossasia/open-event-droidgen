@@ -25,17 +25,29 @@ var identifier = null,
     pollingWorker = null,
     downloadUrl = null;
 
+/**
+ * Enable the generate button
+ *
+ * @param enabled
+ */
+function enableGenerateButton(enabled) {
+    $errorMessageHolder.hide();
+    $statusMessageHolder.hide();
+    $generateBtn.prop("disabled", !enabled);
+    $downloadBtn.disable();
+}
+
 $dataSourceRadio.change(
     function () {
         enableGenerateButton(false);
         $apiEndpointInput.val("");
         if (this.checked) {
             dataSourceType = $(this).val();
-            if (dataSourceType === 'json_upload') {
+            if (dataSourceType === "json_upload") {
                 $jsonUploadInputHolder.show();
                 $apiEndpointInputHolder.hide();
             }
-            if (dataSourceType === 'api_endpoint') {
+            if (dataSourceType === "api_endpoint") {
                 $apiEndpointInputHolder.show();
                 $jsonUploadInputHolder.hide();
             }
@@ -44,7 +56,7 @@ $dataSourceRadio.change(
 );
 
 $apiEndpointInput.valueChange(function (value) {
-    if (dataSourceType === 'api_endpoint') {
+    if (dataSourceType === "api_endpoint") {
         if (value.trim() !== "" && isLink(value.trim())) {
             enableGenerateButton(true);
         } else {
@@ -54,8 +66,8 @@ $apiEndpointInput.valueChange(function (value) {
 });
 
 $jsonUploadInput.change(function () {
-    if (dataSourceType === 'json_upload') {
-        $fileProgressBar.css('width', 0);
+    if (dataSourceType === "json_upload") {
+        $fileProgressBar.css("width", 0);
         if (this.value !== "") {
             enableGenerateButton(true);
         } else {
@@ -68,24 +80,30 @@ $jsonUploadInput.change(function () {
  * Set the form to the initial state
  */
 function initialState() {
-    $dataSourceRadio.prop('checked', false);
+    $dataSourceRadio.prop("checked", false);
     $generateBtn.disable();
     $downloadBtn.disable();
     $actionBtnGroup.show();
 }
 initialState();
 
+/**
+ * Update the file upload progress bar
+ * @param progress
+ */
+function updateProgress(progress) {
+    $fileProgressHolder.show();
+    var percentCompleted = Math.round((progress.loaded * 100) / progress.total);
+    $fileProgressBar.css("width", percentCompleted + "%");
+    $fileProgressVal.text(percentCompleted + "%");
+}
 
 /**
- * Enable the generate button
- *
- * @param enabled
+ * Hide the file upload progress bar
  */
-function enableGenerateButton(enabled) {
-    $errorMessageHolder.hide();
-    $statusMessageHolder.hide();
-    $generateBtn.prop('disabled', !enabled);
-    $downloadBtn.disable();
+function hideProgress() {
+    updateProgress({loaded: 0, total: 100});
+    $fileProgressHolder.hide();
 }
 
 /**
@@ -102,25 +120,6 @@ function enableDownloadButton() {
 }
 
 /**
- * Update the file upload progress bar
- * @param progress
- */
-function updateProgress(progress) {
-    $fileProgressHolder.show();
-    var percentCompleted = Math.round((progress.loaded * 100) / progress.total);
-    $fileProgressBar.css('width', percentCompleted + '%');
-    $fileProgressVal.text(percentCompleted + '%');
-}
-
-/**
- * Hide the file upload progress bar
- */
-function hideProgress() {
-    updateProgress({loaded: 0, total: 100});
-    $fileProgressHolder.hide();
-}
-
-/**
  * Update the status message
  *
  * @param status
@@ -132,7 +131,7 @@ function updateStatus(status) {
     if (status) {
         $statusMessage.text(status);
     } else {
-        $statusMessage.text($statusMessage.data('original'));
+        $statusMessage.text($statusMessage.data("original"));
     }
 }
 
@@ -150,7 +149,7 @@ function showError(error) {
     if (error) {
         $errorMessage.text(error);
     } else {
-        $errorMessage.text($errorMessage.data('original'));
+        $errorMessage.text($errorMessage.data("original"));
     }
 }
 
@@ -166,60 +165,22 @@ $downloadBtn.click(function () {
 });
 
 /**
- * Submit the data to the backend via AJAX when the form is submitted
- */
-$form.submit(function (e) {
-    e.preventDefault();
-    downloadUrl = null;
-    $form.lockFormInputs();
-    var data = new FormData();
-    data.append('email', $emailInput.val());
-    data.append('data-source', dataSourceType);
-
-    var config = {};
-
-    if (dataSourceType === 'json_upload') {
-        data.append('json-upload', $jsonUploadInput[0].files[0]);
-        config.onUploadProgress = updateProgress;
-    } else {
-        data.append('api-endpoint', $apiEndpointInput.val());
-    }
-
-    updateStatus();
-
-    axios
-        .post('/', data, config)
-        .then(function (res) {
-            hideProgress();
-            identifier = res.data.identifier;
-            taskId = res.data.task_id;
-            updateStatus("Waiting in line :)");
-            if (taskId && taskId.trim() !== '') {
-                startPoll();
-            }
-        })
-        .catch(function () {
-            showError();
-        });
-});
-
-/**
  * Start the continuous poll for getting status updates
  */
 function startPoll() {
     pollingWorker = setInterval(function () {
         axios
-            .get('/api/v2/app/' + taskId + '/status')
+            .get("/api/v2/app/" + taskId + "/status")
             .then(function (res) {
                 res = res.data;
                 switch (res.state) {
-                    case 'FAILURE':
+                    case "FAILURE":
                         showError();
                         clearInterval(pollingWorker);
                         break;
-                    case 'SUCCESS':
-                        if (res.hasOwnProperty('result')) {
-                            downloadUrl = res.result.hasOwnProperty('message') ? res.result.message : res.result;
+                    case "SUCCESS":
+                        if (res.hasOwnProperty("result")) {
+                            downloadUrl = res.result.hasOwnProperty("message") ? res.result.message : res.result;
                             enableDownloadButton();
                         } else {
                             showError();
@@ -235,3 +196,41 @@ function startPoll() {
             });
     }, 1000);
 }
+
+/**
+ * Submit the data to the backend via AJAX when the form is submitted
+ */
+$form.submit(function (e) {
+    e.preventDefault();
+    downloadUrl = null;
+    $form.lockFormInputs();
+    var data = new FormData();
+    data.append("email", $emailInput.val());
+    data.append("data-source", dataSourceType);
+
+    var config = {};
+
+    if (dataSourceType === "json_upload") {
+        data.append("json-upload", $jsonUploadInput[0].files[0]);
+        config.onUploadProgress = updateProgress;
+    } else {
+        data.append("api-endpoint", $apiEndpointInput.val());
+    }
+
+    updateStatus();
+
+    axios
+        .post("/", data, config)
+        .then(function (res) {
+            hideProgress();
+            identifier = res.data.identifier;
+            taskId = res.data.task_id;
+            updateStatus("Waiting in line :)");
+            if (taskId && taskId.trim() !== "") {
+                startPoll();
+            }
+        })
+        .catch(function () {
+            showError();
+        });
+});

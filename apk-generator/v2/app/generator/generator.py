@@ -339,5 +339,3 @@ class Generator:
             self.update_status('Package verified.', skip_log=True)
         elif output_line == 'done':
             self.update_status('Application has been generated. Please wait.', skip_log=True)
-
-
