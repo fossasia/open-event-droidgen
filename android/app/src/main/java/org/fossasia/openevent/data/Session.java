@@ -47,8 +47,13 @@ public class Session {
     @SerializedName("slides")
     private String type;
 
-    private String startDate;
+    @SerializedName("audio")
+    private String audio_link;
 
+    @SerializedName("video")
+    private String video_link;
+
+    private String startDate;
 
     public Session(int id, String title, String subtitle,
                    String summary, String description,
@@ -83,6 +88,22 @@ public class Session {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public void setAudio_link(String audio_link){
+        this.audio_link = audio_link;
+    }
+
+    public String getAudio_link(){
+        return audio_link;
+    }
+
+    public void setVideo_link(String video_link){
+        this.video_link = video_link;
+    }
+
+    public String getVideo_link(){
+        return video_link;
     }
 
     public String getSubtitle() {
