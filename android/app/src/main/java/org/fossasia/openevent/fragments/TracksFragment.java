@@ -21,9 +21,9 @@ import com.squareup.otto.Subscribe;
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.TracksListAdapter;
+import org.fossasia.openevent.api.DataDownloadManager;
 import org.fossasia.openevent.data.Track;
-import org.fossasia.openevent.dbutils.DataDownloadManager;
-import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.events.RefreshUiEvent;
 import org.fossasia.openevent.events.TracksDownloadEvent;
 import org.fossasia.openevent.utils.NetworkUtils;
@@ -35,7 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import io.reactivex.disposables.CompositeDisposable;
+import io.realm.RealmResults;
 
 /**
  * User: MananWason
@@ -57,11 +57,11 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
 
     private SearchView searchView;
 
-    private DbSingleton dbSingleton;
+    private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
+    private RealmResults<Track> realmResults;
 
     private Snackbar snackbar;
 
-    private CompositeDisposable compositeDisposable;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -70,8 +70,7 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
         OpenEventApp.getEventBus().register(this);
-        compositeDisposable = new CompositeDisposable();
-        dbSingleton = DbSingleton.getInstance();
+
         handleVisibility();
         swipeRefreshLayout.setOnRefreshListener(this::refresh);
 
@@ -93,20 +92,20 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
             searchText = savedInstanceState.getString(SEARCH);
         }
 
-        compositeDisposable.add(dbSingleton.getTrackListObservable()
-                .subscribe(tracks -> {
-                    mTracks.clear();
-                    mTracks.addAll(tracks);
+        realmResults = realmRepo.getTracks();
+        realmResults.addChangeListener((tracks, orderedCollectionChangeSet) -> {
+            mTracks.clear();
+            mTracks.addAll(tracks);
 
-                    tracksListAdapter.notifyDataSetChanged();
-                    handleVisibility();
-                }));
+            tracksListAdapter.notifyDataSetChanged();
+            handleVisibility();
+        });
 
         return view;
     }
 
     public void handleVisibility() {
-        if (!dbSingleton.getTrackList().isEmpty()) {
+        if (!mTracks.isEmpty()) {
             noTracksView.setVisibility(View.GONE);
             tracksRecyclerView.setVisibility(View.VISIBLE);
         } else {
@@ -124,10 +123,9 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
     public void onDestroyView() {
         super.onDestroyView();
         OpenEventApp.getEventBus().unregister(this);
-        if(compositeDisposable != null && !compositeDisposable.isDisposed())
-            compositeDisposable.dispose();
 
         // Remove listeners to fix memory leak
+        realmResults.removeAllChangeListeners();
         if(swipeRefreshLayout != null) swipeRefreshLayout.setOnRefreshListener(null);
         if(searchView != null) searchView.setOnQueryTextListener(null);
     }
@@ -153,19 +151,16 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
         MenuItem item = menu.findItem(R.id.action_search_tracks);
         searchView = (SearchView) MenuItemCompat.getActionView(item);
         searchView.setOnQueryTextListener(this);
-        if (searchText != null) {
+        if (searchText != null && !TextUtils.isEmpty(searchText)) {
             searchView.setQuery(searchText, false);
         }
     }
 
     @Override
     public boolean onQueryTextChange(String query) {
-        if (!TextUtils.isEmpty(query)) {
-            searchText = query;
-            tracksListAdapter.getFilter().filter(searchText);
-        } else {
-            tracksListAdapter.refresh();
-        }
+        searchText = query;
+        tracksListAdapter.getFilter().filter(searchText);
+
         return true;
     }
 
@@ -178,9 +173,6 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
     @Subscribe
     public void refreshData(RefreshUiEvent event) {
         handleVisibility();
-        if (searchText.length() == 0) {
-            tracksListAdapter.refresh();
-        }
     }
 
     @Subscribe
@@ -190,13 +182,10 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
         if (event.isState()) {
             if (!searchView.getQuery().toString().isEmpty() && !searchView.isIconified()) {
                 tracksListAdapter.getFilter().filter(searchView.getQuery());
-            } else {
-                tracksListAdapter.refresh();
             }
         } else {
             if (getActivity() != null) {
-                Snackbar.make(windowFrame, getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG)
-                        .setAction(R.string.retry_download, view -> refresh()).show();
+                Snackbar.make(windowFrame, getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, view -> refresh()).show();
             }
         }
     }

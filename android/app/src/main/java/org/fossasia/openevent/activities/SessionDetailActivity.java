@@ -35,14 +35,14 @@ import android.widget.TextView;
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.SessionSpeakerListAdapter;
+import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
-import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.receivers.NotificationAlarmReceiver;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.ISO8601Date;
 import org.fossasia.openevent.utils.StringUtils;
-import org.fossasia.openevent.utils.TrackColors;
 import org.fossasia.openevent.utils.Views;
 import org.fossasia.openevent.utils.WidgetUpdater;
 
@@ -51,8 +51,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Consumer;
+import io.realm.RealmChangeListener;
 import timber.log.Timber;
 
 /**
@@ -61,8 +60,6 @@ import timber.log.Timber;
  */
 public class SessionDetailActivity extends BaseActivity implements AppBarLayout.OnOffsetChangedListener{
     private static final String TAG = "Session Detail";
-
-    private DbSingleton dbSingleton = DbSingleton.getInstance();
 
     private SessionSpeakerListAdapter adapter;
 
@@ -106,91 +103,89 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
     @BindView(R.id.nested_scrollview_session_detail)
     protected NestedScrollView scrollView;
 
+    private static final String BY_ID = "id";
+    private static final String BY_NAME = "name";
+
     private String trackName, title, location;
+    private int id;
     private List<Speaker> speakers = new ArrayList<>();
 
     private Spanned result;
 
     private boolean isHideToolbarView = false;
 
-    private CompositeDisposable disposable;
+    private String loadedFlag;
+
+    private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
+    private Session sessionById;
+    private Session sessionByName;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-
-        disposable = new CompositeDisposable();
 
         setSupportActionBar(toolbar);
         if(getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         title = getIntent().getStringExtra(ConstantStrings.SESSION);
         trackName = getIntent().getStringExtra(ConstantStrings.TRACK);
-        final int id = getIntent().getIntExtra(ConstantStrings.ID, 0);
-        int trackId = getIntent().getIntExtra(ConstantStrings.TRACK_ID, -1);
+        id = getIntent().getIntExtra(ConstantStrings.ID, 0);
         Timber.tag(TAG).d(title);
 
         appBarLayout.addOnOffsetChangedListener(this);
 
         adapter = new SessionSpeakerListAdapter(speakers, this);
 
-        disposable.add(dbSingleton.getSpeakersBySessionNameObservable(title)
-                .subscribe(speakerList -> {
-                    speakers.addAll(speakerList);
-                    adapter.notifyDataSetChanged();
-                }));
+        fabSessionBookmark.setOnClickListener(view -> {
+            if(session == null)
+                return;
 
-        disposable.add(dbSingleton.getSessionByIdObservable(id)
-                .subscribe(receivedSession -> {
-                    // If successfully received Session
-                    session = receivedSession;
-                    sharedPreferences.edit().putInt(ConstantStrings.SESSION_MAP_ID, id).apply();
+            if(session.isBookmarked()) {
+                Timber.tag(TAG).d("Bookmark Removed");
 
-                    updateSession();
-                }, throwable -> {
-                    // If error occurs, we load by name
-                    dbSingleton.getSessionBySessionNameObservable(title)
-                            .subscribe(receivedSession -> {
-                                session = receivedSession;
-                                sharedPreferences.edit().putInt(ConstantStrings.SESSION_MAP_ID, -1).apply();
-                                updateSession();
-                            });
-                }));
+                realmRepo.setBookmark(session.getId(), false).subscribe();
+                fabSessionBookmark.setImageResource(R.drawable.ic_bookmark_outline_white_24dp);
+
+                Snackbar.make(speakersRecyclerView, R.string.removed_bookmark, Snackbar.LENGTH_SHORT).show();
+            } else {
+                Timber.tag(TAG).d("Bookmark Added");
+
+                realmRepo.setBookmark(session.getId(), true).subscribe();
+                fabSessionBookmark.setImageResource(R.drawable.ic_bookmark_white_24dp);
+
+                createNotification();
+                Snackbar.make(speakersRecyclerView, R.string.added_bookmark, Snackbar.LENGTH_SHORT).show();
+            }
+
+            WidgetUpdater.updateWidget(getApplicationContext());
+        });
 
         speakersRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         speakersRecyclerView.setNestedScrollingEnabled(false);
         speakersRecyclerView.setAdapter(adapter);
         speakersRecyclerView.setItemAnimator(new DefaultItemAnimator());
-
-        int color = TrackColors.getColor(trackId);
-        if(trackId == -1 || color == -1) {
-            disposable.add(dbSingleton.getTrackByNameObservable(trackName)
-                    .subscribe(track -> {
-                        int color1 = Color.parseColor(track.getColor());
-
-                        setUiColor(color1);
-
-                        TrackColors.storeColor(track.getId(), color1);
-                    }, throwable -> Timber.d("No track for name %s", trackName)));
-        } else {
-            setUiColor(color);
-            Timber.d("Cached color loaded for ID %d", trackId);
-        }
     }
 
     private void updateSession() {
+        setUiColor(Color.parseColor(session.getTrack().getColor()));
+
+        Timber.d("Updated");
+
+        speakers.clear();
+        speakers.addAll(session.getSpeakers());
+        adapter.notifyDataSetChanged();
+
         updateFloatingIcon();
 
-        disposable.add(dbSingleton.getMicrolocationByIdObservable(session.getMicrolocation().getId())
-                .subscribe(microlocation -> {
-                    location = microlocation.getName();
-                    text_room1.setText(microlocation.getName());
-                }, throwable -> {
-                    location = getString(R.string.location_not_decided);
-                    text_room1.setText(location);
-                }));
+        Microlocation microlocation = session.getMicrolocation();
+
+        if(microlocation != null) {
+            location = microlocation.getName();
+            text_room1.setText(microlocation.getName());
+        } else {
+            location = getString(R.string.location_not_decided);
+            text_room1.setText(location);
+        }
 
         text_title.setText(title);
         if (TextUtils.isEmpty(session.getSubtitle())) {
@@ -220,49 +215,24 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
         summary.setMovementMethod(LinkMovementMethod.getInstance());
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            result = Html.fromHtml(session.getDescription(), Html.FROM_HTML_MODE_LEGACY);
-            summary.setText(Html.fromHtml(session.getSummary(), Html.FROM_HTML_MODE_LEGACY));
+            result = Html.fromHtml(session.getLongAbstract(), Html.FROM_HTML_MODE_LEGACY);
+            summary.setText(Html.fromHtml(session.getShortAbstract(), Html.FROM_HTML_MODE_LEGACY));
         } else {
-            result = Html.fromHtml(session.getDescription());
-            summary.setText(Html.fromHtml(session.getSummary()));
+            result = Html.fromHtml(session.getLongAbstract());
+            summary.setText(Html.fromHtml(session.getShortAbstract()));
 
         }
         descrip.setText(result);
     }
 
     private void updateFloatingIcon() {
-        final Consumer<Boolean> bookmarkConsumer = bookmarked -> {
-            if(bookmarked) {
-                Timber.tag(TAG).d("Bookmark Removed");
-                disposable.add(dbSingleton.deleteBookmarksObservable(session.getId()).subscribe());
-
-                fabSessionBookmark.setImageResource(R.drawable.ic_bookmark_outline_white_24dp);
-                Snackbar.make(speakersRecyclerView, R.string.removed_bookmark, Snackbar.LENGTH_SHORT).show();
-            } else {
-                Timber.tag(TAG).d("Bookmarked");
-                disposable.add(dbSingleton.addBookmarksObservable(session.getId()).subscribe());
-                fabSessionBookmark.setImageResource(R.drawable.ic_bookmark_white_24dp);
-                createNotification();
-                Snackbar.make(speakersRecyclerView, R.string.added_bookmark, Snackbar.LENGTH_SHORT).show();
-            }
-        };
-
-        disposable.add(dbSingleton.isBookmarkedObservable(session.getId())
-                .subscribe(bookmarked -> {
-                    if(bookmarked) {
-                        Timber.tag(TAG).d("Bookmarked");
-                        fabSessionBookmark.setImageResource(R.drawable.ic_bookmark_white_24dp);
-                    } else {
-                        Timber.tag(TAG).d("Bookmark Removed");
-                        fabSessionBookmark.setImageResource(R.drawable.ic_bookmark_outline_white_24dp);
-                    }
-                }));
-
-        fabSessionBookmark.setOnClickListener(view -> {
-            disposable.add(dbSingleton.isBookmarkedObservable(session.getId())
-                    .subscribe(bookmarkConsumer));
-            WidgetUpdater.updateWidget(getApplicationContext());
-        });
+        if(session.isBookmarked()) {
+            Timber.tag(TAG).d("Bookmarked");
+            fabSessionBookmark.setImageResource(R.drawable.ic_bookmark_white_24dp);
+        } else {
+            Timber.tag(TAG).d("Bookmark Removed");
+            fabSessionBookmark.setImageResource(R.drawable.ic_bookmark_outline_white_24dp);
+        }
     }
 
     private void setUiColor(int color) {
@@ -282,23 +252,6 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
     @Override
     protected int getLayoutResource() {
         return R.layout.activity_sessions_detail;
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if(disposable != null && !disposable.isDisposed())
-            disposable.dispose();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        dbSingleton.getSessionBySessionNameObservable(title)
-                .subscribe(receivedSession -> {
-                    session = receivedSession;
-                    updateFloatingIcon();
-                });
     }
 
     @Override
@@ -365,7 +318,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
                 Intent intent = new Intent(Intent.ACTION_INSERT);
                 intent.setType("vnd.android.cursor.item/event");
                 intent.putExtra(CalendarContract.Events.TITLE, title);
-                intent.putExtra(CalendarContract.Events.DESCRIPTION, session.getDescription());
+                intent.putExtra(CalendarContract.Events.DESCRIPTION, session.getShortAbstract());
                 intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, ISO8601Date.getDateObject(session.getStartTime()).getTime());
                 intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME,
                         ISO8601Date.getDateObject(session.getEndTime()).getTime());
@@ -424,5 +377,52 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
             linearLayout.setVisibility(View.VISIBLE);
             isHideToolbarView = !isHideToolbarView;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        sessionById = realmRepo.getSession(id);
+        sessionById.addChangeListener((RealmChangeListener<Session>) loadedSession -> {
+            if(!loadedSession.isValid())
+                return;
+
+            if(loadedFlag == null || loadedFlag.equals(BY_ID)) {
+
+                loadedFlag = BY_ID;
+
+                session = loadedSession;
+
+                sharedPreferences.edit().putInt(ConstantStrings.SESSION_MAP_ID, id).apply();
+                updateSession();
+            }
+        });
+
+        sessionByName = realmRepo.getSession(title);
+        sessionByName.addChangeListener((RealmChangeListener<Session>) loadedSession -> {
+            if(!loadedSession.isValid())
+                return;
+
+            if(loadedFlag == null || loadedFlag.equals(BY_NAME)) {
+
+                loadedFlag = BY_NAME;
+
+                session = loadedSession;
+
+                sharedPreferences.edit().putInt(ConstantStrings.SESSION_MAP_ID, -1).apply();
+                updateSession();
+            }
+        });
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        if(sessionById != null) sessionById.removeAllChangeListeners();
+        if(sessionByName != null) sessionByName.removeAllChangeListeners();
     }
 }

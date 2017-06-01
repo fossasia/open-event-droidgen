@@ -4,7 +4,7 @@ import android.preference.PreferenceManager;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.data.Event;
-import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.dbutils.RealmDataRepository;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -130,7 +130,7 @@ public final class ISO8601Date {
 
     private static void setEventTimezone() {
         if (eventTimezone.isEmpty()) {
-            Event event = DbSingleton.getInstance().getEventDetails();
+            Event event = RealmDataRepository.getDefaultInstance().getEventSync();
             ISO8601Date.eventTimezone = (event.getTimezone());
         }
     }

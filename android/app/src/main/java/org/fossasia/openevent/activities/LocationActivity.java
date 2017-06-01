@@ -19,7 +19,7 @@ import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.SessionsListAdapter;
 import org.fossasia.openevent.data.Session;
-import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.utils.ConstantStrings;
 
 import java.util.ArrayList;
@@ -28,7 +28,6 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import io.reactivex.disposables.CompositeDisposable;
-import timber.log.Timber;
 
 /**
  * User: MananWason
@@ -57,6 +56,7 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
     private SearchView searchView;
 
     private CompositeDisposable disposable;
+    private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +78,6 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
     protected void onResume() {
         super.onResume();
 
-        final DbSingleton dbSingleton = DbSingleton.getInstance();
         location = getIntent().getStringExtra(ConstantStrings.MICROLOCATIONS);
         toolbar.setTitle(location);
 
@@ -94,28 +93,15 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
         sessionRecyclerView.setAdapter(sessionsListAdapter);
         sessionRecyclerView.scrollToPosition(SessionsListAdapter.listPosition);
         sessionRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        if (searchText != null) {
-            disposable.add(dbSingleton.getSessionsByLocationNameObservable(location)
-                    .subscribe(sessions -> {
-                        mSessions.clear();
-                        mSessions.addAll(sessions);
-                        final List<Session> filteredModelList = filter(mSessions,
-                                searchText.toLowerCase(Locale.getDefault()));
-                        Timber.tag("xyz").d("%d %d", mSessions.size(), filteredModelList.size());
-                        sessionsListAdapter.notifyDataSetChanged();
-                        sessionsListAdapter.animateTo(filteredModelList);
-                        sessionRecyclerView.scrollToPosition(0);
-                    }));
-        } else {
-            disposable.add(dbSingleton.getSessionsByLocationNameObservable(location)
-                    .subscribe(sessions -> {
-                        mSessions.clear();
-                        mSessions.addAll(sessions);
-                        sessionsListAdapter.notifyDataSetChanged();
 
-                        handleVisibility();
-                    }));
-        }
+        realmRepo.getSessionsByLocation(location)
+                .addChangeListener((sessions, orderedCollectionChangeSet) -> {
+                    mSessions.clear();
+                    mSessions.addAll(sessions);
+                    sessionsListAdapter.notifyDataSetChanged();
+
+                    handleVisibility();
+                });
 
         handleVisibility();
     }
@@ -190,23 +176,19 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
 
     @Override
     public boolean onQueryTextChange(final String query) {
-        DbSingleton dbSingleton = DbSingleton.getInstance();
-
-        disposable.add(dbSingleton.getSessionsByLocationNameObservable(location)
-                .subscribe(sessions -> {
+        realmRepo.getSessionsByLocation(location)
+                .addChangeListener((sessions, orderedCollectionChangeSet) -> {
                     mSessions.clear();
                     mSessions.addAll(sessions);
 
                     final List<Session> filteredModelList = filter(mSessions,
                             query.toLowerCase(Locale.getDefault()));
-                    Timber.tag("xyz").d("%d %d", mSessions.size(), filteredModelList.size());
-
                     sessionsListAdapter.notifyDataSetChanged();
                     sessionsListAdapter.animateTo(filteredModelList);
                     sessionRecyclerView.scrollToPosition(0);
 
                     searchText = query;
-                }));
+                });
 
         return false;
     }

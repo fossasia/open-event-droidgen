@@ -13,13 +13,15 @@ import android.widget.RemoteViewsService;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.data.Session;
-import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.ISO8601Date;
 
 import java.util.List;
 
 import timber.log.Timber;
+
+import static android.R.attr.id;
 
 /**
  * User: Opticod(Anupam Das)
@@ -51,6 +53,8 @@ public class BookmarkWidgetRemoteViewsService extends RemoteViewsService {
 
     private int LESS_DETAIL_SIZE = 300;
 
+    private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
+
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
 
@@ -72,15 +76,12 @@ public class BookmarkWidgetRemoteViewsService extends RemoteViewsService {
                 if (data != null) {
                     data.close();
                 }
-                DbSingleton dbSingleton = DbSingleton.getInstance();
+                List<Session> sessions = realmRepo.getBookMarkedSessionsSync();
                 try {
-                    List<Integer> bookmarkedIds = dbSingleton.getBookmarkIds();
-
                     String[] columns = new String[]{ID, TITLE, START_TIME, END_TIME, DATE};
                     data = new MatrixCursor(columns);
 
-                    for (Integer id : bookmarkedIds) {
-                        Session session = dbSingleton.getSessionById(id);
+                    for (Session session : sessions) {
                         String start = ISO8601Date.get12HourTime(ISO8601Date.getDateObject(session.getStartTime()));
                         String end = ISO8601Date.get12HourTime(ISO8601Date.getDateObject(session.getEndTime()));
                         String date = ISO8601Date.getDate(ISO8601Date.getDateObject(session.getStartTime()));

@@ -28,9 +28,9 @@ import com.squareup.otto.Subscribe;
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.SpeakersListAdapter;
+import org.fossasia.openevent.api.DataDownloadManager;
 import org.fossasia.openevent.data.Speaker;
-import org.fossasia.openevent.dbutils.DataDownloadManager;
-import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.events.SpeakerDownloadEvent;
 import org.fossasia.openevent.utils.NetworkUtils;
 import org.fossasia.openevent.utils.ShowNotificationSnackBar;
@@ -41,7 +41,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import io.reactivex.disposables.CompositeDisposable;
 import timber.log.Timber;
 
 import static org.fossasia.openevent.utils.SortOrder.sortOrderSpeaker;
@@ -69,9 +68,7 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
 
     private int sortType;
 
-    private int list_options;
-
-    private CompositeDisposable compositeDisposable;
+    private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
 
     @Nullable
     @Override
@@ -81,9 +78,6 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
         OpenEventApp.getEventBus().register(this);
-        compositeDisposable = new CompositeDisposable();
-
-        final DbSingleton dbSingleton = DbSingleton.getInstance();
 
         prefsSort = PreferenceManager.getDefaultSharedPreferences(getActivity());
         sortType = prefsSort.getInt(PREF_SORT, 0);
@@ -106,19 +100,24 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
             searchText = savedInstanceState.getString(SEARCH);
         }
 
-        compositeDisposable.add(dbSingleton.getSpeakerListObservable(sortOrderSpeaker(getActivity()))
-                .subscribe(speakers -> {
+        loadData();
+
+        handleVisibility();
+
+        return view;
+    }
+
+    private void loadData() {
+        realmRepo.getSpeakers(sortOrderSpeaker(getContext()))
+                .addChangeListener((speakers, orderedCollectionChangeSet) -> {
+
                     mSpeakers.clear();
                     mSpeakers.addAll(speakers);
 
                     speakersListAdapter.notifyDataSetChanged();
 
                     handleVisibility();
-                }));
-
-        handleVisibility();
-
-        return view;
+                });
     }
 
     private void handleVisibility() {
@@ -140,8 +139,6 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
     public void onDestroyView() {
         super.onDestroyView();
         OpenEventApp.getEventBus().unregister(this);
-        if(compositeDisposable != null && !compositeDisposable.isDisposed())
-            compositeDisposable.dispose();
 
         // Remove listeners to fix memory leak
         if(swipeRefreshLayout != null) swipeRefreshLayout.setOnRefreshListener(null);
@@ -161,19 +158,18 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
         switch (item.getItemId()) {
             case R.id.action_sort:
 
-                int num_orgs=speakersListAdapter.getDistinctOrgs();
+                int num_orgs = speakersListAdapter.getDistinctOrgs();
                 int num_country = speakersListAdapter.getDistinctCountry();
+
+                int list_options;
 
                 if(num_orgs==1 && num_country==1){
                     list_options = R.array.speaker_sort_name;
-                }
-                else if(num_orgs==1){
+                } else if(num_orgs==1){
                     list_options = R.array.speaker_sort_name_country;
-                }
-                else if(num_country==1){
+                } else if(num_country==1){
                     list_options = R.array.speaker_sort_name_organisation;
-                }
-                else{
+                } else{
                     list_options = R.array.speaker_sort_all;
                 }
 
@@ -184,7 +180,7 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
                             SharedPreferences.Editor editor = prefsSort.edit();
                             editor.putInt(PREF_SORT, which);
                             editor.apply();
-                            refreshAdapter();
+                            loadData();
                             dialog.dismiss();
                         });
 
@@ -204,7 +200,8 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
         MenuItem item = menu.findItem(R.id.action_search_speakers);
         searchView = (SearchView) MenuItemCompat.getActionView(item);
         searchView.setOnQueryTextListener(this);
-        searchView.setQuery(searchText, false);
+        if(searchView != null && !TextUtils.isEmpty(searchText))
+            searchView.setQuery(searchText, false);
     }
 
     @Override
@@ -214,22 +211,6 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
         float width = displayMetrics.widthPixels / displayMetrics.density;
         int spanCount = (int) (width / 150.00);
         gridLayoutManager.setSpanCount(spanCount);
-    }
-
-    @Subscribe
-    public void speakerDownloadDone(SpeakerDownloadEvent event) {
-        if(swipeRefreshLayout == null)
-            return;
-
-        swipeRefreshLayout.setRefreshing(false);
-        if (event.isState()) {
-            refreshAdapter();
-            Timber.i("Speaker download completed");
-        } else {
-            Snackbar.make(swipeRefreshLayout, getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG)
-                    .setAction(R.string.retry_download, view -> refresh()).show();
-            Timber.i("Speaker download failed.");
-        }
     }
 
     private void refresh() {
@@ -271,14 +252,18 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
         });
     }
 
-    private void refreshAdapter(){
-         if (speakersListAdapter != null && searchView != null) {
-            if (!searchView.getQuery().toString().isEmpty() && !searchView.isIconified()) {
-                speakersListAdapter.getFilter().filter(searchView.getQuery());
-            } else {
-                speakersListAdapter.refresh();
-            }
-         }
+    @Subscribe
+    public void speakerDownloadDone(SpeakerDownloadEvent event) {
+        if(swipeRefreshLayout == null)
+            return;
+
+        swipeRefreshLayout.setRefreshing(false);
+        if (event.isState()) {
+            Timber.i("Speaker download completed");
+        } else {
+            Snackbar.make(swipeRefreshLayout, getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, view -> refresh()).show();
+            Timber.i("Speaker download failed.");
+        }
     }
 
     @Override
@@ -291,11 +276,9 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
     @Override
     public boolean onQueryTextChange(String query) {
         searchText = query;
-        if (!TextUtils.isEmpty(query)) {
-            speakersListAdapter.getFilter().filter(query);
-        } else {
-            speakersListAdapter.refresh();
-        }
+
+        speakersListAdapter.getFilter().filter(query);
+
         return true;
     }
 

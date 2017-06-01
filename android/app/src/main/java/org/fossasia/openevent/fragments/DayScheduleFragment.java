@@ -22,10 +22,9 @@ import com.squareup.otto.Subscribe;
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.DayScheduleAdapter;
+import org.fossasia.openevent.api.DataDownloadManager;
 import org.fossasia.openevent.data.Session;
-import org.fossasia.openevent.dbutils.DataDownloadManager;
-import org.fossasia.openevent.dbutils.DbSingleton;
-import org.fossasia.openevent.events.RefreshUiEvent;
+import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.events.SessionDownloadEvent;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.NetworkUtils;
@@ -47,7 +46,7 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
 
     final private String SEARCH = "searchText";
 
-    private String searchText = "";
+    public static String searchText = "";
 
     private SearchView searchView;
 
@@ -61,8 +60,7 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
 
     private String date;
     private CompositeDisposable compositeDisposable;
-    private String[] mTracksNames;
-    private boolean[] mSelectedTracks;
+    private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -77,12 +75,7 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
 
         compositeDisposable = new CompositeDisposable();
 
-        swipeRefreshLayout.setOnRefreshListener(() -> {
-            refresh();
-            if(mSelectedTracks != null && mTracksNames != null) {
-                filter(mTracksNames,mSelectedTracks);
-            }
-        });
+        swipeRefreshLayout.setOnRefreshListener(this::refresh);
 
         dayRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         dayScheduleAdapter = new DayScheduleAdapter(mSessionsFiltered, getContext());
@@ -101,43 +94,53 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
             searchText = savedInstanceState.getString(SEARCH);
         }
 
-        compositeDisposable.add(DbSingleton.getInstance().getSessionsByDateObservable(date, SortOrder.sortOrderSchedule(getActivity()))
-                .subscribe(sortedSessions -> {
+        realmRepo.getSessionsByDate(date, SortOrder.sortOrderSchedule(getContext()))
+                .addChangeListener((sortedSessions, orderedCollectionChangeSet) -> {
                     mSessions.clear();
                     mSessions.addAll(sortedSessions);
+
                     mSessionsFiltered.clear();
                     mSessionsFiltered.addAll(sortedSessions);
+
+                    dayScheduleAdapter.setCopy(sortedSessions);
+                    dayScheduleAdapter.notifyDataSetChanged();
+
                     handleVisibility();
-                }));
+                });
 
         handleVisibility();
 
         return view;
     }
 
-    public void filter(String[] tracksNames, boolean[] isSelectedTrack) {
-        mSessionsFiltered.clear();
+    public void filter(List<String> selectedTracks) {
+        if(dayScheduleAdapter == null)
+            return;
 
-        for(int i=0 ; i<mSessions.size() ; i++) {
-            String trackName = mSessions.get(i).getTrack().getName();
-            for(int j=0;j<isSelectedTrack.length; j++){
+        realmRepo.getSessionsByDate(date, SortOrder.sortOrderSchedule(OpenEventApp.getAppContext()))
+                .addChangeListener((sortedSessions, orderedCollectionChangeSet) -> {
+                    mSessions.clear();
+                    mSessions.addAll(sortedSessions);
 
-                String trackName1 = tracksNames[j];
-                if(trackName1.equals(trackName) && isSelectedTrack[j]){
-                    mSessionsFiltered.add(mSessions.get(i));
-                    break;
-                }
-            }
-        }
-        if(mSessionsFiltered.size()==0){
-            mSessionsFiltered.addAll(mSessions);
-        }
+                    mSessionsFiltered.clear();
+                    if (selectedTracks.isEmpty()) {
+                        mSessionsFiltered.addAll(mSessions);
+                    } else {
+                        for(int i = 0 ; i < mSessions.size() ; i++) {
+                            String trackName = mSessions.get(i).getTrack().getName();
+                            if (selectedTracks.contains(trackName)) {
+                                mSessionsFiltered.add(mSessions.get(i));
+                            }
+                        }
 
-        if(searchText!=null)
-            dayScheduleAdapter.getFilter().filter(searchText);
+                        if(searchText!=null)
+                            dayScheduleAdapter.filter(searchText);
+                    }
 
-        dayScheduleAdapter.notifyDataSetChanged();
-        handleVisibility();
+                    dayScheduleAdapter.notifyDataSetChanged();
+
+                    handleVisibility();
+                });
     }
 
     private void handleVisibility() {
@@ -178,17 +181,27 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
         super.onStop();
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle bundle) {
-        if (isAdded() && searchView != null) {
-                bundle.putString(SEARCH, searchText);
+    @Subscribe
+    public void onSessionsDownloadDone(SessionDownloadEvent event) {
+        if(swipeRefreshLayout!=null)
+            swipeRefreshLayout.setRefreshing(false);
+        if (event.isState()) {
+            if (searchView != null && !searchView.getQuery().toString().isEmpty() && !searchView.isIconified()) {
+                dayScheduleAdapter.filter(searchView.getQuery().toString());
+            }
+        } else {
+            if (swipeRefreshLayout != null) {
+                Snackbar.make(swipeRefreshLayout, getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, view -> refresh()).show();
+            }
         }
-        super.onSaveInstanceState(bundle);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
+    public void onSaveInstanceState(Bundle bundle) {
+        if (isAdded() && searchView != null) {
+            bundle.putString(SEARCH, searchText);
+        }
+        super.onSaveInstanceState(bundle);
     }
 
     @Override
@@ -197,33 +210,20 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
 
         searchText = "";
         inflater.inflate(R.menu.menu_schedule, menu);
+
         MenuItem item = menu.findItem(R.id.action_search_schedule);
         searchView = (SearchView) MenuItemCompat.getActionView(item);
         searchView.setOnQueryTextListener(this);
-        if (searchText != null) {
+
+        if (searchText != null && !TextUtils.isEmpty(searchText))
             searchView.setQuery(searchText, false);
-        }
     }
 
     @Override
     public boolean onQueryTextChange(String query) {
         searchText = query;
 
-        if (!TextUtils.isEmpty(query)) {
-            if(mSelectedTracks != null && mTracksNames != null) {
-                refreshSchedule();
-            } else {
-                dayScheduleAdapter.getFilter().filter(searchText);
-            }
-        } else {
-            if(dayScheduleAdapter!=null) {
-                if(mSelectedTracks != null && mTracksNames != null) {
-                    filter(mTracksNames,mSelectedTracks);
-                } else {
-                    refreshSchedule();
-                }
-            }
-        }
+        dayScheduleAdapter.filter(searchText);
         return true;
     }
 
@@ -231,49 +231,6 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
     public boolean onQueryTextSubmit(String query) {
         searchView.clearFocus();
         return false;
-    }
-
-    @Subscribe
-    public void refreshData(RefreshUiEvent event) {
-        // if adapter has not initialised, no point in refreshing it/
-        if (dayScheduleAdapter != null) {
-            refreshSchedule();
-        }
-    }
-
-    @Subscribe
-    public void onScheduleDownloadDone(SessionDownloadEvent event) {
-        if(swipeRefreshLayout == null)
-            return;
-
-        swipeRefreshLayout.setRefreshing(false);
-        if (event.isState()) {
-            if (dayScheduleAdapter != null && searchView != null) {
-                if (!searchView.getQuery().toString().isEmpty() && !searchView.isIconified()) {
-                    dayScheduleAdapter.getFilter().filter(searchView.getQuery());
-                } else {
-                    refreshSchedule();
-                }
-            }
-        } else {
-            Snackbar.make(swipeRefreshLayout, getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG)
-                    .setAction(R.string.retry_download, view -> refresh()).show();
-        }
-    }
-
-    public void refreshSchedule() {
-        compositeDisposable.add(DbSingleton.getInstance().getSessionsByDateObservable(date, SortOrder.sortOrderSchedule(getActivity()))
-                .subscribe(sortedSessions -> {
-                    mSessions.clear();
-                    mSessions.addAll(sortedSessions);
-                    mSessionsFiltered.clear();
-                    mSessionsFiltered.addAll(sortedSessions);
-                    if(mSelectedTracks != null && mTracksNames != null) {
-                        filter(mTracksNames,mSelectedTracks);
-                    }
-                    dayScheduleAdapter.notifyDataSetChanged();
-                    handleVisibility();
-                }));
     }
 
     private void refresh() {

@@ -17,19 +17,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.squareup.otto.Subscribe;
+
+import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.SessionsListAdapter;
 import org.fossasia.openevent.data.Session;
-import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.dbutils.RealmDataRepository;
+import org.fossasia.openevent.events.BookmarkChangedEvent;
 import org.fossasia.openevent.widget.DialogFactory;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
-import io.reactivex.disposables.CompositeDisposable;
+import io.realm.RealmResults;
 import timber.log.Timber;
 
 /**
@@ -44,7 +47,7 @@ public class BookmarksFragment extends BaseFragment implements SearchView.OnQuer
 
     private GridLayoutManager gridLayoutManager;
 
-    private static final int bookmarkedSessionList =3;
+    private static final int bookmarkedSessionList = 3;
 
     private String searchText = "";
 
@@ -52,59 +55,20 @@ public class BookmarksFragment extends BaseFragment implements SearchView.OnQuer
 
     @BindView(R.id.list_bookmarks) RecyclerView bookmarkedTracks;
 
-    private ArrayList<Integer> bookmarkedIds;
     private List<Session> mSessions = new ArrayList<>();
 
-    private CompositeDisposable compositeDisposable;
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (sessionsListAdapter != null) {
-            try {
-                final DbSingleton dbSingleton = DbSingleton.getInstance();
-                if (searchText != null) {
-                    ArrayList<Session> Sessions = new ArrayList<>();
-                    try {
-                        ArrayList<Integer> bookmarkedIds = dbSingleton.getBookmarkIds();
-                        for (int i = 0; i < bookmarkedIds.size(); i++) {
-                            Integer id = bookmarkedIds.get(i);
-                            Session session = dbSingleton.getSessionById(id);
-                            Sessions.add(session);
-                        }
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    final List<Session> filteredModelList = filter(Sessions, searchText.toLowerCase(Locale.getDefault()));
-                    sessionsListAdapter.animateTo(filteredModelList);
-                } else {
-                    compositeDisposable.add(dbSingleton.getBookmarkIdsObservable()
-                            .subscribe(ids -> {
-                                bookmarkedIds = ids;
-                                sessionsListAdapter.clear();
-                                for (int i = 0; i < bookmarkedIds.size(); i++) {
-                                    Integer id = bookmarkedIds.get(i);
-                                    final int index = i;
-                                    dbSingleton.getSessionByIdObservable(id)
-                                            .subscribe(session -> {
-                                                mSessions.add(session);
-                                                sessionsListAdapter.notifyItemInserted(index);
-                                                if (index == bookmarkedIds.size())
-                                                    handleVisibility();
-                                            });
-                                }
-                            }));
-                }
-            } catch (ParseException e) {
-                Timber.e("Parsing Error Occurred at BookmarksFragment::onResume.");
-            }
-        }
-    }
+    private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
+    private RealmResults<Session> bookmarksResult;
+    private boolean dispatched = false;
 
     private void handleVisibility() {
-        if (!bookmarkedIds.isEmpty()) {
+        if(bookmarkedTracks == null)
+            return;
+
+        if (!mSessions.isEmpty()) {
             bookmarkedTracks.setVisibility(View.VISIBLE);
-        } else {
+        } else if(!dispatched) {
+            dispatched = true;
             DialogFactory.createSimpleActionDialog(getActivity(), R.string.bookmarks, R.string.empty_list, (dialog, which) -> {
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.content_frame, new TracksFragment(), FRAGMENT_TAG).commit();
@@ -123,8 +87,6 @@ public class BookmarksFragment extends BaseFragment implements SearchView.OnQuer
 
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
-        compositeDisposable = new CompositeDisposable();
-
         //setting the grid layout to cut-off white space in tablet view
         DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
         float width = displayMetrics.widthPixels / displayMetrics.density;
@@ -132,7 +94,8 @@ public class BookmarksFragment extends BaseFragment implements SearchView.OnQuer
 
         bookmarkedTracks.setVisibility(View.VISIBLE);
         sessionsListAdapter = new SessionsListAdapter(getContext(), mSessions, bookmarkedSessionList);
-        sessionsListAdapter.setBookmarksListChangeListener(this::onResume);
+        sessionsListAdapter.setBookmarkView(true);
+
         bookmarkedTracks.setAdapter(sessionsListAdapter);
         gridLayoutManager = new GridLayoutManager(getActivity(), spanCount);
         bookmarkedTracks.setLayoutManager(gridLayoutManager);
@@ -142,6 +105,25 @@ public class BookmarksFragment extends BaseFragment implements SearchView.OnQuer
         }
 
         return view;
+    }
+
+    @Subscribe
+    public void onBookmarksChanged(BookmarkChangedEvent bookmarkChangedEvent) {
+        Timber.d("Bookmarks changed");
+        loadData();
+    }
+
+    private void loadData() {
+        bookmarksResult = realmRepo.getBookMarkedSessions();
+        bookmarksResult.removeAllChangeListeners();
+        bookmarksResult.addChangeListener((bookmarked, orderedCollectionChangeSet) -> {
+            mSessions.clear();
+            mSessions.addAll(bookmarked);
+
+            sessionsListAdapter.notifyDataSetChanged();
+
+            handleVisibility();
+        });
     }
 
     @Override
@@ -158,10 +140,29 @@ public class BookmarksFragment extends BaseFragment implements SearchView.OnQuer
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        OpenEventApp.getEventBus().register(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        loadData();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        OpenEventApp.getEventBus().unregister(this);
+        if(bookmarksResult != null)
+            bookmarksResult.removeAllChangeListeners();
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if(compositeDisposable != null && !compositeDisposable.isDisposed())
-            compositeDisposable.dispose();
 
         // Remove listeners to fix memory leak
         if(searchView != null) searchView.setOnQueryTextListener(null);
@@ -201,18 +202,9 @@ public class BookmarksFragment extends BaseFragment implements SearchView.OnQuer
 
     @Override
     public boolean onQueryTextChange(String query) {
-        ArrayList<Session> Sessions = new ArrayList<>();
-        try {
-            ArrayList<Integer> bookmarkedIds = DbSingleton.getInstance().getBookmarkIds();
-            for (int i = 0; i < bookmarkedIds.size(); i++) {
-                Integer id = bookmarkedIds.get(i);
-                Session session = DbSingleton.getInstance().getSessionById(id);
-                Sessions.add(session);
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        final List<Session> filteredModelList = filter(Sessions, query.toLowerCase(Locale.getDefault()));
+        List<Session> sessions = realmRepo.getBookMarkedSessionsSync();
+
+        final List<Session> filteredModelList = filter(sessions, query.toLowerCase(Locale.getDefault()));
 
         sessionsListAdapter.animateTo(filteredModelList);
 

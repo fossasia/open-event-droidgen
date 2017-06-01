@@ -19,10 +19,11 @@ import com.squareup.leakcanary.RefWatcher;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
+import com.uphyca.stetho_realm.RealmInspectorModulesProvider;
 
 import org.fossasia.openevent.activities.MainActivity;
 import org.fossasia.openevent.api.Urls;
-import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.dbutils.RealmDatabaseMigration;
 import org.fossasia.openevent.events.ConnectionCheckEvent;
 import org.fossasia.openevent.events.ShowNetworkDialogEvent;
 import org.fossasia.openevent.modules.MapModuleFactory;
@@ -37,6 +38,8 @@ import java.lang.ref.WeakReference;
 import java.util.Locale;
 
 import io.branch.referral.Branch;
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import okhttp3.OkHttpClient;
 import timber.log.Timber;
 
@@ -88,6 +91,14 @@ public class OpenEventApp extends Application {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getAppContext());
         sDefSystemLanguage = Locale.getDefault().getDisplayLanguage();
 
+        Realm.init(this);
+        RealmConfiguration config = new RealmConfiguration.Builder()
+                .schemaVersion(RealmDatabaseMigration.DB_VERSION) // Must be bumped when the schema changes
+                .migration(new RealmDatabaseMigration()) // Migration to run instead of throwing an exception
+                .build();
+
+        Realm.setDefaultConfiguration(config);
+
         if (LeakCanary.isInAnalyzerProcess(this)) {
             // This process is dedicated to LeakCanary for heap analysis.
             // You should not init your app in this process.
@@ -97,7 +108,11 @@ public class OpenEventApp extends Application {
 
         if (BuildConfig.DEBUG) {
             // Create an InitializerBuilder
-            Stetho.initializeWithDefaults(getApplicationContext());
+            Stetho.initialize(
+                    Stetho.newInitializerBuilder(this)
+                            .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
+                            .enableWebKitInspector(RealmInspectorModulesProvider.builder(this).build())
+                            .build());
 
             //Initialize Stetho Interceptor into OkHttp client
             OkHttpClient httpClient = new OkHttpClient.Builder().addNetworkInterceptor(new StethoInterceptor()).build();
@@ -111,7 +126,6 @@ public class OpenEventApp extends Application {
             Timber.plant(new CrashReportingTree());
         }
 
-        DbSingleton.init(this);
         mapModuleFactory = new MapModuleFactory();
         registerReceiver(new NetworkConnectivityChangeReceiver(), new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
         getEventBus().register(this);

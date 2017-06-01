@@ -4,6 +4,7 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,20 +17,25 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.squareup.otto.Subscribe;
+
+import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.SessionsListAdapter;
 import org.fossasia.openevent.data.Session;
-import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.data.Track;
+import org.fossasia.openevent.dbutils.RealmDataRepository;
+import org.fossasia.openevent.events.BookmarkChangedEvent;
 import org.fossasia.openevent.utils.ConstantStrings;
-import org.fossasia.openevent.utils.TrackColors;
 import org.fossasia.openevent.utils.Views;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import io.reactivex.disposables.CompositeDisposable;
+import io.realm.RealmObjectChangeListener;
 import timber.log.Timber;
+
 
 /**
  * User: MananWason
@@ -43,8 +49,6 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
 
     private GridLayoutManager gridLayoutManager;
 
-    private String track;
-
     private List<Session> mSessions = new ArrayList<>();
 
     private String searchText;
@@ -52,8 +56,12 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
     private SearchView searchView;
 
     private static final int trackWiseSessionList = 4;
+    private int trackId;
 
-    private CompositeDisposable disposable;
+    private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
+    private Track track;
+
+    private ActionBar actionBar;
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.recyclerView) RecyclerView sessionsRecyclerView;
@@ -64,25 +72,18 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
         super.onCreate(savedInstanceState);
         getWindow().setBackgroundDrawable(null);
 
-        disposable = new CompositeDisposable();
-
         setSupportActionBar(toolbar);
-        if(getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        String track = getIntent().getStringExtra(ConstantStrings.TRACK);
+
+        actionBar = getSupportActionBar();
+        if(actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            if (!TextUtils.isEmpty(track))
+                actionBar.setTitle(track);
         }
         if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
             searchText = savedInstanceState.getString(SEARCH);
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        DbSingleton dbSingleton = DbSingleton.getInstance();
-        track = getIntent().getStringExtra(ConstantStrings.TRACK);
-        if (!TextUtils.isEmpty(track))
-            toolbar.setTitle(track);
 
         //setting the grid layout to cut-off white space in tablet view
         DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
@@ -94,41 +95,36 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
         sessionsRecyclerView.setLayoutManager(gridLayoutManager);
         sessionsListAdapter = new SessionsListAdapter(this, mSessions, trackWiseSessionList);
         if(searchText!=null){
-            sessionsListAdapter.setTrackName(track);
             sessionsListAdapter.getFilter().filter(searchText);
         }
         sessionsRecyclerView.setAdapter(sessionsListAdapter);
         sessionsRecyclerView.scrollToPosition(SessionsListAdapter.listPosition);
         sessionsRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        int trackId = getIntent().getIntExtra(ConstantStrings.TRACK_ID, -1);
+        trackId = getIntent().getIntExtra(ConstantStrings.TRACK_ID, -1);
 
-        int color = TrackColors.getColor(trackId);
+        sessionsListAdapter.setTrackId(trackId);
 
-        // Either track ID was not sent or color is not in cache
-        if(trackId == -1 || color == -1) {
-            disposable.add(dbSingleton.getTrackByNameObservable(track)
-                    .subscribe(track1 -> {
-                        int color1 = Color.parseColor(track1.getColor());
-                        setUiColor(color1);
-
-                        TrackColors.storeColor(track1.getId(), color1);
-                    }));
-        } else {
-            setUiColor(color);
-            Timber.d("Cached color loaded for ID %d", trackId);
-        }
-
-        disposable.add(dbSingleton.getSessionsByTrackNameObservable(track)
-                .subscribe(sessions -> {
-                    mSessions.clear();
-                    mSessions.addAll(sessions);
-                    sessionsListAdapter.notifyDataSetChanged();
-
-                    handleVisibility();
-                }));
+        loadData();
 
         handleVisibility();
+    }
+
+    private void loadData() {
+        track = realmRepo.getTrack(trackId);
+        track.removeAllChangeListeners();
+        track.addChangeListener((RealmObjectChangeListener<Track>) (track, objectChangeSet) -> {
+            int color = Color.parseColor(track.getColor());
+            setUiColor(color);
+
+            actionBar.setTitle(track.getName());
+
+            mSessions.clear();
+            mSessions.addAll(track.getSessions().sort("startTime"));
+            sessionsListAdapter.notifyDataSetChanged();
+
+            handleVisibility();
+        });
     }
 
     private void handleVisibility() {
@@ -151,6 +147,31 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
         }
     }
 
+    @Subscribe
+    public void onBookmarksChanged(BookmarkChangedEvent bookmarkChangedEvent) {
+        Timber.d("Bookmarks Changed");
+        loadData();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        OpenEventApp.getEventBus().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        OpenEventApp.getEventBus().unregister(this);
+        if(track != null) track.removeAllChangeListeners();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        sessionsListAdapter.notifyDataSetChanged();
+    }
+
     @Override
     protected int getLayoutResource() {
         return R.layout.activity_tracks;
@@ -165,13 +186,6 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if(disposable != null && !disposable.isDisposed())
-            disposable.dispose();
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_search_sessions:
@@ -181,7 +195,6 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
         }
         return super.onOptionsItemSelected(item);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -212,13 +225,8 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
 
     @Override
     public boolean onQueryTextChange(String query) {
-        if (!TextUtils.isEmpty(query)) {
-            sessionsListAdapter.setTrackName(track);
-            sessionsListAdapter.getFilter().filter(query);
-        } else {
-            sessionsListAdapter.setTrackName(track);
-            sessionsListAdapter.refresh();
-        }
+        sessionsListAdapter.getFilter().filter(query);
+
         searchText = query;
         return true;
     }

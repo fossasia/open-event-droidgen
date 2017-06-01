@@ -1,6 +1,6 @@
 package org.fossasia.openevent.adapters;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.graphics.drawable.VectorDrawableCompat;
@@ -18,7 +18,8 @@ import com.squareup.picasso.Picasso;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.activities.SpeakerDetailsActivity;
 import org.fossasia.openevent.data.Speaker;
-import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.dbutils.RealmDataRepository;
+import org.fossasia.openevent.utils.SortOrder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,10 +27,8 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.disposables.CompositeDisposable;
+import io.realm.Realm;
 import timber.log.Timber;
-
-import static org.fossasia.openevent.utils.SortOrder.sortOrderSpeaker;
 
 /**
  * User: MananWason
@@ -37,58 +36,55 @@ import static org.fossasia.openevent.utils.SortOrder.sortOrderSpeaker;
  */
 public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakersListAdapter.RecyclerViewHolder> {
 
-    private Activity activity;
-    private CompositeDisposable disposable;
     private List<String> distinctOrgs = new ArrayList<>();
     private List<String> distinctCountry = new ArrayList<>();
+    private Context context;
 
     @SuppressWarnings("all")
     Filter filter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            DbSingleton instance = DbSingleton.getInstance();
-            List<Speaker> trackList = instance.getSpeakerList(sortOrderSpeaker(activity));
-            final ArrayList<Speaker> filteredSpeakerList = new ArrayList<>();
-            String query = constraint.toString().toLowerCase(Locale.getDefault());
-            for (Speaker speaker : trackList) {
-                final String nameText = speaker.getName().toLowerCase(Locale.getDefault());
-                final String organisationText = speaker.getOrganisation().toLowerCase(Locale.getDefault());
-                final String countryText = speaker.getCountry().toLowerCase(Locale.getDefault());
-                if (nameText.contains(query) ||
-                        organisationText.contains(query) ||
-                        countryText.contains(query)) {
-                    filteredSpeakerList.add(speaker);
-                }
-            }
+            final String query = constraint.toString().toLowerCase(Locale.getDefault());
+
+            Realm realm = Realm.getDefaultInstance();
+
+            List<Speaker> filteredSpeakers = realm.copyFromRealm(RealmDataRepository.getInstance(realm)
+                    .getSpeakersFiltered(constraint.toString(), SortOrder.sortOrderSpeaker(context)));
+
             FilterResults filterResults = new FilterResults();
-            filterResults.values = filteredSpeakerList;
-            filterResults.count = filteredSpeakerList.size();
-            Timber.d("Speaker filtering done total results %d", filterResults.count);
+            filterResults.values = filteredSpeakers;
+            filterResults.count = filteredSpeakers.size();
+            Timber.d("Filtering done total results %d", filterResults.count);
+
+            realm.close();
             return filterResults;
         }
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
+            if(results == null || results.values == null) {
+                Timber.e("No results published. There is an error in query. Check " + getClass().getName() + " filter!");
+
+                return;
+            }
+
             animateTo((List<Speaker>) results.values);
         }
     };
 
-    public SpeakersListAdapter(List<Speaker> speakers, Activity activity) {
+    public SpeakersListAdapter(List<Speaker> speakers, Context context) {
         super(speakers);
-        this.activity = activity;
+        this.context = context;
     }
 
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
-        disposable = new CompositeDisposable();
     }
 
     @Override
     public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
         super.onDetachedFromRecyclerView(recyclerView);
-        if(disposable != null && !disposable.isDisposed())
-            disposable.dispose();
     }
 
     @Override
@@ -111,13 +107,13 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakersListAdap
         //adding distinct org and country (note size of array will never be greater than 2)
         if(distinctOrgs.isEmpty()){
             distinctOrgs.add(current.getOrganisation());
-        }else if(distinctOrgs.size()==1 && (!current.getOrganisation().equals(distinctOrgs.get(0)))){
+        } else if (distinctOrgs.size()==1 && (!current.getOrganisation().equals(distinctOrgs.get(0)))){
             distinctOrgs.add(current.getOrganisation());
         }
 
         if(distinctCountry.isEmpty()){
             distinctCountry.add(current.getCountry());
-        }else if(distinctCountry.size()==1 && (!current.getCountry().equals(distinctCountry.get(0)))){
+        } else if (distinctCountry.size()==1 && (!current.getCountry().equals(distinctCountry.get(0)))){
             distinctCountry.add(current.getCountry());
         }
 
@@ -126,19 +122,28 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakersListAdap
         if(thumbnail != null) {
             Picasso.with(holder.speakerImage.getContext())
                     .load(Uri.parse(thumbnail))
-                    .placeholder(VectorDrawableCompat.create(activity.getResources(), R.drawable.ic_account_circle_grey_24dp, null))
+                    .placeholder(VectorDrawableCompat.create(context.getResources(), R.drawable.ic_account_circle_grey_24dp, null))
                     .into(holder.speakerImage);
         }
 
-        holder.speakerName.setText(TextUtils.isEmpty(current.getName()) ? "" : current.getName());
-        holder.speakerDesignation.setText(String.format("%s %s", current.getPosition(), current.getOrganisation()));
-        holder.speakerCountry.setText(String.format("%s", current.getCountry()));
+        String name = current.getName();
+        name = TextUtils.isEmpty(name) ? "" : name;
+
+        String positionString = current.getPosition();
+        positionString = TextUtils.isEmpty(positionString) ? "" : positionString;
+
+        String country = current.getCountry();
+        country = TextUtils.isEmpty(country) ? "" : country;
+
+        holder.speakerName.setText(name);
+        holder.speakerDesignation.setText(String.format(positionString, current.getOrganisation()));
+        holder.speakerCountry.setText(country);
 
         holder.itemView.setOnClickListener(v -> {
             String speakerName = current.getName();
-            Intent intent = new Intent(activity, SpeakerDetailsActivity.class);
+            Intent intent = new Intent(context, SpeakerDetailsActivity.class);
             intent.putExtra(Speaker.SPEAKER, speakerName);
-            activity.startActivity(intent);
+            context.startActivity(intent);
         });
     }
 
@@ -148,12 +153,6 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakersListAdap
 
     public int getDistinctCountry(){
         return distinctCountry.size();
-    }
-
-    public void refresh() {
-        clear();
-        disposable.add(DbSingleton.getInstance().getSpeakerListObservable(sortOrderSpeaker(activity))
-                .subscribe(this::animateTo));
     }
 
     class RecyclerViewHolder extends RecyclerView.ViewHolder {

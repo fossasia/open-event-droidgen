@@ -1,28 +1,21 @@
-package org.fossasia.openevent.data;
+package org.fossasia.openevent.data.extras;
 
 import com.google.gson.annotations.SerializedName;
 
-import org.fossasia.openevent.dbutils.DbContract;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
-import java.util.Locale;
-
-import timber.log.Timber;
-
-/**
- * Created by harshita30 on 13/3/17.
- */
-
-public class SocialLink {
+public class SocialLink extends RealmObject {
 
     @SerializedName("link")
     private String link;
+    @PrimaryKey
     @SerializedName("id")
     private String id;
     @SerializedName("name")
     private String name;
 
-    public SocialLink() {
-    }
+    public SocialLink() {}
 
     /**
      * @param id
@@ -66,15 +59,4 @@ public class SocialLink {
         this.name = name;
     }
 
-    public String generateSql() {
-        String query_normal = "INSERT INTO %s VALUES ('%s', '%s', '%s');";
-        Timber.d(query_normal);
-        String query = String.format(Locale.ENGLISH,
-                query_normal,
-                DbContract.SocialLink.TABLE_NAME,
-                link,id,name);
-        Timber.d(query);
-        return query;
-
-    }
 }

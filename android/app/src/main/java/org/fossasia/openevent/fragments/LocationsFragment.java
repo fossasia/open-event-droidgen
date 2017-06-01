@@ -7,7 +7,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,11 +20,10 @@ import com.squareup.otto.Subscribe;
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.LocationsListAdapter;
+import org.fossasia.openevent.api.DataDownloadManager;
 import org.fossasia.openevent.data.Microlocation;
-import org.fossasia.openevent.dbutils.DataDownloadManager;
-import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.events.MicrolocationDownloadEvent;
-import org.fossasia.openevent.events.RefreshUiEvent;
 import org.fossasia.openevent.views.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
 import java.util.ArrayList;
@@ -33,6 +31,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import io.reactivex.disposables.CompositeDisposable;
+import timber.log.Timber;
 
 /**
  * User: MananWason
@@ -53,6 +52,7 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
     private SearchView searchView;
 
     private CompositeDisposable compositeDisposable;
+    private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -63,7 +63,6 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
         OpenEventApp.getEventBus().register(this);
         compositeDisposable = new CompositeDisposable();
 
-        final DbSingleton dbSingleton = DbSingleton.getInstance();
         swipeRefreshLayout.setOnRefreshListener(this::refresh);
 
         locationsRecyclerView.setHasFixedSize(true);
@@ -84,14 +83,14 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
             searchText = savedInstanceState.getString(SEARCH);
         }
 
-        compositeDisposable.add(dbSingleton.getMicrolocationListObservable()
-                .subscribe(microlocations -> {
+        realmRepo.getLocations()
+                .addChangeListener((microlocations, orderedCollectionChangeSet) -> {
                     mLocations.clear();
                     mLocations.addAll(microlocations);
 
                     locationsListAdapter.notifyDataSetChanged();
                     handleVisibility();
-                }));
+                });
 
         handleVisibility();
 
@@ -123,7 +122,6 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
         }
     }
 
-
     @Override
     public void onSaveInstanceState(Bundle bundle) {
         if (isAdded() && searchView != null) {
@@ -151,11 +149,8 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
 
     @Override
     public boolean onQueryTextChange(String query) {
-        if (!TextUtils.isEmpty(query)) {
-            locationsListAdapter.getFilter().filter(query);
-        } else {
-            locationsListAdapter.refresh();
-        }
+        locationsListAdapter.getFilter().filter(query);
+
         searchText = query;
         return true;
     }
@@ -164,14 +159,6 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
     public boolean onQueryTextSubmit(String query) {
         searchView.clearFocus();
         return true;
-    }
-
-    @Subscribe
-    public void onDataRefreshed(RefreshUiEvent event) {
-        setVisibility(true);
-        if (TextUtils.isEmpty(searchText)) {
-            locationsListAdapter.refresh();
-        }
     }
 
     @Override
@@ -193,11 +180,9 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
 
         swipeRefreshLayout.setRefreshing(false);
         if (event.isState()) {
-            locationsListAdapter.refresh();
-
+            Timber.d("Locations Downloaded");
         } else {
-            Snackbar.make(swipeRefreshLayout, getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG)
-                    .setAction(R.string.retry_download, view -> refresh()).show();
+            Snackbar.make(swipeRefreshLayout, getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, view -> refresh()).show();
         }
     }
 

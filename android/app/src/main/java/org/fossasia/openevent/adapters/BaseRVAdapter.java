@@ -35,15 +35,26 @@ public abstract class BaseRVAdapter<T, V extends RecyclerView.ViewHolder> extend
         addItem(getItemCount() - 1, item);
     }
 
-    public void addItem(int position, T data) {
-        dataList.add(position, data);
-        notifyItemInserted(position);
+    protected void addItem(int position, T data) {
+        if(position < dataList.size()) {
+            dataList.add(position, data);
+            notifyItemInserted(position);
+        } else {
+            dataList.add(data);
+            notifyItemInserted(dataList.size());
+        }
     }
 
     private void moveItem(int fromPosition, int toPosition) {
         final T data = dataList.remove(fromPosition);
         dataList.add(toPosition, data);
         notifyItemMoved(fromPosition, toPosition);
+    }
+
+    protected void removeItem(T item) {
+        int position = dataList.indexOf(item);
+        dataList.remove(position);
+        notifyItemRemoved(position);
     }
 
     public void clear() {

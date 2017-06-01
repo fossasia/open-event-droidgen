@@ -1,91 +1,97 @@
 package org.fossasia.openevent.data;
 
-import android.database.DatabaseUtils;
-
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import org.fossasia.openevent.dbutils.DbContract;
-import org.fossasia.openevent.utils.StringUtils;
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.Index;
+import io.realm.annotations.PrimaryKey;
 
-import java.util.ArrayList;
-import java.util.Locale;
-
-/**
- * Created by championswimmer on 16/5/15.
- */
-public class Speaker {
+public class Speaker extends RealmObject {
 
     public static final String SPEAKER = "speaker";
+    public static final String NAME = "name";
+    public static final String ORGANISATION = "organisation";
+    public static final String COUNTRY = "country";
 
+    @Expose
+    @PrimaryKey
     private int id;
 
+    @Expose
+    @Index
     private String name;
 
+    @Expose
+    @Index
+    private String country;
+
+    @Expose
+    @Index
+    private String organisation;
+
+    @Expose
     private String photo;
 
+    @Expose
     private String thumbnail;
 
+    @Expose
+    private String small;
+
+    @Expose
+    private String icon;
+
+    @Expose
+    private String twitter;
+
+    @Expose
+    private String linkedin;
+
+    @Expose
+    private String facebook;
+
+    @Expose
+    private String github;
+
+    @Expose
+    private String website;
+
+    @Expose
+    private Boolean featured;
+
+    @Expose
+    private String city;
+
+    @Expose
+    @SerializedName("long_biography")
+    private String longBiography;
+
+    @Expose
+    @SerializedName("heard_from")
+    private String heardFrom;
+
+    @Expose
     @SerializedName("short_biography")
     private String shortBiography;
 
-    private String email;
+    @Expose
+    private RealmList<Session> sessions;
 
-    private String website;
+    @Expose
+    @SerializedName("sponsorship_required")
+    private String sponsorshipRequired;
 
-    private String twitter;
+    @Expose
+    @SerializedName("speaking_experience")
+    private String speakingExperience;
 
-    private String facebook;
+    @Expose
+    private String gender;
 
-    private String github;
-
-    private String linkedin;
-
-    private String organisation;
-
+    @Expose
     private String position;
-
-    @SerializedName("sessions")
-    private ArrayList<Session> sessionArrayList;
-
-    private String country;
-
-    public Speaker(int id, String name, String photo, String thumbnail,
-                   String shortBiography, String email, String website,
-                   String twitter, String facebook, String github,
-                   String linkedin, String organisation, String position,
-                   ArrayList<Session> sessionArrayList, String country) {
-        this.id = id;
-        this.name = name;
-        this.photo = photo;
-        this.thumbnail = thumbnail;
-        this.shortBiography = shortBiography;
-        this.email = email;
-        this.website = website;
-        this.twitter = twitter;
-        this.facebook = facebook;
-        this.github = github;
-        this.linkedin = linkedin;
-        this.organisation = organisation;
-        this.position = position;
-        this.sessionArrayList = sessionArrayList;
-        this.country = country;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public ArrayList<Session> getSession() {
-        return sessionArrayList;
-    }
-
-    public void setSession(ArrayList<Session> session) {
-        this.sessionArrayList = session;
-    }
 
     public String getPhoto() {
         return photo;
@@ -95,121 +101,100 @@ public class Speaker {
         this.photo = photo;
     }
 
-    public String getThumbnail() {
-        return thumbnail;
-    }
-
-    public void setThumbnail(String thumbnail) {
-        this.thumbnail = thumbnail;
-    }
-
-    public String getShortBiography() {
-        return shortBiography;
-    }
-
-    public void setShortBiography(String shortBiography) {
-        this.shortBiography = shortBiography;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getWebsite() {
-        return website;
-    }
-
-    public void setWebsite(String website) {
-        this.website = website;
-    }
-
     public String getTwitter() {
         return twitter;
-    }
-
-    public void setTwitter(String twitter) {
-        this.twitter = twitter;
-    }
-
-    public String getFacebook() {
-        return facebook;
-    }
-
-    public void setFacebook(String facebook) {
-        this.facebook = facebook;
-    }
-
-    public String getGithub() {
-        return github;
-    }
-
-    public void setGithub(String github) {
-        this.github = github;
     }
 
     public String getLinkedin() {
         return linkedin;
     }
 
-    public void setLinkedin(String linkedin) {
-        this.linkedin = linkedin;
+    public Boolean getFeatured() {
+        return featured;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getLongBiography() {
+        return longBiography;
     }
 
     public String getOrganisation() {
         return organisation;
     }
 
-    public void setOrganisation(String organisation) {
-        this.organisation = organisation;
+    public String getHeardFrom() {
+        return heardFrom;
     }
 
-    public String getPosition() {
-        return position;
+    public String getThumbnail() {
+        return thumbnail;
     }
 
-    public void setPosition(String position) {
-        this.position = position;
+    public String getWebsite() {
+        return website;
+    }
+
+    public String getShortBiography() {
+        return shortBiography;
+    }
+
+    public RealmList<Session> getSessions() {
+        return sessions;
+    }
+
+    public void setSessions(RealmList<Session> sessions) {
+        this.sessions = sessions;
+    }
+
+    public void setSession(RealmList<Session> sessions) {
+        this.sessions = sessions;
+    }
+
+    public String getFacebook() {
+        return facebook;
+    }
+
+    public String getSponsorshipRequired() {
+        return sponsorshipRequired;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public String getGithub() {
+        return github;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSpeakingExperience() {
+        return speakingExperience;
     }
 
     public String getCountry() {
         return country;
     }
 
-    public void setCountry(String country) {
-        this.country = country;
+    public String getGender() {
+        return gender;
     }
 
-    public int getId() {
-        return id;
+    public String getSmall() {
+        return small;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String generateSql() {
-        String query_normal = "INSERT INTO %s VALUES ('%d', %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);";
-        return String.format(Locale.ENGLISH,
-                query_normal,
-                DbContract.Speakers.TABLE_NAME,
-                id,
-                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(name)),
-                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(photo)),
-                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(thumbnail)),
-                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(shortBiography)),
-                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(email)),
-                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(website)),
-                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(facebook)),
-                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(twitter)),
-                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(github)),
-                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(linkedin)),
-                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(organisation)),
-                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(position)),
-                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(country)));
+    public String getPosition() {
+        return position;
     }
 
     @Override

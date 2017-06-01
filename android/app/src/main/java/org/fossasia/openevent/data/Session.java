@@ -1,80 +1,106 @@
 package org.fossasia.openevent.data;
 
-import android.database.DatabaseUtils;
-
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import org.fossasia.openevent.data.parsingExtra.Microlocation;
-import org.fossasia.openevent.data.parsingExtra.Track;
-import org.fossasia.openevent.dbutils.DbContract;
-import org.fossasia.openevent.utils.StringUtils;
+import org.fossasia.openevent.data.extras.SessionType;
 
-import java.text.ParseException;
-import java.util.Locale;
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.Index;
+import io.realm.annotations.PrimaryKey;
 
-/**
- * Created by championswimmer on 16/5/15.
- */
-public class Session {
+public class Session extends RealmObject {
 
-    @SerializedName("short_abstract")
-    private String summary;
+    /* Sort criteria */
 
-    @SerializedName("long_abstract")
-    private String description;
+    public static final String TITLE = "title";
+    // Track is object in Realm. So sort by track.name
+    public static final String TRACK = "track.name";
+    public static final String START_TIME = "startTime";
 
-    @SerializedName("start_time")
-    private String startTime;
-
-    @SerializedName("end_time")
-    private String endTime;
-
+    @Expose
+    @PrimaryKey
     private int id;
 
-    @SerializedName("comments")
-    private String level;
+    @SerializedName("session_type")
+    @Expose
+    private SessionType sessionType;
 
-    private Microlocation microlocation;
+    @SerializedName("short_abstract")
+    @Expose
+    private String shortAbstract;
 
-    @SerializedName("title")
-    private String title;
-
+    @Expose
     private String subtitle;
 
-    @SerializedName("track")
+    @Expose
+    private String language;
+
+    @Expose
+    @Index
+    private String title;
+
+    @Expose
     private Track track;
 
-    @SerializedName("slides")
-    private String type;
+    @SerializedName("start_time")
+    @Expose
+    private String startTime;
 
+    @Expose
+    private String level;
+
+    @Expose
+    private String comments;
+
+    @Expose
+    private String slides;
+
+    @Expose
+    private String state;
+
+    @Expose
+    private Microlocation microlocation;
+    @SerializedName("end_time")
+    @Expose
+    private String endTime;
+
+    @Expose
+    private String video;
+
+    @Expose
+    private String audio;
+
+    @SerializedName("signup_url")
+    @Expose
+    private String signupUrl;
+
+    @SerializedName("long_abstract")
+    @Expose
+    private String longAbstract;
+
+    private RealmList<Speaker> speakers;
+
+    @Index
     private String startDate;
 
+    private boolean isBookmarked;
 
-    public Session(int id, String title, String subtitle,
-                   String summary, String description,
-                   String startTime, String endTime, String startDate, String type,
-                   Track track, String level, Microlocation microlocation
-    ) throws ParseException {
-        this.id = id;
-        this.title = title;
-        this.subtitle = subtitle;
-        this.summary = summary;
-        this.description = description;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.startDate = startDate;
-        this.type = type;
-        this.track = track;
-        this.level = level;
-        this.microlocation = microlocation;
+    public SessionType getSessionType() {
+        return sessionType;
     }
 
-    public int getId() {
-        return id;
+    public String getShortAbstract() {
+        return shortAbstract;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public String getSubtitle() {
+        return subtitle;
+    }
+
+    public String getLanguage() {
+        return language;
     }
 
     public String getTitle() {
@@ -85,61 +111,32 @@ public class Session {
         this.title = title;
     }
 
-    public String getSubtitle() {
-        return subtitle;
+    public Track getTrack() {
+        return track;
     }
 
-    public void setSubtitle(String subtitle) {
-        this.subtitle = subtitle;
-    }
-
-    public String getSummary() {
-        return summary;
-    }
-
-    public void setSummary(String summary) {
-        this.summary = summary;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public void setTrack(Track track) {
+        this.track = track;
     }
 
     public String getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
-    }
-
-    public String getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(String endTime) {
-        this.endTime = endTime;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-
     public String getLevel() {
         return level;
     }
 
-    public void setLevel(String level) {
-        this.level = level;
+    public String getComments() {
+        return comments;
+    }
+
+    public String getSlides() {
+        return slides;
+    }
+
+    public String getState() {
+        return state;
     }
 
     public Microlocation getMicrolocation() {
@@ -150,12 +147,32 @@ public class Session {
         this.microlocation = microlocation;
     }
 
-    public Track getTrack() {
-        return track;
+    public String getEndTime() {
+        return endTime;
     }
 
-    public void setTrack(Track track) {
-        this.track = track;
+    public String getVideo() {
+        return video;
+    }
+
+    public void setVideo(String video) {
+        this.video = video;
+    }
+
+    public String getAudio() {
+        return audio;
+    }
+
+    public String getSignupUrl() {
+        return signupUrl;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public String getLongAbstract() {
+        return longAbstract;
     }
 
     public String getStartDate() {
@@ -166,23 +183,20 @@ public class Session {
         this.startDate = startDate;
     }
 
-    public String generateSql() {
-        String insertQueryFmt = "INSERT INTO %s VALUES ('%d', %s, %s, %s, %s, %s, %s, %s, %s, '%d', %s, '%d');";
-        return String.format(Locale.ENGLISH,
-                insertQueryFmt,
-                DbContract.Sessions.TABLE_NAME,
-                id,
-                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(title)),
-                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(subtitle)),
-                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(summary)),
-                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(description)),
-                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(startTime)),
-                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(endTime)),
-                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(startDate)),
-                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(type)),
-                track.getId(),
-                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(level)),
-                microlocation.getId());
+    public RealmList<Speaker> getSpeakers() {
+        return speakers;
+    }
+
+    public void setSpeakers(RealmList<Speaker> speakers) {
+        this.speakers = speakers;
+    }
+
+    public boolean isBookmarked() {
+        return isBookmarked;
+    }
+
+    public void setBookmarked(boolean bookmarked) {
+        isBookmarked = bookmarked;
     }
 
     @Override

@@ -23,7 +23,6 @@ import com.squareup.picasso.Picasso;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Sponsor;
-import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.NetworkUtils;
 
 import java.util.List;
@@ -88,7 +87,7 @@ public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, RecyclerView.Vie
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
 
         if (holder instanceof SponsorViewHolder) {
 
@@ -103,7 +102,7 @@ public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, RecyclerView.Vie
             } else {
                 uri = Uri.parse(currentSponsor.getLogo());
             }
-            sponsorViewHolder.sponsorType.setText(currentSponsor.getType());
+            sponsorViewHolder.sponsorType.setText(currentSponsor.getSponsorType());
             sponsorViewHolder.sponsorName.setText(currentSponsor.getName());
 
             disposable.add(NetworkUtils.isActiveInternetPresentObservable()
@@ -131,44 +130,36 @@ public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, RecyclerView.Vie
                     .tag("ONLINE")
                     .into(sponsorViewHolder.sponsorImage);
 
-            sponsorViewHolder.itemView.setOnClickListener(view ->
-                    disposable.add(DbSingleton.getInstance().getSponsorListObservable()
-                    .subscribe(sponsors -> {
-                        Sponsor sponsor = sponsors.get(sponsorViewHolder.getAdapterPosition());
-                        String sponsorUrl = sponsor.getUrl();
-                        if (!sponsorUrl.startsWith("http") && !sponsorUrl.startsWith("https")) {
-                            sponsorUrl = "http://" + sponsorUrl;
-                        }
-                        if (Patterns.WEB_URL.matcher(sponsorUrl).matches()) {
-                            if (customTabsSupported) {
-                                CustomTabsIntent.Builder customTabsBuilder = new CustomTabsIntent.Builder();
+            sponsorViewHolder.itemView.setOnClickListener(view -> {
+                Sponsor sponsor = getItem(holder.getAdapterPosition());
+                String sponsorUrl = sponsor.getUrl();
+                if (!sponsorUrl.startsWith("http") && !sponsorUrl.startsWith("https")) {
+                    sponsorUrl = "http://" + sponsorUrl;
+                }
+                if (Patterns.WEB_URL.matcher(sponsorUrl).matches()) {
+                    if (customTabsSupported) {
+                        CustomTabsIntent.Builder customTabsBuilder = new CustomTabsIntent.Builder();
 
-                                customTabsBuilder.setToolbarColor(ContextCompat.getColor(context, R.color.color_primary));
-                                customTabsBuilder.setCloseButtonIcon(BitmapFactory.decodeResource(context.getResources(),R.drawable.ic_arrow_back_white_cct_24dp));
-                                customTabsBuilder.setStartAnimations(context, R.anim.slide_in_right, R.anim.slide_out_left);
-                                customTabsBuilder.setExitAnimations(context, R.anim.slide_in_left, R.anim.slide_out_right);
+                        customTabsBuilder.setToolbarColor(ContextCompat.getColor(context, R.color.color_primary));
+                        customTabsBuilder.setCloseButtonIcon(BitmapFactory.decodeResource(context.getResources(),R.drawable.ic_arrow_back_white_cct_24dp));
+                        customTabsBuilder.setStartAnimations(context, R.anim.slide_in_right, R.anim.slide_out_left);
+                        customTabsBuilder.setExitAnimations(context, R.anim.slide_in_left, R.anim.slide_out_right);
 
-                                CustomTabsIntent customTabsIntent = customTabsBuilder.build();
-                                customTabsIntent.launchUrl(activity, Uri.parse(sponsorUrl));
-                            } else {
-                                Intent sponsorsIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(sponsorUrl));
-                                context.startActivity(sponsorsIntent);
-                            }
-                        } else {
-                            Snackbar.make(view, R.string.invalid_url, Snackbar.LENGTH_LONG).show();
-                            Timber.d(sponsorUrl);
-                        }
-                    })));
+                        CustomTabsIntent customTabsIntent = customTabsBuilder.build();
+                        customTabsIntent.launchUrl(activity, Uri.parse(sponsorUrl));
+                    } else {
+                        Intent sponsorsIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(sponsorUrl));
+                        context.startActivity(sponsorsIntent);
+                    }
+                } else {
+                    Snackbar.make(view, R.string.invalid_url, Snackbar.LENGTH_LONG).show();
+                    Timber.d(sponsorUrl);
+                }
+            });
         } else if (holder instanceof CategoryViewHolder) {
             CategoryViewHolder categoryViewHolder = (CategoryViewHolder) holder;
             categoryViewHolder.sponsorCategory.setText(getItem(position).toString());
         }
-    }
-
-    public void refresh() {
-        clear();
-        disposable.add(DbSingleton.getInstance().getSponsorListObservable()
-                .subscribe(this::animateTo));
     }
 
     @Override

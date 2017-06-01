@@ -40,14 +40,13 @@ import org.fossasia.openevent.R;
 import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Event;
 import org.fossasia.openevent.data.Microlocation;
-import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.dbutils.RealmDataRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.disposables.CompositeDisposable;
 
 public class MapsFragment extends Fragment implements LocationListener, OnMapReadyCallback {
 
@@ -57,8 +56,8 @@ public class MapsFragment extends Fragment implements LocationListener, OnMapRea
     private Marker locationMarker;
     private List<String> searchItems = new ArrayList<>();
 
+    private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
     private List<Microlocation> mLocations = new ArrayList<>();
-    private CompositeDisposable compositeDisposable;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,18 +73,16 @@ public class MapsFragment extends Fragment implements LocationListener, OnMapRea
                 getChildFragmentManager().findFragmentById(R.id.map));
         supportMapFragment.getMapAsync(this);
 
-        compositeDisposable = new CompositeDisposable();
-        final DbSingleton dbSingleton = DbSingleton.getInstance();
-
-        compositeDisposable.add(dbSingleton.getMicrolocationListObservable()
-                .subscribe(microlocations -> {
+        realmRepo.getLocations()
+                .addChangeListener((microlocations, orderedCollectionChangeSet) -> {
                     mLocations.clear();
                     mLocations.addAll(microlocations);
                     if(mMap != null) {
                         showLocationsOnMap();
                         showEventLocationOnMap();
                     }
-                }));
+                });
+
         return view;
     }
 
@@ -98,9 +95,11 @@ public class MapsFragment extends Fragment implements LocationListener, OnMapRea
     }
 
     private void showEventLocationOnMap() {
-        Event event = DbSingleton.getInstance().getEventDetails();
-        final float latitude = event.getLatitude();
-        final float longitude = event.getLongitude();
+        Event event = realmRepo.getEventSync();
+
+        double latitude = event.getLatitude();
+        double longitude = event.getLongitude();
+        
         String locationTitle = event.getLocationName();
 
         LatLng location = new LatLng(latitude, longitude);
@@ -218,8 +217,6 @@ public class MapsFragment extends Fragment implements LocationListener, OnMapRea
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if(compositeDisposable != null && !compositeDisposable.isDisposed())
-            compositeDisposable.dispose();
     }
 
     @Override
