@@ -5,10 +5,10 @@ jQuery.fn.extend({
         valueChange: function (callback) {
             return this.each(function () {
                 var elem = $(this);
-                elem.data('oldVal', elem.val());
+                elem.data("oldVal", elem.val());
                 elem.on("propertychange change click keyup input paste", function (event) {
-                    if (elem.data('oldVal') != elem.val()) {
-                        elem.data('oldVal', elem.val());
+                    if (elem.data("oldVal") !== elem.val()) {
+                        elem.data("oldVal", elem.val());
                         callback(elem.val(), event, elem);
                     }
                 });
@@ -21,7 +21,7 @@ jQuery.fn.extend({
         disable: function () {
             return this.each(function () {
                 if (!$(this).hasClass("nt")) {
-                    $(this).prop('disabled', true);
+                    $(this).prop("disabled", true);
                 }
             });
         },
@@ -32,7 +32,7 @@ jQuery.fn.extend({
         enable: function () {
             return this.each(function () {
                 if (!$(this).hasClass("nt")) {
-                    $(this).prop('disabled', false);
+                    $(this).prop("disabled", false);
                 }
             });
         },
