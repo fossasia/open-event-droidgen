@@ -16,6 +16,8 @@ public class ConstantStrings {
 
     public static final String ORG_DESCRIPTION = "organizer_description";
 
+    public static final String TIMEZONE = "timezone";
+
     public static final String BASE_API_URL = "BASE_API_URL";
 
     public static final String ID = "ID";

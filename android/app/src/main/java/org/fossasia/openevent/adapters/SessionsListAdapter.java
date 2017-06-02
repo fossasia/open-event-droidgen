@@ -128,9 +128,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
     @Override
     public void onBindViewHolder(final SessionViewHolder holder, final int position) {
         final Session session = getItem(position);
-        String date = ISO8601Date.getTimeZoneDateString(
-                ISO8601Date.getDateObject(session.getStartTime())).split(",")[0] + ","
-                + ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(session.getStartTime())).split(",")[1];
+        String date = ISO8601Date.getDateFromStartDateString(session.getStartTime());
 
         holder.sessionTitle.setText(session.getTitle());
 
@@ -156,7 +154,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
         holder.trackImageIcon.setBackgroundColor(Color.TRANSPARENT);
         holder.sessionTrack.setText(session.getTrack().getName());
         holder.sessionDate.setText(date);
-        holder.sessionTime.setText(ISO8601Date.get12HourTime(ISO8601Date.getDateObject(session.getStartTime())) + " - " + ISO8601Date.get12HourTime(ISO8601Date.getDateObject(session.getEndTime())));
+        holder.sessionTime.setText(ISO8601Date.get12HourTimeFromCombinedDateString(session.getStartTime(), session.getEndTime()));
         if(session.getMicrolocation() != null)
             holder.sessionLocation.setText(session.getMicrolocation().getName());
 
@@ -258,7 +256,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
 
     private void createNotification(Session session) {
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(ISO8601Date.getTimeZoneDate(ISO8601Date.getDateObject(session.getStartTime())));
+        calendar.setTime(ISO8601Date.getTimeZoneDateFromString(session.getStartTime()));
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         Integer pref_result = Integer.parseInt(sharedPrefs.getString("notification", "10 mins").substring(0, 2).trim());

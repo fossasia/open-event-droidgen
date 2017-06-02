@@ -89,12 +89,7 @@ public class AboutFragment extends BaseFragment {
         String startTime = event.getStartTime();
         String endTime = event.getEndTime();
 
-        String date = ISO8601Date.getTimeZoneDateString(
-                ISO8601Date.getDateObject(startTime)).split(",")[0] + ","
-                + ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(startTime)).split(",")[1]
-                + " - "
-                + ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(endTime)).split(",")[0] + ","
-                + ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(endTime)).split(",")[1];
+        String date = ISO8601Date.getDateFromDateString(event.getStartTime(), event.getEndTime());
 
         welcomeMessage.setText(getText(R.string.welcome_message));
         organiser_description.setText(Html.fromHtml(event.getOrganizerDescription()));

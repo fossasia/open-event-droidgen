@@ -20,6 +20,7 @@ import android.view.MenuItem;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
+import org.fossasia.openevent.utils.ISO8601Date;
 
 /**
  * User: manan
@@ -62,24 +63,26 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
     }
 
     @Override
-    public boolean onPreferenceChange(Preference preference, Object o) {
+    public boolean onPreferenceChange(Preference preference, Object choice) {
 
         if (preference.getKey().equals(getResources().getString(R.string.download_mode_key))) {
-            if (o.equals(false)) {
+            if (choice.equals(false)) {
                 internetPreference.setChecked(false);
-            } else if (o.equals(true)) {
+            } else {
                 internetPreference.setChecked(true);
             }
         } else if (preference.getKey().equals(getResources().getString(R.string.timezone_mode_key))) {
-            if (o.equals(false)) {
+            if (choice.equals(false)) {
                 timezonePreference.setChecked(false);
-            } else if (o.equals(true)) {
+                ISO8601Date.setTimeZone();
+            } else {
                 timezonePreference.setChecked(true);
+                ISO8601Date.setTimeZoneDefault();
             }
         } else if (preference.getKey().equals(getResources().getString(R.string.notification_key))) {
-            prefNotification.setSummary((String) o);
+            prefNotification.setSummary((String) choice);
         } else if (preference.getKey().equals(getResources().getString(R.string.language_key))) {
-            languagePreference.setSummary((String) o);
+            languagePreference.setSummary((String) choice);
         }
 
         return false;

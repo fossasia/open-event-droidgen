@@ -75,8 +75,8 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
     @Override
     public void onBindViewHolder(DayScheduleViewHolder holder, int position) {
         final Session currentSession = getItem(position);
-        String startTime = ISO8601Date.get12HourTime(ISO8601Date.getDateObject(currentSession.getStartTime()));
-        String endTime = ISO8601Date.get12HourTime(ISO8601Date.getDateObject(currentSession.getEndTime()));
+        String startTime = ISO8601Date.get12HourTimeFromString(currentSession.getStartTime());
+        String endTime = ISO8601Date.get12HourTimeFromString(currentSession.getEndTime());
 
         holder.startTime.setText(startTime);
         holder.endTime.setText(endTime);
@@ -162,7 +162,7 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
             return tracks.indexOf(getItem(position).getTrack().getName());
         }
         else if (SortOrder.sortOrderSchedule(context).equals(Session.START_TIME)) {
-            id = ISO8601Date.get24HourTime(ISO8601Date.getDateObject(getItem(position).getStartTime()));
+            id = ISO8601Date.get24HourTimeFromString(getItem(position).getStartTime());
             id = id.replace(":", "");
             id = id.replace(" ", "");
         }
@@ -186,7 +186,7 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
             textView.setText(String.valueOf(getItem(position).getTrack().getName()));
         }
         else if (SortOrder.sortOrderSchedule(context).equals(Session.START_TIME)) {
-            textView.setText(ISO8601Date.get12HourTime(ISO8601Date.getDateObject(getItem(position).getStartTime())));
+            textView.setText(ISO8601Date.get12HourTimeFromString(getItem(position).getStartTime()));
         }
     }
 
