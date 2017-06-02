@@ -15,4 +15,5 @@
     <color name="black">#000000</color>
     <color name="speakers_listview_primary">#de000000</color>
     <color name="speakers_listview_secondary">#8a000000</color>
+    <color name="track_header_default">#546E7A</color>
 </resources>
