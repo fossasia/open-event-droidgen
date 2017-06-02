@@ -54,6 +54,8 @@ import butterknife.BindView;
 import io.realm.RealmChangeListener;
 import timber.log.Timber;
 
+import static android.R.id.shareText;
+
 /**
  * User: MananWason
  * Date: 08-07-2015
@@ -194,13 +196,9 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
         text_subtitle.setText(session.getSubtitle());
         text_track.setText(trackName);
 
-        String date = ISO8601Date.getTimeZoneDateString(
-                ISO8601Date.getDateObject(session.getStartTime())).split(",")[0] + ","
-                + ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(session.getStartTime())).split(",")[1];
-        String startTime = ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(session.getStartTime())).split(",")[2] + ","
-                + ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(session.getStartTime())).split(",")[3];
-        String endTime = ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(session.getEndTime())).split(",")[2] + ","
-                + ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(session.getEndTime())).split(",")[3];
+        String date = ISO8601Date.getDateFromStartDateString(session.getStartTime());
+        String startTime = ISO8601Date.getTimeFromStartDateString(session.getStartTime());
+        String endTime = ISO8601Date.getTimeFromEndDateString(session.getEndTime());
 
         if (TextUtils.isEmpty(startTime) && TextUtils.isEmpty(endTime)) {
             text_start_time.setText(R.string.time_not_specified);
@@ -293,8 +291,8 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
                 return true;
 
             case R.id.action_share:
-                String startTime = ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(session.getStartTime()));
-                String endTime = ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(session.getEndTime()));
+                String startTime = ISO8601Date.getTimeZoneDateStringFromString(session.getStartTime());
+                String endTime = ISO8601Date.getTimeZoneDateStringFromString(session.getEndTime());
                 StringBuilder shareText = new StringBuilder();
                 shareText.append(String.format("Session Track: %s \n" +
                                 "Title: %s \n" +
@@ -319,9 +317,8 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
                 intent.setType("vnd.android.cursor.item/event");
                 intent.putExtra(CalendarContract.Events.TITLE, title);
                 intent.putExtra(CalendarContract.Events.DESCRIPTION, session.getShortAbstract());
-                intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, ISO8601Date.getDateObject(session.getStartTime()).getTime());
-                intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME,
-                        ISO8601Date.getDateObject(session.getEndTime()).getTime());
+                intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, ISO8601Date.get24HourTimeFromString(session.getStartTime()));
+                intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, ISO8601Date.get24HourTimeFromString(session.getEndTime()));
                 startActivity(intent);
 
             default:
@@ -338,7 +335,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
     public void createNotification() {
 
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(ISO8601Date.getTimeZoneDate(ISO8601Date.getDateObject(session.getStartTime())));
+        calendar.setTime(ISO8601Date.getTimeZoneDateFromString(session.getStartTime()));
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         Integer pref_result = Integer.parseInt(sharedPrefs.getString("notification", "10 mins").substring(0, 2).trim());

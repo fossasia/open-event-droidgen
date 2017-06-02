@@ -45,4 +45,7 @@
 
     <!--NavBar-->
     <dimen name="nav_bar_width">300dp</dimen>
+
+    <!--Track Tag-->
+    <dimen name="track_tag_height">30dp</dimen>
 </resources>

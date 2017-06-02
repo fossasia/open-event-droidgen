@@ -33,12 +33,10 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.text.style.URLSpan;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -177,6 +175,8 @@ public class MainActivity extends BaseActivity {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         sharedPreferences.edit().putInt(ConstantStrings.SESSION_MAP_ID, -1).apply();
         setTheme(R.style.AppTheme_NoActionBar_MainTheme);
+        ISO8601Date.setTimeZone();
+        ISO8601Date.setEventTimeZone();
         super.onCreate(savedInstanceState);
 
         disposable = new CompositeDisposable();
@@ -374,8 +374,8 @@ public class MainActivity extends BaseActivity {
 
         setupEvent();
 
-        realmRepo.saveEventDates(ISO8601Date.getDateObject(event.getStartTime()),
-                ISO8601Date.getDateObject(event.getEndTime()))
+        realmRepo.saveEventDates(ISO8601Date.getTimeZoneDateFromString(event.getStartTime()),
+                ISO8601Date.getTimeZoneDateFromString(event.getEndTime()))
                 .subscribe();
     }
 
@@ -492,27 +492,17 @@ public class MainActivity extends BaseActivity {
                 startActivity(intent);
                 break;
             case R.id.nav_share:
-                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-                LayoutInflater inflater = this.getLayoutInflater();
-                View dialogView = inflater.inflate(R.layout.dialog_share, mainFrame, false);
-                Button shareApp = (Button)dialogView.findViewById(R.id.share_app);
-                dialogBuilder.setView(dialogView);
-                final AlertDialog alertDialog = dialogBuilder.create();
-                shareApp.setOnClickListener(v -> {
-                    try {
-                        Intent shareIntent = new Intent();
-                        shareIntent.setAction(Intent.ACTION_SEND);
-                        shareIntent.setType("text/plain");
-                        shareIntent.putExtra(Intent.EXTRA_TEXT,
-                                String.format(getString(R.string.whatsapp_promo_msg_template),
-                                        String.format(getString(R.string.app_share_url),getPackageName())));
-                        startActivity(shareIntent);
-                    }
-                    catch (Exception e) {
-                        Snackbar.make(mainFrame, getString(R.string.error_msg_retry), Snackbar.LENGTH_SHORT).show();
-                    }
-                });
-                alertDialog.show();
+                try {
+                    Intent shareIntent = new Intent();
+                    shareIntent.setAction(Intent.ACTION_SEND);
+                    shareIntent.setType("text/plain");
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, String.format(getString(R.string.whatsapp_promo_msg_template),
+                            String.format(getString(R.string.app_share_url),getPackageName())));
+                    startActivity(shareIntent);
+                }
+                catch (Exception e) {
+                    Snackbar.make(mainFrame, getString(R.string.error_msg_retry), Snackbar.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.nav_about:
 
