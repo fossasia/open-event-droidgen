@@ -2,16 +2,20 @@ package org.fossasia.openevent.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.activities.SessionDetailActivity;
+import org.fossasia.openevent.activities.TrackSessionsActivity;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
@@ -90,6 +94,18 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
                 holder.slotDescription.setText(Html.fromHtml(currentSession.getShortAbstract()));
             }
         }
+
+        final Track sessionTrack = currentSession.getTrack();
+        int storedColor = Color.parseColor(sessionTrack.getColor());
+        holder.slotTrack.getBackground().setColorFilter(storedColor, PorterDuff.Mode.SRC_ATOP);
+        holder.slotTrack.setText(sessionTrack.getName());
+
+        holder.slotTrack.setOnClickListener(v -> {
+                Intent intent = new Intent(context, TrackSessionsActivity.class);
+                intent.putExtra(ConstantStrings.TRACK, sessionTrack.getName());
+                intent.putExtra(ConstantStrings.TRACK_ID, sessionTrack.getId());
+                context.startActivity(intent);
+        });
 
         if(currentSession.getMicrolocation() != null)
             holder.slotLocation.setText(currentSession.getMicrolocation().getName());
@@ -206,6 +222,9 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
 
         @BindView(R.id.slot_location)
         TextView slotLocation;
+
+        @BindView(R.id.slot_track)
+        Button slotTrack;
 
 
         DayScheduleViewHolder(View itemView) {
