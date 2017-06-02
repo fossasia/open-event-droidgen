@@ -181,6 +181,8 @@ public class MainActivity extends BaseActivity {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         sharedPreferences.edit().putInt(ConstantStrings.SESSION_MAP_ID, -1).apply();
         setTheme(R.style.AppTheme_NoActionBar_MainTheme);
+        ISO8601Date.setTimeZone();
+        ISO8601Date.setEventTimeZone();
         super.onCreate(savedInstanceState);
 
         disposable = new CompositeDisposable();
@@ -384,8 +386,8 @@ public class MainActivity extends BaseActivity {
 
         setupEvent();
 
-        realmRepo.saveEventDates(ISO8601Date.getDateObject(event.getStartTime()),
-                ISO8601Date.getDateObject(event.getEndTime()))
+        realmRepo.saveEventDates(ISO8601Date.getTimeZoneDateFromString(event.getStartTime()),
+                ISO8601Date.getTimeZoneDateFromString(event.getEndTime()))
                 .subscribe();
     }
 

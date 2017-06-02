@@ -176,7 +176,9 @@ public class OpenEventApp extends Application {
             JSONObject jsonObject = new JSONObject(event_json);
             String org_description = jsonObject.has(ConstantStrings.ORG_DESCRIPTION) ?
                     jsonObject.getString(ConstantStrings.ORG_DESCRIPTION) : "";
+            String eventTimeZone = jsonObject.has(ConstantStrings.TIMEZONE) ? jsonObject.getString(ConstantStrings.TIMEZONE) : "";
             sharedPreferences.edit().putString(ConstantStrings.ORG_DESCRIPTION, org_description).apply();
+            sharedPreferences.edit().putString(ConstantStrings.TIMEZONE, eventTimeZone).apply();
         } catch (JSONException e) {
             e.printStackTrace();
         }

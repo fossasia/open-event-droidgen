@@ -71,10 +71,10 @@ public class BookmarkAlarmService extends IntentService {
         int smallIcon = R.drawable.ic_bookmark_white_24dp;
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) smallIcon = R.drawable.ic_noti_bookmark;
 
-        String start = ISO8601Date.get12HourTime(ISO8601Date.getDateObject(session.getStartTime()));
-        String end = ISO8601Date.get12HourTime(ISO8601Date.getDateObject(session.getEndTime()));
+        String start = ISO8601Date.get12HourTimeFromString(session.getStartTime());
+        String end = ISO8601Date.get12HourTimeFromString(session.getEndTime());
         String session_timings = start + " - " + end;
-        session_date = ISO8601Date.getDate(ISO8601Date.getDateObject(session.getStartTime()));
+        session_date = ISO8601Date.getTimeZoneDateStringFromString(session.getStartTime());
 
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
