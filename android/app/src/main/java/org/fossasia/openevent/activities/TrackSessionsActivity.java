@@ -88,7 +88,7 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
         //setting the grid layout to cut-off white space in tablet view
         DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
         float width = displayMetrics.widthPixels / displayMetrics.density;
-        int spanCount = (int) (width/250.00);
+        int spanCount = (int) (width / 250.00);
 
         sessionsRecyclerView.setHasFixedSize(true);
         gridLayoutManager = new GridLayoutManager(this, spanCount);
@@ -142,8 +142,16 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
 
         sessionsListAdapter.setColor(color);
 
-        if(Views.isCompatible(Build.VERSION_CODES.LOLLIPOP)) {
+        if (Views.isCompatible(Build.VERSION_CODES.LOLLIPOP)) {
             getWindow().setStatusBarColor(Views.getDarkColor(color));
+            sessionsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                    super.onScrollStateChanged(recyclerView, newState);
+                    Views.setEdgeGlowColorRecyclerView(sessionsRecyclerView, color);
+                }
+            });
+
         }
     }
 

@@ -60,7 +60,7 @@ import static android.R.id.shareText;
  * User: MananWason
  * Date: 08-07-2015
  */
-public class SessionDetailActivity extends BaseActivity implements AppBarLayout.OnOffsetChangedListener{
+public class SessionDetailActivity extends BaseActivity implements AppBarLayout.OnOffsetChangedListener {
     private static final String TAG = "Session Detail";
 
     private SessionSpeakerListAdapter adapter;
@@ -127,7 +127,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
         super.onCreate(savedInstanceState);
 
         setSupportActionBar(toolbar);
-        if(getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         title = getIntent().getStringExtra(ConstantStrings.SESSION);
         trackName = getIntent().getStringExtra(ConstantStrings.TRACK);
@@ -239,10 +239,18 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
         toolbar.setBackgroundColor(color);
         collapsingToolbarLayout.setBackgroundColor(color);
         collapsingToolbarLayout.setContentScrimColor(darkColor);
-        Views.changeGlowColor(color,scrollView);
 
-        if(Views.isCompatible(Build.VERSION_CODES.LOLLIPOP))
+        if (Views.isCompatible(Build.VERSION_CODES.LOLLIPOP)) {
             getWindow().setStatusBarColor(darkColor);
+            Views.setEdgeGlowColorScrollView(color, scrollView);
+            speakersRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                    super.onScrollStateChanged(recyclerView, newState);
+                    Views.setEdgeGlowColorRecyclerView(speakersRecyclerView, color);
+                }
+            });
+        }
 
         fabSessionBookmark.setBackgroundTintList(ColorStateList.valueOf(darkColor));
     }
