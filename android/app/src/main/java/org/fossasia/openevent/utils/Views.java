@@ -12,11 +12,13 @@ import android.support.annotation.NonNull;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.widget.EdgeEffectCompat;
 import android.support.v4.widget.NestedScrollView;
+import android.support.v7.widget.RecyclerView;
 import android.view.ViewTreeObserver;
 import android.widget.EdgeEffect;
 import android.widget.ImageView;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 import static android.os.Build.VERSION_CODES.JELLY_BEAN;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
@@ -83,10 +85,10 @@ public final class Views {
         return Color.HSVToColor(hsv);
     }
 
-    /*Check if the version is above Lollipop to change the edge glow color according to the
-    session detail activity color*/
-    public static void changeGlowColor(int color, NestedScrollView scrollView) {
-        
+    /*Check if the version is above Lollipop to change the edge glow color of Nested ScrollView
+    according to the session detail activity color*/
+    public static void setEdgeGlowColorScrollView(int color, NestedScrollView scrollView) {
+
         try {
             Field edgeGlowTop = NestedScrollView.class.getDeclaredField("mEdgeGlowTop");
             edgeGlowTop.setAccessible(true);
@@ -109,6 +111,34 @@ public final class Views {
 
         } catch (Exception ex) {
             ex.printStackTrace();
+            //Catching the error that can be caused by EdgeEffectCompat
+        }
+
+    }
+
+    /*Check if the version is above Lollipop to change the edge glow color of RecyclerView
+    according to the session detail activity color*/
+    @TargetApi(LOLLIPOP)
+    public static void setEdgeGlowColorRecyclerView(final RecyclerView recyclerView, final int color) {
+
+        try {
+            final Class<?> clazz = RecyclerView.class;
+            for (final String name : new String[]{"ensureTopGlow", "ensureBottomGlow", "ensureLeftGlow", "ensureRightGlow"}) {
+                Method method = clazz.getDeclaredMethod(name);
+                method.setAccessible(true);
+                method.invoke(recyclerView);
+            }
+            for (final String name : new String[]{"mTopGlow", "mBottomGlow", "mLeftGlow", "mRightGlow"}) {
+                final Field field = clazz.getDeclaredField(name);
+                field.setAccessible(true);
+                final Object edge = field.get(recyclerView);
+                final Field fEdgeEffect = edge.getClass().getDeclaredField("mEdgeEffect");
+                fEdgeEffect.setAccessible(true);
+                ((EdgeEffect) fEdgeEffect.get(edge)).setColor(color);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            //Catching the error that can be caused by setColor() for versions < LOLLIPOP
         }
 
     }
