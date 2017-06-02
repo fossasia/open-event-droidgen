@@ -17,15 +17,12 @@ import com.squareup.picasso.Picasso;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.activities.SpeakerDetailsActivity;
 import org.fossasia.openevent.data.Speaker;
-import org.fossasia.openevent.dbutils.DbSingleton;
 import org.fossasia.openevent.utils.CircleTransform;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static org.fossasia.openevent.utils.SortOrder.sortOrderSpeaker;
 
 public class SessionSpeakerListAdapter extends BaseRVAdapter<Speaker, SessionSpeakerListAdapter.RecyclerViewHolder> {
 
@@ -39,7 +36,6 @@ public class SessionSpeakerListAdapter extends BaseRVAdapter<Speaker, SessionSpe
 
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_session_speaker, parent, false);
         return new RecyclerViewHolder(view);
@@ -59,8 +55,14 @@ public class SessionSpeakerListAdapter extends BaseRVAdapter<Speaker, SessionSpe
                     .into(holder.speakerImage);
         }
 
-        holder.speakerName.setText(TextUtils.isEmpty(current.getName()) ? "" : current.getName());
-        holder.speakerDesignation.setText(String.format("%s %s", current.getPosition(), current.getOrganisation()));
+        String name = current.getName();
+        name = TextUtils.isEmpty(name) ? "" : name;
+
+        String positionString = current.getPosition();
+        positionString = TextUtils.isEmpty(positionString) ? "" : positionString;
+
+        holder.speakerName.setText(name);
+        holder.speakerDesignation.setText(String.format("%s %s", positionString, current.getOrganisation()));
 
         holder.itemView.setOnClickListener(v -> {
             String speakerName = current.getName();
@@ -68,12 +70,6 @@ public class SessionSpeakerListAdapter extends BaseRVAdapter<Speaker, SessionSpe
             intent.putExtra(Speaker.SPEAKER, speakerName);
             activity.startActivity(intent);
         });
-    }
-
-    public void refresh() {
-        clear();
-        DbSingleton.getInstance().getSpeakerListObservable(sortOrderSpeaker(activity))
-                .subscribe(this::animateTo);
     }
 
     class RecyclerViewHolder extends RecyclerView.ViewHolder {

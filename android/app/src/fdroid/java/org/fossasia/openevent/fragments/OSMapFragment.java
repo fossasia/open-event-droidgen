@@ -28,7 +28,7 @@ import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Event;
 import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.data.Session;
-import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
@@ -38,6 +38,9 @@ import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.OverlayItem;
 
 import java.util.ArrayList;
+
+import io.realm.RealmChangeListener;
+import io.realm.RealmModel;
 
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
@@ -56,6 +59,10 @@ public class OSMapFragment extends Fragment {
     private Snackbar snackbar;
 
     private SharedPreferences sharedPreferences;
+
+    private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
+    private Event event;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,34 +93,15 @@ public class OSMapFragment extends Fragment {
         mapView.setBuiltInZoomControls(false);
         mapView.setMultiTouchControls(true);
 
-        try{
-            int id = sharedPreferences.getInt(ConstantStrings.SESSION_MAP_ID,-1);
-            if(id != -1){
-                Session session =  DbSingleton.getInstance().getSessionById(id);
-                int location_id = session.getMicrolocation().getId();
-                Microlocation microlocation =  DbSingleton.getInstance().getMicrolocationById(location_id);
-                if (microlocation.getLatitude() == 0 && microlocation.getLongitude() == 0) {
-                    Event event = DbSingleton.getInstance().getEventDetails();
-                    setDestinationLatitude(event.getLatitude());
-                    setDestinationLongitude(event.getLongitude());
-                    setDestinationName(event.getLocationName());
-                } else {
-                    setDestinationLatitude(microlocation.getLatitude());
-                    setDestinationLongitude(microlocation.getLongitude());
-                    setDestinationName(microlocation.getName());
-                }
-            } else{
-                Event event = DbSingleton.getInstance().getEventDetails();
-                setDestinationLatitude(event.getLatitude());
-                setDestinationLongitude(event.getLongitude());
-                setDestinationName(event.getLocationName());
+        event = realmRepo.getEvent();
+
+        event.addChangeListener(new RealmChangeListener<RealmModel>() {
+            @Override
+            public void onChange(RealmModel realmModel) {
+                showEvent();
             }
-        }catch (Exception e) {
-            Event event = DbSingleton.getInstance().getEventDetails();
-            setDestinationLatitude(event.getLatitude());
-            setDestinationLongitude(event.getLongitude());
-            setDestinationName(event.getLocationName());
-        }
+        });
+
         GeoPoint geoPoint = new GeoPoint(getDestinationLatitude(), getDestinationLongitude());
         mapView.getController().setCenter(geoPoint);
         mapView.getController().setZoom(17);
@@ -153,6 +141,39 @@ public class OSMapFragment extends Fragment {
                     }
                 }, new DefaultResourceProxyImpl(getActivity())));
         mapView.invalidate();
+    }
+
+    private void showEvent() {
+        if(event == null)
+            return;
+
+        try {
+            int id = sharedPreferences.getInt(ConstantStrings.SESSION_MAP_ID,-1);
+
+            if(id != -1){
+                Session session = realmRepo.getSessionSync(id);
+
+                Microlocation microlocation = session.getMicrolocation();
+                
+                if (microlocation.getLatitude() == 0 && microlocation.getLongitude() == 0) {
+                    setDestinationLatitude(event.getLatitude());
+                    setDestinationLongitude(event.getLongitude());
+                    setDestinationName(event.getLocationName());
+                } else {
+                    setDestinationLatitude(microlocation.getLatitude());
+                    setDestinationLongitude(microlocation.getLongitude());
+                    setDestinationName(microlocation.getName());
+                }
+            } else{
+                setDestinationLatitude(event.getLatitude());
+                setDestinationLongitude(event.getLongitude());
+                setDestinationName(event.getLocationName());
+            }
+        } catch (Exception e) {
+            setDestinationLatitude(event.getLatitude());
+            setDestinationLongitude(event.getLongitude());
+            setDestinationName(event.getLocationName());
+        }
     }
 
     @Override
@@ -197,6 +218,9 @@ public class OSMapFragment extends Fragment {
 
         if (snackbar!=null && snackbar.isShown())
             snackbar.dismiss();
+
+        if(event != null)
+            event.removeAllChangeListeners();
     }
 
     @Override

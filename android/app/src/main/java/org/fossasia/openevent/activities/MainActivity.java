@@ -51,17 +51,15 @@ import com.squareup.picasso.Picasso;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
+import org.fossasia.openevent.api.DataDownloadManager;
 import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Event;
-import org.fossasia.openevent.data.EventDates;
 import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.data.Session;
-import org.fossasia.openevent.data.SessionSpeakersMapping;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Sponsor;
 import org.fossasia.openevent.data.Track;
-import org.fossasia.openevent.dbutils.DataDownloadManager;
-import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.events.CounterEvent;
 import org.fossasia.openevent.events.DataDownloadEvent;
 import org.fossasia.openevent.events.DownloadEvent;
@@ -69,7 +67,6 @@ import org.fossasia.openevent.events.EventDownloadEvent;
 import org.fossasia.openevent.events.JsonReadEvent;
 import org.fossasia.openevent.events.MicrolocationDownloadEvent;
 import org.fossasia.openevent.events.NoInternetEvent;
-import org.fossasia.openevent.events.RefreshUiEvent;
 import org.fossasia.openevent.events.RetrofitError;
 import org.fossasia.openevent.events.RetrofitResponseEvent;
 import org.fossasia.openevent.events.SessionDownloadEvent;
@@ -96,10 +93,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import butterknife.BindView;
@@ -107,12 +100,12 @@ import butterknife.ButterKnife;
 import io.reactivex.Completable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.internal.observers.CallbackCompletableObserver;
 import io.reactivex.schedulers.Schedulers;
+import io.realm.Realm;
 import timber.log.Timber;
 
 import static org.fossasia.openevent.R.id.headerDrawer;
-import static org.fossasia.openevent.R.string.app_name;
+import static org.fossasia.openevent.R.string.bookmarks;
 
 public class MainActivity extends BaseActivity {
 
@@ -147,7 +140,6 @@ public class MainActivity extends BaseActivity {
     private boolean backPressedOnce = false;
     private int eventsDone;
     private int currentMenuItemId;
-    private SmoothActionBarDrawerToggle smoothActionBarToggle;
     private boolean customTabsSupported;
     private CustomTabsServiceConnection customTabsServiceConnection;
     private CustomTabsClient customTabsClient;
@@ -157,25 +149,12 @@ public class MainActivity extends BaseActivity {
 
     private CompositeDisposable disposable;
 
+    private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
+    private Event event; // Future Event, stored to remove listeners
+
     public static Intent createLaunchFragmentIntent(Context context) {
         return new Intent(context, MainActivity.class)
                 .putExtra(NAV_ITEM, BOOKMARK);
-    }
-
-    public static Completable getDaysBetweenDates(Date startdate, Date enddate) {
-        ArrayList<String> dates = new ArrayList<>();
-        Calendar calendar = new GregorianCalendar();
-        calendar.setTime(startdate);
-
-        while (calendar.getTime().before(enddate)) {
-            Date result = calendar.getTime();
-            Calendar calendar1 = Calendar.getInstance();
-            calendar1.setTime(result);
-            dates.add(new EventDates(ISO8601Date.dateFromCalendar(calendar1)).generateSql());
-            calendar.add(Calendar.DATE, 1);
-        }
-
-        return DbSingleton.getInstance().insertQueriesObservable(dates);
     }
 
     @Override
@@ -212,42 +191,36 @@ public class MainActivity extends BaseActivity {
         setUpNavDrawer();
         setUpProgressBar();
         setUpCustomTab();
+        setupEvent();
 
-        NetworkUtils.checkConnection(new WeakReference<Context>(this), new NetworkUtils.NetworkStateReceiverListener() {
+        NetworkUtils.checkConnection(new WeakReference<>(this), new NetworkUtils.NetworkStateReceiverListener() {
             @Override
             public void activeConnection() {
                 //Internet is working
                 if (!sharedPreferences.getBoolean(ConstantStrings.IS_DOWNLOAD_DONE, false)) {
-                    DialogFactory.createDownloadDialog(context, R.string.download_assets, R.string.charges_warning, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int button) {
-                            if (button==DialogInterface.BUTTON_POSITIVE) {
-                                DbSingleton.getInstance().clearDatabaseObservable()
+                    DialogFactory.createDownloadDialog(context, R.string.download_assets, R.string.charges_warning, (dialogInterface, button) -> {
+                        if (button==DialogInterface.BUTTON_POSITIVE) {
+                            Boolean preference = sharedPreferences.getBoolean(getResources().getString(R.string.download_mode_key), true);
+                            if (preference) {
+                                disposable.add(NetworkUtils.haveNetworkConnectionObservable(MainActivity.this)
+                                        .subscribeOn(Schedulers.io())
                                         .observeOn(AndroidSchedulers.mainThread())
-                                        .subscribe(new CallbackCompletableObserver(() -> {
-                                            Boolean preference = sharedPreferences.getBoolean(getResources().getString(R.string.download_mode_key), true);
-                                            if (preference) {
-                                                disposable.add(NetworkUtils.haveNetworkConnectionObservable(MainActivity.this)
-                                                        .subscribeOn(Schedulers.io())
-                                                        .observeOn(AndroidSchedulers.mainThread())
-                                                        .subscribe(connected -> {
-                                                            if (connected) {
-                                                                OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
-                                                            } else {
-                                                                final Snackbar snackbar = Snackbar.make(mainFrame, R.string.internet_preference_warning, Snackbar.LENGTH_INDEFINITE);
-                                                                snackbar.setAction(R.string.yes, view -> downloadFromAssets());
-                                                                snackbar.show();
-                                                            }
-                                                        }));
-                                            } else {
+                                        .subscribe(connected -> {
+                                            if (connected) {
                                                 OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
                                                 sharedPreferences.edit().putBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true).apply();
+                                            } else {
+                                                final Snackbar snackbar = Snackbar.make(mainFrame, R.string.internet_preference_warning, Snackbar.LENGTH_INDEFINITE);
+                                                snackbar.setAction(R.string.yes, view -> downloadFromAssets());
+                                                snackbar.show();
                                             }
                                         }));
-
-                            } else if (button==DialogInterface.BUTTON_NEGATIVE) {
-                                downloadFromAssets();
+                            } else {
+                                OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
+                                sharedPreferences.edit().putBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true).apply();
                             }
+                        } else if (button==DialogInterface.BUTTON_NEGATIVE) {
+                            downloadFromAssets();
                         }
                     }).show();
                 } else {
@@ -364,19 +337,28 @@ public class MainActivity extends BaseActivity {
         downloadProgress.setIndeterminate(true);
     }
 
+    private void setupEvent() {
+        event = realmRepo.getEventSync();
+
+        if(event == null)
+            return;
+
+        setNavHeader(event);
+    }
+
     private void setUpNavDrawer() {
         headerView = (ImageView) navigationView.getHeaderView(0).findViewById(headerDrawer);
         if (toolbar != null) {
             final ActionBar ab = getSupportActionBar();
             if(ab == null) return;
-            smoothActionBarToggle = new SmoothActionBarDrawerToggle(this,
+            SmoothActionBarDrawerToggle smoothActionBarToggle = new SmoothActionBarDrawerToggle(this,
                     drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
 
                 @Override
                 public void onDrawerStateChanged(int newState) {
                     super.onDrawerStateChanged(newState);
 
-                    if(toolbar.getTitle().equals(getString(R.string.title_section_tracks))) {
+                    if (toolbar.getTitle().equals(getString(R.string.title_section_tracks))) {
                         navigationView.setCheckedItem(R.id.nav_tracks);
                     }
                 }
@@ -386,16 +368,10 @@ public class MainActivity extends BaseActivity {
             ab.setDisplayHomeAsUpEnabled(true);
             ab.setDisplayHomeAsUpEnabled(true);
             smoothActionBarToggle.syncState();
-
-            disposable.add(DbSingleton.getInstance().getEventDetailsObservable()
-                    .subscribe(this::setNavHeader,
-                            throwable -> Timber.d("Event not found. %s", throwable.getMessage())));
         }
     }
 
     private void setNavHeader(Event event) {
-        if(event == null)
-            return;
         String logo = event.getLogo();
         if (!logo.isEmpty()) {
             Picasso.with(getApplicationContext()).load(logo).into(headerView);
@@ -404,27 +380,15 @@ public class MainActivity extends BaseActivity {
 
     private void syncComplete() {
         downloadProgress.setVisibility(View.GONE);
-        disposable.add(DbSingleton.getInstance().getEventDetailsObservable()
-                .subscribe(event -> {
-                    if (event != null) {
 
-                        // Event successfully loaded, set data downloaded to true
-                        sharedPreferences.edit().putBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true).apply();
+        Snackbar.make(mainFrame, getString(R.string.download_complete), Snackbar.LENGTH_SHORT).show();
+        Timber.d("Download done");
 
-                        getDaysBetweenDates(
-                                ISO8601Date.getDateObject(event.getStart()), ISO8601Date.getDateObject(event.getEnd()))
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(() -> {
-                                    OpenEventApp.getEventBus().post(new RefreshUiEvent());
+        setupEvent();
 
-                                    Snackbar.make(mainFrame, getString(R.string.download_complete), Snackbar.LENGTH_SHORT).show();
-                                    Timber.d("Download done");
-                                });
-                        setNavHeader(event);
-                    }
-
-                }));
-
+        realmRepo.saveEventDates(ISO8601Date.getDateObject(event.getStartTime()),
+                ISO8601Date.getDateObject(event.getEndTime()))
+                .subscribe();
     }
 
     private void downloadFailed(final DownloadEvent event) {
@@ -447,12 +411,9 @@ public class MainActivity extends BaseActivity {
                     final int id = menuItem.getItemId();
                     drawerLayout.closeDrawers();
                     drawerLayout.postDelayed(() -> doMenuAction(id), 300);
-                    DbSingleton dbSingleton = DbSingleton.getInstance();
-                    if (id == R.id.nav_bookmarks && dbSingleton.isBookmarksTableEmpty()){
-                        return false;
-                    }
+
                     // to ensure bookmarks is not shown clicked if at all there are no bookmarks
-                    return true;
+                    return !(id == R.id.nav_bookmarks && realmRepo.getBookMarkedSessionsSync().isEmpty());
                 });
     }
 
@@ -478,29 +439,28 @@ public class MainActivity extends BaseActivity {
                 }
                 break;
             case R.id.nav_bookmarks:
-                DbSingleton dbSingleton = DbSingleton.getInstance();
-                disposable.add(dbSingleton.isBookmarksTableEmptyObservable()
-                        .subscribe(empty -> {
-                            Timber.d("Empty %s", empty);
-                            if(!empty) {
-                                Timber.d("no");
-                                atHome = false;
-                                fragmentManager.beginTransaction()
-                                        .replace(R.id.content_frame, new BookmarksFragment(), FRAGMENT_TAG_REST).commit();
-                                if (getSupportActionBar() != null) {
-                                    getSupportActionBar().setTitle(R.string.menu_bookmarks);
-                                }
-                                addShadowToAppBar(true);
-                            } else {
-                                Timber.d("yes");
-                                DialogFactory.createSimpleActionDialog(
-                                        context,
-                                        R.string.bookmarks,
-                                        R.string.empty_list,
-                                        null
-                                ).show();
-                            }
-                        }));
+                boolean empty = realmRepo.getBookMarkedSessionsSync().isEmpty();
+
+                Timber.d("Empty %s", empty);
+                if(!empty) {
+                    Timber.d("no");
+                    atHome = false;
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.content_frame, new BookmarksFragment(), FRAGMENT_TAG_REST).commit();
+                    if (getSupportActionBar() != null) {
+                        getSupportActionBar().setTitle(R.string.menu_bookmarks);
+                    }
+                    addShadowToAppBar(true);
+                } else {
+                    Timber.d("yes");
+                    DialogFactory.createSimpleActionDialog(
+                            context,
+                            bookmarks,
+                            R.string.empty_list,
+                            null
+                    ).show();
+                    if (currentMenuItemId == R.id.nav_schedule) addShadowToAppBar(false);
+                }
                 break;
             case R.id.nav_speakers:
                 atHome = false;
@@ -716,7 +676,6 @@ public class MainActivity extends BaseActivity {
                 syncComplete();
             }
         } else {
-
             downloadFailed(event);
         }
     }
@@ -791,102 +750,73 @@ public class MainActivity extends BaseActivity {
     public void handleJsonEvent(final JsonReadEvent jsonReadEvent) {
         final String name = jsonReadEvent.getName();
         final String json = jsonReadEvent.getJson();
-        CommonTaskLoop.getInstance().post(() -> {
-            final Gson gson = new Gson();
-            switch (name) {
-                case ConstantStrings.EVENT:
-                    CommonTaskLoop.getInstance().post(() -> {
-                        Event event = gson.fromJson(json, Event.class);
-                        DbSingleton.getInstance().insertQueryObservable(event.generateSql())
-                                .subscribe(() -> OpenEventApp.postEventOnUIThread(new EventDownloadEvent(true)));
-                    });
-                    break;
-                case ConstantStrings.TRACKS:
-                    CommonTaskLoop.getInstance().post(() -> {
-                        Type listType = new TypeToken<List<Track>>() {
-                        }.getType();
-                        List<Track> tracks = gson.fromJson(json, listType);
-                        ArrayList<String> queries = new ArrayList<String>();
-                        for (Track current : tracks) {
-                            queries.add(current.generateSql());
-                        }
 
-                        DbSingleton.getInstance().insertQueriesObservable(queries)
-                                .subscribe(() -> OpenEventApp.postEventOnUIThread(new TracksDownloadEvent(true)));
-                    });
+        Completable.fromAction(() -> {
+            final Gson gson = new Gson();
+
+            // Need separate instance for background thread
+            Realm realm = Realm.getDefaultInstance();
+
+            RealmDataRepository realmDataRepository = RealmDataRepository
+                    .getInstance(realm);
+
+            switch (name) {
+                case ConstantStrings.EVENT: {
+                    Event event1 = gson.fromJson(json, Event.class);
+                    realmDataRepository.saveEvent(event1).subscribe();
+
+                    OpenEventApp.postEventOnUIThread(new EventDownloadEvent(true));
                     break;
-                case ConstantStrings.SESSIONS: {
-                    Type listType = new TypeToken<List<Session>>() {
-                    }.getType();
+                } case ConstantStrings.TRACKS: {
+                    Type listType = new TypeToken<List<Track>>() {}.getType();
+                    List<Track> tracks = gson.fromJson(json, listType);
+
+                    realmDataRepository.saveTracks(tracks).subscribe();
+
+                    OpenEventApp.postEventOnUIThread(new TracksDownloadEvent(true));
+                    break;
+                } case ConstantStrings.SESSIONS: {
+                    Type listType = new TypeToken<List<Session>>() {}.getType();
                     List<Session> sessions = gson.fromJson(json, listType);
-                    ArrayList<String> queries = new ArrayList<>();
+
                     for (Session current : sessions) {
                         current.setStartDate(current.getStartTime().split("T")[0]);
-                        queries.add(current.generateSql());
                     }
 
-                    DbSingleton.getInstance().insertQueriesObservable(queries)
-                            .subscribe(() -> OpenEventApp.postEventOnUIThread(new SessionDownloadEvent(true)));
+                    realmDataRepository.saveSessions(sessions).subscribe();
+
+                    OpenEventApp.postEventOnUIThread(new SessionDownloadEvent(true));
                     break;
-                }
-                case ConstantStrings.SPEAKERS: {
-                    Type listType = new TypeToken<List<Speaker>>() {
-                    }.getType();
+                } case ConstantStrings.SPEAKERS: {
+                    Type listType = new TypeToken<List<Speaker>>() {}.getType();
                     List<Speaker> speakers = gson.fromJson(json, listType);
 
-                    ArrayList<String> queries = new ArrayList<String>();
-                    for (Speaker current : speakers) {
-                        for (int i = 0; i < current.getSession().size(); i++) {
-                            SessionSpeakersMapping sessionSpeakersMapping = new SessionSpeakersMapping(current.getSession().get(i).getId(), current.getId());
-                            String query_ss = sessionSpeakersMapping.generateSql();
-                            queries.add(query_ss);
-                        }
+                    realmRepo.saveSpeakers(speakers).subscribe();
 
-                        queries.add(current.generateSql());
-                    }
-
-                    DbSingleton.getInstance().insertQueriesObservable(queries)
-                            .subscribe(() -> OpenEventApp.postEventOnUIThread(new SpeakerDownloadEvent(true)));
-
+                    OpenEventApp.postEventOnUIThread(new SpeakerDownloadEvent(true));
                     break;
-                }
-                case ConstantStrings.SPONSORS:
-                    CommonTaskLoop.getInstance().post(() -> {
-                        Type listType = new TypeToken<List<Sponsor>>() {
-                        }.getType();
-                        List<Sponsor> sponsors = gson.fromJson(json, listType);
-                        ArrayList<String> queries = new ArrayList<String>();
-                        for (Sponsor current : sponsors) {
-                            queries.add(current.generateSql());
-                        }
+                } case ConstantStrings.SPONSORS: {
+                    Type listType = new TypeToken<List<Sponsor>>() {}.getType();
+                    List<Sponsor> sponsors = gson.fromJson(json, listType);
 
-                        DbSingleton.getInstance().insertQueriesObservable(queries)
-                                .subscribe(() -> OpenEventApp.postEventOnUIThread(new SponsorDownloadEvent(true)));
-                    });
+                    realmRepo.saveSponsors(sponsors).subscribe();
+
+                    OpenEventApp.postEventOnUIThread(new SponsorDownloadEvent(true));
                     break;
-                case ConstantStrings.MICROLOCATIONS:
-                    CommonTaskLoop.getInstance().post(new Runnable() {
-                        @Override
-                        public void run() {
+                } case ConstantStrings.MICROLOCATIONS: {
+                    Type listType = new TypeToken<List<Microlocation>>() {}.getType();
+                    List<Microlocation> microlocations = gson.fromJson(json, listType);
 
-                            Type listType = new TypeToken<List<Microlocation>>() {
-                            }.getType();
-                            List<Microlocation> microlocations = gson.fromJson(json, listType);
-                            ArrayList<String> queries = new ArrayList<String>();
-                            for (Microlocation current : microlocations) {
-                                queries.add(current.generateSql());
-                            }
+                    realmRepo.saveLocations(microlocations).subscribe();
 
-                            DbSingleton.getInstance().insertQueriesObservable(queries)
-                                    .subscribe(() -> OpenEventApp.postEventOnUIThread(new MicrolocationDownloadEvent(true)));
-                        }
-                    });
+                    OpenEventApp.postEventOnUIThread(new MicrolocationDownloadEvent(true));
                     break;
-                default:
+                } default:
                     //do nothing
             }
-        });
 
+            realm.close();
+        }).observeOn(Schedulers.computation()).subscribe();
     }
 
     @Subscribe
@@ -919,10 +849,12 @@ public class MainActivity extends BaseActivity {
             //TODO: Add and Take counter value from to config.json
             sharedPreferences.edit().putBoolean(ConstantStrings.DATABASE_RECORDS_EXIST, true).apply();
             counter = 5;
+
+            // Order is important for merging correctly
             readJsonAsset(Urls.EVENT);
-            readJsonAsset(Urls.TRACKS);
-            readJsonAsset(Urls.SPEAKERS);
             readJsonAsset(Urls.SESSIONS);
+            readJsonAsset(Urls.SPEAKERS);
+            readJsonAsset(Urls.TRACKS);
             readJsonAsset(Urls.SPONSORS);
             readJsonAsset(Urls.MICROLOCATIONS);
         } else {
@@ -961,6 +893,9 @@ public class MainActivity extends BaseActivity {
         }
         if(disposable != null && !disposable.isDisposed())
             disposable.dispose();
+        if(event != null) {
+            event.removeAllChangeListeners();
+        }
     }
 
     @Override

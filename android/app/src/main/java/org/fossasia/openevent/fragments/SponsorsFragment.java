@@ -16,9 +16,9 @@ import com.squareup.otto.Subscribe;
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.SponsorsListAdapter;
+import org.fossasia.openevent.api.DataDownloadManager;
 import org.fossasia.openevent.data.Sponsor;
-import org.fossasia.openevent.dbutils.DataDownloadManager;
-import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.events.SponsorDownloadEvent;
 import org.fossasia.openevent.utils.NetworkUtils;
 import org.fossasia.openevent.utils.ShowNotificationSnackBar;
@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import io.reactivex.disposables.CompositeDisposable;
+import io.realm.Realm;
 import timber.log.Timber;
 
 /**
@@ -46,7 +46,8 @@ public class SponsorsFragment extends BaseFragment {
     @BindView(R.id.list_sponsors)
     RecyclerView sponsorsRecyclerView;
 
-    private CompositeDisposable compositeDisposable;
+    private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
+    private Realm realm = realmRepo.getRealmInstance();
 
     @Nullable
     @Override
@@ -56,9 +57,6 @@ public class SponsorsFragment extends BaseFragment {
         final View view = super.onCreateView(inflater, container, savedInstanceState);
 
         OpenEventApp.getEventBus().register(this);
-        compositeDisposable = new CompositeDisposable();
-
-        final DbSingleton dbSingleton = DbSingleton.getInstance();
 
         swipeRefreshLayout.setOnRefreshListener(this::refresh);
         sponsorsListAdapter = new SponsorsListAdapter(getContext(), mSponsors,
@@ -67,14 +65,15 @@ public class SponsorsFragment extends BaseFragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         sponsorsRecyclerView.setLayoutManager(linearLayoutManager);
 
-        compositeDisposable.add(dbSingleton.getSponsorListObservable()
-                .subscribe(sponsors -> {
+        RealmDataRepository.getDefaultInstance()
+                .getSponsors()
+                .addChangeListener((sponsors, orderedCollectionChangeSet) -> {
                     mSponsors.clear();
-                    mSponsors.addAll(sponsors);
+                    mSponsors.addAll(realm.copyFromRealm(sponsors));
 
                     sponsorsListAdapter.notifyDataSetChanged();
                     handleVisibility();
-                }));
+                });
 
         return view;
     }
@@ -98,8 +97,6 @@ public class SponsorsFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         OpenEventApp.getEventBus().unregister(this);
-        if(compositeDisposable != null && !compositeDisposable.isDisposed())
-            compositeDisposable.dispose();
 
         // Remove listeners to fix memory leak
         if(swipeRefreshLayout != null) swipeRefreshLayout.setOnRefreshListener(null);
@@ -112,11 +109,9 @@ public class SponsorsFragment extends BaseFragment {
 
         swipeRefreshLayout.setRefreshing(false);
         if (event.isState()) {
-            sponsorsListAdapter.refresh();
             Timber.d("Refresh done");
         } else {
-            Snackbar.make(swipeRefreshLayout, getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG)
-                    .setAction(R.string.retry_download, view -> refresh()).show();
+            Snackbar.make(swipeRefreshLayout, getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, view -> refresh()).show();
             Timber.d("Refresh not done");
         }
     }
@@ -151,8 +146,7 @@ public class SponsorsFragment extends BaseFragment {
 
             @Override
             public void networkUnavailable() {
-                Snackbar.make(swipeRefreshLayout, getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG)
-                        .setAction(R.string.retry_download, view -> refresh()).show();
+                Snackbar.make(swipeRefreshLayout, getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, view -> refresh()).show();
                 OpenEventApp.getEventBus().post(new SponsorDownloadEvent(true));
             }
         });

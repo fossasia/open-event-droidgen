@@ -17,8 +17,8 @@ import android.widget.TextView;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.data.Event;
-import org.fossasia.openevent.data.SocialLink;
-import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.data.extras.SocialLink;
+import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.utils.ISO8601Date;
 
 import java.util.List;
@@ -58,6 +58,11 @@ public class AboutFragment extends BaseFragment {
     @BindView(R.id.event_venue_details)
     TextView venue_details;
 
+    private String url;
+
+    private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
+    private Event event;
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
@@ -73,41 +78,50 @@ public class AboutFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Event event = DbSingleton.getInstance().getEventDetails();
-       if (event != null) {
-           String date = ISO8601Date.getTimeZoneDateString(
-                   ISO8601Date.getDateObject(event.getStart())).split(",")[0] + ","
-                   + ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(event.getStart())).split(",")[1]
-                   + " - "
-                   + ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(event.getEnd())).split(",")[0] + ","
-                   + ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(event.getEnd())).split(",")[1];
+        event = realmRepo.getEvent();
+        event.addChangeListener(realmModel -> loadEvent());
+    }
 
-           welcomeMessage.setText(getText(R.string.welcome_message));
-           organiser_description.setText(Html.fromHtml(event.getOrganizerDescription()));
-           event_descrption.setText(Html.fromHtml(event.getDescription()));
-           venue_details.setText(event.getLocationName());
-           event_timing.setText(date);
-           mDescriptionImg.setOnClickListener(v -> collapseExpandTextView());
-           readMore.setOnClickListener(v -> {
-               organiser_description.setMaxLines(Integer.MAX_VALUE);
-               readMore.setVisibility(View.GONE);
-               readLess.setVisibility(View.VISIBLE);
-           });
-           readLess.setOnClickListener(v -> {
-               organiser_description.setMaxLines(4);
-               readLess.setVisibility(View.GONE);
-               readMore.setVisibility(View.VISIBLE);
-           });
+    private void loadEvent() {
+        if(event == null)
+            return;
 
-           final List<SocialLink> socialLinks = DbSingleton.getInstance().getSocialLink();
-           img_twitter.setOnClickListener(v -> setUpCustomTab(socialLinks.get(2).getLink()));
+        String startTime = event.getStartTime();
+        String endTime = event.getEndTime();
 
-           img_facebook.setOnClickListener(v -> setUpCustomTab(socialLinks.get(3).getLink()));
+        String date = ISO8601Date.getTimeZoneDateString(
+                ISO8601Date.getDateObject(startTime)).split(",")[0] + ","
+                + ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(startTime)).split(",")[1]
+                + " - "
+                + ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(endTime)).split(",")[0] + ","
+                + ISO8601Date.getTimeZoneDateString(ISO8601Date.getDateObject(endTime)).split(",")[1];
 
-           img_github.setOnClickListener(v -> setUpCustomTab(socialLinks.get(7).getLink()));
+        welcomeMessage.setText(getText(R.string.welcome_message));
+        organiser_description.setText(Html.fromHtml(event.getOrganizerDescription()));
+        event_descrption.setText(Html.fromHtml(event.getDescription()));
+        venue_details.setText(event.getLocationName());
+        event_timing.setText(date);
+        mDescriptionImg.setOnClickListener(v -> collapseExpandTextView());
+        readMore.setOnClickListener(v -> {
+            organiser_description.setMaxLines(Integer.MAX_VALUE);
+            readMore.setVisibility(View.GONE);
+            readLess.setVisibility(View.VISIBLE);
+        });
+        readLess.setOnClickListener(v -> {
+            organiser_description.setMaxLines(4);
+            readLess.setVisibility(View.GONE);
+            readMore.setVisibility(View.VISIBLE);
+        });
 
-           img_linkedin.setOnClickListener(v -> setUpCustomTab(socialLinks.get(8).getLink()));
-       }
+        final List<SocialLink> socialLinks = event.getSocialLinks();
+        img_twitter.setOnClickListener(v -> setUpCustomTab(socialLinks.get(2).getLink()));
+
+        img_facebook.setOnClickListener(v -> setUpCustomTab(socialLinks.get(3).getLink()));
+
+        img_github.setOnClickListener(v -> setUpCustomTab(socialLinks.get(7).getLink()));
+
+        img_linkedin.setOnClickListener(v -> setUpCustomTab(socialLinks.get(8).getLink()));
+
     }
 
     @TargetApi(16)

@@ -1,6 +1,5 @@
-package org.fossasia.openevent.dbutils;
+package org.fossasia.openevent.api;
 
-import org.fossasia.openevent.api.APIClient;
 import org.fossasia.openevent.api.processor.EventListResponseProcessor;
 import org.fossasia.openevent.api.processor.MicrolocationListResponseProcessor;
 import org.fossasia.openevent.api.processor.SessionListResponseProcessor;

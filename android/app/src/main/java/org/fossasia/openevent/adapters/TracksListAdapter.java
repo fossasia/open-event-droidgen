@@ -17,18 +17,16 @@ import com.amulyakhare.textdrawable.TextDrawable;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.activities.TrackSessionsActivity;
 import org.fossasia.openevent.data.Track;
-import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.utils.ConstantStrings;
-import org.fossasia.openevent.utils.TrackColors;
 import org.fossasia.openevent.views.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.disposables.CompositeDisposable;
+import io.realm.Realm;
 import timber.log.Timber;
 
 /**
@@ -39,31 +37,36 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.Re
 
     private Context context;
     private TextDrawable.IBuilder drawableBuilder = TextDrawable.builder().round();
-    private CompositeDisposable disposable;
 
     @SuppressWarnings("all")
-    Filter filter = new Filter() {
+    private Filter filter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            DbSingleton instance = DbSingleton.getInstance();
-            List<Track> trackList = instance.getTrackList();
-            final ArrayList<Track> filteredTracksList = new ArrayList<>();
-            String query = constraint.toString().toLowerCase(Locale.getDefault());
-            for (Track track : trackList) {
-                final String text = track.getName().toLowerCase(Locale.getDefault());
-                if (text.contains(query)) {
-                    filteredTracksList.add(track);
-                }
-            }
+
+            final String query = constraint.toString().toLowerCase(Locale.getDefault());
+
+            Realm realm = Realm.getDefaultInstance();
+
+            List<Track> filteredTracks = realm.copyFromRealm(RealmDataRepository.getInstance(realm)
+                    .getTracksFiltered(constraint.toString()));
+
             FilterResults filterResults = new FilterResults();
-            filterResults.values = filteredTracksList;
-            filterResults.count = filteredTracksList.size();
+            filterResults.values = filteredTracks;
+            filterResults.count = filteredTracks.size();
             Timber.d("Filtering done total results %d", filterResults.count);
+
+            realm.close();
             return filterResults;
         }
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
+            if(results == null || results.values == null) {
+                Timber.e("No results published. There is an error in query. Check " + getClass().getName() + " filter!");
+
+                return;
+            }
+
             animateTo((List<Track>) results.values);
         }
     };
@@ -71,19 +74,6 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.Re
     public TracksListAdapter(Context context, List<Track> tracks) {
         super(tracks);
         this.context = context;
-    }
-
-    @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
-        super.onAttachedToRecyclerView(recyclerView);
-        disposable = new CompositeDisposable();
-    }
-
-    @Override
-    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
-        super.onDetachedFromRecyclerView(recyclerView);
-        if(disposable != null && !disposable.isDisposed())
-            disposable.dispose();
     }
 
     @Override
@@ -109,24 +99,13 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.Re
         holder.trackImageIcon.setImageDrawable(drawable);
         holder.trackImageIcon.setBackgroundColor(Color.TRANSPARENT);
 
-        // Store the track color in color cache
-        TrackColors.storeColor(currentTrack.getId(), trackColor);
-
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, TrackSessionsActivity.class);
             intent.putExtra(ConstantStrings.TRACK, currentTrack.getName());
 
-            // Send Track ID to Activity to leverage color cache
             intent.putExtra(ConstantStrings.TRACK_ID, currentTrack.getId());
             context.startActivity(intent);
         });
-    }
-
-    public void refresh() {
-        Timber.d("Refreshing tracks from db");
-        clear();
-        disposable.add(DbSingleton.getInstance().getTrackListObservable()
-                .subscribe(this::animateTo));
     }
 
     @Override

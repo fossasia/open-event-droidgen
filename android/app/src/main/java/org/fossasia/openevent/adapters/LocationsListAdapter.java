@@ -12,18 +12,22 @@ import android.widget.TextView;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.activities.LocationActivity;
 import org.fossasia.openevent.data.Microlocation;
-import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.views.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.Observable;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Predicate;
+import io.realm.Realm;
+import io.realm.RealmResults;
 import timber.log.Timber;
 
 /**
@@ -44,20 +48,30 @@ public class LocationsListAdapter extends BaseRVAdapter<Microlocation, Locations
     Filter filter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            DbSingleton instance = DbSingleton.getInstance();
-            List<Microlocation> microlocations = instance.getMicrolocationList();
-            final ArrayList<Microlocation> filteredLocationList = new ArrayList<>();
-            String query = constraint.toString().toLowerCase(Locale.getDefault());
-            for (Microlocation microlocation : microlocations) {
-                final String text = microlocation.getName().toLowerCase(Locale.getDefault());
-                if (text.contains(query)) {
-                    filteredLocationList.add(microlocation);
-                }
-            }
+            final String query = constraint.toString().toLowerCase(Locale.getDefault());
+
+            Realm realm = Realm.getDefaultInstance();
+
+            RealmResults<Microlocation> locations = RealmDataRepository
+                    .getInstance(realm)
+                    .getLocationsSync();
+
+            List<Microlocation> filteredMicrolocationList = Observable.fromIterable(locations)
+                    .filter(new Predicate<Microlocation>() {
+                        @Override
+                        public boolean test(@NonNull Microlocation microlocation) throws Exception {
+                            return microlocation.getName()
+                                    .toLowerCase(Locale.getDefault())
+                                    .contains(query);
+                        }
+                    }).toList().blockingGet();
+
             FilterResults filterResults = new FilterResults();
-            filterResults.values = filteredLocationList;
-            filterResults.count = filteredLocationList.size();
+            filterResults.values = realm.copyFromRealm(filteredMicrolocationList);
+            filterResults.count = filteredMicrolocationList.size();
             Timber.d("Filtering done total results %d", filterResults.count);
+
+            realm.close();
             return filterResults;
         }
 
@@ -93,12 +107,6 @@ public class LocationsListAdapter extends BaseRVAdapter<Microlocation, Locations
             holder.getAdapterPosition();
             context.startActivity(intent);
         });
-    }
-
-    public void refresh() {
-        clear();
-        disposable.add(DbSingleton.getInstance().getMicrolocationListObservable()
-                .subscribe(microlocations -> animateTo(microlocations)));
     }
 
     @Override

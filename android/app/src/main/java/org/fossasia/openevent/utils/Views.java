@@ -151,6 +151,4 @@ public final class Views {
         if (effect != null)
             effect.setColor(color);
     }
-
-
 }

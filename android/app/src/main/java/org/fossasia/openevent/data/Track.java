@@ -1,89 +1,68 @@
 package org.fossasia.openevent.data;
 
-import android.database.DatabaseUtils;
-
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import org.fossasia.openevent.dbutils.DbContract;
-import org.fossasia.openevent.utils.StringUtils;
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.Index;
+import io.realm.annotations.PrimaryKey;
 
-import java.util.Locale;
+public class Track extends RealmObject {
 
-/**
- * User: championswimmer
- * Date: 16/5/15
- */
-public class Track {
-
-    private int id;
-
-    private String name;
-
-    private String color;
-
+    @Expose
     private String description;
 
+    @Expose
+    private RealmList<Session> sessions;
+
+    @Expose
+    private String color;
+
     @SerializedName("track_image_url")
-    private String image;
+    @Expose
+    private String trackImageUrl;
 
-    public Track(int id, String name, String description, String image, String color) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.image = image;
-        this.color = color;
-    }
+    @Expose
+    private String location;
 
-    public String getImage() {
-        return image;
-    }
+    @Expose
+    @PrimaryKey
+    private int id;
 
-    public void setImage(String image) {
-        this.image = image;
-    }
+    @Expose
+    @Index
+    private String name;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public RealmList<Session> getSessions() {
+        return sessions;
     }
 
     public String getColor() {
         return color;
     }
 
-    public void setColor(String color) {
-        this.color = color;
+    public String getTrackImageUrl() {
+        return trackImageUrl;
     }
 
-    public String generateSql() {
-        String insertQuery = "INSERT INTO %s VALUES ('%d', %s, %s , %s, %s);";
-        return String.format(Locale.ENGLISH,
-                insertQuery,
-                DbContract.Tracks.TABLE_NAME,
-                id,
-                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(name)),
-                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(description)),
-                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(image)),
-                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(color)));
+    public String getLocation() {
+        return location;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setSessions(RealmList<Session> sessions) {
+        this.sessions = sessions;
     }
 }

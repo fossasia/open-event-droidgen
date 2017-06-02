@@ -1,18 +1,15 @@
 package org.fossasia.openevent.data;
 
 
-import android.database.DatabaseUtils;
-
-import org.fossasia.openevent.dbutils.DbContract;
-import org.fossasia.openevent.utils.StringUtils;
-
-import java.util.Locale;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 
 /**
  * Created by MananWason on 26-05-2015.
  */
-public class Microlocation {
+public class Microlocation extends RealmObject {
+    @PrimaryKey
     private int id;
 
     private String name;
@@ -22,6 +19,13 @@ public class Microlocation {
     private float longitude;
 
     private int floor;
+
+    public Microlocation() {}
+
+    public Microlocation(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
     public Microlocation(int id, String name, float latitude,
                          float longitude, int floor) {
@@ -73,16 +77,4 @@ public class Microlocation {
         this.floor = floor;
     }
 
-
-    public String generateSql() {
-        String insertQuery = "INSERT INTO %s VALUES ('%d', %s, '%f', '%f', '%d');";
-        return String.format(Locale.ENGLISH,
-                insertQuery,
-                DbContract.Microlocation.TABLE_NAME,
-                id,
-                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(name)),
-                latitude,
-                longitude,
-                floor);
-    }
 }

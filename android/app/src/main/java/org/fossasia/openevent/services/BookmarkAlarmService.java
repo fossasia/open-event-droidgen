@@ -14,11 +14,13 @@ import android.support.v4.app.NotificationCompat;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.activities.SessionDetailActivity;
 import org.fossasia.openevent.data.Session;
-import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.ISO8601Date;
 
 public class BookmarkAlarmService extends IntentService {
+
+    private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
 
     public BookmarkAlarmService(String name) {
         super(name);
@@ -58,8 +60,7 @@ public class BookmarkAlarmService extends IntentService {
         NotificationManager mManager = (NotificationManager) this.getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
         int id = intent.getIntExtra(ConstantStrings.SESSION, 0);
         String session_date;
-        DbSingleton dbSingleton = DbSingleton.getInstance();
-        Session session = dbSingleton.getSessionById(id);
+        Session session = realmRepo.getSessionSync(id);
         Intent intent1 = new Intent(this.getApplicationContext(), SessionDetailActivity.class);
         intent1.putExtra(ConstantStrings.SESSION, session.getTitle());
         intent1.putExtra(ConstantStrings.ID, session.getId());

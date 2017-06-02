@@ -43,7 +43,7 @@ import org.fossasia.openevent.adapters.SessionsListAdapter;
 import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
-import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.events.ConnectionCheckEvent;
 import org.fossasia.openevent.utils.SpeakerIntent;
 import org.fossasia.openevent.utils.StringUtils;
@@ -52,7 +52,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import io.reactivex.disposables.CompositeDisposable;
+import io.realm.RealmChangeListener;
 
 /**
  * Created by MananWason on 30-06-2015.
@@ -62,8 +62,6 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
     private SessionsListAdapter sessionsListAdapter;
 
     private GridLayoutManager gridLayoutManager;
-
-    private String speaker;
 
     private Speaker selectedSpeaker;
 
@@ -86,7 +84,7 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
     @BindView(R.id.imageView_github) ImageView github;
     @BindView(R.id.imageView_twitter) ImageView twitter;
     @BindView(R.id.imageView_web) ImageView website;
-    @BindView(R.id.speaker_details_title) TextView speakerName;
+    @BindView(R.id.speaker_details_title) TextView speakerNameText;
     @BindView(R.id.speaker_image) ImageView speakerImage;
     @BindView(R.id.speaker_bio) TextView biography;
     @BindView(R.id.speaker_details_header) LinearLayout toolbarHeaderView;
@@ -95,25 +93,18 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
     @BindView(R.id.progress_bar)
     protected ProgressBar progressBar;
 
-    private CompositeDisposable disposable;
+    private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
+    private Speaker speaker;
+    private String speakerName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        disposable = new CompositeDisposable();
-
-        final DbSingleton dbSingleton = DbSingleton.getInstance();
-        speaker = getIntent().getStringExtra(Speaker.SPEAKER);
+        speakerName = getIntent().getStringExtra(Speaker.SPEAKER);
         setSupportActionBar(toolbar);
         if(getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         collapsingToolbarLayout.setTitle(" ");
-
-        disposable.add(dbSingleton.getSpeakerBySpeakerNameObservable(speaker)
-                .subscribe(speaker1 -> {
-                    selectedSpeaker = speaker1;
-                    loadSpeakerDetails();
-                }));
 
         appBarLayout.addOnOffsetChangedListener(this);
 
@@ -129,15 +120,6 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
         sessionRecyclerView.setNestedScrollingEnabled(false);
         sessionRecyclerView.setAdapter(sessionsListAdapter);
         sessionRecyclerView.setItemAnimator(new DefaultItemAnimator());
-
-        disposable.add(dbSingleton.getSessionsBySpeakersNameObservable(speaker)
-                .subscribe(sessions -> {
-                    mSessions.clear();
-                    mSessions.addAll(sessions);
-
-                    sessionsListAdapter.notifyDataSetChanged();
-                    handleVisibility();
-                }));
 
         handleVisibility();
     }
@@ -212,8 +194,13 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
     }
 
     private void loadSpeakerDetails() {
+        mSessions.clear();
+        mSessions.addAll(selectedSpeaker.getSessions());
 
-        speakerName.setText(selectedSpeaker.getName());
+        sessionsListAdapter.notifyDataSetChanged();
+        handleVisibility();
+
+        speakerNameText.setText(selectedSpeaker.getName());
         if (!TextUtils.isEmpty(selectedSpeaker.getPosition()) && !TextUtils.isEmpty(selectedSpeaker.getOrganisation()))
             speakerDesignation.setText(String.format("%s, %s", selectedSpeaker.getPosition(), selectedSpeaker.getOrganisation()));
         else if (!TextUtils.isEmpty(selectedSpeaker.getPosition()))
@@ -282,7 +269,6 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
         }
         biography.setMovementMethod(LinkMovementMethod.getInstance());
 
-        OpenEventApp.getEventBus().register(this);
         loadSpeakerImage();
     }
 
@@ -290,23 +276,32 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
     protected void onResume() {
         super.onResume();
 
+        OpenEventApp.getEventBus().register(this);
+
         DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
         float width = displayMetrics.widthPixels / displayMetrics.density;
         int spanCount = (int) (width / 250.00);
 
         gridLayoutManager.setSpanCount(spanCount);
 
-        final DbSingleton dbSingleton = DbSingleton.getInstance();
-        disposable.add(dbSingleton.getSessionsBySpeakersNameObservable(speaker)
-                .subscribe(sessions -> {
-                    mSessions.clear();
-                    mSessions.addAll(sessions);
+        speaker = realmRepo.getSpeaker(speakerName);
+        speaker.addChangeListener((RealmChangeListener<Speaker>) speaker -> {
+            selectedSpeaker = speaker;
+            loadSpeakerDetails();
+        });
+    }
 
-                    sessionsListAdapter.notifyDataSetChanged();
-                    handleVisibility();
-                }));
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(speaker != null)
+            speaker.removeAllChangeListeners();
+    }
 
-        handleVisibility();
+    @Override
+    protected void onPause() {
+        super.onPause();
+        OpenEventApp.getEventBus().unregister(this);
     }
 
     @Override
@@ -346,7 +341,7 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
 
                 sendIntent.putExtra(Intent.EXTRA_TEXT, message);
                 sendIntent.setType("text/plain");
-                startActivity(Intent.createChooser(sendIntent, selectedSpeaker.getEmail()));
+                startActivity(Intent.createChooser(sendIntent, getString(R.string.share)));
                 return true;
             default:
                 //do nothing
@@ -367,10 +362,8 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unbindService(customTabsServiceConnection);
-        OpenEventApp.getEventBus().unregister(this);
-        if(disposable != null && !disposable.isDisposed())
-            disposable.dispose();
+        if(customTabsServiceConnection != null)
+            unbindService(customTabsServiceConnection);
     }
 
     @Override

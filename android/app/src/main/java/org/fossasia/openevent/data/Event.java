@@ -1,214 +1,275 @@
 package org.fossasia.openevent.data;
 
-import android.database.DatabaseUtils;
-
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import org.fossasia.openevent.dbutils.DbContract;
-import org.fossasia.openevent.utils.StringUtils;
+import org.fossasia.openevent.data.extras.CallForPapers;
+import org.fossasia.openevent.data.extras.Copyright;
+import org.fossasia.openevent.data.extras.LicenseDetails;
+import org.fossasia.openevent.data.extras.SocialLink;
+import org.fossasia.openevent.data.extras.Version;
 
-import java.util.List;
-import java.util.Locale;
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
-/**
- * Created by MananWason on 27-05-2015.
- */
-public class Event {
+public class Event extends RealmObject {
 
-    private int id;
-
-    private String name;
-
-    private String email;
-
-    private String logo;
-
-    @SerializedName("start_time")
-    private String start;
-
-    @SerializedName("end_time")
-    private String end;
-
-    private float latitude;
-
-    private float longitude;
-
-    @SerializedName("location_name")
-    private String locationName;
+    @SerializedName("id")
+    @Expose
+    @PrimaryKey
+    private Integer id;
 
     @SerializedName("event_url")
-    private String url;
+    @Expose
+    private String eventUrl;
 
-    private String timezone;
-
-    private Version version;
-
+    @Expose
     private String description;
 
-    @SerializedName("organizer_description")
-    private String organizerDescription;
+    @SerializedName("licence_details")
+    @Expose
+    private LicenseDetails licenseDetails;
+
+    @SerializedName("start_time")
+    @Expose
+    private String startTime;
+
+    @SerializedName("end_time")
+    @Expose
+    private String endTime;
+
+    @SerializedName("ticket_url")
+    @Expose
+    private String ticketUrl;
+
+    @Expose
+    private String topic;
+
+    @Expose
+    private String thumbnail;
+
+    @Expose
+    private String timezone;
+
+    @Expose
+    private String logo;
+
+    @SerializedName("searchable_location_name")
+    @Expose
+    private String searchableLocationName;
+
+    @Expose
+    private String large;
+
+    @SerializedName("background_image")
+    @Expose
+    private String backgroundImage;
+
+    @SerializedName("call_for_papers")
+    @Expose
+    private CallForPapers callForPapers;
+
+    @SerializedName("location_name")
+    @Expose
+    private String locationName;
+
+    @Expose
+    private String name;
+
+    @Expose
+    private Copyright copyright;
+
+    @Expose
+    private String privacy;
+
+    @SerializedName("placeholder_url")
+    @Expose
+    private String placeholderUrl;
 
     @SerializedName("social_links")
-    private List<SocialLink> socialLink;
+    @Expose
+    private RealmList<SocialLink> socialLinks;
 
-    public Event(int id, String name, String email, String logo, String start,
-                 String end, float latitude, float longitude, String locationName, String url, String timezone,
-                 String description, String organizerDescription) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.logo = logo;
-        this.start = start;
-        this.end = end;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.locationName = locationName;
-        this.url = url;
-        this.timezone = timezone;
-        this.description = description;
-        this.organizerDescription = organizerDescription;
-    }
+    @Expose
+    private Double longitude;
 
-    public List<SocialLink> getSocialLink() {
-        return socialLink;
-    }
+    @SerializedName("organizer_name")
+    @Expose
+    private String organizerName;
 
-    public void setSocialLink(List<SocialLink> socialLink) {
-        this.socialLink = socialLink;
-    }
+    @SerializedName("schedule_published_on")
+    @Expose
+    private String schedulePublishedOn;
 
-    public String getOrganizerDescription() {
-        return organizerDescription;
-    }
+    @Expose
+    private String state;
 
-    public void setOrganizerDescription(String organizerDescription) {
-        this.organizerDescription = organizerDescription;
+    @Expose
+    private Version version;
+
+    @SerializedName("has_session_speakers")
+    @Expose
+    private Boolean hasSessionSpeakers;
+
+    @SerializedName("sub_topic")
+    @Expose
+    private String subTopic;
+
+    @Expose
+    private Double latitude;
+
+    @SerializedName("organizer_description")
+    @Expose
+    private String organizerDescription;
+
+    @Expose
+    private String identifier;
+
+    @Expose
+    private String type;
+
+    @Expose
+    private String email;
+
+    @SerializedName("code_of_conduct")
+    @Expose
+    private String codeOfConduct;
+
+    public String getEventUrl() {
+        return eventUrl;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public LicenseDetails getLicenseDetails() {
+        return licenseDetails;
     }
 
-    public String getEmail() {
-        return email;
+    public String getStartTime() {
+        return startTime;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public String getTicketUrl() {
+        return ticketUrl;
     }
 
-    public String getUrl() {
-        return url;
+    public String getTopic() {
+        return topic;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public int getId() {
-
-        return id;
-
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getLogo() {
-        return logo;
-    }
-
-    public void setLogo(String logo) {
-        this.logo = logo;
-    }
-
-    public String getStart() {
-        return start;
-    }
-
-    public void setStart(String start) {
-        this.start = start;
-    }
-
-    public String getEnd() {
-        return end;
-    }
-
-    public void setEnd(String end) {
-        this.end = end;
-    }
-
-    public float getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(float latitude) {
-        this.latitude = latitude;
-    }
-
-    public float getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(float longitude) {
-        this.longitude = longitude;
-    }
-
-    public String getLocationName() {
-        return locationName;
-    }
-
-    public void setLocationName(String locationName) {
-        this.locationName = locationName;
-    }
-
-    public Version getVersion() {
-        return version;
-    }
-
-    public void setVersion(Version version) {
-        this.version = version;
+    public String getThumbnail() {
+        return thumbnail;
     }
 
     public String getTimezone() {
         return timezone;
     }
 
-    public void setTimezone(String timezone) {
-        this.timezone = timezone;
+    public String getLogo() {
+        return logo;
     }
 
-    public String generateSql() {
-        String insertQuery = "INSERT INTO %s VALUES ('%d', %s, %s, %s, %s, %s, '%f', '%f', %s, %s, %s, %s, %s);";
-        return String.format(Locale.ENGLISH,
-                insertQuery,
-                DbContract.Event.TABLE_NAME,
-                id,
-                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(name)),
-                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(email)),
-                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(logo)),
-                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(start)),
-                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(end)),
-                latitude,
-                longitude,
-                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(locationName)),
-                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(url)),
-                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(timezone)),
-                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(description)),
-                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(organizerDescription))
-        );
+    public String getSearchableLocationName() {
+        return searchableLocationName;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getLarge() {
+        return large;
+    }
+
+    public String getBackgroundImage() {
+        return backgroundImage;
+    }
+
+    public CallForPapers getCallForPapers() {
+        return callForPapers;
+    }
+
+    public String getLocationName() {
+        return locationName;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Copyright getCopyright() {
+        return copyright;
+    }
+
+    public String getPrivacy() {
+        return privacy;
+    }
+
+    public String getPlaceholderUrl() {
+        return placeholderUrl;
+    }
+
+    public RealmList<SocialLink> getSocialLinks() {
+        return socialLinks;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public String getOrganizerName() {
+        return organizerName;
+    }
+
+    public String getSchedulePublishedOn() {
+        return schedulePublishedOn;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public Version getVersion() {
+        return version;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public Boolean getHasSessionSpeakers() {
+        return hasSessionSpeakers;
+    }
+
+    public String getSubTopic() {
+        return subTopic;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public String getOrganizerDescription() {
+        return organizerDescription;
+    }
+
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getCodeOfConduct() {
+        return codeOfConduct;
+    }
+
 }
