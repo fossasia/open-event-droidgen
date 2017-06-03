@@ -151,10 +151,13 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
             case R.id.action_map_location:
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.content_frame_location, ((OpenEventApp) getApplication()).getMapModuleFactory().provideMapModule().provideMapFragment(), FRAGMENT_TAG_LOCATION).commit();
+                fragmentTransaction.replace(R.id.content_frame_location, ((OpenEventApp) getApplication()).getMapModuleFactory().provideMapModule().provideMapFragment(), FRAGMENT_TAG_LOCATION).addToBackStack(null).commit();
+                sessionRecyclerView.setVisibility(View.GONE);
                 return true;
             case android.R.id.home:
                 onBackPressed();
+                getSupportFragmentManager().popBackStack();
+                sessionRecyclerView.setVisibility(View.VISIBLE);
                 return true;
             default:
                 return true;
