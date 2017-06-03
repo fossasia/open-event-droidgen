@@ -124,6 +124,8 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakersListAdap
                     .load(Uri.parse(thumbnail))
                     .placeholder(VectorDrawableCompat.create(context.getResources(), R.drawable.ic_account_circle_grey_24dp, null))
                     .into(holder.speakerImage);
+        } else {
+            holder.speakerImage.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_account_circle_grey_24dp));
         }
 
         String name = current.getName();
