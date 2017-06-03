@@ -273,6 +273,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
             if (appBarLayout.getVisibility() == View.GONE) {
                 appBarLayout.setVisibility(View.VISIBLE);
             }
+            getSupportFragmentManager().popBackStack();
         } else {
             super.onBackPressed();
         }
@@ -295,7 +296,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
                         ((OpenEventApp) getApplication())
                                 .getMapModuleFactory()
                                 .provideMapModule()
-                                .provideMapFragment(), FRAGMENT_TAG_REST).commit();
+                                .provideMapFragment(), FRAGMENT_TAG_REST).addToBackStack(null).commit();
                 return true;
 
             case R.id.action_share:
