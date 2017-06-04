@@ -39,7 +39,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -80,6 +79,7 @@ import org.fossasia.openevent.fragments.SponsorsFragment;
 import org.fossasia.openevent.fragments.TracksFragment;
 import org.fossasia.openevent.utils.CommonTaskLoop;
 import org.fossasia.openevent.utils.ConstantStrings;
+import org.fossasia.openevent.utils.DownloadCompleteHandler;
 import org.fossasia.openevent.utils.ISO8601Date;
 import org.fossasia.openevent.utils.NetworkUtils;
 import org.fossasia.openevent.utils.ShowNotificationSnackBar;
@@ -107,9 +107,6 @@ import static org.fossasia.openevent.R.string.bookmarks;
 
 public class MainActivity extends BaseActivity {
 
-
-    private static final String COUNTER_TAG = "Donecounter";
-
     private final static String STATE_FRAGMENT = "stateFragment";
 
     private static final String NAV_ITEM = "navItem";
@@ -124,7 +121,6 @@ public class MainActivity extends BaseActivity {
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.nav_view) NavigationView navigationView;
-    @BindView(R.id.progress) ProgressBar downloadProgress;
     @BindView(R.id.layout_main) CoordinatorLayout mainFrame;
     @BindView(R.id.drawer) DrawerLayout drawerLayout;
     @BindView(R.id.appbar) AppBarLayout appBarLayout;
@@ -133,10 +129,8 @@ public class MainActivity extends BaseActivity {
 
     private Context context;
     private SharedPreferences sharedPreferences;
-    private int counter;
     private boolean atHome = true;
     private boolean backPressedOnce = false;
-    private int eventsDone;
     private int currentMenuItemId;
     private boolean customTabsSupported;
     private CustomTabsServiceConnection customTabsServiceConnection;
@@ -144,6 +138,8 @@ public class MainActivity extends BaseActivity {
     private Runnable runnable;
     private Handler handler;
     public static Dialog dialogNetworkNotiff;
+
+    private DownloadCompleteHandler completeHandler;
 
     private CompositeDisposable disposable;
 
@@ -175,8 +171,6 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         context = this;
-        counter = 0;
-        eventsDone = 0;
         ButterKnife.setDebug(true);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         sharedPreferences.edit().putInt(ConstantStrings.SESSION_MAP_ID, -1).apply();
@@ -189,9 +183,10 @@ public class MainActivity extends BaseActivity {
 
         setUpToolbar();
         setUpNavDrawer();
-        setUpProgressBar();
         setUpCustomTab();
         setupEvent();
+
+        completeHandler = DownloadCompleteHandler.with(context);
 
         NetworkUtils.checkConnection(new WeakReference<>(this), new NetworkUtils.NetworkStateReceiverListener() {
             @Override
@@ -208,7 +203,6 @@ public class MainActivity extends BaseActivity {
                                         .subscribe(connected -> {
                                             if (connected) {
                                                 OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
-                                                sharedPreferences.edit().putBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true).apply();
                                             } else {
                                                 final Snackbar snackbar = Snackbar.make(mainFrame, R.string.internet_preference_warning, Snackbar.LENGTH_INDEFINITE);
                                                 snackbar.setAction(R.string.yes, view -> downloadFromAssets());
@@ -217,14 +211,13 @@ public class MainActivity extends BaseActivity {
                                         }));
                             } else {
                                 OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
-                                sharedPreferences.edit().putBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true).apply();
                             }
                         } else if (button==DialogInterface.BUTTON_NEGATIVE) {
                             downloadFromAssets();
                         }
                     }).show();
                 } else {
-                    downloadProgress.setVisibility(View.GONE);
+                    completeHandler.hide();
                 }
             }
 
@@ -331,12 +324,6 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    private void setUpProgressBar() {
-        ProgressBar downloadProgress = (ProgressBar) findViewById(R.id.progress);
-        downloadProgress.setVisibility(View.VISIBLE);
-        downloadProgress.setIndeterminate(true);
-    }
-
     private void setupEvent() {
         event = realmRepo.getEventSync();
 
@@ -379,7 +366,8 @@ public class MainActivity extends BaseActivity {
     }
 
     private void syncComplete() {
-        downloadProgress.setVisibility(View.GONE);
+        // Event successfully loaded, set data downloaded to true
+        sharedPreferences.edit().putBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true).apply();
 
         Snackbar.make(mainFrame, getString(R.string.download_complete), Snackbar.LENGTH_SHORT).show();
         Timber.d("Download done");
@@ -392,15 +380,11 @@ public class MainActivity extends BaseActivity {
     }
 
     private void downloadFailed(final DownloadEvent event) {
-        downloadProgress.setVisibility(View.GONE);
         Snackbar.make(mainFrame, getString(R.string.download_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, view -> {
-            if (event == null) {
-                Timber.d("no internet.");
+            if (event == null)
                 OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
-            } else {
-                Timber.tag(COUNTER_TAG).d(event.getClass().getSimpleName());
+            else
                 OpenEventApp.postEventOnUIThread(event);
-            }
         }).show();
 
     }
@@ -596,8 +580,19 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    private void startDownload() {
+        DataDownloadManager.getInstance().downloadEvents();
+        completeHandler.startListening()
+                .show()
+                .withCompletionListener()
+                .subscribe(this::syncComplete, throwable ->
+                        downloadFailed(((DownloadCompleteHandler.DataEventError) throwable)
+                                .getDataDownloadEvent()));
+        Timber.d("Download has started");
+    }
+
     public void showErrorDialog(String errorType, String errorDesc) {
-        downloadProgress.setVisibility(View.GONE);
+        completeHandler.hide();
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.error)
                 .setMessage(errorType + ": " + errorDesc)
@@ -606,107 +601,14 @@ public class MainActivity extends BaseActivity {
         builder.show();
     }
 
-    //Subscribe EVENT
-    @Subscribe
-    public void onCounterReceiver(CounterEvent event) {
-        counter = event.getRequestsCount();
-        Timber.tag(COUNTER_TAG).d(counter + " counter");
-        if (counter == 0) {
-            syncComplete();
-        }
-    }
-
-    @Subscribe
-    public void onTracksDownloadDone(TracksDownloadEvent event) {
-        if (event.isState()) {
-            eventsDone++;
-            Timber.tag(COUNTER_TAG).d(eventsDone + " tracks " + counter);
-            if (counter == eventsDone) {
-                syncComplete();
-            }
-        } else {
-            downloadFailed(event);
-        }
-    }
-
-    @Subscribe
-    public void onSponsorsDownloadDone(SponsorDownloadEvent event) {
-        if (event.isState()) {
-            eventsDone++;
-            Timber.tag(COUNTER_TAG).d(eventsDone + " sponsors " + counter);
-            if (counter == eventsDone) {
-                syncComplete();
-            }
-        } else {
-
-            downloadFailed(event);
-        }
-    }
-
-    @Subscribe
-    public void onSpeakersDownloadDone(SpeakerDownloadEvent event) {
-        if (event.isState()) {
-            eventsDone++;
-            Timber.tag(COUNTER_TAG).d(eventsDone + " speakers " + counter);
-            if (counter == eventsDone) {
-                syncComplete();
-            }
-        } else {
-
-            downloadFailed(event);
-        }
-    }
-
-    @Subscribe
-    public void onSessionDownloadDone(SessionDownloadEvent event) {
-        if (event.isState()) {
-            eventsDone++;
-            Timber.tag(COUNTER_TAG).d(eventsDone + " session " + counter);
-            if (counter == eventsDone) {
-                syncComplete();
-            }
-        } else {
-            downloadFailed(event);
-        }
-    }
-
     @Subscribe
     public void noInternet(NoInternetEvent event) {
         downloadFailed(null);
     }
 
     @Subscribe
-    public void onEventsDownloadDone(EventDownloadEvent event) {
-        if (event.isState()) {
-            eventsDone++;
-            Timber.tag(COUNTER_TAG).d(eventsDone + " events " + counter);
-            if (counter == eventsDone) {
-                syncComplete();
-            }
-        } else {
-            downloadFailed(event);
-        }
-    }
-
-    @Subscribe
-    public void onMicrolocationsDownloadDone(MicrolocationDownloadEvent event) {
-        if (event.isState()) {
-            eventsDone++;
-            Timber.tag(COUNTER_TAG).d(eventsDone + " microlocation " + counter);
-            if (counter == eventsDone) {
-                syncComplete();
-            }
-        } else {
-
-            downloadFailed(event);
-        }
-
-    }
-
-
-    @Subscribe
     public void showNetworkDialog(ShowNetworkDialogEvent event) {
-        downloadProgress.setVisibility(View.GONE);
+        completeHandler.hide();
         dialogNetworkNotiff = DialogFactory.createSimpleActionDialog(this,
                 R.string.net_unavailable,
                 R.string.turn_on,
@@ -719,13 +621,10 @@ public class MainActivity extends BaseActivity {
 
     @Subscribe
     public void downloadData(DataDownloadEvent event) {
-        if (Urls.getBaseUrl().equals(Urls.INVALID_LINK)) {
+        if (Urls.getBaseUrl().equals(Urls.INVALID_LINK))
             showErrorDialog("Invalid Api", "Api link doesn't seem to be valid");
-        } else {
-            DataDownloadManager.getInstance().downloadEvents();
-        }
-        downloadProgress.setVisibility(View.VISIBLE);
-        Timber.d("Download has started");
+        else
+            startDownload();
     }
 
     @Subscribe
@@ -838,9 +737,7 @@ public class MainActivity extends BaseActivity {
         if (!sharedPreferences.getBoolean(ConstantStrings.DATABASE_RECORDS_EXIST, false)) {
             //TODO: Add and Take counter value from to config.json
             sharedPreferences.edit().putBoolean(ConstantStrings.DATABASE_RECORDS_EXIST, true).apply();
-            counter = 5;
 
-            // Order is important for merging correctly
             readJsonAsset(Urls.EVENT);
             readJsonAsset(Urls.SESSIONS);
             readJsonAsset(Urls.SPEAKERS);
@@ -848,7 +745,7 @@ public class MainActivity extends BaseActivity {
             readJsonAsset(Urls.SPONSORS);
             readJsonAsset(Urls.MICROLOCATIONS);
         } else {
-            downloadProgress.setVisibility(View.GONE);
+            completeHandler.hide();
         }
     }
 
@@ -869,7 +766,6 @@ public class MainActivity extends BaseActivity {
                     e.printStackTrace();
                 }
                 OpenEventApp.postEventOnUIThread(new JsonReadEvent(name, json));
-
             }
         });
     }
@@ -883,9 +779,10 @@ public class MainActivity extends BaseActivity {
         }
         if(disposable != null && !disposable.isDisposed())
             disposable.dispose();
-        if(event != null) {
+        if(event != null)
             event.removeAllChangeListeners();
-        }
+        if(completeHandler != null)
+            completeHandler.stopListening();
     }
 
     @Override
