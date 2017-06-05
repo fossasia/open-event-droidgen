@@ -18,6 +18,11 @@ from app.utils.notification import Notification
 
 logger = get_task_logger(__name__)
 
+def ignore_files(path, names):
+    logger.info('Working in %s' % path)
+
+    # Ignore build/generated folder
+    return ("build", ".gradle", ".idea")
 
 class Generator:
     """
@@ -226,7 +231,7 @@ class Generator:
         """
         logger.info('Preparing source code.')
         logger.info('Copying source from %s to %s' % (self.src_dir, self.app_working_dir))
-        shutil.copytree(self.src_dir, self.app_working_dir)
+        shutil.copytree(self.src_dir, self.app_working_dir, ignore=ignore_files)
         for density in DENSITY_TYPES:
             mipmap_dir = self.get_path("app/src/main/res/mipmap-%s" % density)
             if os.path.exists(mipmap_dir):
