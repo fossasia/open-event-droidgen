@@ -80,8 +80,16 @@ class Generator:
             self.download_event_data()
         else:
             unzip(zip_file, self.app_temp_assets)
-            with open(self.get_temp_asset_path('/event')) as json_data:
+            with open(self.get_temp_asset_path('event')) as json_data:
                 event_info = json.load(json_data)
+                event_id = event_info['id']
+
+            if os.path.isfile(self.get_temp_asset_path('meta')):
+                with open(self.get_temp_asset_path('meta')) as json_data:
+                    meta = json.load(json_data)
+                    root_url = meta['root_url']
+                    if root_url:
+                        self.api_link = root_url + '/api/v1/events/' + str(event_id)
 
         self.event_name = event_info['name']
         self.app_name = self.event_name
