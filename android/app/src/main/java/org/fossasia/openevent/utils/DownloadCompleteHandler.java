@@ -28,6 +28,8 @@ public class DownloadCompleteHandler {
     private int counter;
     private int eventsDone;
 
+    private boolean hasShownError = false;
+
     private EventHandler eventHandler;
 
     private CompletableSubject completeSubject = CompletableSubject.create();
@@ -93,6 +95,11 @@ public class DownloadCompleteHandler {
     }
 
     private void notifyError(DownloadEvent event) {
+        if (hasShownError)
+            return;
+
+        hasShownError = true;
+
         showProgressBar(false);
 
         DataEventError eventError = new DataEventError(event);

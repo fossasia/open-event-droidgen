@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +22,8 @@ import org.fossasia.openevent.fragments.DayScheduleFragment;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.ISO8601Date;
 import org.fossasia.openevent.utils.SortOrder;
+import org.fossasia.openevent.utils.Utils;
+import org.fossasia.openevent.utils.Views;
 import org.fossasia.openevent.views.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
 import java.util.ArrayList;
@@ -78,51 +79,66 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
 
     @Override
     public void onBindViewHolder(DayScheduleViewHolder holder, int position) {
-        final Session currentSession = getItem(position);
+        Session currentSession = getItem(position);
         String startTime = ISO8601Date.get12HourTimeFromString(currentSession.getStartTime());
         String endTime = ISO8601Date.get12HourTimeFromString(currentSession.getEndTime());
+        String title = Utils.checkStringEmpty(currentSession.getTitle());
+        String shortAbstract = Utils.checkStringEmpty(currentSession.getShortAbstract());
 
         holder.startTime.setText(startTime);
         holder.endTime.setText(endTime);
-        holder.slotTitle.setText(currentSession.getTitle());
-        if (currentSession.getShortAbstract().isEmpty()) {
-            holder.slotDescription.setVisibility(View.GONE);
-        } else {
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                holder.slotDescription.setText(Html.fromHtml(currentSession.getShortAbstract(), Html.FROM_HTML_MODE_LEGACY));
-            } else {
-                holder.slotDescription.setText(Html.fromHtml(currentSession.getShortAbstract()));
-            }
-        }
+        holder.slotTitle.setText(title);
 
-        final Track sessionTrack = currentSession.getTrack();
-        int storedColor = Color.parseColor(sessionTrack.getColor());
-        holder.slotTrack.getBackground().setColorFilter(storedColor, PorterDuff.Mode.SRC_ATOP);
-        holder.slotTrack.setText(sessionTrack.getName());
+        Views.setHtml(holder.slotDescription, shortAbstract, true);
 
-        holder.slotTrack.setOnClickListener(v -> {
+        Track sessionTrack = currentSession.getTrack();
+
+        if (!RealmDataRepository.isNull(sessionTrack)) {
+            int storedColor = Color.parseColor(sessionTrack.getColor());
+            holder.slotTrack.setVisibility(View.VISIBLE);
+            holder.slotTrack.getBackground().setColorFilter(storedColor, PorterDuff.Mode.SRC_ATOP);
+            holder.slotTrack.setText(sessionTrack.getName());
+
+            holder.slotTrack.setOnClickListener(v -> {
                 Intent intent = new Intent(context, TrackSessionsActivity.class);
                 intent.putExtra(ConstantStrings.TRACK, sessionTrack.getName());
                 intent.putExtra(ConstantStrings.TRACK_ID, sessionTrack.getId());
                 context.startActivity(intent);
-        });
+            });
 
-        if(currentSession.getMicrolocation() != null)
-            holder.slotLocation.setText(currentSession.getMicrolocation().getName());
+            holder.itemView.setOnClickListener(v -> {
+                final String sessionName = currentSession.getTitle();
 
-        holder.itemView.setOnClickListener(v -> {
-            final String sessionName = currentSession.getTitle();
+                realmRepo.getTrack(currentSession.getTrack().getId())
+                        .addChangeListener((RealmChangeListener<Track>) track -> {
+                            String trackName = track.getName();
+                            Intent intent = new Intent(context, SessionDetailActivity.class);
+                            intent.putExtra(ConstantStrings.SESSION, sessionName);
+                            intent.putExtra(ConstantStrings.TRACK, trackName);
+                            intent.putExtra(ConstantStrings.ID, currentSession.getId());
+                            context.startActivity(intent);
+                        });
+            });
+        } else {
+            holder.slotTrack.setOnClickListener(null);
+            holder.slotTrack.setVisibility(View.GONE);
 
-            realmRepo.getTrack(currentSession.getTrack().getId())
-                    .addChangeListener((RealmChangeListener<Track>) track -> {
-                        String trackName = track.getName();
-                        Intent intent = new Intent(context, SessionDetailActivity.class);
-                        intent.putExtra(ConstantStrings.SESSION, sessionName);
-                        intent.putExtra(ConstantStrings.TRACK, trackName);
-                        intent.putExtra(ConstantStrings.ID, currentSession.getId());
-                        context.startActivity(intent);
-                    });
-        });
+            holder.itemView.setOnClickListener(v -> {
+                final String sessionName = currentSession.getTitle();
+
+                Intent intent = new Intent(context, SessionDetailActivity.class);
+                intent.putExtra(ConstantStrings.SESSION, sessionName);
+                intent.putExtra(ConstantStrings.ID, currentSession.getId());
+                context.startActivity(intent);
+            });
+
+            Timber.d("This session has no track somehow : " + currentSession + " " + sessionTrack);
+        }
+
+        if(currentSession.getMicrolocation() != null) {
+            String locationName = Utils.checkStringEmpty(currentSession.getMicrolocation().getName());
+            holder.slotLocation.setText(locationName);
+        }
     }
 
     @Override
@@ -195,13 +211,14 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
     @Override
     public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
         TextView textView = (TextView) holder.itemView.findViewById(R.id.recyclerview_view_header);
-        
-        if (SortOrder.sortOrderSchedule(context).equals(Session.TITLE)) {
-            textView.setText(String.valueOf(getItem(position).getTitle().charAt(0)));
+        String sortTitle = Utils.checkStringEmpty(getItem(position).getTitle());
+        String sortName = Utils.checkStringEmpty(getItem(position).getTrack().getName());
+
+        if (SortOrder.sortOrderSchedule(context).equals(Session.TITLE) && (!Utils.isEmpty(sortTitle))) {
+            textView.setText(String.valueOf(sortTitle.charAt(0)));
         } else if (SortOrder.sortOrderSchedule(context).equals(Session.TRACK)){
-            textView.setText(String.valueOf(getItem(position).getTrack().getName()));
-        }
-        else if (SortOrder.sortOrderSchedule(context).equals(Session.START_TIME)) {
+            textView.setText(String.valueOf(sortName));
+        } else if (SortOrder.sortOrderSchedule(context).equals(Session.START_TIME)) {
             textView.setText(ISO8601Date.get12HourTimeFromString(getItem(position).getStartTime()));
         }
     }

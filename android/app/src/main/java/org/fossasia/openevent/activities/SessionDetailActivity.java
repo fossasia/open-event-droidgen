@@ -21,10 +21,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
-import android.text.Spanned;
 import android.text.TextUtils;
-import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -54,8 +51,6 @@ import butterknife.BindView;
 import io.realm.RealmChangeListener;
 import timber.log.Timber;
 
-import static android.R.id.shareText;
-
 /**
  * User: MananWason
  * Date: 08-07-2015
@@ -82,6 +77,8 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
     protected TextView text_start_time;
     @BindView(R.id.end_time_session)
     protected TextView text_end_time;
+    @BindView(R.id.trak)
+    protected TextView trackLabel;
     @BindView(R.id.track)
     protected TextView text_track;
     @BindView(R.id.tv_location)
@@ -112,9 +109,8 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
     private int id;
     private List<Speaker> speakers = new ArrayList<>();
 
-    private Spanned result;
-
     private boolean isHideToolbarView = false;
+    private boolean hasTrack = true;
 
     private String loadedFlag;
 
@@ -131,6 +127,8 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
 
         title = getIntent().getStringExtra(ConstantStrings.SESSION);
         trackName = getIntent().getStringExtra(ConstantStrings.TRACK);
+        if (TextUtils.isEmpty(trackName))
+            hasTrack = false;
         id = getIntent().getIntExtra(ConstantStrings.ID, 0);
         Timber.tag(TAG).d(title);
 
@@ -169,7 +167,8 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
     }
 
     private void updateSession() {
-        setUiColor(Color.parseColor(session.getTrack().getColor()));
+        if(hasTrack)
+            setUiColor(Color.parseColor(session.getTrack().getColor()));
 
         Timber.d("Updated");
 
@@ -194,7 +193,15 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
             text_subtitle.setVisibility(View.GONE);
         }
         text_subtitle.setText(session.getSubtitle());
-        text_track.setText(trackName);
+
+        if (hasTrack) {
+            trackLabel.setVisibility(View.VISIBLE);
+            text_track.setVisibility(View.VISIBLE);
+            text_track.setText(trackName);
+        } else {
+            trackLabel.setVisibility(View.GONE);
+            text_track.setVisibility(View.GONE);
+        }
 
         String date = ISO8601Date.getDateFromStartDateString(session.getStartTime());
         String startTime = ISO8601Date.getTimeFromStartDateString(session.getStartTime());
@@ -210,17 +217,8 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
             Timber.d("%s\n%s\n%s", date, endTime, startTime);
         }
 
-        summary.setMovementMethod(LinkMovementMethod.getInstance());
-
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            result = Html.fromHtml(session.getLongAbstract(), Html.FROM_HTML_MODE_LEGACY);
-            summary.setText(Html.fromHtml(session.getShortAbstract(), Html.FROM_HTML_MODE_LEGACY));
-        } else {
-            result = Html.fromHtml(session.getLongAbstract());
-            summary.setText(Html.fromHtml(session.getShortAbstract()));
-
-        }
-        descrip.setText(result);
+        Views.setHtml(summary, session.getShortAbstract(), true);
+        Views.setHtml(descrip, session.getLongAbstract(), true);
     }
 
     private void updateFloatingIcon() {
@@ -302,21 +300,18 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
             case R.id.action_share:
                 String startTime = ISO8601Date.getTimeZoneDateStringFromString(session.getStartTime());
                 String endTime = ISO8601Date.getTimeZoneDateStringFromString(session.getEndTime());
-                StringBuilder shareText = new StringBuilder();
-                shareText.append(String.format("Session Track: %s \n" +
+                String shareText = String.format("Session Track: %s \n" +
                                 "Title: %s \n" +
                                 "Start Time: %s \n" +
                                 "End Time: %s\n" +
                                 "Speakers: %s\n" +
                                 "Location: %s",
-                        trackName, title, startTime, endTime, StringUtils.join(speakers, ", "), location));
-                if (!result.toString().isEmpty()) {
-                    shareText.append("\nDescription: ").append(result.toString());
-                }
+                        trackName, title, startTime, endTime, StringUtils.join(speakers, ", "), location) +
+                        "\nDescription: " + Views.fromHtml(session.getLongAbstract());
 
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
-                sendIntent.putExtra(Intent.EXTRA_TEXT, shareText.toString());
+                sendIntent.putExtra(Intent.EXTRA_TEXT, shareText);
                 sendIntent.setType("text/plain");
                 startActivity(Intent.createChooser(sendIntent, getString(R.string.share_links)));
                 return true;

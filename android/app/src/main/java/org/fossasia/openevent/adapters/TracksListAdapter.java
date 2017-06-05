@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import org.fossasia.openevent.activities.TrackSessionsActivity;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.utils.ConstantStrings;
+import org.fossasia.openevent.utils.Utils;
 import org.fossasia.openevent.views.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
 import java.util.List;
@@ -84,18 +86,20 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.Re
 
     @Override
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
-        final Track currentTrack = getItem(position);
-
-        holder.trackTitle.setText(currentTrack.getName());
-
+        Track currentTrack = getItem(position);
         int trackColor = Color.parseColor(currentTrack.getColor());
-        TextDrawable drawable = drawableBuilder.build(String.valueOf(currentTrack.getName().charAt(0)), trackColor);
-        holder.trackImageIcon.setImageDrawable(drawable);
-        holder.trackImageIcon.setBackgroundColor(Color.TRANSPARENT);
+        String trackName = Utils.checkStringEmpty(currentTrack.getName());
+
+        holder.trackTitle.setText(trackName);
+        if(!Utils.isEmpty(trackName)) {
+            TextDrawable drawable = drawableBuilder.build(String.valueOf(trackName.charAt(0)), trackColor);
+            holder.trackImageIcon.setImageDrawable(drawable);
+            holder.trackImageIcon.setBackgroundColor(Color.TRANSPARENT);
+        }
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, TrackSessionsActivity.class);
-            intent.putExtra(ConstantStrings.TRACK, currentTrack.getName());
+            intent.putExtra(ConstantStrings.TRACK, trackName);
 
             intent.putExtra(ConstantStrings.TRACK_ID, currentTrack.getId());
             context.startActivity(intent);
@@ -109,7 +113,11 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.Re
 
     @Override
     public long getHeaderId(int position) {
-        return getItem(position).getName().charAt(0);
+        String trackName = Utils.checkStringEmpty(getItem(position).getName());
+        if(!Utils.isEmpty(trackName))
+            return trackName.charAt(0);
+        else
+            return 0;
     }
 
     @Override
@@ -122,7 +130,10 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.Re
     @Override
     public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
         TextView textView = (TextView) holder.itemView.findViewById(R.id.recyclerview_view_header);
-        textView.setText(String.valueOf(getItem(position).getName().charAt(0)));
+
+        String trackName = getItem(position).getName();
+        if(!TextUtils.isEmpty(trackName))
+            textView.setText(String.valueOf(trackName.charAt(0)));
     }
 
     class RecyclerViewHolder extends RecyclerView.ViewHolder {

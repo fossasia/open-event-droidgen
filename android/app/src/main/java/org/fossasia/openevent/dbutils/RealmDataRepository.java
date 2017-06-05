@@ -1,5 +1,7 @@
 package org.fossasia.openevent.dbutils;
 
+import android.text.TextUtils;
+
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.data.Event;
 import org.fossasia.openevent.data.Microlocation;
@@ -66,6 +68,17 @@ public class RealmDataRepository {
         return realm;
     }
 
+    private void clearRealmDatabaseVersions() {
+        Realm realm = Realm.getDefaultInstance();
+
+        realm.executeTransaction(realm1 -> realm1.delete(Version.class));
+        realm.close();
+    }
+
+    public Completable clearVersions() {
+        return Completable.fromAction(this::clearRealmDatabaseVersions);
+    }
+
     // Events Section
 
     private void saveEventInRealm(Event event) {
@@ -129,20 +142,24 @@ public class RealmDataRepository {
             for(Track track : tracks) {
                 List<Session> sessions = track.getSessions();
 
-                RealmList<Session> newSessions = new RealmList<>();
+                if (sessions != null && !sessions.isEmpty()) {
 
-                for (Session session : sessions) {
-                    // To prevent overwriting of previously saved values
-                    Session stored = realm1.where(Session.class).equalTo("id", session.getId()).findFirst();
+                    RealmList<Session> newSessions = new RealmList<>();
 
-                    if (stored != null) {
-                        newSessions.add(stored);
-                    } else {
-                        newSessions.add(session);
+                    for (Session session : sessions) {
+                        // To prevent overwriting of previously saved values
+                        Session stored = realm1.where(Session.class).equalTo("id", session.getId()).findFirst();
+
+                        if (stored != null) {
+                            newSessions.add(stored);
+                        } else {
+                            newSessions.add(session);
+                        }
                     }
-                }
 
-                track.setSessions(newSessions);
+                    track.setSessions(newSessions);
+                    track.setName(track.getName()); // Trimming the response
+                }
 
                 realm1.insertOrUpdate(track);
             }
@@ -189,6 +206,10 @@ public class RealmDataRepository {
         return realm.where(Track.class).equalTo("id", trackId).findFirstAsync();
     }
 
+    public static boolean isNull(Track track) {
+        return track == null || TextUtils.isEmpty(track.getName()) || TextUtils.isEmpty(track.getColor());
+    }
+
     // Session Section
 
     /**
@@ -209,29 +230,47 @@ public class RealmDataRepository {
 
                 List<Speaker> speakers = session.getSpeakers();
 
-                RealmList<Speaker> newSpeakers = new RealmList<>();
+                if(speakers != null && !speakers.isEmpty()) {
 
-                for (Speaker speaker : speakers) {
-                    // To prevent overwriting of previously saved values
-                    Speaker stored = transaction.where(Speaker.class).equalTo("id", speaker.getId()).findFirst();
+                    RealmList<Speaker> newSpeakers = new RealmList<>();
 
-                    if (stored != null) {
-                        newSpeakers.add(stored);
-                    } else {
-                        newSpeakers.add(speaker);
+                    for (Speaker speaker : speakers) {
+                        // To prevent overwriting of previously saved values
+                        Speaker stored = transaction.where(Speaker.class).equalTo("id", speaker.getId()).findFirst();
+
+                        if (stored != null) {
+                            newSpeakers.add(stored);
+                        } else {
+                            newSpeakers.add(speaker);
+                        }
                     }
-                }
 
-                session.setSpeakers(newSpeakers);
+                    session.setSpeakers(newSpeakers);
+                }
 
                 Track track = session.getTrack();
 
-                // To prevent overwriting of previously saved values
-                Track stored = transaction.where(Track.class).equalTo("id", track.getId()).findFirst();
+                if (track != null) {
+                    // To prevent overwriting of previously saved values
+                    Track stored = transaction.where(Track.class).equalTo("id", track.getId()).findFirst();
 
-                if(stored != null) {
-                    session.setTrack(stored);
+                    if (stored != null) {
+                        session.setTrack(stored);
+                    } else {
+                        // Set intermediate information for partial update
+
+                        if(TextUtils.isEmpty(track.getColor()))
+                            track.setColor("#bbbbbb");
+
+                        if(track.getName() == null)
+                            track.setName("");
+                        else
+                            track.setName(track.getName());
+                    }
                 }
+
+                if(session.getTitle().contains("Create Full"))
+                    Timber.d("Session " + session.toString());
 
                 transaction.insertOrUpdate(session);
             }
@@ -340,20 +379,22 @@ public class RealmDataRepository {
             for(Speaker speaker : speakers) {
                 List<Session> sessions = speaker.getSessions();
 
-                RealmList<Session> newSessions = new RealmList<>();
+                if(sessions != null && !sessions.isEmpty()) {
+                    RealmList<Session> newSessions = new RealmList<>();
 
-                for (Session session : sessions) {
-                    // To prevent overwriting of previously saved values
-                    Session stored = transaction.where(Session.class).equalTo("id", session.getId()).findFirst();
+                    for (Session session : sessions) {
+                        // To prevent overwriting of previously saved values
+                        Session stored = transaction.where(Session.class).equalTo("id", session.getId()).findFirst();
 
-                    if (stored != null) {
-                        newSessions.add(stored);
-                    } else {
-                        newSessions.add(session);
+                        if (stored != null) {
+                            newSessions.add(stored);
+                        } else {
+                            newSessions.add(session);
+                        }
                     }
-                }
 
-                speaker.setSession(newSessions);
+                    speaker.setSession(newSessions);
+                }
 
                 transaction.insertOrUpdate(speaker);
             }
@@ -392,10 +433,9 @@ public class RealmDataRepository {
     // Sponsors Section
 
     private void saveSponsorsInRealm(List<Sponsor> sponsors) {
-        realm.beginTransaction();
-        for(Sponsor sponsor : sponsors)
-            realm.insertOrUpdate(sponsor);
-        realm.commitTransaction();
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(realm1 -> realm1.insertOrUpdate(sponsors));
+        realm.close();
     }
 
     public Completable saveSponsors(final List<Sponsor> sponsors) {
@@ -412,10 +452,9 @@ public class RealmDataRepository {
     // Location Section
 
     private void saveLocationsInRealm(List<Microlocation> locations) {
-        realm.beginTransaction();
-        for(Microlocation location : locations)
-            realm.insertOrUpdate(location);
-        realm.commitTransaction();
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(realm1 -> realm1.insertOrUpdate(locations));
+        realm.close();
     }
 
     public Completable saveLocations(final List<Microlocation> locations) {

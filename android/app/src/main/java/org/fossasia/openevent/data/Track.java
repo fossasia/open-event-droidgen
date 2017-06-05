@@ -36,6 +36,10 @@ public class Track extends RealmObject {
         return color;
     }
 
+    public void setColor(String color) {
+        this.color = color;
+    }
+
     public String getTrackImageUrl() {
         return trackImageUrl;
     }
@@ -46,6 +50,10 @@ public class Track extends RealmObject {
 
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name.trim();
     }
 
     public void setSessions(RealmList<Session> sessions) {
