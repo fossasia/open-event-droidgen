@@ -2,6 +2,7 @@ package org.fossasia.openevent.adapters;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +19,7 @@ import org.fossasia.openevent.R;
 import org.fossasia.openevent.activities.SpeakerDetailsActivity;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.utils.CircleTransform;
+import org.fossasia.openevent.utils.Utils;
 
 import java.util.List;
 
@@ -45,14 +47,19 @@ public class SessionSpeakerListAdapter extends BaseRVAdapter<Speaker, SessionSpe
     public void onBindViewHolder(RecyclerViewHolder holder, final int position) {
         final Speaker current = getItem(position);
 
-        String thumbnail = current.getThumbnail();
+        String thumbnail = Utils.parseImageUri(current.getThumbnail());
+        if (thumbnail == null)
+            thumbnail = Utils.parseImageUri(current.getPhoto());
+        Drawable placeholder = VectorDrawableCompat.create(activity.getResources(), R.drawable.ic_account_circle_grey_24dp, null);
 
         if(thumbnail != null) {
             Picasso.with(holder.speakerImage.getContext())
                     .load(Uri.parse(thumbnail))
-                    .placeholder(VectorDrawableCompat.create(activity.getResources(), R.drawable.ic_account_circle_grey_24dp, null))
+                    .placeholder(placeholder)
                     .transform(new CircleTransform())
                     .into(holder.speakerImage);
+        } else {
+            holder.speakerImage.setImageDrawable(placeholder);
         }
 
         String name = current.getName();

@@ -2,6 +2,7 @@ package org.fossasia.openevent.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v7.widget.RecyclerView;
@@ -20,6 +21,7 @@ import org.fossasia.openevent.activities.SpeakerDetailsActivity;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.utils.SortOrder;
+import org.fossasia.openevent.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -118,14 +120,18 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakersListAdap
         }
 
 
-        String thumbnail = current.getThumbnail();
+        String thumbnail = Utils.parseImageUri(current.getThumbnail());
+        if (thumbnail == null)
+            thumbnail = Utils.parseImageUri(current.getPhoto());
+        Drawable placeholder = VectorDrawableCompat.create(context.getResources(), R.drawable.ic_account_circle_grey_24dp, null);
+
         if(thumbnail != null) {
             Picasso.with(holder.speakerImage.getContext())
                     .load(Uri.parse(thumbnail))
-                    .placeholder(VectorDrawableCompat.create(context.getResources(), R.drawable.ic_account_circle_grey_24dp, null))
+                    .placeholder(placeholder)
                     .into(holder.speakerImage);
         } else {
-            holder.speakerImage.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_account_circle_grey_24dp));
+            holder.speakerImage.setImageDrawable(placeholder);
         }
 
         String name = current.getName();

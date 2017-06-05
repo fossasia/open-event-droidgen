@@ -47,6 +47,7 @@ import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.events.ConnectionCheckEvent;
 import org.fossasia.openevent.utils.SpeakerIntent;
 import org.fossasia.openevent.utils.StringUtils;
+import org.fossasia.openevent.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -143,7 +144,9 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
     }
 
     private void loadSpeakerImage() {
-        if (TextUtils.isEmpty(selectedSpeaker.getPhoto())) {
+        String photo = Utils.parseImageUri(selectedSpeaker.getPhoto());
+
+        if (photo == null) {
             progressBar.setVisibility(View.GONE);
             return;
         }
@@ -189,7 +192,7 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
         speakerImage.setTag(imageTarget);
 
         Picasso.with(SpeakerDetailsActivity.this)
-                .load(Uri.parse(selectedSpeaker.getPhoto()))
+                .load(Uri.parse(photo))
                 .into(imageTarget);
     }
 

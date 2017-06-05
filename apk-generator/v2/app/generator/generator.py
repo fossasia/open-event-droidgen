@@ -162,6 +162,18 @@ class Generator:
                 logger.info('Copying %s' % path)
                 shutil.copyfile(path, self.get_path("app/src/main/assets/" + f))
 
+        images_path = os.path.join(self.app_temp_assets, 'images')
+
+        speakers_path = os.path.join(images_path, 'speakers')
+        if os.path.isdir(speakers_path):
+            logger.info('Copying %s' % speakers_path)
+            shutil.copytree(speakers_path, self.get_path("app/src/main/assets/images/speakers/"))
+
+        sponsors_path = os.path.join(images_path, 'sponsors')
+        if os.path.isdir(sponsors_path):
+            logger.info('Copying %s' % sponsors_path)
+            shutil.copytree(sponsors_path, self.get_path("app/src/main/assets/images/sponsors/"))
+
         self.update_status('Preparing android build tools')
 
         build_tools_version = get_build_tools_version(self.get_path('app/build.gradle'))
