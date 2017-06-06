@@ -1,7 +1,6 @@
 package org.fossasia.openevent.fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -14,10 +13,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -37,7 +34,6 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.fossasia.openevent.R;
-import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Event;
 import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
@@ -50,8 +46,6 @@ import butterknife.ButterKnife;
 
 public class MapsFragment extends Fragment implements LocationListener, OnMapReadyCallback {
 
-    @BindView(R.id.autoCompleteTextView) AutoCompleteTextView searchView;
-
     private GoogleMap mMap;
     private Marker locationMarker;
     private List<String> searchItems = new ArrayList<>();
@@ -59,16 +53,23 @@ public class MapsFragment extends Fragment implements LocationListener, OnMapRea
     private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
     private List<Microlocation> mLocations = new ArrayList<>();
 
+    private android.support.v7.app.ActionBar toolbar;
+
+    @BindView(R.id.map_toolbar)AutoCompleteTextView textView;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
+
+        toolbar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        toolbar.setDisplayHomeAsUpEnabled(true);
+        toolbar.setDisplayShowCustomEnabled(true);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_map, container, false);
-        ButterKnife.bind(this, view);
+
         SupportMapFragment supportMapFragment = ((SupportMapFragment)
                 getChildFragmentManager().findFragmentById(R.id.map));
         supportMapFragment.getMapAsync(this);
@@ -124,7 +125,29 @@ public class MapsFragment extends Fragment implements LocationListener, OnMapRea
             builder.include(marker.getPosition());
         }
 
-        handleSearchEvents();
+        LayoutInflater inflator = (LayoutInflater) getActivity()
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View toolbarView = inflator.inflate(R.layout.map_toolbar, null);
+        ButterKnife.bind(this, toolbarView);
+
+        toolbar.setCustomView(toolbarView );
+
+        //Setting up AutoCompleteTextView with the locations
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_dropdown_item_1line, searchItems);
+        textView.setAdapter(adapter);
+
+        textView.setOnItemClickListener((parent, view, position, id) -> {
+            String loc = adapter.getItem(position);
+            int pos = searchItems.indexOf(loc);
+            LatLng lng = new LatLng(mLocations.get(pos).getLatitude(), mLocations.get(pos).getLongitude());
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(lng, (float) Math.floor(mMap.getCameraPosition().zoom + 8)));
+
+            View mapView = getActivity().getCurrentFocus();
+            if (mapView != null) {
+                InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(mapView.getWindowToken(), 0);
+            }
+        });
 
         //Set max zoom level so that all marker are visible
         LatLngBounds bounds = builder.build();
@@ -168,52 +191,9 @@ public class MapsFragment extends Fragment implements LocationListener, OnMapRea
         return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
 
-    private void handleSearchEvents() {
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
-                android.R.layout.simple_spinner_dropdown_item, searchItems);
-        searchView.setAdapter(adapter);
-
-        searchView.setOnClickListener(v -> searchView.setText(""));
-
-        searchView.setOnItemClickListener((parent, view, position, id) -> {
-            View scene = getActivity().getCurrentFocus();
-            if (scene != null) {
-                InputMethodManager imm = (InputMethodManager) getActivity()
-                        .getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(scene.getWindowToken(), 0);
-            }
-            String s = parent.getItemAtPosition(position).toString();
-            int pos=searchItems.indexOf(s);
-            LatLng lng = new LatLng(mLocations.get(pos).getLatitude(), mLocations.get(pos).getLongitude());
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(lng,
-                    (float) Math.floor(mMap.getCameraPosition().zoom + 8)));
-        });
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        menu.clear();
-        inflater.inflate(R.menu.menu_map, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.share_map_url:
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.putExtra(Intent.EXTRA_TEXT, Urls.WEB_APP_URL_BASIC + Urls.MAP);
-                intent.putExtra(Intent.EXTRA_SUBJECT, "Sharing URL");
-                intent.setType("text/plain");
-                startActivity(Intent.createChooser(intent, "Share URL"));
-                break;
-            default:
-                //do nothing
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     @Override
     public void onDestroyView() {
+        toolbar.setDisplayShowCustomEnabled(false);
         super.onDestroyView();
     }
 
