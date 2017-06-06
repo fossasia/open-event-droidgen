@@ -50,7 +50,7 @@ public class DateTest {
         String actualString;
 
         actualString = ISO8601Date.getTimeZoneDateStringFromString(dateString);
-        expectedString = "Thu, 01 Jun 2017, 20:29, GMT+02:00";
+        expectedString = "Thu, 01 Jun 2017, 20:29, CEST";
         Assert.assertEquals(expectedString, actualString);
 
         //second case
@@ -58,7 +58,7 @@ public class DateTest {
         ISO8601Date.setEventTimeZone("Asia/Singapore");
 
         actualString = ISO8601Date.getTimeZoneDateStringFromString(dateString);
-        expectedString = "Thu, 01 Jun 2017, 23:59, GMT+05:30";
+        expectedString = "Thu, 01 Jun 2017, 23:59, IST";
         Assert.assertEquals(expectedString, actualString);
 
         //third case
@@ -66,7 +66,7 @@ public class DateTest {
         ISO8601Date.setEventTimeZone("Asia/Singapore");
 
         actualString = ISO8601Date.getTimeZoneDateStringFromString(dateString);
-        expectedString = "Thu, 01 Jun 2017, 20:29, GMT+02:00";
+        expectedString = "Thu, 01 Jun 2017, 20:29, CEST";
         Assert.assertEquals(expectedString, actualString);
 
         //fourth case
@@ -74,7 +74,7 @@ public class DateTest {
         ISO8601Date.setEventTimeZone("Asia/Singapore");
 
         actualString = ISO8601Date.getTimeZoneDateStringFromString(dateString);
-        expectedString = "Fri, 02 Jun 2017, 04:29, GMT+10:00";
+        expectedString = "Fri, 02 Jun 2017, 04:29, AEST";
         Assert.assertEquals(expectedString, actualString);
     }
 
