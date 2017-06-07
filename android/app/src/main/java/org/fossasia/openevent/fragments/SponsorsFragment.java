@@ -16,7 +16,6 @@ import com.squareup.otto.Subscribe;
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.SponsorsListAdapter;
-import org.fossasia.openevent.api.DataDownloadManager;
 import org.fossasia.openevent.data.Sponsor;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.events.SponsorDownloadEvent;
@@ -117,39 +116,40 @@ public class SponsorsFragment extends BaseFragment {
     }
 
     private void refresh() {
-        NetworkUtils.checkConnection(new WeakReference<>(getContext()), new NetworkUtils.NetworkStateReceiverListener() {
+        NetworkUtils.checkConnectionSponsers(new WeakReference<>(getContext()), new NetworkUtils.NetworkStateReceiverListener() {
             @Override
             public void activeConnection() {
                 //Internet is working
-                DataDownloadManager.getInstance().downloadSponsors();
             }
 
             @Override
             public void inactiveConnection() {
-                //Device is connected to WI-FI or Mobile Data but Internet is not working
-                ShowNotificationSnackBar showNotificationSnackBar = new ShowNotificationSnackBar(getContext(),getView(),swipeRefreshLayout) {
-                    @Override
-                    public void refreshClicked() {
-                        refresh();
-                    }
-                };
-                //show snackbar will be useful if user have blocked notification for this app
-                showNotificationSnackBar.showSnackBar();
-                //show notification (Only when connected to WiFi)
-                showNotificationSnackBar.buildNotification();
+                //internet is not working
+                showNotification();
             }
 
             @Override
             public void networkAvailable() {
-                // Network is available but we need to wait for activity
+                //network is available
             }
 
             @Override
             public void networkUnavailable() {
+                //network is unavailable
                 Snackbar.make(swipeRefreshLayout, getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, view -> refresh()).show();
-                OpenEventApp.getEventBus().post(new SponsorDownloadEvent(true));
             }
         });
     }
 
+    public void showNotification() {
+        ShowNotificationSnackBar showNotificationSnackBar = new ShowNotificationSnackBar(getContext(),getView(),swipeRefreshLayout) {
+            @Override
+            public void refreshClicked() {
+                refresh();
+            }
+        };
+        //show snackbar will be useful if user have blocked notification for this app
+        showNotificationSnackBar.showSnackBar();
+        showNotificationSnackBar.buildNotification();
+    }
 }

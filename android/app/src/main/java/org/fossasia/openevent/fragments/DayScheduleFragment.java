@@ -22,7 +22,6 @@ import com.squareup.otto.Subscribe;
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.DayScheduleAdapter;
-import org.fossasia.openevent.api.DataDownloadManager;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.events.SessionDownloadEvent;
@@ -234,41 +233,42 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
     }
 
     private void refresh() {
-        NetworkUtils.checkConnection(new WeakReference<>(getContext()), new NetworkUtils.NetworkStateReceiverListener() {
+        NetworkUtils.checkConnectionSchedule(new WeakReference<>(getContext()), new NetworkUtils.NetworkStateReceiverListener() {
             @Override
             public void activeConnection() {
                 //Internet is working
-                DataDownloadManager.getInstance().downloadSession();
             }
 
             @Override
             public void inactiveConnection() {
-                //Device is connected to WI-FI or Mobile Data but Internet is not working
-                //set is refreshing false as let user to login
+                //internet is not working
                 if (swipeRefreshLayout != null && swipeRefreshLayout.isRefreshing()) {
                     swipeRefreshLayout.setRefreshing(false);
                 }
-                ShowNotificationSnackBar showNotificationSnackBar = new ShowNotificationSnackBar(getContext(),getView(),swipeRefreshLayout) {
-                    @Override
-                    public void refreshClicked() {
-                        refresh();
-                    }
-                };
-                //show snackbar will be useful if user have blocked notification for this app
-                showNotificationSnackBar.showSnackBar();
-                //show notification (Only when connected to WiFi)
-                showNotificationSnackBar.buildNotification();
+                showNotification();
             }
 
             @Override
             public void networkAvailable() {
-                // Network is available but we need to wait for activity
+                //network is available
             }
 
             @Override
             public void networkUnavailable() {
-                OpenEventApp.getEventBus().post(new SessionDownloadEvent(false));
+                //network unavailable
             }
         });
+    }
+
+    public void showNotification() {
+        ShowNotificationSnackBar showNotificationSnackBar = new ShowNotificationSnackBar(getContext(),getView(),swipeRefreshLayout) {
+            @Override
+            public void refreshClicked() {
+                refresh();
+            }
+        };
+        //show snackbar will be useful if user have blocked notification for this app
+        showNotificationSnackBar.showSnackBar();
+        showNotificationSnackBar.buildNotification();
     }
 }

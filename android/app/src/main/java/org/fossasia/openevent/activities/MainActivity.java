@@ -57,7 +57,6 @@ import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Sponsor;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
-import org.fossasia.openevent.events.CounterEvent;
 import org.fossasia.openevent.events.DataDownloadEvent;
 import org.fossasia.openevent.events.DownloadEvent;
 import org.fossasia.openevent.events.EventDownloadEvent;
@@ -192,58 +191,23 @@ public class MainActivity extends BaseActivity {
             @Override
             public void activeConnection() {
                 //Internet is working
-                if (!sharedPreferences.getBoolean(ConstantStrings.IS_DOWNLOAD_DONE, false)) {
-                    DialogFactory.createDownloadDialog(context, R.string.download_assets, R.string.charges_warning, (dialogInterface, button) -> {
-                        if (button==DialogInterface.BUTTON_POSITIVE) {
-                            Boolean preference = sharedPreferences.getBoolean(getResources().getString(R.string.download_mode_key), true);
-                            if (preference) {
-                                disposable.add(NetworkUtils.haveNetworkConnectionObservable(MainActivity.this)
-                                        .subscribeOn(Schedulers.io())
-                                        .observeOn(AndroidSchedulers.mainThread())
-                                        .subscribe(connected -> {
-                                            if (connected) {
-                                                OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
-                                            } else {
-                                                final Snackbar snackbar = Snackbar.make(mainFrame, R.string.internet_preference_warning, Snackbar.LENGTH_INDEFINITE);
-                                                snackbar.setAction(R.string.yes, view -> downloadFromAssets());
-                                                snackbar.show();
-                                            }
-                                        }));
-                            } else {
-                                OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
-                            }
-                        } else if (button==DialogInterface.BUTTON_NEGATIVE) {
-                            downloadFromAssets();
-                        }
-                    }).show();
-                } else {
-                    completeHandler.hide();
-                }
+                handleDownload();
             }
 
             @Override
             public void inactiveConnection() {
-                //Device is connected to WI-FI or Mobile Data but Internet is not working
-                ShowNotificationSnackBar showNotificationSnackBar = new ShowNotificationSnackBar(MainActivity.this,mainFrame,null) {
-                    @Override
-                    public void refreshClicked() {
-                        OpenEventApp.getEventBus().unregister(this);
-                        OpenEventApp.getEventBus().register(this);
-                    }
-                };
-                //show snackbar
-                showNotificationSnackBar.showSnackBar();
-                //snow notification (Only when connected to WiFi)
-                showNotificationSnackBar.buildNotification();
+                //internet not working
+                showNotification();
             }
 
             @Override
             public void networkAvailable() {
-                // Waiting for connectivity
+                //network available
             }
 
             @Override
             public void networkUnavailable() {
+                //network unavailable
                 Snackbar.make(mainFrame, R.string.display_offline_schedule, Snackbar.LENGTH_LONG).show();
                 downloadFromAssets();
             }
@@ -263,6 +227,49 @@ public class MainActivity extends BaseActivity {
                 getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_TRACKS) == null && getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_REST) == null) {
             doMenuAction(currentMenuItemId);
         }
+    }
+
+    public void handleDownload() {
+        if (!sharedPreferences.getBoolean(ConstantStrings.IS_DOWNLOAD_DONE, false)) {
+            DialogFactory.createDownloadDialog(context, R.string.download_assets, R.string.charges_warning, (dialogInterface, button) -> {
+                if (button==DialogInterface.BUTTON_POSITIVE) {
+                    Boolean preference = sharedPreferences.getBoolean(getResources().getString(R.string.download_mode_key), true);
+                    if (preference) {
+                        disposable.add(NetworkUtils.haveNetworkConnectionObservable(MainActivity.this)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(connected -> {
+                                    if (connected) {
+                                        OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
+                                    } else {
+                                        final Snackbar snackbar = Snackbar.make(mainFrame, R.string.internet_preference_warning, Snackbar.LENGTH_INDEFINITE);
+                                        snackbar.setAction(R.string.yes, view -> downloadFromAssets());
+                                        snackbar.show();
+                                    }
+                                }));
+                    } else {
+                        OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
+                    }
+                } else if (button==DialogInterface.BUTTON_NEGATIVE) {
+                    downloadFromAssets();
+                }
+            }).show();
+        } else {
+            completeHandler.hide();
+        }
+    }
+
+    public void showNotification() {
+        ShowNotificationSnackBar showNotificationSnackBar = new ShowNotificationSnackBar(MainActivity.this,mainFrame,null) {
+            @Override
+            public void refreshClicked() {
+                OpenEventApp.getEventBus().unregister(this);
+                OpenEventApp.getEventBus().register(this);
+            }
+        };
+        //show snackbar
+        showNotificationSnackBar.showSnackBar();
+        showNotificationSnackBar.buildNotification();
     }
 
     private void setUpCustomTab() {

@@ -7,11 +7,14 @@ import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkInfo;
 import android.os.Build;
-import android.widget.Toast;
 
 import org.fossasia.openevent.OpenEventApp;
-import org.fossasia.openevent.R;
+import org.fossasia.openevent.api.DataDownloadManager;
 import org.fossasia.openevent.events.DataDownloadEvent;
+import org.fossasia.openevent.events.SessionDownloadEvent;
+import org.fossasia.openevent.events.SpeakerDownloadEvent;
+import org.fossasia.openevent.events.SponsorDownloadEvent;
+import org.fossasia.openevent.events.TracksDownloadEvent;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -121,6 +124,130 @@ public class NetworkUtils extends BroadcastReceiver {
                 });
     }
 
+    public static void checkConnectionTracks(WeakReference<Context> reference, final NetworkStateReceiverListener listener) {
+        if (reference.get() == null || listener == null)
+            return;
+
+        haveNetworkConnectionObservable(reference.get())
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(hasConnection -> {
+
+                    if (hasConnection) {
+                        listener.networkAvailable();
+                        isActiveInternetPresentObservable()
+                                .subscribeOn(Schedulers.computation())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(isActive -> {
+                                    if (isActive) {
+                                        listener.activeConnection();
+                                    } else {
+                                        listener.inactiveConnection();
+                                    }
+                                });
+                    } else {
+                        listener.networkUnavailable();
+                    }
+
+                }, throwable -> {
+                    throwable.printStackTrace();
+                    Timber.e("Network Determination Error : %s", throwable.getMessage());
+                });
+    }
+
+    public static void checkConnectionSponsers(WeakReference<Context> reference, final NetworkStateReceiverListener listener) {
+        if (reference.get() == null || listener == null)
+            return;
+
+        haveNetworkConnectionObservable(reference.get())
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(hasConnection -> {
+
+                    if (hasConnection) {
+                        listener.networkAvailable();
+                        isActiveInternetPresentObservable()
+                                .subscribeOn(Schedulers.computation())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(isActive -> {
+                                    if (isActive) {
+                                        listener.activeConnection();
+                                    } else {
+                                        listener.inactiveConnection();
+                                    }
+                                });
+                    } else {
+                        listener.networkUnavailable();
+                    }
+
+                }, throwable -> {
+                    throwable.printStackTrace();
+                    Timber.e("Network Determination Error : %s", throwable.getMessage());
+                });
+    }
+
+    public static void checkConnectionSpeakers(WeakReference<Context> reference, final NetworkStateReceiverListener listener) {
+        if (reference.get() == null || listener == null)
+            return;
+
+        haveNetworkConnectionObservable(reference.get())
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(hasConnection -> {
+
+                    if (hasConnection) {
+                        listener.networkAvailable();
+                        isActiveInternetPresentObservable()
+                                .subscribeOn(Schedulers.computation())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(isActive -> {
+                                    if (isActive) {
+                                        listener.activeConnection();
+                                    } else {
+                                        listener.inactiveConnection();
+                                    }
+                                });
+                    } else {
+                        listener.networkUnavailable();
+                    }
+
+                }, throwable -> {
+                    throwable.printStackTrace();
+                    Timber.e("Network Determination Error : %s", throwable.getMessage());
+                });
+    }
+
+    public static void checkConnectionSchedule(WeakReference<Context> reference, final NetworkStateReceiverListener listener) {
+        if (reference.get() == null || listener == null)
+            return;
+
+        haveNetworkConnectionObservable(reference.get())
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(hasConnection -> {
+
+                    if (hasConnection) {
+                        listener.networkAvailable();
+                        isActiveInternetPresentObservable()
+                                .subscribeOn(Schedulers.computation())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(isActive -> {
+                                    if (isActive) {
+                                        listener.activeConnection();
+                                    } else {
+                                        listener.inactiveConnection();
+                                    }
+                                });
+                    } else {
+                        listener.networkUnavailable();
+                    }
+
+                }, throwable -> {
+                    throwable.printStackTrace();
+                    Timber.e("Network Determination Error : %s", throwable.getMessage());
+                });
+    }
+
     @Override
     public void onReceive(final Context context, Intent intent) {
         checkConnection(new WeakReference<>(context), new NetworkStateReceiverListener() {
@@ -133,9 +260,6 @@ public class NetworkUtils extends BroadcastReceiver {
             @Override
             public void inactiveConnection() {
                 //Device is connection to WI-FI or Mobile Data but Internet is not working
-                //show toast
-                //will be useful if user have blocked notification for this app
-                Toast.makeText(context, R.string.waiting_for_network, Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -149,6 +273,105 @@ public class NetworkUtils extends BroadcastReceiver {
             }
         });
 
+        checkConnectionTracks(new WeakReference<>(context), new NetworkStateReceiverListener() {
+            @Override
+            public void activeConnection() {
+                //internet is working
+                OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
+                DataDownloadManager.getInstance().downloadTracks();
+            }
+
+            @Override
+            public void inactiveConnection() {
+                //Device is connection to WI-FI or Mobile Data but Internet is not working
+            }
+
+            @Override
+            public void networkAvailable() {
+                // Waiting for network activity
+            }
+
+            @Override
+            public void networkUnavailable() {
+                // Network unavailable
+                OpenEventApp.getEventBus().post(new TracksDownloadEvent(false));
+            }
+        });
+
+        checkConnectionSponsers(new WeakReference<>(context), new NetworkStateReceiverListener() {
+            @Override
+            public void activeConnection() {
+                //internet is working
+                OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
+                DataDownloadManager.getInstance().downloadSponsors();
+            }
+
+            @Override
+            public void inactiveConnection() {
+                //Device is connection to WI-FI or Mobile Data but Internet is not working
+            }
+
+            @Override
+            public void networkAvailable() {
+                // Waiting for network activity
+            }
+
+            @Override
+            public void networkUnavailable() {
+                // Network unavailable
+                OpenEventApp.getEventBus().post(new SponsorDownloadEvent(true));
+            }
+        });
+
+        checkConnectionSpeakers(new WeakReference<>(context), new NetworkStateReceiverListener() {
+            @Override
+            public void activeConnection() {
+                //internet is working
+                OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
+                DataDownloadManager.getInstance().downloadSpeakers();
+            }
+
+            @Override
+            public void inactiveConnection() {
+                //Device is connection to WI-FI or Mobile Data but Internet is not working
+            }
+
+            @Override
+            public void networkAvailable() {
+                // Waiting for network activity
+            }
+
+            @Override
+            public void networkUnavailable() {
+                // Network unavailable
+                OpenEventApp.getEventBus().post(new SpeakerDownloadEvent(false));
+            }
+        });
+
+        checkConnectionSchedule(new WeakReference<>(context), new NetworkStateReceiverListener() {
+            @Override
+            public void activeConnection() {
+                //internet is working
+                OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
+                DataDownloadManager.getInstance().downloadSession();
+            }
+
+            @Override
+            public void inactiveConnection() {
+                //Device is connection to WI-FI or Mobile Data but Internet is not working
+            }
+
+            @Override
+            public void networkAvailable() {
+                // Waiting for network activity
+            }
+
+            @Override
+            public void networkUnavailable() {
+                // Network unavailable
+                OpenEventApp.getEventBus().post(new SessionDownloadEvent(false));
+            }
+        });
     }
 
     public interface NetworkStateReceiverListener {
