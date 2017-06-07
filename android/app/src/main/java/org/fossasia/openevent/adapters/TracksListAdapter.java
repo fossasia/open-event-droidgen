@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,11 +87,6 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.Re
         final Track currentTrack = getItem(position);
 
         holder.trackTitle.setText(currentTrack.getName());
-        if(!TextUtils.isEmpty(currentTrack.getDescription())) {
-            holder.trackDescription.setText(currentTrack.getDescription());
-        } else {
-            holder.trackDescription.setVisibility(View.GONE);
-        }
 
         int trackColor = Color.parseColor(currentTrack.getColor());
         TextDrawable drawable = drawableBuilder.build(String.valueOf(currentTrack.getName().charAt(0)), trackColor);
@@ -138,9 +132,6 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.Re
 
         @BindView(R.id.track_title)
         TextView trackTitle;
-
-        @BindView(R.id.track_description)
-        TextView trackDescription;
 
         RecyclerViewHolder(View itemView) {
             super(itemView);
