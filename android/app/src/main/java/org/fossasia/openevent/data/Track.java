@@ -11,9 +11,6 @@ import io.realm.annotations.PrimaryKey;
 public class Track extends RealmObject {
 
     @Expose
-    private String description;
-
-    @Expose
     private RealmList<Session> sessions;
 
     @Expose
@@ -22,9 +19,6 @@ public class Track extends RealmObject {
     @SerializedName("track_image_url")
     @Expose
     private String trackImageUrl;
-
-    @Expose
-    private String location;
 
     @Expose
     @PrimaryKey
@@ -46,20 +40,12 @@ public class Track extends RealmObject {
         return trackImageUrl;
     }
 
-    public String getLocation() {
-        return location;
-    }
-
     public int getId() {
         return id;
     }
 
     public String getName() {
         return name;
-    }
-
-    public String getDescription() {
-        return description;
     }
 
     public void setSessions(RealmList<Session> sessions) {
