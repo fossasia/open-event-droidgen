@@ -47,7 +47,8 @@ class Generator:
         self.app_launcher_icon = os.path.abspath(config['BASE_DIR'] + '/app/static/assets/ic_launcher.png')
         self.app_package_name = 'org.fossasia.openevent.' + self.app_name.replace(" ", "")
         self.app_temp_assets = os.path.abspath(self.working_dir + '/' + self.identifier + '/assets-src/')
-        self.api_link = ''
+        self.app_temp_images_speakers = os.path.abspath(self.working_dir + '/' + self.identifier + '/drawable-res-src/')
+	self.api_link = ''
         self.apk_path = ''
         self.via_api = via_api
 
@@ -58,7 +59,15 @@ class Generator:
         :return:
         """
         return os.path.abspath(self.app_working_dir + '/' + relative_path)
-
+	
+    def get_temp_images_speakers(self, relative_path):
+	"""
+        Get the path to a resource relative to the app source
+        :param relative_path:
+        :return:
+        """
+        return os.path.abspath(self.app_temp_images_speakers + '/' + relative_path)
+		
     def get_temp_asset_path(self, relative_path):
         """
         Get the path to a resource relative to the temp assets dir
@@ -221,8 +230,22 @@ class Generator:
         self.save_file_in_temp_assets('speakers')
         self.save_file_in_temp_assets('sponsors')
         self.save_file_in_temp_assets('tracks')
+	self.save_file_in_temp_images_speakers('images/speakers')
         logger.info('Download complete')
 
+    def save_file_in_temp_images_speakers(self, end_point='event'):
+        """
+        Save response from specified end_point in drawable directory
+        :param end_point:
+        :return:
+        """
+        if self.api_link:
+            response = requests.get(self.api_link + '/' + end_point)
+            file = open(self.get_temp_images_speakers(end_point), "w+")
+            file.write(response.text)
+            file.close()
+            logger.info('%s file saved', end_point)
+		
     def save_file_in_temp_assets(self, end_point='event'):
         """
         Save response from specified end_point in temp assets directory
