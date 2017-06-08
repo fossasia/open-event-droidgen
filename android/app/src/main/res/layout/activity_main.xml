@@ -34,18 +34,20 @@
                 android:layout_height="?attr/actionBarSize"
                 app:popupTheme="@style/PopupOverlay" />
 
-            <ProgressBar
-                android:id="@+id/progress"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/bottom_progressbar_margin"
-                android:layout_marginTop="@dimen/top_progressbar_margin"
-                android:max="100"
-                android:visibility="gone" />
 
         </android.support.design.widget.AppBarLayout>
     </android.support.design.widget.CoordinatorLayout>
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        style="@android:style/Widget.Holo"
+        android:max="100"
+        android:visibility="gone"
+        android:paddingLeft="175dp"
+        android:paddingRight="175dp"
+        android:paddingTop="300dp"
+        android:paddingBottom="100dp"/>
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
