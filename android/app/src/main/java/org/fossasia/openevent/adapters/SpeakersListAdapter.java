@@ -143,8 +143,17 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakersListAdap
         String country = current.getCountry();
         country = TextUtils.isEmpty(country) ? "" : country;
 
+        String organisation = current.getOrganisation();
+        organisation = TextUtils.isEmpty(organisation) ? "" : organisation;
+
         holder.speakerName.setText(name);
-        holder.speakerDesignation.setText(String.format(positionString, current.getOrganisation()));
+
+        if(!TextUtils.isEmpty(positionString)) {
+            holder.speakerDesignation.setText(String.format(positionString, organisation));
+        } else {
+            holder.speakerDesignation.setText(organisation);
+        }
+
         holder.speakerCountry.setText(country);
 
         holder.itemView.setOnClickListener(v -> {
