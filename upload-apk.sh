@@ -16,6 +16,7 @@ git clone --quiet --branch=apk https://the-dagger:$GITHUB_API_KEY@github.com/fos
 cd apk
 cp -Rf $HOME/daily/*  ./
 mv app-fdroid-debug.apk sample-apk-${TRAVIS_BRANCH}.apk
+mv googleIO_2017.apk googleIO_2017_test-${TRAVIS_BRANCH}.apk
 echo $TRAVIS_COMMIT > meta/deployment/commit_hash
 echo $TRAVIS_BRANCH > meta/deployment/branch
 
