@@ -93,14 +93,9 @@ public class ScheduleFragment extends BaseFragment {
                     for (int i = 0; i < eventDays; i++) {
                         String date = eventDates.get(i).getDate();
 
-                        //try {
-                            adapter.addFragment(new DayScheduleFragment(),
-                                    ISO8601Date.getTimeZoneDateStringFromStringForDayFragment(date), date);
-                            adapter.notifyDataSetChanged();
-                        //} catch (ParseException pe) {
-                        //    pe.printStackTrace();
-                            //Timber.e(pe.getMessage());
-                        //}
+                        adapter.addFragment(new DayScheduleFragment(),
+                                ISO8601Date.getTimeZoneDateStringFromStringForDayFragment(date), date);
+                        adapter.notifyDataSetChanged();
                     }
                 });
 
