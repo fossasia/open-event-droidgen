@@ -8,7 +8,6 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.customtabs.CustomTabsCallback;
 import android.support.customtabs.CustomTabsClient;
@@ -21,9 +20,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
 import android.text.TextUtils;
-import android.text.method.LinkMovementMethod;
 import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -48,6 +45,7 @@ import org.fossasia.openevent.events.ConnectionCheckEvent;
 import org.fossasia.openevent.utils.SpeakerIntent;
 import org.fossasia.openevent.utils.StringUtils;
 import org.fossasia.openevent.utils.Utils;
+import org.fossasia.openevent.utils.Views;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -265,12 +263,7 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
             website.setVisibility(View.GONE);
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
-            biography.setText(Html.fromHtml(selectedSpeaker.getShortBiography(), Html.FROM_HTML_MODE_LEGACY));
-        } else {
-            biography.setText(Html.fromHtml(selectedSpeaker.getShortBiography()));
-        }
-        biography.setMovementMethod(LinkMovementMethod.getInstance());
+        Views.setHtml(biography, selectedSpeaker.getShortBiography(), true);
 
         loadSpeakerImage();
     }
@@ -386,7 +379,7 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
 
         if (percentage == 1f && isHideToolbarView) {
             //Collapsed
-            if (selectedSpeaker.getOrganisation().isEmpty()) {
+            if (TextUtils.isEmpty(selectedSpeaker.getOrganisation())) {
                 toolbarHeaderView.setVisibility(View.GONE);
                 collapsingToolbarLayout.setTitle(selectedSpeaker.getName());
                 isHideToolbarView = !isHideToolbarView;

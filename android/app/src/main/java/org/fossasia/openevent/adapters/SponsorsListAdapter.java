@@ -9,6 +9,7 @@ import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Patterns;
 import android.view.LayoutInflater;
@@ -91,13 +92,14 @@ public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, RecyclerView.Vie
             DisplayMetrics displayMetrics = (sponsorViewHolder.sponsorImage.getContext().getResources().getDisplayMetrics());
             final int width = displayMetrics.widthPixels;
             final int height = displayMetrics.heightPixels;
-            final Sponsor currentSponsor = getItem(position);
+            Sponsor currentSponsor = getItem(position);
 
-            sponsorViewHolder.sponsorType.setText(currentSponsor.getSponsorType());
-            sponsorViewHolder.sponsorName.setText(currentSponsor.getName());
-
+            String sponserName = Utils.checkStringEmpty(currentSponsor.getName());
+            String sponserType = Utils.checkStringEmpty(currentSponsor.getSponsorType());
             String logo = Utils.parseImageUri(currentSponsor.getLogo());
 
+            sponsorViewHolder.sponsorType.setText(sponserType);
+            sponsorViewHolder.sponsorName.setText(sponserName);
             if(logo != null) {
                 sponsorViewHolder.sponsorImage.setVisibility(View.VISIBLE);
                 Picasso.with(sponsorViewHolder.sponsorImage.getContext())
@@ -112,6 +114,10 @@ public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, RecyclerView.Vie
             sponsorViewHolder.itemView.setOnClickListener(view -> {
                 Sponsor sponsor = getItem(holder.getAdapterPosition());
                 String sponsorUrl = sponsor.getUrl();
+
+                if(TextUtils.isEmpty(sponsorUrl))
+                    return;
+
                 if (!sponsorUrl.startsWith("http") && !sponsorUrl.startsWith("https")) {
                     sponsorUrl = "http://" + sponsorUrl;
                 }

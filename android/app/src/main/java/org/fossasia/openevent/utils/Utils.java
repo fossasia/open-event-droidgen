@@ -6,6 +6,14 @@ public class Utils {
         return string == null || string.trim().length() == 0;
     }
 
+    public static String checkStringEmpty(String string) {
+        String finalString = "";
+        if(!isEmpty(string)) {
+            finalString = string;
+        }
+        return finalString;
+    }
+
     public static String parseImageUri(String uri) {
         if(isEmpty(uri))
             return null;

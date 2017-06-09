@@ -104,25 +104,34 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakersListAdap
 
     @Override
     public void onBindViewHolder(RecyclerViewHolder holder, final int position) {
-        final Speaker current = getItem(position);
+        Speaker current = getItem(position);
+
+        String organisation = Utils.checkStringEmpty(current.getOrganisation());
+        String country = Utils.checkStringEmpty(current.getCountry());
+        String name = Utils.checkStringEmpty(current.getName());
+        String positionString = Utils.checkStringEmpty(current.getPosition());
+        String thumbnail = Utils.parseImageUri(current.getThumbnail());
 
         //adding distinct org and country (note size of array will never be greater than 2)
-        if(distinctOrgs.isEmpty()){
-            distinctOrgs.add(current.getOrganisation());
-        } else if (distinctOrgs.size()==1 && (!current.getOrganisation().equals(distinctOrgs.get(0)))){
-            distinctOrgs.add(current.getOrganisation());
+        if(!TextUtils.isEmpty(organisation)) {
+            if (distinctOrgs.isEmpty()) {
+                distinctOrgs.add(organisation);
+            } else if (distinctOrgs.size() == 1 && (!organisation.equals(distinctOrgs.get(0)))) {
+                distinctOrgs.add(organisation);
+            }
         }
 
-        if(distinctCountry.isEmpty()){
-            distinctCountry.add(current.getCountry());
-        } else if (distinctCountry.size()==1 && (!current.getCountry().equals(distinctCountry.get(0)))){
-            distinctCountry.add(current.getCountry());
+        if(!Utils.isEmpty(country)) {
+            if (distinctCountry.isEmpty()) {
+                distinctCountry.add(country);
+            } else if (distinctCountry.size() == 1 && (!country.equals(distinctCountry.get(0)))) {
+                distinctCountry.add(country);
+            }
         }
 
-
-        String thumbnail = Utils.parseImageUri(current.getThumbnail());
-        if (thumbnail == null)
+        if (thumbnail == null) {
             thumbnail = Utils.parseImageUri(current.getPhoto());
+        }
         Drawable placeholder = VectorDrawableCompat.create(context.getResources(), R.drawable.ic_account_circle_grey_24dp, null);
 
         if(thumbnail != null) {
@@ -134,17 +143,8 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakersListAdap
             holder.speakerImage.setImageDrawable(placeholder);
         }
 
-        String name = current.getName();
-        name = TextUtils.isEmpty(name) ? "" : name;
-
-        String positionString = current.getPosition();
-        positionString = TextUtils.isEmpty(positionString) ? "" : positionString;
-
-        String country = current.getCountry();
-        country = TextUtils.isEmpty(country) ? "" : country;
-
         holder.speakerName.setText(name);
-        holder.speakerDesignation.setText(String.format(positionString, current.getOrganisation()));
+        holder.speakerDesignation.setText(String.format("%s %s", positionString, organisation));
         holder.speakerCountry.setText(country);
 
         holder.itemView.setOnClickListener(v -> {

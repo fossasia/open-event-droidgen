@@ -14,6 +14,7 @@ import org.fossasia.openevent.activities.LocationActivity;
 import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.utils.ConstantStrings;
+import org.fossasia.openevent.utils.Utils;
 import org.fossasia.openevent.views.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
 import java.text.MessageFormat;
@@ -95,8 +96,9 @@ public class LocationsListAdapter extends BaseRVAdapter<Microlocation, Locations
 
     @Override
     public void onBindViewHolder(final LocationViewHolder holder, int position) {
-        final Microlocation location = getItem(position);
-        holder.locationName.setText(location.getName());
+        Microlocation location = getItem(position);
+        String locationName = Utils.checkStringEmpty(location.getName());
+        holder.locationName.setText(locationName);
         holder.locationFloor.setText(MessageFormat.format("{0}{1}",
                 holder.itemView.getResources().getString(R.string.fmt_floor),
                 location.getFloor()));
@@ -137,7 +139,11 @@ public class LocationsListAdapter extends BaseRVAdapter<Microlocation, Locations
     @Override
     public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
         TextView textView = (TextView) holder.itemView.findViewById(R.id.recyclerview_view_header);
-        textView.setText(String.valueOf(getItem(position).getName().charAt(0)));
+        String locationName = Utils.checkStringEmpty(getItem(position).getName());
+
+        if(!Utils.isEmpty(locationName)) {
+            textView.setText(String.valueOf(locationName.charAt(0)));
+        }
     }
 
     class LocationViewHolder extends RecyclerView.ViewHolder {

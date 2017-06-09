@@ -201,6 +201,6 @@ public class Session extends RealmObject {
 
     @Override
     public String toString() {
-        return getTitle();
+        return getId() + " : " + getTitle();
     }
 }

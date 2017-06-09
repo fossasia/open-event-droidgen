@@ -45,7 +45,7 @@ public class SessionSpeakerListAdapter extends BaseRVAdapter<Speaker, SessionSpe
 
     @Override
     public void onBindViewHolder(RecyclerViewHolder holder, final int position) {
-        final Speaker current = getItem(position);
+        Speaker current = getItem(position);
 
         String thumbnail = Utils.parseImageUri(current.getThumbnail());
         if (thumbnail == null)
@@ -62,11 +62,8 @@ public class SessionSpeakerListAdapter extends BaseRVAdapter<Speaker, SessionSpe
             holder.speakerImage.setImageDrawable(placeholder);
         }
 
-        String name = current.getName();
-        name = TextUtils.isEmpty(name) ? "" : name;
-
-        String positionString = current.getPosition();
-        positionString = TextUtils.isEmpty(positionString) ? "" : positionString;
+        String name = Utils.checkStringEmpty(current.getName());
+        String positionString = Utils.checkStringEmpty(current.getPosition());
 
         holder.speakerName.setText(name);
         holder.speakerDesignation.setText(String.format("%s %s", positionString, current.getOrganisation()));

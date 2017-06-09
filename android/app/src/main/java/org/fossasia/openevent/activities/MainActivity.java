@@ -585,9 +585,12 @@ public class MainActivity extends BaseActivity {
         completeHandler.startListening()
                 .show()
                 .withCompletionListener()
-                .subscribe(this::syncComplete, throwable ->
+                .subscribe(this::syncComplete, throwable -> {
+                    if (throwable instanceof DownloadCompleteHandler.DataEventError) {
                         downloadFailed(((DownloadCompleteHandler.DataEventError) throwable)
-                                .getDataDownloadEvent()));
+                                .getDataDownloadEvent());
+                    }
+                });
         Timber.d("Download has started");
     }
 

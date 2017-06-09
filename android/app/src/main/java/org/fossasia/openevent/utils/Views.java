@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
@@ -13,9 +14,14 @@ import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.widget.EdgeEffectCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
+import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
+import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.EdgeEffect;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -83,6 +89,31 @@ public final class Views {
         Color.colorToHSV(color, hsv);
         hsv[2] *= 0.8f;
         return Color.HSVToColor(hsv);
+    }
+
+    public static CharSequence fromHtml(String html) {
+        if (TextUtils.isEmpty(html)) {
+            return "";
+        }
+
+        if (isCompatible(Build.VERSION_CODES.N)) {
+            return Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY);
+        } else {
+            return Html.fromHtml(html);
+        }
+    }
+
+    public static void setHtml(TextView textView, String html, boolean hide) {
+        CharSequence converted = fromHtml(html);
+
+        if (TextUtils.isEmpty(converted)) {
+            if(hide) textView.setVisibility(View.GONE);
+        } else {
+            textView.setVisibility(View.VISIBLE);
+            textView.setText(converted);
+        }
+
+        textView.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     /*Check if the version is above Lollipop to change the edge glow color of Nested ScrollView
