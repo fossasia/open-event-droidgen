@@ -1,10 +1,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/content_frame"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="@dimen/layout_margin_large"
-    android:layout_marginStart="@dimen/layout_margin_large"
+    android:layout_marginLeft="@dimen/layout_margin_medium"
+    android:layout_marginStart="@dimen/layout_margin_medium"
     android:layout_marginRight="@dimen/layout_margin_medium"
     android:layout_marginEnd="@dimen/layout_margin_medium"
     android:paddingLeft="@dimen/padding_large"
@@ -105,6 +106,21 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_small"
                 tools:text="Track" />
+
+            <ImageButton
+                android:id="@+id/slot_bookmark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:tint="@color/black"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/session_bookmark_status"
+                android:padding="@dimen/padding_medium"
+                app:srcCompat="@drawable/ic_bookmark_border_white_24dp" />
+
         </RelativeLayout>
 
     </LinearLayout>

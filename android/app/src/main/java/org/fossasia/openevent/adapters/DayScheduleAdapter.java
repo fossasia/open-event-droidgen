@@ -4,12 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.fossasia.openevent.R;
@@ -24,6 +27,7 @@ import org.fossasia.openevent.utils.ISO8601Date;
 import org.fossasia.openevent.utils.SortOrder;
 import org.fossasia.openevent.utils.Utils;
 import org.fossasia.openevent.utils.Views;
+import org.fossasia.openevent.utils.WidgetUpdater;
 import org.fossasia.openevent.views.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
 import java.util.ArrayList;
@@ -37,6 +41,8 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 import timber.log.Timber;
+
+import static org.fossasia.openevent.utils.BookmarkUtil.createNotification;
 
 /**
  * Created by Manan Wason on 17/06/16.
@@ -98,6 +104,45 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
             holder.slotTrack.setVisibility(View.VISIBLE);
             holder.slotTrack.getBackground().setColorFilter(storedColor, PorterDuff.Mode.SRC_ATOP);
             holder.slotTrack.setText(sessionTrack.getName());
+
+            if(currentSession.isBookmarked()) {
+                holder.slot_bookmark.setImageResource(R.drawable.ic_bookmark_white_24dp);
+            } else {
+                holder.slot_bookmark.setImageResource(R.drawable.ic_bookmark_border_white_24dp);
+            }
+            holder.slot_bookmark.setColorFilter(storedColor,PorterDuff.Mode.SRC_ATOP);
+
+            final int sessionId = currentSession.getId();
+
+            holder.slot_bookmark.setOnClickListener(v -> {
+                if(currentSession.isBookmarked()) {
+
+                    realmRepo.setBookmark(sessionId, false).subscribe();
+                    holder.slot_bookmark.setImageResource(R.drawable.ic_bookmark_border_white_24dp);
+
+                    if ("MainActivity".equals(context.getClass().getSimpleName())) {
+                        Snackbar.make(holder.slot_content, R.string.removed_bookmark, Snackbar.LENGTH_LONG)
+                                .setAction(R.string.undo, view -> {
+
+                                    realmRepo.setBookmark(sessionId, true).subscribe();
+                                    holder.slot_bookmark.setImageResource(R.drawable.ic_bookmark_white_24dp);
+
+                                    WidgetUpdater.updateWidget(context);
+                                }).show();
+                    } else {
+                        Snackbar.make(holder.slot_content, R.string.removed_bookmark, Snackbar.LENGTH_SHORT).show();
+                    }
+                } else {
+                    createNotification(currentSession,context);
+
+                    realmRepo.setBookmark(sessionId, true).subscribe();
+                    holder.slot_bookmark.setImageResource(R.drawable.ic_bookmark_white_24dp);
+                    holder.slot_bookmark.setColorFilter(storedColor,PorterDuff.Mode.SRC_ATOP);
+
+                    Snackbar.make(holder.slot_content, R.string.added_bookmark, Snackbar.LENGTH_SHORT).show();
+                }
+                WidgetUpdater.updateWidget(context);
+            });
 
             holder.slotTrack.setOnClickListener(v -> {
                 Intent intent = new Intent(context, TrackSessionsActivity.class);
@@ -225,6 +270,9 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
 
     class DayScheduleViewHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.content_frame)
+        RelativeLayout slot_content;
+
         @BindView(R.id.slot_start_time)
         TextView startTime;
 
@@ -242,6 +290,9 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
 
         @BindView(R.id.slot_track)
         Button slotTrack;
+
+        @BindView(R.id.slot_bookmark)
+        ImageButton slot_bookmark;
 
 
         DayScheduleViewHolder(View itemView) {
