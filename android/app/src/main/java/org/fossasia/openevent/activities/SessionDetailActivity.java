@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -26,8 +27,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
@@ -40,6 +45,7 @@ import org.fossasia.openevent.receivers.NotificationAlarmReceiver;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.ISO8601Date;
 import org.fossasia.openevent.utils.StringUtils;
+import org.fossasia.openevent.utils.Utils;
 import org.fossasia.openevent.utils.Views;
 import org.fossasia.openevent.utils.WidgetUpdater;
 
@@ -101,6 +107,10 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
     protected FrameLayout mapFragment;
     @BindView(R.id.nested_scrollview_session_detail)
     protected NestedScrollView scrollView;
+    @BindView(R.id.iv_youtube_view)
+    protected ImageView youtubeThumbnail;
+    @BindView(R.id.watch)
+    protected ImageButton playButton;
 
     private static final String BY_ID = "id";
     private static final String BY_NAME = "name";
@@ -202,6 +212,28 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
             trackLabel.setVisibility(View.GONE);
             text_track.setVisibility(View.GONE);
         }
+
+        String video_link = session.getVideo();
+
+        if(!Utils.isEmpty(video_link)) {
+            playButton.setVisibility(View.VISIBLE);
+
+            if(video_link.contains(ConstantStrings.YOUTUBE)) {
+                youtubeThumbnail.setVisibility(View.VISIBLE);
+
+                Picasso.with(this)
+                        .load(ConstantStrings.YOUTUBE_URI_1 + video_link.substring(video_link.length()-11) + ConstantStrings.YOUTUBE_URI_2)
+                        .into(youtubeThumbnail);
+            }
+
+            playButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(video_link)));
+                }
+            });
+        }
+
 
         String date = ISO8601Date.getDateFromStartDateString(session.getStartTime());
         String startTime = ISO8601Date.getTimeFromStartDateString(session.getStartTime());
