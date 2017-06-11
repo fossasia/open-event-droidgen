@@ -12,6 +12,7 @@ import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.data.extras.EventDates;
 import org.fossasia.openevent.data.extras.Version;
 import org.fossasia.openevent.events.BookmarkChangedEvent;
+import org.fossasia.openevent.events.RetrofitError;
 import org.fossasia.openevent.utils.ISO8601Date;
 
 import java.util.Calendar;
@@ -481,6 +482,13 @@ public class RealmDataRepository {
      * @param end Ending Date of Event
      */
     private void saveEventDatesInRealm(Date start, Date end) {
+        if (start == null || end == null) {
+            Timber.e("Error saving dates");
+            OpenEventApp.postEventOnUIThread(new RetrofitError(new Throwable("Error parsing dates")));
+
+            return;
+        }
+
         Calendar calendar = new GregorianCalendar();
         calendar.setTime(start);
 

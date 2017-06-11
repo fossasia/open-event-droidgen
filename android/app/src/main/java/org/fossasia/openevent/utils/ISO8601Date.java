@@ -5,11 +5,9 @@ import android.preference.PreferenceManager;
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -163,7 +161,7 @@ public final class ISO8601Date {
                 dateFormat.setTimeZone(timeZone);
             }
         } catch (ParseException e) {
-            Timber.e("Parsing Error Occurred at ISO8601Date::getDateObject.");
+            Timber.e("Parsing Error Occurred at ISO8601Date::getDateObject. Error converting %s", dateString);
         }
         return date;
     }

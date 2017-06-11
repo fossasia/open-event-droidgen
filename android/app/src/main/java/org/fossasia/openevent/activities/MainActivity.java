@@ -57,7 +57,6 @@ import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Sponsor;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
-import org.fossasia.openevent.events.CounterEvent;
 import org.fossasia.openevent.events.DataDownloadEvent;
 import org.fossasia.openevent.events.DownloadEvent;
 import org.fossasia.openevent.events.EventDownloadEvent;
@@ -655,11 +654,12 @@ public class MainActivity extends BaseActivity {
             switch (name) {
                 case ConstantStrings.EVENT: {
                     Event event = gson.fromJson(json, Event.class);
-                    realmDataRepository.saveEvent(event).subscribe();
 
                     realmDataRepository.saveEventDates(ISO8601Date.getTimeZoneDateFromString(event.getStartTime()),
                             ISO8601Date.getTimeZoneDateFromString(event.getEndTime()))
                             .subscribe();
+
+                    realmDataRepository.saveEvent(event).subscribe();
 
                     OpenEventApp.postEventOnUIThread(new EventDownloadEvent(true));
                     break;
