@@ -32,6 +32,7 @@ import org.fossasia.openevent.utils.ConstantStrings;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
@@ -40,6 +41,7 @@ import java.util.Locale;
 import io.branch.referral.Branch;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import timber.log.Timber;
 
@@ -57,6 +59,7 @@ public class OpenEventApp extends Application {
     private static Handler handler;
     private static Bus eventBus;
     private static WeakReference<Context> context;
+    public static Picasso picassoWithCache;
     private MapModuleFactory mapModuleFactory;
     private RefWatcher refWatcher;
 
@@ -106,6 +109,12 @@ public class OpenEventApp extends Application {
         }
         refWatcher = LeakCanary.install(this);
 
+        //Initialize Cache
+        File httpCacheDirectory = new File(getCacheDir(), "picasso-cache");
+        Cache cache = new Cache(httpCacheDirectory, 15 * 1024 * 1024);
+
+        OkHttpClient.Builder okHttpClientBuilder = new OkHttpClient.Builder().cache(cache);
+
         if (BuildConfig.DEBUG) {
             // Create an InitializerBuilder
             Stetho.initialize(
@@ -116,6 +125,7 @@ public class OpenEventApp extends Application {
 
             //Initialize Stetho Interceptor into OkHttp client
             OkHttpClient httpClient = new OkHttpClient.Builder().addNetworkInterceptor(new StethoInterceptor()).build();
+            okHttpClientBuilder = okHttpClientBuilder.addNetworkInterceptor(new StethoInterceptor());
 
             //Initialize Picasso
             Picasso picasso = new Picasso.Builder(this).downloader(new OkHttp3Downloader(httpClient)).build();
@@ -125,6 +135,9 @@ public class OpenEventApp extends Application {
         } else {
             Timber.plant(new CrashReportingTree());
         }
+
+        //Initialize Picasso with cache
+        picassoWithCache = new Picasso.Builder(this).downloader(new OkHttp3Downloader(okHttpClientBuilder.build())).build();
 
         mapModuleFactory = new MapModuleFactory();
         registerReceiver(new NetworkConnectivityChangeReceiver(), new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
