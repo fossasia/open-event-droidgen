@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:foreground="?android:attr/selectableItemBackground" >
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_large">
+
+        <ImageView
+            android:id="@+id/speakers_list_image"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:contentDescription="@null"
+            android:scaleType="centerCrop"
+            tools:src="@drawable/ic_account_circle_grey_24dp" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:paddingLeft="@dimen/padding_large"
+            android:paddingStart="@dimen/padding_large"
+            android:paddingRight="@dimen/padding_large"
+            android:paddingEnd="@dimen/padding_large">
+
+            <TextView
+                android:id="@+id/speakers_list_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="2"
+                android:textStyle="bold"
+                android:padding="@dimen/padding_small"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/text_size"
+                tools:text="Speaker Name" />
+
+            <TextView
+                android:id="@+id/speakers_list_designation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="2"
+                android:padding="@dimen/padding_small"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/text_size_medium"
+                tools:text="Designation" />
+
+            <TextView
+                android:id="@+id/speakers_list_country"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="2"
+                android:padding="@dimen/padding_small"
+                android:textAllCaps="true"
+                android:textColor="@color/secondary_text"
+                android:textSize="@dimen/text_size_small"
+                tools:text="Country" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.8dp"
+        android:background="?android:attr/listDivider" />
+</LinearLayout>

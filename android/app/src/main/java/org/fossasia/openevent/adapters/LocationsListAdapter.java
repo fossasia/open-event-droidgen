@@ -1,7 +1,6 @@
 package org.fossasia.openevent.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,22 +9,19 @@ import android.widget.Filter;
 import android.widget.TextView;
 
 import org.fossasia.openevent.R;
-import org.fossasia.openevent.activities.LocationActivity;
 import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
-import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.Utils;
 import org.fossasia.openevent.views.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
-import java.text.MessageFormat;
 import java.util.List;
 import java.util.Locale;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;
-import io.reactivex.disposables.CompositeDisposable;
+
+import org.fossasia.openevent.adapters.viewholders.LocationViewHolder;
+
 import io.reactivex.functions.Predicate;
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -35,10 +31,9 @@ import timber.log.Timber;
  * User: MananWason
  * Date: 8/18/2015
  */
-public class LocationsListAdapter extends BaseRVAdapter<Microlocation, LocationsListAdapter.LocationViewHolder> implements StickyRecyclerHeadersAdapter {
+public class LocationsListAdapter extends BaseRVAdapter<Microlocation, LocationViewHolder> implements StickyRecyclerHeadersAdapter {
 
     private Context context;
-    private CompositeDisposable disposable;
 
     public LocationsListAdapter(Context context, List<Microlocation> microLocations) {
         super(microLocations);
@@ -91,37 +86,22 @@ public class LocationsListAdapter extends BaseRVAdapter<Microlocation, Locations
     public LocationViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.item_location, parent, false);
-        return new LocationViewHolder(view);
+        return new LocationViewHolder(view, context);
     }
 
     @Override
     public void onBindViewHolder(final LocationViewHolder holder, int position) {
-        Microlocation location = getItem(position);
-        String locationName = Utils.checkStringEmpty(location.getName());
-        holder.locationName.setText(locationName);
-        holder.locationFloor.setText(MessageFormat.format("{0}{1}",
-                holder.itemView.getResources().getString(R.string.fmt_floor),
-                location.getFloor()));
-
-        holder.itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(context, LocationActivity.class);
-            intent.putExtra(ConstantStrings.MICROLOCATIONS, location.getName());
-            holder.getAdapterPosition();
-            context.startActivity(intent);
-        });
+        holder.bindLocation(getItem(position));
     }
 
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
-        disposable = new CompositeDisposable();
     }
 
     @Override
     public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
         super.onDetachedFromRecyclerView(recyclerView);
-        if(disposable != null && !disposable.isDisposed())
-            disposable.dispose();
     }
 
     @Override
@@ -133,7 +113,8 @@ public class LocationsListAdapter extends BaseRVAdapter<Microlocation, Locations
     public RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.recycler_view_header, parent, false);
-        return new RecyclerView.ViewHolder(view) {};
+        return new RecyclerView.ViewHolder(view) {
+        };
     }
 
     @Override
@@ -146,18 +127,4 @@ public class LocationsListAdapter extends BaseRVAdapter<Microlocation, Locations
         }
     }
 
-    class LocationViewHolder extends RecyclerView.ViewHolder {
-
-        @BindView(R.id.location_name)
-        TextView locationName;
-
-        @BindView(R.id.location_floor)
-        TextView locationFloor;
-
-        LocationViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-        }
-
-    }
 }

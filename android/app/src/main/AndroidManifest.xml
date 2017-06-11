@@ -37,6 +37,9 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value=".activities.SearchActivity" />
         </activity>
         <activity
             android:name=".activities.SettingsActivity"
@@ -70,6 +73,18 @@
             android:label="@string/session"
             android:theme="@style/AppTheme.NoActionBar"
             android:configChanges="orientation|screenSize|keyboardHidden">
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
+        <activity
+            android:name=".activities.SearchActivity"
+            android:launchMode="singleTop"
+            android:label="Search App"
+            android:parentActivityName=".activities.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />

@@ -1,310 +1,298 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="10dp">
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/carddemo"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/padding_medium"
-            android:layout_marginRight="@dimen/padding_medium"
-            android:layout_marginTop="@dimen/padding_medium">
+            android:background="@color/white"
+            android:orientation="vertical">
 
-            <LinearLayout
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/list_bookmarks"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:clipToPadding="false"
+                android:paddingLeft="@dimen/padding_medium"
+                android:paddingRight="@dimen/padding_medium"
+                android:scrollbars="horizontal"
+                tools:listitem="@layout/tracksactvity_item" />
 
-                <ImageView
-                    android:id="@+id/logo"
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="10dp"
-                    app:srcCompat="@drawable/splash_logo" />
+            <android.support.v7.widget.CardView
+                android:id="@+id/carddemo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/padding_medium"
+                android:layout_marginRight="@dimen/padding_medium"
+                android:layout_marginTop="@dimen/padding_medium">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/logo"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        app:srcCompat="@drawable/splash_logo" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/welcomeMessage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:padding="@dimen/padding_medium"
+                            android:textColor="@color/primary_text"
+                            android:textSize="22sp" />
+
+                        <ImageView
+                            android:id="@+id/item_description_img"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/padding_small"
+                            app:srcCompat="@drawable/ic_expand_more_black_24dp" />
+                    </LinearLayout>
 
                     <TextView
-                        android:id="@+id/welcomeMessage"
-                        android:layout_width="0dp"
+                        android:id="@+id/event_description"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.7"
+                        android:gravity="center_vertical"
                         android:padding="@dimen/padding_medium"
-                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_size_large"
+                        android:textColor="@color/primary_text"
+                        android:visibility="gone" />
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/card_timings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/padding_medium"
+                android:layout_marginRight="@dimen/padding_medium"
+                android:layout_marginTop="@dimen/padding_medium">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/event_timing"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/color_accent"
+                        android:padding="@dimen/padding_medium"
+                        android:text="@string/event_open"
+                        android:textColor="@color/card_title"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
-                    <ImageView
-                        android:id="@+id/item_description_img"
-                        android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/event_timing_details"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical|end"
-                        android:padding="8dp"
-                        app:srcCompat="@drawable/ic_expand_more_black_24dp" />
+                        android:padding="@dimen/padding_medium"
+                        android:textColor="@color/primary_text"
+                        android:textSize="@dimen/text_size_large" />
+
                 </LinearLayout>
+            </android.support.v7.widget.CardView>
 
-                <TextView
-                    android:id="@+id/event_descrption"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:ellipsize="end"
-                    android:gravity="center_vertical"
-                    android:includeFontPadding="false"
-                    android:paddingLeft="@dimen/padding_medium"
-                    android:paddingRight="@dimen/padding_medium"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_size_medium"
-                    android:visibility="gone" />
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/card_timings"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/padding_medium"
-            android:layout_marginRight="@dimen/padding_medium"
-            android:layout_marginTop="@dimen/padding_medium">
-
-            <LinearLayout
+            <android.support.v7.widget.CardView
+                android:id="@+id/card_venue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/event_timing"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_medium"
-                    android:text="@string/event_open"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.8dp"
-                    android:layout_marginTop="1dp"
-                    android:background="?android:attr/listDivider" />
-
-                <TextView
-                    android:id="@+id/event_timing_details"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_medium"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_size_medium" />
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/card_venue"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/padding_medium"
-            android:layout_marginRight="@dimen/padding_medium"
-            android:layout_marginTop="@dimen/padding_medium">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/event_venue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_medium"
-                    android:text="@string/event_venue"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.8dp"
-                    android:layout_marginTop="1dp"
-                    android:background="?android:attr/listDivider" />
-
-                <TextView
-                    android:id="@+id/event_venue_details"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_medium"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_size_medium" />
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/card_org_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/padding_medium"
-            android:layout_marginRight="@dimen/padding_medium"
-            android:layout_marginTop="@dimen/padding_medium">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/organiser"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:padding="@dimen/padding_medium"
-                    android:text="@string/organiser_description"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.8dp"
-                    android:layout_marginTop="5dp"
-                    android:background="?android:attr/listDivider" />
-
-                <TextView
-                    android:id="@+id/organiser_description"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxLines="4"
-                    android:padding="@dimen/padding_medium"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_size_medium" />
-
-                <TextView
-                    android:id="@+id/readmore"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="@dimen/padding_medium"
-                    android:clickable="true"
-                    android:text="@string/read_more"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="#0066FF" />
-
-                <TextView
-                    android:id="@+id/readless"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="@dimen/padding_medium"
-                    android:clickable="true"
-                    android:text="@string/read_less"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="#0066FF"
-                    android:visibility="gone" />
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/card_social_links"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/padding_medium"
-            android:layout_marginRight="@dimen/padding_medium"
-            android:layout_marginTop="@dimen/padding_medium">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/socialLinks"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:padding="@dimen/padding_medium"
-                    android:text="@string/social_links"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.8dp"
-                    android:layout_marginTop="5dp"
-                    android:background="?android:attr/listDivider" />
+                android:layout_marginLeft="@dimen/padding_medium"
+                android:layout_marginRight="@dimen/padding_medium"
+                android:layout_marginTop="@dimen/padding_medium">
 
                 <LinearLayout
-                    android:id="@+id/images"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center|fill_horizontal"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
-                    <ImageView
-                        android:id="@+id/img_facebook"
+                    <TextView
+                        android:id="@+id/event_venue"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/color_accent"
+                        android:padding="@dimen/padding_medium"
+                        android:text="@string/event_venue"
+                        android:textColor="@color/card_title"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/event_venue_details"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/padding_large"
-                        android:clickable="true"
-                        android:tag="@string/fb"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        app:srcCompat="@drawable/ic_facebook_24dp" />
+                        android:padding="@dimen/padding_medium"
+                        android:textColor="@color/primary_text"
+                        android:textSize="@dimen/text_size_large" />
 
-                    <ImageView
-                        android:id="@+id/img_twitter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="@dimen/padding_large"
-                        android:clickable="true"
-                        android:tag="@string/twitter"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        app:srcCompat="@drawable/ic_twitter_24dp" />
-
-                    <ImageView
-                        android:id="@+id/img_linkedin"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="@dimen/padding_large"
-                        android:clickable="true"
-                        android:tag="@string/linkedin"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        app:srcCompat="@drawable/ic_linkedin_24dp" />
-
-                    <ImageView
-                        android:id="@+id/img_github"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="@dimen/padding_large"
-                        android:clickable="true"
-                        android:tag="@string/github"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        app:srcCompat="@drawable/ic_github_24dp" />
                 </LinearLayout>
+            </android.support.v7.widget.CardView>
 
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:id="@+id/card_org_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/padding_medium"
+                android:layout_marginRight="@dimen/padding_medium"
+                android:layout_marginTop="@dimen/padding_medium">
 
-        <TextView
-            android:id="@+id/url"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:padding="@dimen/padding_medium"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-    </LinearLayout>
-</ScrollView>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/organiser"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/color_accent"
+                        android:padding="@dimen/padding_medium"
+                        android:text="@string/organiser_description"
+                        android:textColor="@color/card_title"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/organiser_description"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="4"
+                        android:padding="@dimen/padding_medium"
+                        android:textColor="@color/primary_text"
+                        android:textSize="@dimen/text_size_large" />
+
+                    <TextView
+                        android:id="@+id/readmore"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="@dimen/padding_medium"
+                        android:clickable="true"
+                        android:text="@string/read_more"
+                        android:textAllCaps="true"
+                        android:textColor="#0066FF"
+                        android:textSize="@dimen/text_size_medium" />
+
+                    <TextView
+                        android:id="@+id/readless"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="@dimen/padding_medium"
+                        android:clickable="true"
+                        android:text="@string/read_less"
+                        android:textAllCaps="true"
+                        android:textColor="#0066FF"
+                        android:textSize="@dimen/text_size_medium"
+                        android:visibility="gone" />
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/card_social_links"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/padding_medium"
+                android:layout_marginLeft="@dimen/padding_medium"
+                android:layout_marginRight="@dimen/padding_medium"
+                android:layout_marginTop="@dimen/padding_medium">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/socialLinks"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/color_accent"
+                        android:padding="@dimen/padding_medium"
+                        android:text="@string/social_links"
+                        android:textColor="@color/card_title"
+                        android:textSize="@dimen/text_size_extra_large"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:id="@+id/images"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center|fill_horizontal"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/img_facebook"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:clickable="true"
+                            android:padding="@dimen/padding_large"
+                            android:tag="@string/fb"
+                            app:srcCompat="@drawable/ic_facebook_24dp" />
+
+                        <ImageView
+                            android:id="@+id/img_twitter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:clickable="true"
+                            android:padding="@dimen/padding_large"
+                            android:tag="@string/twitter"
+                            app:srcCompat="@drawable/ic_twitter_24dp" />
+
+                        <ImageView
+                            android:id="@+id/img_linkedin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:clickable="true"
+                            android:padding="@dimen/padding_large"
+                            android:tag="@string/linkedin"
+                            app:srcCompat="@drawable/ic_linkedin_24dp" />
+
+                        <ImageView
+                            android:id="@+id/img_github"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:clickable="true"
+                            android:padding="@dimen/padding_large"
+                            android:tag="@string/github"
+                            app:srcCompat="@drawable/ic_github_24dp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+
+</android.support.design.widget.CoordinatorLayout>
