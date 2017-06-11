@@ -11,9 +11,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
 
+import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.activities.SpeakerDetailsActivity;
 import org.fossasia.openevent.data.Speaker;
@@ -68,7 +68,7 @@ public class SpeakerViewHolder extends RecyclerView.ViewHolder {
         Drawable placeholder = VectorDrawableCompat.create(context.getResources(), R.drawable.ic_account_circle_grey_24dp, null);
 
         if(thumbnail != null) {
-            RequestCreator requestCreator = Picasso.with(speakerImage.getContext())
+            RequestCreator requestCreator = OpenEventApp.picassoWithCache
                     .load(Uri.parse(thumbnail))
                     .placeholder(placeholder);
 
