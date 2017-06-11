@@ -1,58 +1,147 @@
 [
     {
-        "description": null,
+        "name": "Breaks",
+        "location": null,
+        "color": "#94868c",
+        "font_color": "#000000",
+        "track_image_url": null,
         "sessions": [
-            {
-                "id": 3022,
-                "title": "Lunch Break"
-            },
             {
                 "id": 3020,
                 "title": "Coffee Break"
+            },
+            {
+                "id": 3022,
+                "title": "Lunch Break"
             },
             {
                 "id": 3021,
                 "title": "Coffee Break"
             }
         ],
-        "color": "#94868c",
-        "track_image_url": null,
-        "location": null,
         "id": 273,
-        "name": "Breaks"
+        "description": null
     },
     {
-        "description": null,
+        "name": "Exhibition",
+        "location": null,
+        "color": "#a86767",
+        "font_color": "#ffffff",
+        "track_image_url": null,
+        "sessions": [
+            {
+                "id": 3073,
+                "title": "FOSSASIA T-Shirts"
+            },
+            {
+                "id": 3030,
+                "title": "Building an Open Source Village - Exhibition"
+            },
+            {
+                "id": 2993,
+                "title": "openSUSE Asia Community - Exhibition"
+            },
+            {
+                "id": 3023,
+                "title": "Brain-Computer Interfaces and AI - Exhibition"
+            },
+            {
+                "id": 2994,
+                "title": "Capturing the Community One Click at a Time"
+            },
+            {
+                "id": 3062,
+                "title": " Engineering Good"
+            },
+            {
+                "id": 2995,
+                "title": "FreedomBox - Exhibition"
+            },
+            {
+                "id": 3004,
+                "title": "Open Hardware Universe - Exhibition"
+            },
+            {
+                "id": 3009,
+                "title": "Jobs Board - Exhibition "
+            },
+            {
+                "id": 3035,
+                "title": "FOSS for Humanitarian Infrastructure - Exhibition "
+            },
+            {
+                "id": 3036,
+                "title": "Tinyboy 3D Printer - Exhibition"
+            },
+            {
+                "id": 3037,
+                "title": "XLTech - Exhibition"
+            },
+            {
+                "id": 3041,
+                "title": "Microsoft Open Source - Exhibition "
+            },
+            {
+                "id": 3043,
+                "title": "Credativ Booth - Exhibition "
+            },
+            {
+                "id": 3042,
+                "title": "Google Hacking Lounge"
+            },
+            {
+                "id": 3044,
+                "title": "Gandi.net - Exhibition "
+            },
+            {
+                "id": 2874,
+                "title": "Brave Browser and Communities - Exhibition "
+            },
+            {
+                "id": 3046,
+                "title": "Satellite Project by FOSSASIA Organizer, Roland Tuner - Exhibition "
+            },
+            {
+                "id": 3047,
+                "title": "Education Platform by FOSSASIA Organizer, Daniel Blueman - Exhibition "
+            },
+            {
+                "id": 2949,
+                "title": "Creative Confidence Booth - Exhibition"
+            }
+        ],
+        "id": 277,
+        "description": null
+    },
+    {
+        "name": "Debian Mini-Debconf",
+        "location": null,
+        "color": "#CC0066",
+        "font_color": "#ffffff",
+        "track_image_url": null,
         "sessions": [
             {
                 "id": 2873,
-                "title": "Seasons of Debian : Summer of Code & Winter of Outreachy"
+                "title": "Seasons of Debian: Summer of Code & Winter of Outreachy"
             },
             {
                 "id": 2831,
                 "title": "Open Build Service in Debian."
             },
             {
-                "id": 3010,
-                "title": "Debian Booth - Exhibition "
-            },
-            {
-                "id": 2851,
-                "title": "PGP/GPG Key signing event - Exhibition"
-            },
-            {
                 "id": 2929,
                 "title": "Debian - The Best Linux Distribution"
             }
         ],
-        "color": "#CC0066",
-        "track_image_url": null,
-        "location": null,
         "id": 268,
-        "name": "Debian Mini-Debconf"
+        "description": null
     },
     {
-        "description": null,
+        "name": "Internet, Society & Politics",
+        "location": null,
+        "color": "#9d75b5",
+        "font_color": "#000000",
+        "track_image_url": null,
         "sessions": [
             {
                 "id": 2865,
@@ -61,10 +150,6 @@
             {
                 "id": 2928,
                 "title": "Building OSS communities with kids in Japan"
-            },
-            {
-                "id": 2827,
-                "title": "NUSMods - Revolutionizing university life with Open Source"
             },
             {
                 "id": 2823,
@@ -79,10 +164,6 @@
                 "title": "Taking the Internet Back"
             },
             {
-                "id": 2839,
-                "title": "Liberating Education: Free Software in the STEM Classroom"
-            },
-            {
                 "id": 3019,
                 "title": "Civic Hacking and its importance "
             },
@@ -91,26 +172,27 @@
                 "title": "Promoting Open Technology in World's Freest Economy - Hong Kong"
             },
             {
-                "id": 2900,
-                "title": "The Promise of Collaborative Magic"
-            },
-            {
-                "id": 2951,
-                "title": "How to raise a creative child"
+                "id": 2839,
+                "title": "Liberating Education: Free Software in the STEM Classroom"
             },
             {
                 "id": 2953,
                 "title": "WikiToLearn : Bringing academia to the Internet era - a revolution in knowledge sharing"
+            },
+            {
+                "id": 2820,
+                "title": "The trends in choosing licenses in Python ecosystem"
             }
         ],
-        "color": "#9d75b5",
-        "track_image_url": null,
-        "location": null,
         "id": 221,
-        "name": "Internet, Society & Politics"
+        "description": null
     },
     {
-        "description": null,
+        "name": "Kernel & Platform",
+        "location": null,
+        "color": "#c77398",
+        "font_color": "#000000",
+        "track_image_url": null,
         "sessions": [
             {
                 "id": 2847,
@@ -125,18 +207,6 @@
                 "title": "Clone as free as you want"
             },
             {
-                "id": 2842,
-                "title": "SELinux introduction - workshop 1hr"
-            },
-            {
-                "id": 3024,
-                "title": "Analysis of algorithms for efficient load balancing in distributed systems"
-            },
-            {
-                "id": 2825,
-                "title": "Recommending Code Changes for Automatic Backporting of Linux Device Drivers"
-            },
-            {
                 "id": 2892,
                 "title": "KVM Nested Virtualization: Workings and Usecases - workshop 30mins"
             },
@@ -145,16 +215,12 @@
                 "title": "The Qemu/KVM ecosystem: Navigating the code!"
             },
             {
-                "id": 2909,
-                "title": "Fastest boot, boot from NVDIMM"
+                "id": 2927,
+                "title": "Linux-Sunxi: Community behind Allwinner SOCs mainline support"
             },
             {
                 "id": 2913,
                 "title": "Hello Wayland, Goodbye X11 - The year of the Linux desktop! - workshop 1hr"
-            },
-            {
-                "id": 2927,
-                "title": "Linux-Sunxi: Community behind Allwinner SOCs mainline support"
             },
             {
                 "id": 2920,
@@ -173,74 +239,73 @@
                 "title": "Develop UEFI with openSUSE"
             }
         ],
-        "color": "#c77398",
-        "track_image_url": null,
-        "location": null,
         "id": 224,
-        "name": "Kernel & Platform"
+        "description": null
     },
     {
-        "description": null,
+        "name": "Database - PGDay",
+        "location": null,
+        "color": "#4ac950",
+        "font_color": "#000000",
+        "track_image_url": null,
         "sessions": [
+            {
+                "id": 3050,
+                "title": "Open Source - A Blessing or a Curse?"
+            },
             {
                 "id": 2967,
                 "title": "How to teach an elephant to dance rock'n'roll"
+            },
+            {
+                "id": 3032,
+                "title": "Postgres Lightning Talks"
+            },
+            {
+                "id": 3033,
+                "title": "Postgres Networking"
             },
             {
                 "id": 2974,
                 "title": "Massive Multi-node setup with Postgres and BDR in Retail System"
             },
             {
-                "id": 2944,
-                "title": "What’s coming next in Parallel Query ?"
-            },
-            {
-                "id": 2943,
-                "title": "Keynote for pgDay Asia"
-            },
-            {
                 "id": 2964,
                 "title": "PostgreSQL Security. How Do We Think?"
-            },
-            {
-                "id": 2966,
-                "title": "PostGIS in Agribotics"
             },
             {
                 "id": 2965,
                 "title": "AWS Aurora"
             },
             {
-                "id": 2961,
-                "title": "What does PostgreSQL mean for your business? "
-            },
-            {
-                "id": 2963,
-                "title": "PostgreSQL: WAL for DBAs"
+                "id": 2962,
+                "title": "Running Highly Available Postgres in AWS RDS"
             }
         ],
-        "color": "#4ac950",
-        "track_image_url": null,
-        "location": null,
         "id": 272,
-        "name": "Database - PGDay"
+        "description": null
     },
     {
-        "description": null,
+        "name": "Database",
+        "location": null,
+        "color": "#4ac950",
+        "font_color": "#000000",
+        "track_image_url": null,
         "sessions": [
             {
                 "id": 2931,
                 "title": "Two opensource RDBMS: mariadb vs postgresql"
             }
         ],
-        "color": "#4ac950",
-        "track_image_url": null,
-        "location": null,
         "id": 271,
-        "name": "Database"
+        "description": null
     },
     {
-        "description": null,
+        "name": "Python",
+        "location": null,
+        "color": "#f2da04",
+        "font_color": "#000000",
+        "track_image_url": null,
         "sessions": [
             {
                 "id": 2819,
@@ -261,20 +326,17 @@
             {
                 "id": 2970,
                 "title": "Observations from a Python programmer learning Go lang"
-            },
-            {
-                "id": 2820,
-                "title": "The trends in choosing licenses in Python ecosystem"
             }
         ],
-        "color": "#f2da04",
-        "track_image_url": null,
-        "location": null,
         "id": 265,
-        "name": "Python"
+        "description": null
     },
     {
-        "description": null,
+        "name": "Science",
+        "location": null,
+        "color": "#1e78ff",
+        "font_color": "#ffffff",
+        "track_image_url": null,
         "sessions": [
             {
                 "id": 2878,
@@ -282,14 +344,14 @@
             },
             {
                 "id": 2981,
-                "title": "Rock your Rainbow - Using an Open source Spectrometer - workshop 1hr"
+                "title": "Rock your Rainbow - Using an Open source Spectrometer - Exhibition and Workshop"
             },
             {
                 "id": 2982,
-                "title": "Rock your Rainbow Exhibition"
+                "title": "Rock your Rainbow - Exhibition and Workshop"
             },
             {
-                "id": 2889,
+                "id": 3038,
                 "title": "Mission Mars – Fourth Horizon (Hands-on Workshop) "
             },
             {
@@ -301,34 +363,35 @@
                 "title": "Rust Programming Language for Newbies"
             }
         ],
-        "color": "#1e78ff",
-        "track_image_url": null,
-        "location": null,
         "id": 219,
-        "name": "Science"
+        "description": null
     },
     {
-        "description": null,
+        "name": "Open Tech",
+        "location": null,
+        "color": "#ff3737",
+        "font_color": "#ffffff",
+        "track_image_url": null,
         "sessions": [
             {
-                "id": 2798,
-                "title": " Development and delivery of innovative public services for citizens and businesses"
+                "id": 2797,
+                "title": "Keynote: Protecting privacy with free software"
             },
             {
-                "id": 2799,
-                "title": "Government Digital Transformation"
-            },
-            {
-                "id": 3028,
-                "title": "#CodeHeat Contest Ceremony"
+                "id": 3071,
+                "title": "Exhibitors Shout-out"
             },
             {
                 "id": 2987,
                 "title": "Lightning Talks"
             },
             {
-                "id": 2977,
-                "title": "Tea Linux OS, Designed for Programmer / Developer"
+                "id": 2799,
+                "title": "Keynote: Future of Digital Government"
+            },
+            {
+                "id": 3028,
+                "title": "#CodeHeat Contest Ceremony"
             },
             {
                 "id": 3029,
@@ -336,27 +399,11 @@
             },
             {
                 "id": 2988,
-                "title": "Lightning Talks"
-            },
-            {
-                "id": 2980,
-                "title": "'K'oding with KDE"
+                "title": "Lucky Draw"
             },
             {
                 "id": 2990,
                 "title": "Open AI Assistants"
-            },
-            {
-                "id": 3002,
-                "title": "Microsoft Booth - Exhibition"
-            },
-            {
-                "id": 3005,
-                "title": "FOSSASIA Table (Sign-up corner) - Exhibition"
-            },
-            {
-                "id": 3003,
-                "title": "Google Booth - Exhibition "
             },
             {
                 "id": 3013,
@@ -364,15 +411,19 @@
             },
             {
                 "id": 3011,
-                "title": "Brain-Computer Interfaces and AI"
+                "title": "The Brainduino Project, Brain-Computer Interfaces and AI in the Future"
             },
             {
-                "id": 3008,
-                "title": "Credativ Booth - Exhibition "
+                "id": 3069,
+                "title": "Using Android apps on Chromebooks for greater productivity and flexibility"
             },
             {
                 "id": 3014,
                 "title": "FOSSASIA Summit 2017 - Welcome"
+            },
+            {
+                "id": 3015,
+                "title": "Artificial Intelligence and Machine Learning Personal Assistants"
             },
             {
                 "id": 2858,
@@ -383,74 +434,47 @@
                 "title": "Artificial Intelligence and Science"
             },
             {
-                "id": 3015,
-                "title": "Artificial Intelligence and Machine Learning Personal Assistants"
-            },
-            {
                 "id": 2861,
                 "title": "Let's Make Technology more Inclusive"
-            },
-            {
-                "id": 2948,
-                "title": "The Wikimedia free software community: Learn ways to get involved."
-            },
-            {
-                "id": 2797,
-                "title": "Protecting privacy with free software"
             },
             {
                 "id": 3017,
                 "title": "FOSSASIA What's Next"
             },
             {
-                "id": 2983,
-                "title": "Microsoft + Open Source: Empowering Customers"
-            },
-            {
                 "id": 3018,
                 "title": "Artificial Intelligence - Panel"
             },
             {
-                "id": 2868,
-                "title": "An overview of KDE - Software, Platform and Contributing"
-            },
-            {
-                "id": 2986,
-                "title": "Unconference"
+                "id": 2983,
+                "title": "Keynote: Microsoft + Open Source: Empowering Customers"
             },
             {
                 "id": 2985,
                 "title": "Unconference"
             },
             {
-                "id": 2884,
-                "title": "Welcome message from Science Centre Singapore"
+                "id": 2986,
+                "title": "Unconference"
             },
             {
                 "id": 2918,
                 "title": "The Open Source World of Natural Language Processing"
             },
             {
-                "id": 2925,
-                "title": "Google Code-in "
-            },
-            {
                 "id": 2938,
-                "title": "Contributing to Google Cloud Open Source Projects"
-            },
-            {
-                "id": 2843,
-                "title": "Shogun, a language agnostic machine learning library"
+                "title": "Keynote: Contributing to Google Cloud Open Source Projects"
             }
         ],
-        "color": "#ff3737",
-        "track_image_url": null,
-        "location": null,
         "id": 216,
-        "name": "Open Tech"
+        "description": null
     },
     {
-        "description": null,
+        "name": "Design, Art, Community",
+        "location": null,
+        "color": "#9c7171",
+        "font_color": "#ffffff",
+        "track_image_url": null,
         "sessions": [
             {
                 "id": 2975,
@@ -465,66 +489,79 @@
                 "title": "The Least You Can Do About Usability in Open Source"
             },
             {
-                "id": 2994,
-                "title": "Capturing the Community One Click at a Time"
+                "id": 2813,
+                "title": "Virtual Reality OS: Open Source, Of Singapore"
+            },
+            {
+                "id": 2837,
+                "title": "Building an Open Source Village - we need your help!"
             },
             {
                 "id": 2829,
                 "title": "Nico-Tech, Tech for fun community and culture in Japan"
             },
             {
-                "id": 2837,
-                "title": "Building an Open Source Village - we need your help! - workshop 1hr"
+                "id": 3012,
+                "title": "Group Photo"
             },
             {
                 "id": 2830,
                 "title": "Expectations from Open Source Designers"
             },
             {
-                "id": 3012,
-                "title": "Group Photo"
-            },
-            {
                 "id": 2866,
                 "title": "Integrated Physical Computing on the Web"
             },
             {
-                "id": 2871,
-                "title": "Open Source Agency Branding – Designing for Open Source"
-            },
-            {
-                "id": 2922,
-                "title": "Open Source Agency Branding – Designing for Open Source"
+                "id": 2870,
+                "title": "Usability testing based on user's mood"
             },
             {
                 "id": 2891,
                 "title": "Introduction to the Classical Language Toolkit & Archive"
             }
         ],
-        "color": "#9c7171",
-        "track_image_url": null,
-        "location": null,
         "id": 222,
-        "name": "Design, Art, Community"
+        "description": null
     },
     {
-        "description": null,
+        "name": "DevOps",
+        "location": null,
+        "color": "#cf8c56",
+        "font_color": "#000000",
+        "track_image_url": null,
         "sessions": [
             {
-                "id": 2840,
-                "title": "Bears attack your code: Adding coala and gitmate to your workflows"
+                "id": 3027,
+                "title": "Migrating Legacy Backends to Serverless in Parallel"
             },
             {
                 "id": 2940,
                 "title": "Better Testing Through Statistics"
             },
             {
-                "id": 2880,
-                "title": "Minishift: Openshift Origin at your desk !"
+                "id": 3052,
+                "title": "Problems of Japan's enterprise HTML5 and how to resolve it with hifive"
             },
             {
-                "id": 2848,
-                "title": "Deploying and Upgrading OpenStack using Docker Containers"
+                "id": 2977,
+                "title": "Tea Linux OS, Designed for Programmer / Developer"
+            },
+            {
+                "id": 2880,
+                "title": "Minishift: Openshift Origin at your desk"
+            },
+            {
+                "id": 3081,
+                "title": "Breaking the limits of x86: Building large parallel systems with open-source software"
+            },
+            {
+                "id": 2840,
+                "title": "Bears attack your code: Adding coala and gitmate to your workflows"
+            },
+            {
+                "id": 3024,
+                "title": "Efficient load balancing in distributed systems"
             },
             {
                 "id": 2854,
@@ -533,10 +570,6 @@
             {
                 "id": 2857,
                 "title": "Modern Source and Version Control with Git"
-            },
-            {
-                "id": 2870,
-                "title": "Micro Usability Testing in Engineering"
             },
             {
                 "id": 2890,
@@ -548,7 +581,7 @@
             },
             {
                 "id": 2902,
-                "title": "Why you should use Mercurial"
+                "title": "Mercurial"
             },
             {
                 "id": 2910,
@@ -563,36 +596,34 @@
                 "title": "Non-native English speakers in Open Source communities: A True Story"
             }
         ],
-        "color": "#cf8c56",
-        "track_image_url": null,
-        "location": null,
         "id": 269,
-        "name": "DevOps"
+        "description": null
     },
     {
-        "description": null,
+        "name": "Health Tech",
+        "location": null,
+        "color": "#7e9c7e",
+        "font_color": "#000000",
+        "track_image_url": null,
         "sessions": [
-            {
-                "id": 2916,
-                "title": "Developing learning tools for Hearing impaired children by using open-source web application"
-            },
             {
                 "id": 2815,
                 "title": "Low cost functional prosthetic devices"
             },
             {
-                "id": 2915,
-                "title": "Bahmni: Open source EMR/Hospital system for low resource settings"
+                "id": 2916,
+                "title": "Developing learning tools for Hearing impaired children by using open-source web application"
             }
         ],
-        "color": "#7e9c7e",
-        "track_image_url": null,
-        "location": null,
         "id": 223,
-        "name": "Health Tech"
+        "description": null
     },
     {
-        "description": null,
+        "name": "Android",
+        "location": null,
+        "color": "#b852d1",
+        "font_color": "#ffffff",
+        "track_image_url": null,
         "sessions": [
             {
                 "id": 2999,
@@ -603,49 +634,63 @@
                 "title": "Enhancing sign-in UX using Smart Lock on Android"
             },
             {
-                "id": 2841,
-                "title": "Mifos Android Field Operations App Version 3"
+                "id": 3068,
+                "title": "MVVM architecture with Data Bindings "
+            },
+            {
+                "id": 3034,
+                "title": "Exploring SUSI AI's Mobile Client"
             },
             {
                 "id": 2834,
                 "title": "Building the app for the Prime Minister's Office"
             }
         ],
-        "color": "#b852d1",
-        "track_image_url": null,
-        "location": null,
         "id": 274,
-        "name": "Android"
+        "description": null
     },
     {
-        "description": null,
+        "name": "Blockchain",
+        "location": null,
+        "color": "#AD1457",
+        "font_color": "#ffffff",
+        "track_image_url": null,
         "sessions": [
             {
-                "id": 2867,
-                "title": "Blockchain Software for Hardware: The Canaan AvalonMiner Open Source Embedded System"
+                "id": 3076,
+                "title": "How every Enterprise can have its own Blockchain Lab"
             },
             {
-                "id": 2989,
+                "id": 3065,
+                "title": "COMIT a super blockchain network for instant transactions"
+            },
+            {
+                "id": 3064,
+                "title": "Attores, documents and certificates on the blockchain"
+            },
+            {
+                "id": 3053,
+                "title": "Keynote: Daimler - Blockchain in the Automotive Industry"
+            },
+            {
+                "id": 3082,
                 "title": "Blockchain Technologies - Hyperledger"
             },
             {
-                "id": 2992,
-                "title": "Daimler - Blockchain in the Automotive Industry"
+                "id": 2867,
+                "title": "Blockchain Software for Hardware: The Canaan AvalonMiner Open Source Embedded System"
             }
         ],
-        "color": "#AD1457",
-        "track_image_url": null,
-        "location": null,
         "id": 267,
-        "name": "Blockchain"
+        "description": null
     },
     {
-        "description": null,
+        "name": "Web & Mobile",
+        "location": null,
+        "color": "#74cae6",
+        "font_color": "#000000",
+        "track_image_url": null,
         "sessions": [
-            {
-                "id": 3027,
-                "title": "Migrating Legacy Backends to Serverless in Parallel"
-            },
             {
                 "id": 2800,
                 "title": "Open Event Web App"
@@ -655,12 +700,20 @@
                 "title": "HTTP/2 with Node.js"
             },
             {
+                "id": 2971,
+                "title": "Creating your own Pokemon-world in Web based Virtual Reality - Workshop 1hr"
+            },
+            {
                 "id": 2809,
                 "title": "Scaling Open Event Server with Kubernetes"
             },
             {
-                "id": 2810,
-                "title": "Problems of Japan's enterprise HTML5 and how to resolve it with hifive"
+                "id": 2801,
+                "title": "Open Event API"
+            },
+            {
+                "id": 3031,
+                "title": "Better Events with Open Event"
             },
             {
                 "id": 2942,
@@ -679,36 +732,24 @@
                 "title": "Agile Workflow and Best Practices in the Open Event Android App Generator Project"
             },
             {
-                "id": 2817,
-                "title": "Fast and easy to build a mobile app (FOSSASIA registration app) with NATIVESCRIPT "
-            },
-            {
                 "id": 2838,
                 "title": "Creating the Ultimate Front End UI for a Single Page Application"
-            },
-            {
-                "id": 2801,
-                "title": "Open Event API"
             },
             {
                 "id": 2859,
                 "title": "Deploy Open Event Organizer Server"
             },
             {
-                "id": 3026,
-                "title": "Migrating Legacy Backends to Serverless in Parallel"
-            },
-            {
                 "id": 2875,
                 "title": "Future of Web"
             },
             {
-                "id": 2888,
-                "title": "An Introduction to the Open Event Android Project and it's capabilities."
+                "id": 2817,
+                "title": "Fast and easy to build a mobile app (FOSSASIA registration app) with NATIVESCRIPT "
             },
             {
-                "id": 2887,
-                "title": "Setting up and using the Open Event apk generator to get your own event app"
+                "id": 2888,
+                "title": "An Introduction to the Open Event Android Project and it's capabilities."
             },
             {
                 "id": 2896,
@@ -721,36 +762,25 @@
             {
                 "id": 2947,
                 "title": "A beginner-level workshop on how to get started with MediaWiki development"
-            },
-            {
-                "id": 2971,
-                "title": "Creating your own Pokemon-world in Web based Virtual Reality"
             }
         ],
-        "color": "#74cae6",
-        "track_image_url": null,
-        "location": null,
         "id": 264,
-        "name": "Web & Mobile"
+        "description": null
     },
     {
-        "description": null,
+        "name": "AI & Machine Learning",
+        "location": null,
+        "color": "#4da898",
+        "font_color": "#000000",
+        "track_image_url": null,
         "sessions": [
             {
                 "id": 2991,
-                "title": "Add your own AI rules and data set to SUSI AI Assistant"
-            },
-            {
-                "id": 3023,
-                "title": "Brain-Computer Interfaces and AI - Exhibition"
+                "title": "Add your own AI rules and data set to SUSI AI Assistant - Workshop 1hr"
             },
             {
                 "id": 2811,
                 "title": "Twitter Wall using Loklak APIs"
-            },
-            {
-                "id": 2828,
-                "title": "Applied analysis with scikit-learn  "
             },
             {
                 "id": 2816,
@@ -767,6 +797,10 @@
             {
                 "id": 2984,
                 "title": "Leveraging loklak to build applications and analytics using twitter data - An introduction to AskSusi - workshop 1hr"
+            },
+            {
+                "id": 3040,
+                "title": "TensorFlow 1.0: open source machine learning"
             },
             {
                 "id": 2872,
@@ -802,17 +836,22 @@
             },
             {
                 "id": 2812,
-                "title": "Centralized Logs using ELK (Elasticsearch, Logstash, Kibana) Stack - workshop 1hr"
+                "title": "Centralized Logs using ELK (Elasticsearch, Logstash, Kibana) Stack"
+            },
+            {
+                "id": 2843,
+                "title": "Shogun, a language agnostic machine learning library"
             }
         ],
-        "color": "#4da898",
-        "track_image_url": null,
-        "location": null,
         "id": 266,
-        "name": "AI & Machine Learning"
+        "description": null
     },
     {
-        "description": null,
+        "name": "Database - MySQL Day",
+        "location": null,
+        "color": "#4ac950",
+        "font_color": "#000000",
+        "track_image_url": null,
         "sessions": [
             {
                 "id": 2832,
@@ -864,33 +903,34 @@
             },
             {
                 "id": 2941,
-                "title": "MySQL High Availability with Group Replication"
-            },
-            {
-                "id": 2968,
-                "title": "pgpool"
-            },
-            {
-                "id": 2962,
-                "title": "Running Highly Available Postgres in AWS RDS"
+                "title": "Everything about MySQL"
             }
         ],
-        "color": "#4ac950",
-        "track_image_url": null,
-        "location": null,
         "id": 253,
-        "name": "Database - MySQL Day"
+        "description": null
     },
     {
-        "description": null,
+        "name": "Tech Kids",
+        "location": null,
+        "color": "#e0d802",
+        "font_color": "#000000",
+        "track_image_url": null,
         "sessions": [
             {
                 "id": 2802,
-                "title": "Create your beautiful CV with ShareLatex - workshop 2hrs"
+                "title": "Create your beautiful CV with ShareLatex - workshop 1.5hrs"
             },
             {
                 "id": 2807,
-                "title": "Git and Github for beginners - Workshop 2 h"
+                "title": "Git and Github for beginners "
+            },
+            {
+                "id": 3061,
+                "title": "Adventure into the world of electronics"
+            },
+            {
+                "id": 2997,
+                "title": "Open Event Web App: Deploy open event webapp to Google Cloud - workshop 2hr"
             },
             {
                 "id": 2806,
@@ -901,12 +941,8 @@
                 "title": "micro:bit with MicroPython"
             },
             {
-                "id": 2997,
-                "title": "Open Event Web App: Deploy open event webapp to Google Cloud - workshop 2hr"
-            },
-            {
                 "id": 2998,
-                "title": "Create a personal portfolio site using GitHub Pages - workshop 2hrs"
+                "title": "Create a personal portfolio site using GitHub Pages"
             },
             {
                 "id": 3000,
@@ -921,66 +957,71 @@
                 "title": "Tech Kid Track: Make a DIY Paper Spectrometer - workshop 2hr"
             },
             {
-                "id": 2850,
-                "title": "Introduction to Git version control system - workshop 1hr"
+                "id": 2804,
+                "title": "PyGame 101 Codelab - workshop 1.5hrs"
             },
             {
                 "id": 2805,
-                "title": "Make Your First Android App - workshop 2hrs"
+                "title": "Make Your First Android App - workshop 1.5hrs"
             },
             {
                 "id": 2864,
                 "title": "Make an Outreach Video with Free Video Editor (VideoPad)"
             },
             {
-                "id": 2949,
-                "title": "Creative Confidence Booth - Exhibition"
-            },
-            {
                 "id": 2950,
                 "title": "Kids Hack Day-Quick Edition - workshop 2hrs"
             },
             {
-                "id": 2804,
-                "title": "PyGame 101 Codelab - workshop 2hrs"
+                "id": 2951,
+                "title": "How to raise a creative child"
             }
         ],
-        "color": "#e0d802",
-        "track_image_url": null,
-        "location": null,
         "id": 225,
-        "name": "Tech Kids"
+        "description": null
     },
     {
-        "description": null,
+        "name": "Open Source Software",
+        "location": null,
+        "color": "#ffab3f",
+        "font_color": "#000000",
+        "track_image_url": null,
         "sessions": [
             {
-                "id": 2995,
-                "title": "FreedomBox - Exhibition"
+                "id": 2980,
+                "title": "'K'oding with KDE"
             },
             {
                 "id": 2845,
                 "title": "Writing a VLC playlist parser in Lua"
             },
             {
-                "id": 2993,
-                "title": "openSUSE Asia Community - Exhibition"
-            },
-            {
-                "id": 3007,
-                "title": "Brave Browser & Community - Exhibition"
+                "id": 2901,
+                "title": "Shell scripting in Haskell for maintainability - workshop 1hr"
             },
             {
                 "id": 2863,
                 "title": "Taming the fantastic beast of the Java Virtual Machine - workshop 1hr"
             },
             {
-                "id": 2898,
-                "title": "The 1960s elegance behind Go's regexp"
+                "id": 3055,
+                "title": "GCompris and it's role in improving the education through activities"
             },
             {
-                "id": 2901,
-                "title": "Shell scripting in Haskell for scalability - workshop 1hr"
+                "id": 2850,
+                "title": "Introduction to Git version control system "
+            },
+            {
+                "id": 2948,
+                "title": "The Wikimedia free software community: Learn ways to get involved."
+            },
+            {
+                "id": 2868,
+                "title": "An overview of KDE - Software, Platform and Contributing"
+            },
+            {
+                "id": 2898,
+                "title": "The 1960s elegance behind Go's regexp"
             },
             {
                 "id": 2908,
@@ -999,80 +1040,82 @@
                 "title": "Fedora Infrastructure Dev Sprint - workshop 2hrs"
             }
         ],
-        "color": "#ffab3f",
-        "track_image_url": null,
-        "location": null,
         "id": 217,
-        "name": "Open Source Software"
+        "description": null
     },
     {
-        "description": null,
+        "name": "Hardware & Making",
+        "location": null,
+        "color": "#c45b1f",
+        "font_color": "#ffffff",
+        "track_image_url": null,
         "sessions": [
             {
-                "id": 2958,
-                "title": "Unified Programming Model For Multiple Devices(An OpenCL Approach)"
+                "id": 3072,
+                "title": " Making Isn't Manufacturing"
             },
             {
-                "id": 2818,
-                "title": "Basics of Arm Neon assembly on an Computer Vision example - workshop 2hrs"
+                "id": 3048,
+                "title": "Adventures with blinking lights"
             },
             {
-                "id": 3004,
-                "title": "Open Hardware Universe - Exhibition"
+                "id": 3074,
+                "title": "Evading Social Engineering | The Hacker's Frontliner"
             },
             {
-                "id": 2860,
-                "title": "Docker Swarm Cluster with Raspberry Pi's"
+                "id": 3077,
+                "title": "Rock your Rainbow - Building an Open source Spectrometer"
             },
             {
-                "id": 2846,
-                "title": "Automatic Mushroom Farming with Open Tech"
+                "id": 3045,
+                "title": "LearnBot, the open source robot for education."
             },
             {
                 "id": 2939,
                 "title": "Building a Better Thermostat"
             },
             {
+                "id": 2818,
+                "title": "Basics of Arm Neon assembly on an Computer Vision example - workshop 2hrs"
+            },
+            {
+                "id": 2846,
+                "title": "Automatic Mushroom Farming with Open Tech"
+            },
+            {
+                "id": 2958,
+                "title": "Unified Programming Model For Multiple Devices(An OpenCL Approach)"
+            },
+            {
                 "id": 2907,
                 "title": "Are You Killing Mr. Jenkins?"
-            },
-            {
-                "id": 2930,
-                "title": "Be an IoT Developer for a day - DIY IoT for Conference Visualization - workshop 2hrs"
             }
         ],
-        "color": "#c45b1f",
-        "track_image_url": null,
-        "location": null,
         "id": 218,
-        "name": "Hardware & Making"
+        "description": null
     },
     {
-        "description": null,
+        "name": "Startup and Business Development",
+        "location": null,
+        "color": "#fa8181",
+        "font_color": "#000000",
+        "track_image_url": null,
         "sessions": [
             {
+                "id": 3049,
+                "title": "Community meets Business"
+            },
+            {
                 "id": 2886,
-                "title": "Improving fault detection and real time detailed analytics with Telemetry."
-            },
-            {
-                "id": 2979,
-                "title": "Building a Micro AI company in 2017"
-            },
-            {
-                "id": 2813,
-                "title": "Virtual Reality OS: Open Source, Of Singapore"
-            },
-            {
-                "id": 3009,
-                "title": "Jobs Board - Exhibition "
+                "title": "Improving fault detection and real time detailed analytics with Telemetry"
             },
             {
                 "id": 2855,
                 "title": "Lessons from {distributed,remote,virtual} communities and companies - workshop 1hr"
             },
             {
-                "id": 3025,
-                "title": "A startup's guide to product development"
+                "id": 2979,
+                "title": "Building a Micro AI company in 2017"
             },
             {
                 "id": 2885,
@@ -1083,34 +1126,31 @@
                 "title": "Legalese: Software Eats Contract Drafting"
             }
         ],
-        "color": "#fa8181",
-        "track_image_url": null,
-        "location": null,
         "id": 220,
-        "name": "Startup and Business Development"
+        "description": null
     },
     {
-        "description": null,
+        "name": "Security and Privacy",
+        "location": null,
+        "color": "#3e5e8f",
+        "font_color": "#ffffff",
+        "track_image_url": null,
         "sessions": [
             {
-                "id": 2954,
-                "title": "NTPSec: Securing the Internet's Critical Infrastructure"
+                "id": 2881,
+                "title": "Network monitoring with FOSS"
             },
             {
                 "id": 2862,
                 "title": "Web Application Security - owasp top 10 vulnerabilities"
             },
             {
+                "id": 2842,
+                "title": "SELinux introduction - workshop 1hr"
+            },
+            {
                 "id": 2849,
                 "title": "Attack of things"
-            },
-            {
-                "id": 2874,
-                "title": "Brave Browser and Communities - Exhibition "
-            },
-            {
-                "id": 2881,
-                "title": "Network monitoring with FOSS"
             },
             {
                 "id": 2926,
@@ -1125,10 +1165,7 @@
                 "title": "OpenSec and Why WebAppSec Matters"
             }
         ],
-        "color": "#3e5e8f",
-        "track_image_url": null,
-        "location": null,
         "id": 270,
-        "name": "Security and Privacy"
+        "description": null
     }
 ]

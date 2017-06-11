@@ -657,11 +657,12 @@ public class MainActivity extends BaseActivity {
             switch (name) {
                 case ConstantStrings.EVENT: {
                     Event event = gson.fromJson(json, Event.class);
-                    realmDataRepository.saveEvent(event).subscribe();
 
                     realmDataRepository.saveEventDates(ISO8601Date.getTimeZoneDateFromString(event.getStartTime()),
                             ISO8601Date.getTimeZoneDateFromString(event.getEndTime()))
                             .subscribe();
+
+                    realmDataRepository.saveEvent(event).subscribe();
 
                     OpenEventApp.postEventOnUIThread(new EventDownloadEvent(true));
                     break;

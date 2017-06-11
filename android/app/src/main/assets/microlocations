@@ -1,99 +1,11 @@
 [
     {
         "room": null,
-        "floor": 1,
-        "longitude": null,
-        "latitude": null,
-        "id": 165,
-        "name": "Annexe Hall"
-    },
-    {
-        "room": null,
-        "floor": 1,
-        "longitude": null,
-        "latitude": null,
-        "id": 166,
-        "name": "Mendel"
-    },
-    {
-        "room": null,
-        "floor": 1,
-        "longitude": null,
-        "latitude": null,
-        "id": 167,
-        "name": "Tinkering Studio"
-    },
-    {
-        "room": null,
-        "floor": 1,
-        "longitude": null,
-        "latitude": null,
-        "id": 168,
-        "name": "Digital Design Studio"
-    },
-    {
-        "room": null,
-        "floor": 1,
-        "longitude": null,
-        "latitude": null,
-        "id": 169,
-        "name": "Scientist for a day"
-    },
-    {
-        "room": null,
-        "floor": 2,
-        "longitude": null,
-        "latitude": null,
-        "id": 170,
-        "name": "Curie & Hershel"
-    },
-    {
-        "room": null,
-        "floor": 3,
-        "longitude": 1,
-        "latitude": 1,
-        "id": 187,
-        "name": "Einstein"
-    },
-    {
-        "room": null,
         "floor": 3,
         "longitude": null,
         "latitude": null,
         "id": 196,
-        "name": "Dalton"
-    },
-    {
-        "room": null,
-        "floor": 3,
-        "longitude": null,
-        "latitude": null,
-        "id": 197,
-        "name": "Fermi"
-    },
-    {
-        "room": null,
-        "floor": 3,
-        "longitude": null,
-        "latitude": null,
-        "id": 198,
-        "name": "Planck"
-    },
-    {
-        "room": null,
-        "floor": 3,
-        "longitude": null,
-        "latitude": null,
-        "id": 199,
-        "name": "Lewis"
-    },
-    {
-        "room": null,
-        "floor": 3,
-        "longitude": null,
-        "latitude": null,
-        "id": 200,
-        "name": "Faraday"
+        "name": "Dalton Hall (Floor 3)"
     },
     {
         "room": null,
@@ -101,6 +13,110 @@
         "longitude": null,
         "latitude": null,
         "id": 202,
-        "name": "Exhibition Hall A"
+        "name": "Workshops@Exhibition (Ground Floor, Hall A)"
+    },
+    {
+        "room": null,
+        "floor": 1,
+        "longitude": null,
+        "latitude": null,
+        "id": 165,
+        "name": "Annexe Hall (Ground Floor)"
+    },
+    {
+        "room": null,
+        "floor": 1,
+        "longitude": null,
+        "latitude": null,
+        "id": 166,
+        "name": "Mendel (Ground Floor)"
+    },
+    {
+        "room": null,
+        "floor": 1,
+        "longitude": null,
+        "latitude": null,
+        "id": 167,
+        "name": "Tinkering Studio (Ground Floor)"
+    },
+    {
+        "room": null,
+        "floor": 1,
+        "longitude": null,
+        "latitude": null,
+        "id": 168,
+        "name": "Digital Design Studio (Ground Floor)"
+    },
+    {
+        "room": null,
+        "floor": 2,
+        "longitude": null,
+        "latitude": null,
+        "id": 170,
+        "name": "Curie & Hershel (Floor 2)"
+    },
+    {
+        "room": null,
+        "floor": 3,
+        "longitude": null,
+        "latitude": null,
+        "id": 197,
+        "name": "Fermi (Floor 3)"
+    },
+    {
+        "room": null,
+        "floor": 3,
+        "longitude": null,
+        "latitude": null,
+        "id": 198,
+        "name": "Planck (Floor 3)"
+    },
+    {
+        "room": null,
+        "floor": 3,
+        "longitude": null,
+        "latitude": null,
+        "id": 199,
+        "name": "Lewis (Floor 3)"
+    },
+    {
+        "room": null,
+        "floor": 3,
+        "longitude": null,
+        "latitude": null,
+        "id": 200,
+        "name": "Faraday (Floor 3)"
+    },
+    {
+        "room": null,
+        "floor": 1,
+        "longitude": null,
+        "latitude": null,
+        "id": 169,
+        "name": "Scientist for a Day (Ground Floor, Hall A)"
+    },
+    {
+        "room": null,
+        "floor": 1,
+        "longitude": null,
+        "latitude": null,
+        "id": 210,
+        "name": "Exhibition (Hall A, Ground Floor)"
+    },
+    {
+        "room": null,
+        "floor": 1,
+        "longitude": null,
+        "latitude": null,
+        "id": 211,
+        "name": "Entrance Hall (Ground Floor)"
+    },
+    {
+        "room": null,
+        "floor": 2,
+        "longitude": 1,
+        "latitude": 1,
+        "id": 187,
+        "name": "Einstein (Floor 2)"
     }
 ]
