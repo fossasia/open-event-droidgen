@@ -35,4 +35,12 @@
         android:textSize="@dimen/text_size_small"
         tools:text="Designation" />
 
+    <TextView
+        android:id="@+id/speakers_list_country"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="@dimen/text_size_small"
+        tools:text="Country" />
+
 </LinearLayout>

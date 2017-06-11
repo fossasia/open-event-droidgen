@@ -72,6 +72,7 @@
 
 
     <!--Search Titles-->
+    <string name="global_search_hint">Search App</string>
     <string name="search_hint_tracks"> Search Tracks</string>
     <string name="refresh_failed">Couldn\'t Refresh</string>
     <string name="download_failed">Download Failed</string>
@@ -206,5 +207,6 @@
     <string name="more_details">For more details check </string>
     <string name="social_links">SOCIAL LINKS</string>
     <string name="location_not_decided">Not decided yet</string>
+    <string name="result_type">Result Type</string>
 
 </resources>

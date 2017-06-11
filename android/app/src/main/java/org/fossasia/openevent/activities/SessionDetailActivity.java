@@ -144,7 +144,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
 
         appBarLayout.addOnOffsetChangedListener(this);
 
-        adapter = new SessionSpeakerListAdapter(speakers, this);
+        adapter = new SessionSpeakerListAdapter(speakers);
 
         fabSessionBookmark.setOnClickListener(view -> {
             if(session == null)

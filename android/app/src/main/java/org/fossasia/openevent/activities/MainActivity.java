@@ -57,10 +57,10 @@ import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Sponsor;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
-import org.fossasia.openevent.events.CounterEvent;
 import org.fossasia.openevent.events.DataDownloadEvent;
 import org.fossasia.openevent.events.DownloadEvent;
 import org.fossasia.openevent.events.EventDownloadEvent;
+import org.fossasia.openevent.events.EventLoadedEvent;
 import org.fossasia.openevent.events.JsonReadEvent;
 import org.fossasia.openevent.events.MicrolocationDownloadEvent;
 import org.fossasia.openevent.events.NoInternetEvent;
@@ -71,7 +71,7 @@ import org.fossasia.openevent.events.ShowNetworkDialogEvent;
 import org.fossasia.openevent.events.SpeakerDownloadEvent;
 import org.fossasia.openevent.events.SponsorDownloadEvent;
 import org.fossasia.openevent.events.TracksDownloadEvent;
-import org.fossasia.openevent.fragments.BookmarksFragment;
+import org.fossasia.openevent.fragments.AboutFragment;
 import org.fossasia.openevent.fragments.LocationsFragment;
 import org.fossasia.openevent.fragments.ScheduleFragment;
 import org.fossasia.openevent.fragments.SpeakersListFragment;
@@ -103,7 +103,6 @@ import io.realm.Realm;
 import timber.log.Timber;
 
 import static org.fossasia.openevent.R.id.headerDrawer;
-import static org.fossasia.openevent.R.string.bookmarks;
 
 public class MainActivity extends BaseActivity {
 
@@ -250,17 +249,13 @@ public class MainActivity extends BaseActivity {
         });
 
         if (savedInstanceState == null) {
-            currentMenuItemId = R.id.nav_tracks;
+            currentMenuItemId = R.id.nav_home;
         } else {
             currentMenuItemId = savedInstanceState.getInt(STATE_FRAGMENT);
         }
 
-        if (getIntent().hasExtra(NAV_ITEM) && getIntent().getStringExtra(NAV_ITEM).equalsIgnoreCase(BOOKMARK)) {
-            currentMenuItemId = R.id.nav_bookmarks;
-        }
-
         if (getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_HOME) == null &&
-                getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_TRACKS) == null && getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_REST) == null) {
+                getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_HOME) == null && getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_REST) == null) {
             doMenuAction(currentMenuItemId);
         }
     }
@@ -345,8 +340,8 @@ public class MainActivity extends BaseActivity {
                 public void onDrawerStateChanged(int newState) {
                     super.onDrawerStateChanged(newState);
 
-                    if (toolbar.getTitle().equals(getString(R.string.title_section_tracks))) {
-                        navigationView.setCheckedItem(R.id.nav_tracks);
+                    if(toolbar.getTitle().equals(getString(R.string.menu_about))) {
+                        navigationView.setCheckedItem(R.id.nav_home);
                     }
                 }
             };
@@ -373,6 +368,7 @@ public class MainActivity extends BaseActivity {
         Timber.d("Download done");
 
         setupEvent();
+        OpenEventApp.postEventOnUIThread(new EventLoadedEvent(event));
 
         realmRepo.saveEventDates(ISO8601Date.getTimeZoneDateFromString(event.getStartTime()),
                 ISO8601Date.getTimeZoneDateFromString(event.getEndTime()))
@@ -390,22 +386,30 @@ public class MainActivity extends BaseActivity {
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
-        navigationView.setNavigationItemSelectedListener(
-                menuItem -> {
-                    final int id = menuItem.getItemId();
-                    drawerLayout.closeDrawers();
-                    drawerLayout.postDelayed(() -> doMenuAction(id), 300);
-
-                    // to ensure bookmarks is not shown clicked if at all there are no bookmarks
-                    return !(id == R.id.nav_bookmarks && realmRepo.getBookMarkedSessionsSync().isEmpty());
-                });
+        navigationView.setNavigationItemSelectedListener(menuItem -> {
+            final int id = menuItem.getItemId();
+            drawerLayout.closeDrawers();
+            drawerLayout.postDelayed(() -> doMenuAction(id), 300);
+            return true;
+        });
     }
 
     private void doMenuAction(int menuItemId) {
         final FragmentManager fragmentManager = getSupportFragmentManager();
         switch (menuItemId) {
-            case R.id.nav_tracks:
+            case R.id.nav_home:
                 atHome = true;
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_frame, new AboutFragment(), FRAGMENT_TAG_REST).commit();
+                if (getSupportActionBar() != null) {
+                    getSupportActionBar().setTitle(R.string.menu_home);
+                }
+                if (currentMenuItemId == R.id.nav_schedule){
+                    addShadowToAppBar(false);
+                }
+                break;
+            case R.id.nav_tracks:
+                atHome = false;
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_frame, new TracksFragment(), FRAGMENT_TAG_TRACKS).commit();
                 addShadowToAppBar(true);
@@ -420,30 +424,6 @@ public class MainActivity extends BaseActivity {
                 addShadowToAppBar(false);
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle(R.string.menu_schedule);
-                }
-                break;
-            case R.id.nav_bookmarks:
-                boolean empty = realmRepo.getBookMarkedSessionsSync().isEmpty();
-
-                Timber.d("Empty %s", empty);
-                if(!empty) {
-                    Timber.d("no");
-                    atHome = false;
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.content_frame, new BookmarksFragment(), FRAGMENT_TAG_REST).commit();
-                    if (getSupportActionBar() != null) {
-                        getSupportActionBar().setTitle(R.string.menu_bookmarks);
-                    }
-                    addShadowToAppBar(true);
-                } else {
-                    Timber.d("yes");
-                    DialogFactory.createSimpleActionDialog(
-                            context,
-                            bookmarks,
-                            R.string.empty_list,
-                            null
-                    ).show();
-                    if (currentMenuItemId == R.id.nav_schedule) addShadowToAppBar(false);
                 }
                 break;
             case R.id.nav_speakers:
@@ -558,12 +538,15 @@ public class MainActivity extends BaseActivity {
                 long timer = 2000;
                 handler.postDelayed(runnable, timer);
             }
-        }else {
+        } else {
             atHome = true;
             fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, new TracksFragment(), FRAGMENT_TAG_TRACKS).commit();
+                    .replace(R.id.content_frame, new AboutFragment(), FRAGMENT_TAG_REST).commit();
             if (getSupportActionBar() != null) {
-                getSupportActionBar().setTitle(R.string.menu_tracks);
+                getSupportActionBar().setTitle(R.string.menu_home);
+            }
+            if (currentMenuItemId == R.id.nav_schedule) {
+                addShadowToAppBar(false);
             }
         }
     }

@@ -3,11 +3,11 @@
     <group
         android:id="@+id/menu_top"
         android:checkableBehavior="single">
-        <!--<item-->
-            <!--android:id="@+id/nav_home"-->
-            <!--android:checked="true"-->
-            <!--android:icon="@drawable/ic_home_black_24dp"-->
-            <!--android:title="@string/menu_home" />-->
+        <item
+            android:id="@+id/nav_home"
+            android:checked="true"
+            android:icon="@drawable/ic_home_black_24dp"
+            android:title="@string/menu_home" />
         <item
             android:id="@+id/nav_tracks"
             android:checked="true"
@@ -21,11 +21,6 @@
             app:showAsAction="always"
             android:title="@string/menu_schedule" />
 
-        <item
-            android:id="@+id/nav_bookmarks"
-            android:icon="@drawable/ic_bookmark_white_24dp"
-            app:showAsAction="always"
-            android:title="@string/menu_bookmarks" />
 
         <item
             android:id="@+id/nav_speakers"
