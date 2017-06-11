@@ -18,8 +18,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
+import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.data.Sponsor;
 import org.fossasia.openevent.utils.Utils;
@@ -102,7 +101,7 @@ public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, RecyclerView.Vie
             sponsorViewHolder.sponsorName.setText(sponserName);
             if(logo != null) {
                 sponsorViewHolder.sponsorImage.setVisibility(View.VISIBLE);
-                Picasso.with(sponsorViewHolder.sponsorImage.getContext())
+                OpenEventApp.picassoWithCache
                         .load(Uri.parse(logo))
                         .resize(width, (height / 6))
                         .centerInside()

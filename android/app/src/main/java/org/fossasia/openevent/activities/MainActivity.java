@@ -44,7 +44,6 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.squareup.otto.Subscribe;
-import com.squareup.picasso.Picasso;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
@@ -356,7 +355,7 @@ public class MainActivity extends BaseActivity {
     private void setNavHeader(Event event) {
         String logo = event.getLogo();
         if (!logo.isEmpty()) {
-            Picasso.with(getApplicationContext()).load(logo).into(headerView);
+            OpenEventApp.picassoWithCache.load(logo).into(headerView);
         }
     }
 
