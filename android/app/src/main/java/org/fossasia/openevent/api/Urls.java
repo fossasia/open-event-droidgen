@@ -2,6 +2,8 @@ package org.fossasia.openevent.api;
 
 import android.webkit.URLUtil;
 
+import org.fossasia.openevent.utils.Utils;
+
 /**
  * User: championswimmer
  * Date: 23/5/15
@@ -44,6 +46,8 @@ public abstract class Urls {
 
     public static final String INVALID_LINK = "http://abc//";
 
+    public static final String EMPTY_LINK = "http://xyz//";
+
     public static final String GOOGLE_PLAY_HOME = "https://play.google.com/store";
 
 
@@ -59,8 +63,11 @@ public abstract class Urls {
                 BASE_URL = baseUrl;
             }
         } else {
-            BASE_URL = "http://abc//";
-
+            if (!Utils.isEmpty(baseUrl)) {
+                BASE_URL = INVALID_LINK;
+            } else {
+                BASE_URL = EMPTY_LINK;
+            }
         }
     }
 
