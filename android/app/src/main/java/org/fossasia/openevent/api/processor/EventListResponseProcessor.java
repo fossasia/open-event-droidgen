@@ -1,12 +1,13 @@
 package org.fossasia.openevent.api.processor;
 
 import org.fossasia.openevent.OpenEventApp;
+import org.fossasia.openevent.api.DataDownloadManager;
 import org.fossasia.openevent.data.Event;
 import org.fossasia.openevent.data.extras.Version;
-import org.fossasia.openevent.api.DataDownloadManager;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.events.CounterEvent;
 import org.fossasia.openevent.events.DownloadEvent;
+import org.fossasia.openevent.events.EventDownloadEvent;
 import org.fossasia.openevent.events.RetrofitResponseEvent;
 
 import timber.log.Timber;
@@ -14,6 +15,12 @@ import timber.log.Timber;
 public class EventListResponseProcessor extends ResponseProcessor<Event> {
 
     private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
+
+    private void save(Event event) {
+        realmRepo.saveEvent(event).subscribe(() ->
+                OpenEventApp.postEventOnUIThread(new EventDownloadEvent(true)),
+                Timber::e);
+    }
 
     @Override
     protected void onSuccess(Event event) {
@@ -28,19 +35,22 @@ public class EventListResponseProcessor extends ResponseProcessor<Event> {
         if (storedVersion == null) {
             Timber.d("Version info not present. Downloading complete data again...");
 
-            realmRepo.saveEvent(event).subscribe();
+            counterRequests = 6;
+            OpenEventApp.postEventOnUIThread(new CounterEvent(counterRequests));
+
+            save(event);
 
             download.downloadSession();
             download.downloadSpeakers();
             download.downloadTracks();
             download.downloadMicrolocations();
             download.downloadSponsors();
-
-            counterRequests += 5;
         } else {
             if (storedVersion.getEventVer() != version.getEventVer()) {
                 Timber.d("Downloading EVENT");
-                realmRepo.saveEvent(event).subscribe();
+                save(event);
+
+                counterRequests++;
             }
 
             if (storedVersion.getSponsorsVer() != version.getSponsorsVer()) {
@@ -80,10 +90,10 @@ public class EventListResponseProcessor extends ResponseProcessor<Event> {
 
             if (counterRequests == 0) {
                 Timber.d("Data fresh");
+            } else {
+                OpenEventApp.postEventOnUIThread(new CounterEvent(counterRequests));
             }
         }
-        CounterEvent counterEvent = new CounterEvent(counterRequests);
-        OpenEventApp.postEventOnUIThread(counterEvent);
     }
 
     @Override
