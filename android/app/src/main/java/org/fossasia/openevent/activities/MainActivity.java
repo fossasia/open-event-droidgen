@@ -83,6 +83,7 @@ import org.fossasia.openevent.utils.ISO8601Date;
 import org.fossasia.openevent.utils.NetworkUtils;
 import org.fossasia.openevent.utils.ShowNotificationSnackBar;
 import org.fossasia.openevent.utils.SmoothActionBarDrawerToggle;
+import org.fossasia.openevent.utils.Utils;
 import org.fossasia.openevent.views.CustomTabsSpan;
 import org.fossasia.openevent.widget.DialogFactory;
 
@@ -186,6 +187,28 @@ public class MainActivity extends BaseActivity {
 
         completeHandler = DownloadCompleteHandler.with(context);
 
+        if (Utils.isBaseUrlEmpty()) {
+            if (!sharedPreferences.getBoolean(ConstantStrings.IS_DOWNLOAD_DONE, false)) {
+                downloadFromAssets();
+                sharedPreferences.edit().putBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true).apply();
+            }
+        } else {
+            downloadFromServer();
+        }
+
+        if (savedInstanceState == null) {
+            currentMenuItemId = R.id.nav_home;
+        } else {
+            currentMenuItemId = savedInstanceState.getInt(STATE_FRAGMENT);
+        }
+
+        if (getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_HOME) == null &&
+                getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_REST) == null) {
+            doMenuAction(currentMenuItemId);
+        }
+    }
+
+    private void downloadFromServer(){
         NetworkUtils.checkConnection(new WeakReference<>(this), new NetworkUtils.NetworkStateReceiverListener() {
             @Override
             public void activeConnection() {
@@ -246,17 +269,6 @@ public class MainActivity extends BaseActivity {
                 downloadFromAssets();
             }
         });
-
-        if (savedInstanceState == null) {
-            currentMenuItemId = R.id.nav_home;
-        } else {
-            currentMenuItemId = savedInstanceState.getInt(STATE_FRAGMENT);
-        }
-
-        if (getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_HOME) == null &&
-                getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_HOME) == null && getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_REST) == null) {
-            doMenuAction(currentMenuItemId);
-        }
     }
 
     private void setUpCustomTab() {
@@ -399,7 +411,7 @@ public class MainActivity extends BaseActivity {
             case R.id.nav_home:
                 atHome = true;
                 fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, new AboutFragment(), FRAGMENT_TAG_REST).commit();
+                        .replace(R.id.content_frame, new AboutFragment(), FRAGMENT_TAG_HOME).commit();
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle(R.string.menu_home);
                 }
@@ -410,7 +422,7 @@ public class MainActivity extends BaseActivity {
             case R.id.nav_tracks:
                 atHome = false;
                 fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, new TracksFragment(), FRAGMENT_TAG_TRACKS).commit();
+                        .replace(R.id.content_frame, new TracksFragment(), FRAGMENT_TAG_REST).commit();
                 addShadowToAppBar(true);
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle(R.string.menu_tracks);
@@ -606,10 +618,18 @@ public class MainActivity extends BaseActivity {
 
     @Subscribe
     public void downloadData(DataDownloadEvent event) {
-        if (Urls.getBaseUrl().equals(Urls.INVALID_LINK))
-            showErrorDialog("Invalid Api", "Api link doesn't seem to be valid");
-        else
-            startDownload();
+        switch (Urls.getBaseUrl()) {
+            case Urls.INVALID_LINK:
+                showErrorDialog("Invalid Api", "Api link doesn't seem to be valid");
+                downloadFromAssets();
+                break;
+            case Urls.EMPTY_LINK:
+                downloadFromAssets();
+                break;
+            default:
+                startDownload();
+                break;
+        }
     }
 
     @Subscribe

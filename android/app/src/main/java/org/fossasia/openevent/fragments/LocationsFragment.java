@@ -17,13 +17,13 @@ import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
 
-import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.LocationsListAdapter;
 import org.fossasia.openevent.api.DataDownloadManager;
 import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.events.MicrolocationDownloadEvent;
+import org.fossasia.openevent.utils.Utils;
 import org.fossasia.openevent.views.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
 import java.util.ArrayList;
@@ -60,10 +60,9 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
 
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
-        OpenEventApp.getEventBus().register(this);
-        compositeDisposable = new CompositeDisposable();
+        Utils.registerIfUrlValid(swipeRefreshLayout, this, this::refresh);
 
-        swipeRefreshLayout.setOnRefreshListener(this::refresh);
+        compositeDisposable = new CompositeDisposable();
 
         locationsRecyclerView.setHasFixedSize(true);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
@@ -164,7 +163,8 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        OpenEventApp.getEventBus().unregister(this);
+        Utils.unregisterIfUrlValid(this);
+
         if(compositeDisposable != null && !compositeDisposable.isDisposed())
             compositeDisposable.dispose();
 

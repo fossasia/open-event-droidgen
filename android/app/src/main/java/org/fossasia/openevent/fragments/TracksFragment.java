@@ -28,6 +28,7 @@ import org.fossasia.openevent.events.RefreshUiEvent;
 import org.fossasia.openevent.events.TracksDownloadEvent;
 import org.fossasia.openevent.utils.NetworkUtils;
 import org.fossasia.openevent.utils.ShowNotificationSnackBar;
+import org.fossasia.openevent.utils.Utils;
 import org.fossasia.openevent.views.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
 import java.lang.ref.WeakReference;
@@ -66,10 +67,9 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
 
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
-        OpenEventApp.getEventBus().register(this);
-
         handleVisibility();
-        swipeRefreshLayout.setOnRefreshListener(this::refresh);
+
+        Utils.registerIfUrlValid(swipeRefreshLayout, this, this::refresh);
 
         tracksRecyclerView.setHasFixedSize(true);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
@@ -119,7 +119,7 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        OpenEventApp.getEventBus().unregister(this);
+        Utils.unregisterIfUrlValid(this);
 
         // Remove listeners to fix memory leak
         realmResults.removeAllChangeListeners();

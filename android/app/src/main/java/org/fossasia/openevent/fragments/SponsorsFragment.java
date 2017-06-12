@@ -22,6 +22,7 @@ import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.events.SponsorDownloadEvent;
 import org.fossasia.openevent.utils.NetworkUtils;
 import org.fossasia.openevent.utils.ShowNotificationSnackBar;
+import org.fossasia.openevent.utils.Utils;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -56,9 +57,8 @@ public class SponsorsFragment extends BaseFragment {
 
         final View view = super.onCreateView(inflater, container, savedInstanceState);
 
-        OpenEventApp.getEventBus().register(this);
+        Utils.registerIfUrlValid(swipeRefreshLayout, this, this::refresh);
 
-        swipeRefreshLayout.setOnRefreshListener(this::refresh);
         sponsorsListAdapter = new SponsorsListAdapter(getContext(), mSponsors,
                 getActivity(), true);
         sponsorsRecyclerView.setAdapter(sponsorsListAdapter);
@@ -96,7 +96,7 @@ public class SponsorsFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        OpenEventApp.getEventBus().unregister(this);
+        Utils.unregisterIfUrlValid(this);
 
         // Remove listeners to fix memory leak
         if(swipeRefreshLayout != null) swipeRefreshLayout.setOnRefreshListener(null);

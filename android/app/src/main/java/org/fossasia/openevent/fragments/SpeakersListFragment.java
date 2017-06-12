@@ -34,6 +34,7 @@ import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.events.SpeakerDownloadEvent;
 import org.fossasia.openevent.utils.NetworkUtils;
 import org.fossasia.openevent.utils.ShowNotificationSnackBar;
+import org.fossasia.openevent.utils.Utils;
 import org.fossasia.openevent.views.MarginDecoration;
 
 import java.lang.ref.WeakReference;
@@ -77,7 +78,7 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
 
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
-        OpenEventApp.getEventBus().register(this);
+        Utils.registerIfUrlValid(swipeRefreshLayout, this, this::refresh);
 
         prefsSort = PreferenceManager.getDefaultSharedPreferences(getActivity());
         sortType = prefsSort.getInt(PREF_SORT, 0);
@@ -93,8 +94,6 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
         speakersRecyclerView.setAdapter(speakersListAdapter);
         gridLayoutManager = new GridLayoutManager(getActivity(), spanCount);
         speakersRecyclerView.setLayoutManager(gridLayoutManager);
-
-        swipeRefreshLayout.setOnRefreshListener(this::refresh);
 
         if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
             searchText = savedInstanceState.getString(SEARCH);
@@ -138,7 +137,7 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        OpenEventApp.getEventBus().unregister(this);
+        Utils.unregisterIfUrlValid(this);
 
         // Remove listeners to fix memory leak
         if(swipeRefreshLayout != null) swipeRefreshLayout.setOnRefreshListener(null);
