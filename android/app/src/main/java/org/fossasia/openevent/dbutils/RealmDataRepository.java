@@ -446,7 +446,7 @@ public class RealmDataRepository {
     }
 
     public RealmResults<Sponsor> getSponsors() {
-        return realm.where(Sponsor.class).findAllSortedAsync("level", Sort.DESCENDING, "name", Sort.ASCENDING);
+        return realm.where(Sponsor.class).findAllSortedAsync("level", Sort.ASCENDING, "name", Sort.ASCENDING);
     }
 
     // Location Section
