@@ -72,6 +72,6 @@
         android:clickable="true"
         app:layout_anchor="@+id/app_bar_session_detail"
         app:layout_anchorGravity="bottom|right"
-        app:srcCompat="@drawable/ic_bookmark_outline_white_24dp" />
+        app:srcCompat="@drawable/ic_bookmark_border_white_24dp" />
 
 </android.support.design.widget.CoordinatorLayout>

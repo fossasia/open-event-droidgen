@@ -154,7 +154,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
                 Timber.tag(TAG).d("Bookmark Removed");
 
                 realmRepo.setBookmark(session.getId(), false).subscribe();
-                fabSessionBookmark.setImageResource(R.drawable.ic_bookmark_outline_white_24dp);
+                fabSessionBookmark.setImageResource(R.drawable.ic_bookmark_border_white_24dp);
 
                 Snackbar.make(speakersRecyclerView, R.string.removed_bookmark, Snackbar.LENGTH_SHORT).show();
             } else {
@@ -259,7 +259,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
             fabSessionBookmark.setImageResource(R.drawable.ic_bookmark_white_24dp);
         } else {
             Timber.tag(TAG).d("Bookmark Removed");
-            fabSessionBookmark.setImageResource(R.drawable.ic_bookmark_outline_white_24dp);
+            fabSessionBookmark.setImageResource(R.drawable.ic_bookmark_border_white_24dp);
         }
     }
 
