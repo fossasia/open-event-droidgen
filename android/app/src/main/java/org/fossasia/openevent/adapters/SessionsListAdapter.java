@@ -125,6 +125,13 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
     @Override
     public void onBindViewHolder(final SessionViewHolder holder, final int position) {
         Session session = getItem(position);
+
+        //removing draft sessions
+        if((!Utils.isEmpty(session.getState())) && session.getState().equals("draft")) {
+            getDataList().remove(position);
+            notifyItemRemoved(position);
+        }
+        
         String date = ISO8601Date.getDateFromStartDateString(session.getStartTime());
         String sessionTitle = Utils.checkStringEmpty(session.getTitle());
         String sessionSubTitle = Utils.checkStringEmpty(session.getSubtitle());

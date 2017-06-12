@@ -30,6 +30,7 @@ import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.NetworkUtils;
 import org.fossasia.openevent.utils.ShowNotificationSnackBar;
 import org.fossasia.openevent.utils.SortOrder;
+import org.fossasia.openevent.utils.Utils;
 import org.fossasia.openevent.views.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
 import java.lang.ref.WeakReference;
@@ -75,7 +76,7 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
 
         compositeDisposable = new CompositeDisposable();
 
-        swipeRefreshLayout.setOnRefreshListener(this::refresh);
+        Utils.registerIfUrlValid(swipeRefreshLayout, this, this::refresh);
 
         dayRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         dayScheduleAdapter = new DayScheduleAdapter(mSessionsFiltered, getContext());
@@ -161,24 +162,14 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        Utils.unregisterIfUrlValid(this);
+
         if(compositeDisposable != null && !compositeDisposable.isDisposed())
             compositeDisposable.dispose();
 
         // Remove listeners to fix memory leak
         if(swipeRefreshLayout != null) swipeRefreshLayout.setOnRefreshListener(null);
         if(searchView != null) searchView.setOnQueryTextListener(null);
-    }
-
-    @Override
-    public void onStart() {
-        OpenEventApp.getEventBus().register(this);
-        super.onStart();
-    }
-
-    @Override
-    public void onStop() {
-        OpenEventApp.getEventBus().unregister(this);
-        super.onStop();
     }
 
     @Subscribe

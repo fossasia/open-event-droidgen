@@ -1,5 +1,10 @@
 package org.fossasia.openevent.utils;
 
+import android.support.v4.widget.SwipeRefreshLayout;
+
+import org.fossasia.openevent.OpenEventApp;
+import org.fossasia.openevent.api.Urls;
+
 public class Utils {
 
     public static boolean isEmpty(String string) {
@@ -12,6 +17,26 @@ public class Utils {
             finalString = string;
         }
         return finalString;
+    }
+
+    public static boolean isBaseUrlEmpty(){
+        return Urls.getBaseUrl().equals(Urls.EMPTY_LINK);
+    }
+
+    public static void registerIfUrlValid(SwipeRefreshLayout swipeRefreshLayout,
+                                              Object object, SwipeRefreshLayout.OnRefreshListener onRefreshListener){
+        if (isBaseUrlEmpty()) {
+            swipeRefreshLayout.setEnabled(false);
+        } else {
+            OpenEventApp.getEventBus().register(object);
+            swipeRefreshLayout.setOnRefreshListener(onRefreshListener);
+        }
+    }
+
+    public static void unregisterIfUrlValid(Object object){
+        if (!isBaseUrlEmpty()) {
+            OpenEventApp.getEventBus().unregister(object);
+        }
     }
 
     public static String parseImageUri(String uri) {

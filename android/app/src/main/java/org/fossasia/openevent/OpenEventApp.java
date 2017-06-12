@@ -29,6 +29,7 @@ import org.fossasia.openevent.events.ShowNetworkDialogEvent;
 import org.fossasia.openevent.modules.MapModuleFactory;
 import org.fossasia.openevent.receivers.NetworkConnectivityChangeReceiver;
 import org.fossasia.openevent.utils.ConstantStrings;
+import org.fossasia.openevent.utils.Utils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -140,7 +141,6 @@ public class OpenEventApp extends Application {
         picassoWithCache = new Picasso.Builder(this).downloader(new OkHttp3Downloader(okHttpClientBuilder.build())).build();
 
         mapModuleFactory = new MapModuleFactory();
-        registerReceiver(new NetworkConnectivityChangeReceiver(), new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
         getEventBus().register(this);
 
         String config_json = null;
@@ -196,6 +196,9 @@ public class OpenEventApp extends Application {
             e.printStackTrace();
         }
 
+        if (!Utils.isBaseUrlEmpty()) {
+            registerReceiver(new NetworkConnectivityChangeReceiver(), new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+        }
     }
 
     @Subscribe
