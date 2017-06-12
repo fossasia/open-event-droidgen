@@ -78,8 +78,8 @@ import org.fossasia.openevent.fragments.SponsorsFragment;
 import org.fossasia.openevent.fragments.TracksFragment;
 import org.fossasia.openevent.utils.CommonTaskLoop;
 import org.fossasia.openevent.utils.ConstantStrings;
+import org.fossasia.openevent.utils.DateUtils;
 import org.fossasia.openevent.utils.DownloadCompleteHandler;
-import org.fossasia.openevent.utils.ISO8601Date;
 import org.fossasia.openevent.utils.NetworkUtils;
 import org.fossasia.openevent.utils.ShowNotificationSnackBar;
 import org.fossasia.openevent.utils.SmoothActionBarDrawerToggle;
@@ -96,6 +96,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Completable;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
@@ -174,8 +175,6 @@ public class MainActivity extends BaseActivity {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         sharedPreferences.edit().putInt(ConstantStrings.SESSION_MAP_ID, -1).apply();
         setTheme(R.style.AppTheme_NoActionBar_MainTheme);
-        ISO8601Date.setTimeZone();
-        ISO8601Date.setEventTimeZone();
         super.onCreate(savedInstanceState);
 
         disposable = new CompositeDisposable();
@@ -371,6 +370,20 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    private void saveEventDates(Event event) {
+        String startTime = event.getStartTime();
+        String endTime = event.getEndTime();
+
+        Observable.fromCallable(() ->
+                DateUtils.getDaysInBetween(startTime, endTime)
+        ).subscribe(eventDates -> realmRepo.saveEventDates(eventDates).subscribe(), throwable -> {
+            Timber.e(throwable);
+            Timber.e("Error start parsing start date: %s and end date: %s in ISO format",
+                    startTime, endTime);
+            OpenEventApp.postEventOnUIThread(new RetrofitError(new Throwable("Error parsing dates")));
+        });
+    }
+
     private void syncComplete() {
         // Event successfully loaded, set data downloaded to true
         sharedPreferences.edit().putBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true).apply();
@@ -380,10 +393,7 @@ public class MainActivity extends BaseActivity {
 
         setupEvent();
         OpenEventApp.postEventOnUIThread(new EventLoadedEvent(event));
-
-        realmRepo.saveEventDates(ISO8601Date.getTimeZoneDateFromString(event.getStartTime()),
-                ISO8601Date.getTimeZoneDateFromString(event.getEndTime()))
-                .subscribe();
+        saveEventDates(event);
     }
 
     private void downloadFailed(final DownloadEvent event) {
@@ -658,9 +668,8 @@ public class MainActivity extends BaseActivity {
                 case ConstantStrings.EVENT: {
                     Event event = gson.fromJson(json, Event.class);
 
-                    realmDataRepository.saveEventDates(ISO8601Date.getTimeZoneDateFromString(event.getStartTime()),
-                            ISO8601Date.getTimeZoneDateFromString(event.getEndTime()))
-                            .subscribe();
+                    saveEventDates(event);
+                    realmDataRepository.saveEvent(event).subscribe();
 
                     realmDataRepository.saveEvent(event).subscribe();
 
@@ -715,7 +724,11 @@ public class MainActivity extends BaseActivity {
             }
 
             realm.close();
-        }).observeOn(Schedulers.computation()).subscribe();
+        }).observeOn(Schedulers.computation()).subscribe(() -> Timber.d("Saved event from JSON"), throwable -> {
+            throwable.printStackTrace();
+            Timber.e(throwable);
+            OpenEventApp.postEventOnUIThread(new RetrofitError(throwable));
+        });
     }
 
     @Subscribe

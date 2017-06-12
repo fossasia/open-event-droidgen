@@ -206,7 +206,9 @@
     <string name="read_less">Read Less</string>
     <string name="more_details">For more details check </string>
     <string name="social_links">SOCIAL LINKS</string>
+
     <string name="location_not_decided">Not decided yet</string>
     <string name="result_type">Result Type</string>
+    <string name="error_create_notification">Error creating notification</string>
 
 </resources>
