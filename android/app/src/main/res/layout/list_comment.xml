@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/comment_list"
+    android:background="@drawable/comment_dialog"
+    android:paddingBottom="@dimen/feed_item_padding_top_bottom"
+    android:paddingTop="@dimen/feed_item_padding_top_bottom"
+    android:layout_marginLeft="@dimen/layout_margin_extra_large"
+    android:layout_marginRight="@dimen/layout_margin_extra_large"
+    android:layout_marginTop="@dimen/feed_item_margin">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/comment_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/comment_list_height"
+        android:scrollbars="vertical" />
+
+</LinearLayout>
+

@@ -20,6 +20,7 @@
 
     <!-- Main menu_speakers -->
     <string name="menu_home">Home</string>
+    <string name="menu_feed">Live Feed</string>
     <string name="menu_tracks">Tracks</string>
     <string name="menu_bookmarks">Bookmarks</string>
     <string name="menu_speakers">Speakers</string>
@@ -138,6 +139,7 @@
     <string name="noSpeakers">No Speakers yet!</string>
     <string name="noSponsors">No Sponsors yet!</string>
     <string name="noTracks">No Tracks yet!</string>
+    <string name="noFeed">No Posts yet!</string>
     <string name="charges_warning">Data charges may apply</string>
     <string name="tracks">Track:</string>
     <string name="date">Date:</string>
@@ -212,4 +214,11 @@
     <string name="result_type">Result Type</string>
     <string name="error_create_notification">Error creating notification</string>
 
+    <!--Feed Strings-->
+    <string name="facebook_access_token" templateMergeStrategy="preserve" translatable="false">1786614831603417|DWqP48Lm77hBqCQDWVsq4lFixuo</string>
+    <string name="no_comments">No Comments Yet :(</string>
+    <string name="comments">comments</string>
+    <string name="commenter">Commenter</string>
+    <string name="profile_image">Profile Image</string>
+    <string name="fields">id,full_picture,message,story,created_time,link,comments</string>
 </resources>

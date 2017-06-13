@@ -166,4 +166,11 @@ public class DateUtils {
         return dates;
     }
 
+    public static String getRelativeTimeFromTimestamp(String timeStamp) throws ParseException {
+        Date timeCreatedDate = getDate(ISO_TIMEZONE_FORMATTER, timeStamp);
+
+        return (String) android.text.format.DateUtils.getRelativeTimeSpanString(
+                (timeCreatedDate.getTime()),
+                System.currentTimeMillis(), android.text.format.DateUtils.SECOND_IN_MILLIS);
+    }
 }

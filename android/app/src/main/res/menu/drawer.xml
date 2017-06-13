@@ -9,6 +9,12 @@
             android:icon="@drawable/ic_home_black_24dp"
             android:title="@string/menu_home" />
         <item
+            android:id="@+id/nav_feed"
+            android:checked="true"
+            android:icon="@drawable/ic_feed_black_24dp"
+            app:showAsAction="always"
+            android:title="@string/menu_feed" />
+        <item
             android:id="@+id/nav_tracks"
             android:checked="true"
             android:icon="@drawable/ic_event_white_24dp"

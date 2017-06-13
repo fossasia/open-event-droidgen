@@ -16,5 +16,9 @@
     <color name="speakers_listview_primary">#de000000</color>
     <color name="speakers_listview_secondary">#8a000000</color>
     <color name="track_header_default">#546E7A</color>
+    <color name="feed_bg">#d3d6db</color>
+    <color name="feed_item_border">#c2c3c8</color>
+    <color name="timestamp">#a0a3a7</color>
+    <color name="link">#0a80d1</color>
     <color name="card_title">#ffffff</color>
 </resources>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle" >
+
+    <!-- view border color and width -->
+    <stroke
+        android:width="@dimen/feed_item_border_width"
+        android:color="@color/color_primary" >
+    </stroke>
+
+    <!-- Here is the corner radius -->
+    <corners android:radius="@dimen/feed_item_corner_radius" >
+    </corners>
+
+</shape>
