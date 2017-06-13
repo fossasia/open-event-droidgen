@@ -5,11 +5,9 @@ import android.preference.PreferenceManager;
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -136,14 +134,11 @@ public final class ISO8601Date {
 
     //return date string of a specified timezone from a given date string
     public static String getTimeZoneDateStringFromString(String dateString) {
-        String currentDate = dateString + "Z";
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault());
-        simpleDateFormat.setTimeZone(eventTimeZone);
-        Date date = null;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.getDefault());
         String formattedDateString = null;
         try {
             if(dateString!=null) {
-                date = simpleDateFormat.parse(currentDate);
+                Date date = simpleDateFormat.parse(dateString);
                 SimpleDateFormat dateFormat = new SimpleDateFormat("EE, dd MMM yyyy, HH:mm, z", Locale.getDefault());
                 dateFormat.setTimeZone(timeZone);
                 formattedDateString = dateFormat.format(date);
@@ -157,19 +152,16 @@ public final class ISO8601Date {
 
     //return date of specified timezone from a given date string
     public static Date getTimeZoneDateFromString(String dateString) {
-        String currentDate = dateString + "Z";
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault());
-        simpleDateFormat.setTimeZone(eventTimeZone);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.getDefault());
         Date date = null;
         try {
             if(dateString!=null) {
-                date = simpleDateFormat.parse(currentDate);
+                date = simpleDateFormat.parse(dateString);
                 SimpleDateFormat dateFormat = new SimpleDateFormat("EE, dd MMM yyyy, HH:mm, z", Locale.getDefault());
                 dateFormat.setTimeZone(timeZone);
-                String date_string = dateFormat.format(date);
             }
         } catch (ParseException e) {
-            Timber.e("Parsing Error Occurred at ISO8601Date::getDateObject.");
+            Timber.e("Parsing Error Occurred at ISO8601Date::getDateObject. Error converting %s", dateString);
         }
         return date;
     }
@@ -178,11 +170,10 @@ public final class ISO8601Date {
     public static String getTimeZoneDateStringFromStringForDayFragment(String dateString) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         simpleDateFormat.setTimeZone(eventTimeZone);
-        Date date = null;
         String formattedDateString = null;
         try {
             if(dateString!=null) {
-                date = simpleDateFormat.parse(dateString);
+                Date date = simpleDateFormat.parse(dateString);
                 SimpleDateFormat dateFormat = new SimpleDateFormat("d MMM", Locale.getDefault());
                 dateFormat.setTimeZone(timeZone);
                 formattedDateString = dateFormat.format(date);
@@ -195,14 +186,11 @@ public final class ISO8601Date {
 
     //get 24 hour time string of specified timezone from a given date string
     public static String get24HourTimeFromString(String dateString) {
-        String currentDate = dateString + "Z";
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault());
-        simpleDateFormat.setTimeZone(eventTimeZone);
-        Date date = null;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.getDefault());
         String formattedDateString = null;
         try {
             if(dateString!=null) {
-                date = simpleDateFormat.parse(currentDate);
+                Date date = simpleDateFormat.parse(dateString);
                 SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm ", Locale.getDefault());
                 dateFormat.setTimeZone(timeZone);
                 formattedDateString = dateFormat.format(date);
@@ -215,14 +203,11 @@ public final class ISO8601Date {
 
     //get 12 hour time string of specified timezone from a given date string
     public static String get12HourTimeFromString(String dateString) {
-        String currentDate = dateString + "Z";
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault());
-        simpleDateFormat.setTimeZone(eventTimeZone);
-        Date date = null;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.getDefault());
         String formattedDateString = null;
         try {
             if(dateString!=null) {
-                date = simpleDateFormat.parse(currentDate);
+                Date date = simpleDateFormat.parse(dateString);
                 SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a", Locale.getDefault());
                 dateFormat.setTimeZone(timeZone);
                 formattedDateString = dateFormat.format(date);

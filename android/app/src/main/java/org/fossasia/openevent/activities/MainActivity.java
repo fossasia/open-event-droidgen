@@ -44,7 +44,6 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.squareup.otto.Subscribe;
-import com.squareup.picasso.Picasso;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
@@ -57,10 +56,10 @@ import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Sponsor;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
-import org.fossasia.openevent.events.CounterEvent;
 import org.fossasia.openevent.events.DataDownloadEvent;
 import org.fossasia.openevent.events.DownloadEvent;
 import org.fossasia.openevent.events.EventDownloadEvent;
+import org.fossasia.openevent.events.EventLoadedEvent;
 import org.fossasia.openevent.events.JsonReadEvent;
 import org.fossasia.openevent.events.MicrolocationDownloadEvent;
 import org.fossasia.openevent.events.NoInternetEvent;
@@ -71,7 +70,7 @@ import org.fossasia.openevent.events.ShowNetworkDialogEvent;
 import org.fossasia.openevent.events.SpeakerDownloadEvent;
 import org.fossasia.openevent.events.SponsorDownloadEvent;
 import org.fossasia.openevent.events.TracksDownloadEvent;
-import org.fossasia.openevent.fragments.BookmarksFragment;
+import org.fossasia.openevent.fragments.AboutFragment;
 import org.fossasia.openevent.fragments.LocationsFragment;
 import org.fossasia.openevent.fragments.ScheduleFragment;
 import org.fossasia.openevent.fragments.SpeakersListFragment;
@@ -84,6 +83,7 @@ import org.fossasia.openevent.utils.ISO8601Date;
 import org.fossasia.openevent.utils.NetworkUtils;
 import org.fossasia.openevent.utils.ShowNotificationSnackBar;
 import org.fossasia.openevent.utils.SmoothActionBarDrawerToggle;
+import org.fossasia.openevent.utils.Utils;
 import org.fossasia.openevent.views.CustomTabsSpan;
 import org.fossasia.openevent.widget.DialogFactory;
 
@@ -103,7 +103,6 @@ import io.realm.Realm;
 import timber.log.Timber;
 
 import static org.fossasia.openevent.R.id.headerDrawer;
-import static org.fossasia.openevent.R.string.bookmarks;
 
 public class MainActivity extends BaseActivity {
 
@@ -188,6 +187,28 @@ public class MainActivity extends BaseActivity {
 
         completeHandler = DownloadCompleteHandler.with(context);
 
+        if (Utils.isBaseUrlEmpty()) {
+            if (!sharedPreferences.getBoolean(ConstantStrings.IS_DOWNLOAD_DONE, false)) {
+                downloadFromAssets();
+                sharedPreferences.edit().putBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true).apply();
+            }
+        } else {
+            downloadFromServer();
+        }
+
+        if (savedInstanceState == null) {
+            currentMenuItemId = R.id.nav_home;
+        } else {
+            currentMenuItemId = savedInstanceState.getInt(STATE_FRAGMENT);
+        }
+
+        if (getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_HOME) == null &&
+                getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_REST) == null) {
+            doMenuAction(currentMenuItemId);
+        }
+    }
+
+    private void downloadFromServer(){
         NetworkUtils.checkConnection(new WeakReference<>(this), new NetworkUtils.NetworkStateReceiverListener() {
             @Override
             public void activeConnection() {
@@ -248,21 +269,6 @@ public class MainActivity extends BaseActivity {
                 downloadFromAssets();
             }
         });
-
-        if (savedInstanceState == null) {
-            currentMenuItemId = R.id.nav_tracks;
-        } else {
-            currentMenuItemId = savedInstanceState.getInt(STATE_FRAGMENT);
-        }
-
-        if (getIntent().hasExtra(NAV_ITEM) && getIntent().getStringExtra(NAV_ITEM).equalsIgnoreCase(BOOKMARK)) {
-            currentMenuItemId = R.id.nav_bookmarks;
-        }
-
-        if (getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_HOME) == null &&
-                getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_TRACKS) == null && getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_REST) == null) {
-            doMenuAction(currentMenuItemId);
-        }
     }
 
     private void setUpCustomTab() {
@@ -345,8 +351,8 @@ public class MainActivity extends BaseActivity {
                 public void onDrawerStateChanged(int newState) {
                     super.onDrawerStateChanged(newState);
 
-                    if (toolbar.getTitle().equals(getString(R.string.title_section_tracks))) {
-                        navigationView.setCheckedItem(R.id.nav_tracks);
+                    if(toolbar.getTitle().equals(getString(R.string.menu_about))) {
+                        navigationView.setCheckedItem(R.id.nav_home);
                     }
                 }
             };
@@ -361,7 +367,7 @@ public class MainActivity extends BaseActivity {
     private void setNavHeader(Event event) {
         String logo = event.getLogo();
         if (!logo.isEmpty()) {
-            Picasso.with(getApplicationContext()).load(logo).into(headerView);
+            OpenEventApp.picassoWithCache.load(logo).into(headerView);
         }
     }
 
@@ -373,6 +379,7 @@ public class MainActivity extends BaseActivity {
         Timber.d("Download done");
 
         setupEvent();
+        OpenEventApp.postEventOnUIThread(new EventLoadedEvent(event));
 
         realmRepo.saveEventDates(ISO8601Date.getTimeZoneDateFromString(event.getStartTime()),
                 ISO8601Date.getTimeZoneDateFromString(event.getEndTime()))
@@ -390,24 +397,32 @@ public class MainActivity extends BaseActivity {
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
-        navigationView.setNavigationItemSelectedListener(
-                menuItem -> {
-                    final int id = menuItem.getItemId();
-                    drawerLayout.closeDrawers();
-                    drawerLayout.postDelayed(() -> doMenuAction(id), 300);
-
-                    // to ensure bookmarks is not shown clicked if at all there are no bookmarks
-                    return !(id == R.id.nav_bookmarks && realmRepo.getBookMarkedSessionsSync().isEmpty());
-                });
+        navigationView.setNavigationItemSelectedListener(menuItem -> {
+            final int id = menuItem.getItemId();
+            drawerLayout.closeDrawers();
+            drawerLayout.postDelayed(() -> doMenuAction(id), 300);
+            return true;
+        });
     }
 
     private void doMenuAction(int menuItemId) {
         final FragmentManager fragmentManager = getSupportFragmentManager();
         switch (menuItemId) {
-            case R.id.nav_tracks:
+            case R.id.nav_home:
                 atHome = true;
                 fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, new TracksFragment(), FRAGMENT_TAG_TRACKS).commit();
+                        .replace(R.id.content_frame, new AboutFragment(), FRAGMENT_TAG_HOME).commit();
+                if (getSupportActionBar() != null) {
+                    getSupportActionBar().setTitle(R.string.menu_home);
+                }
+                if (currentMenuItemId == R.id.nav_schedule){
+                    addShadowToAppBar(false);
+                }
+                break;
+            case R.id.nav_tracks:
+                atHome = false;
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_frame, new TracksFragment(), FRAGMENT_TAG_REST).commit();
                 addShadowToAppBar(true);
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle(R.string.menu_tracks);
@@ -420,30 +435,6 @@ public class MainActivity extends BaseActivity {
                 addShadowToAppBar(false);
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle(R.string.menu_schedule);
-                }
-                break;
-            case R.id.nav_bookmarks:
-                boolean empty = realmRepo.getBookMarkedSessionsSync().isEmpty();
-
-                Timber.d("Empty %s", empty);
-                if(!empty) {
-                    Timber.d("no");
-                    atHome = false;
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.content_frame, new BookmarksFragment(), FRAGMENT_TAG_REST).commit();
-                    if (getSupportActionBar() != null) {
-                        getSupportActionBar().setTitle(R.string.menu_bookmarks);
-                    }
-                    addShadowToAppBar(true);
-                } else {
-                    Timber.d("yes");
-                    DialogFactory.createSimpleActionDialog(
-                            context,
-                            bookmarks,
-                            R.string.empty_list,
-                            null
-                    ).show();
-                    if (currentMenuItemId == R.id.nav_schedule) addShadowToAppBar(false);
                 }
                 break;
             case R.id.nav_speakers:
@@ -558,12 +549,15 @@ public class MainActivity extends BaseActivity {
                 long timer = 2000;
                 handler.postDelayed(runnable, timer);
             }
-        }else {
+        } else {
             atHome = true;
             fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, new TracksFragment(), FRAGMENT_TAG_TRACKS).commit();
+                    .replace(R.id.content_frame, new AboutFragment(), FRAGMENT_TAG_REST).commit();
             if (getSupportActionBar() != null) {
-                getSupportActionBar().setTitle(R.string.menu_tracks);
+                getSupportActionBar().setTitle(R.string.menu_home);
+            }
+            if (currentMenuItemId == R.id.nav_schedule) {
+                addShadowToAppBar(false);
             }
         }
     }
@@ -585,9 +579,12 @@ public class MainActivity extends BaseActivity {
         completeHandler.startListening()
                 .show()
                 .withCompletionListener()
-                .subscribe(this::syncComplete, throwable ->
+                .subscribe(this::syncComplete, throwable -> {
+                    if (throwable instanceof DownloadCompleteHandler.DataEventError) {
                         downloadFailed(((DownloadCompleteHandler.DataEventError) throwable)
-                                .getDataDownloadEvent()));
+                                .getDataDownloadEvent());
+                    }
+                });
         Timber.d("Download has started");
     }
 
@@ -621,10 +618,18 @@ public class MainActivity extends BaseActivity {
 
     @Subscribe
     public void downloadData(DataDownloadEvent event) {
-        if (Urls.getBaseUrl().equals(Urls.INVALID_LINK))
-            showErrorDialog("Invalid Api", "Api link doesn't seem to be valid");
-        else
-            startDownload();
+        switch (Urls.getBaseUrl()) {
+            case Urls.INVALID_LINK:
+                showErrorDialog("Invalid Api", "Api link doesn't seem to be valid");
+                downloadFromAssets();
+                break;
+            case Urls.EMPTY_LINK:
+                downloadFromAssets();
+                break;
+            default:
+                startDownload();
+                break;
+        }
     }
 
     @Subscribe
@@ -651,8 +656,13 @@ public class MainActivity extends BaseActivity {
 
             switch (name) {
                 case ConstantStrings.EVENT: {
-                    Event event1 = gson.fromJson(json, Event.class);
-                    realmDataRepository.saveEvent(event1).subscribe();
+                    Event event = gson.fromJson(json, Event.class);
+
+                    realmDataRepository.saveEventDates(ISO8601Date.getTimeZoneDateFromString(event.getStartTime()),
+                            ISO8601Date.getTimeZoneDateFromString(event.getEndTime()))
+                            .subscribe();
+
+                    realmDataRepository.saveEvent(event).subscribe();
 
                     OpenEventApp.postEventOnUIThread(new EventDownloadEvent(true));
                     break;

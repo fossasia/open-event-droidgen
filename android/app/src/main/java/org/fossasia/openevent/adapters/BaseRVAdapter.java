@@ -57,6 +57,10 @@ public abstract class BaseRVAdapter<T, V extends RecyclerView.ViewHolder> extend
         notifyItemRemoved(position);
     }
 
+    protected List<T> getDataList() {
+        return dataList;
+    }
+
     public void clear() {
         dataList.clear();
         notifyDataSetChanged();

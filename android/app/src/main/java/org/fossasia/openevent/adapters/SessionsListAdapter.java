@@ -1,12 +1,8 @@
 package org.fossasia.openevent.adapters;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
@@ -28,13 +24,12 @@ import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
-import org.fossasia.openevent.receivers.NotificationAlarmReceiver;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.ISO8601Date;
+import org.fossasia.openevent.utils.Utils;
 import org.fossasia.openevent.utils.WidgetUpdater;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
@@ -42,6 +37,8 @@ import butterknife.ButterKnife;
 import io.reactivex.Observable;
 import io.realm.Realm;
 import timber.log.Timber;
+
+import static org.fossasia.openevent.utils.BookmarkUtil.createNotification;
 
 /**
  * User: MananWason
@@ -127,43 +124,84 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
 
     @Override
     public void onBindViewHolder(final SessionViewHolder holder, final int position) {
-        final Session session = getItem(position);
+        Session session = getItem(position);
+
+        //removing draft sessions
+        if((!Utils.isEmpty(session.getState())) && session.getState().equals("draft")) {
+            getDataList().remove(position);
+            notifyItemRemoved(position);
+        }
+        
         String date = ISO8601Date.getDateFromStartDateString(session.getStartTime());
+        String sessionTitle = Utils.checkStringEmpty(session.getTitle());
+        String sessionSubTitle = Utils.checkStringEmpty(session.getSubtitle());
 
-        holder.sessionTitle.setText(session.getTitle());
+        holder.sessionTitle.setText(sessionTitle);
 
-
-        if(session.getSubtitle().isEmpty()) {
+        if(Utils.isEmpty(sessionSubTitle)) {
             holder.sessionSubtitle.setVisibility(View.GONE);
         } else {
             holder.sessionSubtitle.setVisibility(View.VISIBLE);
-            holder.sessionSubtitle.setText(session.getSubtitle());
+            holder.sessionSubtitle.setText(sessionSubTitle);
         }
 
+        Track track = session.getTrack();
 
-        final Track track = session.getTrack();
+        if (!RealmDataRepository.isNull(track)) {
+            int storedColor = Color.parseColor(track.getColor());
 
-        int storedColor = Color.parseColor(track.getColor());
+            if(type != trackWiseSessionList) {
+                color = storedColor;
+            }
 
-        if(type != trackWiseSessionList) {
-            color = storedColor;
+            TextDrawable drawable = drawableBuilder.build(String.valueOf(track.getName().charAt(0)), storedColor);
+            holder.trackImageIcon.setImageDrawable(drawable);
+            holder.trackImageIcon.setBackgroundColor(Color.TRANSPARENT);
+            holder.sessionTrack.setText(track.getName());
+
+            holder.itemView.setOnClickListener(v -> {
+                final String sessionName = session.getTitle();
+
+                String trackName = track.getName();
+                Intent intent = new Intent(context, SessionDetailActivity.class);
+                intent.putExtra(ConstantStrings.SESSION, sessionName);
+                intent.putExtra(ConstantStrings.TRACK, trackName);
+                intent.putExtra(ConstantStrings.ID, session.getId());
+                intent.putExtra(ConstantStrings.TRACK_ID, track.getId());
+                listPosition = holder.getLayoutPosition();
+                context.startActivity(intent);
+            });
+        } else {
+            holder.trackImageIcon.setVisibility(View.GONE);
+            holder.sessionTrack.setVisibility(View.GONE);
+
+            holder.itemView.setOnClickListener(v -> {
+                final String sessionName = session.getTitle();
+
+                Intent intent = new Intent(context, SessionDetailActivity.class);
+                intent.putExtra(ConstantStrings.SESSION, sessionName);
+                intent.putExtra(ConstantStrings.ID, session.getId());
+                listPosition = holder.getLayoutPosition();
+                context.startActivity(intent);
+            });
+
+            Timber.d("This session has a null or incomplete track somehow : " + session.getTitle() + " " + track);
         }
 
-        TextDrawable drawable = drawableBuilder.build(String.valueOf(session.getTrack().getName().charAt(0)), storedColor);
-        holder.trackImageIcon.setImageDrawable(drawable);
-        holder.trackImageIcon.setBackgroundColor(Color.TRANSPARENT);
-        holder.sessionTrack.setText(session.getTrack().getName());
         holder.sessionDate.setText(date);
         holder.sessionTime.setText(ISO8601Date.get12HourTimeFromCombinedDateString(session.getStartTime(), session.getEndTime()));
-        if(session.getMicrolocation() != null)
-            holder.sessionLocation.setText(session.getMicrolocation().getName());
+        if(session.getMicrolocation() != null) {
+            String locationName = Utils.checkStringEmpty(session.getMicrolocation().getName());
+            holder.sessionLocation.setText(locationName);
+        }
 
         Observable.just(session.getSpeakers())
                 .map(speakers -> {
                     ArrayList<String> speakerName = new ArrayList<>();
 
                     for(Speaker speaker: speakers){
-                        speakerName.add(speaker.getName());
+                        String name = Utils.checkStringEmpty(speaker.getName());
+                        speakerName.add(name);
                     }
 
                     if (speakers.isEmpty()) {
@@ -224,7 +262,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
                     Snackbar.make(holder.sessionCard, R.string.removed_bookmark, Snackbar.LENGTH_SHORT).show();
                 }
             } else {
-                createNotification(session);
+                createNotification(session,context);
 
                 realmRepo.setBookmark(sessionId, true).subscribe();
                 holder.sessionBookmarkIcon.setImageResource(R.drawable.ic_bookmark_white_24dp);
@@ -237,42 +275,8 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
             WidgetUpdater.updateWidget(context);
         });
 
-        holder.itemView.setOnClickListener(v -> {
-            final String sessionName = session.getTitle();
-
-            String trackName = track.getName();
-            Intent intent = new Intent(context, SessionDetailActivity.class);
-            intent.putExtra(ConstantStrings.SESSION, sessionName);
-            intent.putExtra(ConstantStrings.TRACK, trackName);
-            intent.putExtra(ConstantStrings.ID, session.getId());
-            intent.putExtra(ConstantStrings.TRACK_ID, track.getId());
-            listPosition = holder.getLayoutPosition();
-            context.startActivity(intent);
-        });
-
         // Set color generated by palette on views
         holder.sessionHeader.setBackgroundColor(color);
-    }
-
-    private void createNotification(Session session) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(ISO8601Date.getTimeZoneDateFromString(session.getStartTime()));
-
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        Integer pref_result = Integer.parseInt(sharedPrefs.getString("notification", "10 mins").substring(0, 2).trim());
-        if (pref_result.equals(1)) {
-            calendar.add(Calendar.HOUR, -1);
-        } else if (pref_result.equals(12)) {
-            calendar.add(Calendar.HOUR, -12);
-        } else {
-            calendar.add(Calendar.MINUTE, -10);
-        }
-        Intent myIntent = new Intent(context, NotificationAlarmReceiver.class);
-        myIntent.putExtra(ConstantStrings.SESSION, session.getId());
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.set(AlarmManager.RTC, calendar.getTimeInMillis(), pendingIntent);
     }
 
     public void setTrackId(int trackId) {

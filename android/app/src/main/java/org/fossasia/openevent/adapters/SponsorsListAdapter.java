@@ -9,6 +9,7 @@ import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Patterns;
 import android.view.LayoutInflater;
@@ -17,21 +18,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.NetworkPolicy;
-import com.squareup.picasso.Picasso;
-
+import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
-import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Sponsor;
-import org.fossasia.openevent.utils.NetworkUtils;
+import org.fossasia.openevent.utils.Utils;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 /**
@@ -95,44 +91,32 @@ public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, RecyclerView.Vie
             DisplayMetrics displayMetrics = (sponsorViewHolder.sponsorImage.getContext().getResources().getDisplayMetrics());
             final int width = displayMetrics.widthPixels;
             final int height = displayMetrics.heightPixels;
-            final Uri uri;
-            final Sponsor currentSponsor = getItem(position);
-            if (!currentSponsor.getLogo().startsWith("https://")) {
-                uri = Uri.parse(Urls.getBaseUrl() + currentSponsor.getLogo());
+            Sponsor currentSponsor = getItem(position);
+
+            String sponserName = Utils.checkStringEmpty(currentSponsor.getName());
+            String sponserType = Utils.checkStringEmpty(currentSponsor.getSponsorType());
+            String logo = Utils.parseImageUri(currentSponsor.getLogo());
+
+            sponsorViewHolder.sponsorType.setText(sponserType);
+            sponsorViewHolder.sponsorName.setText(sponserName);
+            if(logo != null) {
+                sponsorViewHolder.sponsorImage.setVisibility(View.VISIBLE);
+                OpenEventApp.picassoWithCache
+                        .load(Uri.parse(logo))
+                        .resize(width, (height / 6))
+                        .centerInside()
+                        .into(sponsorViewHolder.sponsorImage);
             } else {
-                uri = Uri.parse(currentSponsor.getLogo());
+                sponsorViewHolder.sponsorImage.setVisibility(View.GONE);
             }
-            sponsorViewHolder.sponsorType.setText(currentSponsor.getSponsorType());
-            sponsorViewHolder.sponsorName.setText(currentSponsor.getName());
-
-            disposable.add(NetworkUtils.isActiveInternetPresentObservable()
-                    .subscribeOn(Schedulers.computation())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(isActive -> {
-                        if(!isActive) {
-
-                            Picasso.with(context)
-                                    .cancelTag("ONLINE");
-
-                            Picasso.with(context)
-                                    .load(uri)
-                                    .resize(width, (height / 6))
-                                    .centerInside()
-                                    .networkPolicy(NetworkPolicy.OFFLINE)
-                                    .into(sponsorViewHolder.sponsorImage);
-                        }
-                    }));
-
-            Picasso.with(sponsorViewHolder.sponsorImage.getContext())
-                    .load(uri)
-                    .resize(width, (height / 6))
-                    .centerInside()
-                    .tag("ONLINE")
-                    .into(sponsorViewHolder.sponsorImage);
 
             sponsorViewHolder.itemView.setOnClickListener(view -> {
                 Sponsor sponsor = getItem(holder.getAdapterPosition());
                 String sponsorUrl = sponsor.getUrl();
+
+                if(TextUtils.isEmpty(sponsorUrl))
+                    return;
+
                 if (!sponsorUrl.startsWith("http") && !sponsorUrl.startsWith("https")) {
                     sponsorUrl = "http://" + sponsorUrl;
                 }

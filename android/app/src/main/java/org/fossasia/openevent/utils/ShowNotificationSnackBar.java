@@ -16,6 +16,8 @@ import android.view.View;
 
 import org.fossasia.openevent.R;
 
+import timber.log.Timber;
+
 import static android.content.Context.NOTIFICATION_SERVICE;
 
 /**
@@ -37,7 +39,16 @@ public abstract class ShowNotificationSnackBar {
 
     public abstract void refreshClicked();
 
-    public Snackbar showSnackBar(){
+    public void showSnackBar(){
+        if (view == null) {
+            if (swipeRefreshLayout != null) {
+                view = swipeRefreshLayout;
+            } else {
+                Timber.e("Error getting suitable parent while showing snackbar");
+                return;
+            }
+        }
+
         snackbar = Snackbar.make(view, R.string.waiting_for_network, Snackbar.LENGTH_INDEFINITE)
                 .setAction(R.string.snackbar_refresh_action, v -> {
                     if (swipeRefreshLayout!=null)
@@ -46,7 +57,6 @@ public abstract class ShowNotificationSnackBar {
                     refreshClicked();
                 });
         snackbar.show();
-        return snackbar;
     }
 
 

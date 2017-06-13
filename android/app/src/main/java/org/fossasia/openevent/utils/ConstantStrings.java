@@ -22,6 +22,12 @@ public class ConstantStrings {
 
     public static final String ID = "ID";
 
+    public static final String YOUTUBE = "youtu.be";
+
+    public static final String YOUTUBE_URI_1 = "http://img.youtube.com/vi/";
+
+    public static final String YOUTUBE_URI_2 = "/0.jpg";
+
     public static final String EVENT_DAY = "EVENT_DAY";
 
     public static final String SPEAKERS = "speakers";

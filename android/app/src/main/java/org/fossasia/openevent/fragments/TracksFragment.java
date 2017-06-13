@@ -28,6 +28,7 @@ import org.fossasia.openevent.events.RefreshUiEvent;
 import org.fossasia.openevent.events.TracksDownloadEvent;
 import org.fossasia.openevent.utils.NetworkUtils;
 import org.fossasia.openevent.utils.ShowNotificationSnackBar;
+import org.fossasia.openevent.utils.Utils;
 import org.fossasia.openevent.views.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
 import java.lang.ref.WeakReference;
@@ -60,19 +61,15 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
     private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
     private RealmResults<Track> realmResults;
 
-    private Snackbar snackbar;
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
 
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
-        OpenEventApp.getEventBus().register(this);
-
         handleVisibility();
-        swipeRefreshLayout.setOnRefreshListener(this::refresh);
+
+        Utils.registerIfUrlValid(swipeRefreshLayout, this, this::refresh);
 
         tracksRecyclerView.setHasFixedSize(true);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
@@ -122,7 +119,7 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        OpenEventApp.getEventBus().unregister(this);
+        Utils.unregisterIfUrlValid(this);
 
         // Remove listeners to fix memory leak
         realmResults.removeAllChangeListeners();
@@ -212,7 +209,7 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
                     }
                 };
                 //show snackbar will be useful if user have blocked notification for this app
-                snackbar = showNotificationSnackBar.showSnackBar();
+                showNotificationSnackBar.showSnackBar();
                 //show notification (Only when connected to WiFi)
                 showNotificationSnackBar.buildNotification();
             }
@@ -224,9 +221,6 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
 
             @Override
             public void networkUnavailable() {
-                if (snackbar!=null && snackbar.isShown()) {
-                    snackbar.dismiss();
-                }
                 OpenEventApp.getEventBus().post(new TracksDownloadEvent(false));
             }
         });
