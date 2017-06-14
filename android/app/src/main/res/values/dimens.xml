@@ -1,18 +1,36 @@
 <resources>
-    <dimen name="main_menu_item_height">48dp</dimen>
-    <dimen name="detail_backdrop_height">256dp</dimen>
+    <!--required specifics -->
     <dimen name="heading_gap">16dp</dimen>
-    <dimen name="social_image_icon">30dp</dimen>
-    <item name="body_1_spacing" format="float" type="dimen">1.22448979592</item>
-    <dimen name="content_detail_margin">64dp</dimen>
-    <dimen name="content_name_margin">50dp</dimen>
+
+    <!--view specifics -->
+    <dimen name="view_height">1dp</dimen>
+
+    <!--image view specifics -->
+    <dimen name="item_image_view_small">24dp</dimen>
+    <dimen name="item_image_view">50dp</dimen>
+    <dimen name="item_image_view_large">130dp</dimen>
+    <dimen name="item_image_view_extra_large">250dp</dimen>
+
+    <!--card view specifics -->
+    <dimen name="card_elevation">2dp</dimen>
+    <dimen name="card_corner_radius">0dp</dimen>
+
+    <!-- list divider specifics -->
+    <dimen name="list_divider_height">0.8dp</dimen>
+
+    <!-- bookmark widget specifics -->
+    <dimen name="bookmark_widget_height">48dp</dimen>
+    <dimen name="bookmark_image_view_width">30dp</dimen>
+    <dimen name="bookmark_image_view_height">30dp</dimen>
+    <dimen name="bookmark_divider_height">2dp</dimen>
+
+    <!--speaker section specifics -->
+    <dimen name="speaker_view_scrim_top">150dp</dimen>
+    <dimen name="speaker_view_scrim_bottom">100dp</dimen>
+
+    <!--app bar specifics -->
     <dimen name="app_bar_elevation">4dp</dimen>
     <dimen name="app_bar_height">150dp</dimen>
-
-    <!--Session Detail Activity -->
-    <dimen name="layout_margin_bottom">25dp</dimen>
-    <dimen name="layout_margin_left">35dp</dimen>
-    <dimen name="layout_margin_right">20dp</dimen>
 
     <!--widget specifics -->
     <dimen name="widget_default_height">180dp</dimen>
@@ -20,30 +38,36 @@
 
     <!-- text size -->
     <dimen name="heading_text_size">20sp</dimen>
-    <dimen name="text_size">16sp</dimen>
     <dimen name="text_size_extra_large">18sp</dimen>
     <dimen name="text_size_large">16sp</dimen>
     <dimen name="text_size_medium">14sp</dimen>
     <dimen name="text_size_small">12sp</dimen>
+
+    <!--tab layout sepcifics -->
+    <dimen name="tab_min_width">100dp</dimen>
+    <dimen name="tab_max_width">150dp</dimen>
+    <dimen name="tab_indicator_height">3dp</dimen>
+    <dimen name="tab_elevation">8dp</dimen>
 
     <!-- fab specifics -->
     <dimen name="fab_width">48dp</dimen>
     <dimen name="fab_height">48dp</dimen>
 
     <!-- margin specifics -->
+    <dimen name="layout_margin_extra_small">2dp</dimen>
     <dimen name="layout_margin_small">4dp</dimen>
     <dimen name="layout_margin_medium">8dp</dimen>
     <dimen name="layout_margin_large">16dp</dimen>
+    <dimen name="layout_margin_extra_large">32dp</dimen>
+    <dimen name="top_progressbar_margin">-10dp</dimen>
+    <dimen name="bottom_progressbar_margin">-6dp</dimen>
 
     <!-- padding specifics -->
     <dimen name="padding_extra_small">2dp</dimen>
     <dimen name="padding_small">4dp</dimen>
     <dimen name="padding_medium">8dp</dimen>
     <dimen name="padding_large">16dp</dimen>
-
-    <!--ProgressBar-->
-    <dimen name="top_progressbar_margin">-10dp</dimen>
-    <dimen name="bottom_progressbar_margin">-6dp</dimen>
+    <dimen name="padding_extra_large">32dp</dimen>
 
     <!--NavBar-->
     <dimen name="nav_bar_width">300dp</dimen>

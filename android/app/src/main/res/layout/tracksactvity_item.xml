@@ -34,7 +34,7 @@
                     android:layout_weight="1"
                     android:textColor="@color/white"
                     android:textSize="@dimen/heading_text_size"
-                    android:padding="6dp"
+                    android:padding="@dimen/padding_medium"
                     tools:text="Session Title" />
 
                 <ImageView
@@ -44,7 +44,7 @@
                     android:layout_gravity="end"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:contentDescription="@string/session_bookmark_status"
-                    android:padding="6dp"
+                    android:padding="@dimen/padding_medium"
                     app:srcCompat="@drawable/ic_bookmark_border_white_24dp" />
 
 
@@ -73,8 +73,8 @@
 
                     <ImageView
                         android:id="@+id/trackImageDrawable"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_width="@dimen/item_image_view_small"
+                        android:layout_height="@dimen/item_image_view_small"
                         android:contentDescription="@string/item_track" />
 
                     <TextView
@@ -84,7 +84,7 @@
                         android:layout_marginLeft="@dimen/layout_margin_large"
                         android:layout_marginStart="@dimen/layout_margin_large"
                         android:textColor="@color/primary_text"
-                        android:textSize="@dimen/text_size"
+                        android:textSize="@dimen/text_size_large"
                         tools:text="Track Name" />
                 </LinearLayout>
 
@@ -98,8 +98,8 @@
 
                     <ImageView
                         android:id="@+id/icon_speaker"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="@dimen/item_image_view_small"
+                        android:layout_height="@dimen/item_image_view_small"
                         android:contentDescription="@string/session_speaker_icon"
                         app:srcCompat="@drawable/ic_speaker_black_24dp" />
 
@@ -110,7 +110,7 @@
                         android:layout_marginLeft="@dimen/layout_margin_large"
                         android:layout_marginStart="@dimen/layout_margin_large"
                         android:textColor="@color/primary_text"
-                        android:textSize="@dimen/text_size"
+                        android:textSize="@dimen/text_size_large"
                         tools:text="Speaker" />
                 </LinearLayout>
 
@@ -122,8 +122,8 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="@dimen/item_image_view_small"
+                        android:layout_height="@dimen/item_image_view_small"
                         android:contentDescription="@string/session_calender_icon"
                         app:srcCompat="@drawable/ic_date_range_black_24dp" />
 
@@ -134,7 +134,7 @@
                         android:layout_marginLeft="@dimen/layout_margin_large"
                         android:layout_marginStart="@dimen/layout_margin_large"
                         android:textColor="@color/primary_text"
-                        android:textSize="@dimen/text_size"
+                        android:textSize="@dimen/text_size_large"
                         tools:text="Date of Event" />
                 </LinearLayout>
 
@@ -145,8 +145,8 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="@dimen/item_image_view_small"
+                        android:layout_height="@dimen/item_image_view_small"
                         android:contentDescription="@string/session_clock_icon"
                         app:srcCompat="@drawable/ic_schedule_black_24dp" />
 
@@ -157,7 +157,7 @@
                         android:layout_marginLeft="@dimen/layout_margin_large"
                         android:layout_marginStart="@dimen/layout_margin_large"
                         android:textColor="@color/primary_text"
-                        android:textSize="@dimen/text_size"
+                        android:textSize="@dimen/text_size_large"
                         tools:text="Session Timings" />
                 </LinearLayout>
 
@@ -169,8 +169,8 @@
 
                     <ImageView
                         android:id="@+id/icon_location"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="@dimen/item_image_view_small"
+                        android:layout_height="@dimen/item_image_view_small"
                         android:contentDescription="@string/session_location_icon"
                         app:srcCompat="@drawable/ic_location_on_black_24dp" />
 
@@ -181,7 +181,7 @@
                         android:layout_marginLeft="@dimen/layout_margin_large"
                         android:layout_marginStart="@dimen/layout_margin_large"
                         android:textColor="@color/primary_text"
-                        android:textSize="@dimen/text_size"
+                        android:textSize="@dimen/text_size_large"
                         tools:text="Session Location" />
                 </LinearLayout>
             </LinearLayout>

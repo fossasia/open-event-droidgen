@@ -50,19 +50,19 @@
                         android:layout_marginRight="@dimen/layout_margin_medium"
                         android:text="@string/tracks"
                         android:textColor="@color/primary_text"
-                        android:textSize="@dimen/text_size"
+                        android:textSize="@dimen/text_size_large"
                         android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/track"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="40dp"
-                        android:layout_marginStart="40dp"
+                        android:layout_marginLeft="@dimen/layout_margin_extra_large"
+                        android:layout_marginStart="@dimen/layout_margin_extra_large"
                         android:layout_toEndOf="@+id/trak"
                         android:layout_toRightOf="@id/trak"
                         android:textColor="@color/primary_text"
-                        android:textSize="@dimen/text_size" />
+                        android:textSize="@dimen/text_size_large" />
 
                     <TextView
                         android:id="@+id/date"
@@ -73,7 +73,7 @@
                         android:layout_marginRight="@dimen/layout_margin_medium"
                         android:text="@string/date"
                         android:textColor="@color/primary_text"
-                        android:textSize="@dimen/text_size"
+                        android:textSize="@dimen/text_size_large"
                         android:textStyle="bold" />
 
                     <TextView
@@ -81,12 +81,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/track"
-                        android:layout_marginLeft="48dp"
-                        android:layout_marginStart="49dp"
+                        android:layout_marginLeft="@dimen/layout_margin_extra_large"
+                        android:layout_marginStart="@dimen/layout_margin_extra_large"
                         android:layout_toEndOf="@id/date"
                         android:layout_toRightOf="@id/date"
                         android:textColor="@color/primary_text"
-                        android:textSize="@dimen/text_size" />
+                        android:textSize="@dimen/text_size_large" />
 
                     <TextView
                         android:id="@+id/start"
@@ -97,7 +97,7 @@
                         android:layout_marginRight="@dimen/layout_margin_medium"
                         android:text="@string/start_time"
                         android:textColor="@color/primary_text"
-                        android:textSize="@dimen/text_size"
+                        android:textSize="@dimen/text_size_large"
                         android:textStyle="bold" />
 
                     <TextView
@@ -105,12 +105,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/date_session"
-                        android:layout_marginLeft="7dp"
-                        android:layout_marginStart="7dp"
+                        android:layout_marginLeft="@dimen/layout_margin_medium"
+                        android:layout_marginStart="@dimen/layout_margin_medium"
                         android:layout_toEndOf="@id/start"
                         android:layout_toRightOf="@id/start"
                         android:textColor="@color/primary_text"
-                        android:textSize="@dimen/text_size" />
+                        android:textSize="@dimen/text_size_large" />
 
                     <TextView
                         android:id="@+id/end"
@@ -121,7 +121,7 @@
                         android:layout_marginRight="@dimen/layout_margin_medium"
                         android:text="@string/end_time"
                         android:textColor="@color/primary_text"
-                        android:textSize="@dimen/text_size"
+                        android:textSize="@dimen/text_size_large"
                         android:textStyle="bold" />
 
                     <TextView
@@ -129,12 +129,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/start_time_session"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginStart="16dp"
+                        android:layout_marginLeft="@dimen/layout_margin_large"
+                        android:layout_marginStart="@dimen/layout_margin_large"
                         android:layout_toEndOf="@id/end"
                         android:layout_toRightOf="@id/end"
                         android:textColor="@color/primary_text"
-                        android:textSize="@dimen/text_size" />
+                        android:textSize="@dimen/text_size_large" />
 
                     <TextView
                         android:id="@+id/location"
@@ -145,7 +145,7 @@
                         android:layout_marginRight="@dimen/layout_margin_medium"
                         android:text="@string/location"
                         android:textColor="@color/primary_text"
-                        android:textSize="@dimen/text_size"
+                        android:textSize="@dimen/text_size_large"
                         android:textStyle="bold" />
 
                     <TextView
@@ -153,18 +153,18 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/end_time_session"
-                        android:layout_marginLeft="22dp"
-                        android:layout_marginStart="22dp"
+                        android:layout_marginLeft="@dimen/layout_margin_large"
+                        android:layout_marginStart="@dimen/layout_margin_large"
                         android:layout_toEndOf="@id/location"
                         android:layout_toRightOf="@id/location"
                         android:textColor="@color/primary_text"
-                        android:textSize="@dimen/text_size" />
+                        android:textSize="@dimen/text_size_large" />
                 </RelativeLayout>
 
                 <android.support.v7.widget.CardView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
+                    android:layout_margin="@dimen/layout_margin_large"
                     android:layout_gravity="center">
 
                     <RelativeLayout
@@ -220,7 +220,7 @@
                 android:gravity="start"
                 android:textColor="@android:color/black"
                 android:textIsSelectable="true"
-                android:textSize="@dimen/text_size"
+                android:textSize="@dimen/text_size_large"
                 tools:text="Open Event!" />
         </LinearLayout>
 

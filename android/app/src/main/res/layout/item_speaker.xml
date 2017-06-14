@@ -30,7 +30,8 @@
             android:gravity="center"
             android:maxLines="2"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/text_size_small"
+            android:textSize="@dimen/text_size_large"
+            android:textStyle="bold"
             tools:ignore="SpUsage"
             tools:text="Speaker Name" />
 
@@ -41,7 +42,7 @@
             android:gravity="center"
             android:maxLines="2"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/text_size_small"
+            android:textSize="@dimen/text_size_medium"
             tools:ignore="SpUsage"
             tools:text="Designation" />
 
@@ -52,7 +53,7 @@
             android:gravity="center"
             android:maxLines="2"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/text_size_small"
+            android:textSize="@dimen/text_size_medium"
             tools:ignore="SpUsage"
             tools:text="Country" />
 

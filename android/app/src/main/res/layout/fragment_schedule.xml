@@ -12,13 +12,13 @@
         android:layout_alignParentStart="true"
         android:background="?attr/selectableItemBackground"
         android:clipToPadding="false"
-        android:elevation="8dp"
+        android:elevation="@dimen/tab_elevation"
         android:layout_gravity="center_horizontal"
         app:tabBackground="?attr/selectableItemBackground"
         app:tabGravity="center"
-        app:tabIndicatorHeight="3dp"
-        app:tabMaxWidth="150dp"
-        app:tabMinWidth="100dp"
+        app:tabIndicatorHeight="@dimen/tab_indicator_height"
+        app:tabMaxWidth="@dimen/tab_max_width"
+        app:tabMinWidth="@dimen/tab_min_width"
         app:tabMode="scrollable"
         app:tabSelectedTextColor="@android:color/white"
         tools:targetApi="lollipop" />
@@ -39,18 +39,18 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
+                android:textSize="@dimen/text_size_medium"
                 android:textColor="@color/white"
                 android:maxLines="1"
                 android:ellipsize="end"
-                android:layout_margin="8dp"/>
+                android:layout_margin="@dimen/layout_margin_medium"/>
 
             <ImageView
                 android:id="@+id/close_filter"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="@dimen/item_image_view_small"
+                android:layout_height="@dimen/item_image_view_small"
                 app:srcCompat="@drawable/ic_close_24dp"
-                android:layout_margin="3dp"/>
+                android:layout_margin="@dimen/layout_margin_small"/>
 
         </LinearLayout>
 
@@ -63,14 +63,14 @@
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/schedule_fab_filter"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
+            android:layout_width="@dimen/fab_width"
+            android:layout_height="@dimen/fab_height"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_marginBottom="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginBottom="@dimen/layout_margin_large"
+            android:layout_marginEnd="@dimen/layout_margin_large"
+            android:layout_marginRight="@dimen/layout_margin_large"
             app:srcCompat="@drawable/ic_filter_24dp"/>
 
     </RelativeLayout>

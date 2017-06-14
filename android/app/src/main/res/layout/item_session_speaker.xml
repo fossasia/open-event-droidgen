@@ -10,8 +10,8 @@
 
     <ImageView
         android:id="@+id/speakers_list_image"
-        android:layout_width="130dp"
-        android:layout_height="130dp"
+        android:layout_width="@dimen/item_image_view_large"
+        android:layout_height="@dimen/item_image_view_large"
         android:contentDescription="@null"
         android:scaleType="centerCrop"
         tools:src="@drawable/ic_account_circle_grey_24dp" />
@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_marginTop="@dimen/layout_margin_medium"
-        android:textSize="@dimen/text_size_small"
+        android:textSize="@dimen/text_size_medium"
         tools:text="Speaker Name" />
 
     <TextView

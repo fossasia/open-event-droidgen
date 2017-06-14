@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/primary_text"
-            android:textSize="@dimen/heading_text_size"
+            android:textSize="@dimen/text_size_large"
             tools:text="Location Name" />
 
         <TextView
@@ -26,12 +26,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/secondary_text"
-            android:textSize="@dimen/text_size"
+            android:textSize="@dimen/text_size_medium"
             tools:text="Location Floor" />
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="0.8dp"
+        android:layout_height="@dimen/list_divider_height"
         android:background="?android:attr/listDivider" />
 </LinearLayout>

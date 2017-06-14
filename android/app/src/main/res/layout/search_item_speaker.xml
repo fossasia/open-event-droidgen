@@ -14,8 +14,8 @@
 
         <ImageView
             android:id="@+id/speakers_list_image"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="@dimen/item_image_view"
+            android:layout_height="@dimen/item_image_view"
             android:contentDescription="@null"
             android:scaleType="centerCrop"
             tools:src="@drawable/ic_account_circle_grey_24dp" />
@@ -38,7 +38,7 @@
                 android:textStyle="bold"
                 android:padding="@dimen/padding_small"
                 android:textColor="@color/primary_text"
-                android:textSize="@dimen/text_size"
+                android:textSize="@dimen/text_size_large"
                 tools:text="Speaker Name" />
 
             <TextView
@@ -59,7 +59,7 @@
                 android:padding="@dimen/padding_small"
                 android:textAllCaps="true"
                 android:textColor="@color/secondary_text"
-                android:textSize="@dimen/text_size_small"
+                android:textSize="@dimen/text_size_medium"
                 tools:text="Country" />
 
         </LinearLayout>
@@ -68,6 +68,6 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="0.8dp"
+        android:layout_height="@dimen/list_divider_height"
         android:background="?android:attr/listDivider" />
 </LinearLayout>

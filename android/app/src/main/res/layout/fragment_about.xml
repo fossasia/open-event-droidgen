@@ -21,6 +21,8 @@
                 android:layout_height="wrap_content"
                 android:clipToPadding="false"
                 android:paddingLeft="@dimen/padding_medium"
+                android:paddingStart="@dimen/padding_medium"
+                android:paddingEnd="@dimen/padding_medium"
                 android:paddingRight="@dimen/padding_medium"
                 android:scrollbars="horizontal"
                 tools:listitem="@layout/tracksactvity_item" />
@@ -29,8 +31,10 @@
                 android:id="@+id/carddemo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/padding_medium"
-                android:layout_marginRight="@dimen/padding_medium"
+                android:layout_marginLeft="@dimen/layout_margin_medium"
+                android:layout_marginRight="@dimen/layout_margin_medium"
+                android:layout_marginStart="@dimen/layout_margin_medium"
+                android:layout_marginEnd="@dimen/layout_margin_medium"
                 android:layout_marginTop="@dimen/padding_medium">
 
                 <LinearLayout
@@ -43,8 +47,8 @@
                         android:layout_width="200dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:paddingBottom="10dp"
-                        android:paddingTop="10dp"
+                        android:paddingBottom="@dimen/padding_medium"
+                        android:paddingTop="@dimen/padding_medium"
                         app:srcCompat="@drawable/splash_logo" />
 
                     <LinearLayout
@@ -60,7 +64,7 @@
                             android:gravity="center"
                             android:padding="@dimen/padding_medium"
                             android:textColor="@color/primary_text"
-                            android:textSize="22sp" />
+                            android:textSize="@dimen/heading_text_size" />
 
                         <ImageView
                             android:id="@+id/item_description_img"
@@ -87,8 +91,10 @@
                 android:id="@+id/card_timings"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/padding_medium"
-                android:layout_marginRight="@dimen/padding_medium"
+                android:layout_marginLeft="@dimen/layout_margin_medium"
+                android:layout_marginRight="@dimen/layout_margin_medium"
+                android:layout_marginStart="@dimen/layout_margin_medium"
+                android:layout_marginEnd="@dimen/layout_margin_medium"
                 android:layout_marginTop="@dimen/padding_medium">
 
                 <LinearLayout
@@ -104,7 +110,7 @@
                         android:padding="@dimen/padding_medium"
                         android:text="@string/event_open"
                         android:textColor="@color/card_title"
-                        android:textSize="18sp"
+                        android:textSize="@dimen/text_size_extra_large"
                         android:textStyle="bold" />
 
                     <TextView
@@ -122,8 +128,10 @@
                 android:id="@+id/card_venue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/padding_medium"
-                android:layout_marginRight="@dimen/padding_medium"
+                android:layout_marginLeft="@dimen/layout_margin_medium"
+                android:layout_marginRight="@dimen/layout_margin_medium"
+                android:layout_marginStart="@dimen/layout_margin_medium"
+                android:layout_marginEnd="@dimen/layout_margin_medium"
                 android:layout_marginTop="@dimen/padding_medium">
 
                 <LinearLayout
@@ -139,7 +147,7 @@
                         android:padding="@dimen/padding_medium"
                         android:text="@string/event_venue"
                         android:textColor="@color/card_title"
-                        android:textSize="18sp"
+                        android:textSize="@dimen/text_size_extra_large"
                         android:textStyle="bold" />
 
                     <TextView
@@ -157,8 +165,10 @@
                 android:id="@+id/card_org_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/padding_medium"
-                android:layout_marginRight="@dimen/padding_medium"
+                android:layout_marginLeft="@dimen/layout_margin_medium"
+                android:layout_marginRight="@dimen/layout_margin_medium"
+                android:layout_marginStart="@dimen/layout_margin_medium"
+                android:layout_marginEnd="@dimen/layout_margin_medium"
                 android:layout_marginTop="@dimen/padding_medium">
 
                 <LinearLayout
@@ -174,7 +184,7 @@
                         android:padding="@dimen/padding_medium"
                         android:text="@string/organiser_description"
                         android:textColor="@color/card_title"
-                        android:textSize="18sp"
+                        android:textSize="@dimen/text_size_extra_large"
                         android:textStyle="bold" />
 
                     <TextView
@@ -192,7 +202,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginBottom="@dimen/padding_medium"
+                        android:layout_marginBottom="@dimen/layout_margin_medium"
                         android:clickable="true"
                         android:text="@string/read_more"
                         android:textAllCaps="true"
@@ -204,7 +214,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginBottom="@dimen/padding_medium"
+                        android:layout_marginBottom="@dimen/layout_margin_medium"
                         android:clickable="true"
                         android:text="@string/read_less"
                         android:textAllCaps="true"
@@ -219,10 +229,7 @@
                 android:id="@+id/card_social_links"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/padding_medium"
-                android:layout_marginLeft="@dimen/padding_medium"
-                android:layout_marginRight="@dimen/padding_medium"
-                android:layout_marginTop="@dimen/padding_medium">
+                android:layout_margin="@dimen/layout_margin_medium">
 
                 <LinearLayout
                     android:layout_width="match_parent"

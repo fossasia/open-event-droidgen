@@ -40,11 +40,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:layout_marginBottom="@dimen/layout_margin_bottom"
-                android:layout_marginEnd="@dimen/layout_margin_right"
-                android:layout_marginLeft="@dimen/layout_margin_left"
-                android:layout_marginRight="@dimen/layout_margin_right"
-                android:layout_marginStart="@dimen/layout_margin_left"
+                android:layout_marginBottom="@dimen/layout_margin_large"
+                android:layout_marginEnd="@dimen/layout_margin_large"
+                android:layout_marginLeft="@dimen/layout_margin_extra_large"
+                android:layout_marginRight="@dimen/layout_margin_large"
+                android:layout_marginStart="@dimen/layout_margin_extra_large"
                 app:layout_collapseMode="parallax">
 
                 <TextView

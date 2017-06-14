@@ -35,7 +35,7 @@
                 <ImageView
                     android:id="@+id/speaker_image"
                     android:layout_width="match_parent"
-                    android:layout_height="250dp"
+                    android:layout_height="@dimen/item_image_view_extra_large"
                     android:contentDescription="@null"
                     android:fitsSystemWindows="true"
                     android:scaleType="centerCrop"
@@ -43,12 +43,12 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
+                    android:layout_height="@dimen/speaker_view_scrim_top"
                     android:background="@drawable/scrim_top" />
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_height="@dimen/speaker_view_scrim_bottom"
                     android:layout_gravity="bottom"
                     android:background="@drawable/scrim_bottom" />
             </FrameLayout>
@@ -64,8 +64,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:layout_marginLeft="@dimen/content_name_margin"
-                android:layout_marginStart="@dimen/content_name_margin"
+                android:layout_marginLeft="@dimen/layout_margin_extra_large"
+                android:layout_marginStart="@dimen/layout_margin_extra_large"
                 android:orientation="vertical">
 
                 <TextView
@@ -84,7 +84,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@android:color/white"
-                    android:textSize="@dimen/text_size"
+                    android:textSize="@dimen/text_size_large"
                     tools:text="Subtitle"
                     android:paddingBottom="@dimen/padding_small"/>
 

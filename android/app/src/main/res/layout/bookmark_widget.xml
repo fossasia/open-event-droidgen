@@ -10,13 +10,13 @@
     <RelativeLayout
         android:id="@+id/widget"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/main_menu_item_height"
+        android:layout_height="@dimen/bookmark_widget_height"
         android:background="@color/color_primary">
 
         <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_margin="8dp"
+            android:layout_width="@dimen/bookmark_image_view_width"
+            android:layout_height="@dimen/bookmark_image_view_height"
+            android:layout_margin="@dimen/layout_margin_medium"
             android:id="@+id/bookmark_image"
             android:layout_gravity="center"
             android:contentDescription="@string/logo_widget"
@@ -26,10 +26,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="2dp"
-            android:layout_marginLeft="2dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginTop="@dimen/layout_margin_medium"
+            android:layout_marginStart="@dimen/layout_margin_small"
+            android:layout_marginLeft="@dimen/layout_margin_small"
+            android:layout_marginBottom="@dimen/layout_margin_medium"
             android:layout_toRightOf="@+id/bookmark_image"
             android:layout_toEndOf="@+id/bookmark_image"
             android:text="@string/bookmarks"
@@ -48,8 +48,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:divider="@null"
-            android:paddingTop="8dp"
-            android:dividerHeight="2dp"
+            android:paddingTop="@dimen/padding_medium"
+            android:dividerHeight="@dimen/bookmark_divider_height"
             tools:listitem="@layout/widget_list_item" />
 
         <TextView
