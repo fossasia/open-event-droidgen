@@ -475,7 +475,7 @@ public class MainActivity extends BaseActivity {
                                 .provideMapFragment(), FRAGMENT_TAG_REST).commit();
                 addShadowToAppBar(true);
                 if (getSupportActionBar() != null) {
-                    getSupportActionBar().setTitle(R.string.menu_map);
+                    getSupportActionBar().setTitle("");
                 }
                 break;
             case R.id.nav_settings:
