@@ -145,6 +145,14 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
         searchView.setQuery(searchText, false);
         return true;
     }
+    @Override
+    public void onBackPressed(){
+        if((mSessions.isEmpty())){
+            noSessionsView.setVisibility(View.VISIBLE);
+        }
+        super.onBackPressed();
+
+    }
 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
@@ -153,6 +161,7 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.content_frame_location, ((OpenEventApp) getApplication()).getMapModuleFactory().provideMapModule().provideMapFragment(), FRAGMENT_TAG_LOCATION).addToBackStack(null).commit();
                 sessionRecyclerView.setVisibility(View.GONE);
+                noSessionsView.setVisibility(View.GONE);
                 return true;
             case android.R.id.home:
                 onBackPressed();
