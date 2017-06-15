@@ -134,7 +134,7 @@ public final class ISO8601Date {
 
     //return date string of a specified timezone from a given date string
     public static String getTimeZoneDateStringFromString(String dateString) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.getDefault());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault());
         String formattedDateString = null;
         try {
             if(dateString!=null) {
@@ -152,7 +152,7 @@ public final class ISO8601Date {
 
     //return date of specified timezone from a given date string
     public static Date getTimeZoneDateFromString(String dateString) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.getDefault());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault());
         Date date = null;
         try {
             if(dateString!=null) {
@@ -186,7 +186,7 @@ public final class ISO8601Date {
 
     //get 24 hour time string of specified timezone from a given date string
     public static String get24HourTimeFromString(String dateString) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.getDefault());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault());
         String formattedDateString = null;
         try {
             if(dateString!=null) {
@@ -203,7 +203,7 @@ public final class ISO8601Date {
 
     //get 12 hour time string of specified timezone from a given date string
     public static String get12HourTimeFromString(String dateString) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.getDefault());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault());
         String formattedDateString = null;
         try {
             if(dateString!=null) {
