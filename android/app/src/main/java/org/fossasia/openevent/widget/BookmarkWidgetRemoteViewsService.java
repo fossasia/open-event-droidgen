@@ -15,7 +15,7 @@ import org.fossasia.openevent.R;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.utils.ConstantStrings;
-import org.fossasia.openevent.utils.ISO8601Date;
+import org.fossasia.openevent.utils.DateUtils;
 
 import java.util.List;
 
@@ -82,9 +82,9 @@ public class BookmarkWidgetRemoteViewsService extends RemoteViewsService {
                     data = new MatrixCursor(columns);
 
                     for (Session session : sessions) {
-                        String start = ISO8601Date.get12HourTimeFromString(session.getStartDate());
-                        String end = ISO8601Date.get12HourTimeFromString(session.getEndTime());
-                        String date = ISO8601Date.getTimeZoneDateStringFromString(session.getStartTime());
+                        String start = DateUtils.formatDateWithDefault(DateUtils.FORMAT_12H, session.getStartTime());
+                        String end = DateUtils.formatDateWithDefault(DateUtils.FORMAT_12H, session.getEndTime());
+                        String date = DateUtils.formatDateWithDefault(DateUtils.FORMAT_DATE_COMPLETE, session.getStartTime());
                         data.addRow(new Object[]{id, session.getTitle(), start, end, date});
                     }
                 } catch (Exception e) {

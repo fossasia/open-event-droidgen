@@ -30,6 +30,7 @@ import org.fossasia.openevent.modules.MapModuleFactory;
 import org.fossasia.openevent.receivers.NetworkConnectivityChangeReceiver;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.Utils;
+import org.fossasia.openevent.utils.DateUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -84,6 +85,11 @@ public class OpenEventApp extends Application {
         return application.refWatcher;
     }
 
+    public void setUpTimeZone(SharedPreferences sharedPreferences) {
+        DateUtils.setShowLocalTimeZone(sharedPreferences.getBoolean(getResources()
+                .getString(R.string.timezone_mode_key), false));
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -93,6 +99,7 @@ public class OpenEventApp extends Application {
         Branch.getAutoInstance(this);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getAppContext());
+        setUpTimeZone(sharedPreferences);
         sDefSystemLanguage = Locale.getDefault().getDisplayLanguage();
 
         Realm.init(this);

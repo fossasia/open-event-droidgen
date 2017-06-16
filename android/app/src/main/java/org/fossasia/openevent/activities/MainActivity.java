@@ -79,8 +79,8 @@ import org.fossasia.openevent.fragments.SponsorsFragment;
 import org.fossasia.openevent.fragments.TracksFragment;
 import org.fossasia.openevent.utils.CommonTaskLoop;
 import org.fossasia.openevent.utils.ConstantStrings;
+import org.fossasia.openevent.utils.DateUtils;
 import org.fossasia.openevent.utils.DownloadCompleteHandler;
-import org.fossasia.openevent.utils.ISO8601Date;
 import org.fossasia.openevent.utils.NetworkUtils;
 import org.fossasia.openevent.utils.ShowNotificationSnackBar;
 import org.fossasia.openevent.utils.SmoothActionBarDrawerToggle;
@@ -97,6 +97,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Completable;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
@@ -124,16 +125,17 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.nav_view) NavigationView navigationView;
     @BindView(R.id.layout_main) CoordinatorLayout mainFrame;
-    @BindView(R.id.drawer) DrawerLayout drawerLayout;
     @BindView(R.id.appbar) AppBarLayout appBarLayout;
 
     private ImageView headerView;
 
+    private DrawerLayout drawerLayout;
     private Context context;
     private SharedPreferences sharedPreferences;
     private boolean atHome = true;
     private boolean backPressedOnce = false;
     private int currentMenuItemId;
+    private boolean mTwoPane = false;
     private boolean customTabsSupported;
     private CustomTabsServiceConnection customTabsServiceConnection;
     private CustomTabsClient customTabsClient;
@@ -177,9 +179,14 @@ public class MainActivity extends BaseActivity {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         sharedPreferences.edit().putInt(ConstantStrings.SESSION_MAP_ID, -1).apply();
         setTheme(R.style.AppTheme_NoActionBar_MainTheme);
-        ISO8601Date.setTimeZone();
-        ISO8601Date.setEventTimeZone();
         super.onCreate(savedInstanceState);
+
+        if(findViewById(R.id.drawer)!=null) {
+            drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+            mTwoPane = false;
+        } else {
+            mTwoPane = true;
+        }
 
         disposable = new CompositeDisposable();
 
@@ -346,7 +353,7 @@ public class MainActivity extends BaseActivity {
 
     private void setUpNavDrawer() {
         headerView = (ImageView) navigationView.getHeaderView(0).findViewById(headerDrawer);
-        if (toolbar != null) {
+        if (toolbar != null && !mTwoPane) {
             final ActionBar ab = getSupportActionBar();
             if(ab == null) return;
             SmoothActionBarDrawerToggle smoothActionBarToggle = new SmoothActionBarDrawerToggle(this,
@@ -366,6 +373,8 @@ public class MainActivity extends BaseActivity {
             ab.setDisplayHomeAsUpEnabled(true);
             ab.setDisplayHomeAsUpEnabled(true);
             smoothActionBarToggle.syncState();
+        } else if (toolbar!=null && toolbar.getTitle().equals(getString(R.string.menu_about))) {
+            navigationView.setCheckedItem(R.id.nav_home);
         }
     }
 
@@ -374,6 +383,20 @@ public class MainActivity extends BaseActivity {
         if (!logo.isEmpty()) {
             OpenEventApp.picassoWithCache.load(logo).into(headerView);
         }
+    }
+
+    private void saveEventDates(Event event) {
+        String startTime = event.getStartTime();
+        String endTime = event.getEndTime();
+
+        Observable.fromCallable(() ->
+                DateUtils.getDaysInBetween(startTime, endTime)
+        ).subscribe(eventDates -> realmRepo.saveEventDates(eventDates).subscribe(), throwable -> {
+            Timber.e(throwable);
+            Timber.e("Error start parsing start date: %s and end date: %s in ISO format",
+                    startTime, endTime);
+            OpenEventApp.postEventOnUIThread(new RetrofitError(new Throwable("Error parsing dates")));
+        });
     }
 
     private void syncComplete() {
@@ -391,10 +414,7 @@ public class MainActivity extends BaseActivity {
 
         setupEvent();
         OpenEventApp.postEventOnUIThread(new EventLoadedEvent(event));
-
-        realmRepo.saveEventDates(ISO8601Date.getTimeZoneDateFromString(event.getStartTime()),
-                ISO8601Date.getTimeZoneDateFromString(event.getEndTime()))
-                .subscribe();
+        saveEventDates(event);
     }
 
     private void downloadFailed(final DownloadEvent event) {
@@ -410,8 +430,12 @@ public class MainActivity extends BaseActivity {
     private void setupDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(menuItem -> {
             final int id = menuItem.getItemId();
-            drawerLayout.closeDrawers();
-            drawerLayout.postDelayed(() -> doMenuAction(id), 300);
+            if(!mTwoPane) {
+                drawerLayout.closeDrawers();
+                drawerLayout.postDelayed(() -> doMenuAction(id), 300);
+            } else {
+                doMenuAction(id);
+            }
             return true;
         });
     }
@@ -545,30 +569,32 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START);
-        } else if (atHome) {
-            if (backPressedOnce) {
-                super.onBackPressed();
+        if(!mTwoPane) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                drawerLayout.closeDrawer(GravityCompat.START);
+            } else if (atHome) {
+                if (backPressedOnce) {
+                    super.onBackPressed();
+                } else {
+                    backPressedOnce = true;
+                    Snackbar snackbar = Snackbar.make(mainFrame, R.string.press_back_again, 2000);
+                    snackbar.show();
+                    runnable = () -> backPressedOnce = false;
+                    handler = new Handler();
+                    long timer = 2000;
+                    handler.postDelayed(runnable, timer);
+                }
             } else {
-                backPressedOnce = true;
-                Snackbar snackbar = Snackbar.make(mainFrame, R.string.press_back_again, 2000);
-                snackbar.show();
-                runnable = () -> backPressedOnce = false;
-                handler = new Handler();
-                long timer = 2000;
-                handler.postDelayed(runnable, timer);
-            }
-        } else {
-            atHome = true;
-            fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, new AboutFragment(), FRAGMENT_TAG_REST).commit();
-            if (getSupportActionBar() != null) {
-                getSupportActionBar().setTitle(R.string.menu_home);
-            }
-            if (currentMenuItemId == R.id.nav_schedule) {
-                addShadowToAppBar(false);
+                atHome = true;
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_frame, new AboutFragment(), FRAGMENT_TAG_REST).commit();
+                if (getSupportActionBar() != null) {
+                    getSupportActionBar().setTitle(R.string.menu_home);
+                }
+                if (currentMenuItemId == R.id.nav_schedule) {
+                    addShadowToAppBar(false);
+                }
             }
         }
     }
@@ -684,9 +710,8 @@ public class MainActivity extends BaseActivity {
                 case ConstantStrings.EVENT: {
                     Event event = gson.fromJson(json, Event.class);
 
-                    realmDataRepository.saveEventDates(ISO8601Date.getTimeZoneDateFromString(event.getStartTime()),
-                            ISO8601Date.getTimeZoneDateFromString(event.getEndTime()))
-                            .subscribe();
+                    saveEventDates(event);
+                    realmDataRepository.saveEvent(event).subscribe();
 
                     realmDataRepository.saveEvent(event).subscribe();
 
@@ -741,7 +766,11 @@ public class MainActivity extends BaseActivity {
             }
 
             realm.close();
-        }).observeOn(Schedulers.computation()).subscribe();
+        }).observeOn(Schedulers.computation()).subscribe(() -> Timber.d("Saved event from JSON"), throwable -> {
+            throwable.printStackTrace();
+            Timber.e(throwable);
+            OpenEventApp.postEventOnUIThread(new RetrofitError(throwable));
+        });
     }
 
     @Subscribe

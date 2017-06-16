@@ -25,7 +25,8 @@ import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.utils.ConstantStrings;
-import org.fossasia.openevent.utils.ISO8601Date;
+import org.fossasia.openevent.utils.DateUtils;
+import org.fossasia.openevent.utils.NotificationUtil;
 import org.fossasia.openevent.utils.Utils;
 import org.fossasia.openevent.utils.WidgetUpdater;
 
@@ -37,8 +38,6 @@ import butterknife.ButterKnife;
 import io.reactivex.Observable;
 import io.realm.Realm;
 import timber.log.Timber;
-
-import static org.fossasia.openevent.utils.BookmarkUtil.createNotification;
 
 /**
  * User: MananWason
@@ -125,14 +124,12 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
     @Override
     public void onBindViewHolder(final SessionViewHolder holder, final int position) {
         Session session = getItem(position);
-
         //removing draft sessions
         if((!Utils.isEmpty(session.getState())) && session.getState().equals("draft")) {
             getDataList().remove(position);
             notifyItemRemoved(position);
         }
-        
-        String date = ISO8601Date.getDateFromStartDateString(session.getStartTime());
+
         String sessionTitle = Utils.checkStringEmpty(session.getTitle());
         String sessionSubTitle = Utils.checkStringEmpty(session.getSubtitle());
 
@@ -188,8 +185,11 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
             Timber.d("This session has a null or incomplete track somehow : " + session.getTitle() + " " + track);
         }
 
+        String date = DateUtils.formatDateWithDefault(DateUtils.FORMAT_DATE_COMPLETE, session.getStartTime());
         holder.sessionDate.setText(date);
-        holder.sessionTime.setText(ISO8601Date.get12HourTimeFromCombinedDateString(session.getStartTime(), session.getEndTime()));
+        holder.sessionTime.setText(String.format("%s - %s",
+                DateUtils.formatDateWithDefault(DateUtils.FORMAT_12H, session.getStartTime()),
+                DateUtils.formatDateWithDefault(DateUtils.FORMAT_12H, session.getEndTime())));
         if(session.getMicrolocation() != null) {
             String locationName = Utils.checkStringEmpty(session.getMicrolocation().getName());
             holder.sessionLocation.setText(locationName);
@@ -262,7 +262,14 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
                     Snackbar.make(holder.sessionCard, R.string.removed_bookmark, Snackbar.LENGTH_SHORT).show();
                 }
             } else {
-                createNotification(session,context);
+                NotificationUtil.createNotification(session, context).subscribe(
+                        () -> Snackbar.make(holder.sessionCard,
+                                R.string.added_bookmark,
+                                Snackbar.LENGTH_SHORT)
+                                .show(),
+                        throwable -> Snackbar.make(holder.sessionCard,
+                                R.string.error_create_notification,
+                                Snackbar.LENGTH_LONG).show());
 
                 realmRepo.setBookmark(sessionId, true).subscribe();
                 holder.sessionBookmarkIcon.setImageResource(R.drawable.ic_bookmark_white_24dp);

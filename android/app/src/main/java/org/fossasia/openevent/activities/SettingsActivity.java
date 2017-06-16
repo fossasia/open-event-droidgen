@@ -20,7 +20,7 @@ import android.view.MenuItem;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
-import org.fossasia.openevent.utils.ISO8601Date;
+import org.fossasia.openevent.utils.DateUtils;
 
 /**
  * User: manan
@@ -72,13 +72,10 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
                 internetPreference.setChecked(true);
             }
         } else if (preference.getKey().equals(getResources().getString(R.string.timezone_mode_key))) {
-            if (choice.equals(false)) {
-                timezonePreference.setChecked(false);
-                ISO8601Date.setTimeZone();
-            } else {
-                timezonePreference.setChecked(true);
-                ISO8601Date.setTimeZoneDefault();
-            }
+            boolean showLocalTimezone = choice.equals(true);
+
+            timezonePreference.setChecked(showLocalTimezone);
+            DateUtils.setShowLocalTimeZone(showLocalTimezone);
         } else if (preference.getKey().equals(getResources().getString(R.string.notification_key))) {
             prefNotification.setSummary((String) choice);
         } else if (preference.getKey().equals(getResources().getString(R.string.language_key))) {

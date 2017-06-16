@@ -12,12 +12,7 @@ import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.data.extras.EventDates;
 import org.fossasia.openevent.data.extras.Version;
 import org.fossasia.openevent.events.BookmarkChangedEvent;
-import org.fossasia.openevent.events.RetrofitError;
-import org.fossasia.openevent.utils.ISO8601Date;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -478,34 +473,17 @@ public class RealmDataRepository {
     /**
      * Saves Event Dates Synchronously
      * TODO : Use threaded asynchronous transaction using separate Realm instance
-     * @param start Starting Date of Event
-     * @param end Ending Date of Event
+     * @param eventDates List of dates of entire event span (inclusive)
      */
-    private void saveEventDatesInRealm(Date start, Date end) {
-        if (start == null || end == null) {
-            Timber.e("Error saving dates");
-            OpenEventApp.postEventOnUIThread(new RetrofitError(new Throwable("Error parsing dates")));
-
-            return;
-        }
-
-        Calendar calendar = new GregorianCalendar();
-        calendar.setTime(start);
-
+    private void saveEventDatesInRealm(List<EventDates> eventDates) {
         realm.beginTransaction();
         realm.delete(EventDates.class);
-        while (calendar.getTime().before(end)) {
-            Date result = calendar.getTime();
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(result);
-            realm.insertOrUpdate(new EventDates(ISO8601Date.dateFromCalendar(cal)));
-            calendar.add(Calendar.DATE, 1);
-        }
+        realm.insert(eventDates);
         realm.commitTransaction();
     }
 
-    public Completable saveEventDates(final Date start, final Date end) {
-        return Completable.fromAction(() -> saveEventDatesInRealm(start, end));
+    public Completable saveEventDates(List<EventDates> eventDates) {
+        return Completable.fromAction(() -> saveEventDatesInRealm(eventDates));
     }
 
     public RealmResults<EventDates> getEventDates() {
