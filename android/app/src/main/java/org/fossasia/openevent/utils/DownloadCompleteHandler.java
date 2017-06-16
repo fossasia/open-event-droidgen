@@ -28,6 +28,8 @@ public class DownloadCompleteHandler {
     private int counter;
     private int eventsDone;
 
+    private String shownMessage = "";
+
     private boolean hasShownError = false;
 
     private EventHandler eventHandler;
@@ -117,16 +119,15 @@ public class DownloadCompleteHandler {
         downloadProgressDialog.setIndeterminate(false);
         downloadProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         downloadProgressDialog.setCancelable(false);
-        downloadProgressDialog.setMessage(String.format(
-                getString(R.string.downloading_format),
-                getString(R.string.event_info))
-        );
+        shownMessage = String.format(getString(R.string.downloading_format), getString(R.string.event_info));
+        downloadProgressDialog.setMessage(shownMessage);
     }
 
     private void updateDownloadProgress(float progress, @StringRes int stringRes) {
-        String message = String.format(getString(R.string.downloading_format), getString(stringRes));
+        String message = String.format(getString(R.string.downloaded_format), getString(stringRes));
         Timber.d("Progress : %f %s", progress*100, message);
-        downloadProgressDialog.setMessage(message);
+        shownMessage += "\n" + message;
+        downloadProgressDialog.setMessage(shownMessage);
         downloadProgressDialog.setProgress((int) (progress*100));
     }
 
@@ -160,7 +161,7 @@ public class DownloadCompleteHandler {
             OpenEventApp.getEventBus().register(this);
         }
 
-        public void unregister() {
+        private void unregister() {
             OpenEventApp.getEventBus().unregister(this);
         }
 
@@ -168,7 +169,6 @@ public class DownloadCompleteHandler {
         public void onCounterReceiver(CounterEvent event) {
             counter = event.getRequestsCount();
             Timber.tag(COUNTER_TAG).d(counter + " counter");
-            updateDownloadProgress(1 / (float) counter, R.string.event_info);
             if (counter == 0) {
                 notifyComplete();
             }

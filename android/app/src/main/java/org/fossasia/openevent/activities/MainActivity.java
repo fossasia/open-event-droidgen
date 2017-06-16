@@ -56,6 +56,7 @@ import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Sponsor;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
+import org.fossasia.openevent.events.CounterEvent;
 import org.fossasia.openevent.events.DataDownloadEvent;
 import org.fossasia.openevent.events.DownloadEvent;
 import org.fossasia.openevent.events.EventDownloadEvent;
@@ -118,6 +119,8 @@ public class MainActivity extends BaseActivity {
     private final String FRAGMENT_TAG_TRACKS = "FTAGT";
 
     private final String FRAGMENT_TAG_REST = "FTAGR";
+
+    private boolean fromServer = true;
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.nav_view) NavigationView navigationView;
@@ -223,6 +226,7 @@ public class MainActivity extends BaseActivity {
                 if (!sharedPreferences.getBoolean(ConstantStrings.IS_DOWNLOAD_DONE, false)) {
                     DialogFactory.createDownloadDialog(context, R.string.download_assets, R.string.charges_warning, (dialogInterface, button) -> {
                         if (button==DialogInterface.BUTTON_POSITIVE) {
+                            fromServer = true;
                             Boolean preference = sharedPreferences.getBoolean(getResources().getString(R.string.download_mode_key), true);
                             if (preference) {
                                 disposable.add(NetworkUtils.haveNetworkConnectionObservable(MainActivity.this)
@@ -241,6 +245,7 @@ public class MainActivity extends BaseActivity {
                                 OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
                             }
                         } else if (button==DialogInterface.BUTTON_NEGATIVE) {
+                            fromServer = false;
                             downloadFromAssets();
                         }
                     }).show();
@@ -395,11 +400,17 @@ public class MainActivity extends BaseActivity {
     }
 
     private void syncComplete() {
-        // Event successfully loaded, set data downloaded to true
-        sharedPreferences.edit().putBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true).apply();
+        String successMessage = "Data loaded from JSON";
+
+        if (fromServer) {
+            // Event successfully loaded, set data downloaded to true
+            sharedPreferences.edit().putBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true).apply();
+
+            successMessage = "Download done";
+        }
 
         Snackbar.make(mainFrame, getString(R.string.download_complete), Snackbar.LENGTH_SHORT).show();
-        Timber.d("Download done");
+        Timber.d(successMessage);
 
         setupEvent();
         OpenEventApp.postEventOnUIThread(new EventLoadedEvent(event));
@@ -600,17 +611,32 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    private void startDownload() {
-        DataDownloadManager.getInstance().downloadEvents();
+    private void startDownloadListener() {
         completeHandler.startListening()
                 .show()
                 .withCompletionListener()
                 .subscribe(this::syncComplete, throwable -> {
+                    throwable.printStackTrace();
+                    Timber.e(throwable);
                     if (throwable instanceof DownloadCompleteHandler.DataEventError) {
                         downloadFailed(((DownloadCompleteHandler.DataEventError) throwable)
                                 .getDataDownloadEvent());
+                    } else {
+                        OpenEventApp.postEventOnUIThread(new RetrofitError(throwable));
                     }
                 });
+    }
+
+    private void startDownload() {
+        realmRepo.clearVersions().subscribe(() -> {
+            Timber.d("Cleared JSON db versions");
+        }, throwable -> {
+            throwable.printStackTrace();
+            Timber.e(throwable);
+        });
+
+        DataDownloadManager.getInstance().downloadEvents();
+        startDownloadListener();
         Timber.d("Download has started");
     }
 
@@ -776,6 +802,11 @@ public class MainActivity extends BaseActivity {
         if (!sharedPreferences.getBoolean(ConstantStrings.DATABASE_RECORDS_EXIST, false)) {
             //TODO: Add and Take counter value from to config.json
             sharedPreferences.edit().putBoolean(ConstantStrings.DATABASE_RECORDS_EXIST, true).apply();
+
+            startDownloadListener();
+            Timber.d("JSON parsing started");
+
+            OpenEventApp.postEventOnUIThread(new CounterEvent(6)); // Bump if increased
 
             readJsonAsset(Urls.EVENT);
             readJsonAsset(Urls.SESSIONS);

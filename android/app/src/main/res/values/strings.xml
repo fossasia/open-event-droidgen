@@ -14,6 +14,7 @@
 
     <!-- Download Progress -->
     <string name="downloading_format">Downloading %s…</string>
+    <string name="downloaded_format">Downloaded %s…</string>
     <string name="event_info">Event Info</string>
     <string name="sessions">Sessions</string>
 
