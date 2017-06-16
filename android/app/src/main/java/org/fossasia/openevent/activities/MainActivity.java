@@ -122,16 +122,17 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.nav_view) NavigationView navigationView;
     @BindView(R.id.layout_main) CoordinatorLayout mainFrame;
-    @BindView(R.id.drawer) DrawerLayout drawerLayout;
     @BindView(R.id.appbar) AppBarLayout appBarLayout;
 
     private ImageView headerView;
 
+    private DrawerLayout drawerLayout;
     private Context context;
     private SharedPreferences sharedPreferences;
     private boolean atHome = true;
     private boolean backPressedOnce = false;
     private int currentMenuItemId;
+    private boolean mTwoPane = false;
     private boolean customTabsSupported;
     private CustomTabsServiceConnection customTabsServiceConnection;
     private CustomTabsClient customTabsClient;
@@ -176,6 +177,13 @@ public class MainActivity extends BaseActivity {
         sharedPreferences.edit().putInt(ConstantStrings.SESSION_MAP_ID, -1).apply();
         setTheme(R.style.AppTheme_NoActionBar_MainTheme);
         super.onCreate(savedInstanceState);
+
+        if(findViewById(R.id.drawer)!=null) {
+            drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+            mTwoPane = false;
+        } else {
+            mTwoPane = true;
+        }
 
         disposable = new CompositeDisposable();
 
@@ -340,7 +348,7 @@ public class MainActivity extends BaseActivity {
 
     private void setUpNavDrawer() {
         headerView = (ImageView) navigationView.getHeaderView(0).findViewById(headerDrawer);
-        if (toolbar != null) {
+        if (toolbar != null && !mTwoPane) {
             final ActionBar ab = getSupportActionBar();
             if(ab == null) return;
             SmoothActionBarDrawerToggle smoothActionBarToggle = new SmoothActionBarDrawerToggle(this,
@@ -360,6 +368,8 @@ public class MainActivity extends BaseActivity {
             ab.setDisplayHomeAsUpEnabled(true);
             ab.setDisplayHomeAsUpEnabled(true);
             smoothActionBarToggle.syncState();
+        } else if (toolbar!=null && toolbar.getTitle().equals(getString(R.string.menu_about))) {
+            navigationView.setCheckedItem(R.id.nav_home);
         }
     }
 
@@ -409,8 +419,12 @@ public class MainActivity extends BaseActivity {
     private void setupDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(menuItem -> {
             final int id = menuItem.getItemId();
-            drawerLayout.closeDrawers();
-            drawerLayout.postDelayed(() -> doMenuAction(id), 300);
+            if(!mTwoPane) {
+                drawerLayout.closeDrawers();
+                drawerLayout.postDelayed(() -> doMenuAction(id), 300);
+            } else {
+                doMenuAction(id);
+            }
             return true;
         });
     }
@@ -544,30 +558,32 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START);
-        } else if (atHome) {
-            if (backPressedOnce) {
-                super.onBackPressed();
+        if(!mTwoPane) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                drawerLayout.closeDrawer(GravityCompat.START);
+            } else if (atHome) {
+                if (backPressedOnce) {
+                    super.onBackPressed();
+                } else {
+                    backPressedOnce = true;
+                    Snackbar snackbar = Snackbar.make(mainFrame, R.string.press_back_again, 2000);
+                    snackbar.show();
+                    runnable = () -> backPressedOnce = false;
+                    handler = new Handler();
+                    long timer = 2000;
+                    handler.postDelayed(runnable, timer);
+                }
             } else {
-                backPressedOnce = true;
-                Snackbar snackbar = Snackbar.make(mainFrame, R.string.press_back_again, 2000);
-                snackbar.show();
-                runnable = () -> backPressedOnce = false;
-                handler = new Handler();
-                long timer = 2000;
-                handler.postDelayed(runnable, timer);
-            }
-        } else {
-            atHome = true;
-            fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, new AboutFragment(), FRAGMENT_TAG_REST).commit();
-            if (getSupportActionBar() != null) {
-                getSupportActionBar().setTitle(R.string.menu_home);
-            }
-            if (currentMenuItemId == R.id.nav_schedule) {
-                addShadowToAppBar(false);
+                atHome = true;
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_frame, new AboutFragment(), FRAGMENT_TAG_REST).commit();
+                if (getSupportActionBar() != null) {
+                    getSupportActionBar().setTitle(R.string.menu_home);
+                }
+                if (currentMenuItemId == R.id.nav_schedule) {
+                    addShadowToAppBar(false);
+                }
             }
         }
     }
