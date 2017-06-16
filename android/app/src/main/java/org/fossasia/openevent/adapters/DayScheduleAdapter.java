@@ -23,7 +23,8 @@ import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.fragments.DayScheduleFragment;
 import org.fossasia.openevent.utils.ConstantStrings;
-import org.fossasia.openevent.utils.ISO8601Date;
+import org.fossasia.openevent.utils.DateUtils;
+import org.fossasia.openevent.utils.NotificationUtil;
 import org.fossasia.openevent.utils.SortOrder;
 import org.fossasia.openevent.utils.Utils;
 import org.fossasia.openevent.utils.Views;
@@ -41,8 +42,6 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 import timber.log.Timber;
-
-import static org.fossasia.openevent.utils.BookmarkUtil.createNotification;
 
 /**
  * Created by Manan Wason on 17/06/16.
@@ -86,8 +85,8 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
     @Override
     public void onBindViewHolder(DayScheduleViewHolder holder, int position) {
         Session currentSession = getItem(position);
-        String startTime = ISO8601Date.get12HourTimeFromString(currentSession.getStartTime());
-        String endTime = ISO8601Date.get12HourTimeFromString(currentSession.getEndTime());
+        String startTime = DateUtils.formatDateWithDefault(DateUtils.FORMAT_12H, currentSession.getStartTime());
+        String endTime = DateUtils.formatDateWithDefault(DateUtils.FORMAT_12H, currentSession.getEndTime());
         String title = Utils.checkStringEmpty(currentSession.getTitle());
         String shortAbstract = Utils.checkStringEmpty(currentSession.getShortAbstract());
 
@@ -133,7 +132,14 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
                         Snackbar.make(holder.slot_content, R.string.removed_bookmark, Snackbar.LENGTH_SHORT).show();
                     }
                 } else {
-                    createNotification(currentSession,context);
+                    NotificationUtil.createNotification(currentSession, context).subscribe(
+                            () -> Snackbar.make(holder.slot_content,
+                                    R.string.added_bookmark,
+                                    Snackbar.LENGTH_SHORT)
+                                    .show(),
+                            throwable -> Snackbar.make(holder.slot_content,
+                                    R.string.error_create_notification,
+                                    Snackbar.LENGTH_LONG).show());
 
                     realmRepo.setBookmark(sessionId, true).subscribe();
                     holder.slot_bookmark.setImageResource(R.drawable.ic_bookmark_white_24dp);
@@ -237,11 +243,10 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
                 tracks.add(getItem(position).getTrack().getName());
             }
             return tracks.indexOf(getItem(position).getTrack().getName());
-        }
-        else if (SortOrder.sortOrderSchedule(context).equals(Session.START_TIME)) {
-            id = ISO8601Date.get24HourTimeFromString(getItem(position).getStartTime());
-            id = id.replace(":", "");
-            id = id.replace(" ", "");
+        } else if (SortOrder.sortOrderSchedule(context).equals(Session.START_TIME)) {
+            id = DateUtils.formatDateWithDefault(DateUtils.FORMAT_24H, getItem(position).getStartTime(), "")
+                    .replace(":", "")
+                    .replace(" ", "");
         }
         return Long.valueOf(id);
     }
@@ -264,7 +269,7 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
         } else if (SortOrder.sortOrderSchedule(context).equals(Session.TRACK)){
             textView.setText(String.valueOf(sortName));
         } else if (SortOrder.sortOrderSchedule(context).equals(Session.START_TIME)) {
-            textView.setText(ISO8601Date.get12HourTimeFromString(getItem(position).getStartTime()));
+            textView.setText(DateUtils.formatDateWithDefault(DateUtils.FORMAT_12H, getItem(position).getStartTime()));
         }
     }
 

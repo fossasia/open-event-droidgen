@@ -1,7 +1,5 @@
 package org.fossasia.openevent.activities;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
@@ -41,16 +39,15 @@ import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
-import org.fossasia.openevent.receivers.NotificationAlarmReceiver;
 import org.fossasia.openevent.utils.ConstantStrings;
-import org.fossasia.openevent.utils.ISO8601Date;
+import org.fossasia.openevent.utils.DateUtils;
+import org.fossasia.openevent.utils.NotificationUtil;
 import org.fossasia.openevent.utils.StringUtils;
 import org.fossasia.openevent.utils.Utils;
 import org.fossasia.openevent.utils.Views;
 import org.fossasia.openevent.utils.WidgetUpdater;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
@@ -163,8 +160,15 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
                 realmRepo.setBookmark(session.getId(), true).subscribe();
                 fabSessionBookmark.setImageResource(R.drawable.ic_bookmark_white_24dp);
 
-                createNotification();
-                Snackbar.make(speakersRecyclerView, R.string.added_bookmark, Snackbar.LENGTH_SHORT).show();
+                NotificationUtil.createNotification(session, getApplicationContext()).subscribe(
+                        () -> Snackbar.make(speakersRecyclerView,
+                                R.string.added_bookmark,
+                                Snackbar.LENGTH_SHORT)
+                                .show(),
+                        throwable -> Snackbar.make(speakersRecyclerView,
+                                R.string.error_create_notification,
+                                Snackbar.LENGTH_LONG).show());
+
             }
 
             WidgetUpdater.updateWidget(getApplicationContext());
@@ -234,20 +238,14 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
             });
         }
 
+        String date = DateUtils.formatDateWithDefault(DateUtils.FORMAT_DATE_COMPLETE, session.getStartTime());
+        String startTime = DateUtils.formatDateWithDefault(DateUtils.FORMAT_12H, session.getStartTime());
+        String endTime = DateUtils.formatDateWithDefault(DateUtils.FORMAT_12H, session.getEndTime());
 
-        String date = ISO8601Date.getDateFromStartDateString(session.getStartTime());
-        String startTime = ISO8601Date.getTimeFromStartDateString(session.getStartTime());
-        String endTime = ISO8601Date.getTimeFromEndDateString(session.getEndTime());
-
-        if (TextUtils.isEmpty(startTime) && TextUtils.isEmpty(endTime)) {
-            text_start_time.setText(R.string.time_not_specified);
-            text_end_time.setVisibility(View.GONE);
-        } else {
-            text_start_time.setText(startTime.trim());
-            text_end_time.setText(endTime.trim());
-            text_date.setText(date.trim());
-            Timber.d("%s\n%s\n%s", date, endTime, startTime);
-        }
+        text_start_time.setText(startTime);
+        text_end_time.setText(endTime);
+        text_date.setText(date);
+        Timber.d("Date: %s\nStart: %s\nEnd: %s", date, startTime, endTime);
 
         Views.setHtml(summary, session.getShortAbstract(), true);
         Views.setHtml(descrip, session.getLongAbstract(), true);
@@ -330,8 +328,8 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
                 return true;
 
             case R.id.action_share:
-                String startTime = ISO8601Date.getTimeZoneDateStringFromString(session.getStartTime());
-                String endTime = ISO8601Date.getTimeZoneDateStringFromString(session.getEndTime());
+                String startTime = DateUtils.formatDateWithDefault(DateUtils.FORMAT_DATE_COMPLETE, session.getStartTime());
+                String endTime = DateUtils.formatDateWithDefault(DateUtils.FORMAT_DATE_COMPLETE, session.getEndTime());
                 String shareText = String.format("Session Track: %s \n" +
                                 "Title: %s \n" +
                                 "Start Time: %s \n" +
@@ -353,8 +351,8 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
                 intent.setType("vnd.android.cursor.item/event");
                 intent.putExtra(CalendarContract.Events.TITLE, title);
                 intent.putExtra(CalendarContract.Events.DESCRIPTION, session.getShortAbstract());
-                intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, ISO8601Date.get24HourTimeFromString(session.getStartTime()));
-                intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, ISO8601Date.get24HourTimeFromString(session.getEndTime()));
+                intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, DateUtils.formatDateWithDefault(DateUtils.FORMAT_24H, session.getStartTime()));
+                intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, DateUtils.formatDateWithDefault(DateUtils.FORMAT_24H, session.getEndTime()));
                 startActivity(intent);
 
             default:
@@ -366,29 +364,6 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_session_detail, menu);
         return super.onCreateOptionsMenu(menu);
-    }
-
-    public void createNotification() {
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(ISO8601Date.getTimeZoneDateFromString(session.getStartTime()));
-
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        Integer pref_result = Integer.parseInt(sharedPrefs.getString("notification", "10 mins").substring(0, 2).trim());
-        if (pref_result.equals(1)) {
-            calendar.add(Calendar.HOUR, -1);
-        } else if (pref_result.equals(12)) {
-            calendar.add(Calendar.HOUR, -12);
-        } else {
-            calendar.add(Calendar.MINUTE, -10);
-        }
-        Intent myIntent = new Intent(this, NotificationAlarmReceiver.class);
-        myIntent.putExtra(ConstantStrings.SESSION, session.getId());
-        myIntent.putExtra(ConstantStrings.SESSION_TIMING, timings);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        alarmManager.set(AlarmManager.RTC, calendar.getTimeInMillis(), pendingIntent);
     }
 
     @Override

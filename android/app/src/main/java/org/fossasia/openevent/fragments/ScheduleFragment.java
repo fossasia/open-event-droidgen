@@ -23,8 +23,9 @@ import org.fossasia.openevent.adapters.ScheduleViewPagerAdapter;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.utils.ConstantStrings;
-import org.fossasia.openevent.utils.ISO8601Date;
+import org.fossasia.openevent.utils.DateUtils;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -32,6 +33,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.disposables.CompositeDisposable;
+import timber.log.Timber;
 
 /**
  * Created by Manan Wason on 16/06/16.
@@ -91,9 +93,14 @@ public class ScheduleFragment extends BaseFragment {
                     for (int i = 0; i < eventDays; i++) {
                         String date = eventDates.get(i).getDate();
 
-                        adapter.addFragment(new DayScheduleFragment(),
-                                ISO8601Date.getTimeZoneDateStringFromStringForDayFragment(date), date);
-                        adapter.notifyDataSetChanged();
+                        try {
+                            adapter.addFragment(new DayScheduleFragment(),
+                                    DateUtils.formatDay(date), date);
+                            adapter.notifyDataSetChanged();
+                        } catch (ParseException pe) {
+                            Timber.e(pe);
+                            Timber.e("Invalid date %s in database", date);
+                        }
                     }
                 });
 
