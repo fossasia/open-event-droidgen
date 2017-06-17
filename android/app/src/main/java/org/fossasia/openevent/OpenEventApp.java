@@ -29,8 +29,8 @@ import org.fossasia.openevent.events.ShowNetworkDialogEvent;
 import org.fossasia.openevent.modules.MapModuleFactory;
 import org.fossasia.openevent.receivers.NetworkConnectivityChangeReceiver;
 import org.fossasia.openevent.utils.ConstantStrings;
-import org.fossasia.openevent.utils.Utils;
 import org.fossasia.openevent.utils.DateUtils;
+import org.fossasia.openevent.utils.Utils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -64,6 +64,7 @@ public class OpenEventApp extends Application {
     public static Picasso picassoWithCache;
     private MapModuleFactory mapModuleFactory;
     private RefWatcher refWatcher;
+    private MainActivity activity;
 
     public static Bus getEventBus() {
         if (eventBus == null) {
@@ -208,13 +209,21 @@ public class OpenEventApp extends Application {
         }
     }
 
+    public void attachMainActivity(MainActivity activity) {
+        this.activity = activity;
+    }
+
+    public void detachMainActivity() {
+        this.activity = null;
+    }
+
     @Subscribe
     public void onConnectionChangeReact(ConnectionCheckEvent event) {
         if (event.connState()) {
             Timber.d("[NetNotif] %s", "Connected to Internet");
 
-            if(MainActivity.dialogNetworkNotiff != null)
-                MainActivity.dialogNetworkNotiff.dismiss();
+            if(activity != null)
+                activity.dismissDialogNetworkNotification();
 
         } else {
             Timber.d("[NetNotif] %s", "Not connected to Internet");
