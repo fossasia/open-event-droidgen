@@ -32,7 +32,7 @@ def app_status(task_id):
         info = result.info
     # check
     if state == 'SUCCESS':
-        if type(info) == dict:
+        if isinstance(info, dict):
             # check if is error
             if '__error' in info:
                 return info['result'], info['result']['code']

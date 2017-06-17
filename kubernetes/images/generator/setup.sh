@@ -8,14 +8,6 @@ if [ -v COMMIT_HASH ]; then
     git reset --hard ${COMMIT_HASH}
 fi
 
-# Set environment variable
-export GENERATOR_WORKING_DIR=${WORKSPACE}/temp/
-export KEYSTORE_PATH=${WORKSPACE}/generator.keystore
-export KEYSTORE_PASSWORD=generator
-export KEY_ALIAS=generator
-
-# Prepare working folders
-export GENERATOR_WORKING_DIR=${WORKSPACE}/temp/
 mkdir -p ${GENERATOR_WORKING_DIR}uploads/
 chmod 0777 -R ${GENERATOR_WORKING_DIR}
 

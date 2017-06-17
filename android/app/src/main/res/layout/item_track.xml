@@ -3,53 +3,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
     android:baselineAligned="false"
     android:clickable="true"
     android:focusable="true"
-    android:orientation="vertical"
-    tools:showIn="@layout/list_tracks">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
         android:orientation="horizontal"
-        android:padding="@dimen/content_margin">
+        android:gravity="center"
+        android:padding="@dimen/padding_large">
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="50dp"
-            android:layout_height="50dp" />
+            android:layout_width="@dimen/item_image_view"
+            android:layout_height="@dimen/item_image_view"
+            android:contentDescription="@string/item_track" />
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/track_title"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/content_margin"
-            android:layout_marginRight="@dimen/content_margin"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/track_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/primary_text"
-                android:textSize="18sp"
-                tools:text="Track Title" />
-
-            <TextView
-                android:id="@+id/track_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/secondary_text"
-                android:textSize="14sp"
-                tools:text="Track description" />
-        </LinearLayout>
+            android:layout_height="wrap_content"
+            android:textColor="@color/primary_text"
+            android:textSize="@dimen/text_size_large"
+            android:layout_margin="@dimen/layout_margin_large"
+            tools:text="Track Title" />
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="0.8dp"
+        android:layout_height="@dimen/list_divider_height"
         android:background="?android:attr/listDivider" />
 </LinearLayout>

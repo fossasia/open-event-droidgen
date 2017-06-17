@@ -1,98 +1,206 @@
 package org.fossasia.openevent.fragments;
 
-import android.content.Intent;
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.support.annotation.DrawableRes;
+import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.fossasia.openevent.R;
-import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Event;
-import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.data.Microlocation;
+import org.fossasia.openevent.dbutils.RealmDataRepository;
 
-public class MapsFragment extends SupportMapFragment
-        implements LocationListener, OnMapReadyCallback {
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+public class MapsFragment extends Fragment implements LocationListener, OnMapReadyCallback {
+
     private GoogleMap mMap;
-    private LatLng location;
+    private Marker locationMarker;
+    private List<String> searchItems = new ArrayList<>();
+
+    private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
+    private List<Microlocation> mLocations = new ArrayList<>();
+
+    private android.support.v7.app.ActionBar toolbar;
+
+    @BindView(R.id.map_toolbar)AutoCompleteTextView textView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
+
+        toolbar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        toolbar.setDisplayHomeAsUpEnabled(true);
+        toolbar.setDisplayShowCustomEnabled(true);
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        getMapAsync(this);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_map, container, false);
+
+        SupportMapFragment supportMapFragment = ((SupportMapFragment)
+                getChildFragmentManager().findFragmentById(R.id.map));
+        supportMapFragment.getMapAsync(this);
+
+        realmRepo.getLocations()
+                .addChangeListener((microlocations, orderedCollectionChangeSet) -> {
+                    mLocations.clear();
+                    mLocations.addAll(microlocations);
+                });
+
+        return view;
     }
 
     @Override
     public void onMapReady(GoogleMap map) {
-        Event event = DbSingleton.getInstance().getEventDetails();
-        float latitude = event.getLatitude();
-        float longitude = event.getLongitude();
-        String location_title = event.getLocationName();
-
-        location = new LatLng(latitude, longitude);
-
-        if (map != null) {
-            map.addMarker(new MarkerOptions().position(location).title(location_title));
-            map.animateCamera(CameraUpdateFactory.newCameraPosition(
-                    CameraPosition.builder().target(location).zoom(15f).bearing(0).tilt(0).build()));
-
+        if(map != null){
             mMap = map;
+            mMap.getUiSettings().setMapToolbarEnabled(true);
+            showLocationsOnMap();
+            showEventLocationOnMap();
         }
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        menu.clear();
-        inflater.inflate(R.menu.menu_map, menu);
+    private void showEventLocationOnMap() {
+        Event event = realmRepo.getEventSync();
+
+        double latitude = event.getLatitude();
+        double longitude = event.getLongitude();
+        
+        String locationTitle = event.getLocationName();
+
+        LatLng location = new LatLng(latitude, longitude);
+        handleMarkerEvents(location, locationTitle);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.share_map_url:
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.putExtra(Intent.EXTRA_TEXT, Urls.WEB_APP_URL_BASIC + Urls.MAP);
-                intent.putExtra(Intent.EXTRA_SUBJECT, "Sharing URL");
-                intent.setType("text/plain");
-                startActivity(Intent.createChooser(intent, "Share URL"));
-                break;
-            default:
-            	//do nothing
+    private void showLocationsOnMap() {
+        float latitude;
+        float longitude;
+        LatLng location;
+        Marker marker;
+        String locationName;
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+
+        //Add markers for all locations
+        for (Microlocation microlocation : mLocations) {
+            latitude = microlocation.getLatitude();
+            longitude = microlocation.getLongitude();
+            location = new LatLng(latitude, longitude);
+            locationName = microlocation.getName();
+            searchItems.add(locationName);
+
+            marker = handleMarkerEvents(location, locationName);
+            builder.include(marker.getPosition());
         }
-        return super.onOptionsItemSelected(item);
+
+        LayoutInflater inflator = (LayoutInflater) getActivity()
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View toolbarView = inflator.inflate(R.layout.map_toolbar, null);
+        ButterKnife.bind(this, toolbarView);
+
+        toolbar.setCustomView(toolbarView );
+
+        //Setting up AutoCompleteTextView with the locations
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_dropdown_item_1line, searchItems);
+        textView.setAdapter(adapter);
+
+        textView.setOnItemClickListener((parent, view, position, id) -> {
+            String loc = adapter.getItem(position);
+            int pos = searchItems.indexOf(loc);
+            LatLng lng = new LatLng(mLocations.get(pos).getLatitude(), mLocations.get(pos).getLongitude());
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(lng, (float) Math.floor(mMap.getCameraPosition().zoom + 8)));
+
+            View mapView = getActivity().getCurrentFocus();
+            if (mapView != null) {
+                InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(mapView.getWindowToken(), 0);
+            }
+        });
+
+        //Set max zoom level so that all marker are visible
+        LatLngBounds bounds = builder.build();
+        final CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, dpToPx(40));
+        try{
+            mMap.moveCamera(cameraUpdate);
+        }catch (IllegalStateException ise){
+            mMap.setOnMapLoadedCallback(() -> mMap.moveCamera(cameraUpdate));
+        }
     }
 
-    private void launchDirections() {
-        // Build intent to start Google Maps directions
-
+    private int dpToPx(int dp) {
+        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
 
-    private void getLatlng() {
-        // do nothing
+    private Marker handleMarkerEvents(LatLng location, String locationTitle) {
+        if (mMap != null) {
+            locationMarker = mMap.addMarker(new MarkerOptions().position(location).title(locationTitle)
+                    .icon(vectorToBitmap(getContext(), R.drawable.map_marker, R.color.dark_grey)));
+            mMap.setOnMarkerClickListener(marker -> {
+                locationMarker.setIcon(vectorToBitmap(getContext(), R.drawable.map_marker, R.color.dark_grey));
+                locationMarker = marker;
+                marker.setIcon(vectorToBitmap(getContext(), R.drawable.map_marker, R.color.color_primary));
+                return false;
+            });
+            mMap.setOnMapClickListener(latLng -> locationMarker.setIcon(
+                    vectorToBitmap(getContext(), R.drawable.map_marker, R.color.dark_grey)));
+        }
+        return locationMarker;
+    }
+
+    private BitmapDescriptor vectorToBitmap(Context context, @DrawableRes int id, int color) {
+        Drawable vectorDrawable = ResourcesCompat.getDrawable(context.getResources(), id, null);
+        assert vectorDrawable != null;
+        Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(),
+                vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        vectorDrawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        DrawableCompat.setTint(vectorDrawable, ContextCompat.getColor(context, color));
+        vectorDrawable.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
 
     @Override
-    public void onLocationChanged(Location locations) {
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(location, 10);
+    public void onDestroyView() {
+        toolbar.setDisplayShowCustomEnabled(false);
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom
+                (new LatLng(location.getLatitude(),location.getLongitude()), 10);
         if (mMap != null) {
             mMap.animateCamera(cameraUpdate);
         }

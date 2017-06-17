@@ -4,34 +4,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="@dimen/widget_margin">
+    >
 
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/widget"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/main_menu_item_height"
+        android:layout_height="@dimen/bookmark_widget_height"
         android:background="@color/color_primary">
 
         <ImageView
-            android:layout_width="34dp"
-            android:layout_height="34dp"
+            android:layout_width="@dimen/bookmark_image_view_width"
+            android:layout_height="@dimen/bookmark_image_view_height"
+            android:layout_margin="@dimen/layout_margin_medium"
+            android:id="@+id/bookmark_image"
             android:layout_gravity="center"
-            android:layout_weight="0.20"
             android:contentDescription="@string/logo_widget"
-            android:src="@drawable/ic_bookmark_outline_black_24dp" />
+            android:src="@drawable/ic_noti_bookmark" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="0.80"
-            android:paddingLeft="@dimen/card_margin"
-            android:paddingStart="@dimen/card_margin"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="@dimen/layout_margin_medium"
+            android:layout_marginStart="@dimen/layout_margin_small"
+            android:layout_marginLeft="@dimen/layout_margin_small"
+            android:layout_marginBottom="@dimen/layout_margin_medium"
+            android:layout_toRightOf="@+id/bookmark_image"
+            android:layout_toEndOf="@+id/bookmark_image"
             android:text="@string/bookmarks"
-            android:textColor="@color/cardview_dark_background"
-            android:textSize="24sp" />
-    </LinearLayout>
+            style="@style/Base.TextAppearance.AppCompat.Large.Inverse" />
+
+    </RelativeLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -43,9 +47,9 @@
             android:id="@+id/widget_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
             android:divider="@null"
-            android:dividerHeight="0dp"
+            android:paddingTop="@dimen/padding_medium"
+            android:dividerHeight="@dimen/bookmark_divider_height"
             tools:listitem="@layout/widget_list_item" />
 
         <TextView
@@ -57,6 +61,7 @@
             android:text="@string/empty_list"
             android:textAppearance="?android:textAppearanceMedium"
             android:textColor="@color/secondary_text" />
+
     </FrameLayout>
 
 </LinearLayout>

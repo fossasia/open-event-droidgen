@@ -2,6 +2,7 @@ package org.fossasia.openevent.views;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.customtabs.CustomTabsSession;
@@ -41,6 +42,7 @@ public class CustomTabsSpan extends ClickableSpan {
 
         CustomTabsIntent.Builder customTabsBuilder = new CustomTabsIntent.Builder(cTSession);
         customTabsBuilder.setToolbarColor(ContextCompat.getColor(context, R.color.color_primary));
+        customTabsBuilder.setCloseButtonIcon(BitmapFactory.decodeResource(context.getResources(),R.drawable.ic_arrow_back_white_cct_24dp));
         customTabsBuilder.setStartAnimations(context, R.anim.slide_in_right, R.anim.slide_out_left);
         customTabsBuilder.setExitAnimations(context, R.anim.slide_in_left, R.anim.slide_out_right);
         CustomTabsIntent customTabsIntent = customTabsBuilder.build();

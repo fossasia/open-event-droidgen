@@ -8,13 +8,21 @@ import uuid
 
 import requests
 import validators
+from celery.utils.log import get_task_logger
 from flask import current_app
 
 from app.utils import replace, clear_dir, unzip, get_build_tools_version
-from app.utils.assets import resize_launcher_icon, resize_background_image
+from app.utils.assets import resize_launcher_icon, resize_background_image, save_logo
 from app.utils.libs.asset_resizer import DENSITY_TYPES
 from app.utils.notification import Notification
 
+logger = get_task_logger(__name__)
+
+def ignore_files(path, names):
+    logger.info('Working in %s' % path)
+
+    # Ignore build/generated folder
+    return ("build", ".gradle", ".idea")
 
 class Generator:
     """
@@ -74,10 +82,19 @@ class Generator:
             self.api_link = endpoint_url
             os.makedirs(self.app_temp_assets)
             event_info = requests.get(endpoint_url + '/event').json()
+            self.download_event_data()
         else:
             unzip(zip_file, self.app_temp_assets)
-            with open(self.get_temp_asset_path('/event')) as json_data:
+            with open(self.get_temp_asset_path('event')) as json_data:
                 event_info = json.load(json_data)
+                event_id = event_info['id']
+
+            if os.path.isfile(self.get_temp_asset_path('meta')):
+                with open(self.get_temp_asset_path('meta')) as json_data:
+                    meta = json.load(json_data)
+                    root_url = meta['root_url']
+                    if root_url:
+                        self.api_link = root_url + '/api/v1/events/' + str(event_id)
 
         self.event_name = event_info['name']
         self.app_name = self.event_name
@@ -103,11 +120,16 @@ class Generator:
         Generate the app
         :return: the path to the generated apk
         """
+
+        logger.info('Working directory: %s' % self.app_working_dir)
+
         self.update_status('Preparing parent source code')
 
         self.prepare_source()
 
         self.app_package_name = 'org.fossasia.openevent.' + re.sub('\W+', '', self.app_name)
+
+        logger.info('App package name: %s' % self.app_package_name)
 
         config = {
             'Email': self.creator_email,
@@ -122,6 +144,7 @@ class Generator:
 
         self.update_status('Generating launcher icons & background image')
 
+        save_logo(self.app_launcher_icon, self.app_working_dir)
         resize_launcher_icon(self.app_launcher_icon, self.app_working_dir)
         resize_background_image(self.app_background_image, self.app_working_dir)
 
@@ -136,12 +159,30 @@ class Generator:
         for f in os.listdir(self.app_temp_assets):
             path = os.path.join(self.app_temp_assets, f)
             if os.path.isfile(path):
+                logger.info('Copying %s' % path)
                 shutil.copyfile(path, self.get_path("app/src/main/assets/" + f))
+
+        images_path = os.path.join(self.app_temp_assets, 'images')
+
+        speakers_path = os.path.join(images_path, 'speakers')
+        if os.path.isdir(speakers_path):
+            logger.info('Copying %s' % speakers_path)
+            shutil.copytree(speakers_path, self.get_path("app/src/main/assets/images/speakers/"))
+
+        sponsors_path = os.path.join(images_path, 'sponsors')
+        if os.path.isdir(sponsors_path):
+            logger.info('Copying %s' % sponsors_path)
+            shutil.copytree(sponsors_path, self.get_path("app/src/main/assets/images/sponsors/"))
 
         self.update_status('Preparing android build tools')
 
         build_tools_version = get_build_tools_version(self.get_path('app/build.gradle'))
+
+        logger.info('Detected build tools version: %s' % build_tools_version)
+
         build_tools_path = os.path.abspath(os.environ.get('ANDROID_HOME') + '/build-tools/' + build_tools_version)
+
+        logger.info('Detected build tools path: %s' % build_tools_path)
 
         self.update_status('Building android application package')
 
@@ -150,10 +191,15 @@ class Generator:
         self.update_status('Application package generated')
 
         self.apk_path = self.get_path('release.apk')
+
+        logger.info('Generated apk path: %s' % self.apk_path)
+
         if should_notify:
             self.notify()
 
         apk_url = '/static/releases/%s.apk' % self.identifier
+
+        logger.info('Final apk download path: %s' % apk_url)
 
         shutil.move(self.apk_path, os.path.abspath(self.config['BASE_DIR'] + '/app/' + apk_url))
 
@@ -163,12 +209,41 @@ class Generator:
 
         return apk_url
 
+    def download_event_data(self):
+        """
+        Download all event data from api i.e. event, speakers, sessions etc..
+        :return:
+        """
+        logger.info('Downloading event data')
+        self.save_file_in_temp_assets('event')
+        self.save_file_in_temp_assets('microlocations')
+        self.save_file_in_temp_assets('sessions')
+        self.save_file_in_temp_assets('speakers')
+        self.save_file_in_temp_assets('sponsors')
+        self.save_file_in_temp_assets('tracks')
+        logger.info('Download complete')
+
+    def save_file_in_temp_assets(self, end_point='event'):
+        """
+        Save response from specified end_point in temp assets directory
+        :param end_point:
+        :return:
+        """
+        if self.api_link:
+            response = requests.get(self.api_link + '/' + end_point)
+            file = open(self.get_temp_asset_path(end_point), "w+")
+            file.write(response.text)
+            file.close()
+            logger.info('%s file saved', end_point)
+
     def prepare_source(self):
         """
         Prepare the app-specific source based off the parent
         :return:
         """
-        shutil.copytree(self.src_dir, self.app_working_dir)
+        logger.info('Preparing source code.')
+        logger.info('Copying source from %s to %s' % (self.src_dir, self.app_working_dir))
+        shutil.copytree(self.src_dir, self.app_working_dir, ignore=ignore_files)
         for density in DENSITY_TYPES:
             mipmap_dir = self.get_path("app/src/main/res/mipmap-%s" % density)
             if os.path.exists(mipmap_dir):
@@ -180,6 +255,7 @@ class Generator:
         Clean-up after done like a good fella :)
         :return:
         """
+        logger.info('Cleaning up %s' % self.working_dir)
         shutil.rmtree(os.path.abspath(self.working_dir + '/' + self.identifier + '/'))
         zip_file = os.path.join(self.config['UPLOAD_DIR'], self.identifier)
         if os.path.isfile(zip_file):
@@ -219,7 +295,9 @@ class Generator:
                 via_api=self.via_api
             )
 
-    def update_status(self, state, exception=None, message=None):
+    def update_status(self, state, exception=None, message=None, skip_log=False):
+        if not skip_log:
+            logger.info(state)
         if self.task_handle:
             if not current_app.config.get('CELERY_ALWAYS_EAGER'):
                 meta = {}
@@ -232,6 +310,7 @@ class Generator:
                 )
 
     def run_command(self, command):
+        logger.info('Running command: %s', command)
         process = subprocess.Popen(command,
                                    stdout=subprocess.PIPE,
                                    cwd=self.app_working_dir,
@@ -241,48 +320,47 @@ class Generator:
             if output == '' and process.poll() is not None:
                 break
             if output:
+                logger.info('> %s', output)
                 self.generate_status_updates(output.strip())
         rc = process.poll()
         return rc
 
     def generate_status_updates(self, output_line):
         if 'Starting process \'Gradle build daemon\'' in output_line:
-            self.update_status('Starting gradle builder')
+            self.update_status('Starting gradle builder', skip_log=True)
         elif 'Creating configuration' in output_line:
-            self.update_status('Creating configuration')
+            self.update_status('Creating configuration', skip_log=True)
         elif 'Parsing the SDK' in output_line:
-            self.update_status('Preparing Android SDK')
+            self.update_status('Preparing Android SDK', skip_log=True)
         elif 'app:preBuild' in output_line:
-            self.update_status('Running pre-build tasks')
+            self.update_status('Running pre-build tasks', skip_log=True)
         elif 'Loading library manifest' in output_line:
-            self.update_status('Loading libraries')
+            self.update_status('Loading libraries', skip_log=True)
         elif 'Merging' in output_line:
-            self.update_status('Merging resources')
+            self.update_status('Merging resources', skip_log=True)
         elif 'intermediates' in output_line:
-            self.update_status('Generating intermediates')
+            self.update_status('Generating intermediates', skip_log=True)
         elif 'is not translated' in output_line:
-            self.update_status('Processing strings')
+            self.update_status('Processing strings', skip_log=True)
         elif 'generateFdroidReleaseAssets' in output_line:
-            self.update_status('Processing strings')
+            self.update_status('Processing strings', skip_log=True)
         elif 'Adding PreDexTask' in output_line:
-            self.update_status('Adding pre dex tasks')
+            self.update_status('Adding pre dex tasks', skip_log=True)
         elif 'Dexing' in output_line:
-            self.update_status('Dexing classes')
+            self.update_status('Dexing classes', skip_log=True)
         elif 'packageGoogleplayRelease' in output_line:
-            self.update_status('Packaging release')
+            self.update_status('Packaging release', skip_log=True)
         elif 'assembleRelease' in output_line:
-            self.update_status('Assembling release')
+            self.update_status('Assembling release', skip_log=True)
         elif 'BUILD SUCCESSFUL' in output_line:
-            self.update_status('Build successful. Starting the signing process.')
+            self.update_status('Build successful. Starting the signing process.', skip_log=True)
         elif 'signing' in output_line:
-            self.update_status('Signing the package.')
+            self.update_status('Signing the package.', skip_log=True)
         elif 'jar signed' in output_line:
-            self.update_status('Package signed.')
+            self.update_status('Package signed.', skip_log=True)
         elif 'zipaligning' in output_line:
-            self.update_status('Verifying the package.')
-        elif 'Verification succesful' in output_line:
-            self.update_status('Package verified.')
+            self.update_status('Verifying the package.', skip_log=True)
+        elif 'Verification successful' in output_line:
+            self.update_status('Package verified.', skip_log=True)
         elif output_line == 'done':
-            self.update_status('Application has been generated. Please wait.')
-
-
+            self.update_status('Application has been generated. Please wait.', skip_log=True)

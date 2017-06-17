@@ -11,8 +11,8 @@
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="collapseActionView|ifRoom" />
     <item
-        android:id="@+id/action_sort_schedule"
+        android:id="@+id/action_sort"
         android:icon="@drawable/ic_sort_white_24dp"
         android:title="@string/menu_speaker_sort"
-        app:showAsAction="collapseActionView|ifRoom" />
+        app:showAsAction="always" />
 </menu>

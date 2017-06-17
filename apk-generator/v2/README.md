@@ -49,5 +49,5 @@ All of the following commands are to be executed from within the `apk-generator/
 - `sudo -H pip install -r requirements.txt` to install all requirements
 
 ##### Running
-- `celery worker -A app.celery &` to start the celery worker in the background
+- `celery worker -A app.celery --loglevel=INFO` to start the celery worker
 - `gunicorn app:app` to start the app server

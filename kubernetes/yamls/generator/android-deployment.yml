@@ -1,7 +1,8 @@
 kind: Deployment
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1beta1
 metadata:
   name: android-generator
+  namespace: web
 spec:
   replicas: 1
   template:
@@ -11,7 +12,7 @@ spec:
     spec:
       containers:
       - name: android-generator
-        image: gcr.io/eventyay/generators/android:latest
+        image: eventyay/android-generator:latest
         command: ["/bin/sh","-c"]
         args: ["./kubernetes/run.sh"]
         livenessProbe:

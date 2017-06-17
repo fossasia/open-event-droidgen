@@ -1,11 +1,10 @@
 package org.fossasia.openevent.utils;
 
-/**
- * Created by MananWason on 16-07-2015.
- */
 public class ConstantStrings {
 
     public static final String TRACK = "TRACK";
+
+    public static final String TRACK_ID = "TRACK_ID";
 
     public static final String SESSION = "SESSION";
 
@@ -15,9 +14,19 @@ public class ConstantStrings {
 
     public static final String APP_NAME = "APP_NAME";
 
+    public static final String ORG_DESCRIPTION = "organizer_description";
+
+    public static final String TIMEZONE = "timezone";
+
     public static final String BASE_API_URL = "BASE_API_URL";
 
     public static final String ID = "ID";
+
+    public static final String YOUTUBE = "youtu.be";
+
+    public static final String YOUTUBE_URI_1 = "http://img.youtube.com/vi/";
+
+    public static final String YOUTUBE_URI_2 = "/0.jpg";
 
     public static final String EVENT_DAY = "EVENT_DAY";
 
@@ -42,4 +51,6 @@ public class ConstantStrings {
     public static final String IS_DOWNLOAD_DONE = "isDownloadDone";
 
     public static final String PREF_SORT = "sortType";
+
+    public static final String SESSION_MAP_ID = "sessionMapId";
 }

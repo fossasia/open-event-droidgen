@@ -16,64 +16,79 @@
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            tools:layout_height="300dp">
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <ProgressBar
+                android:id="@+id/progress_bar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/progress_bar"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center" />
 
-            <ImageView
-                android:id="@+id/speaker_image"
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:contentDescription="@null"
-                android:fitsSystemWindows="true"
-                android:scaleType="centerCrop"
-                app:layout_collapseMode="parallax" />
+                android:fitsSystemWindows="true">
+
+                <ImageView
+                    android:id="@+id/speaker_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/item_image_view_extra_large"
+                    android:contentDescription="@null"
+                    android:fitsSystemWindows="true"
+                    android:scaleType="centerCrop"
+                    app:layout_collapseMode="parallax" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/speaker_view_scrim_top"
+                    android:background="@drawable/scrim_top" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/speaker_view_scrim_bottom"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/scrim_bottom" />
+            </FrameLayout>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar_speakers"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_gravity="top"
+                android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin" />
 
             <LinearLayout
                 android:id="@+id/speaker_details_header"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:background="?attr/colorPrimary"
-                android:orientation="vertical"
-                android:padding="@dimen/content_margin">
+                android:layout_marginLeft="@dimen/layout_margin_extra_large"
+                android:layout_marginStart="@dimen/layout_margin_extra_large"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/speaker_details_title"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-condensed"
-                    android:paddingBottom="2dp"
                     android:textColor="@android:color/white"
-                    android:textSize="18sp"
+                    android:textSize="@dimen/heading_text_size"
                     android:textStyle="bold"
-                    tools:text="The 2016 Android Developer Toolbox" />
+                    tools:targetApi="jelly_bean"
+                    tools:text="Title" />
 
                 <TextView
-                    android:id="@+id/session_details_designation"
-                    android:layout_width="match_parent"
+                    android:id="@+id/speaker_details_designation"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@android:color/white"
-                    android:textSize="12sp"
-                    tools:text="May 29, 2015, 10:00 - 11:00 AM\nRoom 1 (L2)" />
+                    android:textSize="@dimen/text_size_large"
+                    tools:text="Subtitle"
+                    android:paddingBottom="@dimen/padding_small"/>
 
             </LinearLayout>
-
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
@@ -82,14 +97,14 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:clipToPadding="false"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <RelativeLayout
-            android:descendantFocusability="blocksDescendants"
             android:id="@+id/infoLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white"
+            android:descendantFocusability="blocksDescendants"
             android:orientation="vertical"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
@@ -97,79 +112,77 @@
                 android:id="@+id/speaker_bio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:paddingEnd="@dimen/content_margin"
-                android:paddingLeft="@dimen/content_margin"
-                android:paddingRight="@dimen/content_margin"
-                android:paddingStart="@dimen/content_margin"
+                android:layout_marginTop="@dimen/layout_margin_medium"
+                android:paddingEnd="@dimen/padding_large"
+                android:paddingLeft="@dimen/padding_large"
+                android:paddingRight="@dimen/padding_large"
+                android:paddingStart="@dimen/padding_large"
                 tools:text="Paresh Mayani, Technical Lead @ Android" />
 
             <LinearLayout
                 android:id="@+id/layoutSocialMedia"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/speaker_bio"
-                android:layout_margin="@dimen/content_margin"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp">
+                android:layout_marginStart="@dimen/padding_medium"
+                android:layout_marginLeft="@dimen/padding_medium"
+                android:layout_marginEnd="@dimen/padding_medium"
+                android:layout_marginRight="@dimen/padding_medium"
+                android:layout_below="@+id/speaker_bio">
 
                 <ImageView
                     android:id="@+id/imageView_fb"
-                    android:layout_width="@dimen/social_image_icon"
-                    android:layout_height="@dimen/social_image_icon"
-                    android:adjustViewBounds="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_medium"
+                    android:background="?selectableItemBackgroundBorderless"
                     android:clickable="true"
                     android:contentDescription="@string/facebook_icon"
-                    android:src="@drawable/facebook"
-                    android:tag="@string/fb" />
+                    android:tag="@string/fb"
+                    app:srcCompat="@drawable/ic_facebook_24dp" />
 
                 <ImageView
                     android:id="@+id/imageView_linkedin"
-                    android:layout_width="@dimen/social_image_icon"
-                    android:layout_height="@dimen/social_image_icon"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginStart="15dp"
-                    android:adjustViewBounds="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_medium"
+                    android:background="?selectableItemBackgroundBorderless"
                     android:clickable="true"
                     android:contentDescription="@string/linkedin_icon"
-                    android:src="@drawable/linkedin"
-                    android:tag="@string/linkedin" />
+                    android:tag="@string/linkedin"
+                    app:srcCompat="@drawable/ic_linkedin_24dp" />
 
                 <ImageView
                     android:id="@+id/imageView_twitter"
-                    android:layout_width="@dimen/social_image_icon"
-                    android:layout_height="@dimen/social_image_icon"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginStart="15dp"
-                    android:adjustViewBounds="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_medium"
+                    android:background="?selectableItemBackgroundBorderless"
                     android:clickable="true"
                     android:contentDescription="@string/twitter_icon"
-                    android:src="@drawable/twitter"
-                    android:tag="@string/twitter" />
+                    android:tag="@string/twitter"
+                    app:srcCompat="@drawable/ic_twitter_24dp" />
 
                 <ImageView
                     android:id="@+id/imageView_github"
-                    android:layout_width="@dimen/social_image_icon"
-                    android:layout_height="@dimen/social_image_icon"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginStart="15dp"
-                    android:adjustViewBounds="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_medium"
+                    android:background="?selectableItemBackgroundBorderless"
                     android:clickable="true"
                     android:contentDescription="@string/github_icon"
-                    android:src="@drawable/github"
-                    android:tag="@string/github" />
+                    android:tag="@string/github"
+                    app:srcCompat="@drawable/ic_github_24dp" />
 
                 <ImageView
                     android:id="@+id/imageView_web"
-                    android:layout_width="@dimen/social_image_icon"
-                    android:layout_height="@dimen/social_image_icon"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginStart="15dp"
-                    android:adjustViewBounds="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_medium"
+                    android:background="?selectableItemBackgroundBorderless"
                     android:clickable="true"
                     android:contentDescription="@string/web_icon"
-                    android:src="@drawable/ic_domain_black_24dp"
-                    android:tag="@string/website" />
+                    android:tag="@string/website"
+                    app:srcCompat="@drawable/ic_domain_black_24dp" />
             </LinearLayout>
 
             <RelativeLayout
@@ -180,7 +193,8 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerView_speakers"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    tools:listitem="@layout/tracksactvity_item" />
 
                 <TextView
                     android:id="@+id/txt_no_sessions"
@@ -193,5 +207,4 @@
             </RelativeLayout>
         </RelativeLayout>
     </android.support.v4.widget.NestedScrollView>
-
 </android.support.design.widget.CoordinatorLayout>

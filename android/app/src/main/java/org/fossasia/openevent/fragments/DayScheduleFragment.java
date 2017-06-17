@@ -1,10 +1,6 @@
 package org.fossasia.openevent.fragments;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
@@ -26,19 +22,23 @@ import com.squareup.otto.Subscribe;
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.DayScheduleAdapter;
+import org.fossasia.openevent.api.DataDownloadManager;
 import org.fossasia.openevent.data.Session;
-import org.fossasia.openevent.dbutils.DataDownloadManager;
-import org.fossasia.openevent.dbutils.DbSingleton;
-import org.fossasia.openevent.events.RefreshUiEvent;
+import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.events.SessionDownloadEvent;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.NetworkUtils;
 import org.fossasia.openevent.utils.ShowNotificationSnackBar;
 import org.fossasia.openevent.utils.SortOrder;
+import org.fossasia.openevent.utils.Utils;
+import org.fossasia.openevent.views.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import io.reactivex.disposables.CompositeDisposable;
 
 /**
  * Created by Manan Wason on 17/06/16.
@@ -47,25 +47,21 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
 
     final private String SEARCH = "searchText";
 
-    private String searchText = "";
+    public static String searchText = "";
 
     private SearchView searchView;
 
-    private SwipeRefreshLayout swipeRefreshLayout;
-
+    @BindView(R.id.schedule_swipe_refresh) SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.list_schedule) RecyclerView dayRecyclerView;
     @BindView(R.id.txt_no_schedule) TextView noSchedule;
 
+    private List<Session> mSessions = new ArrayList<>();
+    private List<Session> mSessionsFiltered = new ArrayList<>();
     private DayScheduleAdapter dayScheduleAdapter;
 
     private String date;
-
-    private int sortType;
-
-    private SharedPreferences sharedPreferences;
-
-    private Snackbar snackbar;
-
+    private CompositeDisposable compositeDisposable;
+    private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,50 +72,86 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        sortType = sharedPreferences.getInt(ConstantStrings.PREF_SORT, 0);
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
-        /**
-         * Loading data in background to improve performance.
-         * */
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                final List<Session> sortedSessions = DbSingleton.getInstance().getSessionbyDate(date, SortOrder.sortOrderSchedule(getActivity()));
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (dayRecyclerView != null && noSchedule != null) {
-                            if (!sortedSessions.isEmpty()) {
-                                noSchedule.setVisibility(View.GONE);
-                            } else {
-                                noSchedule.setVisibility(View.VISIBLE);
-                            }
-                            dayScheduleAdapter = new DayScheduleAdapter(sortedSessions, getContext());
-                            dayRecyclerView.setAdapter(dayScheduleAdapter);
-                            dayScheduleAdapter.setEventDate(date);
-                        }
-                    }
-                });
-            }
-        }).start();
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.schedule_swipe_refresh);
+        compositeDisposable = new CompositeDisposable();
 
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                refresh();
-            }
-        });
+        Utils.registerIfUrlValid(swipeRefreshLayout, this, this::refresh);
 
         dayRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        dayScheduleAdapter = new DayScheduleAdapter(mSessionsFiltered, getContext());
+        dayRecyclerView.setAdapter(dayScheduleAdapter);
+        dayScheduleAdapter.setEventDate(date);
+
+        final StickyRecyclerHeadersDecoration headersDecoration = new StickyRecyclerHeadersDecoration(dayScheduleAdapter);
+        dayRecyclerView.addItemDecoration(headersDecoration);
+        dayScheduleAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override public void onChanged() {
+                headersDecoration.invalidateHeaders();
+            }
+        });
 
         if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
             searchText = savedInstanceState.getString(SEARCH);
         }
 
+        realmRepo.getSessionsByDate(date, SortOrder.sortOrderSchedule(getContext()))
+                .addChangeListener((sortedSessions, orderedCollectionChangeSet) -> {
+                    mSessions.clear();
+                    mSessions.addAll(sortedSessions);
+
+                    mSessionsFiltered.clear();
+                    mSessionsFiltered.addAll(sortedSessions);
+
+                    dayScheduleAdapter.setCopy(sortedSessions);
+                    dayScheduleAdapter.notifyDataSetChanged();
+
+                    handleVisibility();
+                });
+
+        handleVisibility();
+
         return view;
+    }
+
+    public void filter(List<String> selectedTracks) {
+        if(dayScheduleAdapter == null)
+            return;
+
+        realmRepo.getSessionsByDate(date, SortOrder.sortOrderSchedule(OpenEventApp.getAppContext()))
+                .addChangeListener((sortedSessions, orderedCollectionChangeSet) -> {
+                    mSessions.clear();
+                    mSessions.addAll(sortedSessions);
+
+                    mSessionsFiltered.clear();
+                    if (selectedTracks.isEmpty()) {
+                        mSessionsFiltered.addAll(mSessions);
+                    } else {
+                        for(int i = 0 ; i < mSessions.size() ; i++) {
+                            String trackName = mSessions.get(i).getTrack().getName();
+                            if (selectedTracks.contains(trackName)) {
+                                mSessionsFiltered.add(mSessions.get(i));
+                            }
+                        }
+
+                        if(searchText!=null)
+                            dayScheduleAdapter.filter(searchText);
+                    }
+
+                    dayScheduleAdapter.notifyDataSetChanged();
+
+                    handleVisibility();
+                });
+    }
+
+    private void handleVisibility() {
+        if (dayRecyclerView != null && noSchedule != null) {
+            if (!mSessionsFiltered.isEmpty()) {
+                noSchedule.setVisibility(View.GONE);
+            } else {
+                noSchedule.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     @Override
@@ -128,72 +160,61 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
     }
 
     @Override
-    public void onStart() {
-        OpenEventApp.getEventBus().register(this);
-        super.onStart();
+    public void onDestroyView() {
+        super.onDestroyView();
+        Utils.unregisterIfUrlValid(this);
+
+        if(compositeDisposable != null && !compositeDisposable.isDisposed())
+            compositeDisposable.dispose();
+
+        // Remove listeners to fix memory leak
+        if(swipeRefreshLayout != null) swipeRefreshLayout.setOnRefreshListener(null);
+        if(searchView != null) searchView.setOnQueryTextListener(null);
     }
 
-    @Override
-    public void onStop() {
-        OpenEventApp.getEventBus().unregister(this);
-        super.onStop();
+    @Subscribe
+    public void onSessionsDownloadDone(SessionDownloadEvent event) {
+        if(swipeRefreshLayout!=null)
+            swipeRefreshLayout.setRefreshing(false);
+        if (event.isState()) {
+            if (searchView != null && !searchView.getQuery().toString().isEmpty() && !searchView.isIconified()) {
+                dayScheduleAdapter.filter(searchView.getQuery().toString());
+            }
+        } else {
+            if (swipeRefreshLayout != null) {
+                Snackbar.make(swipeRefreshLayout, getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, view -> refresh()).show();
+            }
+        }
     }
 
     @Override
     public void onSaveInstanceState(Bundle bundle) {
         if (isAdded() && searchView != null) {
-                bundle.putString(SEARCH, searchText);
+            bundle.putString(SEARCH, searchText);
         }
         super.onSaveInstanceState(bundle);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_sort_schedule:
-                final AlertDialog.Builder dialogSort = new AlertDialog.Builder(getActivity())
-                        .setTitle(R.string.dialog_sort_title)
-                        .setSingleChoiceItems(R.array.session_sort, sortType, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                sortType = which;
-                                SharedPreferences.Editor editor = sharedPreferences.edit();
-                                editor.putInt(ConstantStrings.PREF_SORT, which);
-                                editor.apply();
-                                dayScheduleAdapter.refresh();
-                                dialog.dismiss();
-                            }
-                        });
-
-                dialogSort.show();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        menu.clear();
+        super.onCreateOptionsMenu(menu, inflater);
+
         searchText = "";
         inflater.inflate(R.menu.menu_schedule, menu);
+
         MenuItem item = menu.findItem(R.id.action_search_schedule);
         searchView = (SearchView) MenuItemCompat.getActionView(item);
         searchView.setOnQueryTextListener(this);
-        if (searchText != null) {
+
+        if (searchText != null && !TextUtils.isEmpty(searchText))
             searchView.setQuery(searchText, false);
-        }
-        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public boolean onQueryTextChange(String query) {
-        if (!TextUtils.isEmpty(query)) {
-            searchText = query;
-            dayScheduleAdapter.getFilter().filter(searchText);
-        } else {
-            if(dayScheduleAdapter!=null)
-                dayScheduleAdapter.refresh();
-        }
+        searchText = query;
+
+        dayScheduleAdapter.filter(searchText);
         return true;
     }
 
@@ -203,45 +224,19 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
         return false;
     }
 
-    @Subscribe
-    public void refreshData(RefreshUiEvent event) {
-        /**
-         * if adapter has not initialised, no point in refreshing it.
-         * */
-        if (dayScheduleAdapter != null)
-            dayScheduleAdapter.refresh();
-
-    }
-
-    @Subscribe
-    public void onScheduleDownloadDone(SessionDownloadEvent event) {
-
-        swipeRefreshLayout.setRefreshing(false);
-        if (event.isState()) {
-            if (dayScheduleAdapter != null)
-                dayScheduleAdapter.refresh();
-
-        } else {
-            if (getActivity() != null) {
-                Snackbar.make(getView(), getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        refresh();
-                    }
-                }).show();
-            }
-        }
-    }
-
     private void refresh() {
-        if (NetworkUtils.haveNetworkConnection(getContext())) {
-            if (NetworkUtils.isActiveInternetPresent()) {
+        NetworkUtils.checkConnection(new WeakReference<>(getContext()), new NetworkUtils.NetworkStateReceiverListener() {
+            @Override
+            public void activeConnection() {
                 //Internet is working
                 DataDownloadManager.getInstance().downloadSession();
-            } else {
+            }
+
+            @Override
+            public void inactiveConnection() {
                 //Device is connected to WI-FI or Mobile Data but Internet is not working
                 //set is refreshing false as let user to login
-                if (swipeRefreshLayout.isRefreshing()) {
+                if (swipeRefreshLayout != null && swipeRefreshLayout.isRefreshing()) {
                     swipeRefreshLayout.setRefreshing(false);
                 }
                 ShowNotificationSnackBar showNotificationSnackBar = new ShowNotificationSnackBar(getContext(),getView(),swipeRefreshLayout) {
@@ -251,14 +246,20 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
                     }
                 };
                 //show snackbar will be useful if user have blocked notification for this app
-                snackbar = showNotificationSnackBar.showSnackBar();
-                //show notification
+                showNotificationSnackBar.showSnackBar();
+                //show notification (Only when connected to WiFi)
                 showNotificationSnackBar.buildNotification();
             }
-        } else {
-            OpenEventApp.getEventBus().post(new SessionDownloadEvent(false));
-        }
+
+            @Override
+            public void networkAvailable() {
+                // Network is available but we need to wait for activity
+            }
+
+            @Override
+            public void networkUnavailable() {
+                OpenEventApp.getEventBus().post(new SessionDownloadEvent(false));
+            }
+        });
     }
-
-
 }

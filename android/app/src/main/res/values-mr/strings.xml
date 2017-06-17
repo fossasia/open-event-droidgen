@@ -64,7 +64,7 @@
     <string name="message_1"> या वेळी ते बोलत आहे </string>
     <string name="message_2"> विषयांवर: </string>
     <string name="message_3"> अधिक माहितीसाठी गुगल प्ले स्टोअरवर अनुप्रयोग तपासा करीता: </string>
-    <string name="fmt_floor">"मजला : "</string>
+    <string name="fmt_floor">"मजला: "</string>
     <string name="noBookmark">अद्याप कोणतेही बुकमार्क सत्र !!</string>
 
     <!--About us text-->
@@ -82,26 +82,16 @@
     <string name="dialog_sort_title">क्रमवारी लावा</string>
 
     <!--Speaker Sort Dialog text-->
-    <string name="dialog_sort_organisation">संघटना</string>
-    <string name="dialog_sort_country">देश</string>
-    <string name="dialog_sort_name">स्पीकर नाव</string>
+    <string name="dialog_sort_by_organisation">संघटना</string>
+    <string name="dialog_sort_by_country">देश</string>
+    <string name="dialog_sort_by_speaker_name">स्पीकर नाव</string>
 
     <!--Session Sort Dialog text-->
-    <string name="dialog_sort_tracks">ट्रॅक</string>
-    <string name="dialog_sort_sessions">सुरवातीची वेळ</string>
+    <string name="dialog_sort_by_title">शीर्षक</string>
+    <string name="dialog_sort_by_tracks">ट्रॅक</string>
+    <string name="dialog_sort_by_start_time">सुरवातीची वेळ</string>
 
 
-    <string name="launcher_icon">लाँचर चिन्ह</string>
-    <string name="sponsor_image">प्रायोजक प्रतिमा</string>
-    <string name="header_image">शीर्षलेख प्रतिमा</string>
-    <string name="speaker_image">स्पीकर प्रतिमा</string>
-    <string name="logo_widget">लोगो विजेट</string>
-    <string name="backdrop_image">पार्श्वभूमी प्रतिमा</string>
-    <string name="linkedin_icon">संलग्न चिन्ह</string>
-    <string name="twitter_icon">ट्विटर चिन्ह</string>
-    <string name="facebook_icon">फेसबुक चिन्ह</string>
-    <string name="github_icon">गीटहब चिन्ह</string>
-    <string name="web_icon">वेब चिन्ह</string>
     <string name="download_assets">आपण आता नवीन वेळापत्रक अद्यतनित करू इच्छिता?</string>
     <string name="internet_preference_warning">वायफाय उपलब्ध नाही, आपण ऑफलाइन वेळापत्रक प्रदर्शित करू इच्छिता? </string>
     <string name="yes">होय</string>
@@ -128,11 +118,6 @@
     <string name="bronze">कांस्य</string>
 
     <!-- Sponsor types int strings-->
-    <string name="platinumInt">1</string>
-    <string name="diamondInt">2</string>
-    <string name="goldInt">3</string>
-    <string name="silverInt">4</string>
-    <string name="bronzeInt">5</string>
 
     <string name="display_offline_schedule">जुन्या वेळापत्रक दर्शवित आहे, इंटरनेट नाही आहे</string>
     <string name="retry_download">पुन्हा प्रयत्न करा</string>

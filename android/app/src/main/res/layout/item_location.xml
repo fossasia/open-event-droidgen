@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:baselineAligned="false"
-    android:background="@color/white"
     android:orientation="vertical">
 
     <LinearLayout
@@ -11,25 +11,27 @@
         android:layout_height="match_parent"
         android:background="?attr/selectableItemBackground"
         android:orientation="vertical"
-        android:padding="@dimen/content_margin">
+        android:padding="@dimen/padding_large">
 
         <TextView
             android:id="@+id/location_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/primary_text"
-            android:textSize="18sp" />
+            android:textSize="@dimen/text_size_large"
+            tools:text="Location Name" />
 
         <TextView
             android:id="@+id/location_floor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/secondary_text"
-            android:textSize="14sp"/>
+            android:textSize="@dimen/text_size_medium"
+            tools:text="Location Floor" />
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="0.8dp"
+        android:layout_height="@dimen/list_divider_height"
         android:background="?android:attr/listDivider" />
 </LinearLayout>

@@ -1,11 +1,11 @@
-# Open Event Android
+![Open Event Android](https://storage.googleapis.com/eventyay.com/assets/branding/android_branding.png)
 
 [![Build Status](https://travis-ci.org/fossasia/open-event-android.svg?branch=development)](https://travis-ci.org/fossasia/open-event-android?branch=development)
 [![codecov.io](https://codecov.io/github/fossasia/open-event-android/coverage.svg?branch=development)](https://codecov.io/github/fossasia/open-event-android?branch=development)
 [![Join the chat at https://gitter.im/fossasia/open-event-android](https://badges.gitter.im/fossasia/open-event-android.svg)](https://gitter.im/fossasia/open-event-android?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Preview the app](https://img.shields.io/badge/Preview-Appetize.io-orange.svg)](https://appetize.io/app/2rfx5pavny47jnb1qzwg204fr8)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d32f87844a9346d09f3e8ad09600d3e1)](https://www.codacy.com/app/dev_19/open-event-android?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=fossasia/open-event-android&amp;utm_campaign=Badge_Grade)
-[![Mailing List](https://img.shields.io/badge/Mailing%20List-FOSSASIA-blue.svg)](mailto: fossasia@googlegroups.com)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/15475df939da4195ae36f06f235a7aad)](https://www.codacy.com/app/harshithdwivedi/open-event-android?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=fossasia/open-event-android&amp;utm_campaign=Badge_Grade)
+[![Mailing List](https://img.shields.io/badge/Mailing%20List-FOSSASIA-blue.svg)](mailto:fossasia@googlegroups.com)
 
 
 The Open Event Android project consists of two components. The **App Generator** is a web application that is hosted on a server and generates an event Android app from a zip with JSON and binary files ([examples here](http://github.com/fossasia/open-event)) or through an API. The second component we are developing in the project is a generic **Android app** - the output of the app generator. The mobile app can be installed on any Android device for browsing information about the event. Updates can be made automatically through API endpoint connections from an online source (e.g. server), which needs to defined in the provided event zip with the JSON files. The Android app has a standard configuration file, that sets the details of the app (e.g. color scheme, logo of event, link to JSON app data).
@@ -28,15 +28,29 @@ B) A JSON API provided by open-event-orga-servers server (Code maintained [here]
 
 ### Sample App
 
-A sample app for testing purposes is automatically built after commits in the repository. Please [download and test the app here](/sample-apk).
+A sample app for testing purposes is automatically built after commits in the repository. Please download and test the app that is using the code from the [dev branch here](https://github.com/fossasia/open-event-android/raw/apk/sample-apk-development.apk) and the code from the [master branch here](https://github.com/fossasia/open-event-android/raw/apk/sample-apk-master.apk).
 
 ### Screenshots of a sample Android app
 
-![alt-tag](docs/screenshots/ss.png)
+<p align="center">
+<img src="docs/images/app-drawer.png" height = "480" width="270"> <img src="docs/images/app-tracks.png" height = "480" width="270"> <img src="docs/images/app-schedule.png" height = "480" width="270">
+</p>
+
+<p align="center">
+<img src="docs/images/app-speakers.png" height = "480" width="270"> <img src="docs/images/app-sponsors.png" height = "480" width="270"> <img src="docs/images/app-locations.png" height = "480" width="270">
+</p>
+
+<p align="center">
+<img src="docs/images/app-speaker-detail.png" height = "480" width="270"> <img src="docs/images/app-location-detail.png" height = "480" width="270"> <img src="docs/images/app-event-detail.png" height = "480" width="270">
+</p>
+
+<p align="center">
+<img src="docs/images/app-map.png" height = "480" width="270"> <img src="docs/images/app-settings.png" height = "480" width="270"> <img src="docs/images/app-invite.png" height = "480" width="270">
+</p>
 
 ### Android App Development Set up
 
-Please find info about the set up of the Android app in your development environment [here](https://github.com/fossasia/open-event-android/blob/development/docs/ANDROID_APP_Setup.md).
+Please find info about the set up of the Android app in your development environment [here](https://github.com/fossasia/open-event-android/blob/development/docs/android-app-setup.md).
 
 ### Data retrieval
 
@@ -71,14 +85,34 @@ Please find info about the set up of the Android app in your development environ
 
 ## 2. App Generator
 
-#### Technology Stack
+### Technology Stack
 - Flask
 - Celery
 - JDK 8
 - Android SDK
 - Redis
 
-Setup and installation instructions can be obtained [here](https://github.com/niranjan94/open-event-android/tree/development/docs/installation).
+### Setup and Installation
+
+#### How to install The Open Event Android App Generator on a Generic Server
+
+Installation instructions for generic servers are [here](docs/installation/generic.md).
+
+#### How to install The Open Event Android App Generator on Google Cloud/Kubernetes
+
+Installation instructions for Google Cloud Kubernetes are [here](docs/installation/gce-kubernetes.md).
+
+#### How to install The Open Event Android App Generator on AWS
+
+Installation instructions for AWS servers are [here](docs/installation/aws.md).
+
+#### How to install The Open Event Android App Generator on Digital Ocean
+
+Installation instructions for Digital Ocean servers are [here](docs/installation/digital-ocean.md).
+
+#### How to install The Open Event Android App Generator on Docker
+
+Installation instructions for docker are [here](docs/installation/docker.md).
 
 ## Contributions, Bug Reports, Feature Requests
 
@@ -94,9 +128,14 @@ We have the following branches
  * **master**
    This contains shipped code. After significant features/bugfixes are accumulated on development, we make a version update, and make a release.
 	 All tagged commits on _master_ branch will automatically generate a release on Github with a copy of ***fDroid-debug*** and ***GooglePlay-debug*** apks.
+ * **apk**
+   This branch contains two apk's, that are automatically generated on merged pull request a) from the dev branch and b) from the master branch using the Open Event sample of the FOSSASIA Summit.
 
 ## Code Style
-For contributions please read the [CODESTYLE](docs/CODESTYLE.md) carefully. Pull requests that do not match the style will be rejected.
+For contributions please read the [CODESTYLE](docs/codestyle.md) carefully. Pull requests that do not match the style will be rejected.
+
+## Commit Style
+For writing commit messages please read the [COMMITSTYLE](docs/commitstyle.md) carefully. Kindly adhere to the guidelines. Pull requests not matching the style will be rejected.  
 
 ## License
 This project is licensed under the GNU General Public License v3. A copy of [LICENSE](LICENSE.md) is to be present along with the source code. To obtain the software under a different license, please contact FOSSASIA.

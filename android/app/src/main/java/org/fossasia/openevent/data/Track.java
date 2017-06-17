@@ -1,50 +1,51 @@
 package org.fossasia.openevent.data;
 
-import android.database.DatabaseUtils;
-
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import org.fossasia.openevent.dbutils.DbContract;
-import org.fossasia.openevent.utils.StringUtils;
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.Index;
+import io.realm.annotations.PrimaryKey;
 
-import java.util.Locale;
+public class Track extends RealmObject {
 
-/**
- * User: championswimmer
- * Date: 16/5/15
- */
-public class Track {
+    @Expose
+    private RealmList<Session> sessions;
 
-    private int id;
-
-    private String name;
-
-    private String description;
+    @Expose
+    private String color;
 
     @SerializedName("track_image_url")
-    private String image;
+    @Expose
+    private String trackImageUrl;
 
-    public Track(int id, String name, String description, String image) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.image = image;
+    @Expose
+    @PrimaryKey
+    private int id;
+
+    @Expose
+    @Index
+    private String name;
+
+    public RealmList<Session> getSessions() {
+        return sessions;
     }
 
-    public String getImage() {
-        return image;
+    public String getColor() {
+        return color;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getTrackImageUrl() {
+        return trackImageUrl;
     }
 
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -52,26 +53,10 @@ public class Track {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = name.trim();
     }
 
-    public String getDescription() {
-
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String generateSql() {
-        String insertQuery = "INSERT INTO %s VALUES ('%d', %s, %s , %s);";
-        return String.format(Locale.ENGLISH,
-                insertQuery,
-                DbContract.Tracks.TABLE_NAME,
-                id,
-                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(name)),
-                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(description)),
-                DatabaseUtils.sqlEscapeString(StringUtils.optionalString(image)));
+    public void setSessions(RealmList<Session> sessions) {
+        this.sessions = sessions;
     }
 }

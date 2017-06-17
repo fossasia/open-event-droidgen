@@ -2,6 +2,8 @@ package org.fossasia.openevent.api;
 
 import android.webkit.URLUtil;
 
+import org.fossasia.openevent.utils.Utils;
+
 /**
  * User: championswimmer
  * Date: 23/5/15
@@ -33,15 +35,20 @@ public abstract class Urls {
 
     public static final String MAP = "map";
 
-    public static String BASE_URL = "";
+    public static String BASE_URL = "https://eventyay.com/api/v1/events/6";
 
     public static final String BASE_GET_URL = BASE_URL + "/api/" + API_VERSION;
 
     public static final String BASE_GET_URL_ALT = "https://raw.githubusercontent.com/fossasia/open-event/master/testapi/";
 
+    // Replace the template in getAppLink() if changing it
     public static final String APP_LINK = "https://app_link_goes_here.com";
 
     public static final String INVALID_LINK = "http://abc//";
+
+    public static final String EMPTY_LINK = "http://xyz//";
+
+    public static final String GOOGLE_PLAY_HOME = "https://play.google.com/store";
 
 
     public static String getBaseUrl() {
@@ -56,8 +63,21 @@ public abstract class Urls {
                 BASE_URL = baseUrl;
             }
         } else {
-            BASE_URL = "http://abc//";
-
+            if (!Utils.isEmpty(baseUrl)) {
+                BASE_URL = INVALID_LINK;
+            } else {
+                BASE_URL = EMPTY_LINK;
+            }
         }
+    }
+
+    /**
+     * Checks if the app link is replaced by the generator, if not
+     * returns null which is to be checked by caller to make decision
+     * accordingly.
+     * @return String
+     */
+    public static String getAppLink() {
+        return APP_LINK.equals("https://app_link_goes_here.com")?GOOGLE_PLAY_HOME:APP_LINK;
     }
 }

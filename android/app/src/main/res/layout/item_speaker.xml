@@ -2,9 +2,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/speakers_entry_height"
+    android:layout_height="@dimen/widget_default_height"
     android:foreground="?android:attr/selectableItemBackground"
-    tools:layout_width="@dimen/speakers_entry_width">
+    tools:layout_width="@dimen/widget_default_height">
 
     <ImageView
         android:id="@+id/speakers_list_image"
@@ -17,11 +17,11 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_gravity="bottom"
-        android:background="?colorPrimaryDark"
         android:alpha="0.8"
-        android:padding="4dp">
+        android:background="?colorPrimaryDark"
+        android:orientation="vertical"
+        android:padding="@dimen/padding_extra_small">
 
         <TextView
             android:id="@+id/speakers_list_name"
@@ -30,9 +30,10 @@
             android:gravity="center"
             android:maxLines="2"
             android:textColor="@android:color/white"
-            android:textSize="13sp"
+            android:textSize="@dimen/text_size_large"
+            android:textStyle="bold"
             tools:ignore="SpUsage"
-            tools:text="Paresh Mayani" />
+            tools:text="Speaker Name" />
 
         <TextView
             android:id="@+id/speakers_list_designation"
@@ -41,9 +42,9 @@
             android:gravity="center"
             android:maxLines="2"
             android:textColor="@android:color/white"
-            android:textSize="10sp"
+            android:textSize="@dimen/text_size_medium"
             tools:ignore="SpUsage"
-            tools:text="Technical Lead" />
+            tools:text="Designation" />
 
         <TextView
             android:id="@+id/speakers_list_country"
@@ -52,9 +53,9 @@
             android:gravity="center"
             android:maxLines="2"
             android:textColor="@android:color/white"
-            android:textSize="10sp"
+            android:textSize="@dimen/text_size_medium"
             tools:ignore="SpUsage"
-            tools:text="India" />
+            tools:text="Country" />
 
     </LinearLayout>
 </FrameLayout>

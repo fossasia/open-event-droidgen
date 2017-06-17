@@ -1,65 +1,64 @@
 package org.fossasia.openevent.adapters;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.amulyakhare.textdrawable.TextDrawable;
-import com.amulyakhare.textdrawable.util.ColorGenerator;
-
 import org.fossasia.openevent.R;
-import org.fossasia.openevent.activities.TrackSessionsActivity;
 import org.fossasia.openevent.data.Track;
-import org.fossasia.openevent.dbutils.DbSingleton;
-import org.fossasia.openevent.utils.ConstantStrings;
+import org.fossasia.openevent.dbutils.RealmDataRepository;
+import org.fossasia.openevent.utils.Utils;
+import org.fossasia.openevent.adapters.viewholders.TrackViewHolder;
+import org.fossasia.openevent.views.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import io.realm.Realm;
 import timber.log.Timber;
 
 /**
  * User: MananWason
  * Date: 07-06-2015
  */
-public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.RecyclerViewHolder> {
+public class TracksListAdapter extends BaseRVAdapter<Track, TrackViewHolder> implements StickyRecyclerHeadersAdapter {
 
     private Context context;
-    private ColorGenerator colorGenerator = ColorGenerator.MATERIAL;
-    private TextDrawable.IBuilder drawableBuilder = TextDrawable.builder().round();
+
     @SuppressWarnings("all")
-    Filter filter = new Filter() {
+    private Filter filter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            DbSingleton instance = DbSingleton.getInstance();
-            List<Track> trackList = instance.getTrackList();
-            final ArrayList<Track> filteredTracksList = new ArrayList<>();
-            String query = constraint.toString().toLowerCase(Locale.getDefault());
-            for (Track track : trackList) {
-                final String text = track.getName().toLowerCase(Locale.getDefault());
-                if (text.contains(query)) {
-                    filteredTracksList.add(track);
-                }
-            }
+
+            final String query = constraint.toString().toLowerCase(Locale.getDefault());
+
+            Realm realm = Realm.getDefaultInstance();
+
+            List<Track> filteredTracks = realm.copyFromRealm(RealmDataRepository.getInstance(realm)
+                    .getTracksFiltered(constraint.toString()));
+
             FilterResults filterResults = new FilterResults();
-            filterResults.values = filteredTracksList;
-            filterResults.count = filteredTracksList.size();
+            filterResults.values = filteredTracks;
+            filterResults.count = filteredTracks.size();
             Timber.d("Filtering done total results %d", filterResults.count);
+
+            realm.close();
             return filterResults;
         }
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
+            if(results == null || results.values == null) {
+                Timber.e("No results published. There is an error in query. Check " + getClass().getName() + " filter!");
+
+                return;
+            }
+
             animateTo((List<Track>) results.values);
         }
     };
@@ -70,38 +69,23 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.Re
     }
 
     @Override
-    public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.item_track, parent, false);
-        return new RecyclerViewHolder(view);
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerViewHolder holder, int position) {
-        final Track currentTrack = getItem(position);
-
-        holder.trackTitle.setText(currentTrack.getName());
-        holder.trackDescription.setText(currentTrack.getDescription());
-
-        TextDrawable drawable = drawableBuilder.build(String.valueOf(currentTrack.getName().charAt(0)), colorGenerator.getColor(currentTrack.getName()));
-        holder.trackImageIcon.setImageDrawable(drawable);
-        holder.trackImageIcon.setBackgroundColor(Color.TRANSPARENT);
-
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String trackTitle = currentTrack.getName();
-                Intent intent = new Intent(context, TrackSessionsActivity.class);
-                intent.putExtra(ConstantStrings.TRACK, trackTitle);
-                context.startActivity(intent);
-            }
-        });
+    public void onBindViewHolder(TrackViewHolder holder, int position) {
+        holder.bindTrack(getItem(position));
+    }
+    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
     }
 
-    public void refresh() {
-        Timber.d("Refreshing tracks from db");
-        clear();
-        animateTo(DbSingleton.getInstance().getTrackList());
+    @Override
+    public TrackViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+        View view = layoutInflater.inflate(R.layout.item_track, parent, false);
+        return new TrackViewHolder(view,context);
     }
 
     @Override
@@ -109,21 +93,29 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TracksListAdapter.Re
         return filter;
     }
 
-    protected class RecyclerViewHolder extends RecyclerView.ViewHolder {
-
-        @BindView(R.id.imageView)
-        ImageView trackImageIcon;
-
-        @BindView(R.id.track_title)
-        TextView trackTitle;
-
-        @BindView(R.id.track_description)
-        TextView trackDescription;
-
-        public RecyclerViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-        }
-
+    @Override
+    public long getHeaderId(int position) {
+        String trackName = Utils.checkStringEmpty(getItem(position).getName());
+        if(!Utils.isEmpty(trackName))
+            return trackName.charAt(0);
+        else
+            return 0;
     }
+
+    @Override
+    public RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.recycler_view_header, parent, false);
+        return new RecyclerView.ViewHolder(view) {};
+    }
+
+    @Override
+    public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
+        TextView textView = (TextView) holder.itemView.findViewById(R.id.recyclerview_view_header);
+
+        String trackName = getItem(position).getName();
+        if(!TextUtils.isEmpty(trackName))
+            textView.setText(String.valueOf(trackName.charAt(0)));
+    }
+
 }

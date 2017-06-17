@@ -20,6 +20,7 @@ import android.view.MenuItem;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
+import org.fossasia.openevent.utils.DateUtils;
 
 /**
  * User: manan
@@ -36,12 +37,17 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
     private SharedPreferences preferences;
     private AppCompatDelegate mDelegate;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getDelegate().installViewFactory();
         getDelegate().onCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
+
+        overridePendingTransition(R.anim.slide_in_right, R.anim.stay_in_place);
+
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        PreferenceManager.setDefaultValues(this,R.xml.settings,false);
         addPreferencesFromResource(R.xml.settings);
         setContentView(R.layout.activity_settings);
         setToolbar();
@@ -57,24 +63,23 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
     }
 
     @Override
-    public boolean onPreferenceChange(Preference preference, Object o) {
+    public boolean onPreferenceChange(Preference preference, Object choice) {
 
         if (preference.getKey().equals(getResources().getString(R.string.download_mode_key))) {
-            if (o.equals(false)) {
+            if (choice.equals(false)) {
                 internetPreference.setChecked(false);
-            } else if (o.equals(true)) {
+            } else {
                 internetPreference.setChecked(true);
             }
         } else if (preference.getKey().equals(getResources().getString(R.string.timezone_mode_key))) {
-            if (o.equals(false)) {
-                timezonePreference.setChecked(false);
-            } else if (o.equals(true)) {
-                timezonePreference.setChecked(true);
-            }
+            boolean showLocalTimezone = choice.equals(true);
+
+            timezonePreference.setChecked(showLocalTimezone);
+            DateUtils.setShowLocalTimeZone(showLocalTimezone);
         } else if (preference.getKey().equals(getResources().getString(R.string.notification_key))) {
-            prefNotification.setSummary((String) o);
+            prefNotification.setSummary((String) choice);
         } else if (preference.getKey().equals(getResources().getString(R.string.language_key))) {
-            languagePreference.setSummary((String) o);
+            languagePreference.setSummary((String) choice);
         }
 
         return false;
@@ -110,20 +115,14 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
     @Override
     public void onResume() {
         super.onResume();
-        prefNotification.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                prefNotification.setSummary((String) newValue);
-                return true;
-            }
+        prefNotification.setOnPreferenceChangeListener((preference, newValue) -> {
+            prefNotification.setSummary((String) newValue);
+            return true;
         });
 
-        languagePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                startActivity(new Intent((Settings.ACTION_LOCALE_SETTINGS)));
-                return true;
-            }
+        languagePreference.setOnPreferenceClickListener(preference -> {
+            startActivity(new Intent((Settings.ACTION_LOCALE_SETTINGS)));
+            return true;
         });
 
 
@@ -152,6 +151,13 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
     protected void onDestroy() {
         super.onDestroy();
         getDelegate().onDestroy();
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        SettingsActivity.this.overridePendingTransition(0,R.anim.slide_out_right);
+
     }
 
     private void setToolbar() {

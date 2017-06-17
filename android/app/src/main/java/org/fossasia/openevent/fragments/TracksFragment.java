@@ -1,23 +1,19 @@
 package org.fossasia.openevent.fragments;
 
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
@@ -25,17 +21,22 @@ import com.squareup.otto.Subscribe;
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.TracksListAdapter;
+import org.fossasia.openevent.api.DataDownloadManager;
 import org.fossasia.openevent.data.Track;
-import org.fossasia.openevent.dbutils.DataDownloadManager;
-import org.fossasia.openevent.dbutils.DbSingleton;
+import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.events.RefreshUiEvent;
 import org.fossasia.openevent.events.TracksDownloadEvent;
 import org.fossasia.openevent.utils.NetworkUtils;
 import org.fossasia.openevent.utils.ShowNotificationSnackBar;
+import org.fossasia.openevent.utils.Utils;
+import org.fossasia.openevent.views.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import io.realm.RealmResults;
 
 /**
  * User: MananWason
@@ -45,6 +46,7 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
 
     final private String SEARCH = "searchText";
 
+    private List<Track> mTracks = new ArrayList<>();
     private TracksListAdapter tracksListAdapter;
 
     @BindView(R.id.tracks_swipe_refresh) SwipeRefreshLayout swipeRefreshLayout;
@@ -56,13 +58,8 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
 
     private SearchView searchView;
 
-    private DbSingleton dbSingleton;
-
-    private Snackbar snackbar;
-
-    private Toolbar toolbar;
-    private AppBarLayout.LayoutParams layoutParams;
-    private int SCROLL_OFF = 0;
+    private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
+    private RealmResults<Track> realmResults;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -70,49 +67,42 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
 
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
-        OpenEventApp.getEventBus().register(this);
-        dbSingleton = DbSingleton.getInstance();
-        List<Track> mTracks = dbSingleton.getTrackList();
-        setVisibility();
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                refresh();
-            }
-        });
+        handleVisibility();
 
-
-        //setting the grid layout to cut-off white space in tablet view
-        DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
-        float width = displayMetrics.widthPixels / displayMetrics.density;
-        int spanCount = (int) (width/200.00);
+        Utils.registerIfUrlValid(swipeRefreshLayout, this, this::refresh);
 
         tracksRecyclerView.setHasFixedSize(true);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         tracksRecyclerView.setLayoutManager(linearLayoutManager);
         tracksListAdapter = new TracksListAdapter(getContext(), mTracks);
         tracksRecyclerView.setAdapter(tracksListAdapter);
-        tracksRecyclerView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-            @Override
-            public boolean onPreDraw() {
-                toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
-                layoutParams = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
-                if (linearLayoutManager.findLastCompletelyVisibleItemPosition() == linearLayoutManager.getChildCount() - 1) {
-                    layoutParams.setScrollFlags(SCROLL_OFF);
-                    toolbar.setLayoutParams(layoutParams);
-                }
-                tracksRecyclerView.getViewTreeObserver().removeOnPreDrawListener(this);
-                return false;
+
+        final StickyRecyclerHeadersDecoration headersDecoration = new StickyRecyclerHeadersDecoration(tracksListAdapter);
+        tracksRecyclerView.addItemDecoration(headersDecoration);
+        tracksListAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override public void onChanged() {
+                headersDecoration.invalidateHeaders();
             }
         });
+
         if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
             searchText = savedInstanceState.getString(SEARCH);
         }
+
+        realmResults = realmRepo.getTracks();
+        realmResults.addChangeListener((tracks, orderedCollectionChangeSet) -> {
+            mTracks.clear();
+            mTracks.addAll(tracks);
+
+            tracksListAdapter.notifyDataSetChanged();
+            handleVisibility();
+        });
+
         return view;
     }
 
-    public void setVisibility() {
-        if (!dbSingleton.getTrackList().isEmpty()) {
+    public void handleVisibility() {
+        if (!mTracks.isEmpty()) {
             noTracksView.setVisibility(View.GONE);
             tracksRecyclerView.setVisibility(View.VISIBLE);
         } else {
@@ -129,17 +119,18 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        OpenEventApp.getEventBus().unregister(this);
-        layoutParams.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL);
-        toolbar.setLayoutParams(layoutParams);
+        Utils.unregisterIfUrlValid(this);
+
+        // Remove listeners to fix memory leak
+        realmResults.removeAllChangeListeners();
+        if(swipeRefreshLayout != null) swipeRefreshLayout.setOnRefreshListener(null);
+        if(searchView != null) searchView.setOnQueryTextListener(null);
     }
 
     @Override
     public void onSaveInstanceState(Bundle bundle) {
-        if (isAdded()) {
-            if (searchView != null) {
-                bundle.putString(SEARCH, searchText);
-            }
+        if (isAdded() && searchView != null) {
+            bundle.putString(SEARCH, searchText);
         }
         super.onSaveInstanceState(bundle);
     }
@@ -151,25 +142,22 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        menu.clear();
+        super.onCreateOptionsMenu(menu, inflater);
+
         inflater.inflate(R.menu.menu_tracks, menu);
         MenuItem item = menu.findItem(R.id.action_search_tracks);
         searchView = (SearchView) MenuItemCompat.getActionView(item);
         searchView.setOnQueryTextListener(this);
-        if (searchText != null) {
+        if (searchText != null && !TextUtils.isEmpty(searchText)) {
             searchView.setQuery(searchText, false);
         }
-        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public boolean onQueryTextChange(String query) {
-        if (!TextUtils.isEmpty(query)) {
-            searchText = query;
-            tracksListAdapter.getFilter().filter(searchText);
-        } else {
-            tracksListAdapter.refresh();
-        }
+        searchText = query;
+        tracksListAdapter.getFilter().filter(searchText);
+
         return true;
     }
 
@@ -180,11 +168,8 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
     }
 
     @Subscribe
-    public void RefreshData(RefreshUiEvent event) {
-        setVisibility();
-        if (searchText.length() == 0) {
-            tracksListAdapter.refresh();
-        }
+    public void refreshData(RefreshUiEvent event) {
+        handleVisibility();
     }
 
     @Subscribe
@@ -192,28 +177,28 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
         if(swipeRefreshLayout!=null)
             swipeRefreshLayout.setRefreshing(false);
         if (event.isState()) {
-            tracksListAdapter.refresh();
-
+            if (!searchView.getQuery().toString().isEmpty() && !searchView.isIconified()) {
+                tracksListAdapter.getFilter().filter(searchView.getQuery());
+            }
         } else {
             if (getActivity() != null) {
-                Snackbar.make(windowFrame, getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        refresh();
-                    }
-                }).show();
+                Snackbar.make(windowFrame, getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, view -> refresh()).show();
             }
         }
     }
 
     private void refresh() {
-        if (NetworkUtils.haveNetworkConnection(getActivity())) {
-            if (NetworkUtils.isActiveInternetPresent()) {
+        NetworkUtils.checkConnection(new WeakReference<>(getContext()), new NetworkUtils.NetworkStateReceiverListener() {
+            @Override
+            public void activeConnection() {
                 //Internet is working
                 DataDownloadManager.getInstance().downloadTracks();
-            } else {
+            }
+
+            @Override
+            public void inactiveConnection() {
                 //set is refreshing false as let user to login
-                if (swipeRefreshLayout.isRefreshing()) {
+                if (swipeRefreshLayout != null && swipeRefreshLayout.isRefreshing()) {
                     swipeRefreshLayout.setRefreshing(false);
                 }
                 //Device is connected to WI-FI or Mobile Data but Internet is not working
@@ -224,17 +209,22 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
                     }
                 };
                 //show snackbar will be useful if user have blocked notification for this app
-                snackbar = showNotificationSnackBar.showSnackBar();
-                //show notification
+                showNotificationSnackBar.showSnackBar();
+                //show notification (Only when connected to WiFi)
                 showNotificationSnackBar.buildNotification();
             }
-        } else {
-            if (snackbar!=null && snackbar.isShown()) {
-                snackbar.dismiss();
+
+            @Override
+            public void networkAvailable() {
+                // Network is available but we need to wait for activity
             }
-            OpenEventApp.getEventBus().post(new TracksDownloadEvent(false));
-        }
-        setVisibility();
+
+            @Override
+            public void networkUnavailable() {
+                OpenEventApp.getEventBus().post(new TracksDownloadEvent(false));
+            }
+        });
+
     }
 
 }

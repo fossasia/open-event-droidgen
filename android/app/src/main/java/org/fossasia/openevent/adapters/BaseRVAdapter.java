@@ -35,15 +35,30 @@ public abstract class BaseRVAdapter<T, V extends RecyclerView.ViewHolder> extend
         addItem(getItemCount() - 1, item);
     }
 
-    public void addItem(int position, T data) {
-        dataList.add(position, data);
-        notifyItemInserted(position);
+    protected void addItem(int position, T data) {
+        if(position < dataList.size()) {
+            dataList.add(position, data);
+            notifyItemInserted(position);
+        } else {
+            dataList.add(data);
+            notifyItemInserted(dataList.size());
+        }
     }
 
     private void moveItem(int fromPosition, int toPosition) {
         final T data = dataList.remove(fromPosition);
         dataList.add(toPosition, data);
         notifyItemMoved(fromPosition, toPosition);
+    }
+
+    protected void removeItem(T item) {
+        int position = dataList.indexOf(item);
+        dataList.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    protected List<T> getDataList() {
+        return dataList;
     }
 
     public void clear() {
@@ -84,7 +99,8 @@ public abstract class BaseRVAdapter<T, V extends RecyclerView.ViewHolder> extend
 
     private void applyAndAnimateAdditions(List<T> newSessions) {
         List<T> dataList = new ArrayList<>(this.dataList);
-        for (int i = 0, count = newSessions.size(); i < count; i++) {
+        int count = newSessions.size();
+        for (int i = 0; i < count; i++) {
             final T data = newSessions.get(i);
             if (!dataList.contains(data)) {
                 addItem(i, data);

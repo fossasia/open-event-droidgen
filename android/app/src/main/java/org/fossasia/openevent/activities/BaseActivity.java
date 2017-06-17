@@ -5,6 +5,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
+import org.fossasia.openevent.dbutils.RealmDataRepository;
+
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
@@ -23,6 +25,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         Timber.i("Activity onCreate: total instances %d", ++count);
         super.onCreate(savedInstanceState);
+        getWindow().setBackgroundDrawable(null);
 
         setContentView(getLayoutResource());
         ButterKnife.bind(this);
@@ -30,6 +33,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        RealmDataRepository.compactDatabase();
         Timber.i("Activity onDestroy: total instances %d", --count);
         super.onDestroy();
     }
@@ -51,6 +55,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
+                break;
+            default:
+                //Do nothing
         }
         return super.onOptionsItemSelected(item);
     }
