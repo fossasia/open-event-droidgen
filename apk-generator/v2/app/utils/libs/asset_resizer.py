@@ -112,7 +112,7 @@ class AssetResizer:
                 continue  # skip xxxhdpi
 
             out_file = os.path.join(self.out,
-                                    self.get_out_for_density(d), filename)
+                                    self.get_out_for_density(d), filename).replace('.jpg', '.png')
 
             if d == self.source_density:
                 im.save(out_file, quality=self.image_quality)
