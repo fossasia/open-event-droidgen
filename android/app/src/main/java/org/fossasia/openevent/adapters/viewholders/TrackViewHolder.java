@@ -34,14 +34,12 @@ public class TrackViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         ButterKnife.bind(this, itemView);
 
-        Context applicationContext = context.getApplicationContext();
-
         //Attach onClickListener for ViewHolder
         itemView.setOnClickListener(view -> {
             Intent intent = new Intent(context, TrackSessionsActivity.class);
             intent.putExtra(ConstantStrings.TRACK, track.getName());
             intent.putExtra(ConstantStrings.TRACK_ID, track.getId());
-            applicationContext.startActivity(intent);
+            context.startActivity(intent);
         });
     }
 

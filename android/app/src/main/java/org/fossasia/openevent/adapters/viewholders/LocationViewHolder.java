@@ -31,14 +31,12 @@ public class LocationViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         ButterKnife.bind(this, itemView);
 
-        Context applicationContext = context.getApplicationContext();
-
         //Attach onClickListener for ViewHolder
         itemView.setOnClickListener(view -> {
-            Intent intent = new Intent(applicationContext, LocationActivity.class);
+            Intent intent = new Intent(context, LocationActivity.class);
             intent.putExtra(ConstantStrings.MICROLOCATIONS, location.getName());
             getAdapterPosition();
-            applicationContext.startActivity(intent);
+            context.startActivity(intent);
         });
     }
 
