@@ -176,6 +176,7 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         mTwoPane = drawerLayout == null;
+        Utils.setTwoPane(mTwoPane);
 
         disposable = new CompositeDisposable();
 

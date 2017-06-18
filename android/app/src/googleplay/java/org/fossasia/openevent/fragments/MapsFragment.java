@@ -37,6 +37,7 @@ import org.fossasia.openevent.R;
 import org.fossasia.openevent.data.Event;
 import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
+import org.fossasia.openevent.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +63,9 @@ public class MapsFragment extends Fragment implements LocationListener, OnMapRea
         super.onCreate(savedInstanceState);
 
         toolbar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        toolbar.setDisplayHomeAsUpEnabled(true);
+        if(!Utils.getTwoPane()) {
+            toolbar.setDisplayHomeAsUpEnabled(true);
+        }
         toolbar.setDisplayShowCustomEnabled(true);
     }
 

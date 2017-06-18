@@ -7,6 +7,8 @@ import org.fossasia.openevent.api.Urls;
 
 public class Utils {
 
+    private static boolean isTwoPane = false;
+
     public static boolean isEmpty(String string) {
         return string == null || string.trim().length() == 0;
     }
@@ -52,4 +54,11 @@ public class Utils {
         return null;
     }
 
+    public static void setTwoPane(boolean value) {
+        isTwoPane = value;
+    }
+
+    public static boolean getTwoPane() {
+        return isTwoPane;
+    }
 }
