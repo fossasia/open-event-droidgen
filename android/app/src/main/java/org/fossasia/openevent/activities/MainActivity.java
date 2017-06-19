@@ -517,21 +517,19 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if(!mTwoPane) {
-            if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-                drawerLayout.closeDrawer(GravityCompat.START);
-            } else if (atHome) {
-                if (backPressedOnce) {
-                    super.onBackPressed();
-                } else {
-                    backPressedOnce = true;
-                    Snackbar snackbar = Snackbar.make(mainFrame, R.string.press_back_again, 2000);
-                    snackbar.show();
-                    new Handler().postDelayed(() -> backPressedOnce = false, 2000);
-                }
+        if (!mTwoPane && drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else if (atHome) {
+            if (backPressedOnce) {
+                super.onBackPressed();
             } else {
-                replaceFragment(new AboutFragment(), R.string.menu_home);
+                backPressedOnce = true;
+                Snackbar snackbar = Snackbar.make(mainFrame, R.string.press_back_again, 2000);
+                snackbar.show();
+                new Handler().postDelayed(() -> backPressedOnce = false, 2000);
             }
+        } else {
+            replaceFragment(new AboutFragment(), R.string.menu_home);
         }
     }
 
