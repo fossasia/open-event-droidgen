@@ -57,11 +57,6 @@
             android:icon="@drawable/ic_share_white_24dp"
             app:showAsAction="always"
             android:title="@string/menu_share" />
-        <item
-            android:id="@+id/nav_about"
-            android:icon="@drawable/ic_info_black_24dp"
-            app:showAsAction="always"
-            android:title="@string/menu_about" />
 
     </group>
 

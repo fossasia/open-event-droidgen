@@ -454,36 +454,6 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    private void showAboutDialog() {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String app_name = sharedPreferences.getString(ConstantStrings.APP_NAME, "");
-        String org_description = sharedPreferences.getString(ConstantStrings.ORG_DESCRIPTION, "");
-
-        final AlertDialog aboutUs = new AlertDialog.Builder(this)
-                .setTitle(app_name)
-                .setMessage(Views.fromHtml(org_description))
-                .setIcon(R.mipmap.ic_launcher)
-                .setPositiveButton(android.R.string.ok, null)
-                .create();
-        aboutUs.show();
-
-        TextView aboutUsTV = (TextView) aboutUs.findViewById(android.R.id.message);
-        if(aboutUsTV == null) return;
-        aboutUsTV.setMovementMethod(LinkMovementMethod.getInstance());
-        if (customTabsSupported) {
-            SpannableString welcomeAlertSpannable = new SpannableString(aboutUsTV.getText());
-            URLSpan[] spans = welcomeAlertSpannable.getSpans(0, welcomeAlertSpannable.length(), URLSpan.class);
-            for (URLSpan span : spans) {
-                CustomTabsSpan newSpan = new CustomTabsSpan(span.getURL(), getApplicationContext(), this,
-                        customTabsClient.newSession(new CustomTabsCallback()));
-                welcomeAlertSpannable.setSpan(newSpan, welcomeAlertSpannable.getSpanStart(span),
-                        welcomeAlertSpannable.getSpanEnd(span),
-                        Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-                welcomeAlertSpannable.removeSpan(span);
-            }
-            aboutUsTV.setText(welcomeAlertSpannable);
-        }
-    }
 
     private void replaceFragment(Fragment fragment, int title) {
         boolean isAtHome = false;
@@ -538,9 +508,6 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.nav_share:
                 shareApplication();
-                break;
-            case R.id.nav_about:
-                showAboutDialog();
                 break;
             default:
                 //Do nothing
