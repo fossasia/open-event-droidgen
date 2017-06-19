@@ -46,7 +46,7 @@ public class SpeakerViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         ButterKnife.bind(this, itemView);
 
-        this.context = context.getApplicationContext();
+        this.context = context;
 
         //Attach onClickListener for ViewHolder
         itemView.setOnClickListener(view -> {
