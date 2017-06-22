@@ -15,7 +15,6 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
-import android.support.customtabs.CustomTabsCallback;
 import android.support.customtabs.CustomTabsClient;
 import android.support.customtabs.CustomTabsServiceConnection;
 import android.support.design.widget.AppBarLayout;
@@ -29,20 +28,16 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.method.LinkMovementMethod;
-import android.text.style.URLSpan;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.squareup.otto.Subscribe;
 
 import org.fossasia.openevent.OpenEventApp;
@@ -85,14 +80,11 @@ import org.fossasia.openevent.utils.NetworkUtils;
 import org.fossasia.openevent.utils.ShowNotificationSnackBar;
 import org.fossasia.openevent.utils.SmoothActionBarDrawerToggle;
 import org.fossasia.openevent.utils.Utils;
-import org.fossasia.openevent.utils.Views;
-import org.fossasia.openevent.views.CustomTabsSpan;
 import org.fossasia.openevent.widget.DialogFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
-import java.lang.reflect.Type;
 import java.util.List;
 
 import butterknife.BindView;
@@ -639,7 +631,8 @@ public class MainActivity extends BaseActivity {
         final String json = jsonReadEvent.getJson();
 
         Completable.fromAction(() -> {
-            final Gson gson = new Gson();
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
             // Need separate instance for background thread
             Realm realm = Realm.getDefaultInstance();
@@ -649,7 +642,7 @@ public class MainActivity extends BaseActivity {
 
             switch (name) {
                 case ConstantStrings.EVENT: {
-                    Event event = gson.fromJson(json, Event.class);
+                    Event event = objectMapper.readValue(json, Event.class);
 
                     saveEventDates(event);
                     realmDataRepository.saveEvent(event).subscribe();
@@ -659,16 +652,14 @@ public class MainActivity extends BaseActivity {
                     OpenEventApp.postEventOnUIThread(new EventDownloadEvent(true));
                     break;
                 } case ConstantStrings.TRACKS: {
-                    Type listType = new TypeToken<List<Track>>() {}.getType();
-                    List<Track> tracks = gson.fromJson(json, listType);
+                    List<Track> tracks = objectMapper.readValue(json, new TypeReference<List<Track>>() {});
 
                     realmDataRepository.saveTracks(tracks).subscribe();
 
                     OpenEventApp.postEventOnUIThread(new TracksDownloadEvent(true));
                     break;
                 } case ConstantStrings.SESSIONS: {
-                    Type listType = new TypeToken<List<Session>>() {}.getType();
-                    List<Session> sessions = gson.fromJson(json, listType);
+                    List<Session> sessions = objectMapper.readValue(json, new TypeReference<List<Session>>() {});
 
                     for (Session current : sessions) {
                         current.setStartDate(current.getStartTime().split("T")[0]);
@@ -679,24 +670,21 @@ public class MainActivity extends BaseActivity {
                     OpenEventApp.postEventOnUIThread(new SessionDownloadEvent(true));
                     break;
                 } case ConstantStrings.SPEAKERS: {
-                    Type listType = new TypeToken<List<Speaker>>() {}.getType();
-                    List<Speaker> speakers = gson.fromJson(json, listType);
+                    List<Speaker> speakers = objectMapper.readValue(json, new TypeReference<List<Speaker>>() {});
 
                     realmRepo.saveSpeakers(speakers).subscribe();
 
                     OpenEventApp.postEventOnUIThread(new SpeakerDownloadEvent(true));
                     break;
                 } case ConstantStrings.SPONSORS: {
-                    Type listType = new TypeToken<List<Sponsor>>() {}.getType();
-                    List<Sponsor> sponsors = gson.fromJson(json, listType);
+                    List<Sponsor> sponsors = objectMapper.readValue(json, new TypeReference<List<Sponsor>>() {});
 
                     realmRepo.saveSponsors(sponsors).subscribe();
 
                     OpenEventApp.postEventOnUIThread(new SponsorDownloadEvent(true));
                     break;
                 } case ConstantStrings.MICROLOCATIONS: {
-                    Type listType = new TypeToken<List<Microlocation>>() {}.getType();
-                    List<Microlocation> microlocations = gson.fromJson(json, listType);
+                    List<Microlocation> microlocations = objectMapper.readValue(json, new TypeReference<List<Microlocation>>() {});
 
                     realmRepo.saveLocations(microlocations).subscribe();
 

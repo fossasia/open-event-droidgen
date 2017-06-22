@@ -1,29 +1,19 @@
 package org.fossasia.openevent.data.extras;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 public class CallForPapers extends RealmObject {
 
-    @Expose
     @PrimaryKey
     private String announcement;
-
-    @Expose
     private String privacy;
-
-    @SerializedName("start_date")
-    @Expose
+    @JsonProperty("start_date")
     private String startDate;
-
-    @SerializedName("end_date")
-    @Expose
+    @JsonProperty("end_date")
     private String endDate;
-
-    @Expose
     private String timezone;
 
     public String getAnnouncement() {
@@ -45,5 +35,4 @@ public class CallForPapers extends RealmObject {
     public String getTimezone() {
         return timezone;
     }
-
 }

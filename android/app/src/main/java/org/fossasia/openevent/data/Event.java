@@ -1,7 +1,6 @@
 package org.fossasia.openevent.data;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import org.fossasia.openevent.data.extras.CallForPapers;
 import org.fossasia.openevent.data.extras.Copyright;
@@ -15,125 +14,57 @@ import io.realm.annotations.PrimaryKey;
 
 public class Event extends RealmObject {
 
-    @SerializedName("id")
-    @Expose
     @PrimaryKey
     private Integer id;
-
-    @SerializedName("event_url")
-    @Expose
+    @JsonProperty("event_url")
     private String eventUrl;
-
-    @Expose
     private String description;
-
-    @SerializedName("licence_details")
-    @Expose
+    @JsonProperty("licence_details")
     private LicenseDetails licenseDetails;
-
-    @SerializedName("start_time")
-    @Expose
+    @JsonProperty("start_time")
     private String startTime;
-
-    @SerializedName("end_time")
-    @Expose
+    @JsonProperty("end_time")
     private String endTime;
-
-    @SerializedName("ticket_url")
-    @Expose
+    @JsonProperty("ticket_url")
     private String ticketUrl;
-
-    @Expose
     private String topic;
-
-    @Expose
     private String thumbnail;
-
-    @Expose
     private String timezone;
-
-    @Expose
     private String logo;
-
-    @SerializedName("searchable_location_name")
-    @Expose
+    @JsonProperty("searchable_location_name")
     private String searchableLocationName;
-
-    @Expose
     private String large;
-
-    @SerializedName("background_image")
-    @Expose
+    @JsonProperty("background_image")
     private String backgroundImage;
-
-    @SerializedName("call_for_papers")
-    @Expose
+    @JsonProperty("call_for_papers")
     private CallForPapers callForPapers;
-
-    @SerializedName("location_name")
-    @Expose
+    @JsonProperty("location_name")
     private String locationName;
-
-    @Expose
     private String name;
-
-    @Expose
     private Copyright copyright;
-
-    @Expose
     private String privacy;
-
-    @SerializedName("placeholder_url")
-    @Expose
+    @JsonProperty("placeholder_url")
     private String placeholderUrl;
-
-    @SerializedName("social_links")
-    @Expose
+    @JsonProperty("social_links")
     private RealmList<SocialLink> socialLinks;
-
-    @Expose
     private Double longitude;
-
-    @SerializedName("organizer_name")
-    @Expose
+    @JsonProperty("organizer_name")
     private String organizerName;
-
-    @SerializedName("schedule_published_on")
-    @Expose
+    @JsonProperty("schedule_published_on")
     private String schedulePublishedOn;
-
-    @Expose
     private String state;
-
-    @Expose
     private Version version;
-
-    @SerializedName("has_session_speakers")
-    @Expose
+    @JsonProperty("has_session_speakers")
     private Boolean hasSessionSpeakers;
-
-    @SerializedName("sub_topic")
-    @Expose
+    @JsonProperty("sub_topic")
     private String subTopic;
-
-    @Expose
     private Double latitude;
-
-    @SerializedName("organizer_description")
-    @Expose
+    @JsonProperty("organizer_description")
     private String organizerDescription;
-
-    @Expose
     private String identifier;
-
-    @Expose
     private String type;
-
-    @Expose
     private String email;
-
-    @SerializedName("code_of_conduct")
-    @Expose
+    @JsonProperty("code_of_conduct")
     private String codeOfConduct;
 
     public String getEventUrl() {
@@ -271,5 +202,4 @@ public class Event extends RealmObject {
     public String getCodeOfConduct() {
         return codeOfConduct;
     }
-
 }
