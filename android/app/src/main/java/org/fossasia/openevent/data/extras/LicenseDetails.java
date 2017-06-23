@@ -1,32 +1,20 @@
 package org.fossasia.openevent.data.extras;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 public class LicenseDetails extends RealmObject {
 
-    @Expose
     @PrimaryKey
     private String name;
-
-    @SerializedName("compact_logo")
-    @Expose
+    @JsonProperty("compact_logo")
     private String compactLogo;
-
-    @Expose
     private String url;
-
-    @SerializedName("long_name")
-    @Expose
+    @JsonProperty("long_name")
     private String longName;
-
-    @Expose
     private String logo;
-
-    @Expose
     private String description;
 
     public String getName() {
@@ -52,5 +40,4 @@ public class LicenseDetails extends RealmObject {
     public String getDescription() {
         return description;
     }
-
 }

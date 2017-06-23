@@ -1,36 +1,24 @@
 package org.fossasia.openevent.data.extras;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 public class Version extends RealmObject {
 
-    @SerializedName("tracks_ver")
-    @Expose
     @PrimaryKey
+    @JsonProperty("tracks_ver")
     private int tracksVer;
-
-    @SerializedName("event_ver")
-    @Expose
+    @JsonProperty("event_ver")
     private int eventVer;
-
-    @SerializedName("speakers_ver")
-    @Expose
+    @JsonProperty("speakers_ver")
     private int speakersVer;
-
-    @SerializedName("sessions_ver")
-    @Expose
+    @JsonProperty("sessions_ver")
     private int sessionsVer;
-
-    @SerializedName("microlocations_ver")
-    @Expose
+    @JsonProperty("microlocations_ver")
     private int microlocationsVer;
-
-    @SerializedName("sponsors_ver")
-    @Expose
+    @JsonProperty("sponsors_ver")
     private int sponsorsVer;
 
     public int getTracksVer() {

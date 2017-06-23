@@ -1,26 +1,20 @@
 package org.fossasia.openevent.data;
 
-
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-
-/**
- * Created by MananWason on 26-05-2015.
- */
 public class Microlocation extends RealmObject {
+
     @PrimaryKey
     private int id;
-
     private String name;
-
     private float latitude;
-
     private float longitude;
-
     private int floor;
+    private String room;
 
-    public Microlocation() {}
+    public Microlocation() {
+    }
 
     public Microlocation(int id, String name) {
         this.id = id;
@@ -77,4 +71,11 @@ public class Microlocation extends RealmObject {
         this.floor = floor;
     }
 
+    public String getRoom() {
+        return room;
+    }
+
+    public void setRoom(String room) {
+        this.room = room;
+    }
 }

@@ -1,7 +1,6 @@
 package org.fossasia.openevent.data;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import org.fossasia.openevent.data.extras.SessionType;
 
@@ -19,88 +18,40 @@ public class Session extends RealmObject {
     public static final String TRACK = "track.name";
     public static final String START_TIME = "startTime";
 
-    @Expose
     @PrimaryKey
     private int id;
-
-    @SerializedName("session_type")
-    @Expose
-    private SessionType sessionType;
-
-    @SerializedName("short_abstract")
-    @Expose
-    private String shortAbstract;
-
-    @Expose
-    private String subtitle;
-
-    @Expose
-    private String language;
-
-    @Expose
     @Index
     private String title;
-
-    @Expose
-    private Track track;
-
-    @SerializedName("start_time")
-    @Expose
-    private String startTime;
-
-    @Expose
-    private String level;
-
-    @Expose
-    private String comments;
-
-    @Expose
-    private String slides;
-
-    @Expose
-    private String state;
-
-    @Expose
-    private Microlocation microlocation;
-    @SerializedName("end_time")
-    @Expose
-    private String endTime;
-
-    @Expose
-    private String video;
-
-    @Expose
-    private String audio;
-
-    @SerializedName("signup_url")
-    @Expose
-    private String signupUrl;
-
-    @SerializedName("long_abstract")
-    @Expose
+    private String subtitle;
+    @JsonProperty("short_abstract")
+    private String shortAbstract;
+    @JsonProperty("long_abstract")
     private String longAbstract;
-
+    private String comments;
+    @JsonProperty("start_time")
+    private String startTime;
+    @JsonProperty("end_time")
+    private String endTime;
+    private String language;
+    private String slides;
+    private String video;
+    private String audio;
+    @JsonProperty("signup_url")
+    private String signupUrl;
+    private String state;
+    private String level;
+    @JsonProperty("session_type")
+    private SessionType sessionType;
+    private Track track;
+    private Microlocation microlocation;
     private RealmList<Speaker> speakers;
-
     @Index
     private String startDate;
-
     private boolean isBookmarked;
 
-    public SessionType getSessionType() {
-        return sessionType;
-    }
 
-    public String getShortAbstract() {
-        return shortAbstract;
-    }
-
-    public String getSubtitle() {
-        return subtitle;
-    }
-
-    public String getLanguage() {
-        return language;
+    public Integer getId() {
+        return id;
     }
 
     public String getTitle() {
@@ -111,44 +62,36 @@ public class Session extends RealmObject {
         this.title = title;
     }
 
-    public Track getTrack() {
-        return track;
+    public String getSubtitle() {
+        return subtitle;
     }
 
-    public void setTrack(Track track) {
-        this.track = track;
+    public String getShortAbstract() {
+        return shortAbstract;
     }
 
-    public String getStartTime() {
-        return startTime;
-    }
-
-    public String getLevel() {
-        return level;
+    public String getLongAbstract() {
+        return longAbstract;
     }
 
     public String getComments() {
         return comments;
     }
 
-    public String getSlides() {
-        return slides;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public Microlocation getMicrolocation() {
-        return microlocation;
-    }
-
-    public void setMicrolocation(Microlocation microlocation) {
-        this.microlocation = microlocation;
+    public String getStartTime() {
+        return startTime;
     }
 
     public String getEndTime() {
         return endTime;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public String getSlides() {
+        return slides;
     }
 
     public String getVideo() {
@@ -167,12 +110,8 @@ public class Session extends RealmObject {
         return signupUrl;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public String getLongAbstract() {
-        return longAbstract;
+    public String getState() {
+        return state;
     }
 
     public String getStartDate() {
@@ -183,20 +122,44 @@ public class Session extends RealmObject {
         this.startDate = startDate;
     }
 
-    public RealmList<Speaker> getSpeakers() {
-        return speakers;
-    }
-
-    public void setSpeakers(RealmList<Speaker> speakers) {
-        this.speakers = speakers;
-    }
-
     public boolean isBookmarked() {
         return isBookmarked;
     }
 
     public void setBookmarked(boolean bookmarked) {
         isBookmarked = bookmarked;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public SessionType getSessionType() {
+        return sessionType;
+    }
+
+    public Track getTrack() {
+        return track;
+    }
+
+    public void setTrack(Track track) {
+        this.track = track;
+    }
+
+    public Microlocation getMicrolocation() {
+        return microlocation;
+    }
+
+    public void setMicrolocation(Microlocation microlocation) {
+        this.microlocation = microlocation;
+    }
+
+    public RealmList<Speaker> getSpeakers() {
+        return speakers;
+    }
+
+    public void setSpeakers(RealmList<Speaker> speakers) {
+        this.speakers = speakers;
     }
 
     @Override

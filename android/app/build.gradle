@@ -36,6 +36,9 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "GIT_SHA", "\"${gitSha}\""
         buildConfigField "String", "BUILD_TIME", "\"${buildTime}\""
+
+        // Enabling multidex support.
+        multiDexEnabled true
     }
     buildTypes {
         debug {
@@ -55,7 +58,7 @@ android {
     }
     packagingOptions {
         exclude 'META-INF/services/javax.annotation.processing.Processor'
-        exclude 'LICENSE.txt'
+        exclude 'META-INF/LICENSE'
     }
     lintOptions {
         abortOnError false
@@ -91,8 +94,9 @@ dependencies {
     compile "com.android.support:design:${SUPPORT_LIB_VERSION}"
     compile "com.android.support:customtabs:${SUPPORT_LIB_VERSION}"
     compile "com.android.support:palette-v7:${SUPPORT_LIB_VERSION}"
+    compile 'com.android.support:multidex:1.0.1'
     compile 'com.squareup.retrofit2:retrofit:2.2.0'
-    compile 'com.squareup.retrofit2:converter-gson:2.2.0'
+    compile 'com.squareup.retrofit2:converter-jackson:2.2.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.6.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'

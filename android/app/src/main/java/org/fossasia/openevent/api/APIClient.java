@@ -1,6 +1,8 @@
 package org.fossasia.openevent.api;
 
 import com.facebook.stetho.okhttp3.StethoInterceptor;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.fossasia.openevent.BuildConfig;
 import org.fossasia.openevent.api.network.OpenEventAPI;
@@ -10,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.jackson.JacksonConverterFactory;
 
 
 /**
@@ -34,7 +36,7 @@ public final class APIClient {
                 .connectTimeout(CONNECT_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)
                 .readTimeout(READ_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS);
 
-        if(BuildConfig.DEBUG)
+        if (BuildConfig.DEBUG)
             okHttpClientBuilder.addNetworkInterceptor(new StethoInterceptor());
 
         OkHttpClient okHttpClient = okHttpClientBuilder.addInterceptor(new HttpLoggingInterceptor()
@@ -43,7 +45,7 @@ public final class APIClient {
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Urls.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(JacksonConverterFactory.create(new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)))
                 .client(okHttpClient)
                 .build();
 
