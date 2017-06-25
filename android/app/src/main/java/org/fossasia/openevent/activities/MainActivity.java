@@ -42,6 +42,8 @@ import com.squareup.otto.Subscribe;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
+import org.fossasia.openevent.adapters.FeedAdapter;
+import org.fossasia.openevent.api.APIClient;
 import org.fossasia.openevent.api.DataDownloadManager;
 import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Event;
@@ -50,6 +52,8 @@ import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Sponsor;
 import org.fossasia.openevent.data.Track;
+import org.fossasia.openevent.data.facebook.CommentItem;
+import org.fossasia.openevent.data.extras.SocialLink;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.events.CounterEvent;
 import org.fossasia.openevent.events.DataDownloadEvent;
@@ -67,6 +71,8 @@ import org.fossasia.openevent.events.SpeakerDownloadEvent;
 import org.fossasia.openevent.events.SponsorDownloadEvent;
 import org.fossasia.openevent.events.TracksDownloadEvent;
 import org.fossasia.openevent.fragments.AboutFragment;
+import org.fossasia.openevent.fragments.CommentsDialogFragment;
+import org.fossasia.openevent.fragments.FeedFragment;
 import org.fossasia.openevent.fragments.LocationsFragment;
 import org.fossasia.openevent.fragments.ScheduleFragment;
 import org.fossasia.openevent.fragments.SpeakersListFragment;
@@ -85,6 +91,7 @@ import org.fossasia.openevent.widget.DialogFactory;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -95,9 +102,11 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 import io.realm.Realm;
+import io.realm.RealmList;
+import io.realm.RealmResults;
 import timber.log.Timber;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCallback {
 
     private static final String STATE_FRAGMENT = "stateFragment";
     private static final String NAV_ITEM = "navItem";
@@ -333,6 +342,8 @@ public class MainActivity extends BaseActivity {
         setupEvent();
         OpenEventApp.postEventOnUIThread(new EventLoadedEvent(event));
         saveEventDates(event);
+
+        downloadPageId();
     }
 
     private void startDownloadFromNetwork() {
@@ -354,6 +365,28 @@ public class MainActivity extends BaseActivity {
         } else {
             OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
         }
+    }
+
+    private void downloadPageId() {
+        //Store the facebook page name in the shared preference from the database
+        if(sharedPreferences.getString(ConstantStrings.FACEBOOK_PAGE_NAME, null) == null) {
+            RealmList<SocialLink> socialLinks = event.getSocialLinks();
+            RealmResults<SocialLink> facebookPage = socialLinks.where().equalTo("name", "Facebook").findAll();
+            SocialLink facebookLink = facebookPage.get(0);
+            String pageName = facebookLink.getLink().substring(20);
+            sharedPreferences.edit().putString(ConstantStrings.FACEBOOK_PAGE_NAME, pageName).apply();
+        }
+
+        if(sharedPreferences.getString(ConstantStrings.FACEBOOK_PAGE_ID, null) == null)
+            APIClient.getFacebookGraphAPI().getPageId(sharedPreferences.getString(ConstantStrings.FACEBOOK_PAGE_NAME, null),
+                    getResources().getString(R.string.facebook_access_token))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(facebookPageId -> {
+                        String id = facebookPageId.getId();
+                        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+                        sharedPreferences.edit().putString(ConstantStrings.FACEBOOK_PAGE_ID, id).apply();
+                    });
     }
 
     private void setupConnection() {
@@ -407,6 +440,7 @@ public class MainActivity extends BaseActivity {
                 downloadFromAssets();
             }
         });
+
     }
 
     private void downloadFailed(final DownloadEvent event) {
@@ -474,6 +508,9 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.nav_tracks:
                 replaceFragment(new TracksFragment(), R.string.menu_tracks);
+                break;
+            case R.id.nav_feed:
+                replaceFragment(new FeedFragment(), R.string.menu_feed);
                 break;
             case R.id.nav_schedule:
                 addShadowToAppBar(false);
@@ -788,4 +825,12 @@ public class MainActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    @Override
+    public void onMethodCallback(List<CommentItem> commentItems) {
+        CommentsDialogFragment newFragment = new CommentsDialogFragment();
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList(ConstantStrings.FACEBOOK_COMMENTS, new ArrayList<>(commentItems));
+        newFragment.setArguments(bundle);
+        newFragment.show(fragmentManager, "Comments");
+    }
 }

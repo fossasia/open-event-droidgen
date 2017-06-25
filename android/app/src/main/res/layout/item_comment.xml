@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <TextView
+        android:id="@+id/commenter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="15dp"
+        android:drawablePadding="8dp"
+        android:gravity="left|center"
+        android:textColor="#222222"
+        android:textStyle="bold"
+        android:text="@string/commenter"
+        android:textSize="14sp"
+         />
+
+    <TextView
+        android:id="@+id/comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:drawablePadding="8dp"
+        android:textSize="14sp"
+        android:textIsSelectable="true"
+    />
+
+    <TextView
+        android:id="@+id/comment_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:textSize="12sp"
+        android:gravity="right"
+        android:layout_marginBottom="5dp"
+        />
+
+
+</LinearLayout>

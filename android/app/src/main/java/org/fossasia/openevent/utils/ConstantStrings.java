@@ -36,6 +36,8 @@ public class ConstantStrings {
 
     public static final String TRACKS = "tracks";
 
+    public static final String FEED = "feed";
+
     public static final String VERSION = "version";
 
     public static final String EventDates = "eventDates";
@@ -53,4 +55,10 @@ public class ConstantStrings {
     public static final String PREF_SORT = "sortType";
 
     public static final String SESSION_MAP_ID = "sessionMapId";
+
+    public static final String FACEBOOK_PAGE_ID = "pageId";
+
+    public static final String FACEBOOK_PAGE_NAME = "pageName";
+
+    public static final String FACEBOOK_COMMENTS = "comments";
 }

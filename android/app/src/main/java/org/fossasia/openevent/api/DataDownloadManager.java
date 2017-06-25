@@ -16,8 +16,6 @@ import org.fossasia.openevent.api.processor.TrackListResponseProcessor;
 public final class DataDownloadManager {
     private static DataDownloadManager instance;
 
-    private APIClient client = new APIClient();
-
     private DataDownloadManager() {
     }
 
@@ -29,28 +27,26 @@ public final class DataDownloadManager {
     }
 
     public void downloadEvents() {
-        client.getOpenEventAPI().getEvents().enqueue(new EventListResponseProcessor());
+        APIClient.getOpenEventAPI().getEvents().enqueue(new EventListResponseProcessor());
     }
 
     public void downloadSpeakers() {
-        client.getOpenEventAPI().getSpeakers().enqueue(new SpeakerListResponseProcessor());
+        APIClient.getOpenEventAPI().getSpeakers().enqueue(new SpeakerListResponseProcessor());
     }
 
     public void downloadSponsors() {
-        client.getOpenEventAPI().getSponsors().enqueue(new SponsorListResponseProcessor());
+        APIClient.getOpenEventAPI().getSponsors().enqueue(new SponsorListResponseProcessor());
     }
 
     public void downloadSession() {
-        client.getOpenEventAPI().getSessions("start_time.asc").enqueue(new SessionListResponseProcessor());
+        APIClient.getOpenEventAPI().getSessions("start_time.asc").enqueue(new SessionListResponseProcessor());
     }
 
     public void downloadTracks() {
-        client.getOpenEventAPI().getTracks().enqueue(new TrackListResponseProcessor());
+        APIClient.getOpenEventAPI().getTracks().enqueue(new TrackListResponseProcessor());
     }
 
     public void downloadMicrolocations() {
-        client.getOpenEventAPI().getMicrolocations().enqueue(new MicrolocationListResponseProcessor());
+        APIClient.getOpenEventAPI().getMicrolocations().enqueue(new MicrolocationListResponseProcessor());
     }
-
-
 }

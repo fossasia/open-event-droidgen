@@ -23,9 +23,8 @@ import retrofit2.Response;
  */
 public class APITest extends AndroidTestCase {
     public void testSpeakerAPIResponse() throws Exception {
-        APIClient client = new APIClient();
         final CountDownLatch latch = new CountDownLatch(1);
-        client.getOpenEventAPI().getSpeakers().enqueue(new Callback<List<Speaker>>() {
+        APIClient.getOpenEventAPI().getSpeakers().enqueue(new Callback<List<Speaker>>() {
             @Override
             public void onResponse(Call<List<Speaker>> call, Response<List<Speaker>> response) {
                 if (response.isSuccessful()) {
@@ -50,9 +49,8 @@ public class APITest extends AndroidTestCase {
     }
 
     public void testSponsorAPIResponse() throws Exception {
-        APIClient client = new APIClient();
         final CountDownLatch latch = new CountDownLatch(1);
-        client.getOpenEventAPI().getSponsors().enqueue(new Callback<List<Sponsor>>() {
+        APIClient.getOpenEventAPI().getSponsors().enqueue(new Callback<List<Sponsor>>() {
             @Override
             public void onResponse(Call<List<Sponsor>> call, Response<List<Sponsor>> response) {
                 if (response.isSuccessful()) {
@@ -77,9 +75,8 @@ public class APITest extends AndroidTestCase {
     }
 
     public void testEventAPIResponse() throws Exception {
-        APIClient client = new APIClient();
         final CountDownLatch latch = new CountDownLatch(1);
-        client.getOpenEventAPI().getEvents().enqueue(new Callback<Event>() {
+        APIClient.getOpenEventAPI().getEvents().enqueue(new Callback<Event>() {
             @Override
             public void onResponse(Call<Event> call, Response<Event> response) {
                 if (response.isSuccessful()) {
@@ -101,9 +98,8 @@ public class APITest extends AndroidTestCase {
     }
 
     public void testSessionAPIResponse() throws Exception {
-        APIClient client = new APIClient();
         final CountDownLatch latch = new CountDownLatch(1);
-        client.getOpenEventAPI().getSessions("start_time.asc").enqueue(new Callback<List<Session>>() {
+        APIClient.getOpenEventAPI().getSessions("start_time.asc").enqueue(new Callback<List<Session>>() {
             @Override
             public void onResponse(Call<List<Session>> call, Response<List<Session>> response) {
                 if (response.isSuccessful()) {
@@ -126,9 +122,8 @@ public class APITest extends AndroidTestCase {
     }
 
     public void testTrackAPIResponse() throws Exception {
-        APIClient client = new APIClient();
         final CountDownLatch latch = new CountDownLatch(1);
-        client.getOpenEventAPI().getTracks().enqueue(new Callback<List<Track>>() {
+        APIClient.getOpenEventAPI().getTracks().enqueue(new Callback<List<Track>>() {
             @Override
             public void onResponse(Call<List<Track>> call, Response<List<Track>> response) {
                 if (response.isSuccessful()) {
@@ -151,9 +146,8 @@ public class APITest extends AndroidTestCase {
     }
 
     public void testMicrolocationAPIResponse() throws Exception {
-        APIClient client = new APIClient();
         final CountDownLatch latch = new CountDownLatch(1);
-        client.getOpenEventAPI().getMicrolocations().enqueue(new Callback<List<Microlocation>>() {
+        APIClient.getOpenEventAPI().getMicrolocations().enqueue(new Callback<List<Microlocation>>() {
             @Override
             public void onResponse(Call<List<Microlocation>> call, Response<List<Microlocation>> response) {
                 if (response.isSuccessful()) {

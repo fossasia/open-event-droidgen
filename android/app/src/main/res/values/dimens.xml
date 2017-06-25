@@ -43,7 +43,7 @@
     <dimen name="text_size_medium">14sp</dimen>
     <dimen name="text_size_small">12sp</dimen>
 
-    <!--tab layout sepcifics -->
+    <!--tab layout specifics -->
     <dimen name="tab_min_width">100dp</dimen>
     <dimen name="tab_max_width">150dp</dimen>
     <dimen name="tab_indicator_height">3dp</dimen>
@@ -74,4 +74,18 @@
 
     <!--Track Tag-->
     <dimen name="track_tag_height">30dp</dimen>
+
+    <!--Feed Item-->
+    <dimen name="feed_item_margin">10dp</dimen>
+    <dimen name="feed_item_padding_top_bottom">20dp</dimen>
+    <dimen name="feed_item_padding_left_right">15dp</dimen>
+    <dimen name="feed_item_profile_pic">50dp</dimen>
+    <dimen name="feed_item_profile_info_padd">10dp</dimen>
+    <dimen name="feed_item_profile_name">15sp</dimen>
+    <dimen name="feed_item_timestamp">13sp</dimen>
+    <dimen name="feed_item_status_pad_left_right">15dp</dimen>
+    <dimen name="feed_item_status_pad_top">13dp</dimen>
+    <dimen name="feed_item_corner_radius">3dp</dimen>
+    <dimen name="feed_item_border_width">1dp</dimen>
+    <dimen name="comment_list_height">300dp</dimen>
 </resources>
