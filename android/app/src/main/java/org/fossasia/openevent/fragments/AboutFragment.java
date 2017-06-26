@@ -50,11 +50,11 @@ public class AboutFragment extends BaseFragment {
     @BindView(R.id.welcomeMessage)
     protected TextView welcomeMessage;
     @BindView(R.id.event_description)
-    protected TextView event_description;
-    @BindView(R.id.event_timing_details)
-    protected TextView event_timing;
+    protected TextView eventDescription;
     @BindView(R.id.organiser_description)
-    protected TextView organiser_description;
+    protected TextView organiserDescription;
+    @BindView(R.id.event_timing_details)
+    protected TextView eventTiming;
     @BindView(R.id.item_description_img)
     protected ImageView mDescriptionImg;
     @BindView(R.id.readmore)
@@ -62,15 +62,15 @@ public class AboutFragment extends BaseFragment {
     @BindView(R.id.readless)
     protected TextView readLess;
     @BindView(R.id.img_twitter)
-    protected ImageView img_twitter;
+    protected ImageView imgTwitter;
     @BindView(R.id.img_facebook)
-    protected ImageView img_facebook;
+    protected ImageView imgFacebook;
     @BindView(R.id.img_github)
-    protected ImageView img_github;
+    protected ImageView imgGithub;
     @BindView(R.id.img_linkedin)
-    protected ImageView img_linkedin;
+    protected ImageView imgLinkedin;
     @BindView(R.id.event_venue_details)
-    protected TextView venue_details;
+    protected TextView venueDetails;
     @BindView(R.id.list_bookmarks)
     protected RecyclerView bookmarksRecyclerView;
 
@@ -101,7 +101,6 @@ public class AboutFragment extends BaseFragment {
         if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
             searchText = savedInstanceState.getString(SEARCH);
         }
-
         return view;
     }
 
@@ -131,47 +130,43 @@ public class AboutFragment extends BaseFragment {
                 DateUtils.formatDateWithDefault(DateUtils.FORMAT_DATE_COMPLETE, event.getStartTime()),
                 DateUtils.formatDateWithDefault(DateUtils.FORMAT_DATE_COMPLETE, event.getEndTime()));
 
-        welcomeMessage.setText(getText(R.string.welcome_message));
-        Views.setHtml(organiser_description, event.getOrganizerDescription(), true);
-        Views.setHtml(event_description, event.getDescription(), true);
-        venue_details.setText(event.getLocationName());
-        event_timing.setText(date);
+        welcomeMessage.setText(String.format(getResources().getString(R.string.welcome_message), event.getName()));
+        Views.setHtml(organiserDescription, event.getOrganizerDescription(), true);
+        Views.setHtml(eventDescription, event.getDescription(), true);
+        venueDetails.setText(event.getLocationName());
+        eventTiming.setText(date);
         mDescriptionImg.setOnClickListener(v -> collapseExpandTextView());
         readMore.setOnClickListener(v -> {
-            organiser_description.setMaxLines(Integer.MAX_VALUE);
+            organiserDescription.setMaxLines(Integer.MAX_VALUE);
             readMore.setVisibility(View.GONE);
             readLess.setVisibility(View.VISIBLE);
         });
         readLess.setOnClickListener(v -> {
-            organiser_description.setMaxLines(4);
+            organiserDescription.setMaxLines(4);
             readLess.setVisibility(View.GONE);
             readMore.setVisibility(View.VISIBLE);
         });
 
         final List<SocialLink> socialLinks = event.getSocialLinks();
-        img_twitter.setOnClickListener(v -> setUpCustomTab(socialLinks.get(2).getLink()));
-
-        img_facebook.setOnClickListener(v -> setUpCustomTab(socialLinks.get(3).getLink()));
-
-        img_github.setOnClickListener(v -> setUpCustomTab(socialLinks.get(7).getLink()));
-
-        img_linkedin.setOnClickListener(v -> setUpCustomTab(socialLinks.get(8).getLink()));
-
+        imgTwitter.setOnClickListener(v -> setUpCustomTab(socialLinks.get(2).getLink()));
+        imgFacebook.setOnClickListener(v -> setUpCustomTab(socialLinks.get(3).getLink()));
+        imgGithub.setOnClickListener(v -> setUpCustomTab(socialLinks.get(7).getLink()));
+        imgLinkedin.setOnClickListener(v -> setUpCustomTab(socialLinks.get(8).getLink()));
     }
 
     @TargetApi(16)
     void collapseExpandTextView() {
-        if (event_description.getVisibility() == View.GONE) {
+        if (eventDescription.getVisibility() == View.GONE) {
             // it's collapsed - expand it
-            event_description.setVisibility(View.VISIBLE);
+            eventDescription.setVisibility(View.VISIBLE);
             mDescriptionImg.setImageResource(R.drawable.ic_expand_less_black_24dp);
         } else {
             // it's expanded - collapse it
-            event_description.setVisibility(View.GONE);
+            eventDescription.setVisibility(View.GONE);
             mDescriptionImg.setImageResource(R.drawable.ic_expand_more_black_24dp);
         }
 
-        ObjectAnimator animation = ObjectAnimator.ofInt(event_description, "maxLines", event_description.getMaxLines());
+        ObjectAnimator animation = ObjectAnimator.ofInt(eventDescription, "maxLines", eventDescription.getMaxLines());
         animation.setDuration(200).start();
     }
 
@@ -180,16 +175,12 @@ public class AboutFragment extends BaseFragment {
         Uri uri = Uri.parse(url);
 
         CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder();
-
         intentBuilder.setToolbarColor(ContextCompat.getColor(getContext(), R.color.color_primary));
         intentBuilder.setSecondaryToolbarColor(ContextCompat.getColor(getContext(), R.color.color_primary_dark));
-
         intentBuilder.setStartAnimations(getContext(), R.anim.slide_in_right, R.anim.slide_out_left);
-        intentBuilder.setExitAnimations(getContext(), android.R.anim.slide_in_left,
-                android.R.anim.slide_out_right);
+        intentBuilder.setExitAnimations(getContext(), android.R.anim.slide_in_left, android.R.anim.slide_out_right);
 
         CustomTabsIntent customTabsIntent = intentBuilder.build();
-
         customTabsIntent.launchUrl(getActivity(), uri);
     }
 
@@ -232,9 +223,7 @@ public class AboutFragment extends BaseFragment {
         bookmarksResult.addChangeListener((bookmarked, orderedCollectionChangeSet) -> {
             mSessions.clear();
             mSessions.addAll(bookmarked);
-
             sessionsListAdapter.notifyDataSetChanged();
-
             handleVisibility();
         });
     }

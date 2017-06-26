@@ -201,7 +201,7 @@
     <string name="delimiter" translatable="false">,\u0020\u0020</string>
 
     <!--About Screen-->
-    <string name="welcome_message">Welcome to FOSSASIA Summit 2017!</string>
+    <string name="welcome_message">Welcome to %1$s!</string>
     <string name="event_open">EVENT OPEN</string>
     <string name="event_venue">VENUE</string>
     <string name="organiser_description">ORGANISERS DESCRIPTION</string>
