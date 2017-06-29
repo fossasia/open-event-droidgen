@@ -84,13 +84,13 @@ public class Event extends RealmObject {
     }
 
     @JsonSetter("start_time")
-    public void setStartTime(String endTime) {
-        this.endTime = endTime;
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
     }
 
     @JsonSetter("starts-at")
-    public void setStartTimeForNewModel(String endTime) {
-        this.endTime = endTime;
+    public void setStartTimeForNewModel(String startTime) {
+        this.startTime = startTime;
     }
 
     @JsonSetter("end_time")
