@@ -559,6 +559,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
             }
         } else {
             replaceFragment(new AboutFragment(), R.string.menu_home);
+            navigationView.setCheckedItem(R.id.nav_home);
         }
     }
 
