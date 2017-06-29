@@ -1,6 +1,6 @@
 package org.fossasia.openevent.data;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
@@ -33,19 +33,52 @@ public class Speaker extends RealmObject {
     private String website;
     private Boolean featured;
     private String city;
-    @JsonProperty("long_biography")
     private String longBiography;
-    @JsonProperty("heard_from")
-    private String heardFrom;
-    @JsonProperty("short_biography")
     private String shortBiography;
     private RealmList<Session> sessions;
-    @JsonProperty("sponsorship_required")
-    private String sponsorshipRequired;
-    @JsonProperty("speaking_experience")
     private String speakingExperience;
     private String gender;
     private String position;
+
+    @JsonSetter("short_biography")
+    public void setShortBiography(String shortBiography) {
+        this.shortBiography = shortBiography;
+    }
+
+    @JsonSetter("short-biography")
+    public void setShortBiographyForNewModel(String shortBiography) {
+        this.shortBiography = shortBiography;
+    }
+
+    @JsonSetter("long_biography")
+    public void setLongBiography(String longBiography) {
+        this.longBiography = longBiography;
+    }
+
+    @JsonSetter("long-biography")
+    public void setLongBiographyForNewModel(String longBiography) {
+        this.longBiography = longBiography;
+    }
+
+    @JsonSetter("speaking_experience")
+    public void setSpeakingExperience(String speakingExperience) {
+        this.speakingExperience = speakingExperience;
+    }
+
+    @JsonSetter("speaking-experience")
+    public void setSpeakingExperienceForNewModel(String speakingExperience) {
+        this.speakingExperience = speakingExperience;
+    }
+
+    @JsonSetter("featured")
+    public void setFeatured(Boolean featured) {
+        this.featured = featured;
+    }
+
+    @JsonSetter("is-featured")
+    public void setFeaturedForNewModel(Boolean featured) {
+        this.featured = featured;
+    }
 
     public int getId() {
         return id;
@@ -111,20 +144,12 @@ public class Speaker extends RealmObject {
         return longBiography;
     }
 
-    public String getHeardFrom() {
-        return heardFrom;
-    }
-
     public String getShortBiography() {
         return shortBiography;
     }
 
     public RealmList<Session> getSessions() {
         return sessions;
-    }
-
-    public String getSponsorshipRequired() {
-        return sponsorshipRequired;
     }
 
     public String getSpeakingExperience() {

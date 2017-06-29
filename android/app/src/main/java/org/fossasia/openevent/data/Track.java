@@ -1,6 +1,6 @@
 package org.fossasia.openevent.data;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
@@ -15,12 +15,8 @@ public class Track extends RealmObject {
     private String name;
     private String description;
     private String color;
-    @JsonProperty("font_color")
     private String fontColor;
-    @JsonProperty("track_image_url")
-    private String trackImageUrl;
     private RealmList<Session> sessions;
-
 
     public int getId() {
         return id;
@@ -54,16 +50,14 @@ public class Track extends RealmObject {
         return fontColor;
     }
 
+    @JsonSetter("font_color")
     public void setFontColor(String fontColor) {
         this.fontColor = fontColor;
     }
 
-    public String getTrackImageUrl() {
-        return trackImageUrl;
-    }
-
-    public void setTrackImageUrl(String trackImageUrl) {
-        this.trackImageUrl = trackImageUrl;
+    @JsonSetter("font-color")
+    public void setFontColorForNewModel(String fontColor) {
+        this.fontColor = fontColor;
     }
 
     public RealmList<Session> getSessions() {
