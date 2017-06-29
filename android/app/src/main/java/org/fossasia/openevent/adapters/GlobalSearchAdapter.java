@@ -5,9 +5,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import org.fossasia.openevent.R;
+import org.fossasia.openevent.adapters.viewholders.DividerViewHolder;
 import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Track;
@@ -17,9 +17,6 @@ import org.fossasia.openevent.adapters.viewholders.TrackViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class GlobalSearchAdapter extends BaseRVAdapter<Object, RecyclerView.ViewHolder> {
 
@@ -94,7 +91,7 @@ public class GlobalSearchAdapter extends BaseRVAdapter<Object, RecyclerView.View
                 break;
             case DIVIDER:
                 View header = inflater.inflate(R.layout.search_result_type_header_format, parent, false);
-                resultHolder = new SearchResultTypeViewHolder(header);
+                resultHolder = new DividerViewHolder(header);
                 break;
             default:
                 //If viewType doesn't match any of the above objects no view is created
@@ -122,7 +119,7 @@ public class GlobalSearchAdapter extends BaseRVAdapter<Object, RecyclerView.View
                 locationSearchHolder.bindLocation(location);
                 break;
             case DIVIDER:
-                SearchResultTypeViewHolder resultTypeViewHolder = (SearchResultTypeViewHolder) holder;
+                DividerViewHolder resultTypeViewHolder = (DividerViewHolder) holder;
                 String headerItem = (String) getItem(position);
                 resultTypeViewHolder.bindHeader(headerItem);
                 break;
@@ -132,17 +129,4 @@ public class GlobalSearchAdapter extends BaseRVAdapter<Object, RecyclerView.View
         }
     }
 
-    protected class SearchResultTypeViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.search_result_type_view)
-        protected TextView resultTypeHeader;
-
-        protected SearchResultTypeViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-        }
-
-        protected void bindHeader(String headerItem) {
-            resultTypeHeader.setText(headerItem);
-        }
-    }
 }

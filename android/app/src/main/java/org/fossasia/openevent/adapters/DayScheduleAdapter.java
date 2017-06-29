@@ -1,52 +1,36 @@
 package org.fossasia.openevent.adapters;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.fossasia.openevent.R;
-import org.fossasia.openevent.activities.SessionDetailActivity;
-import org.fossasia.openevent.activities.TrackSessionsActivity;
+import org.fossasia.openevent.adapters.viewholders.DayScheduleViewHolder;
 import org.fossasia.openevent.data.Session;
-import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.fragments.DayScheduleFragment;
-import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.DateUtils;
-import org.fossasia.openevent.utils.NotificationUtil;
 import org.fossasia.openevent.utils.SortOrder;
 import org.fossasia.openevent.utils.Utils;
-import org.fossasia.openevent.utils.Views;
-import org.fossasia.openevent.utils.WidgetUpdater;
 import org.fossasia.openevent.views.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;
-import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 import timber.log.Timber;
 
 /**
  * Created by Manan Wason on 17/06/16.
  */
-public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapter.DayScheduleViewHolder> implements StickyRecyclerHeadersAdapter {
+public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleViewHolder> implements StickyRecyclerHeadersAdapter {
 
     private Context context;
     private String eventDate;
@@ -79,117 +63,14 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
     public DayScheduleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.item_schedule, parent, false);
-        return new DayScheduleViewHolder(view);
+        return new DayScheduleViewHolder(view,context);
     }
 
     @Override
     public void onBindViewHolder(DayScheduleViewHolder holder, int position) {
         Session currentSession = getItem(position);
-        String startTime = DateUtils.formatDateWithDefault(DateUtils.FORMAT_12H, currentSession.getStartTime());
-        String endTime = DateUtils.formatDateWithDefault(DateUtils.FORMAT_12H, currentSession.getEndTime());
-        String title = Utils.checkStringEmpty(currentSession.getTitle());
-        String shortAbstract = Utils.checkStringEmpty(currentSession.getShortAbstract());
-
-        holder.startTime.setText(startTime);
-        holder.endTime.setText(endTime);
-        holder.slotTitle.setText(title);
-
-        Views.setHtml(holder.slotDescription, shortAbstract, true);
-
-        Track sessionTrack = currentSession.getTrack();
-
-        if (!RealmDataRepository.isNull(sessionTrack)) {
-            int storedColor = Color.parseColor(sessionTrack.getColor());
-            holder.slotTrack.setVisibility(View.VISIBLE);
-            holder.slotTrack.getBackground().setColorFilter(storedColor, PorterDuff.Mode.SRC_ATOP);
-            holder.slotTrack.setText(sessionTrack.getName());
-
-            if(currentSession.isBookmarked()) {
-                holder.slot_bookmark.setImageResource(R.drawable.ic_bookmark_white_24dp);
-            } else {
-                holder.slot_bookmark.setImageResource(R.drawable.ic_bookmark_border_white_24dp);
-            }
-            holder.slot_bookmark.setColorFilter(storedColor,PorterDuff.Mode.SRC_ATOP);
-
-            final int sessionId = currentSession.getId();
-
-            holder.slot_bookmark.setOnClickListener(v -> {
-                if(currentSession.isBookmarked()) {
-
-                    realmRepo.setBookmark(sessionId, false).subscribe();
-                    holder.slot_bookmark.setImageResource(R.drawable.ic_bookmark_border_white_24dp);
-
-                    if ("MainActivity".equals(context.getClass().getSimpleName())) {
-                        Snackbar.make(holder.slot_content, R.string.removed_bookmark, Snackbar.LENGTH_LONG)
-                                .setAction(R.string.undo, view -> {
-
-                                    realmRepo.setBookmark(sessionId, true).subscribe();
-                                    holder.slot_bookmark.setImageResource(R.drawable.ic_bookmark_white_24dp);
-
-                                    WidgetUpdater.updateWidget(context);
-                                }).show();
-                    } else {
-                        Snackbar.make(holder.slot_content, R.string.removed_bookmark, Snackbar.LENGTH_SHORT).show();
-                    }
-                } else {
-                    NotificationUtil.createNotification(currentSession, context).subscribe(
-                            () -> Snackbar.make(holder.slot_content,
-                                    R.string.added_bookmark,
-                                    Snackbar.LENGTH_SHORT)
-                                    .show(),
-                            throwable -> Snackbar.make(holder.slot_content,
-                                    R.string.error_create_notification,
-                                    Snackbar.LENGTH_LONG).show());
-
-                    realmRepo.setBookmark(sessionId, true).subscribe();
-                    holder.slot_bookmark.setImageResource(R.drawable.ic_bookmark_white_24dp);
-                    holder.slot_bookmark.setColorFilter(storedColor,PorterDuff.Mode.SRC_ATOP);
-
-                    Snackbar.make(holder.slot_content, R.string.added_bookmark, Snackbar.LENGTH_SHORT).show();
-                }
-                WidgetUpdater.updateWidget(context);
-            });
-
-            holder.slotTrack.setOnClickListener(v -> {
-                Intent intent = new Intent(context, TrackSessionsActivity.class);
-                intent.putExtra(ConstantStrings.TRACK, sessionTrack.getName());
-                intent.putExtra(ConstantStrings.TRACK_ID, sessionTrack.getId());
-                context.startActivity(intent);
-            });
-
-            holder.itemView.setOnClickListener(v -> {
-                final String sessionName = currentSession.getTitle();
-
-                realmRepo.getTrack(currentSession.getTrack().getId())
-                        .addChangeListener((RealmChangeListener<Track>) track -> {
-                            String trackName = track.getName();
-                            Intent intent = new Intent(context, SessionDetailActivity.class);
-                            intent.putExtra(ConstantStrings.SESSION, sessionName);
-                            intent.putExtra(ConstantStrings.TRACK, trackName);
-                            intent.putExtra(ConstantStrings.ID, currentSession.getId());
-                            context.startActivity(intent);
-                        });
-            });
-        } else {
-            holder.slotTrack.setOnClickListener(null);
-            holder.slotTrack.setVisibility(View.GONE);
-
-            holder.itemView.setOnClickListener(v -> {
-                final String sessionName = currentSession.getTitle();
-
-                Intent intent = new Intent(context, SessionDetailActivity.class);
-                intent.putExtra(ConstantStrings.SESSION, sessionName);
-                intent.putExtra(ConstantStrings.ID, currentSession.getId());
-                context.startActivity(intent);
-            });
-
-            Timber.d("This session has no track somehow : " + currentSession + " " + sessionTrack);
-        }
-
-        if(currentSession.getMicrolocation() != null) {
-            String locationName = Utils.checkStringEmpty(currentSession.getMicrolocation().getName());
-            holder.slotLocation.setText(locationName);
-        }
+        holder.setSession(currentSession);
+        holder.bindSession(realmRepo);
     }
 
     @Override
@@ -273,36 +154,4 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleAdapte
         }
     }
 
-    class DayScheduleViewHolder extends RecyclerView.ViewHolder {
-
-        @BindView(R.id.content_frame)
-        RelativeLayout slot_content;
-
-        @BindView(R.id.slot_start_time)
-        TextView startTime;
-
-        @BindView(R.id.slot_end_time)
-        TextView endTime;
-
-        @BindView(R.id.slot_title)
-        TextView slotTitle;
-
-        @BindView(R.id.slot_description)
-        TextView slotDescription;
-
-        @BindView(R.id.slot_location)
-        TextView slotLocation;
-
-        @BindView(R.id.slot_track)
-        Button slotTrack;
-
-        @BindView(R.id.slot_bookmark)
-        ImageButton slot_bookmark;
-
-
-        DayScheduleViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-        }
-    }
 }

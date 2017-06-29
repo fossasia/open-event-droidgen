@@ -24,7 +24,7 @@ import com.squareup.otto.Subscribe;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
-import org.fossasia.openevent.adapters.SessionsListAdapter;
+import org.fossasia.openevent.adapters.DayScheduleAdapter;
 import org.fossasia.openevent.data.Event;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.extras.SocialLink;
@@ -73,14 +73,17 @@ public class AboutFragment extends BaseFragment {
     protected TextView venueDetails;
     @BindView(R.id.list_bookmarks)
     protected RecyclerView bookmarksRecyclerView;
+    @BindView(R.id.bookmark_header)
+    protected TextView bookmarkHeader;
+    @BindView(R.id.event_details_header)
+    protected TextView eventDetailsHeader;
 
     final private String SEARCH = "org.fossasia.openevent.searchText";
 
     private String searchText = "";
     private SearchView searchView;
 
-    private static final int bookmarkedSessionList =3;
-    private SessionsListAdapter sessionsListAdapter;
+    private DayScheduleAdapter bookMarksListAdapter;
     private RealmResults<Session> bookmarksResult;
     private List<Session> mSessions = new ArrayList<>();
 
@@ -93,10 +96,10 @@ public class AboutFragment extends BaseFragment {
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
         bookmarksRecyclerView.setVisibility(View.VISIBLE);
-        sessionsListAdapter = new SessionsListAdapter(getContext(), mSessions, bookmarkedSessionList);
-        sessionsListAdapter.setBookmarkView(true);
-        bookmarksRecyclerView.setAdapter(sessionsListAdapter);
-        bookmarksRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
+        bookMarksListAdapter = new DayScheduleAdapter(mSessions,getContext());
+        bookmarksRecyclerView.setAdapter(bookMarksListAdapter);
+        bookmarksRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        bookmarksRecyclerView.setNestedScrollingEnabled(false);
 
         if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
             searchText = savedInstanceState.getString(SEARCH);
@@ -212,8 +215,12 @@ public class AboutFragment extends BaseFragment {
     private void handleVisibility() {
         if (!mSessions.isEmpty()) {
             bookmarksRecyclerView.setVisibility(View.VISIBLE);
+            bookmarkHeader.setVisibility(View.VISIBLE);
+            eventDetailsHeader.setVisibility(View.VISIBLE);
         } else {
             bookmarksRecyclerView.setVisibility(View.GONE);
+            bookmarkHeader.setVisibility(View.GONE);
+            eventDetailsHeader.setVisibility(View.GONE);
         }
     }
 
@@ -223,7 +230,7 @@ public class AboutFragment extends BaseFragment {
         bookmarksResult.addChangeListener((bookmarked, orderedCollectionChangeSet) -> {
             mSessions.clear();
             mSessions.addAll(bookmarked);
-            sessionsListAdapter.notifyDataSetChanged();
+            bookMarksListAdapter.notifyDataSetChanged();
             handleVisibility();
         });
     }

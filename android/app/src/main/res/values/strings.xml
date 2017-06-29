@@ -213,6 +213,8 @@
     <string name="location_not_decided">Not decided yet</string>
     <string name="result_type">Result Type</string>
     <string name="error_create_notification">Error creating notification</string>
+    <string name="bookmark_header">Bookmarks</string>
+    <string name="event_details_header">About Event</string>
 
     <!--Feed Strings-->
     <string name="facebook_access_token" templateMergeStrategy="preserve" translatable="false">1786614831603417|DWqP48Lm77hBqCQDWVsq4lFixuo</string>

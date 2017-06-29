@@ -15,6 +15,17 @@
             android:background="@color/white"
             android:orientation="vertical">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/bookmark_header"
+                android:text="@string/bookmark_header"
+                android:background="@color/color_accent"
+                android:textStyle="bold"
+                android:padding="@dimen/padding_medium"
+                android:textSize="@dimen/text_size_extra_large"
+                android:textColor="@color/card_title"/>
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/list_bookmarks"
                 android:layout_width="match_parent"
@@ -26,6 +37,17 @@
                 android:paddingRight="@dimen/padding_medium"
                 android:scrollbars="horizontal"
                 tools:listitem="@layout/tracksactvity_item" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/event_details_header"
+                android:text="@string/event_details_header"
+                android:background="@color/color_accent"
+                android:textStyle="bold"
+                android:padding="@dimen/padding_medium"
+                android:textSize="@dimen/text_size_extra_large"
+                android:textColor="@color/card_title"/>
 
             <android.support.v7.widget.CardView
                 android:id="@+id/carddemo"
