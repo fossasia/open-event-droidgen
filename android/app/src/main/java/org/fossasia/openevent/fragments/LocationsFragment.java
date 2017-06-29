@@ -1,7 +1,9 @@
 package org.fossasia.openevent.fragments;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -142,6 +144,7 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
         inflater.inflate(R.menu.menu_locations_fragment, menu);
         MenuItem item = menu.findItem(R.id.action_search_locations);
         searchView = (SearchView) MenuItemCompat.getActionView(item);
+        DrawableCompat.setTint(menu.findItem(R.id.action_search_locations).getIcon(), Color.WHITE);
         searchView.setOnQueryTextListener(this);
         searchView.setQuery(searchText, false);
     }

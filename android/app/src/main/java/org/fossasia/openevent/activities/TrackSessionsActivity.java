@@ -2,8 +2,12 @@ package org.fossasia.openevent.activities;
 
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -118,6 +122,12 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
             setUiColor(color);
 
             actionBar.setTitle(track.getName());
+            toolbar.setTitleTextColor(Color.parseColor(track.getFontColor()));
+
+            //coloring status bar icons for marshmallow+ devices
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && (sessionsRecyclerView != null) && (Color.parseColor(track.getFontColor()) != Color.WHITE)) {
+                sessionsRecyclerView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            }
 
             mSessions.clear();
             mSessions.addAll(track.getSessions().sort("startTime"));
@@ -141,6 +151,12 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
         toolbar.setBackgroundColor(color);
 
         sessionsListAdapter.setColor(color);
+
+        //setting of back button according to track font color
+        int fontColor = Color.parseColor(track.getFontColor());
+        Drawable upArrow = ContextCompat.getDrawable(this, R.drawable.abc_ic_ab_back_material);
+        upArrow.setColorFilter(fontColor, PorterDuff.Mode.SRC_ATOP);
+        getSupportActionBar().setHomeAsUpIndicator(upArrow);
 
         if (Views.isCompatible(Build.VERSION_CODES.LOLLIPOP)) {
             getWindow().setStatusBarColor(Views.getDarkColor(color));
@@ -209,6 +225,7 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_tracks, menu);
         searchView = (SearchView) menu.findItem(R.id.action_search_tracks).getActionView();
+        DrawableCompat.setTint(menu.findItem(R.id.action_search_tracks).getIcon(), Color.parseColor(track.getFontColor()));
         searchView.setOnQueryTextListener(this);
         if (searchText != null) {
             searchView.setQuery(searchText, false);

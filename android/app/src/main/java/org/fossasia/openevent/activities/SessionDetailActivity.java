@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,6 +17,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -265,8 +269,22 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
         int darkColor = Views.getDarkColor(color);
 
         toolbar.setBackgroundColor(color);
+
+        //setting title colour
+        text_title.setTextColor(Color.parseColor(session.getTrack().getFontColor()));
+        collapsingToolbarLayout.setCollapsedTitleTextColor(Color.parseColor(session.getTrack().getFontColor()));
         collapsingToolbarLayout.setBackgroundColor(color);
         collapsingToolbarLayout.setContentScrimColor(darkColor);
+
+        //coloring status bar icons for marshmallow+ devices
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && (text_title != null) && (Color.parseColor(session.getTrack().getFontColor()) != Color.WHITE)) {
+            text_title.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
+
+        //setting of back button according to track font color
+        Drawable upArrow = ContextCompat.getDrawable(this, R.drawable.abc_ic_ab_back_material);
+        upArrow.setColorFilter(Color.parseColor(session.getTrack().getFontColor()), PorterDuff.Mode.SRC_ATOP);
+        getSupportActionBar().setHomeAsUpIndicator(upArrow);
 
         if (Views.isCompatible(Build.VERSION_CODES.LOLLIPOP)) {
             getWindow().setStatusBarColor(darkColor);
@@ -363,6 +381,9 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_session_detail, menu);
+        DrawableCompat.setTint(menu.findItem(R.id.action_add_to_calendar).getIcon(), Color.parseColor(session.getTrack().getFontColor()));
+        DrawableCompat.setTint(menu.findItem(R.id.action_map).getIcon(), Color.parseColor(session.getTrack().getFontColor()));
+        DrawableCompat.setTint(menu.findItem(R.id.action_share).getIcon(), Color.parseColor(session.getTrack().getFontColor()));
         return super.onCreateOptionsMenu(menu);
     }
 
