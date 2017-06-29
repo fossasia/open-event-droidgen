@@ -277,10 +277,8 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
         collapsingToolbarLayout.setContentScrimColor(darkColor);
 
         //coloring status bar icons for marshmallow+ devices
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (text_title != null && (Color.parseColor(session.getTrack().getFontColor()) != Color.WHITE)) {
-                text_title.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-            }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && (text_title != null) && (Color.parseColor(session.getTrack().getFontColor()) != Color.WHITE)) {
+            text_title.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
 
         //setting of back button according to track font color
