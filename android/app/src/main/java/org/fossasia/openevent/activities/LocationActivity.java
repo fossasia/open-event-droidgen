@@ -1,9 +1,11 @@
 package org.fossasia.openevent.activities;
 
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -141,6 +143,8 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_location_activity, menu);
         searchView = (SearchView) menu.findItem(R.id.action_search_tracks_location).getActionView();
+        DrawableCompat.setTint(menu.findItem(R.id.action_search_tracks_location).getIcon(), Color.WHITE);
+        DrawableCompat.setTint(menu.findItem(R.id.action_map_location).getIcon(), Color.WHITE);
         searchView.setOnQueryTextListener(this);
         searchView.setQuery(searchText, false);
         return true;
