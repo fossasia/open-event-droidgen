@@ -3,6 +3,7 @@ package org.fossasia.openevent.api;
 import org.fossasia.openevent.api.processor.EventListResponseProcessor;
 import org.fossasia.openevent.api.processor.MicrolocationListResponseProcessor;
 import org.fossasia.openevent.api.processor.SessionListResponseProcessor;
+import org.fossasia.openevent.api.processor.SessionTypeListResponseProcessor;
 import org.fossasia.openevent.api.processor.SpeakerListResponseProcessor;
 import org.fossasia.openevent.api.processor.SponsorListResponseProcessor;
 import org.fossasia.openevent.api.processor.TrackListResponseProcessor;
@@ -48,5 +49,9 @@ public final class DataDownloadManager {
 
     public void downloadMicrolocations() {
         APIClient.getOpenEventAPI().getMicrolocations().enqueue(new MicrolocationListResponseProcessor());
+    }
+
+    public void downloadSessionTypes() {
+        APIClient.getOpenEventAPI().getSessionTypes().enqueue(new SessionTypeListResponseProcessor());
     }
 }

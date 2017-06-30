@@ -13,6 +13,7 @@ import org.fossasia.openevent.events.DownloadEvent;
 import org.fossasia.openevent.events.EventDownloadEvent;
 import org.fossasia.openevent.events.MicrolocationDownloadEvent;
 import org.fossasia.openevent.events.SessionDownloadEvent;
+import org.fossasia.openevent.events.SessionTypesDownloadEvent;
 import org.fossasia.openevent.events.SpeakerDownloadEvent;
 import org.fossasia.openevent.events.SponsorDownloadEvent;
 import org.fossasia.openevent.events.TracksDownloadEvent;
@@ -204,6 +205,10 @@ public class DownloadCompleteHandler {
             onDownloadDone(event, R.string.menu_locations);
         }
 
+        @Subscribe
+        public void onSessionTypesDownloadDone(SessionTypesDownloadEvent event) {
+            onDownloadDone(event, R.string.session_types);
+        }
     }
 
 }

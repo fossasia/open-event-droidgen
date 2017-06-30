@@ -33,6 +33,8 @@ public abstract class Urls {
 
     public static final String MICROLOCATIONS = "microlocations";
 
+    public static final String SESSION_TYPES = "session_types";
+
     public static final String MAP = "map";
 
     public static String BASE_URL = "https://eventyay.com/api/v1/events/6";

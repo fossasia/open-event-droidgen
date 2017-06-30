@@ -35,7 +35,7 @@ public class EventListResponseProcessor extends ResponseProcessor<Event> {
         if (storedVersion == null) {
             Timber.d("Version info not present. Downloading complete data again...");
 
-            counterRequests = 6;
+            counterRequests = 7;
             OpenEventApp.postEventOnUIThread(new CounterEvent(counterRequests));
 
             save(event);
@@ -45,9 +45,10 @@ public class EventListResponseProcessor extends ResponseProcessor<Event> {
             download.downloadTracks();
             download.downloadMicrolocations();
             download.downloadSponsors();
+            download.downloadSessionTypes();
         } else {
             if (storedVersion.getEventVer() != version.getEventVer()) {
-                Timber.d("Downloading EVENT");
+                Timber.d("Downloading Event");
                 save(event);
 
                 counterRequests++;
@@ -63,27 +64,34 @@ public class EventListResponseProcessor extends ResponseProcessor<Event> {
             if (storedVersion.getSpeakersVer() != version.getSpeakersVer()) {
                 download.downloadSpeakers();
 
-                Timber.d("Downloading SPEAKERS");
+                Timber.d("Downloading Speakers");
                 counterRequests++;
             }
 
             if (storedVersion.getSessionsVer() != version.getSessionsVer()) {
                 download.downloadSession();
 
-                Timber.d("Downloading SESSIONS");
+                Timber.d("Downloading Sessions");
                 counterRequests++;
             }
 
             if (storedVersion.getTracksVer() != version.getTracksVer()) {
                 download.downloadTracks();
 
-                Timber.d("Downloading TRACKS");
+                Timber.d("Downloading Tracks");
                 counterRequests++;
             }
 
             if (storedVersion.getMicrolocationsVer() != version.getMicrolocationsVer()) {
                 download.downloadMicrolocations();
-                Timber.d("Downloading microlocations");
+                Timber.d("Downloading Microlocations");
+
+                counterRequests++;
+            }
+
+            if (storedVersion.getSessionTypesVer() != version.getSessionTypesVer()) {
+                download.downloadSessionTypes();
+                Timber.d("Downloading Session Types");
 
                 counterRequests++;
             }

@@ -20,6 +20,8 @@ public class Version extends RealmObject {
     private int microlocationsVer;
     @JsonProperty("sponsors_ver")
     private int sponsorsVer;
+    @JsonProperty("session_types")
+    private int sessionTypesVer;
 
     public int getTracksVer() {
         return tracksVer;
@@ -43,5 +45,9 @@ public class Version extends RealmObject {
 
     public int getSponsorsVer() {
         return sponsorsVer;
+    }
+
+    public int getSessionTypesVer() {
+        return sessionTypesVer;
     }
 }

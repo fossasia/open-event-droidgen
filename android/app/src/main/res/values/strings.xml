@@ -17,6 +17,7 @@
     <string name="downloaded_format">Downloaded %s…</string>
     <string name="event_info">Event Info</string>
     <string name="sessions">Sessions</string>
+    <string name="session_types">Session Types</string>
 
     <!-- Main menu_speakers -->
     <string name="menu_home">Home</string>

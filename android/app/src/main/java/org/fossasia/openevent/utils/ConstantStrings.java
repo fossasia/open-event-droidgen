@@ -36,6 +36,8 @@ public class ConstantStrings {
 
     public static final String TRACKS = "tracks";
 
+    public static final String SESSION_TYPES = "session_types";
+
     public static final String FEED = "feed";
 
     public static final String VERSION = "version";

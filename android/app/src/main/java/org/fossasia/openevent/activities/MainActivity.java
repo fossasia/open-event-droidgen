@@ -35,7 +35,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.squareup.otto.Subscribe;
@@ -49,11 +48,12 @@ import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Event;
 import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.data.Session;
+import org.fossasia.openevent.data.SessionType;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Sponsor;
 import org.fossasia.openevent.data.Track;
-import org.fossasia.openevent.data.facebook.CommentItem;
 import org.fossasia.openevent.data.extras.SocialLink;
+import org.fossasia.openevent.data.facebook.CommentItem;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.events.CounterEvent;
 import org.fossasia.openevent.events.DataDownloadEvent;
@@ -66,6 +66,7 @@ import org.fossasia.openevent.events.NoInternetEvent;
 import org.fossasia.openevent.events.RetrofitError;
 import org.fossasia.openevent.events.RetrofitResponseEvent;
 import org.fossasia.openevent.events.SessionDownloadEvent;
+import org.fossasia.openevent.events.SessionTypesDownloadEvent;
 import org.fossasia.openevent.events.ShowNetworkDialogEvent;
 import org.fossasia.openevent.events.SpeakerDownloadEvent;
 import org.fossasia.openevent.events.SponsorDownloadEvent;
@@ -690,14 +691,14 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
                     OpenEventApp.postEventOnUIThread(new EventDownloadEvent(true));
                     break;
                 } case ConstantStrings.TRACKS: {
-                    List<Track> tracks = objectMapper.readValue(json, new TypeReference<List<Track>>() {});
+                    List<Track> tracks = objectMapper.readValue(json, objectMapper.getTypeFactory().constructCollectionType(List.class, Track.class));
 
                     realmDataRepository.saveTracks(tracks).subscribe();
 
                     OpenEventApp.postEventOnUIThread(new TracksDownloadEvent(true));
                     break;
                 } case ConstantStrings.SESSIONS: {
-                    List<Session> sessions = objectMapper.readValue(json, new TypeReference<List<Session>>() {});
+                    List<Session> sessions = objectMapper.readValue(json, objectMapper.getTypeFactory().constructCollectionType(List.class, Session.class));
 
                     for (Session current : sessions) {
                         current.setStartDate(current.getStartTime().split("T")[0]);
@@ -708,30 +709,36 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
                     OpenEventApp.postEventOnUIThread(new SessionDownloadEvent(true));
                     break;
                 } case ConstantStrings.SPEAKERS: {
-                    List<Speaker> speakers = objectMapper.readValue(json, new TypeReference<List<Speaker>>() {});
+                    List<Speaker> speakers = objectMapper.readValue(json, objectMapper.getTypeFactory().constructCollectionType(List.class, Speaker.class));
 
                     realmRepo.saveSpeakers(speakers).subscribe();
 
                     OpenEventApp.postEventOnUIThread(new SpeakerDownloadEvent(true));
                     break;
                 } case ConstantStrings.SPONSORS: {
-                    List<Sponsor> sponsors = objectMapper.readValue(json, new TypeReference<List<Sponsor>>() {});
+                    List<Sponsor> sponsors = objectMapper.readValue(json, objectMapper.getTypeFactory().constructCollectionType(List.class, Sponsor.class));
 
                     realmRepo.saveSponsors(sponsors).subscribe();
 
                     OpenEventApp.postEventOnUIThread(new SponsorDownloadEvent(true));
                     break;
                 } case ConstantStrings.MICROLOCATIONS: {
-                    List<Microlocation> microlocations = objectMapper.readValue(json, new TypeReference<List<Microlocation>>() {});
+                    List<Microlocation> microlocations = objectMapper.readValue(json, objectMapper.getTypeFactory().constructCollectionType(List.class, Microlocation.class));
 
                     realmRepo.saveLocations(microlocations).subscribe();
 
                     OpenEventApp.postEventOnUIThread(new MicrolocationDownloadEvent(true));
                     break;
+                } case ConstantStrings.SESSION_TYPES: {
+                    List<SessionType> sessionTypes = objectMapper.readValue(json, objectMapper.getTypeFactory().constructCollectionType(List.class, SessionType.class));
+
+                    realmRepo.saveSessionTypes(sessionTypes).subscribe();
+
+                    OpenEventApp.postEventOnUIThread(new SessionTypesDownloadEvent(true));
+                    break;
                 } default:
                     //do nothing
             }
-
             realm.close();
         }).observeOn(Schedulers.computation()).subscribe(() -> Timber.d("Saved event from JSON"), throwable -> {
             throwable.printStackTrace();
@@ -773,7 +780,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
             startDownloadListener();
             Timber.d("JSON parsing started");
 
-            OpenEventApp.postEventOnUIThread(new CounterEvent(6)); // Bump if increased
+            OpenEventApp.postEventOnUIThread(new CounterEvent(7)); // Bump if increased
 
             readJsonAsset(Urls.EVENT);
             readJsonAsset(Urls.SESSIONS);
@@ -781,6 +788,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
             readJsonAsset(Urls.TRACKS);
             readJsonAsset(Urls.SPONSORS);
             readJsonAsset(Urls.MICROLOCATIONS);
+            readJsonAsset(Urls.SESSION_TYPES);
         } else {
             completeHandler.hide();
         }
