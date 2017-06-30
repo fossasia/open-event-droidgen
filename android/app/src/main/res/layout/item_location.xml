@@ -19,6 +19,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/primary_text"
             android:textSize="@dimen/text_size_large"
+            android:textStyle="bold"
             tools:text="Location Name" />
 
         <TextView
