@@ -29,7 +29,6 @@
             android:paddingTop="@dimen/padding_small"
             android:textColor="@color/black"
             android:textSize="@dimen/text_size_large"
-            android:textStyle="bold"
             tools:text="Slot Title" />
 
         <RelativeLayout
