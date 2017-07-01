@@ -1,4 +1,4 @@
-package org.fossasia.openevent.data.extras;
+package org.fossasia.openevent.data;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;

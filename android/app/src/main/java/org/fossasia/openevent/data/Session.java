@@ -2,8 +2,6 @@ package org.fossasia.openevent.data;
 
 import com.fasterxml.jackson.annotation.JsonSetter;
 
-import org.fossasia.openevent.data.extras.SessionType;
-
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.Index;

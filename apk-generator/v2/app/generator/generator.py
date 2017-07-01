@@ -221,6 +221,7 @@ class Generator:
         self.save_file_in_temp_assets('speakers')
         self.save_file_in_temp_assets('sponsors')
         self.save_file_in_temp_assets('tracks')
+        self.save_file_in_temp_assets('sessions/types')
         logger.info('Download complete')
 
     def save_file_in_temp_assets(self, end_point='event'):

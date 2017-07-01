@@ -6,6 +6,7 @@ import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Sponsor;
 import org.fossasia.openevent.data.Track;
+import org.fossasia.openevent.data.SessionType;
 
 import java.util.List;
 
@@ -37,5 +38,8 @@ public interface OpenEventAPI {
 
     @GET("tracks")
     Call<List<Track>> getTracks();
+
+    @GET("sessions/types")
+    Call<List<SessionType>> getSessionTypes();
 
 }

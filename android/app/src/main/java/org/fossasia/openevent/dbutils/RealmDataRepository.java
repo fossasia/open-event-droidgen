@@ -10,6 +10,7 @@ import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Sponsor;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.data.extras.EventDates;
+import org.fossasia.openevent.data.SessionType;
 import org.fossasia.openevent.data.extras.Version;
 import org.fossasia.openevent.events.BookmarkChangedEvent;
 
@@ -466,6 +467,29 @@ public class RealmDataRepository {
 
     public RealmResults<Microlocation> getLocationsSync() {
         return realm.where(Microlocation.class).findAllSorted("name");
+    }
+
+    //Session Types Section
+
+    private void saveSessionTypesInRealm(List<SessionType> sessionTypes) {
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(realm1 -> realm1.insertOrUpdate(sessionTypes));
+        realm.close();
+    }
+
+    public Completable saveSessionTypes(final List<SessionType> sessionTypes) {
+        return Completable.fromAction(() -> {
+            saveSessionTypesInRealm(sessionTypes);
+            Timber.d("Saved Session Types");
+        });
+    }
+
+    public RealmResults<SessionType> getSessionTypes() {
+        return realm.where(SessionType.class).findAllSortedAsync("name");
+    }
+
+    public RealmResults<SessionType> getSessionTypesSync() {
+        return realm.where(SessionType.class).findAllSorted("name");
     }
 
     // Dates Section
