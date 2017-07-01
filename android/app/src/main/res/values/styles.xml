@@ -85,9 +85,8 @@
         <item name="android:orientation">vertical</item>
     </style>
 
-    <style name="ExpandedAppBar" parent="@android:style/TextAppearance.Medium">
-        <item name="android:textSize">20sp</item>
-        <item name="android:textColor">@android:color/holo_green_dark</item>
+    <style name="ExpandedAppBar">
+        <item name="android:textSize">@dimen/text_size_expanded_title</item>
     </style>
 
     <!--Change toolbar colors -->
