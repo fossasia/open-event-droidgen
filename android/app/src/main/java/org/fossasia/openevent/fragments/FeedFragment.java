@@ -1,5 +1,6 @@
 package org.fossasia.openevent.fragments;
 
+import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -38,6 +39,7 @@ public class FeedFragment extends BaseFragment {
     private FeedAdapter feedAdapter;
     private List<FeedItem> feedItems;
     private SharedPreferences sharedPreferences;
+    private ProgressDialog downloadProgressDialog;
 
     @BindView(R.id.feed_swipe_refresh) SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.feed_recycler_view) RecyclerView feedRecyclerView;
@@ -55,6 +57,11 @@ public class FeedFragment extends BaseFragment {
         feedAdapter = new FeedAdapter(getContext(), (FeedAdapter.AdapterCallback)getActivity(), feedItems);
         feedRecyclerView.setAdapter(feedAdapter);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+
+        setupProgressBar();
+
+        if(NetworkUtils.haveNetworkConnection(getContext()))
+            showProgressBar(true);
 
         downloadFeed();
 
@@ -80,9 +87,11 @@ public class FeedFragment extends BaseFragment {
                             .getString(R.string.refresh_failed), Snackbar.LENGTH_LONG)
                             .setAction(R.string.retry_download, view -> refresh()).show();
                     Timber.d("Refresh not done");
+                    showProgressBar(false);
                 }, () -> {
                     swipeRefreshLayout.setRefreshing(false);
                     Timber.d("Refresh done");
+                    showProgressBar(false);
                 });
     }
 
@@ -155,6 +164,24 @@ public class FeedFragment extends BaseFragment {
             }
         });
 
+    }
+
+    private void showProgressBar(boolean show) {
+        if(show)
+            downloadProgressDialog.show();
+        else
+            downloadProgressDialog.dismiss();
+    }
+
+    private void setupProgressBar() {
+        downloadProgressDialog = new ProgressDialog(getContext());
+        downloadProgressDialog.setIndeterminate(true);
+        downloadProgressDialog.setProgressPercentFormat(null);
+        downloadProgressDialog.setProgressNumberFormat(null);
+        downloadProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        downloadProgressDialog.setCancelable(false);
+        String shownMessage = String.format(getString(R.string.downloading_format), getString(R.string.menu_feed));
+        downloadProgressDialog.setMessage(shownMessage);
     }
 
     @Override
