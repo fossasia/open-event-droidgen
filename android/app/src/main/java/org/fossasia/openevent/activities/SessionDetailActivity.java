@@ -68,8 +68,8 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
     private SessionSpeakerListAdapter adapter;
 
     private Session session;
+    private Menu menu;
 
-    private String timings;
     private static final String FRAGMENT_TAG_REST = "fgtr";
 
     @BindView(R.id.toolbar)
@@ -122,6 +122,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
 
     private boolean isHideToolbarView = false;
     private boolean hasTrack = true;
+    private boolean showMap = false;
 
     private String loadedFlag;
 
@@ -273,8 +274,9 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
         //setting title colour
         text_title.setTextColor(Color.parseColor(session.getTrack().getFontColor()));
         collapsingToolbarLayout.setCollapsedTitleTextColor(Color.parseColor(session.getTrack().getFontColor()));
+        collapsingToolbarLayout.setExpandedTitleColor(Color.parseColor(session.getTrack().getFontColor()));
         collapsingToolbarLayout.setBackgroundColor(color);
-        collapsingToolbarLayout.setContentScrimColor(darkColor);
+        collapsingToolbarLayout.setContentScrimColor(color);
 
         //coloring status bar icons for marshmallow+ devices
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && (text_title != null) && (Color.parseColor(session.getTrack().getFontColor()) != Color.WHITE)) {
@@ -319,6 +321,9 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
             if (appBarLayout.getVisibility() == View.GONE) {
                 appBarLayout.setVisibility(View.VISIBLE);
             }
+            showMap = false;
+            text_title.setText(title);
+            menu.setGroupVisible(R.id.menu_group_session_detail, true);
             getSupportFragmentManager().popBackStack();
         } else {
             super.onBackPressed();
@@ -329,11 +334,16 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_map:
+                showMap = true;
+
                 // Hide all the views except the frame layout and appbar layout
                 scrollView.setVisibility(View.GONE);
                 fabSessionBookmark.setVisibility(View.GONE);
 
+                menu.setGroupVisible(R.id.menu_group_session_detail, false);
+                text_title.setText(" ");
                 appBarLayout.setExpanded(false);
+                collapsingToolbarLayout.setTitle(location);
                 mapFragment.setVisibility(View.VISIBLE);
 
                 FragmentManager fragmentManager = getSupportFragmentManager();
@@ -380,6 +390,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        this.menu = menu;
         getMenuInflater().inflate(R.menu.menu_session_detail, menu);
         DrawableCompat.setTint(menu.findItem(R.id.action_add_to_calendar).getIcon(), Color.parseColor(session.getTrack().getFontColor()));
         DrawableCompat.setTint(menu.findItem(R.id.action_map).getIcon(), Color.parseColor(session.getTrack().getFontColor()));
@@ -396,7 +407,11 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
             // Collapsed
 
             linearLayout.setVisibility(View.GONE);
-            collapsingToolbarLayout.setTitle(title);
+            if (showMap){
+                collapsingToolbarLayout.setTitle(location);
+            } else {
+                collapsingToolbarLayout.setTitle(title);
+            }
             isHideToolbarView = !isHideToolbarView;
         } else if (percentage < 1f && !isHideToolbarView) {
             // Not Collapsed

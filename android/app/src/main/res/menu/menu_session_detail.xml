@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
-        android:id="@+id/action_map"
-        android:title="@string/menu_map"
-        android:icon="@drawable/ic_map_white_24dp"
-        app:showAsAction="ifRoom" />
+    <group
+        android:id="@+id/menu_group_session_detail">
+        <item
+            android:id="@+id/action_map"
+            android:icon="@drawable/ic_map_white_24dp"
+            android:title="@string/menu_map"
+            app:showAsAction="ifRoom" />
 
-    <item
-        android:id="@+id/action_share"
-        android:icon="@drawable/ic_share_white_24dp"
-        android:title="@string/share"
-        app:showAsAction="ifRoom" />
+        <item
+            android:id="@+id/action_share"
+            android:icon="@drawable/ic_share_white_24dp"
+            android:title="@string/share"
+            app:showAsAction="ifRoom" />
 
-    <item
-        android:id="@+id/action_add_to_calendar"
-        android:icon="@drawable/ic_event_white_24dp"
-        android:title="@string/add_to_calendar"
-        app:showAsAction="always" />
+        <item
+            android:id="@+id/action_add_to_calendar"
+            android:icon="@drawable/ic_event_white_24dp"
+            android:title="@string/add_to_calendar"
+            app:showAsAction="always" />
+    </group>
 
 </menu>
