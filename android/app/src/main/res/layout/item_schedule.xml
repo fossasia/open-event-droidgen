@@ -31,17 +31,6 @@
             android:textSize="@dimen/text_size_large"
             tools:text="Slot Title" />
 
-        <TextView
-            android:id="@+id/slot_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:paddingBottom="@dimen/padding_small"
-            android:paddingTop="@dimen/padding_small"
-            android:textSize="@dimen/text_size_medium"
-            tools:text="Slot Description" />
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -95,11 +84,11 @@
                 android:id="@+id/slot_track"
                 android:textAllCaps="false"
                 android:gravity="center"
-                android:layout_marginTop="@dimen/layout_margin_small"
-                android:paddingLeft="@dimen/padding_small"
-                android:paddingRight="@dimen/padding_small"
-                android:paddingStart="@dimen/padding_small"
-                android:paddingEnd="@dimen/padding_small"
+                android:layout_marginTop="@dimen/layout_margin_medium"
+                android:paddingLeft="@dimen/padding_medium"
+                android:paddingRight="@dimen/padding_medium"
+                android:paddingStart="@dimen/padding_medium"
+                android:paddingEnd="@dimen/padding_medium"
                 android:textStyle="bold"
                 android:layout_below="@+id/slot_location"
                 android:ellipsize="marquee"
@@ -120,7 +109,7 @@
                 android:tint="@color/black"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/session_bookmark_status"
-                android:padding="@dimen/padding_medium"
+                android:padding="@dimen/padding_small"
                 app:srcCompat="@drawable/ic_bookmark_border_white_24dp" />
 
         </RelativeLayout>

@@ -22,7 +22,6 @@ import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.DateUtils;
 import org.fossasia.openevent.utils.NotificationUtil;
 import org.fossasia.openevent.utils.Utils;
-import org.fossasia.openevent.utils.Views;
 import org.fossasia.openevent.utils.WidgetUpdater;
 
 import butterknife.BindView;
@@ -48,9 +47,6 @@ public class DayScheduleViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.slot_title)
     TextView slotTitle;
 
-    @BindView(R.id.slot_description)
-    TextView slotDescription;
-
     @BindView(R.id.slot_location)
     TextView slotLocation;
 
@@ -71,16 +67,13 @@ public class DayScheduleViewHolder extends RecyclerView.ViewHolder {
 
     public void bindSession(RealmDataRepository realmRepo){
 
-        String startTimeText = DateUtils.formatDateWithDefault(DateUtils.FORMAT_12H, session.getStartTime());
-        String endTimeText = DateUtils.formatDateWithDefault(DateUtils.FORMAT_12H, session.getEndTime());
+        String startTimeText = DateUtils.formatDateWithDefault(DateUtils.FORMAT_24H, session.getStartTime());
+        String endTimeText = DateUtils.formatDateWithDefault(DateUtils.FORMAT_24H, session.getEndTime());
         String title = Utils.checkStringEmpty(session.getTitle());
-        String shortAbstract = Utils.checkStringEmpty(session.getShortAbstract());
 
         startTime.setText(startTimeText);
         endTime.setText(endTimeText);
         slotTitle.setText(title);
-
-        Views.setHtml(slotDescription, shortAbstract, true);
 
         Track sessionTrack = session.getTrack();
 

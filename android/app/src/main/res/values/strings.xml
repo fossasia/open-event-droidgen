@@ -199,7 +199,7 @@
 
     <!--Misc Strings-->
     <string name="time_separator" translatable="false">\u0020-\u0020</string>
-    <string name="delimiter" translatable="false">,\u0020\u0020</string>
+    <string name="delimiter" translatable="false">\u0020/\u0020</string>
 
     <!--About Screen-->
     <string name="welcome_message">Welcome to %1$s!</string>

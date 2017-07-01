@@ -150,7 +150,7 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleViewHo
         } else if (SortOrder.sortOrderSchedule(context).equals(Session.TRACK)){
             textView.setText(String.valueOf(sortName));
         } else if (SortOrder.sortOrderSchedule(context).equals(Session.START_TIME)) {
-            textView.setText(DateUtils.formatDateWithDefault(DateUtils.FORMAT_12H, getItem(position).getStartTime()));
+            textView.setText(DateUtils.formatDateWithDefault(DateUtils.FORMAT_24H, getItem(position).getStartTime()));
         }
     }
 
