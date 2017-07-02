@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.FeedAdapter;
 import org.fossasia.openevent.api.APIClient;
@@ -108,7 +107,6 @@ public class FeedFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        OpenEventApp.getEventBus().unregister(this);
 
         if(swipeRefreshLayout != null) swipeRefreshLayout.setOnRefreshListener(null);
     }
@@ -161,6 +159,7 @@ public class FeedFragment extends BaseFragment {
                 Snackbar.make(swipeRefreshLayout, getActivity()
                         .getString(R.string.refresh_failed), Snackbar.LENGTH_LONG)
                         .setAction(R.string.retry_download, view -> refresh()).show();
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
 

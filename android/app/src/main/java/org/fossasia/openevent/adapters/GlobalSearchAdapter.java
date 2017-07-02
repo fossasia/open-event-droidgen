@@ -32,7 +32,7 @@ public class GlobalSearchAdapter extends BaseRVAdapter<Object, RecyclerView.View
 
     public GlobalSearchAdapter(List<Object> dataList, Context context) {
         super(dataList);
-        this.context = context.getApplicationContext();
+        this.context = context;
         this.filteredResultList = dataList;
     }
 
