@@ -1,5 +1,6 @@
 package org.fossasia.openevent.data;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
 import io.realm.RealmList;
@@ -40,6 +41,30 @@ public class Session extends RealmObject {
     @Index
     private String startDate;
     private boolean isBookmarked;
+    @JsonProperty("created-at")
+    private String createdAt;
+    @JsonProperty("deleted-at")
+    private String deletedAt;
+    @JsonProperty("submitted-at")
+    private String submittedAt;
+    @JsonProperty("is-mail-sent")
+    private boolean isMailSent;
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public void setDeletedAt(String deletedAt) {
+        this.deletedAt = deletedAt;
+    }
+
+    public void setSubmittedAt(String submittedAt) {
+        this.submittedAt = submittedAt;
+    }
+
+    public void setMailSent(boolean isMailSent) {
+        this.isMailSent = isMailSent;
+    }
 
     @JsonSetter("session_type")
     public void setSessionType(SessionType sessionType) {
@@ -131,6 +156,22 @@ public class Session extends RealmObject {
         this.signupUrl = signupUrl;
     }
 
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public String getDeletedAt() {
+        return deletedAt;
+    }
+
+    public String getSubmittedAt() {
+        return submittedAt;
+    }
+
+    public boolean isMailSent() {
+        return isMailSent;
+    }
 
     public Integer getId() {
         return id;
