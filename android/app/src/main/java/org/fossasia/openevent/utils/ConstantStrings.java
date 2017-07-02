@@ -54,6 +54,10 @@ public class ConstantStrings {
 
     public static final String IS_DOWNLOAD_DONE = "isDownloadDone";
 
+    public static final String IS_MAP_FRAGMENT_FROM_MAIN_ACTIVITY = "isMapFragmenFromMainActivity";
+
+    public static final String LOCATION_NAME = "locationName";
+
     public static final String PREF_SORT = "sortType";
 
     public static final String SESSION_MAP_ID = "sessionMapId";

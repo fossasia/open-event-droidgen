@@ -34,7 +34,7 @@ public class LocationViewHolder extends RecyclerView.ViewHolder {
         //Attach onClickListener for ViewHolder
         itemView.setOnClickListener(view -> {
             Intent intent = new Intent(context, LocationActivity.class);
-            intent.putExtra(ConstantStrings.MICROLOCATIONS, location.getName());
+            intent.putExtra(ConstantStrings.LOCATION_NAME, location.getName());
             getAdapterPosition();
             context.startActivity(intent);
         });

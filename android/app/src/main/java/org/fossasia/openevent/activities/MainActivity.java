@@ -527,10 +527,14 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
                 replaceFragment(new LocationsFragment(), R.string.menu_locations);
                 break;
             case R.id.nav_map:
-                replaceFragment(((OpenEventApp) getApplication())
+                Bundle bundle = new Bundle();
+                bundle.putBoolean(ConstantStrings.IS_MAP_FRAGMENT_FROM_MAIN_ACTIVITY, true);
+                Fragment mapFragment = ((OpenEventApp)getApplication())
                         .getMapModuleFactory()
                         .provideMapModule()
-                        .provideMapFragment(), R.string.menu_map);
+                        .provideMapFragment();
+                mapFragment.setArguments(bundle);
+                replaceFragment(mapFragment, R.string.menu_map);
                 break;
             case R.id.nav_settings:
                 final Intent intent = new Intent(MainActivity.this, SettingsActivity.class);

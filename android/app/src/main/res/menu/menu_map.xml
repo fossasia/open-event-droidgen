@@ -5,8 +5,9 @@
     tools:context=".MainActivity">
 
     <item
-        android:id="@+id/share_map_url"
-        android:icon="@drawable/ic_share_white_24dp"
-        android:title="@string/share"
-        app:showAsAction="collapseActionView|ifRoom" />
+        android:id="@+id/action_search_map"
+        android:icon="@drawable/ic_search_white_24dp"
+        android:title="@string/search"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="ifRoom|collapseActionView" />
 </menu>
