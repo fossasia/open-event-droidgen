@@ -13,13 +13,16 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -37,15 +40,16 @@ import org.fossasia.openevent.R;
 import org.fossasia.openevent.data.Event;
 import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
-import org.fossasia.openevent.utils.Utils;
+import org.fossasia.openevent.utils.ConstantStrings;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import java.util.Map;
 
 public class MapsFragment extends Fragment implements LocationListener, OnMapReadyCallback {
+
+    final private String SEARCH = "searchText";
 
     private GoogleMap mMap;
     private Marker locationMarker;
@@ -53,25 +57,32 @@ public class MapsFragment extends Fragment implements LocationListener, OnMapRea
 
     private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
     private List<Microlocation> mLocations = new ArrayList<>();
+    private Map<String, Marker> stringMarkerMap = new HashMap<>();
 
-    private android.support.v7.app.ActionBar toolbar;
+    private String searchText = "";
+    private boolean isFragmentFromMainActivity = false;
+    private String fragmentLocationName;
 
-    @BindView(R.id.map_toolbar)AutoCompleteTextView textView;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        toolbar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        if(!Utils.getTwoPane()) {
-            toolbar.setDisplayHomeAsUpEnabled(true);
-        }
-        toolbar.setDisplayShowCustomEnabled(true);
-    }
+    private SearchView searchView;
+    private SearchView.SearchAutoComplete mSearchAutoComplete;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        if (getArguments() != null) {
+            isFragmentFromMainActivity = getArguments().getBoolean(ConstantStrings.IS_MAP_FRAGMENT_FROM_MAIN_ACTIVITY);
+            fragmentLocationName = getArguments().getString(ConstantStrings.LOCATION_NAME);
+        }
+
+        if (isFragmentFromMainActivity){
+            setHasOptionsMenu(true);
+        }
+
         View view = inflater.inflate(R.layout.fragment_map, container, false);
+
+        if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
+            searchText = savedInstanceState.getString(SEARCH);
+        }
 
         SupportMapFragment supportMapFragment = ((SupportMapFragment)
                 getChildFragmentManager().findFragmentById(R.id.map));
@@ -99,9 +110,12 @@ public class MapsFragment extends Fragment implements LocationListener, OnMapRea
     private void showEventLocationOnMap() {
         Event event = realmRepo.getEventSync();
 
+        if(event == null)
+            return;
+
         double latitude = event.getLatitude();
         double longitude = event.getLongitude();
-        
+
         String locationTitle = event.getLocationName();
 
         LatLng location = new LatLng(latitude, longitude);
@@ -116,6 +130,9 @@ public class MapsFragment extends Fragment implements LocationListener, OnMapRea
         String locationName;
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
 
+        if(mLocations == null || mLocations.isEmpty())
+            return;
+
         //Add markers for all locations
         for (Microlocation microlocation : mLocations) {
             latitude = microlocation.getLatitude();
@@ -125,32 +142,9 @@ public class MapsFragment extends Fragment implements LocationListener, OnMapRea
             searchItems.add(locationName);
 
             marker = handleMarkerEvents(location, locationName);
+            stringMarkerMap.put(locationName,marker);
             builder.include(marker.getPosition());
         }
-
-        LayoutInflater inflator = (LayoutInflater) getActivity()
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View toolbarView = inflator.inflate(R.layout.map_toolbar, null);
-        ButterKnife.bind(this, toolbarView);
-
-        toolbar.setCustomView(toolbarView );
-
-        //Setting up AutoCompleteTextView with the locations
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_dropdown_item_1line, searchItems);
-        textView.setAdapter(adapter);
-
-        textView.setOnItemClickListener((parent, view, position, id) -> {
-            String loc = adapter.getItem(position);
-            int pos = searchItems.indexOf(loc);
-            LatLng lng = new LatLng(mLocations.get(pos).getLatitude(), mLocations.get(pos).getLongitude());
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(lng, (float) Math.floor(mMap.getCameraPosition().zoom + 8)));
-
-            View mapView = getActivity().getCurrentFocus();
-            if (mapView != null) {
-                InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(mapView.getWindowToken(), 0);
-            }
-        });
 
         //Set max zoom level so that all marker are visible
         LatLngBounds bounds = builder.build();
@@ -160,6 +154,36 @@ public class MapsFragment extends Fragment implements LocationListener, OnMapRea
         }catch (IllegalStateException ise){
             mMap.setOnMapLoadedCallback(() -> mMap.moveCamera(cameraUpdate));
         }
+
+        if (fragmentLocationName != null)
+            focucOnMarker(stringMarkerMap.get(fragmentLocationName));
+
+        if (searchView == null || mSearchAutoComplete == null)
+            return;
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, searchItems);
+        mSearchAutoComplete.setAdapter(adapter);
+
+        mSearchAutoComplete.setOnItemClickListener((parent, view, position, id) -> {
+            String loc = adapter.getItem(position);
+            int pos = searchItems.indexOf(loc);
+
+            focucOnMarker(stringMarkerMap.get(mLocations.get(pos).getName()));
+
+            searchView.clearFocus();
+
+            View mapView = getActivity().getCurrentFocus();
+            if (mapView != null) {
+                InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(mapView.getWindowToken(), 0);
+            }
+        });
+    }
+
+    private void focucOnMarker(Marker marker){
+        marker.showInfoWindow();
+        marker.setIcon(vectorToBitmap(getContext(), R.drawable.map_marker, R.color.color_primary));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), (float) Math.floor(mMap.getCameraPosition().zoom + 8)));
     }
 
     private int dpToPx(int dp) {
@@ -195,9 +219,11 @@ public class MapsFragment extends Fragment implements LocationListener, OnMapRea
     }
 
     @Override
-    public void onDestroyView() {
-        toolbar.setDisplayShowCustomEnabled(false);
-        super.onDestroyView();
+    public void onSaveInstanceState(Bundle bundle) {
+        if (isAdded() && searchView != null) {
+            bundle.putString(SEARCH, searchText);
+        }
+        super.onSaveInstanceState(bundle);
     }
 
     @Override
@@ -207,6 +233,19 @@ public class MapsFragment extends Fragment implements LocationListener, OnMapRea
         if (mMap != null) {
             mMap.animateCamera(cameraUpdate);
         }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        inflater.inflate(R.menu.menu_map, menu);
+        MenuItem item = menu.findItem(R.id.action_search_map);
+        searchView = (SearchView) MenuItemCompat.getActionView(item);
+        mSearchAutoComplete = (SearchView.SearchAutoComplete) searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+        mSearchAutoComplete.setDropDownBackgroundResource(R.drawable.background_white);
+        mSearchAutoComplete.setDropDownAnchor(R.id.action_search_map);
+        mSearchAutoComplete.setThreshold(0);
     }
 
     @Override

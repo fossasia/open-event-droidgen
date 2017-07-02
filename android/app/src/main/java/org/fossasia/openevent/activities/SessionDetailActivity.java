@@ -15,6 +15,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
@@ -346,13 +347,18 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
                 collapsingToolbarLayout.setTitle(location);
                 mapFragment.setVisibility(View.VISIBLE);
 
+                Bundle bundle = new Bundle();
+                bundle.putBoolean(ConstantStrings.IS_MAP_FRAGMENT_FROM_MAIN_ACTIVITY, false);
+                bundle.putString(ConstantStrings.LOCATION_NAME, location);
+
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.content_frame_session,
-                        ((OpenEventApp) getApplication())
-                                .getMapModuleFactory()
-                                .provideMapModule()
-                                .provideMapFragment(), FRAGMENT_TAG_REST).addToBackStack(null).commit();
+                Fragment mapFragment = ((OpenEventApp)getApplication())
+                        .getMapModuleFactory()
+                        .provideMapModule()
+                        .provideMapFragment();
+                mapFragment.setArguments(bundle);
+                fragmentTransaction.replace(R.id.content_frame_session, mapFragment, FRAGMENT_TAG_REST).addToBackStack(null).commit();
                 return true;
 
             case R.id.action_share:
@@ -417,6 +423,11 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
             // Not Collapsed
 
             collapsingToolbarLayout.setTitle(" ");
+            if (showMap){
+                text_title.setText(location);
+            } else {
+                text_title.setText(title);
+            }
             text_title.setMaxLines(2);
             linearLayout.setVisibility(View.VISIBLE);
             isHideToolbarView = !isHideToolbarView;

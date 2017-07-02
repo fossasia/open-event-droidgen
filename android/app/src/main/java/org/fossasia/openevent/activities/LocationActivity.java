@@ -3,6 +3,7 @@ package org.fossasia.openevent.activities;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.graphics.drawable.DrawableCompat;
@@ -81,7 +82,7 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
     protected void onResume() {
         super.onResume();
 
-        location = getIntent().getStringExtra(ConstantStrings.MICROLOCATIONS);
+        location = getIntent().getStringExtra(ConstantStrings.LOCATION_NAME);
         toolbar.setTitle(location);
 
         //setting the grid layout to cut-off white space in tablet view
@@ -168,7 +169,18 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
             case R.id.action_map_location:
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.content_frame_location, ((OpenEventApp) getApplication()).getMapModuleFactory().provideMapModule().provideMapFragment(), FRAGMENT_TAG_LOCATION).addToBackStack(null).commit();
+
+                Bundle bundle = new Bundle();
+                bundle.putBoolean(ConstantStrings.IS_MAP_FRAGMENT_FROM_MAIN_ACTIVITY, false);
+                bundle.putString(ConstantStrings.LOCATION_NAME, location);
+
+                Fragment mapFragment = ((OpenEventApp)getApplication())
+                        .getMapModuleFactory()
+                        .provideMapModule()
+                        .provideMapFragment();
+                mapFragment.setArguments(bundle);
+                fragmentTransaction.replace(R.id.content_frame_location, mapFragment, FRAGMENT_TAG_LOCATION).addToBackStack(null).commit();
+
                 sessionRecyclerView.setVisibility(View.GONE);
                 noSessionsView.setVisibility(View.GONE);
                 menu.setGroupVisible(R.id.menu_group_location_activity, false);
