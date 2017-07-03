@@ -129,7 +129,7 @@ public class FeedAdapter extends BaseRVAdapter<FeedItem, FeedAdapter.RecyclerVie
 
         String feedImageUri = Utils.parseImageUri(feedItem.getFullPicture());
         Drawable placeholder = VectorDrawableCompat.create(context.getResources(),
-                R.drawable.camera, null);
+                R.drawable.ic_placeholder_24dp, null);
 
         if(feedImageUri != null) {
             holder.feedImageView.setVisibility(View.VISIBLE);
