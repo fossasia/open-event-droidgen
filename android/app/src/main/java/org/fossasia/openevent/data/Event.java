@@ -2,6 +2,10 @@ package org.fossasia.openevent.data;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
+import com.github.jasminb.jsonapi.IntegerIdHandler;
+import com.github.jasminb.jsonapi.annotations.Id;
+import com.github.jasminb.jsonapi.annotations.Relationship;
+import com.github.jasminb.jsonapi.annotations.Type;
 
 import org.fossasia.openevent.data.extras.CallForPapers;
 import org.fossasia.openevent.data.extras.Copyright;
@@ -13,10 +17,12 @@ import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
+@Type("event")
 public class Event extends RealmObject {
 
     @PrimaryKey
-    private Integer id;
+    @Id(IntegerIdHandler.class)
+    private int id;
     private String eventUrl;
     private String description;
     @JsonProperty("licence_details")
@@ -38,6 +44,7 @@ public class Event extends RealmObject {
     private Copyright copyright;
     private String privacy;
     private String placeholderUrl;
+    @Relationship("social-links")
     private RealmList<SocialLink> socialLinks;
     private Double longitude;
     private String organizerName;
@@ -133,6 +140,15 @@ public class Event extends RealmObject {
         this.callForPapers = callForPapers;
     }
 
+    @JsonSetter("copyright")
+    public void setCopyright(Copyright copyright) {
+        this.copyright = copyright;
+    }
+
+    @JsonSetter("event-copyright")
+    public void setCopyrightForNewModel(Copyright copyright) {
+        this.copyright = copyright;
+    }
 
     @JsonSetter("location_name")
     public void setLocationName(String locationName) {

@@ -1,11 +1,17 @@
 package org.fossasia.openevent.data;
 
+import com.github.jasminb.jsonapi.IntegerIdHandler;
+import com.github.jasminb.jsonapi.annotations.Id;
+import com.github.jasminb.jsonapi.annotations.Type;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
+@Type("microlocation")
 public class Microlocation extends RealmObject {
 
     @PrimaryKey
+    @Id(IntegerIdHandler.class)
     private int id;
     private String name;
     private float latitude;

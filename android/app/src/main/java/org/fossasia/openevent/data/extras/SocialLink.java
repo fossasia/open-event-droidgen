@@ -1,12 +1,18 @@
 package org.fossasia.openevent.data.extras;
 
+import com.github.jasminb.jsonapi.IntegerIdHandler;
+import com.github.jasminb.jsonapi.annotations.Id;
+import com.github.jasminb.jsonapi.annotations.Type;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
+@Type("social-link")
 public class SocialLink extends RealmObject {
 
     @PrimaryKey
-    private String id;
+    @Id(IntegerIdHandler.class)
+    private int id;
     private String name;
     private String link;
 
@@ -18,18 +24,18 @@ public class SocialLink extends RealmObject {
      * @param name
      * @param link
      */
-    public SocialLink(String link, String id, String name) {
+    public SocialLink(int id, String name, String link) {
         super();
-        this.link = link;
         this.id = id;
         this.name = name;
+        this.link = link;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
