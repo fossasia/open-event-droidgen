@@ -1,14 +1,19 @@
 package org.fossasia.openevent.data;
 
 import com.fasterxml.jackson.annotation.JsonSetter;
+import com.github.jasminb.jsonapi.IntegerIdHandler;
+import com.github.jasminb.jsonapi.annotations.Id;
+import com.github.jasminb.jsonapi.annotations.Type;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
+@Type("sponsor")
 public class Sponsor extends RealmObject {
 
     @PrimaryKey
-    private Integer id;
+    @Id(IntegerIdHandler.class)
+    private int id;
     private String name;
     private String description;
     private String level;

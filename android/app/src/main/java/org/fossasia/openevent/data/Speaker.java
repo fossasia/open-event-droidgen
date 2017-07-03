@@ -1,12 +1,17 @@
 package org.fossasia.openevent.data;
 
 import com.fasterxml.jackson.annotation.JsonSetter;
+import com.github.jasminb.jsonapi.IntegerIdHandler;
+import com.github.jasminb.jsonapi.annotations.Id;
+import com.github.jasminb.jsonapi.annotations.Relationship;
+import com.github.jasminb.jsonapi.annotations.Type;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.Index;
 import io.realm.annotations.PrimaryKey;
 
+@Type("speaker")
 public class Speaker extends RealmObject {
 
     public static final String SPEAKER = "speaker";
@@ -15,6 +20,7 @@ public class Speaker extends RealmObject {
     public static final String COUNTRY = "country";
 
     @PrimaryKey
+    @Id(IntegerIdHandler.class)
     private int id;
     @Index
     private String name;
@@ -35,10 +41,11 @@ public class Speaker extends RealmObject {
     private String city;
     private String longBiography;
     private String shortBiography;
-    private RealmList<Session> sessions;
     private String speakingExperience;
     private String gender;
     private String position;
+    @Relationship("sessions")
+    private RealmList<Session> sessions;
 
     @JsonSetter("short_biography")
     public void setShortBiography(String shortBiography) {
