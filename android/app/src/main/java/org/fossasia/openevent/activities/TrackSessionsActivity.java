@@ -56,8 +56,10 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
     private List<Session> mSessions = new ArrayList<>();
 
     private String searchText;
+    private int fontColor;
 
     private SearchView searchView;
+    private Menu menu;
 
     private static final int trackWiseSessionList = 4;
     private int trackId;
@@ -119,13 +121,14 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
         track.removeAllChangeListeners();
         track.addChangeListener((RealmObjectChangeListener<Track>) (track, objectChangeSet) -> {
             int color = Color.parseColor(track.getColor());
+            fontColor = Color.parseColor(track.getFontColor());
             setUiColor(color);
 
             actionBar.setTitle(track.getName());
-            toolbar.setTitleTextColor(Color.parseColor(track.getFontColor()));
+            toolbar.setTitleTextColor(fontColor);
 
             //coloring status bar icons for marshmallow+ devices
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && (sessionsRecyclerView != null) && (Color.parseColor(track.getFontColor()) != Color.WHITE)) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && (sessionsRecyclerView != null) && (fontColor != Color.WHITE)) {
                 sessionsRecyclerView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
             }
 
@@ -153,7 +156,6 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
         sessionsListAdapter.setColor(color);
 
         //setting of back button according to track font color
-        int fontColor = Color.parseColor(track.getFontColor());
         Drawable upArrow = ContextCompat.getDrawable(this, R.drawable.abc_ic_ab_back_material);
         upArrow.setColorFilter(fontColor, PorterDuff.Mode.SRC_ATOP);
         getSupportActionBar().setHomeAsUpIndicator(upArrow);
@@ -197,6 +199,12 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        DrawableCompat.setTint(menu.findItem(R.id.action_search_tracks).getIcon(), Color.WHITE);
+    }
+
+    @Override
     protected int getLayoutResource() {
         return R.layout.activity_tracks;
     }
@@ -223,9 +231,10 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
+        this.menu = menu;
         getMenuInflater().inflate(R.menu.menu_tracks, menu);
         searchView = (SearchView) menu.findItem(R.id.action_search_tracks).getActionView();
-        DrawableCompat.setTint(menu.findItem(R.id.action_search_tracks).getIcon(), Color.parseColor(track.getFontColor()));
+        DrawableCompat.setTint(menu.findItem(R.id.action_search_tracks).getIcon(), fontColor);
         searchView.setOnQueryTextListener(this);
         if (searchText != null) {
             searchView.setQuery(searchText, false);
