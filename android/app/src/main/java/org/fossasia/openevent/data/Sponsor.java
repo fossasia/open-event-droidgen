@@ -1,6 +1,6 @@
 package org.fossasia.openevent.data;
 
-import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.jasminb.jsonapi.IntegerIdHandler;
 import com.github.jasminb.jsonapi.annotations.Id;
 import com.github.jasminb.jsonapi.annotations.Type;
@@ -18,7 +18,9 @@ public class Sponsor extends RealmObject {
     private String description;
     private String level;
     private String url;
+    @JsonProperty("type")
     private String sponsorType;
+    @JsonProperty("logo-url")
     private String logo;
 
     public int getId() {
@@ -41,23 +43,11 @@ public class Sponsor extends RealmObject {
         return url;
     }
 
-    @JsonSetter("sponsor_type")
     public void setSponserType(String sponserType) {
         this.sponsorType = sponserType;
     }
 
-    @JsonSetter("sponsor-type")
-    public void setSponserTypeForNewModel(String sponserType) {
-        this.sponsorType = sponserType;
-    }
-
-    @JsonSetter("logo")
     public void setLogo(String logo) {
-        this.logo = logo;
-    }
-
-    @JsonSetter("logo-url")
-    public void setLogoForNewModel(String logo) {
         this.logo = logo;
     }
 

@@ -1,6 +1,6 @@
 package org.fossasia.openevent.data;
 
-import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.jasminb.jsonapi.IntegerIdHandler;
 import com.github.jasminb.jsonapi.annotations.Id;
 import com.github.jasminb.jsonapi.annotations.Relationship;
@@ -21,6 +21,7 @@ public class Track extends RealmObject {
     private String name;
     private String description;
     private String color;
+    @JsonProperty("font-color")
     private String fontColor;
     @Relationship("sessions")
     private RealmList<Session> sessions;
@@ -57,13 +58,7 @@ public class Track extends RealmObject {
         return fontColor;
     }
 
-    @JsonSetter("font_color")
     public void setFontColor(String fontColor) {
-        this.fontColor = fontColor;
-    }
-
-    @JsonSetter("font-color")
-    public void setFontColorForNewModel(String fontColor) {
         this.fontColor = fontColor;
     }
 

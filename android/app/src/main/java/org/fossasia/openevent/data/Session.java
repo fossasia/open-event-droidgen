@@ -1,7 +1,6 @@
 package org.fossasia.openevent.data;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSetter;
 import com.github.jasminb.jsonapi.IntegerIdHandler;
 import com.github.jasminb.jsonapi.annotations.Id;
 import com.github.jasminb.jsonapi.annotations.Relationship;
@@ -28,15 +27,23 @@ public class Session extends RealmObject {
     @Index
     private String title;
     private String subtitle;
+    @JsonProperty("short-abstract")
     private String shortAbstract;
+    @JsonProperty("long-abstract")
     private String longAbstract;
     private String comments;
+    @JsonProperty("starts-at")
     private String startTime;
+    @JsonProperty("ends-at")
     private String endTime;
     private String language;
+    @JsonProperty("slides-url")
     private String slides;
+    @JsonProperty("video-url")
     private String video;
+    @JsonProperty("audio-url")
     private String audio;
+    @JsonProperty("signup-url")
     private String signupUrl;
     private String state;
     private String level;
@@ -76,96 +83,41 @@ public class Session extends RealmObject {
         this.isMailSent = isMailSent;
     }
 
-    @JsonSetter("session_type")
     public void setSessionType(SessionType sessionType) {
         this.sessionType = sessionType;
     }
 
-    @JsonSetter("session-type")
-    public void setSessionTypeForNewModel(SessionType sessionType) {
-        this.sessionType = sessionType;
-    }
-
-    @JsonSetter("starts-at")
-    public void setStartTimeForNewModel(String startTime) {
-        this.startTime = startTime;
-    }
-
-    @JsonSetter("start_time")
     public void setStartTime(String startTime) {
         this.startTime = startTime;
     }
 
-    @JsonSetter("short-abstract")
-    public void setShortAbstractForNewModel(String shortAbstract) {
-        this.shortAbstract = shortAbstract;
-    }
-
-    @JsonSetter("ends-at")
-    public void setEndTimeForNewModel(String endTime) {
-        this.endTime = endTime;
-    }
-
-    @JsonSetter("end_time")
-    public void setEndTime(String endTime) {
-        this.endTime = endTime;
-    }
-
-    @JsonSetter("short_abstract")
     public void setShortAbstract(String shortAbstract) {
         this.shortAbstract = shortAbstract;
     }
 
-    @JsonSetter("long-abstract")
-    public void setLongAbstractForNewModel(String longAbstract) {
-        this.longAbstract = longAbstract;
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
     }
 
-    @JsonSetter("long_abstract")
     public void setLongAbstract(String longAbstract) {
         this.longAbstract = longAbstract;
     }
 
-    @JsonSetter("slides-url")
-    public void setSlidesForNewModel(String slides) {
-        this.slides = slides;
-    }
-
-    @JsonSetter("slides")
     public void setSlides(String slides) {
         this.slides = slides;
     }
 
-    @JsonSetter("videos-url")
-    public void setVideoForNewModel(String video) {
-        this.video = video;
-    }
-
-    @JsonSetter("video")
     public void setVideo(String video) {
         this.video = video;
     }
 
-    @JsonSetter("audios-url")
-    public void setAudioForNewModel(String audio) {
-        this.audio = audio;
-    }
-
-    @JsonSetter("audio")
     public void setAudio(String audio) {
         this.audio = audio;
     }
 
-    @JsonSetter("signup-url")
-    public void setSignupUrlForNewModel(String signupUrl) {
-        this.signupUrl = signupUrl;
-    }
-
-    @JsonSetter("signup_url")
     public void setSignupUrl(String signupUrl) {
         this.signupUrl = signupUrl;
     }
-
 
     public String getCreatedAt() {
         return createdAt;
