@@ -11,7 +11,6 @@ import org.fossasia.openevent.data.Sponsor;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.data.extras.EventDates;
 import org.fossasia.openevent.data.SessionType;
-import org.fossasia.openevent.data.extras.Version;
 import org.fossasia.openevent.events.BookmarkChangedEvent;
 
 import java.util.HashMap;
@@ -65,17 +64,6 @@ public class RealmDataRepository {
         return realm;
     }
 
-    private void clearRealmDatabaseVersions() {
-        Realm realm = Realm.getDefaultInstance();
-
-        realm.executeTransaction(realm1 -> realm1.delete(Version.class));
-        realm.close();
-    }
-
-    public Completable clearVersions() {
-        return Completable.fromAction(this::clearRealmDatabaseVersions);
-    }
-
     // Events Section
 
     private void saveEventInRealm(Event event) {
@@ -113,16 +101,6 @@ public class RealmDataRepository {
      */
     public Event getEventSync() {
         return realm.where(Event.class).findFirst();
-    }
-
-    /**
-     * Returns Future of the stored version IDs of event components
-     * @return Version IDs of different Event Components
-     */
-    public Version getVersionIdsSync() {
-        Realm realm = Realm.getDefaultInstance();
-
-        return realm.where(Version.class).findFirst();
     }
 
     // Tracks Section

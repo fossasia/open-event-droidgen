@@ -1,7 +1,6 @@
 package org.fossasia.openevent.data.extras;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSetter;
 import com.github.jasminb.jsonapi.IntegerIdHandler;
 import com.github.jasminb.jsonapi.annotations.Id;
 import com.github.jasminb.jsonapi.annotations.Type;
@@ -17,7 +16,9 @@ public class CallForPapers extends RealmObject {
     private int id;
     private String announcement;
     private String privacy;
+    @JsonProperty("starts-at")
     private String startDate;
+    @JsonProperty("ends-at")
     private String endDate;
     private String timezone;
 
@@ -37,13 +38,7 @@ public class CallForPapers extends RealmObject {
         return startDate;
     }
 
-    @JsonSetter("start_date")
     public void setStartDate(String startDate) {
-        this.startDate = startDate;
-    }
-
-    @JsonSetter("starts-at")
-    public void setStartDateForNewModel(String startDate) {
         this.startDate = startDate;
     }
 
@@ -51,13 +46,7 @@ public class CallForPapers extends RealmObject {
         return endDate;
     }
 
-    @JsonSetter("end_date")
     public void setEndDate(String endDate) {
-        this.endDate = endDate;
-    }
-
-    @JsonSetter("ends-at")
-    public void setEndDateForNewModel(String endDate) {
         this.endDate = endDate;
     }
 
