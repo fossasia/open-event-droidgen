@@ -104,6 +104,7 @@ public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, RecyclerView.Vie
                 OpenEventApp.picassoWithCache
                         .load(Uri.parse(logo))
                         .resize(width, (height / 6))
+                        .placeholder(R.drawable.ic_sponsors_black_24dp)
                         .centerInside()
                         .into(sponsorViewHolder.sponsorImage);
             } else {
