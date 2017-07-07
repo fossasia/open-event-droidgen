@@ -6,7 +6,7 @@ import io.realm.RealmSchema;
 
 public class RealmDatabaseMigration implements RealmMigration {
 
-    public static long DB_VERSION = 1;
+    public static long DB_VERSION = 2;
 
     @Override
     public void migrate(DynamicRealm realm, long oldVersion, long newVersion) {
@@ -18,6 +18,14 @@ public class RealmDatabaseMigration implements RealmMigration {
                     .addField("deleted-at", String.class)
                     .addField("submitted-at", String.class)
                     .addField("is-mail-sent", Boolean.class);
+            oldVersion++;
+        }
+
+        if(oldVersion == 1) {
+            schema.get("Event")
+                    .addField("created-at", String.class)
+                    .addField("deleted-at", String.class)
+                    .addField("icon-image-url", String.class);
             oldVersion++;
         }
     }

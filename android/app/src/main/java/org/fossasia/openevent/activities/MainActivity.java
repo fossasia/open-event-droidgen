@@ -596,13 +596,6 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
     }
 
     private void startDownload() {
-        realmRepo.clearVersions().subscribe(
-                () -> Timber.d("Cleared JSON db versions"),
-                throwable -> {
-                    throwable.printStackTrace();
-                    Timber.e(throwable);
-                });
-
         DataDownloadManager.getInstance().downloadEvents();
         startDownloadListener();
         Timber.d("Download has started");

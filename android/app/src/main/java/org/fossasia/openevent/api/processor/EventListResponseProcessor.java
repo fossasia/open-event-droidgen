@@ -3,7 +3,6 @@ package org.fossasia.openevent.api.processor;
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.api.DataDownloadManager;
 import org.fossasia.openevent.data.Event;
-import org.fossasia.openevent.data.extras.Version;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.events.CounterEvent;
 import org.fossasia.openevent.events.DownloadEvent;
@@ -24,84 +23,19 @@ public class EventListResponseProcessor extends ResponseProcessor<Event> {
 
     @Override
     protected void onSuccess(Event event) {
-        int counterRequests = 0;
-
-        final Version version = event.getVersion();
+        int counterRequests = 7;
 
         final DataDownloadManager download = DataDownloadManager.getInstance();
+        OpenEventApp.postEventOnUIThread(new CounterEvent(counterRequests));
 
-        Version storedVersion = realmRepo.getVersionIdsSync();
+        save(event);
 
-        if (storedVersion == null) {
-            Timber.d("Version info not present. Downloading complete data again...");
-
-            counterRequests = 7;
-            OpenEventApp.postEventOnUIThread(new CounterEvent(counterRequests));
-
-            save(event);
-
-            download.downloadSession();
-            download.downloadSpeakers();
-            download.downloadTracks();
-            download.downloadMicrolocations();
-            download.downloadSponsors();
-            download.downloadSessionTypes();
-        } else {
-            if (storedVersion.getEventVer() != version.getEventVer()) {
-                Timber.d("Downloading Event");
-                save(event);
-
-                counterRequests++;
-            }
-
-            if (storedVersion.getSponsorsVer() != version.getSponsorsVer()) {
-                download.downloadSponsors();
-
-                Timber.d("Downloading Sponsor");
-                counterRequests++;
-            }
-
-            if (storedVersion.getSpeakersVer() != version.getSpeakersVer()) {
-                download.downloadSpeakers();
-
-                Timber.d("Downloading Speakers");
-                counterRequests++;
-            }
-
-            if (storedVersion.getSessionsVer() != version.getSessionsVer()) {
-                download.downloadSession();
-
-                Timber.d("Downloading Sessions");
-                counterRequests++;
-            }
-
-            if (storedVersion.getTracksVer() != version.getTracksVer()) {
-                download.downloadTracks();
-
-                Timber.d("Downloading Tracks");
-                counterRequests++;
-            }
-
-            if (storedVersion.getMicrolocationsVer() != version.getMicrolocationsVer()) {
-                download.downloadMicrolocations();
-                Timber.d("Downloading Microlocations");
-
-                counterRequests++;
-            }
-
-            if (storedVersion.getSessionTypesVer() != version.getSessionTypesVer()) {
-                download.downloadSessionTypes();
-                Timber.d("Downloading Session Types");
-
-                counterRequests++;
-            }
-
-            if (counterRequests == 0) {
-                Timber.d("Data fresh");
-            } else {
-                OpenEventApp.postEventOnUIThread(new CounterEvent(counterRequests));
-            }
-        }
+        download.downloadSession();
+        download.downloadSpeakers();
+        download.downloadTracks();
+        download.downloadMicrolocations();
+        download.downloadSponsors();
+        download.downloadSessionTypes();
     }
 
     @Override
