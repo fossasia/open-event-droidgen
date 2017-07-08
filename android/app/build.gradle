@@ -9,7 +9,7 @@ def buildTime = new Date().format("yyyy-MM-dd'T'HH:mm'Z'", TimeZone.getTimeZone(
 
 def isTravis = "true" == System.getenv("TRAVIS")
 def preDexEnabled = "true" == System.getProperty("pre-dex", "true")
-def SUPPORT_LIB_VERSION = "25.3.1"
+def SUPPORT_LIB_VERSION = "25.4.0"
 
 android {
     compileSdkVersion 25
@@ -114,7 +114,7 @@ dependencies {
     apt 'com.jakewharton:butterknife-compiler:8.5.1'
 
     // Googleplay Variant
-    googleplayCompile 'com.google.android.gms:play-services-maps:9.8.0'
+    googleplayCompile 'com.google.android.gms:play-services-maps:10.2.6'
 
     // Fdroid Variant
     fdroidCompile 'org.osmdroid:osmdroid-android:5.1'
