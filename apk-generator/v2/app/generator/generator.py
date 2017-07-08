@@ -36,6 +36,7 @@ class Generator:
             self.identifier = identifier
         self.task_handle = task_handle
         self.update_status('Starting the generator')
+        self.update_status('Initializing the variables')
         self.config = config
         self.working_dir = config['WORKING_DIR']
         self.src_dir = config['APP_SOURCE_DIR']
@@ -75,7 +76,7 @@ class Generator:
         :param zip_file:
         :return:
         """
-        self.update_status('Normalizing source data')
+        self.update_status('Normalizing the source data')
         if not endpoint_url and not zip_file:
             raise Exception('endpoint_url or zip_file is required')
         if endpoint_url:
@@ -96,6 +97,7 @@ class Generator:
                     if root_url:
                         self.api_link = root_url + '/api/v1/events/' + str(event_id)
 
+        self.update_status('Preparing event name and email')
         self.event_name = event_info['name']
         self.app_name = self.event_name
         self.creator_email = creator_email
@@ -123,7 +125,7 @@ class Generator:
 
         logger.info('Working directory: %s' % self.app_working_dir)
 
-        self.update_status('Preparing parent source code')
+        self.update_status('Preparing the parent source code')
 
         self.prepare_source()
 
@@ -142,7 +144,7 @@ class Generator:
         with open(self.get_path("app/src/main/assets/config.json"), "w+") as config_file:
             config_file.write(json.dumps(config))
 
-        self.update_status('Generating launcher icons & background image')
+        self.update_status('Generating launcher icon & background image')
 
         save_logo(self.app_launcher_icon, self.app_working_dir)
         resize_launcher_icon(self.app_launcher_icon, self.app_working_dir)
