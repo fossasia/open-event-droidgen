@@ -129,7 +129,7 @@ public class AboutFragment extends BaseFragment {
         if(event == null || !event.isValid())
             return;
 
-        String date = String.format("%s - %s",
+        String date = String.format("%s\n%s",
                 DateUtils.formatDateWithDefault(DateUtils.FORMAT_DATE_COMPLETE, event.getStartTime()),
                 DateUtils.formatDateWithDefault(DateUtils.FORMAT_DATE_COMPLETE, event.getEndTime()));
 
@@ -216,11 +216,9 @@ public class AboutFragment extends BaseFragment {
         if (!mSessions.isEmpty()) {
             bookmarksRecyclerView.setVisibility(View.VISIBLE);
             bookmarkHeader.setVisibility(View.VISIBLE);
-            eventDetailsHeader.setVisibility(View.VISIBLE);
         } else {
             bookmarksRecyclerView.setVisibility(View.GONE);
             bookmarkHeader.setVisibility(View.GONE);
-            eventDetailsHeader.setVisibility(View.GONE);
         }
     }
 

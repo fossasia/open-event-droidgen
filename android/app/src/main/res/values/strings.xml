@@ -203,19 +203,19 @@
 
     <!--About Screen-->
     <string name="welcome_message">Welcome to %1$s!</string>
-    <string name="event_open">EVENT OPEN</string>
+    <string name="event_open">Event Open</string>
     <string name="event_venue">VENUE</string>
-    <string name="organiser_description">ORGANISERS DESCRIPTION</string>
+    <string name="organiser_description">Organiser Description</string>
     <string name="read_more">Read More</string>
     <string name="read_less">Read Less</string>
     <string name="more_details">For more details check </string>
-    <string name="social_links">SOCIAL LINKS</string>
+    <string name="social_links">Social Links</string>
 
     <string name="location_not_decided">Not decided yet</string>
     <string name="result_type">Result Type</string>
     <string name="error_create_notification">Error creating notification</string>
     <string name="bookmark_header">Bookmarks</string>
-    <string name="event_details_header">About Event</string>
+    <string name="event_details_header">Event Description</string>
 
     <!--Feed Strings-->
     <string name="facebook_access_token" templateMergeStrategy="preserve" translatable="false">1786614831603417|DWqP48Lm77hBqCQDWVsq4lFixuo</string>

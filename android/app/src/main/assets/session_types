@@ -1,162 +1,162 @@
 [
     {
-        "id": 1, 
-        "name": "Welcome", 
+        "id": 1,
+        "name": "Welcome",
         "length": "00:30"
-    }, 
+    },
     {
-        "id": 2, 
-        "name": "Program Overview", 
+        "id": 2,
+        "name": "Program Overview",
         "length": "00:30"
-    }, 
+    },
     {
-        "id": 3, 
-        "name": "Host Welcome", 
+        "id": 3,
+        "name": "Host Welcome",
         "length": "00:30"
-    }, 
+    },
     {
-        "id": 4, 
-        "name": "Keynote of 20 minutes", 
+        "id": 4,
+        "name": "Keynote of 20 minutes",
         "length": "00:30"
-    }, 
+    },
     {
-        "id": 5, 
-        "name": "Talk of 20 minutes", 
+        "id": 5,
+        "name": "Talk of 20 minutes",
         "length": "00:30"
-    }, 
+    },
     {
-        "id": 6, 
-        "name": "Demo Talk", 
+        "id": 6,
+        "name": "Demo Talk",
         "length": "00:30"
-    }, 
+    },
     {
-        "id": 7, 
-        "name": "Lightning Talk", 
+        "id": 7,
+        "name": "Lightning Talk",
         "length": "00:30"
-    }, 
+    },
     {
-        "id": 8, 
-        "name": "Outreachy", 
+        "id": 8,
+        "name": "Outreachy",
         "length": "00:30"
-    }, 
+    },
     {
-        "id": 9, 
-        "name": "Keynote", 
+        "id": 9,
+        "name": "Keynote",
         "length": "00:30"
-    }, 
+    },
     {
-        "id": 10, 
-        "name": "40 minutes (20 minute demonstration, 20 minute talk)", 
+        "id": 10,
+        "name": "40 minutes (20 minute demonstration, 20 minute talk)",
         "length": "00:30"
-    }, 
+    },
     {
-        "id": 11, 
-        "name": "Session of 30 minutes ", 
+        "id": 11,
+        "name": "Session of 30 minutes ",
         "length": "00:30"
-    }, 
+    },
     {
-        "id": 12, 
-        "name": "Presentations", 
+        "id": 12,
+        "name": "Presentations",
         "length": "00:30"
-    }, 
+    },
     {
-        "id": 13, 
-        "name": "Workshop of 2 hours", 
+        "id": 13,
+        "name": "Workshop of 2 hours",
         "length": "00:30"
-    }, 
+    },
     {
-        "id": 14, 
-        "name": "Workshop of 1 hour", 
+        "id": 14,
+        "name": "Workshop of 1 hour",
         "length": "00:30"
-    }, 
+    },
     {
-        "id": 15, 
-        "name": "Workshop of 2.5 hours", 
+        "id": 15,
+        "name": "Workshop of 2.5 hours",
         "length": "00:30"
-    }, 
+    },
     {
-        "id": 16, 
-        "name": "Workshop of 1.5 hours", 
+        "id": 16,
+        "name": "Workshop of 1.5 hours",
         "length": "00:30"
-    }, 
+    },
     {
-        "id": 17, 
-        "name": "Workshop of 4 hours", 
+        "id": 17,
+        "name": "Workshop of 4 hours",
         "length": "00:30"
-    }, 
+    },
     {
-        "id": 18, 
-        "name": "Closing Session in Main Hall", 
+        "id": 18,
+        "name": "Closing Session in Main Hall",
         "length": "00:30"
-    }, 
+    },
     {
-        "id": 19, 
-        "name": "Talk of 40 minutes", 
+        "id": 19,
+        "name": "Talk of 40 minutes",
         "length": "00:30"
-    }, 
+    },
     {
-        "id": 20, 
-        "name": "Workshop of 5 hours", 
+        "id": 20,
+        "name": "Workshop of 5 hours",
         "length": "00:30"
-    }, 
+    },
     {
-        "id": 21, 
-        "name": "Welcome Note", 
+        "id": 21,
+        "name": "Welcome Note",
         "length": "00:30"
-    }, 
+    },
     {
-        "id": 22, 
-        "name": "Talk of 60 minutes", 
+        "id": 22,
+        "name": "Talk of 60 minutes",
         "length": "00:30"
-    }, 
+    },
     {
-        "id": 23, 
-        "name": "Talk of 45 minutes", 
+        "id": 23,
+        "name": "Talk of 45 minutes",
         "length": "00:30"
-    }, 
+    },
     {
-        "id": 24, 
-        "name": "Lightning Talks (30 minute slot)", 
+        "id": 24,
+        "name": "Lightning Talks (30 minute slot)",
         "length": "00:30"
-    }, 
+    },
     {
-        "id": 25, 
-        "name": "Panel of 1 hour", 
+        "id": 25,
+        "name": "Panel of 1 hour",
         "length": "00:30"
-    }, 
+    },
     {
-        "id": 26, 
-        "name": "Lightning Talk followed by Workshop on Saturday and Sunday", 
+        "id": 26,
+        "name": "Lightning Talk followed by Workshop on Saturday and Sunday",
         "length": "00:30"
-    }, 
+    },
     {
-        "id": 27, 
-        "name": "Group Activity", 
+        "id": 27,
+        "name": "Group Activity",
         "length": "00:30"
-    }, 
+    },
     {
-        "id": 28, 
-        "name": "Workshops and Science Hacking", 
+        "id": 28,
+        "name": "Workshops and Science Hacking",
         "length": "00:30"
-    }, 
+    },
     {
-        "id": 29, 
-        "name": "Demos", 
+        "id": 29,
+        "name": "Demos",
         "length": "00:30"
-    }, 
+    },
     {
-        "id": 30, 
-        "name": "Talk / Discussion of 40 minutes", 
+        "id": 30,
+        "name": "Talk / Discussion of 40 minutes",
         "length": "00:30"
-    }, 
+    },
     {
-        "id": 31, 
-        "name": "Exhibition Area", 
+        "id": 31,
+        "name": "Exhibition Area",
         "length": "00:30"
-    }, 
+    },
     {
-        "id": 32, 
-        "name": "Job board in person", 
+        "id": 32,
+        "name": "Job board in person",
         "length": "00:30"
     }
 ]

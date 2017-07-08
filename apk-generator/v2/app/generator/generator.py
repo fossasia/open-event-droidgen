@@ -39,9 +39,9 @@ class Generator:
         self.config = config
         self.working_dir = config['WORKING_DIR']
         self.src_dir = config['APP_SOURCE_DIR']
-        self.creator_email = 'john.doe@example.com'
-        self.event_name = 'Open Event'
-        self.app_name = self.event_name
+        self.creator_email = ''
+        self.event_name = ''
+        self.app_name = ''
         self.app_working_dir = os.path.abspath(self.working_dir + '/' + self.identifier + '/android-src/')
         self.app_background_image = os.path.abspath(config['BASE_DIR'] + '/app/static/assets/background.jpg')
         self.app_launcher_icon = os.path.abspath(config['BASE_DIR'] + '/app/static/assets/ic_launcher.png')
