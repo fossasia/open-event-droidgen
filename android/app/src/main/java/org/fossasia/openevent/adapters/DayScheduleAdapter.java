@@ -125,7 +125,7 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleViewHo
             }
             return tracks.indexOf(getItem(position).getTrack().getName());
         } else if (SortOrder.sortOrderSchedule(context).equals(Session.START_TIME)) {
-            id = DateUtils.formatDateWithDefault(DateUtils.FORMAT_24H, getItem(position).getStartTime(), "")
+            id = DateUtils.formatDateWithDefault(DateUtils.FORMAT_24H, getItem(position).getStartsAt(), "")
                     .replace(":", "")
                     .replace(" ", "");
         }
@@ -150,7 +150,7 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleViewHo
         } else if (SortOrder.sortOrderSchedule(context).equals(Session.TRACK)){
             textView.setText(String.valueOf(sortName));
         } else if (SortOrder.sortOrderSchedule(context).equals(Session.START_TIME)) {
-            textView.setText(DateUtils.formatDateWithDefault(DateUtils.FORMAT_24H, getItem(position).getStartTime()));
+            textView.setText(DateUtils.formatDateWithDefault(DateUtils.FORMAT_24H, getItem(position).getStartsAt()));
         }
     }
 

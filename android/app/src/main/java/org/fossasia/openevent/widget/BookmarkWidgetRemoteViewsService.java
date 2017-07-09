@@ -82,9 +82,9 @@ public class BookmarkWidgetRemoteViewsService extends RemoteViewsService {
                     data = new MatrixCursor(columns);
 
                     for (Session session : sessions) {
-                        String start = DateUtils.formatDateWithDefault(DateUtils.FORMAT_12H, session.getStartTime());
-                        String end = DateUtils.formatDateWithDefault(DateUtils.FORMAT_12H, session.getEndTime());
-                        String date = DateUtils.formatDateWithDefault(DateUtils.FORMAT_DATE_COMPLETE, session.getStartTime());
+                        String start = DateUtils.formatDateWithDefault(DateUtils.FORMAT_12H, session.getStartsAt());
+                        String end = DateUtils.formatDateWithDefault(DateUtils.FORMAT_12H, session.getEndsAt());
+                        String date = DateUtils.formatDateWithDefault(DateUtils.FORMAT_DATE_COMPLETE, session.getStartsAt());
                         data.addRow(new Object[]{id, session.getTitle(), start, end, date});
                     }
                 } catch (Exception e) {

@@ -70,14 +70,15 @@
         "holder-url": "http://fossasia.org/contact/",
         "licence": "Creative Commons Attribution License",
         "licence-url": "http://creativecommons.org/licenses/by/4.0/",
-        "logo": "https://i.creativecommons.org/l/by/4.0/80x15.png",
+        "logo-url": "https://i.creativecommons.org/l/by/4.0/80x15.png",
         "year": 2016
     },
     "speakers-call": {
         "announcement": "<p>Wanna speak at our prestigious event. Send us a proposal</p>",
         "starts-at": "2016-11-01T16:00:00+08:00",
         "privacy": "public",
-        "ends-at": "2017-01-20T17:00:00+08:00"
+        "ends-at": "2017-01-20T17:00:00+08:00",
+        "hash": ""
     },
     "email": "contact@fossasia.org",
     "is-sessions-speakers-enabled": true,

@@ -130,8 +130,8 @@ public class AboutFragment extends BaseFragment {
             return;
 
         String date = String.format("%s\n%s",
-                DateUtils.formatDateWithDefault(DateUtils.FORMAT_DATE_COMPLETE, event.getStartTime()),
-                DateUtils.formatDateWithDefault(DateUtils.FORMAT_DATE_COMPLETE, event.getEndTime()));
+                DateUtils.formatDateWithDefault(DateUtils.FORMAT_DATE_COMPLETE, event.getStartsAt()),
+                DateUtils.formatDateWithDefault(DateUtils.FORMAT_DATE_COMPLETE, event.getEndsAt()));
 
         welcomeMessage.setText(String.format(getResources().getString(R.string.welcome_message), event.getName()));
         Views.setHtml(organiserDescription, event.getOrganizerDescription(), true);

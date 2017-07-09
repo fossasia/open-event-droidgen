@@ -186,11 +186,11 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
             Timber.d("This session has a null or incomplete track somehow : " + session.getTitle() + " " + track);
         }
 
-        String date = DateUtils.formatDateWithDefault(DateUtils.FORMAT_DATE_COMPLETE, session.getStartTime());
+        String date = DateUtils.formatDateWithDefault(DateUtils.FORMAT_DATE_COMPLETE, session.getStartsAt());
         holder.sessionDate.setText(date);
         holder.sessionTime.setText(String.format("%s - %s",
-                DateUtils.formatDateWithDefault(DateUtils.FORMAT_12H, session.getStartTime()),
-                DateUtils.formatDateWithDefault(DateUtils.FORMAT_12H, session.getEndTime())));
+                DateUtils.formatDateWithDefault(DateUtils.FORMAT_12H, session.getStartsAt()),
+                DateUtils.formatDateWithDefault(DateUtils.FORMAT_12H, session.getEndsAt())));
         if(session.getMicrolocation() != null) {
             String locationName = Utils.checkStringEmpty(session.getMicrolocation().getName());
             holder.sessionLocation.setText(locationName);

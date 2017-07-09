@@ -311,7 +311,7 @@ public class RealmDataRepository {
         return realm.where(Session.class)
                 .equalTo("track.id", trackId)
                 .like("title", wildcardQuery, Case.INSENSITIVE)
-                .findAllSorted("startTime");
+                .findAllSorted("startsAt");
     }
 
     public RealmResults<Session> getSessionsByLocation(String location) {

@@ -94,8 +94,8 @@ public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, RecyclerView.Vie
             Sponsor currentSponsor = getItem(position);
 
             String sponserName = Utils.checkStringEmpty(currentSponsor.getName());
-            String sponserType = Utils.checkStringEmpty(currentSponsor.getSponsorType());
-            String logo = Utils.parseImageUri(currentSponsor.getLogo());
+            String sponserType = Utils.checkStringEmpty(currentSponsor.getType());
+            String logo = Utils.parseImageUri(currentSponsor.getLogoUrl());
 
             sponsorViewHolder.sponsorType.setText(sponserType);
             sponsorViewHolder.sponsorName.setText(sponserName);

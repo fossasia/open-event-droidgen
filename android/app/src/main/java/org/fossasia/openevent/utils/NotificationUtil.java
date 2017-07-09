@@ -19,19 +19,19 @@ public class NotificationUtil {
 
     private static void onSuccess(Session session) {
         Timber.d("Created notification for Session %d %s at time %s",
-                session.getId(), session.getTitle(), session.getStartTime());
+                session.getId(), session.getTitle(), session.getStartsAt());
     }
 
     private static void onError(Throwable throwable, Session session) {
         Timber.e(throwable);
         Timber.e("Error creating Date for Session %ld %s at time %s",
-                session.getId(), session.getTitle(), session.getStartTime());
+                session.getId(), session.getTitle(), session.getStartsAt());
     }
 
     public static Completable createNotification(Session session, Context context) {
         return Completable.fromAction(() -> {
             Calendar calendar = Calendar.getInstance();
-            calendar.setTime(DateUtils.getDate(session.getStartTime()));
+            calendar.setTime(DateUtils.getDate(session.getStartsAt()));
 
             SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
             Integer pref_result = Integer.parseInt(sharedPrefs.getString("notification", "10 mins").substring(0, 2).trim());

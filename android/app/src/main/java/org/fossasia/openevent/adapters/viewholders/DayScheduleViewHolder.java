@@ -67,8 +67,8 @@ public class DayScheduleViewHolder extends RecyclerView.ViewHolder {
 
     public void bindSession(RealmDataRepository realmRepo){
 
-        String startTimeText = DateUtils.formatDateWithDefault(DateUtils.FORMAT_24H, session.getStartTime());
-        String endTimeText = DateUtils.formatDateWithDefault(DateUtils.FORMAT_24H, session.getEndTime());
+        String startTimeText = DateUtils.formatDateWithDefault(DateUtils.FORMAT_24H, session.getStartsAt());
+        String endTimeText = DateUtils.formatDateWithDefault(DateUtils.FORMAT_24H, session.getEndsAt());
         String title = Utils.checkStringEmpty(session.getTitle());
 
         startTime.setText(startTimeText);
