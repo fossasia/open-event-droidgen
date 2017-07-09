@@ -1,7 +1,8 @@
 package org.fossasia.openevent.data.extras;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.github.jasminb.jsonapi.IntegerIdHandler;
 import com.github.jasminb.jsonapi.annotations.Id;
 import com.github.jasminb.jsonapi.annotations.Type;
@@ -10,6 +11,8 @@ import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 @Type("event-copyright")
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonNaming(PropertyNamingStrategy.KebabCaseStrategy.class)
 public class Copyright extends RealmObject {
 
     @PrimaryKey
@@ -19,7 +22,7 @@ public class Copyright extends RealmObject {
     private String holderUrl;
     private String licence;
     private int year;
-    private String logo;
+    private String logoUrl;
     private String holder;
 
     public Integer getId() {
@@ -30,28 +33,8 @@ public class Copyright extends RealmObject {
         return licenceUrl;
     }
 
-    @JsonSetter("licence_url")
-    public void setLicenceUrl(String licenceUrl) {
-        this.licenceUrl = licenceUrl;
-    }
-
-    @JsonSetter("licence-url")
-    public void setLicenceUrlForNewModel(String licenceUrl) {
-        this.licenceUrl = licenceUrl;
-    }
-
     public String getHolderUrl() {
         return holderUrl;
-    }
-
-    @JsonSetter("holder_url")
-    public void setHolderUrl(String holderUrl) {
-        this.holderUrl = holderUrl;
-    }
-
-    @JsonSetter("holder-url")
-    public void setHolderUrlForNewModel(String holderUrl) {
-        this.holderUrl = holderUrl;
     }
 
     public String getLicence() {
@@ -62,11 +45,39 @@ public class Copyright extends RealmObject {
         return year;
     }
 
-    public String getLogo() {
-        return logo;
+    public String getLogoUrl() {
+        return logoUrl;
     }
 
     public String getHolder() {
         return holder;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setLicenceUrl(String licenceUrl) {
+        this.licenceUrl = licenceUrl;
+    }
+
+    public void setHolderUrl(String holderUrl) {
+        this.holderUrl = holderUrl;
+    }
+
+    public void setLicence(String licence) {
+        this.licence = licence;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public void setLogoUrl(String logoUrl) {
+        this.logoUrl = logoUrl;
+    }
+
+    public void setHolder(String holder) {
+        this.holder = holder;
     }
 }

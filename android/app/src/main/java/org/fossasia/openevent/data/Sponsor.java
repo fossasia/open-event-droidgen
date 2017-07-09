@@ -1,6 +1,8 @@
 package org.fossasia.openevent.data;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.github.jasminb.jsonapi.IntegerIdHandler;
 import com.github.jasminb.jsonapi.annotations.Id;
 import com.github.jasminb.jsonapi.annotations.Type;
@@ -9,6 +11,8 @@ import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 @Type("sponsor")
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonNaming(PropertyNamingStrategy.KebabCaseStrategy.class)
 public class Sponsor extends RealmObject {
 
     @PrimaryKey
@@ -18,10 +22,8 @@ public class Sponsor extends RealmObject {
     private String description;
     private String level;
     private String url;
-    @JsonProperty("type")
-    private String sponsorType;
-    @JsonProperty("logo-url")
-    private String logo;
+    private String type;
+    private String logoUrl;
 
     public int getId() {
         return id;
@@ -43,19 +45,19 @@ public class Sponsor extends RealmObject {
         return url;
     }
 
-    public void setSponserType(String sponserType) {
-        this.sponsorType = sponserType;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public void setLogo(String logo) {
-        this.logo = logo;
+    public void setLogoUrl(String logoUrl) {
+        this.logoUrl = logoUrl;
     }
 
-    public String getSponsorType() {
-        return sponsorType;
+    public String getType() {
+        return type;
     }
 
-    public String getLogo() {
-        return logo;
+    public String getLogoUrl() {
+        return logoUrl;
     }
 }

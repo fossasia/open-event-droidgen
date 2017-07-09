@@ -223,7 +223,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
             text_track.setVisibility(View.GONE);
         }
 
-        String video_link = session.getVideo();
+        String video_link = session.getVideoUrl();
 
         if(!Utils.isEmpty(video_link)) {
             playButton.setVisibility(View.VISIBLE);
@@ -244,9 +244,9 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
             });
         }
 
-        String date = DateUtils.formatDateWithDefault(DateUtils.FORMAT_DATE_COMPLETE, session.getStartTime());
-        String startTime = DateUtils.formatDateWithDefault(DateUtils.FORMAT_12H, session.getStartTime());
-        String endTime = DateUtils.formatDateWithDefault(DateUtils.FORMAT_12H, session.getEndTime());
+        String date = DateUtils.formatDateWithDefault(DateUtils.FORMAT_DATE_COMPLETE, session.getStartsAt());
+        String startTime = DateUtils.formatDateWithDefault(DateUtils.FORMAT_12H, session.getStartsAt());
+        String endTime = DateUtils.formatDateWithDefault(DateUtils.FORMAT_12H, session.getEndsAt());
 
         text_start_time.setText(startTime);
         text_end_time.setText(endTime);
@@ -362,8 +362,8 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
                 return true;
 
             case R.id.action_share:
-                String startTime = DateUtils.formatDateWithDefault(DateUtils.FORMAT_DATE_COMPLETE, session.getStartTime());
-                String endTime = DateUtils.formatDateWithDefault(DateUtils.FORMAT_DATE_COMPLETE, session.getEndTime());
+                String startTime = DateUtils.formatDateWithDefault(DateUtils.FORMAT_DATE_COMPLETE, session.getStartsAt());
+                String endTime = DateUtils.formatDateWithDefault(DateUtils.FORMAT_DATE_COMPLETE, session.getEndsAt());
                 String shareText = String.format("Session Track: %s \n" +
                                 "Title: %s \n" +
                                 "Start Time: %s \n" +
@@ -385,8 +385,8 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
                 intent.setType("vnd.android.cursor.item/event");
                 intent.putExtra(CalendarContract.Events.TITLE, title);
                 intent.putExtra(CalendarContract.Events.DESCRIPTION, session.getShortAbstract());
-                intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, DateUtils.formatDateWithDefault(DateUtils.FORMAT_24H, session.getStartTime()));
-                intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, DateUtils.formatDateWithDefault(DateUtils.FORMAT_24H, session.getEndTime()));
+                intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, DateUtils.formatDateWithDefault(DateUtils.FORMAT_24H, session.getStartsAt()));
+                intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, DateUtils.formatDateWithDefault(DateUtils.FORMAT_24H, session.getEndsAt()));
                 startActivity(intent);
 
             default:

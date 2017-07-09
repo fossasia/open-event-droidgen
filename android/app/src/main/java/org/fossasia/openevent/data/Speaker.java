@@ -1,6 +1,8 @@
 package org.fossasia.openevent.data;
 
-import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.github.jasminb.jsonapi.IntegerIdHandler;
 import com.github.jasminb.jsonapi.annotations.Id;
 import com.github.jasminb.jsonapi.annotations.Relationship;
@@ -12,6 +14,8 @@ import io.realm.annotations.Index;
 import io.realm.annotations.PrimaryKey;
 
 @Type("speaker")
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class Speaker extends RealmObject {
 
     public static final String SPEAKER = "speaker";
@@ -47,42 +51,34 @@ public class Speaker extends RealmObject {
     @Relationship("sessions")
     private RealmList<Session> sessions;
 
-    @JsonSetter("short_biography")
     public void setShortBiography(String shortBiography) {
         this.shortBiography = shortBiography;
     }
 
-    @JsonSetter("short-biography")
     public void setShortBiographyForNewModel(String shortBiography) {
         this.shortBiography = shortBiography;
     }
 
-    @JsonSetter("long_biography")
     public void setLongBiography(String longBiography) {
         this.longBiography = longBiography;
     }
 
-    @JsonSetter("long-biography")
     public void setLongBiographyForNewModel(String longBiography) {
         this.longBiography = longBiography;
     }
 
-    @JsonSetter("speaking_experience")
     public void setSpeakingExperience(String speakingExperience) {
         this.speakingExperience = speakingExperience;
     }
 
-    @JsonSetter("speaking-experience")
     public void setSpeakingExperienceForNewModel(String speakingExperience) {
         this.speakingExperience = speakingExperience;
     }
 
-    @JsonSetter("featured")
     public void setFeatured(Boolean featured) {
         this.featured = featured;
     }
 
-    @JsonSetter("is-featured")
     public void setFeaturedForNewModel(Boolean featured) {
         this.featured = featured;
     }

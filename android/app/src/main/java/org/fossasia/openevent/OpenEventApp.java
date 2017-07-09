@@ -106,7 +106,8 @@ public class OpenEventApp extends Application {
         Realm.init(this);
         RealmConfiguration config = new RealmConfiguration.Builder()
                 .schemaVersion(RealmDatabaseMigration.DB_VERSION) // Must be bumped when the schema changes
-                .migration(new RealmDatabaseMigration()) // Migration to run instead of throwing an exception
+                //TODO: Re-add migration once DB is locked/finilized
+                .deleteRealmIfMigrationNeeded()
                 .build();
 
         Realm.setDefaultConfiguration(config);

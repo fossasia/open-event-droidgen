@@ -305,7 +305,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
     }
 
     private void setNavHeader(Event event) {
-        String logo = event.getLogo();
+        String logo = event.getLogoUrl();
         if (!logo.isEmpty()) {
             OpenEventApp.picassoWithCache.load(logo).into(headerView);
         } else {
@@ -314,8 +314,8 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
     }
 
     private void saveEventDates(Event event) {
-        String startTime = event.getStartTime();
-        String endTime = event.getEndTime();
+        String startTime = event.getStartsAt();
+        String endTime = event.getEndsAt();
 
         Observable.fromCallable(() ->
                 DateUtils.getDaysInBetween(startTime, endTime)
@@ -698,7 +698,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
                     List<Session> sessions = objectMapper.readValue(json, objectMapper.getTypeFactory().constructCollectionType(List.class, Session.class));
 
                     for (Session current : sessions) {
-                        current.setStartDate(current.getStartTime().split("T")[0]);
+                        current.setStartDate(current.getStartsAt().split("T")[0]);
                     }
 
                     realmDataRepository.saveSessions(sessions).subscribe();

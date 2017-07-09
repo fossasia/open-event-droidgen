@@ -1,6 +1,8 @@
 package org.fossasia.openevent.data;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.github.jasminb.jsonapi.IntegerIdHandler;
 import com.github.jasminb.jsonapi.annotations.Id;
 import com.github.jasminb.jsonapi.annotations.Relationship;
@@ -12,6 +14,8 @@ import io.realm.annotations.Index;
 import io.realm.annotations.PrimaryKey;
 
 @Type("track")
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonNaming(PropertyNamingStrategy.KebabCaseStrategy.class)
 public class Track extends RealmObject {
 
     @PrimaryKey
@@ -21,7 +25,6 @@ public class Track extends RealmObject {
     private String name;
     private String description;
     private String color;
-    @JsonProperty("font-color")
     private String fontColor;
     @Relationship("sessions")
     private RealmList<Session> sessions;

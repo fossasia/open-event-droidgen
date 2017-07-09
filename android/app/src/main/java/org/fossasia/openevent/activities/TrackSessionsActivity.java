@@ -133,7 +133,7 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
             }
 
             mSessions.clear();
-            mSessions.addAll(track.getSessions().sort("startTime"));
+            mSessions.addAll(track.getSessions().sort("startsAt"));
             sessionsListAdapter.notifyDataSetChanged();
 
             handleVisibility();

@@ -1,6 +1,8 @@
 package org.fossasia.openevent.data;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.github.jasminb.jsonapi.IntegerIdHandler;
 import com.github.jasminb.jsonapi.annotations.Id;
 import com.github.jasminb.jsonapi.annotations.Relationship;
@@ -12,6 +14,8 @@ import io.realm.annotations.Index;
 import io.realm.annotations.PrimaryKey;
 
 @Type("session")
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonNaming(PropertyNamingStrategy.KebabCaseStrategy.class)
 public class Session extends RealmObject {
 
     /* Sort criteria */
@@ -19,7 +23,7 @@ public class Session extends RealmObject {
     public static final String TITLE = "title";
     // Track is object in Realm. So sort by track.name
     public static final String TRACK = "track.name";
-    public static final String START_TIME = "startTime";
+    public static final String START_TIME = "startsAt";
 
     @PrimaryKey
     @Id(IntegerIdHandler.class)
@@ -27,36 +31,24 @@ public class Session extends RealmObject {
     @Index
     private String title;
     private String subtitle;
-    @JsonProperty("short-abstract")
     private String shortAbstract;
-    @JsonProperty("long-abstract")
     private String longAbstract;
     private String comments;
-    @JsonProperty("starts-at")
-    private String startTime;
-    @JsonProperty("ends-at")
-    private String endTime;
+    private String startsAt;
+    private String endsAt;
     private String language;
-    @JsonProperty("slides-url")
-    private String slides;
-    @JsonProperty("video-url")
-    private String video;
-    @JsonProperty("audio-url")
-    private String audio;
-    @JsonProperty("signup-url")
+    private String slidesUrl;
+    private String videoUrl;
+    private String audioUrl;
     private String signupUrl;
     private String state;
     private String level;
     @Index
     private String startDate;
     private boolean isBookmarked;
-    @JsonProperty("created-at")
     private String createdAt;
-    @JsonProperty("deleted-at")
     private String deletedAt;
-    @JsonProperty("submitted-at")
     private String submittedAt;
-    @JsonProperty("is-mail-sent")
     private boolean isMailSent;
     @Relationship("session-type")
     private SessionType sessionType;
@@ -87,32 +79,32 @@ public class Session extends RealmObject {
         this.sessionType = sessionType;
     }
 
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
+    public void setStartsAt(String startsAt) {
+        this.startsAt = startsAt;
     }
 
     public void setShortAbstract(String shortAbstract) {
         this.shortAbstract = shortAbstract;
     }
 
-    public void setEndTime(String endTime) {
-        this.endTime = endTime;
+    public void setEndsAt(String endsAt) {
+        this.endsAt = endsAt;
     }
 
     public void setLongAbstract(String longAbstract) {
         this.longAbstract = longAbstract;
     }
 
-    public void setSlides(String slides) {
-        this.slides = slides;
+    public void setSlidesUrl(String slidesUrl) {
+        this.slidesUrl = slidesUrl;
     }
 
-    public void setVideo(String video) {
-        this.video = video;
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
     }
 
-    public void setAudio(String audio) {
-        this.audio = audio;
+    public void setAudioUrl(String audioUrl) {
+        this.audioUrl = audioUrl;
     }
 
     public void setSignupUrl(String signupUrl) {
@@ -163,28 +155,28 @@ public class Session extends RealmObject {
         return comments;
     }
 
-    public String getStartTime() {
-        return startTime;
+    public String getStartsAt() {
+        return startsAt;
     }
 
-    public String getEndTime() {
-        return endTime;
+    public String getEndsAt() {
+        return endsAt;
     }
 
     public String getLanguage() {
         return language;
     }
 
-    public String getSlides() {
-        return slides;
+    public String getSlidesUrl() {
+        return slidesUrl;
     }
 
-    public String getVideo() {
-        return video;
+    public String getVideoUrl() {
+        return videoUrl;
     }
 
-    public String getAudio() {
-        return audio;
+    public String getAudioUrl() {
+        return audioUrl;
     }
 
     public String getSignupUrl() {

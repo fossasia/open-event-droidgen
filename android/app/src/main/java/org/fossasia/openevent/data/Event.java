@@ -1,12 +1,14 @@
 package org.fossasia.openevent.data;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.github.jasminb.jsonapi.IntegerIdHandler;
 import com.github.jasminb.jsonapi.annotations.Id;
 import com.github.jasminb.jsonapi.annotations.Relationship;
 import com.github.jasminb.jsonapi.annotations.Type;
 
-import org.fossasia.openevent.data.extras.CallForPapers;
+import org.fossasia.openevent.data.extras.SpeakersCall;
 import org.fossasia.openevent.data.extras.Copyright;
 import org.fossasia.openevent.data.extras.SocialLink;
 
@@ -15,6 +17,8 @@ import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 @Type("event")
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonNaming(PropertyNamingStrategy.KebabCaseStrategy.class)
 public class Event extends RealmObject {
 
     @PrimaryKey
@@ -24,66 +28,48 @@ public class Event extends RealmObject {
     private String name;
     private Double latitude;
     private Double longitude;
-    @JsonProperty("location-name")
     private String locationName;
-    @JsonProperty("starts-at")
-    private String startTime;
-    @JsonProperty("ends-at")
-    private String endTime;
+    private String startsAt;
+    private String endsAt;
     private String timezone;
     private String description;
-    @JsonProperty("logo-url")
-    private String logo;
-    @JsonProperty("organizer-name")
+    private String logoUrl;
     private String organizerName;
-    @JsonProperty("organizer-description")
     private String organizerDescription;
-    @Relationship("social-links")
-    private RealmList<SocialLink> socialLinks;
-    @JsonProperty("ticket-url")
     private String ticketUrl;
     private String privacy;
     private String type;
     private String topic;
-    @JsonProperty("sub-topic")
     private String subTopic;
-    @JsonProperty("code-of-conduct")
     private String codeOfConduct;
-    @Relationship("copyright")
-    private Copyright copyright;
     private String email;
-    @JsonProperty("schedule-published-on")
     private String schedulePublishedOn;
-    @JsonProperty("searchable-location-name")
     private String searchableLocationName;
     private String state;
-    @JsonProperty("is-sessions-speakers-enabled")
-    private Boolean hasSessionSpeakers;
-    @JsonProperty("thumbnail-image-url")
-    private String thumbnail;
-    @JsonProperty("original-image-url")
-    private String backgroundImage;
-    @JsonProperty("large-image-url")
-    private String large;
-    @JsonProperty("icon-image-url")
+    private Boolean isSessionsSpeakersEnabled;
+    private String thumbnailImageUrl;
+    private String originalImageUrl;
+    private String largeImageUrl;
     private String iconImageUrl;
-    @JsonProperty("created-at")
     private String createdAt;
-    @JsonProperty("deleted-at")
     private String deletedAt;
+    @Relationship("copyright")
+    private Copyright copyright;
     @Relationship("speakers-call")
-    private CallForPapers callForPapers;
+    private SpeakersCall speakersCall;
+    @Relationship("social-links")
+    private RealmList<SocialLink> socialLinks;
 
     public int getId() {
         return id;
     }
 
-    public void setCallForPapers(CallForPapers callForPapers) {
-        this.callForPapers = callForPapers;
+    public SpeakersCall getSpeakersCall() {
+        return speakersCall;
     }
 
-    public CallForPapers getCallForPapers() {
-        return callForPapers;
+    public void setSpeakersCall(SpeakersCall speakersCall) {
+        this.speakersCall = speakersCall;
     }
 
     public String getCreatedAt() {
@@ -110,20 +96,20 @@ public class Event extends RealmObject {
         this.iconImageUrl = iconImageUrl;
     }
 
-    public void setLarge(String large) {
-        this.large = large;
+    public String getLargeImageUrl() {
+        return largeImageUrl;
     }
 
-    public String getLarge() {
-        return large;
+    public void setLargeImageUrl(String largeImageUrl) {
+        this.largeImageUrl = largeImageUrl;
     }
 
-    public String getBackgroundImage() {
-        return backgroundImage;
+    public String getOriginalImageUrl() {
+        return originalImageUrl;
     }
 
-    public void setBackgroundImage(String backgroundImage) {
-        this.backgroundImage = backgroundImage;
+    public void setOriginalImageUrl(String originalImageUrl) {
+        this.originalImageUrl = originalImageUrl;
     }
 
     public String getIdentifier() {
@@ -146,6 +132,10 @@ public class Event extends RealmObject {
         return longitude;
     }
 
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
     public Double getLatitude() {
         return latitude;
     }
@@ -154,32 +144,28 @@ public class Event extends RealmObject {
         this.latitude = latitude;
     }
 
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
+    public String getLocationName() {
+        return locationName;
     }
 
     public void setLocationName(String locationName) {
         this.locationName = locationName;
     }
 
-    public String getLocationName() {
-        return locationName;
+    public String getStartsAt() {
+        return startsAt;
     }
 
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
+    public void setStartsAt(String startsAt) {
+        this.startsAt = startsAt;
     }
 
-    public void setEndTime(String endTime) {
-        this.endTime = endTime;
+    public String getEndsAt() {
+        return endsAt;
     }
 
-    public String getStartTime() {
-        return startTime;
-    }
-
-    public String getEndTime() {
-        return endTime;
+    public void setEndsAt(String endsAt) {
+        this.endsAt = endsAt;
     }
 
     public String getTimezone() {
@@ -198,12 +184,12 @@ public class Event extends RealmObject {
         this.description = description;
     }
 
-    public String getLogo() {
-        return logo;
+    public String getLogoUrl() {
+        return logoUrl;
     }
 
-    public void setLogo(String logo) {
-        this.logo = logo;
+    public void setLogoUrl(String logoUrl) {
+        this.logoUrl = logoUrl;
     }
 
     public String getOrganizerName() {
@@ -214,28 +200,28 @@ public class Event extends RealmObject {
         this.organizerName = organizerName;
     }
 
-    public void setOrganizerDescription(String organizerDescription) {
-        this.organizerDescription = organizerDescription;
-    }
-
     public String getOrganizerDescription() {
         return organizerDescription;
     }
 
-    public void setSocialLinks(RealmList<SocialLink> socialLinks) {
-        this.socialLinks = socialLinks;
+    public void setOrganizerDescription(String organizerDescription) {
+        this.organizerDescription = organizerDescription;
     }
 
     public RealmList<SocialLink> getSocialLinks() {
         return socialLinks;
     }
 
-    public void setTicketUrl(String ticketUrl) {
-        this.ticketUrl = ticketUrl;
+    public void setSocialLinks(RealmList<SocialLink> socialLinks) {
+        this.socialLinks = socialLinks;
     }
 
     public String getTicketUrl() {
         return ticketUrl;
+    }
+
+    public void setTicketUrl(String ticketUrl) {
+        this.ticketUrl = ticketUrl;
     }
 
     public String getPrivacy() {
@@ -262,28 +248,28 @@ public class Event extends RealmObject {
         this.topic = topic;
     }
 
-    public void setSubTopic(String subTopic) {
-        this.subTopic = subTopic;
-    }
-
     public String getSubTopic() {
         return subTopic;
     }
 
-    public void setCodeOfConduct(String codeOfConduct) {
-        this.codeOfConduct = codeOfConduct;
+    public void setSubTopic(String subTopic) {
+        this.subTopic = subTopic;
     }
 
     public String getCodeOfConduct() {
         return codeOfConduct;
     }
 
-    public void setCopyright(Copyright copyright) {
-        this.copyright = copyright;
+    public void setCodeOfConduct(String codeOfConduct) {
+        this.codeOfConduct = codeOfConduct;
     }
 
     public Copyright getCopyright() {
         return copyright;
+    }
+
+    public void setCopyright(Copyright copyright) {
+        this.copyright = copyright;
     }
 
     public String getEmail() {
@@ -294,12 +280,12 @@ public class Event extends RealmObject {
         this.email = email;
     }
 
-    public void setSchedulePublishedOn(String schedulePublishedOn) {
-        this.schedulePublishedOn = schedulePublishedOn;
-    }
-
     public String getSchedulePublishedOn() {
         return schedulePublishedOn;
+    }
+
+    public void setSchedulePublishedOn(String schedulePublishedOn) {
+        this.schedulePublishedOn = schedulePublishedOn;
     }
 
     public String getSearchableLocationName() {
@@ -318,19 +304,19 @@ public class Event extends RealmObject {
         this.state = state;
     }
 
-    public Boolean getHasSessionSpeakers() {
-        return hasSessionSpeakers;
+    public Boolean isSessionsSpeakersEnabled() {
+        return isSessionsSpeakersEnabled;
     }
 
-    public void setHasSessionSpeakers(Boolean hasSessionSpeakers) {
-        this.hasSessionSpeakers = hasSessionSpeakers;
+    public void setSessionsSpeakersEnabled(Boolean isSessionsSpeakersEnabled) {
+        this.isSessionsSpeakersEnabled = isSessionsSpeakersEnabled;
     }
 
-    public void setThumbnail(String thumbnail) {
-        this.thumbnail = thumbnail;
+    public String getThumbnailImageUrl() {
+        return thumbnailImageUrl;
     }
 
-    public String getThumbnail() {
-        return thumbnail;
+    public void setThumbnailImageUrl(String thumbnailImageUrl) {
+        this.thumbnailImageUrl = thumbnailImageUrl;
     }
 }
