@@ -110,14 +110,6 @@
                 android:resource="@xml/widget_info" />
         </receiver>
 
-        <receiver android:name=".utils.NetworkUtils">
-            <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
-            </intent-filter>
-
-        </receiver>
-
         <service
             android:name=".widget.BookmarkWidgetRemoteViewsService"
             android:enabled="true"

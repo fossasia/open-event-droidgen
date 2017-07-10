@@ -1,17 +1,10 @@
 package org.fossasia.openevent.utils;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkInfo;
 import android.os.Build;
-import android.widget.Toast;
-
-import org.fossasia.openevent.OpenEventApp;
-import org.fossasia.openevent.R;
-import org.fossasia.openevent.events.DataDownloadEvent;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -25,7 +18,7 @@ import timber.log.Timber;
 /**
  * Created by championswimmer on 21/6/16.
  */
-public class NetworkUtils extends BroadcastReceiver {
+public class NetworkUtils {
 
     public static boolean haveNetworkConnection(Context ctx) {
         return haveWifiConnection(ctx) || haveMobileConnection(ctx);
@@ -119,36 +112,6 @@ public class NetworkUtils extends BroadcastReceiver {
                     throwable.printStackTrace();
                     Timber.e("Network Determination Error : %s", throwable.getMessage());
                 });
-    }
-
-    @Override
-    public void onReceive(final Context context, Intent intent) {
-        checkConnection(new WeakReference<>(context), new NetworkStateReceiverListener() {
-            @Override
-            public void activeConnection() {
-                //internet is working
-                OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
-            }
-
-            @Override
-            public void inactiveConnection() {
-                //Device is connection to WI-FI or Mobile Data but Internet is not working
-                //show toast
-                //will be useful if user have blocked notification for this app
-                Toast.makeText(context, R.string.waiting_for_network, Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void networkAvailable() {
-                // Waiting for network activity
-            }
-
-            @Override
-            public void networkUnavailable() {
-                // Network unavailable
-            }
-        });
-
     }
 
     public interface NetworkStateReceiverListener {

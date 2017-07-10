@@ -187,8 +187,6 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
         setUpCustomTab();
         setupEvent();
 
-        completeHandler = DownloadCompleteHandler.with(context);
-
         if (Utils.isBaseUrlEmpty()) {
             if (!sharedPreferences.getBoolean(ConstantStrings.IS_DOWNLOAD_DONE, false)) {
                 downloadFromAssets();
@@ -596,6 +594,8 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
     }
 
     private void startDownload() {
+        completeHandler = DownloadCompleteHandler.with(context);
+
         DataDownloadManager.getInstance().downloadEvents();
         startDownloadListener();
         Timber.d("Download has started");

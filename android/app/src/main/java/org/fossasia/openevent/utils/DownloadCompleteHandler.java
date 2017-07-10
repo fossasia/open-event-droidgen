@@ -48,6 +48,7 @@ public class DownloadCompleteHandler {
 
     public DownloadCompleteHandler startListening() {
         eventHandler = new EventHandler();
+        setupProgressBar();
 
         return this;
     }
@@ -76,6 +77,7 @@ public class DownloadCompleteHandler {
     }
 
     private void notifyComplete() {
+        eventsDone = 0;
         showProgressBar(false);
         completeSubject.onComplete();
     }
