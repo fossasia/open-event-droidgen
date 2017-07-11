@@ -54,8 +54,6 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
     private static final int trackWiseSessionList = 4;
     private static final int speakerWiseSessionList = 2;
 
-    private boolean isBookmarkView;
-
     private TextDrawable.IBuilder drawableBuilder = TextDrawable.builder().round();
 
     private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
@@ -98,11 +96,6 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
         this.context = context;
         this.color = ContextCompat.getColor(context, R.color.color_primary);
         this.type = type;
-    }
-
-
-    public void setBookmarkView(boolean bookmarkView) {
-        isBookmarkView = bookmarkView;
     }
 
     public void setColor(int color) {
@@ -237,7 +230,6 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
         DrawableCompat.setTint(holder.sessionBookmarkIcon.getDrawable(), Color.parseColor(session.getTrack().getFontColor()));
 
         final int sessionId = session.getId();
-        final int finalPosition = holder.getAdapterPosition();
 
         holder.sessionBookmarkIcon.setOnClickListener(v -> {
             if(session.getIsBookmarked()) {
@@ -245,19 +237,12 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
                 realmRepo.setBookmark(sessionId, false).subscribe();
                 holder.sessionBookmarkIcon.setImageResource(R.drawable.ic_bookmark_border_white_24dp);
 
-                if(isBookmarkView)
-                    removeItem(session);
-
                 if ("MainActivity".equals(context.getClass().getSimpleName())) {
                     Snackbar.make(holder.sessionCard, R.string.removed_bookmark, Snackbar.LENGTH_LONG)
                             .setAction(R.string.undo, view -> {
 
                                 realmRepo.setBookmark(sessionId, true).subscribe();
                                 holder.sessionBookmarkIcon.setImageResource(R.drawable.ic_bookmark_white_24dp);
-
-                                if(isBookmarkView)
-                                    addItem(finalPosition, session);
-
                                 WidgetUpdater.updateWidget(context);
                             }).show();
                 } else {
@@ -275,9 +260,6 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
 
                 realmRepo.setBookmark(sessionId, true).subscribe();
                 holder.sessionBookmarkIcon.setImageResource(R.drawable.ic_bookmark_white_24dp);
-
-                if(isBookmarkView)
-                    addItem(holder.getAdapterPosition(), session);
 
                 Snackbar.make(holder.sessionCard, R.string.added_bookmark, Snackbar.LENGTH_SHORT).show();
             }
