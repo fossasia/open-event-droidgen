@@ -66,9 +66,13 @@ Please find info about the set up of the Android app in your development environ
 - Retrofit [Docs](http://square.github.io/retrofit/2.x/retrofit/)
 - ButterKnife [Docs](http://jakewharton.github.io/butterknife/javadoc/)
 - Timber [Docs](http://jakewharton.github.io/timber/)
-- Google Gson [Docs](http://www.javadoc.io/doc/com.google.code.gson/gson/2.7)
+- Jackson [Docs](http://wiki.fasterxml.com/JacksonHome)
 - LeakCanary [Docs](https://github.com/square/leakcanary)
 - Picasso [Docs](http://square.github.io/picasso/2.x/picasso/)
+- Realm [Docs](https://realm.io/docs/java/latest/)
+- Stetho [Docs](http://facebook.github.io/stetho/)
+- Stetho Realm [Docs](https://github.com/uPhyca/stetho-realm)
+- Lombok [Docs](https://projectlombok.org/features/all)
 
 ### Devices tested on
 
@@ -113,6 +117,8 @@ Installation instructions for Digital Ocean servers are [here](docs/installation
 #### How to install The Open Event Android App Generator on Docker
 
 Installation instructions for docker are [here](docs/installation/docker.md).
+
+**Note: You will need to install Lombok Plugin in Android Studio in order to properly access generated methods of data classes**
 
 ## Contributions, Bug Reports, Feature Requests
 

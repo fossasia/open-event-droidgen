@@ -83,7 +83,7 @@ public class DayScheduleViewHolder extends RecyclerView.ViewHolder {
             slotTrack.getBackground().setColorFilter(storedColor, PorterDuff.Mode.SRC_ATOP);
             slotTrack.setText(sessionTrack.getName());
 
-            if(session.isBookmarked()) {
+            if(session.getIsBookmarked()) {
                 slot_bookmark.setImageResource(R.drawable.ic_bookmark_white_24dp);
             } else {
                 slot_bookmark.setImageResource(R.drawable.ic_bookmark_border_white_24dp);
@@ -93,7 +93,7 @@ public class DayScheduleViewHolder extends RecyclerView.ViewHolder {
             final int sessionId = session.getId();
 
             slot_bookmark.setOnClickListener(v -> {
-                if(session.isBookmarked()) {
+                if(session.getIsBookmarked()) {
 
                     realmRepo.setBookmark(sessionId, false).subscribe();
                     slot_bookmark.setImageResource(R.drawable.ic_bookmark_border_white_24dp);

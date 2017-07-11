@@ -200,8 +200,8 @@ public class RealmDataRepository {
             for(Session session : sessions) {
                 // If session was previously bookmarked, set this one too
                 Session storedSession = transaction.where(Session.class).equalTo("id", session.getId()).findFirst();
-                if(storedSession != null && storedSession.isBookmarked())
-                    session.setBookmarked(true);
+                if(storedSession != null && storedSession.getIsBookmarked())
+                    session.setIsBookmarked(true);
 
                 List<Speaker> speakers = session.getSpeakers();
 
@@ -277,7 +277,7 @@ public class RealmDataRepository {
             realm1.where(Session.class)
                     .equalTo("id", sessionId)
                     .findFirst()
-                    .setBookmarked(bookmark);
+                    .setIsBookmarked(bookmark);
 
             OpenEventApp.postEventOnUIThread(new BookmarkChangedEvent());
             realm1.commitTransaction();
@@ -368,7 +368,7 @@ public class RealmDataRepository {
                         }
                     }
 
-                    speaker.setSession(newSessions);
+                    speaker.setSessions(newSessions);
                 }
 
                 transaction.insertOrUpdate(speaker);
