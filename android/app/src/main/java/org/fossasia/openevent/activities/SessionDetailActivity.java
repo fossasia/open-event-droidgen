@@ -153,7 +153,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
             if(session == null)
                 return;
 
-            if(session.isBookmarked()) {
+            if(session.getIsBookmarked()) {
                 Timber.tag(TAG).d("Bookmark Removed");
 
                 realmRepo.setBookmark(session.getId(), false).subscribe();
@@ -258,7 +258,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
     }
 
     private void updateFloatingIcon() {
-        if(session.isBookmarked()) {
+        if(session.getIsBookmarked()) {
             Timber.tag(TAG).d("Bookmarked");
             fabSessionBookmark.setImageResource(R.drawable.ic_bookmark_white_24dp);
         } else {

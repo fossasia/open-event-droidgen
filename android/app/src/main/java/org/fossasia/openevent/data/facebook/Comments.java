@@ -5,16 +5,10 @@ package org.fossasia.openevent.data.facebook;
  */
 import java.util.ArrayList;
 
+import lombok.Data;
+
+@Data
 public class Comments {
 
     private ArrayList<CommentItem> data;
-
-    public ArrayList<CommentItem> getData() {
-        return data;
-    }
-
-    public void setData(ArrayList<CommentItem> data) {
-        this.data = data;
-    }
-
 }

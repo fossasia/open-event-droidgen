@@ -9,8 +9,12 @@ import com.github.jasminb.jsonapi.annotations.Type;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+@Data
 @Type("session-type")
+@EqualsAndHashCode(callSuper = false)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonNaming(PropertyNamingStrategy.KebabCaseStrategy.class)
 public class SessionType extends RealmObject {
@@ -20,16 +24,4 @@ public class SessionType extends RealmObject {
     private int id;
     private String length;
     private String name;
-
-    public String getLength() {
-        return length;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
 }

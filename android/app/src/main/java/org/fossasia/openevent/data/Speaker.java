@@ -12,8 +12,14 @@ import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.Index;
 import io.realm.annotations.PrimaryKey;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
+@Data
 @Type("speaker")
+@ToString(of = {"id", "name"})
+@EqualsAndHashCode(callSuper = false)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class Speaker extends RealmObject {
@@ -41,7 +47,7 @@ public class Speaker extends RealmObject {
     private String facebook;
     private String github;
     private String website;
-    private Boolean featured;
+    private boolean featured;
     private String city;
     private String longBiography;
     private String shortBiography;
@@ -50,137 +56,4 @@ public class Speaker extends RealmObject {
     private String position;
     @Relationship("sessions")
     private RealmList<Session> sessions;
-
-    public void setShortBiography(String shortBiography) {
-        this.shortBiography = shortBiography;
-    }
-
-    public void setShortBiographyForNewModel(String shortBiography) {
-        this.shortBiography = shortBiography;
-    }
-
-    public void setLongBiography(String longBiography) {
-        this.longBiography = longBiography;
-    }
-
-    public void setLongBiographyForNewModel(String longBiography) {
-        this.longBiography = longBiography;
-    }
-
-    public void setSpeakingExperience(String speakingExperience) {
-        this.speakingExperience = speakingExperience;
-    }
-
-    public void setSpeakingExperienceForNewModel(String speakingExperience) {
-        this.speakingExperience = speakingExperience;
-    }
-
-    public void setFeatured(Boolean featured) {
-        this.featured = featured;
-    }
-
-    public void setFeaturedForNewModel(Boolean featured) {
-        this.featured = featured;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public String getOrganisation() {
-        return organisation;
-    }
-
-    public String getPhoto() {
-        return photo;
-    }
-
-    public String getThumbnail() {
-        return thumbnail;
-    }
-
-    public String getSmall() {
-        return small;
-    }
-
-    public String getIcon() {
-        return icon;
-    }
-
-    public String getTwitter() {
-        return twitter;
-    }
-
-    public String getLinkedin() {
-        return linkedin;
-    }
-
-    public String getFacebook() {
-        return facebook;
-    }
-
-    public String getGithub() {
-        return github;
-    }
-
-    public String getWebsite() {
-        return website;
-    }
-
-    public Boolean getFeatured() {
-        return featured;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public String getLongBiography() {
-        return longBiography;
-    }
-
-    public String getShortBiography() {
-        return shortBiography;
-    }
-
-    public RealmList<Session> getSessions() {
-        return sessions;
-    }
-
-    public String getSpeakingExperience() {
-        return speakingExperience;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public String getPosition() {
-        return position;
-    }
-
-    public void setPhoto(String photo) {
-        this.photo = photo;
-    }
-
-    public void setSessions(RealmList<Session> sessions) {
-        this.sessions = sessions;
-    }
-
-    public void setSession(RealmList<Session> sessions) {
-        this.sessions = sessions;
-    }
-
-    @Override
-    public String toString() {
-        return getName();
-    }
 }

@@ -229,7 +229,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
             default:
         }
 
-        if(session.isBookmarked()) {
+        if(session.getIsBookmarked()) {
             holder.sessionBookmarkIcon.setImageResource(R.drawable.ic_bookmark_white_24dp);
         } else {
             holder.sessionBookmarkIcon.setImageResource(R.drawable.ic_bookmark_border_white_24dp);
@@ -240,7 +240,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
         final int finalPosition = holder.getAdapterPosition();
 
         holder.sessionBookmarkIcon.setOnClickListener(v -> {
-            if(session.isBookmarked()) {
+            if(session.getIsBookmarked()) {
 
                 realmRepo.setBookmark(sessionId, false).subscribe();
                 holder.sessionBookmarkIcon.setImageResource(R.drawable.ic_bookmark_border_white_24dp);

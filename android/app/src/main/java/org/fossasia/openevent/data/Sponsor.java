@@ -9,8 +9,12 @@ import com.github.jasminb.jsonapi.annotations.Type;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+@Data
 @Type("sponsor")
+@EqualsAndHashCode(callSuper = false)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonNaming(PropertyNamingStrategy.KebabCaseStrategy.class)
 public class Sponsor extends RealmObject {
@@ -24,40 +28,4 @@ public class Sponsor extends RealmObject {
     private String url;
     private String type;
     private String logoUrl;
-
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public String getLevel() {
-        return level;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public void setLogoUrl(String logoUrl) {
-        this.logoUrl = logoUrl;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public String getLogoUrl() {
-        return logoUrl;
-    }
 }

@@ -9,8 +9,12 @@ import com.github.jasminb.jsonapi.annotations.Type;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+@Data
 @Type("speakers-call")
+@EqualsAndHashCode(callSuper = false)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonNaming(PropertyNamingStrategy.KebabCaseStrategy.class)
 public class SpeakersCall extends RealmObject {
@@ -23,36 +27,4 @@ public class SpeakersCall extends RealmObject {
     private String startsAt;
     private String endsAt;
     private String hash;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public String getAnnouncement() {
-        return announcement;
-    }
-
-    public String getPrivacy() {
-        return privacy;
-    }
-
-    public String getStartsAt() {
-        return startsAt;
-    }
-
-    public void setStartsAt(String startsAt) {
-        this.startsAt = startsAt;
-    }
-
-    public String getEndsAt() {
-        return endsAt;
-    }
-
-    public void setEndsAt(String endsAt) {
-        this.endsAt = endsAt;
-    }
-
-    public String getHash() {
-        return hash;
-    }
 }

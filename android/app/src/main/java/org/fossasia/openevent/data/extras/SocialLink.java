@@ -9,8 +9,16 @@ import com.github.jasminb.jsonapi.annotations.Type;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Type("social-link")
+@EqualsAndHashCode(callSuper = false)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonNaming(PropertyNamingStrategy.KebabCaseStrategy.class)
 public class SocialLink extends RealmObject {
@@ -20,43 +28,4 @@ public class SocialLink extends RealmObject {
     private int id;
     private String name;
     private String link;
-
-    public SocialLink() {
-    }
-
-    /**
-     * @param id
-     * @param name
-     * @param link
-     */
-    public SocialLink(int id, String name, String link) {
-        super();
-        this.id = id;
-        this.name = name;
-        this.link = link;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getLink() {
-        return link;
-    }
-
-    public void setLink(String link) {
-        this.link = link;
-    }
 }

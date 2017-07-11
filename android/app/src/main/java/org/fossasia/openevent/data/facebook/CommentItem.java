@@ -3,20 +3,27 @@ package org.fossasia.openevent.data.facebook;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Created by rohanagarwal94 on 11/6/17.
  */
+
+@Data
+@NoArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class CommentItem implements Parcelable {
 
-    @JsonProperty("created_time")
     private String createdTime;
     private Commenter from;
     private String message;
     private String id;
-
-    public CommentItem() {}
 
     protected CommentItem(Parcel in) {
         createdTime = in.readString();
@@ -35,38 +42,6 @@ public class CommentItem implements Parcelable {
             return new CommentItem[size];
         }
     };
-
-    public String getCreatedTime() {
-        return createdTime;
-    }
-
-    public void setCreatedTime(String createdTime) {
-        this.createdTime = createdTime;
-    }
-
-    public Commenter getFrom() {
-        return from;
-    }
-
-    public void setFrom(Commenter from) {
-        this.from = from;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     @Override
     public int describeContents() {
