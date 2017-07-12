@@ -95,7 +95,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
     protected TextView summary;
     @BindView(R.id.tv_description)
     protected TextView descrip;
-    @BindView(R.id.list_speakerss)
+    @BindView(R.id.list_speakers)
     protected RecyclerView speakersRecyclerView;
     @BindView(R.id.fab_session_bookmark)
     protected FloatingActionButton fabSessionBookmark;

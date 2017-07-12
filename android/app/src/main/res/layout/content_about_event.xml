@@ -2,6 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <TextView
@@ -198,48 +199,14 @@
         android:gravity="center_horizontal"
         android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/img_facebook"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list_social_links"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:clickable="true"
-            android:padding="@dimen/padding_large"
-            android:tag="@string/fb"
-            android:tint="@color/white"
-            app:srcCompat="@drawable/ic_facebook_24dp" />
+            android:layout_gravity="center"
+            android:overScrollMode="never"
+            android:clipToPadding="false"
 
-        <ImageView
-            android:id="@+id/img_twitter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:clickable="true"
-            android:padding="@dimen/padding_large"
-            android:tag="@string/twitter"
-            android:tint="@color/white"
-            app:srcCompat="@drawable/ic_twitter_24dp" />
-
-        <ImageView
-            android:id="@+id/img_linkedin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:clickable="true"
-            android:padding="@dimen/padding_large"
-            android:tag="@string/linkedin"
-            android:tint="@color/white"
-            app:srcCompat="@drawable/ic_linkedin_24dp" />
-
-        <ImageView
-            android:id="@+id/img_github"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:clickable="true"
-            android:padding="@dimen/padding_large"
-            android:tag="@string/github"
-            android:tint="@color/white"
-            app:srcCompat="@drawable/ic_github_24dp" />
+            tools:listitem="@layout/item_social_link" />
     </LinearLayout>
 </LinearLayout>
