@@ -4,11 +4,8 @@ import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
 import android.app.SearchManager;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.customtabs.CustomTabsIntent;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -25,6 +22,7 @@ import com.squareup.otto.Subscribe;
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.DayScheduleAdapter;
+import org.fossasia.openevent.adapters.SocialLinksListAdapter;
 import org.fossasia.openevent.data.Event;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.extras.SocialLink;
@@ -61,14 +59,8 @@ public class AboutFragment extends BaseFragment {
     protected TextView readMore;
     @BindView(R.id.readless)
     protected TextView readLess;
-    @BindView(R.id.img_twitter)
-    protected ImageView imgTwitter;
-    @BindView(R.id.img_facebook)
-    protected ImageView imgFacebook;
-    @BindView(R.id.img_github)
-    protected ImageView imgGithub;
-    @BindView(R.id.img_linkedin)
-    protected ImageView imgLinkedin;
+    @BindView(R.id.list_social_links)
+    protected RecyclerView socialLinksRecyclerView;
     @BindView(R.id.event_venue_details)
     protected TextView venueDetails;
     @BindView(R.id.list_bookmarks)
@@ -84,8 +76,10 @@ public class AboutFragment extends BaseFragment {
     private SearchView searchView;
 
     private DayScheduleAdapter bookMarksListAdapter;
+    private SocialLinksListAdapter socialLinksListAdapter;
     private RealmResults<Session> bookmarksResult;
     private List<Session> mSessions = new ArrayList<>();
+    private List<SocialLink> mSocialLinks = new ArrayList<>();
 
     private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
     private Event event;
@@ -95,11 +89,8 @@ public class AboutFragment extends BaseFragment {
         setHasOptionsMenu(true);
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
-        bookmarksRecyclerView.setVisibility(View.VISIBLE);
-        bookMarksListAdapter = new DayScheduleAdapter(mSessions,getContext());
-        bookmarksRecyclerView.setAdapter(bookMarksListAdapter);
-        bookmarksRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        bookmarksRecyclerView.setNestedScrollingEnabled(false);
+        setUpBookmarksRecyclerView();
+        setUpSocialLinksRecyclerView();
 
         if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
             searchText = savedInstanceState.getString(SEARCH);
@@ -123,6 +114,21 @@ public class AboutFragment extends BaseFragment {
     @Subscribe
     public void onEventLoaded(EventLoadedEvent eventLoadedEvent) {
         loadEvent(eventLoadedEvent.getEvent());
+    }
+
+    private void setUpBookmarksRecyclerView(){
+        bookmarksRecyclerView.setVisibility(View.VISIBLE);
+        bookMarksListAdapter = new DayScheduleAdapter(mSessions,getContext());
+        bookmarksRecyclerView.setAdapter(bookMarksListAdapter);
+        bookmarksRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        bookmarksRecyclerView.setNestedScrollingEnabled(false);
+    }
+
+    private void setUpSocialLinksRecyclerView(){
+        socialLinksListAdapter = new SocialLinksListAdapter(mSocialLinks);
+        socialLinksRecyclerView.setAdapter(socialLinksListAdapter);
+        socialLinksRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        socialLinksRecyclerView.setNestedScrollingEnabled(false);
     }
 
     private void loadEvent(Event event) {
@@ -150,11 +156,9 @@ public class AboutFragment extends BaseFragment {
             readMore.setVisibility(View.VISIBLE);
         });
 
-        final List<SocialLink> socialLinks = event.getSocialLinks();
-        imgTwitter.setOnClickListener(v -> setUpCustomTab(socialLinks.get(2).getLink()));
-        imgFacebook.setOnClickListener(v -> setUpCustomTab(socialLinks.get(3).getLink()));
-        imgGithub.setOnClickListener(v -> setUpCustomTab(socialLinks.get(7).getLink()));
-        imgLinkedin.setOnClickListener(v -> setUpCustomTab(socialLinks.get(8).getLink()));
+        mSocialLinks.clear();
+        mSocialLinks.addAll(event.getSocialLinks());
+        socialLinksListAdapter.notifyDataSetChanged();
     }
 
     @TargetApi(16)
@@ -171,20 +175,6 @@ public class AboutFragment extends BaseFragment {
 
         ObjectAnimator animation = ObjectAnimator.ofInt(eventDescription, "maxLines", eventDescription.getMaxLines());
         animation.setDuration(200).start();
-    }
-
-    private void setUpCustomTab(String url) {
-
-        Uri uri = Uri.parse(url);
-
-        CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder();
-        intentBuilder.setToolbarColor(ContextCompat.getColor(getContext(), R.color.color_primary));
-        intentBuilder.setSecondaryToolbarColor(ContextCompat.getColor(getContext(), R.color.color_primary_dark));
-        intentBuilder.setStartAnimations(getContext(), R.anim.slide_in_right, R.anim.slide_out_left);
-        intentBuilder.setExitAnimations(getContext(), android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-
-        CustomTabsIntent customTabsIntent = intentBuilder.build();
-        customTabsIntent.launchUrl(getActivity(), uri);
     }
 
     @Override

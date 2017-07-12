@@ -67,4 +67,16 @@ public class ConstantStrings {
     public static final String FACEBOOK_PAGE_NAME = "pageName";
 
     public static final String FACEBOOK_COMMENTS = "comments";
+
+    public static final String SOCIAL_LINK_GITHUB ="GitHub";
+
+    public static final String SOCIAL_LINK_TWITTER ="Twitter";
+
+    public static final String SOCIAL_LINK_FACEBOOK ="Facebook";
+
+    public static final String SOCIAL_LINK_LINKEDIN ="LinkedIn";
+
+    public static final String SOCIAL_LINK_YOUTUBE ="YouTube";
+
+    public static final String SOCIAL_LINK_GOOGLE ="Google";
 }

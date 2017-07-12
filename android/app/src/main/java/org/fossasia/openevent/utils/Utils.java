@@ -1,8 +1,13 @@
 package org.fossasia.openevent.utils;
 
+import android.content.Context;
+import android.net.Uri;
+import android.support.customtabs.CustomTabsIntent;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 
 import org.fossasia.openevent.OpenEventApp;
+import org.fossasia.openevent.R;
 import org.fossasia.openevent.api.Urls;
 
 public class Utils {
@@ -60,5 +65,49 @@ public class Utils {
 
     public static boolean getTwoPane() {
         return isTwoPane;
+    }
+
+    public static void setUpCustomTab(Context context, String url) {
+
+        Uri uri = Uri.parse(url);
+
+        CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder();
+        intentBuilder.setToolbarColor(ContextCompat.getColor(context, R.color.color_primary));
+        intentBuilder.setSecondaryToolbarColor(ContextCompat.getColor(context, R.color.color_primary_dark));
+        intentBuilder.setStartAnimations(context, R.anim.slide_in_right, R.anim.slide_out_left);
+        intentBuilder.setExitAnimations(context, android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+
+        CustomTabsIntent customTabsIntent = intentBuilder.build();
+        customTabsIntent.launchUrl(context, uri);
+    }
+
+    /**
+     * @return Drawable id for given SocialLink name if found else returns 1
+     */
+    public static int getSocialLinkDrawableId(String name){
+        int id = 1;
+        switch (name) {
+            case ConstantStrings.SOCIAL_LINK_GITHUB:
+                id = R.drawable.ic_github_24dp;
+                break;
+            case ConstantStrings.SOCIAL_LINK_TWITTER:
+                id = R.drawable.ic_twitter_24dp;
+                break;
+            case ConstantStrings.SOCIAL_LINK_FACEBOOK:
+                id = R.drawable.ic_facebook_24dp;
+                break;
+            case ConstantStrings.SOCIAL_LINK_LINKEDIN:
+                id = R.drawable.ic_linkedin_24dp;
+                break;
+            case ConstantStrings.SOCIAL_LINK_YOUTUBE:
+                id = R.drawable.ic_youtube_24dp;
+                break;
+            case ConstantStrings.SOCIAL_LINK_GOOGLE:
+                id = R.drawable.ic_google_plus_24dp;
+                break;
+            default:
+                break;
+        }
+        return id;
     }
 }
