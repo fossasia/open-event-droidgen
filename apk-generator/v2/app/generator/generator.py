@@ -29,7 +29,7 @@ class Generator:
     The app generator. This is where it all begins :)
     """
 
-    def __init__(self, config, via_api=False, identifier=None, task_handle=None):
+    def __init__(self, config, via_api=False, identifier=None, task_handle=None, build_type=None):
         if not identifier:
             self.identifier = str(uuid.uuid4())
         else:
@@ -50,6 +50,7 @@ class Generator:
         self.api_link = ''
         self.apk_path = ''
         self.via_api = via_api
+        self.build_type = build_type
 
     def get_path(self, relative_path):
         """
@@ -186,7 +187,7 @@ class Generator:
 
         self.update_status('Building android application package')
 
-        self.run_command([os.path.abspath(self.config['BASE_DIR'] + '/scripts/build_apk.sh'), build_tools_path])
+        self.run_command([os.path.abspath(self.config['BASE_DIR'] + '/scripts/build_apk.sh'), build_tools_path, self.build_type])
 
         self.update_status('Application package generated')
 

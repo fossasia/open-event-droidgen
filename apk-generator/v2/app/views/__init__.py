@@ -58,6 +58,7 @@ def process(data=None, via_api=False):
         data = request.form
     email = data.get('email', None)
     data_source = data.get('data-source', None)
+    build_type = data.get('build-type', None)
 
     if not email or not data_source or data_source not in VALID_DATA_SOURCES or not validators.email(email):
         return jsonify(status='error', message='invalid data'), 400
@@ -86,5 +87,5 @@ def process(data=None, via_api=False):
             payload['zip_file'] = file_save_location
 
     from app.tasks import generate_app_task  # A Local import to avoid circular import
-    task = generate_app_task.delay(config=app.config, payload=payload, via_api=via_api, identifier=identifier)
+    task = generate_app_task.delay(config=app.config, payload=payload, via_api=via_api, identifier=identifier, build_type=build_type)
     return jsonify(status='ok', identifier=identifier, started_at=datetime.datetime.now(), task_id=task.id)

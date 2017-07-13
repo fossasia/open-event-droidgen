@@ -8,7 +8,9 @@ var $generateBtn = $("#generate-btn"),
     $form = $("#form"),
     $actionBtnGroup = $("#action-btn-group"),
     $dataSourceRadio = $("input:radio[name=data-source]"),
-    dataSourceType = null;
+    dataSourceType = null,
+    $buildTypeRadio = $("input:radio[name=build-type]"),
+    buildType = null;
 
 var $fileProgressHolder = $("#file-progress"),
     $fileProgressBar = $("#file-progress-bar"),
@@ -55,9 +57,18 @@ $dataSourceRadio.change(
     }
 );
 
+$buildTypeRadio.change(
+    function () {
+        if (this.checked) {
+            enableGenerateButton(true);
+            buildType = $(this).val();
+        }
+    }
+);
+
 $apiEndpointInput.valueChange(function (value) {
     if (dataSourceType === "api_endpoint") {
-        if (value.trim() !== "" && isLink(value.trim())) {
+        if (buildType !== null && value.trim() !== "" && isLink(value.trim())) {
             enableGenerateButton(true);
         } else {
             enableGenerateButton(false);
@@ -68,7 +79,7 @@ $apiEndpointInput.valueChange(function (value) {
 $jsonUploadInput.change(function () {
     if (dataSourceType === "json_upload") {
         $fileProgressBar.css("width", 0);
-        if (this.value !== "") {
+        if (buildType !== null && this.value !== "") {
             enableGenerateButton(true);
         } else {
             enableGenerateButton(false);
@@ -207,6 +218,7 @@ $form.submit(function (e) {
     var data = new FormData();
     data.append("email", $emailInput.val());
     data.append("data-source", dataSourceType);
+    data.append("build-type", buildType);
 
     var config = {};
 
