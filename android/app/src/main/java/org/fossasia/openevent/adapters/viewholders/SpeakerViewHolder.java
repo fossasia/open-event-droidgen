@@ -60,10 +60,10 @@ public class SpeakerViewHolder extends RecyclerView.ViewHolder {
     public void bindSpeaker(Speaker speaker) {
         this.speaker = speaker;
 
-        String thumbnail = Utils.parseImageUri(this.speaker.getThumbnail());
+        String thumbnail = Utils.parseImageUri(this.speaker.getThumbnailImageUrl());
 
         if (thumbnail == null)
-            thumbnail = Utils.parseImageUri(this.speaker.getPhoto());
+            thumbnail = Utils.parseImageUri(this.speaker.getPhotoUrl());
 
         Drawable placeholder = VectorDrawableCompat.create(context.getResources(), R.drawable.ic_account_circle_grey_24dp, null);
 

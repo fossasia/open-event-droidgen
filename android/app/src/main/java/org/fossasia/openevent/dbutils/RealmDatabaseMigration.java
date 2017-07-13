@@ -6,7 +6,7 @@ import io.realm.RealmSchema;
 
 public class RealmDatabaseMigration implements RealmMigration {
 
-    public static long DB_VERSION = 2;
+    public static long DB_VERSION = 3;
 
     @Override
     public void migrate(DynamicRealm realm, long oldVersion, long newVersion) {

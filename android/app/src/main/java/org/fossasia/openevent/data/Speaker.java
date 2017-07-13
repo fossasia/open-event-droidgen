@@ -21,7 +21,7 @@ import lombok.ToString;
 @ToString(of = {"id", "name"})
 @EqualsAndHashCode(callSuper = false)
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
+@JsonNaming(PropertyNamingStrategy.KebabCaseStrategy.class)
 public class Speaker extends RealmObject {
 
     public static final String SPEAKER = "speaker";
@@ -37,23 +37,27 @@ public class Speaker extends RealmObject {
     @Index
     private String country;
     @Index
+    private String email;
     private String organisation;
-    private String photo;
-    private String thumbnail;
-    private String small;
-    private String icon;
+    private String photoUrl;
+    private String thumbnailImageUrl;
+    private String smallImageUrl;
+    private String iconImageUrl;
     private String twitter;
     private String linkedin;
     private String facebook;
     private String github;
+    private String mobile;
     private String website;
-    private boolean featured;
+    private boolean isFeatured;
     private String city;
     private String longBiography;
     private String shortBiography;
     private String speakingExperience;
     private String gender;
     private String position;
+    private String heardFrom;
+    private String sponsorshipRequired;
     @Relationship("sessions")
     private RealmList<Session> sessions;
 }
