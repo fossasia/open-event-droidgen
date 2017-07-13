@@ -1,6 +1,5 @@
 package org.fossasia.openevent.data.extras;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.github.jasminb.jsonapi.IntegerIdHandler;
@@ -15,7 +14,6 @@ import lombok.EqualsAndHashCode;
 @Data
 @Type("speakers-call")
 @EqualsAndHashCode(callSuper = false)
-@JsonIgnoreProperties(ignoreUnknown = true)
 @JsonNaming(PropertyNamingStrategy.KebabCaseStrategy.class)
 public class SpeakersCall extends RealmObject {
 
