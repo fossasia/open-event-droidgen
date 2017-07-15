@@ -36,7 +36,7 @@ function enableGenerateButton(enabled) {
     $errorMessageHolder.hide();
     $statusMessageHolder.hide();
     $generateBtn.prop("disabled", !enabled);
-    $downloadBtn.disable();
+    $downloadBtn.hide();
 }
 
 $dataSourceRadio.change(
@@ -93,7 +93,7 @@ $jsonUploadInput.change(function () {
 function initialState() {
     $dataSourceRadio.prop("checked", false);
     $generateBtn.disable();
-    $downloadBtn.disable();
+    $downloadBtn.hide();
     $actionBtnGroup.show();
 }
 initialState();
