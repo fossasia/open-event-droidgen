@@ -3,9 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
-
+    android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/widget"
@@ -33,6 +31,7 @@
             android:layout_toRightOf="@+id/bookmark_image"
             android:layout_toEndOf="@+id/bookmark_image"
             android:text="@string/bookmarks"
+            android:textColor="@color/white"
             style="@style/Base.TextAppearance.AppCompat.Large.Inverse" />
 
     </RelativeLayout>
@@ -47,8 +46,9 @@
             android:id="@+id/widget_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:divider="@null"
             android:paddingTop="@dimen/padding_medium"
+            android:padding="@dimen/padding_medium"
+            android:divider="@color/grey"
             android:dividerHeight="@dimen/bookmark_divider_height"
             tools:listitem="@layout/widget_list_item" />
 

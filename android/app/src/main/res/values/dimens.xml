@@ -24,7 +24,7 @@
     <dimen name="bookmark_widget_height">48dp</dimen>
     <dimen name="bookmark_image_view_width">30dp</dimen>
     <dimen name="bookmark_image_view_height">30dp</dimen>
-    <dimen name="bookmark_divider_height">2dp</dimen>
+    <dimen name="bookmark_divider_height">0.8dp</dimen>
 
     <!--speaker section specifics -->
     <dimen name="speaker_view_scrim_top">150dp</dimen>
