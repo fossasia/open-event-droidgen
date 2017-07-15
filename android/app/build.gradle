@@ -116,6 +116,8 @@ dependencies {
 
     // Googleplay Variant
     googleplayCompile 'com.google.android.gms:play-services-maps:10.2.6'
+    googleplayCompile 'com.google.android.gms:play-services-location:10.2.6'
+    googleplayCompile 'com.google.maps.android:android-maps-utils:0.4'
 
     // Fdroid Variant
     fdroidCompile 'org.osmdroid:osmdroid-android:5.1'
