@@ -142,7 +142,7 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
     }
 
     private void loadSpeakerImage() {
-        String photo = Utils.parseImageUri(selectedSpeaker.getPhoto());
+        String photo = Utils.parseImageUri(selectedSpeaker.getPhotoUrl());
 
         if (photo == null) {
             progressBar.setVisibility(View.GONE);
