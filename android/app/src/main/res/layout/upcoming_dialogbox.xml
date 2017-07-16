@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="@dimen/medium_width"
+    android:layout_height="wrap_content"
+    android:id="@+id/upcoming_dialog">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/upcoming_title_height"
+        android:textSize="@dimen/heading_text_size"
+        android:layout_marginLeft="@dimen/upcoming_margin_left"
+        android:layout_marginTop="@dimen/layout_margin_large"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:id="@+id/upcoming_Session_title"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/track_image_drawable"
+            android:layout_width="@dimen/item_image_view_small"
+            android:layout_height="@dimen/item_image_view_small"
+            android:layout_marginLeft="@dimen/layout_margin_medium"
+            android:layout_marginTop="@dimen/layout_margin_medium"
+            android:contentDescription="@string/item_track" />
+
+        <TextView
+            android:id="@+id/upcoming_session_textview"
+            android:layout_width="match_parent"
+            android:textSize="@dimen/text_size_extra_large"
+            android:layout_toRightOf="@id/track_image_drawable"
+            android:layout_marginLeft="@dimen/upcoming_margin_left"
+            android:layout_marginRight="@dimen/layout_margin_large"
+            android:layout_marginTop="@dimen/layout_margin_medium"
+            android:textColor="@color/black"
+            android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/upcoming_button"
+        android:layout_height="@dimen/upcoming_title_height"
+        android:layout_marginTop="@dimen/layout_margin_extra_small"
+        android:layout_width="@dimen/upcoming_height"
+        android:layout_gravity="right"
+        android:background="@color/white"
+        android:text="OK"
+        style="?android:attr/borderlessButtonStyle"
+        android:textColor="@color/color_primary"
+        />
+
+</LinearLayout>

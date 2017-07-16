@@ -1,5 +1,6 @@
 package org.fossasia.openevent.activities;
 
+import android.app.Dialog;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -12,11 +13,16 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.amulyakhare.textdrawable.TextDrawable;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
@@ -24,8 +30,11 @@ import org.fossasia.openevent.adapters.SessionsListAdapter;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.utils.ConstantStrings;
+import org.fossasia.openevent.utils.DateUtils;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -44,13 +53,20 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
     private final String FRAGMENT_TAG_LOCATION = "FTAGR";
 
     private GridLayoutManager gridLayoutManager;
+    private Dialog upcomingDialogBox;
 
     private List<Session> mSessions = new ArrayList<>();
+    private List<Session> sortedSessions = new ArrayList<>();
     private static final int locationWiseSessionList = 1;
 
-    @BindView(R.id.recyclerView_locations) RecyclerView sessionRecyclerView;
-    @BindView(R.id.txt_no_sessions) TextView noSessionsView;
-    @BindView(R.id.toolbar_locations) Toolbar toolbar;
+    @BindView(R.id.recyclerView_locations)
+    RecyclerView sessionRecyclerView;
+    @BindView(R.id.txt_no_sessions)
+    TextView noSessionsView;
+    @BindView(R.id.toolbar_locations)
+    Toolbar toolbar;
+
+    private ImageView trackImageIcon;
 
     private String location;
 
@@ -61,11 +77,15 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
 
     private CompositeDisposable disposable;
     private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
+    private TextView upcomingSessionText;
+    private TextView upcomingSessionTitle;
+    private TextDrawable.IBuilder drawableBuilder = TextDrawable.builder().round();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        setUpcomingSessionsDialog();
 
         disposable = new CompositeDisposable();
 
@@ -88,7 +108,7 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
         //setting the grid layout to cut-off white space in tablet view
         DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
         float width = displayMetrics.widthPixels / displayMetrics.density;
-        int spanCount = (int) (width/250.00);
+        int spanCount = (int) (width / 250.00);
 
         sessionRecyclerView.setHasFixedSize(true);
         gridLayoutManager = new GridLayoutManager(this, spanCount);
@@ -102,6 +122,9 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
                 .addChangeListener((sessions, orderedCollectionChangeSet) -> {
                     mSessions.clear();
                     mSessions.addAll(sessions);
+                    sortedSessions.clear();
+                    sortedSessions.addAll(sessions.sort("startsAt"));
+                    setUpcomingSession();
                     sessionsListAdapter.notifyDataSetChanged();
 
                     handleVisibility();
@@ -110,7 +133,55 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
         handleVisibility();
     }
 
-    private void handleVisibility () {
+    public void setUpcomingSessionsDialog() {
+        upcomingDialogBox = new Dialog(this);
+        upcomingDialogBox.setContentView(R.layout.upcoming_dialogbox);
+        trackImageIcon = (ImageView) upcomingDialogBox.findViewById(R.id.track_image_drawable);
+        upcomingSessionText = (TextView) upcomingDialogBox.findViewById(R.id.upcoming_session_textview);
+        upcomingSessionTitle = (TextView) upcomingDialogBox.findViewById(R.id.upcoming_Session_title);
+        Button dialogButton = (Button) upcomingDialogBox.findViewById(R.id.upcoming_button);
+        dialogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                upcomingDialogBox.dismiss();
+            }
+        });
+    }
+
+    public void setUpcomingSession() {
+        String upcomingTitle = "";
+        String track = "";
+        String color = null;
+        Date current = new Date();
+        for (Session sess : sortedSessions) {
+            try {
+                Date start = DateUtils.getDate(sess.getStartsAt());
+                if (start.after(current)) {
+                    upcomingTitle = sess.getTitle();
+                    track = sess.getTrack().getName();
+                    color = sess.getTrack().getColor();
+                    break;
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        if (!TextUtils.isEmpty(upcomingTitle)) {
+            int trackColor = Color.parseColor(color);
+            upcomingSessionTitle.setText(getResources().getString(R.string.upcoming_sess));
+            TextDrawable drawable = drawableBuilder.build(String.valueOf(track.charAt(0)), trackColor);
+            trackImageIcon.setImageDrawable(drawable);
+            trackImageIcon.setBackgroundColor(Color.TRANSPARENT);
+            upcomingSessionText.setText(upcomingTitle);
+        } else {
+            upcomingSessionTitle.setText(getResources().getString(R.string.no_upcoming_Sess));
+            upcomingSessionText.setVisibility(View.GONE);
+        }
+    }
+
+    private void handleVisibility() {
         if (!mSessions.isEmpty()) {
             noSessionsView.setVisibility(View.GONE);
             sessionRecyclerView.setVisibility(View.VISIBLE);
@@ -136,7 +207,7 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(disposable != null && !disposable.isDisposed())
+        if (disposable != null && !disposable.isDisposed())
             disposable.dispose();
     }
 
@@ -152,9 +223,10 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
         searchView.setQuery(searchText, false);
         return true;
     }
+
     @Override
-    public void onBackPressed(){
-        if((mSessions.isEmpty())){
+    public void onBackPressed() {
+        if ((mSessions.isEmpty())) {
             noSessionsView.setVisibility(View.VISIBLE);
         } else {
             sessionRecyclerView.setVisibility(View.VISIBLE);
@@ -165,7 +237,7 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_map_location:
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -174,7 +246,7 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
                 bundle.putBoolean(ConstantStrings.IS_MAP_FRAGMENT_FROM_MAIN_ACTIVITY, false);
                 bundle.putString(ConstantStrings.LOCATION_NAME, location);
 
-                Fragment mapFragment = ((OpenEventApp)getApplication())
+                Fragment mapFragment = ((OpenEventApp) getApplication())
                         .getMapModuleFactory()
                         .provideMapModule()
                         .provideMapFragment();
@@ -189,6 +261,9 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
                 onBackPressed();
                 getSupportFragmentManager().popBackStack();
                 sessionRecyclerView.setVisibility(View.VISIBLE);
+                return true;
+            case R.id.upcoming_sessions:
+                upcomingDialogBox.show();
                 return true;
             default:
                 return true;

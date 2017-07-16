@@ -72,7 +72,7 @@
     <string name="search">Search</string>
     <string name="share">Share</string>
     <string name="add_to_calendar">Add to Calendar</string>
-
+    <string name="upcoming">Upcoming</string>
 
     <!--Search Titles-->
     <string name="global_search_hint">Search App</string>
@@ -148,6 +148,8 @@
     <string name="end_time">End Time:</string>
     <string name="location">Location:</string>
     <string name="speakers">Speaker</string>
+    <string name="upcoming_sess">Upcoming session: </string>
+    <string name="no_upcoming_Sess">No upcoming sessions</string>
 
     <!-- Sponsor types strings-->
     <string name="platinum">Platinum</string>

@@ -15,6 +15,12 @@
             android:id="@+id/action_map_location"
             android:icon="@drawable/ic_map_white_24dp"
             android:title="@string/menu_map"
-            app:showAsAction="ifRoom" />
+            app:showAsAction="ifRoom|collapseActionView" />
+        <item
+                android:id="@+id/upcoming_sessions"
+                android:icon="@drawable/ic_timeline_white_24dp"
+                android:title="@string/upcoming"
+                app:showAsAction="ifRoom|collapseActionView"
+                app:actionViewClass="android.support.v7.widget.Button"/>
     </group>
 </menu>
