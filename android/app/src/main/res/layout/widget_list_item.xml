@@ -7,50 +7,30 @@
     android:background="@drawable/touch_selector_white">
 
     <TextView
-        android:id="@+id/bullet"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="@dimen/layout_margin_medium"
-        android:layout_marginStart="@dimen/layout_margin_medium"
-        android:text="@string/bulletWithSpaces"
-        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-        android:textColor="@color/primary_text" />
-
-    <TextView
         android:id="@+id/title_widget_bookmarks"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/bullet"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginEnd="@dimen/layout_margin_medium"
-        android:layout_marginRight="@dimen/layout_margin_medium"
-        android:layout_toEndOf="@+id/bullet"
-        android:layout_toRightOf="@+id/bullet"
+        android:textSize="@dimen/text_size_extra_large"
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
         android:textColor="@color/primary_text"
         tools:text="Bookmark Title" />
 
     <TextView
         android:id="@+id/date_widget_bookmarks"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_medium"
         android:layout_alignEnd="@+id/title_widget_bookmarks"
         android:layout_alignRight="@+id/title_widget_bookmarks"
         android:layout_below="@+id/title_widget_bookmarks"
-        android:layout_toEndOf="@+id/bullet"
-        android:layout_toRightOf="@+id/bullet"
         android:textColor="@color/secondary_text"
         tools:text="Fri, 17 March 2017" />
 
     <TextView
         android:id="@+id/time_widget_bookmarks"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_medium"
         android:layout_alignEnd="@+id/date_widget_bookmarks"
         android:layout_alignLeft="@+id/date_widget_bookmarks"
         android:layout_alignRight="@+id/date_widget_bookmarks"
