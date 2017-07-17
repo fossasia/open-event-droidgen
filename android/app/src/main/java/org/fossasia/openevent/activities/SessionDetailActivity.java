@@ -236,12 +236,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
                         .into(youtubeThumbnail);
             }
 
-            playButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(video_link)));
-                }
-            });
+            playButton.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(video_link))));
         }
 
         String date = DateUtils.formatDateWithDefault(DateUtils.FORMAT_DATE_COMPLETE, session.getStartsAt());
