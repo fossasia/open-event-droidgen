@@ -435,6 +435,10 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
 
         final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
+        id = getIntent().getIntExtra(ConstantStrings.ID, 0);
+        title = getIntent().getStringExtra(ConstantStrings.SESSION);
+        trackName = getIntent().getStringExtra(ConstantStrings.TRACK);
+
         sessionById = realmRepo.getSession(id);
         sessionById.addChangeListener((RealmChangeListener<Session>) loadedSession -> {
             if(!loadedSession.isValid())

@@ -136,6 +136,7 @@ public class BookmarkWidgetRemoteViewsService extends RemoteViewsService {
                 }
 
                 final Intent fillInIntent = new Intent();
+                fillInIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 fillInIntent.putExtra(ConstantStrings.SESSION, title);
                 fillInIntent.putExtra(ConstantStrings.ID, id);
                 views.setOnClickFillInIntent(R.id.widget_list_item, fillInIntent);
