@@ -29,8 +29,9 @@ android:
 before_script:
   - cd android
 script:
-  - ./gradlew build
-  - ./gradlew assembleRelease
+  - chmod +x generate_apks.sh
+  - chmod +x configedit.sh
+  - ./generate_apks.sh
 notifications:
   webhooks:
     urls:
@@ -41,5 +42,5 @@ notifications:
 after_success:
   - bash <(curl -s https://codecov.io/bash)
   - cd ..
-  - chmod +x $HOME/build/fossasia/open-event-android/upload-apk.sh
-  - sh $HOME/build/fossasia/open-event-android/upload-apk.sh
+  - chmod +x upload-apk.sh
+  - ./upload-apk.sh
