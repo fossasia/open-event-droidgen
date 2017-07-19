@@ -5,10 +5,10 @@ from app.utils import strip_tags
 import requests
 from celery.utils.log import get_task_logger
 
-
-# Mails APK using API/SMTP/Sendgrid depending on a configuration
+# TODO Notifications have to be implmented via API
 
 logger = get_task_logger(__name__)
+
 
 class Notification:
     def __init__(self):
@@ -25,24 +25,25 @@ class Notification:
         :param via_api:
         :return:
         """
-
         email_service = current_app.config['EMAIL_SERVICE']
+        if email_service != 'none':
 
-        payload = {
-            'to': to,
-            'from': current_app.config['FROM_EMAIL'],
-            'subject': subject,
-            'message': message,
-            'attachment': file_attachment,
-        }
-        if not via_api:
-            if email_service == 'smtp':
-                Notification.send_mail_via_smtp_(payload)
-            else:
-                Notification.send_email_via_sendgrid_(payload)
+            payload = {
+                'to': to,
+                'from': current_app.config['FROM_EMAIL'],
+                'subject': subject,
+                'message': message,
+                'attachment': file_attachment,
+            }
+            if not via_api:
+                if email_service == 'smtp':
+                    Notification.send_mail_via_smtp(payload)
+                else:
+                    Notification.send_email_via_sendgrid(payload)
+
 
     @staticmethod
-    def send_mail_via_smtp_(payload):
+    def send_mail_via_smtp(payload):
 
         """
         Send email via SMTP
@@ -83,12 +84,12 @@ class Notification:
         message.subject = payload['subject']
         message.plain = strip_tags(payload['message'])
         message.rich = payload['message']
-        message.attach(payload['attachment'], data=None, maintype=None, subtype=None, inline=False)
+        message.attach(payload['attachment'])
         mailer.send(message)
         mailer.stop()
 
     @staticmethod
-    def send_email_via_sendgrid_(payload):
+    def send_email_via_sendgrid(payload):
 
         key = current_app.config['SENDGRID_KEY']
         if not key:

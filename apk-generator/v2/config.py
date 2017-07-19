@@ -22,14 +22,14 @@ class Config:
     CELERY_BROKER_URL = os.environ.get('REDIS_URL', 'redis://localhost:6379/0')
     CELERY_RESULT_BACKEND = CELERY_BROKER_URL
     SECRET_KEY = os.environ.get('SECRET_KEY', 'JQgeEYk9b4VjxhJP')
-    EMAIL_SERVICE = os.environ.get('EMAIL_SERVICE', 'sendgrid')
-    SMTP_ENCRYPTION = os.environ.get('SMTP_ENCRYPTION')
-    SMTP_HOST = os.environ.get('SMTP_HOST')
-    SMTP_USERNAME = os.environ.get('SMTP_USERNAME')
-    SMTP_PASSWORD = os.environ.get('SMTP_PASSWORD')
-    SMTP_PORT = os.environ.get('SMTP_PORT')
-    SENDGRID_KEY = os.environ.get('SENDGRID_KEY')
-    FROM_EMAIL = os.environ.get('FROM_EMAIL')
+    EMAIL_SERVICE = os.environ.get('EMAIL_SERVICE', 'none')
+    SMTP_ENCRYPTION = os.environ.get('SMTP_ENCRYPTION', 'none')
+    SMTP_HOST = os.environ.get('SMTP_HOST', 'none')
+    SMTP_USERNAME = os.environ.get('SMTP_USERNAME', 'none')
+    SMTP_PASSWORD = os.environ.get('SMTP_PASSWORD', 'none')
+    SMTP_PORT = os.environ.get('SMTP_PORT', 'none')
+    SENDGRID_KEY = os.environ.get('SENDGRID_KEY', 'none')
+    FROM_EMAIL = os.environ.get('FROM_EMAIL', 'none')
     def __init__(self):
         pass
 

@@ -14,10 +14,19 @@
 - `KEYSTORE_PATH` - Path to the key store file with should be used to sign the application package (apk)
 - `KEYSTORE_PASSWORD` - The password to access the key store
 - `KEY_ALIAS` - The alias of the key to use
+
 ##### Optional
 - `REDIS_URL` - The url to the redis instance to use for celery (Default: `redis://localhost:6379/0`)
 - `INTEGRATE_SOCKETIO` - true/false to enable/disable Socket IO. (Default: `true`)
 - `SECRET_KEY` - A string that will be used as a key for any encryption done in the app
+- `EMAIL_SERVICE` - A string to specify the email service to be used to email the APK. (Default: `none`)
+- `SMTP_ENCRYPTION` - A string to specify the encryption key of SMTP. (Default: `none`)
+- `SMTP_HOST` - Host name of SMTP server.(Default: `none`)
+- `SMTP_USERNAME` - Username for SMTP. (Default: `none`)
+- `SMTP_PASSWORD` - Password for SMTP. (Default: `none`)
+- `SMTP_PORT` - Port for SMTP. (Default: `none`)
+- `SENDGRID_KEY` - Key for sengrid. (Default: `none`)
+- `FROM_EMAIL` - Email ID from which mail should be sent. (Default: `none`)
 
 #### Installing & Running the server
 
