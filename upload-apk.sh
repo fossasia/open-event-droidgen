@@ -27,7 +27,7 @@ echo $TRAVIS_BRANCH > meta/deployment/branch
 git checkout --orphan latest-apk-only
 
 # Add generated APKs
-git add -f .
+git add -f -A
 git commit -m "Update Sample Apks generated from $TRAVIS_BRANCH branch."
 
 # Delete current apk branch
