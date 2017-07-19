@@ -18,11 +18,10 @@ def generate_app_task(self, config, payload, via_api=False, identifier=None, bui
                                   payload=payload,
                                   via_api=via_api,
                                   identifier=identifier,
-                                  task_handle=self,
                                   build_type=build_type)
 
 
-def generate_app_task_base(config, payload, via_api=False, identifier=None, task_handle=None, build_type=None):
+def generate_app_task_base(config, payload, via_api=False, identifier=None, build_type=None):
     """
     The base task that starts the generator by calling correct methods. Can be called even without celery.
     :param config:
@@ -32,7 +31,7 @@ def generate_app_task_base(config, payload, via_api=False, identifier=None, task
     :param task_handle:
     :return:
     """
-    generator = Generator(config=config, via_api=via_api, identifier=identifier, task_handle=task_handle, build_type=build_type)
+    generator = Generator(config=config, via_api=via_api, identifier=identifier, build_type=build_type)
     generator.normalize(
         creator_email=payload.get('creator_email', None),
         endpoint_url=payload.get('endpoint_url', None),

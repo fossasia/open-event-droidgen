@@ -22,6 +22,7 @@ class Config:
     CELERY_BROKER_URL = os.environ.get('REDIS_URL', 'redis://localhost:6379/0')
     CELERY_RESULT_BACKEND = CELERY_BROKER_URL
     SECRET_KEY = os.environ.get('SECRET_KEY', 'JQgeEYk9b4VjxhJP')
+    PORT = os.environ.get('PORT', '8080')
 
     def __init__(self):
         pass

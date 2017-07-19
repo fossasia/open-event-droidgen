@@ -17,7 +17,8 @@ var $fileProgressHolder = $("#file-progress"),
     $fileProgressVal = $("#file-progress-val");
 
 var $statusMessageHolder = $("#status-message-holder"),
-    $statusMessage = $("#status-message");
+    $statusMessage = $("#status-message"),
+    $buildLog = $("#build-log");
 
 var $errorMessageHolder = $("#error-message-holder"),
     $errorMessage = $("#error-message");
@@ -25,7 +26,9 @@ var $errorMessageHolder = $("#error-message-holder"),
 var identifier = null,
     taskId = null,
     pollingWorker = null,
-    downloadUrl = null;
+    downloadUrl = null,
+    socket = null,
+    arr = [];
 
 /**
  * Enable the generate button
@@ -56,6 +59,10 @@ $dataSourceRadio.change(
         }
     }
 );
+
+$('#log-message').click(function(e) {
+    $buildLog.toggle();
+});
 
 $buildTypeRadio.change(
     function () {
@@ -117,6 +124,54 @@ function hideProgress() {
     $fileProgressHolder.hide();
 }
 
+function connectSocketLogs() {
+	res = res.data;
+  var socketLogs = io.connect(location.protocol + '//' + document.domain + ':' +
+      location.port + '/' + identifier + '/logs');
+
+  socketLogs.on('message', function(jsonMessage) {
+	json = JSON.parse(jsonMessage);	
+	if (json.state === "SUCCESS") {
+		downloadUrl = json.message
+                enableDownloadButton();
+		socket.disconnect();
+	}
+	//else if(json.state === "FAILURE") {
+	//	showError();
+	//	socket.disconnect();
+	//}    
+	else {
+		$buildLog.append(json.state + '<br>'); 
+	}  
+  });
+}
+
+function connectSocketStatus() {
+  res = res.data;
+  var socketStatus = io.connect(location.protocol + '//' + document.domain + ':' +
+      location.port + '/' + identifier + '/status');
+
+  socketStatus.on('message', function(jsonMessage) {
+	json = JSON.parse(jsonMessage);	
+	if (json.state === "SUCCESS") {
+		downloadUrl = json.message;
+                enableDownloadButton();
+		socket.disconnect();
+	}
+	//else if(json.state === "FAILURE") {
+	//	showError();
+	//	socket.disconnect();
+	//}    
+	else {
+		if(json.message) {
+			updateStatus(json.message);	
+		} else {
+			updateStatus(json.state);
+		}
+	}
+  });
+}
+
 /**
  * Enable the download button
  */
@@ -176,39 +231,6 @@ $downloadBtn.click(function () {
 });
 
 /**
- * Start the continuous poll for getting status updates
- */
-function startPoll() {
-    pollingWorker = setInterval(function () {
-        axios
-            .get("/api/v2/app/" + taskId + "/status")
-            .then(function (res) {
-                res = res.data;
-                switch (res.state) {
-                    case "FAILURE":
-                        showError();
-                        clearInterval(pollingWorker);
-                        break;
-                    case "SUCCESS":
-                        if (res.hasOwnProperty("result")) {
-                            downloadUrl = res.result.hasOwnProperty("message") ? res.result.message : res.result;
-                            enableDownloadButton();
-                        } else {
-                            showError();
-                        }
-                        clearInterval(pollingWorker);
-                        break;
-                    default:
-                        updateStatus(res.state);
-                }
-            })
-            .catch(function (err) {
-
-            });
-    }, 1000);
-}
-
-/**
  * Submit the data to the backend via AJAX when the form is submitted
  */
 $form.submit(function (e) {
@@ -236,13 +258,12 @@ $form.submit(function (e) {
         .then(function (res) {
             hideProgress();
             identifier = res.data.identifier;
-            taskId = res.data.task_id;
+            console.log("Socket Connecting");
+            connectSocketLogs();
             updateStatus("Waiting in line :)");
-            if (taskId && taskId.trim() !== "") {
-                startPoll();
-            }
+            connectSocketStatus();
         })
         .catch(function () {
-            showError();
+            //showError();
         });
 });

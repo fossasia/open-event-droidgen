@@ -20,6 +20,7 @@ import logging
 from celery import Celery
 from celery.signals import after_task_publish
 from flask import Flask
+from flask_socketio import SocketIO
 from flask import json
 from flask import render_template
 from flask.ext.htmlmin import HTMLMIN
@@ -27,7 +28,6 @@ from flask.ext.htmlmin import HTMLMIN
 from app.utils.flask_helpers import SilentUndefined, request_wants_json
 
 app = Flask(__name__)
-
 
 class ReverseProxied(object):
     """
@@ -76,7 +76,7 @@ def create_app():
 
 
 current_app = create_app()
-
+socketio = SocketIO(current_app)
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -124,5 +124,5 @@ def update_sent_state(sender=None, body=None, **kwargs):
 import tasks
 
 if __name__ == '__main__':
-    current_app.run()
+    socketio.run(current_app)
 

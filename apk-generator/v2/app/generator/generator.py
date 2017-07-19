@@ -1,6 +1,7 @@
 import json
 import os
 import re
+import requests
 import shutil
 import subprocess
 import urllib
@@ -9,7 +10,8 @@ import uuid
 import requests
 import validators
 from celery.utils.log import get_task_logger
-from flask import current_app
+from flask import current_app, url_for
+from app import socketio
 
 from app.utils import replace, clear_dir, unzip, get_build_tools_version
 from app.utils.assets import resize_launcher_icon, resize_background_image, save_logo
@@ -29,14 +31,14 @@ class Generator:
     The app generator. This is where it all begins :)
     """
 
-    def __init__(self, config, via_api=False, identifier=None, task_handle=None, build_type=None):
+    def __init__(self, config, via_api=False, identifier=None, build_type=None):
         if not identifier:
             self.identifier = str(uuid.uuid4())
         else:
             self.identifier = identifier
-        self.task_handle = task_handle
-        self.update_status('Starting the generator')
         self.config = config
+        self.prev_status = None
+        self.update_status('Starting the generator')
         self.working_dir = config['WORKING_DIR']
         self.src_dir = config['APP_SOURCE_DIR']
         self.creator_email = ''
@@ -300,16 +302,12 @@ class Generator:
     def update_status(self, state, exception=None, message=None, skip_log=False):
         if not skip_log:
             logger.info(state)
-        if self.task_handle:
-            if not current_app.config.get('CELERY_ALWAYS_EAGER'):
-                meta = {}
-                if exception:
-                    meta = {'exc': exception}
-                if message:
-                    meta = {'message': message}
-                self.task_handle.update_state(
-                    state=state, meta=meta
-                )
+        if exception:
+            self.handle_message(state=state, exception=exception)
+        elif message:
+            self.handle_message(state=state, message=message)
+        else:
+            self.handle_message(state=state)
 
     def run_command(self, command):
         logger.info('Running command: %s', command)
@@ -326,6 +324,12 @@ class Generator:
                 self.generate_status_updates(output.strip())
         rc = process.poll()
         return rc
+
+    def handle_message(self, state, message=None, exception=None):
+        request_json = {'identifier': self.identifier, 'state': state, 'message': message, 'exc': exception}
+        logger.info("Sending POST Request with: " + json.dumps(request_json))
+        request_url = 'http://localhost:'+ self.config['PORT'] + url_for('api.send_notif')
+        res = requests.post(request_url, json=request_json)
 
     def generate_status_updates(self, output_line):
         if 'Starting process \'Gradle build daemon\'' in output_line:

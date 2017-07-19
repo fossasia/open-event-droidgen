@@ -9,3 +9,4 @@ pillow>=3.4.2,<3.5
 Flask-HTMLmin>=1.2,<2
 validators>=0.11.2,<0.12
 bleach>=1.5.0,<2
+flask-socketio>=2.9.0

@@ -2,8 +2,7 @@ import os
 
 import validators
 from celery.result import AsyncResult
-from flask import Blueprint, jsonify, current_app, abort
-from flask import request
+from flask import Blueprint, jsonify, current_app, abort, request
 from werkzeug.utils import secure_filename
 
 from app.views import process
@@ -11,7 +10,20 @@ from app.views import process
 api = Blueprint('api', __name__, url_prefix='/api/v2')
 
 TASK_RESULTS = {}
+prev_status = None
 
+@api.route('/_internal/socket/message', methods=['POST', ])
+def send_notif():
+    request_json = request.get_json(force=True)
+    identifier = request_json['identifier']
+    namespace_for_status = '/' + identifier + '/status'
+    namespace_for_logs = '/' + identifier + '/logs'
+
+    from app import socketio
+    socketio.send(data=request_json, namespace=namespace_for_logs)
+    socketio.send(data=request_json, namespace=namespace_for_status)
+        
+    return jsonify(state="SUCCESS")
 
 @api.route('/app/<string:task_id>/status', methods=['GET', ])
 def app_status(task_id):
