@@ -4,6 +4,7 @@ import shutil
 import zipfile
 import os
 from tempfile import mkstemp
+from xml.etree import cElementTree as ElementTree
 
 import bleach
 import hashlib
@@ -98,3 +99,28 @@ def allowed_file(filename, allowed_extensions):
     """
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in allowed_extensions
+
+
+def colors():
+    """
+    Get the default colors of the app theme
+    :return:
+    """
+    colors = {'primary': '#F44336', 'primary_dark': '#D32F2F', 'accent': '#B71C1C'}
+    return colors
+
+
+def change_theme(path, colors):
+    """
+    Replace the theme colors of the app
+    :param path: Path to the colors.xml file
+    :param colors: Colors dict with keys of the form presented in colors method
+    :return:
+    """
+    tree = ElementTree.parse(path)
+    root = tree.getroot()
+
+    for key in colors.keys():
+        element = root.find("./color[@name='color_%s']" % key)
+        element.text = colors[key]
+    tree.write(path)

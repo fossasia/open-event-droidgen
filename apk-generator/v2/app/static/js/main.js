@@ -10,7 +10,10 @@ var $generateBtn = $("#generate-btn"),
     $dataSourceRadio = $("input:radio[name=data-source]"),
     dataSourceType = null,
     $buildTypeRadio = $("input:radio[name=build-type]"),
-    buildType = null;
+    buildType = null,
+    $colorPrimary = $("#cp-primary"),
+    $colorPrimaryDark = $("#cp-primary-dark"),
+    $colorAccent = $("#cp-accent");
 
 var $fileProgressHolder = $("#file-progress"),
     $fileProgressBar = $("#file-progress-bar"),
@@ -95,6 +98,9 @@ function initialState() {
     $generateBtn.disable();
     $downloadBtn.disable();
     $actionBtnGroup.show();
+    $colorPrimary.colorpicker();
+    $colorPrimaryDark.colorpicker();
+    $colorAccent.colorpicker();
 }
 initialState();
 
@@ -219,6 +225,11 @@ $form.submit(function (e) {
     data.append("email", $emailInput.val());
     data.append("data-source", dataSourceType);
     data.append("build-type", buildType);
+    data.append("colors", JSON.stringify({
+        'primary': $colorPrimary.colorpicker('getValue'),
+        'primary_dark': $colorPrimaryDark.colorpicker('getValue'),
+        'accent': $colorAccent.colorpicker('getValue')
+    }));
 
     var config = {};
 

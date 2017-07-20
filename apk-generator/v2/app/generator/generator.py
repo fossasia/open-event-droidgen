@@ -11,7 +11,7 @@ import validators
 from celery.utils.log import get_task_logger
 from flask import current_app
 
-from app.utils import replace, clear_dir, unzip, get_build_tools_version
+from app.utils import replace, clear_dir, unzip, get_build_tools_version, change_theme
 from app.utils.assets import resize_launcher_icon, resize_background_image, save_logo
 from app.utils.libs.asset_resizer import DENSITY_TYPES
 from app.utils.notification import Notification
@@ -29,7 +29,7 @@ class Generator:
     The app generator. This is where it all begins :)
     """
 
-    def __init__(self, config, via_api=False, identifier=None, task_handle=None, build_type=None):
+    def __init__(self, config, via_api=False, identifier=None, task_handle=None, build_type=None, theme_colors=None):
         if not identifier:
             self.identifier = str(uuid.uuid4())
         else:
@@ -51,6 +51,7 @@ class Generator:
         self.apk_path = ''
         self.via_api = via_api
         self.build_type = build_type
+        self.theme_colors = theme_colors
 
     def get_path(self, relative_path):
         """
@@ -154,6 +155,10 @@ class Generator:
         replace(self.get_path("app/src/main/res/values/strings.xml"), 'OpenEvent', self.app_name)
         replace(self.get_path("app/src/main/res/layout/nav_header.xml"), 'twitter', 'background')
         replace(self.get_path("app/build.gradle"), '"org.fossasia.openevent"', '"%s"' % self.app_package_name)
+
+        if self.theme_colors:
+            self.update_status('Setting theme colors')
+            change_theme(self.get_path("app/src/main/res/values/color.xml"), self.theme_colors)
 
         self.update_status('Loading assets')
 
