@@ -41,7 +41,7 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakerViewHolde
             Realm realm = Realm.getDefaultInstance();
 
             List<Speaker> filteredSpeakers = realm.copyFromRealm(RealmDataRepository.getInstance(realm)
-                    .getSpeakersFiltered(constraint.toString(), SortOrder.sortOrderSpeaker(context)));
+                    .getSpeakersFiltered(constraint.toString(), SortOrder.sortOrderSpeaker()));
 
             FilterResults filterResults = new FilterResults();
             filterResults.values = filteredSpeakers;

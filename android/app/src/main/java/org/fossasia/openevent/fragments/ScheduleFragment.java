@@ -1,10 +1,8 @@
 package org.fossasia.openevent.fragments;
 
 import android.app.AlertDialog;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -24,6 +22,7 @@ import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.DateUtils;
+import org.fossasia.openevent.utils.SharedPreferencesUtil;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -49,7 +48,6 @@ public class ScheduleFragment extends BaseFragment {
 
     private CompositeDisposable compositeDisposable;
     private int sortType;
-    private SharedPreferences sharedPreferences;
     private ScheduleViewPagerAdapter adapter;
     private ViewPager.OnPageChangeListener onPageChangeListener;
     private List<Track> mTracks = new ArrayList<>();
@@ -69,8 +67,7 @@ public class ScheduleFragment extends BaseFragment {
         filterBar.setVisibility(View.GONE);
         OpenEventApp.getEventBus().register(true);
         compositeDisposable = new CompositeDisposable();
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        sortType = sharedPreferences.getInt(ConstantStrings.PREF_SORT, 0);
+        sortType = SharedPreferencesUtil.getInt(ConstantStrings.PREF_SORT, 0);
         selectedTracks = new ArrayList<>();
 
         setupViewPager(viewPager);
@@ -158,9 +155,7 @@ public class ScheduleFragment extends BaseFragment {
                         .setTitle(R.string.dialog_sort_title)
                         .setSingleChoiceItems(R.array.session_sort, sortType, (dialog, which) -> {
                             sortType = which;
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putInt(ConstantStrings.PREF_SORT, which);
-                            editor.apply();
+                            SharedPreferencesUtil.putInt(ConstantStrings.PREF_SORT, which);
                             notifyUpdate(-1, selectedTracks);
                             dialog.dismiss();
                         });

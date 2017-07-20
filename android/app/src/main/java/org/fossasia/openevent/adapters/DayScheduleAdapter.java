@@ -89,7 +89,7 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleViewHo
     public void filter(String constraint) {
         final String query = constraint.toLowerCase(Locale.getDefault());
 
-        ((RealmResults<Session>) copySessions).sort(SortOrder.sortOrderSchedule(context));
+        ((RealmResults<Session>) copySessions).sort(SortOrder.sortOrderSchedule());
 
         List<Session> filteredSessions = Observable.fromIterable(copySessions)
                 .filter(session -> {
@@ -117,14 +117,14 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleViewHo
     @Override
     public long getHeaderId(int position) {
         String id = "";
-        if (SortOrder.sortOrderSchedule(context).equals(Session.TITLE)) {
+        if (SortOrder.sortOrderSchedule().equals(Session.TITLE)) {
             return getItem(position).getTitle().charAt(0);
-        } else if (SortOrder.sortOrderSchedule(context).equals(Session.TRACK)){
+        } else if (SortOrder.sortOrderSchedule().equals(Session.TRACK)){
             if (tracks != null && !tracks.contains(getItem(position).getTrack().getName())) {
                 tracks.add(getItem(position).getTrack().getName());
             }
             return tracks.indexOf(getItem(position).getTrack().getName());
-        } else if (SortOrder.sortOrderSchedule(context).equals(Session.START_TIME)) {
+        } else if (SortOrder.sortOrderSchedule().equals(Session.START_TIME)) {
             id = DateUtils.formatDateWithDefault(DateUtils.FORMAT_24H, getItem(position).getStartsAt(), "")
                     .replace(":", "")
                     .replace(" ", "");
@@ -145,11 +145,11 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleViewHo
         String sortTitle = Utils.checkStringEmpty(getItem(position).getTitle());
         String sortName = Utils.checkStringEmpty(getItem(position).getTrack().getName());
 
-        if (SortOrder.sortOrderSchedule(context).equals(Session.TITLE) && (!Utils.isEmpty(sortTitle))) {
+        if (SortOrder.sortOrderSchedule().equals(Session.TITLE) && (!Utils.isEmpty(sortTitle))) {
             textView.setText(String.valueOf(sortTitle.charAt(0)));
-        } else if (SortOrder.sortOrderSchedule(context).equals(Session.TRACK)){
+        } else if (SortOrder.sortOrderSchedule().equals(Session.TRACK)){
             textView.setText(String.valueOf(sortName));
-        } else if (SortOrder.sortOrderSchedule(context).equals(Session.START_TIME)) {
+        } else if (SortOrder.sortOrderSchedule().equals(Session.START_TIME)) {
             textView.setText(DateUtils.formatDateWithDefault(DateUtils.FORMAT_24H, getItem(position).getStartsAt()));
         }
     }

@@ -1,7 +1,6 @@
 package org.fossasia.openevent.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -9,7 +8,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -47,6 +45,7 @@ import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.DateUtils;
 import org.fossasia.openevent.utils.NotificationUtil;
+import org.fossasia.openevent.utils.SharedPreferencesUtil;
 import org.fossasia.openevent.utils.StringUtils;
 import org.fossasia.openevent.utils.Utils;
 import org.fossasia.openevent.utils.Views;
@@ -433,8 +432,6 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
     protected void onResume() {
         super.onResume();
 
-        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-
         id = getIntent().getIntExtra(ConstantStrings.ID, 0);
         title = getIntent().getStringExtra(ConstantStrings.SESSION);
         trackName = getIntent().getStringExtra(ConstantStrings.TRACK);
@@ -450,7 +447,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
 
                 session = loadedSession;
 
-                sharedPreferences.edit().putInt(ConstantStrings.SESSION_MAP_ID, id).apply();
+                SharedPreferencesUtil.putInt(ConstantStrings.SESSION_MAP_ID, id);
                 updateSession();
             }
         });
@@ -466,7 +463,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
 
                 session = loadedSession;
 
-                sharedPreferences.edit().putInt(ConstantStrings.SESSION_MAP_ID, -1).apply();
+                SharedPreferencesUtil.putInt(ConstantStrings.SESSION_MAP_ID, -1);
                 updateSession();
             }
         });
