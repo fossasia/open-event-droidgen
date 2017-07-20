@@ -2,11 +2,9 @@ package org.fossasia.openevent.fragments;
 
 
 import android.app.AlertDialog;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.graphics.drawable.DrawableCompat;
@@ -35,6 +33,7 @@ import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.events.SpeakerDownloadEvent;
 import org.fossasia.openevent.utils.NetworkUtils;
+import org.fossasia.openevent.utils.SharedPreferencesUtil;
 import org.fossasia.openevent.utils.ShowNotificationSnackBar;
 import org.fossasia.openevent.utils.Utils;
 import org.fossasia.openevent.views.MarginDecoration;
@@ -53,8 +52,6 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
     private static final String PREF_SORT = "sortType";
 
     final private String SEARCH = "searchText";
-
-    private SharedPreferences prefsSort;
 
     @BindView(R.id.speaker_swipe_refresh) SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.txt_no_speakers)  TextView noSpeakersView;
@@ -82,8 +79,7 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
 
         Utils.registerIfUrlValid(swipeRefreshLayout, this, this::refresh);
 
-        prefsSort = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        sortType = prefsSort.getInt(PREF_SORT, 0);
+        sortType = SharedPreferencesUtil.getInt(PREF_SORT, 0);
 
         //setting the grid layout to cut-off white space in tablet view
         DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
@@ -109,7 +105,7 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
     }
 
     private void loadData() {
-        realmRepo.getSpeakers(sortOrderSpeaker(getContext()))
+        realmRepo.getSpeakers(sortOrderSpeaker())
                 .addChangeListener((speakers, orderedCollectionChangeSet) -> {
 
                     mSpeakers.clear();
@@ -178,9 +174,7 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
                         .setTitle(R.string.dialog_sort_title)
                         .setSingleChoiceItems(list_options, sortType, (dialog, which) -> {
                             sortType = which;
-                            SharedPreferences.Editor editor = prefsSort.edit();
-                            editor.putInt(PREF_SORT, which);
-                            editor.apply();
+                            SharedPreferencesUtil.putInt(PREF_SORT, which);
                             loadData();
                             dialog.dismiss();
                         });

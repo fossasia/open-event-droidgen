@@ -1,7 +1,6 @@
 package org.fossasia.openevent.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -21,6 +20,7 @@ import android.view.MenuItem;
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.utils.DateUtils;
+import org.fossasia.openevent.utils.SharedPreferencesUtil;
 
 /**
  * User: manan
@@ -34,7 +34,6 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
     private SwitchPreference timezonePreference;
     private Preference prefNotification;
     private Preference languagePreference;
-    private SharedPreferences preferences;
     private AppCompatDelegate mDelegate;
 
 
@@ -46,7 +45,6 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
 
         overridePendingTransition(R.anim.slide_in_right, R.anim.stay_in_place);
 
-        preferences = PreferenceManager.getDefaultSharedPreferences(this);
         PreferenceManager.setDefaultValues(this,R.xml.settings,false);
         addPreferencesFromResource(R.xml.settings);
         setContentView(R.layout.activity_settings);
@@ -126,7 +124,7 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
         });
 
 
-        prefNotification.setSummary(preferences.getString(getString(R.string.notification_key), ""));
+        prefNotification.setSummary(SharedPreferencesUtil.getString(getString(R.string.notification_key), ""));
         languagePreference.setSummary(OpenEventApp.sDefSystemLanguage);
     }
 

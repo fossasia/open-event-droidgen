@@ -3,12 +3,10 @@ package org.fossasia.openevent;
 import android.app.Application;
 import android.content.Context;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.os.Handler;
 import android.os.Looper;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.facebook.stetho.Stetho;
@@ -32,6 +30,7 @@ import org.fossasia.openevent.modules.MapModuleFactory;
 import org.fossasia.openevent.receivers.NetworkConnectivityChangeReceiver;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.DateUtils;
+import org.fossasia.openevent.utils.SharedPreferencesUtil;
 import org.fossasia.openevent.utils.Utils;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -97,8 +96,8 @@ public class OpenEventApp extends Application {
         return objectMapper;
     }
 
-    public void setUpTimeZone(SharedPreferences sharedPreferences) {
-        DateUtils.setShowLocalTimeZone(sharedPreferences.getBoolean(getResources()
+    public void setUpTimeZone() {
+        DateUtils.setShowLocalTimeZone(SharedPreferencesUtil.getBoolean(getResources()
                 .getString(R.string.timezone_mode_key), false));
     }
 
@@ -110,8 +109,7 @@ public class OpenEventApp extends Application {
 
         Branch.getAutoInstance(this);
 
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getAppContext());
-        setUpTimeZone(sharedPreferences);
+        setUpTimeZone();
         sDefSystemLanguage = Locale.getDefault().getDisplayLanguage();
 
         Realm.init(this);
@@ -186,9 +184,9 @@ public class OpenEventApp extends Application {
 
             Urls.setBaseUrl(api_link);
 
-            sharedPreferences.edit().putString(ConstantStrings.EMAIL, email).apply();
-            sharedPreferences.edit().putString(ConstantStrings.APP_NAME, app_name).apply();
-            sharedPreferences.edit().putString(ConstantStrings.BASE_API_URL, api_link).apply();
+            SharedPreferencesUtil.putString(ConstantStrings.EMAIL, email);
+            SharedPreferencesUtil.putString(ConstantStrings.APP_NAME, app_name);
+            SharedPreferencesUtil.putString(ConstantStrings.BASE_API_URL, api_link);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -210,8 +208,8 @@ public class OpenEventApp extends Application {
             String org_description = jsonObject.has(ConstantStrings.ORG_DESCRIPTION) ?
                     jsonObject.getString(ConstantStrings.ORG_DESCRIPTION) : "";
             String eventTimeZone = jsonObject.has(ConstantStrings.TIMEZONE) ? jsonObject.getString(ConstantStrings.TIMEZONE) : "";
-            sharedPreferences.edit().putString(ConstantStrings.ORG_DESCRIPTION, org_description).apply();
-            sharedPreferences.edit().putString(ConstantStrings.TIMEZONE, eventTimeZone).apply();
+            SharedPreferencesUtil.putString(ConstantStrings.ORG_DESCRIPTION, org_description);
+            SharedPreferencesUtil.putString(ConstantStrings.TIMEZONE, eventTimeZone);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -249,7 +247,6 @@ public class OpenEventApp extends Application {
 
         sDefSystemLanguage = newConfig.locale.getDisplayLanguage();
     }
-
 
     public MapModuleFactory getMapModuleFactory() {
         return mapModuleFactory;

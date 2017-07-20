@@ -2,6 +2,9 @@ package org.fossasia.openevent.utils;
 
 public class ConstantStrings {
 
+    //SharedPrefs db Name
+    public static final String FOSS_PREFS = "FossPrefs";
+
     public static final String TRACK = "TRACK";
 
     public static final String TRACK_ID = "TRACK_ID";

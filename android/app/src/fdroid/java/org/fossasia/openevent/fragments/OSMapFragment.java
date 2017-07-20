@@ -1,11 +1,9 @@
 package org.fossasia.openevent.fragments;
 
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -25,6 +23,7 @@ import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.utils.ConstantStrings;
+import org.fossasia.openevent.utils.SharedPreferencesUtil;
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.util.GeoPoint;
@@ -53,8 +52,6 @@ public class OSMapFragment extends Fragment {
 
     private Snackbar snackbar;
 
-    private SharedPreferences sharedPreferences;
-
     private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
     private Event event;
 
@@ -62,7 +59,6 @@ public class OSMapFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         OpenStreetMapTileProviderConstants.setUserAgentValue(BuildConfig.APPLICATION_ID);
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
     }
 
     @Override
@@ -142,7 +138,7 @@ public class OSMapFragment extends Fragment {
             return;
 
         try {
-            int id = sharedPreferences.getInt(ConstantStrings.SESSION_MAP_ID,-1);
+            int id = SharedPreferencesUtil.getInt(ConstantStrings.SESSION_MAP_ID, -1);
 
             if(id != -1){
                 Session session = realmRepo.getSessionSync(id);

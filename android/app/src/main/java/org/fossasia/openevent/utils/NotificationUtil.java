@@ -4,8 +4,6 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.receivers.NotificationAlarmReceiver;
@@ -33,8 +31,7 @@ public class NotificationUtil {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(DateUtils.getDate(session.getStartsAt()));
 
-            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-            Integer pref_result = Integer.parseInt(sharedPrefs.getString("notification", "10 mins").substring(0, 2).trim());
+            Integer pref_result = Integer.parseInt(SharedPreferencesUtil.getString("notification", "10 mins").substring(0, 2).trim());
             if (pref_result.equals(1)) {
                 calendar.add(Calendar.HOUR, -1);
             } else if (pref_result.equals(12)) {

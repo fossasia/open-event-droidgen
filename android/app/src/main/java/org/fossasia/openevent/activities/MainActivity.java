@@ -5,14 +5,12 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.customtabs.CustomTabsClient;
@@ -84,6 +82,7 @@ import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.DateUtils;
 import org.fossasia.openevent.utils.DownloadCompleteHandler;
 import org.fossasia.openevent.utils.NetworkUtils;
+import org.fossasia.openevent.utils.SharedPreferencesUtil;
 import org.fossasia.openevent.utils.ShowNotificationSnackBar;
 import org.fossasia.openevent.utils.SmoothActionBarDrawerToggle;
 import org.fossasia.openevent.utils.Utils;
@@ -132,7 +131,6 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
     private Context context;
     private Dialog dialogNetworkNotification;
     private FragmentManager fragmentManager;
-    private SharedPreferences sharedPreferences;
 
     private CustomTabsServiceConnection customTabsServiceConnection;
     private CustomTabsClient customTabsClient;
@@ -171,9 +169,8 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
         context = this;
         ((OpenEventApp) getApplicationContext()).attachMainActivity(this);
         ButterKnife.setDebug(true);
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         fragmentManager = getSupportFragmentManager();
-        sharedPreferences.edit().putInt(ConstantStrings.SESSION_MAP_ID, -1).apply();
+        SharedPreferencesUtil.putInt(ConstantStrings.SESSION_MAP_ID, -1);
         setTheme(R.style.AppTheme_NoActionBar_MainTheme);
         super.onCreate(savedInstanceState);
 
@@ -190,9 +187,9 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
         completeHandler = DownloadCompleteHandler.with(context);
 
         if (Utils.isBaseUrlEmpty()) {
-            if (!sharedPreferences.getBoolean(ConstantStrings.IS_DOWNLOAD_DONE, false)) {
+            if (!SharedPreferencesUtil.getBoolean(ConstantStrings.IS_DOWNLOAD_DONE, false)) {
                 downloadFromAssets();
-                sharedPreferences.edit().putBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true).apply();
+                SharedPreferencesUtil.putBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true);
             }
         } else {
             setupConnection();
@@ -332,7 +329,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
 
         if (fromServer) {
             // Event successfully loaded, set data downloaded to true
-            sharedPreferences.edit().putBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true).apply();
+            SharedPreferencesUtil.putBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true);
 
             successMessage = "Download done";
         }
@@ -349,7 +346,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
 
     private void startDownloadFromNetwork() {
         fromServer = true;
-        boolean preference = sharedPreferences.getBoolean(getResources().getString(R.string.download_mode_key), true);
+        boolean preference = SharedPreferencesUtil.getBoolean(getResources().getString(R.string.download_mode_key), true);
         if (preference) {
             disposable.add(NetworkUtils.haveNetworkConnectionObservable(MainActivity.this)
                     .subscribeOn(Schedulers.io())
@@ -370,23 +367,22 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
 
     private void downloadPageId() {
         //Store the facebook page name in the shared preference from the database
-        if(sharedPreferences.getString(ConstantStrings.FACEBOOK_PAGE_NAME, null) == null) {
+        if(SharedPreferencesUtil.getString(ConstantStrings.FACEBOOK_PAGE_NAME, null) == null) {
             RealmList<SocialLink> socialLinks = event.getSocialLinks();
             RealmResults<SocialLink> facebookPage = socialLinks.where().equalTo("name", "Facebook").findAll();
             SocialLink facebookLink = facebookPage.get(0);
             String pageName = facebookLink.getLink().substring(20);
-            sharedPreferences.edit().putString(ConstantStrings.FACEBOOK_PAGE_NAME, pageName).apply();
+            SharedPreferencesUtil.putString(ConstantStrings.FACEBOOK_PAGE_NAME, pageName);
         }
 
-        if(sharedPreferences.getString(ConstantStrings.FACEBOOK_PAGE_ID, null) == null)
-            APIClient.getFacebookGraphAPI().getPageId(sharedPreferences.getString(ConstantStrings.FACEBOOK_PAGE_NAME, null),
+        if(SharedPreferencesUtil.getString(ConstantStrings.FACEBOOK_PAGE_ID, null) == null)
+            APIClient.getFacebookGraphAPI().getPageId(SharedPreferencesUtil.getString(ConstantStrings.FACEBOOK_PAGE_NAME, null),
                     getResources().getString(R.string.facebook_access_token))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(facebookPageId -> {
                         String id = facebookPageId.getId();
-                        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-                        sharedPreferences.edit().putString(ConstantStrings.FACEBOOK_PAGE_ID, id).apply();
+                        SharedPreferencesUtil.putString(ConstantStrings.FACEBOOK_PAGE_ID, id);
                     });
     }
 
@@ -395,7 +391,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
             @Override
             public void activeConnection() {
                 //Internet is working
-                if (!sharedPreferences.getBoolean(ConstantStrings.IS_DOWNLOAD_DONE, false)) {
+                if (!SharedPreferencesUtil.getBoolean(ConstantStrings.IS_DOWNLOAD_DONE, false)) {
                     DialogFactory.createDownloadDialog(context, R.string.download_assets, R.string.charges_warning,
                             (dialogInterface, button) -> {
                                 switch (button) {
@@ -769,9 +765,9 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
 
     public void downloadFromAssets() {
         fromServer = false;
-        if (!sharedPreferences.getBoolean(ConstantStrings.DATABASE_RECORDS_EXIST, false)) {
+        if (!SharedPreferencesUtil.getBoolean(ConstantStrings.DATABASE_RECORDS_EXIST, false)) {
             //TODO: Add and Take counter value from to config.json
-            sharedPreferences.edit().putBoolean(ConstantStrings.DATABASE_RECORDS_EXIST, true).apply();
+            SharedPreferencesUtil.putBoolean(ConstantStrings.DATABASE_RECORDS_EXIST, true);
 
             startDownloadListener();
             Timber.d("JSON parsing started");

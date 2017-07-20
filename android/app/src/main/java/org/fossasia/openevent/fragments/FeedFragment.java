@@ -1,9 +1,7 @@
 package org.fossasia.openevent.fragments;
 
 import android.app.ProgressDialog;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,6 +17,7 @@ import org.fossasia.openevent.api.APIClient;
 import org.fossasia.openevent.data.facebook.FeedItem;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.NetworkUtils;
+import org.fossasia.openevent.utils.SharedPreferencesUtil;
 import org.fossasia.openevent.utils.ShowNotificationSnackBar;
 
 import java.lang.ref.WeakReference;
@@ -37,7 +36,6 @@ public class FeedFragment extends BaseFragment {
 
     private FeedAdapter feedAdapter;
     private List<FeedItem> feedItems;
-    private SharedPreferences sharedPreferences;
     private ProgressDialog downloadProgressDialog;
 
     @BindView(R.id.feed_swipe_refresh) SwipeRefreshLayout swipeRefreshLayout;
@@ -55,7 +53,6 @@ public class FeedFragment extends BaseFragment {
         feedRecyclerView.setLayoutManager(mLayoutManager);
         feedAdapter = new FeedAdapter(getContext(), (FeedAdapter.AdapterCallback)getActivity(), feedItems);
         feedRecyclerView.setAdapter(feedAdapter);
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
 
         setupProgressBar();
 
@@ -71,7 +68,7 @@ public class FeedFragment extends BaseFragment {
 
     private void downloadFeed() {
         APIClient.getFacebookGraphAPI()
-                .getPosts(sharedPreferences.getString(ConstantStrings.FACEBOOK_PAGE_ID, null),
+                .getPosts(SharedPreferencesUtil.getString(ConstantStrings.FACEBOOK_PAGE_ID, null),
                         getContext().getResources().getString(R.string.fields),
                         getContext().getResources().getString(R.string.facebook_access_token))
                 .subscribeOn(Schedulers.io())
@@ -116,15 +113,14 @@ public class FeedFragment extends BaseFragment {
             @Override
             public void activeConnection() {
                 //Internet is working
-                if(sharedPreferences.getString(ConstantStrings.FACEBOOK_PAGE_ID, null) == null)
-                    APIClient.getFacebookGraphAPI().getPageId(sharedPreferences.getString(ConstantStrings.FACEBOOK_PAGE_NAME, null),
+                if(SharedPreferencesUtil.getString(ConstantStrings.FACEBOOK_PAGE_ID, null) == null)
+                    APIClient.getFacebookGraphAPI().getPageId(SharedPreferencesUtil.getString(ConstantStrings.FACEBOOK_PAGE_NAME, null),
                             getResources().getString(R.string.facebook_access_token))
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(facebookPageId -> {
                                 String id = facebookPageId.getId();
-                                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-                                sharedPreferences.edit().putString(ConstantStrings.FACEBOOK_PAGE_ID, id).apply();
+                                SharedPreferencesUtil.putString(ConstantStrings.FACEBOOK_PAGE_ID, id);
                             });
 
                 downloadFeed();

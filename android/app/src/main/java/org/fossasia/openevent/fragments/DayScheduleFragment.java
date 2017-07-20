@@ -95,7 +95,7 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
             searchText = savedInstanceState.getString(SEARCH);
         }
 
-        realmRepo.getSessionsByDate(date, SortOrder.sortOrderSchedule(getContext()))
+        realmRepo.getSessionsByDate(date, SortOrder.sortOrderSchedule())
                 .addChangeListener((sortedSessions, orderedCollectionChangeSet) -> {
                     mSessions.clear();
                     mSessions.addAll(sortedSessions);
@@ -118,7 +118,7 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
         if(dayScheduleAdapter == null)
             return;
 
-        realmRepo.getSessionsByDate(date, SortOrder.sortOrderSchedule(OpenEventApp.getAppContext()))
+        realmRepo.getSessionsByDate(date, SortOrder.sortOrderSchedule())
                 .addChangeListener((sortedSessions, orderedCollectionChangeSet) -> {
                     mSessions.clear();
                     mSessions.addAll(sortedSessions);
