@@ -1,6 +1,7 @@
 import os
 import uuid
 
+import json
 import datetime
 import validators
 from flask import Blueprint, jsonify
@@ -9,7 +10,7 @@ from flask import request, current_app as app
 from flask import send_from_directory
 from werkzeug.utils import secure_filename
 
-from app.utils import allowed_file, hash_file
+from app.utils import allowed_file, hash_file, colors
 
 VALID_DATA_SOURCES = ['json_upload', 'api_endpoint']
 
@@ -25,7 +26,8 @@ def index():
     return render_template('index.html',
                            main_css=hash_file(os.path.abspath(app.config['STATICFILES_DIR'] + '/css/main.css')),
                            main_js=hash_file(os.path.abspath(app.config['STATICFILES_DIR'] + '/js/main.js')),
-                           utils_js=hash_file(os.path.abspath(app.config['STATICFILES_DIR'] + '/js/utils.js')))
+                           utils_js=hash_file(os.path.abspath(app.config['STATICFILES_DIR'] + '/js/utils.js')),
+                           colors=colors())
 
 
 @views.route('/favicon.ico')
@@ -59,6 +61,7 @@ def process(data=None, via_api=False):
     email = data.get('email', None)
     data_source = data.get('data-source', None)
     build_type = data.get('build-type', None)
+    theme_colors = json.loads(data.get('colors', None))
 
     if not email or not data_source or data_source not in VALID_DATA_SOURCES or not validators.email(email):
         return jsonify(status='error', message='invalid data'), 400
@@ -87,5 +90,5 @@ def process(data=None, via_api=False):
             payload['zip_file'] = file_save_location
 
     from app.tasks import generate_app_task  # A Local import to avoid circular import
-    task = generate_app_task.delay(config=app.config, payload=payload, via_api=via_api, identifier=identifier, build_type=build_type)
+    task = generate_app_task.delay(config=app.config, payload=payload, via_api=via_api, identifier=identifier, build_type=build_type, theme_colors=theme_colors)
     return jsonify(status='ok', identifier=identifier, started_at=datetime.datetime.now(), task_id=task.id)
