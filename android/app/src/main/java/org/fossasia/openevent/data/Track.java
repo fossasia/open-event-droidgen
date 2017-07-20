@@ -1,6 +1,5 @@
 package org.fossasia.openevent.data;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.github.jasminb.jsonapi.IntegerIdHandler;
@@ -18,7 +17,6 @@ import lombok.EqualsAndHashCode;
 @Data
 @Type("track")
 @EqualsAndHashCode(callSuper = true)
-@JsonIgnoreProperties(ignoreUnknown = true)
 @JsonNaming(PropertyNamingStrategy.KebabCaseStrategy.class)
 public class Track extends RealmObject {
 

@@ -13,6 +13,8 @@ import android.util.Log;
 
 import com.facebook.stetho.Stetho;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
@@ -62,6 +64,7 @@ public class OpenEventApp extends Application {
     private static Bus eventBus;
     private static WeakReference<Context> context;
     public static Picasso picassoWithCache;
+    private static ObjectMapper objectMapper;
     private MapModuleFactory mapModuleFactory;
     private RefWatcher refWatcher;
     private MainActivity activity;
@@ -84,6 +87,14 @@ public class OpenEventApp extends Application {
     public static RefWatcher getRefWatcher(Context context) {
         OpenEventApp application = (OpenEventApp) context.getApplicationContext();
         return application.refWatcher;
+    }
+
+    public static ObjectMapper getObjectMapper(){
+        if (objectMapper == null){
+            objectMapper = new ObjectMapper();
+            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        }
+        return objectMapper;
     }
 
     public void setUpTimeZone(SharedPreferences sharedPreferences) {

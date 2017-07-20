@@ -667,8 +667,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
         final String json = jsonReadEvent.getJson();
 
         Completable.fromAction(() -> {
-            ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            ObjectMapper objectMapper = OpenEventApp.getObjectMapper();
 
             // Need separate instance for background thread
             Realm realm = Realm.getDefaultInstance();
