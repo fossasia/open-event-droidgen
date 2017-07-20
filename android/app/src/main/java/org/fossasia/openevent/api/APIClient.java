@@ -1,8 +1,6 @@
 package org.fossasia.openevent.api;
 
 import com.facebook.stetho.okhttp3.StethoInterceptor;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.fossasia.openevent.BuildConfig;
 import org.fossasia.openevent.OpenEventApp;
@@ -21,8 +19,8 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
-import retrofit2.converter.jackson.JacksonConverterFactory;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.converter.jackson.JacksonConverterFactory;
 import timber.log.Timber;
 
 /**
@@ -56,7 +54,7 @@ public final class APIClient {
             okHttpClientBuilder.addNetworkInterceptor(new StethoInterceptor());
 
         retrofitBuilder = new Retrofit.Builder()
-                .addConverterFactory(JacksonConverterFactory.create(new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)));
+                .addConverterFactory(JacksonConverterFactory.create(OpenEventApp.getObjectMapper()));
     }
 
     public static OpenEventAPI getOpenEventAPI() {

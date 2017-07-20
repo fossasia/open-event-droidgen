@@ -144,7 +144,7 @@ dependencies {
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
 
     //Branch integration for deep linking
-    compile('io.branch.sdk.android:library:2.5.9') {
+    compile ('io.branch.sdk.android:library:2.5.9') {
         exclude module: 'answers-shim'
     }
 }
