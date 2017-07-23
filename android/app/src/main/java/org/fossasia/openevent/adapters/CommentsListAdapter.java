@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.data.facebook.CommentItem;
-import org.fossasia.openevent.utils.DateUtils;
+import org.fossasia.openevent.utils.DateConverter;
 
 import java.text.ParseException;
 import java.util.List;
@@ -62,7 +62,7 @@ public class CommentsListAdapter extends BaseRVAdapter<CommentItem, CommentsList
         if (commentItem.getCreatedTime() != null) {
             String createdTime = commentItem.getCreatedTime();
             try {
-                holder.commentTime.setText(DateUtils.getRelativeTimeFromTimestamp(createdTime));
+                holder.commentTime.setText(DateConverter.getRelativeTimeFromTimestamp(createdTime));
             } catch (ParseException e) {
                 Timber.e(e);
             }

@@ -15,7 +15,7 @@ import java.util.Locale;
 
 import timber.log.Timber;
 
-public class DateUtils {
+public class DateConverter {
 
     public static final String FORMAT_12H = "hh:mm a";
     public static final String FORMAT_24H = "HH:mm";
@@ -68,7 +68,7 @@ public class DateUtils {
     }
 
     public static void setShowLocalTimeZone(boolean showLocalTimeZone) {
-        DateUtils.showLocalTimeZone = showLocalTimeZone;
+        DateConverter.showLocalTimeZone = showLocalTimeZone;
         instantiateFormatters();
     }
 

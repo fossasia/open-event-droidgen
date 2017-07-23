@@ -19,7 +19,7 @@ import android.view.MenuItem;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
-import org.fossasia.openevent.utils.DateUtils;
+import org.fossasia.openevent.utils.DateConverter;
 import org.fossasia.openevent.utils.SharedPreferencesUtil;
 
 /**
@@ -73,7 +73,7 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
             boolean showLocalTimezone = choice.equals(true);
 
             timezonePreference.setChecked(showLocalTimezone);
-            DateUtils.setShowLocalTimeZone(showLocalTimezone);
+            DateConverter.setShowLocalTimeZone(showLocalTimezone);
         } else if (preference.getKey().equals(getResources().getString(R.string.notification_key))) {
             prefNotification.setSummary((String) choice);
         } else if (preference.getKey().equals(getResources().getString(R.string.language_key))) {

@@ -13,7 +13,7 @@ import org.fossasia.openevent.adapters.viewholders.DayScheduleViewHolder;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.fragments.DayScheduleFragment;
-import org.fossasia.openevent.utils.DateUtils;
+import org.fossasia.openevent.utils.DateConverter;
 import org.fossasia.openevent.utils.SortOrder;
 import org.fossasia.openevent.utils.Utils;
 import org.fossasia.openevent.views.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
@@ -125,7 +125,7 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleViewHo
             }
             return tracks.indexOf(getItem(position).getTrack().getName());
         } else if (SortOrder.sortOrderSchedule().equals(Session.START_TIME)) {
-            id = DateUtils.formatDateWithDefault(DateUtils.FORMAT_24H, getItem(position).getStartsAt(), "")
+            id = DateConverter.formatDateWithDefault(DateConverter.FORMAT_24H, getItem(position).getStartsAt(), "")
                     .replace(":", "")
                     .replace(" ", "");
         }
@@ -150,7 +150,7 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleViewHo
         } else if (SortOrder.sortOrderSchedule().equals(Session.TRACK)){
             textView.setText(String.valueOf(sortName));
         } else if (SortOrder.sortOrderSchedule().equals(Session.START_TIME)) {
-            textView.setText(DateUtils.formatDateWithDefault(DateUtils.FORMAT_24H, getItem(position).getStartsAt()));
+            textView.setText(DateConverter.formatDateWithDefault(DateConverter.FORMAT_24H, getItem(position).getStartsAt()));
         }
     }
 

@@ -21,7 +21,7 @@ import com.squareup.picasso.Picasso;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.data.facebook.CommentItem;
 import org.fossasia.openevent.data.facebook.FeedItem;
-import org.fossasia.openevent.utils.DateUtils;
+import org.fossasia.openevent.utils.DateConverter;
 import org.fossasia.openevent.utils.Utils;
 
 import java.text.ParseException;
@@ -101,7 +101,7 @@ public class FeedAdapter extends BaseRVAdapter<FeedItem, FeedAdapter.RecyclerVie
 
         String createdTime = feedItem.getCreatedTime();
         try {
-            holder.timeStamp.setText(DateUtils.getRelativeTimeFromTimestamp(createdTime));
+            holder.timeStamp.setText(DateConverter.getRelativeTimeFromTimestamp(createdTime));
         } catch (ParseException e) {
             Timber.e(e);
         }

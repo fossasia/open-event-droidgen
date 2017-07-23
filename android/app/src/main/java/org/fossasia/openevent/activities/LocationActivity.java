@@ -30,7 +30,7 @@ import org.fossasia.openevent.adapters.SessionsListAdapter;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.utils.ConstantStrings;
-import org.fossasia.openevent.utils.DateUtils;
+import org.fossasia.openevent.utils.DateConverter;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -155,7 +155,7 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
         Date current = new Date();
         for (Session sess : sortedSessions) {
             try {
-                Date start = DateUtils.getDate(sess.getStartsAt());
+                Date start = DateConverter.getDate(sess.getStartsAt());
                 if (start.after(current)) {
                     upcomingTitle = sess.getTitle();
                     track = sess.getTrack().getName();

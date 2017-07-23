@@ -43,7 +43,7 @@ import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.utils.ConstantStrings;
-import org.fossasia.openevent.utils.DateUtils;
+import org.fossasia.openevent.utils.DateConverter;
 import org.fossasia.openevent.utils.NotificationUtil;
 import org.fossasia.openevent.utils.SharedPreferencesUtil;
 import org.fossasia.openevent.utils.StringUtils;
@@ -238,9 +238,9 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
             playButton.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(video_link))));
         }
 
-        String date = DateUtils.formatDateWithDefault(DateUtils.FORMAT_DATE_COMPLETE, session.getStartsAt());
-        String startTime = DateUtils.formatDateWithDefault(DateUtils.FORMAT_12H, session.getStartsAt());
-        String endTime = DateUtils.formatDateWithDefault(DateUtils.FORMAT_12H, session.getEndsAt());
+        String date = DateConverter.formatDateWithDefault(DateConverter.FORMAT_DATE_COMPLETE, session.getStartsAt());
+        String startTime = DateConverter.formatDateWithDefault(DateConverter.FORMAT_12H, session.getStartsAt());
+        String endTime = DateConverter.formatDateWithDefault(DateConverter.FORMAT_12H, session.getEndsAt());
 
         text_start_time.setText(startTime);
         text_end_time.setText(endTime);
@@ -356,8 +356,8 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
                 return true;
 
             case R.id.action_share:
-                String startTime = DateUtils.formatDateWithDefault(DateUtils.FORMAT_DATE_COMPLETE, session.getStartsAt());
-                String endTime = DateUtils.formatDateWithDefault(DateUtils.FORMAT_DATE_COMPLETE, session.getEndsAt());
+                String startTime = DateConverter.formatDateWithDefault(DateConverter.FORMAT_DATE_COMPLETE, session.getStartsAt());
+                String endTime = DateConverter.formatDateWithDefault(DateConverter.FORMAT_DATE_COMPLETE, session.getEndsAt());
                 String shareText = String.format("Session Track: %s \n" +
                                 "Title: %s \n" +
                                 "Start Time: %s \n" +
@@ -379,8 +379,8 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
                 intent.setType("vnd.android.cursor.item/event");
                 intent.putExtra(CalendarContract.Events.TITLE, title);
                 intent.putExtra(CalendarContract.Events.DESCRIPTION, session.getShortAbstract());
-                intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, DateUtils.formatDateWithDefault(DateUtils.FORMAT_24H, session.getStartsAt()));
-                intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, DateUtils.formatDateWithDefault(DateUtils.FORMAT_24H, session.getEndsAt()));
+                intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, DateConverter.formatDateWithDefault(DateConverter.FORMAT_24H, session.getStartsAt()));
+                intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, DateConverter.formatDateWithDefault(DateConverter.FORMAT_24H, session.getEndsAt()));
                 startActivity(intent);
 
             default:

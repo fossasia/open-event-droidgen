@@ -19,7 +19,7 @@ import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.utils.ConstantStrings;
-import org.fossasia.openevent.utils.DateUtils;
+import org.fossasia.openevent.utils.DateConverter;
 import org.fossasia.openevent.utils.NotificationUtil;
 import org.fossasia.openevent.utils.Utils;
 import org.fossasia.openevent.utils.WidgetUpdater;
@@ -67,8 +67,8 @@ public class DayScheduleViewHolder extends RecyclerView.ViewHolder {
 
     public void bindSession(RealmDataRepository realmRepo){
 
-        String startTimeText = DateUtils.formatDateWithDefault(DateUtils.FORMAT_24H, session.getStartsAt());
-        String endTimeText = DateUtils.formatDateWithDefault(DateUtils.FORMAT_24H, session.getEndsAt());
+        String startTimeText = DateConverter.formatDateWithDefault(DateConverter.FORMAT_24H, session.getStartsAt());
+        String endTimeText = DateConverter.formatDateWithDefault(DateConverter.FORMAT_24H, session.getEndsAt());
         String title = Utils.checkStringEmpty(session.getTitle());
 
         startTime.setText(startTimeText);

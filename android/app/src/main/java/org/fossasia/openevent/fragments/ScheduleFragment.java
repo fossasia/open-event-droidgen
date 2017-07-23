@@ -21,7 +21,7 @@ import org.fossasia.openevent.adapters.ScheduleViewPagerAdapter;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.utils.ConstantStrings;
-import org.fossasia.openevent.utils.DateUtils;
+import org.fossasia.openevent.utils.DateConverter;
 import org.fossasia.openevent.utils.SharedPreferencesUtil;
 
 import java.text.ParseException;
@@ -92,7 +92,7 @@ public class ScheduleFragment extends BaseFragment {
 
                         try {
                             adapter.addFragment(new DayScheduleFragment(),
-                                    DateUtils.formatDay(date), date);
+                                    DateConverter.formatDay(date), date);
                             adapter.notifyDataSetChanged();
                         } catch (ParseException pe) {
                             Timber.e(pe);

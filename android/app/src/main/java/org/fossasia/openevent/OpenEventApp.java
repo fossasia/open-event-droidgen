@@ -29,7 +29,7 @@ import org.fossasia.openevent.events.ShowNetworkDialogEvent;
 import org.fossasia.openevent.modules.MapModuleFactory;
 import org.fossasia.openevent.receivers.NetworkConnectivityChangeReceiver;
 import org.fossasia.openevent.utils.ConstantStrings;
-import org.fossasia.openevent.utils.DateUtils;
+import org.fossasia.openevent.utils.DateConverter;
 import org.fossasia.openevent.utils.SharedPreferencesUtil;
 import org.fossasia.openevent.utils.Utils;
 import org.json.JSONException;
@@ -97,7 +97,7 @@ public class OpenEventApp extends Application {
     }
 
     public void setUpTimeZone() {
-        DateUtils.setShowLocalTimeZone(SharedPreferencesUtil.getBoolean(getResources()
+        DateConverter.setShowLocalTimeZone(SharedPreferencesUtil.getBoolean(getResources()
                 .getString(R.string.timezone_mode_key), false));
     }
 

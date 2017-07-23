@@ -26,7 +26,7 @@ import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.utils.ConstantStrings;
-import org.fossasia.openevent.utils.DateUtils;
+import org.fossasia.openevent.utils.DateConverter;
 import org.fossasia.openevent.utils.NotificationUtil;
 import org.fossasia.openevent.utils.Utils;
 import org.fossasia.openevent.utils.WidgetUpdater;
@@ -179,11 +179,11 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
             Timber.d("This session has a null or incomplete track somehow : " + session.getTitle() + " " + track);
         }
 
-        String date = DateUtils.formatDateWithDefault(DateUtils.FORMAT_DATE_COMPLETE, session.getStartsAt());
+        String date = DateConverter.formatDateWithDefault(DateConverter.FORMAT_DATE_COMPLETE, session.getStartsAt());
         holder.sessionDate.setText(date);
         holder.sessionTime.setText(String.format("%s - %s",
-                DateUtils.formatDateWithDefault(DateUtils.FORMAT_12H, session.getStartsAt()),
-                DateUtils.formatDateWithDefault(DateUtils.FORMAT_12H, session.getEndsAt())));
+                DateConverter.formatDateWithDefault(DateConverter.FORMAT_12H, session.getStartsAt()),
+                DateConverter.formatDateWithDefault(DateConverter.FORMAT_12H, session.getEndsAt())));
         if(session.getMicrolocation() != null) {
             String locationName = Utils.checkStringEmpty(session.getMicrolocation().getName());
             holder.sessionLocation.setText(locationName);

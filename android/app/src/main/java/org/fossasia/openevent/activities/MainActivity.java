@@ -33,7 +33,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.squareup.otto.Subscribe;
 
@@ -79,7 +78,7 @@ import org.fossasia.openevent.fragments.SponsorsFragment;
 import org.fossasia.openevent.fragments.TracksFragment;
 import org.fossasia.openevent.utils.CommonTaskLoop;
 import org.fossasia.openevent.utils.ConstantStrings;
-import org.fossasia.openevent.utils.DateUtils;
+import org.fossasia.openevent.utils.DateConverter;
 import org.fossasia.openevent.utils.DownloadCompleteHandler;
 import org.fossasia.openevent.utils.NetworkUtils;
 import org.fossasia.openevent.utils.SharedPreferencesUtil;
@@ -315,7 +314,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
         String endTime = event.getEndsAt();
 
         Observable.fromCallable(() ->
-                DateUtils.getDaysInBetween(startTime, endTime)
+                DateConverter.getDaysInBetween(startTime, endTime)
         ).subscribe(eventDates -> realmRepo.saveEventDates(eventDates).subscribe(), throwable -> {
             Timber.e(throwable);
             Timber.e("Error start parsing start date: %s and end date: %s in ISO format",

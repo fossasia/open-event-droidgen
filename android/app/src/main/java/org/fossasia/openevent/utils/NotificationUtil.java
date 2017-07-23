@@ -29,7 +29,7 @@ public class NotificationUtil {
     public static Completable createNotification(Session session, Context context) {
         return Completable.fromAction(() -> {
             Calendar calendar = Calendar.getInstance();
-            calendar.setTime(DateUtils.getDate(session.getStartsAt()));
+            calendar.setTime(DateConverter.getDate(session.getStartsAt()));
 
             Integer pref_result = Integer.parseInt(SharedPreferencesUtil.getString("notification", "10 mins").substring(0, 2).trim());
             if (pref_result.equals(1)) {

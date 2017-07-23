@@ -29,7 +29,7 @@ import org.fossasia.openevent.data.extras.SocialLink;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.events.BookmarkChangedEvent;
 import org.fossasia.openevent.events.EventLoadedEvent;
-import org.fossasia.openevent.utils.DateUtils;
+import org.fossasia.openevent.utils.DateConverter;
 import org.fossasia.openevent.utils.Views;
 
 import java.util.ArrayList;
@@ -136,8 +136,8 @@ public class AboutFragment extends BaseFragment {
             return;
 
         String date = String.format("%s\n%s",
-                DateUtils.formatDateWithDefault(DateUtils.FORMAT_DATE_COMPLETE, event.getStartsAt()),
-                DateUtils.formatDateWithDefault(DateUtils.FORMAT_DATE_COMPLETE, event.getEndsAt()));
+                DateConverter.formatDateWithDefault(DateConverter.FORMAT_DATE_COMPLETE, event.getStartsAt()),
+                DateConverter.formatDateWithDefault(DateConverter.FORMAT_DATE_COMPLETE, event.getEndsAt()));
 
         welcomeMessage.setText(String.format(getResources().getString(R.string.welcome_message), event.getName()));
         Views.setHtml(organiserDescription, event.getOrganizerDescription(), true);
