@@ -91,6 +91,8 @@
     <string name="empty_list">No Bookmarks Available</string>
     <string name="bullet">"•"</string>
     <string name="bookmarks">Bookmarks</string>
+    
+    <string name="no_upcoming_ongoing">"No upcoming/ongoing sessions in this track</string>
 
     <!--Speaker-->
     <string name="subject">Speaker profile</string>

@@ -16,6 +16,7 @@
     <!--card view specifics -->
     <dimen name="card_elevation">2dp</dimen>
     <dimen name="card_corner_radius">0dp</dimen>
+    <dimen name="card_width">200dp</dimen>
 
     <!-- list divider specifics -->
     <dimen name="list_divider_height">0.8dp</dimen>
@@ -64,6 +65,7 @@
     <dimen name="layout_margin_extra_large">32dp</dimen>
     <dimen name="top_progressbar_margin">-10dp</dimen>
     <dimen name="bottom_progressbar_margin">-6dp</dimen>
+    <dimen name="session_status_margin">60dp</dimen>
 
     <!-- padding specifics -->
     <dimen name="padding_extra_small">2dp</dimen>

@@ -27,11 +27,14 @@ import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.DateConverter;
+import org.fossasia.openevent.utils.DateService;
 import org.fossasia.openevent.utils.NotificationUtil;
 import org.fossasia.openevent.utils.Utils;
 import org.fossasia.openevent.utils.WidgetUpdater;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -68,7 +71,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
             Realm realm = Realm.getDefaultInstance();
 
             List<Session> filteredSessions = realm.copyFromRealm(RealmDataRepository.getInstance(realm)
-            .getSessionsFiltered(trackId, constraint.toString()));
+                    .getSessionsFiltered(trackId, constraint.toString()));
 
             FilterResults filterResults = new FilterResults();
             filterResults.values = filteredSessions;
@@ -81,7 +84,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            if(results == null || results.values == null) {
+            if (results == null || results.values == null) {
                 Timber.e("No results published. There is an error in query. Check " + getClass().getName() + " filter!");
 
                 return;
@@ -119,7 +122,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
     public void onBindViewHolder(final SessionViewHolder holder, final int position) {
         Session session = getItem(position);
         //removing draft sessions
-        if((!Utils.isEmpty(session.getState())) && session.getState().equals("draft")) {
+        if ((!Utils.isEmpty(session.getState())) && session.getState().equals("draft")) {
             getDataList().remove(position);
             notifyItemRemoved(position);
         }
@@ -129,11 +132,27 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
 
         holder.sessionTitle.setText(sessionTitle);
 
-        if(Utils.isEmpty(sessionSubTitle)) {
+        if (Utils.isEmpty(sessionSubTitle)) {
             holder.sessionSubtitle.setVisibility(View.GONE);
         } else {
             holder.sessionSubtitle.setVisibility(View.VISIBLE);
             holder.sessionSubtitle.setText(sessionSubTitle);
+        }
+        holder.sessionStatus.setVisibility(View.GONE);
+
+        try {
+            Date start = DateConverter.getDate(session.getStartsAt());
+            Date end = DateConverter.getDate((session.getEndsAt()));
+            Date current = new Date();
+            if (start.after(current)) {
+                holder.sessionStatus.setVisibility(View.VISIBLE);
+                holder.sessionStatus.setText("UPCOMING");
+            } else if (DateService.isUpcomingSession(start, end, current)) {
+                holder.sessionStatus.setVisibility(View.VISIBLE);
+                holder.sessionStatus.setText("ONGOING");
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
 
         Track track = session.getTrack();
@@ -141,7 +160,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
         if (!RealmDataRepository.isNull(track)) {
             int storedColor = Color.parseColor(track.getColor());
 
-            if(type != trackWiseSessionList) {
+            if (type != trackWiseSessionList) {
                 color = storedColor;
             }
 
@@ -193,7 +212,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
                 .map(speakers -> {
                     ArrayList<String> speakerName = new ArrayList<>();
 
-                    for(Speaker speaker: speakers){
+                    for (Speaker speaker : speakers) {
                         String name = Utils.checkStringEmpty(speaker.getName());
                         speakerName.add(name);
                     }
@@ -222,7 +241,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
             default:
         }
 
-        if(session.getIsBookmarked()) {
+        if (session.getIsBookmarked()) {
             holder.sessionBookmarkIcon.setImageResource(R.drawable.ic_bookmark_white_24dp);
         } else {
             holder.sessionBookmarkIcon.setImageResource(R.drawable.ic_bookmark_border_white_24dp);
@@ -232,7 +251,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
         final int sessionId = session.getId();
 
         holder.sessionBookmarkIcon.setOnClickListener(v -> {
-            if(session.getIsBookmarked()) {
+            if (session.getIsBookmarked()) {
 
                 realmRepo.setBookmark(sessionId, false).subscribe();
                 holder.sessionBookmarkIcon.setImageResource(R.drawable.ic_bookmark_border_white_24dp);
@@ -319,6 +338,9 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
 
         @BindView(R.id.titleLinearLayout)
         LinearLayout sessionHeader;
+
+        @BindView(R.id.session_status)
+        TextView sessionStatus;
 
         SessionViewHolder(View itemView) {
             super(itemView);

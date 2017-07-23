@@ -20,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.otto.Subscribe;
 
@@ -31,9 +32,13 @@ import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.events.BookmarkChangedEvent;
 import org.fossasia.openevent.utils.ConstantStrings;
+import org.fossasia.openevent.utils.DateService;
 import org.fossasia.openevent.utils.Views;
+import org.fossasia.openevent.utils.DateUtils;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -69,9 +74,14 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
 
     private ActionBar actionBar;
 
-    @BindView(R.id.toolbar) Toolbar toolbar;
-    @BindView(R.id.recyclerView) RecyclerView sessionsRecyclerView;
-    @BindView(R.id.txt_no_sessions) TextView noSessionsView;
+    private int ongoingPosition, upcomingPosition, flag;
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.recyclerView)
+    RecyclerView sessionsRecyclerView;
+    @BindView(R.id.txt_no_sessions)
+    TextView noSessionsView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +92,7 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
         String track = getIntent().getStringExtra(ConstantStrings.TRACK);
 
         actionBar = getSupportActionBar();
-        if(actionBar != null) {
+        if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             if (!TextUtils.isEmpty(track))
                 actionBar.setTitle(track);
@@ -100,7 +110,7 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
         gridLayoutManager = new GridLayoutManager(this, spanCount);
         sessionsRecyclerView.setLayoutManager(gridLayoutManager);
         sessionsListAdapter = new SessionsListAdapter(this, mSessions, trackWiseSessionList);
-        if(searchText!=null){
+        if (searchText != null) {
             sessionsListAdapter.getFilter().filter(searchText);
         }
         sessionsRecyclerView.setAdapter(sessionsListAdapter);
@@ -134,6 +144,29 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
 
             mSessions.clear();
             mSessions.addAll(track.getSessions().sort("startsAt"));
+
+            //finding upcoming and ongoing sessions
+            int countUpcoming = 0;
+            int countOngoing = 0;
+            for (Session trackSession : mSessions) {
+                flag = 0;
+                try {
+                    Date start = DateUtils.getDate(trackSession.getStartsAt());
+                    Date end = DateUtils.getDate((trackSession.getEndsAt()));
+                    Date current = new Date();
+                    if (DateService.isUpcomingSession(start, end, current)) {
+                        ongoingPosition = countUpcoming;
+                        break;
+                    } else if (start.after(current)) {
+                        upcomingPosition = countOngoing;
+                        break;
+                    } else flag += 1;
+                    countUpcoming += 1;
+                    countOngoing += 1;
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
             sessionsListAdapter.notifyDataSetChanged();
 
             handleVisibility();
@@ -189,7 +222,7 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
     public void onStop() {
         super.onStop();
         OpenEventApp.getEventBus().unregister(this);
-        if(track != null) track.removeAllChangeListeners();
+        if (track != null) track.removeAllChangeListeners();
     }
 
     @Override
@@ -222,6 +255,14 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
         switch (item.getItemId()) {
             case R.id.action_search_sessions:
                 return true;
+            case R.id.upcoming_sessions:
+                if (ongoingPosition != 0)
+                    gridLayoutManager.scrollToPositionWithOffset(ongoingPosition, 0);
+                else if (upcomingPosition != 0)
+                    gridLayoutManager.scrollToPositionWithOffset(upcomingPosition, 0);
+                else if (flag > 0) {
+                    Toast.makeText(this, getString(R.string.no_upcoming_ongoing), Toast.LENGTH_SHORT).show();
+                }
             default:
                 //Do nothing
         }
@@ -232,9 +273,11 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         this.menu = menu;
-        getMenuInflater().inflate(R.menu.menu_tracks, menu);
+        getMenuInflater().inflate(R.menu.menu_tracksessions, menu);
         searchView = (SearchView) menu.findItem(R.id.action_search_tracks).getActionView();
-        DrawableCompat.setTint(menu.findItem(R.id.action_search_tracks).getIcon(), fontColor);
+        DrawableCompat.setTint(menu.findItem(R.id.action_search_tracks).getIcon(), Color.parseColor(track.getFontColor()));
+        DrawableCompat.setTint(menu.findItem(R.id.upcoming_sessions).getIcon(), Color.parseColor(track.getFontColor()));
+
         searchView.setOnQueryTextListener(this);
         if (searchText != null) {
             searchView.setQuery(searchText, false);

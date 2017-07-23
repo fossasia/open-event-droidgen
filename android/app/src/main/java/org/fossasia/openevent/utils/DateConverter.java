@@ -39,7 +39,7 @@ public class DateConverter {
 
     // Formatters to format dates
     private static SimpleDateFormat TIME_12H_FORMATTER;
-    private static SimpleDateFormat TIME_24H_FORMATTER ;
+    private static SimpleDateFormat TIME_24H_FORMATTER;
     private static SimpleDateFormat DATE_COMPLETE_FORMATTER;
     private static SimpleDateFormat DATE_SHORT_FORMATTER;
 
