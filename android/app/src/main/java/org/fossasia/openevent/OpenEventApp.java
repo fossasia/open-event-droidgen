@@ -179,14 +179,17 @@ public class OpenEventApp extends Application {
         try {
             JSONObject jsonObject = new JSONObject(config_json);
             String email = jsonObject.has(EMAIL) ? jsonObject.getString(EMAIL) : "";
-            String app_name = jsonObject.has(APP_NAME) ? jsonObject.getString(APP_NAME) : "";
-            String api_link = jsonObject.has(API_LINK) ? jsonObject.getString(API_LINK) : "";
+            String appName = jsonObject.has(APP_NAME) ? jsonObject.getString(APP_NAME) : "";
+            String apiLink = jsonObject.has(API_LINK) ? jsonObject.getString(API_LINK) : "";
 
-            Urls.setBaseUrl(api_link);
+            Urls.setBaseUrl(apiLink);
 
             SharedPreferencesUtil.putString(ConstantStrings.EMAIL, email);
-            SharedPreferencesUtil.putString(ConstantStrings.APP_NAME, app_name);
-            SharedPreferencesUtil.putString(ConstantStrings.BASE_API_URL, api_link);
+            SharedPreferencesUtil.putString(ConstantStrings.APP_NAME, appName);
+            SharedPreferencesUtil.putString(ConstantStrings.BASE_API_URL, apiLink);
+
+            if (extractEventIdFromApiLink(apiLink) != 0)
+                SharedPreferencesUtil.putInt(ConstantStrings.EVENT_ID, extractEventIdFromApiLink(apiLink));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -217,6 +220,13 @@ public class OpenEventApp extends Application {
         if (!Utils.isBaseUrlEmpty()) {
             registerReceiver(new NetworkConnectivityChangeReceiver(), new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
         }
+    }
+
+    private int extractEventIdFromApiLink(String apiLink){
+        if(apiLink == null)
+            return 0;
+
+        return Integer.parseInt(apiLink.split("/v1/events/")[1].replace("/",""));
     }
 
     public void attachMainActivity(MainActivity activity) {

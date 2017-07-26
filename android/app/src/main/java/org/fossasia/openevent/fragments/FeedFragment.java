@@ -67,6 +67,12 @@ public class FeedFragment extends BaseFragment {
     }
 
     private void downloadFeed() {
+        if (SharedPreferencesUtil.getString(ConstantStrings.FACEBOOK_PAGE_ID, null) == null) {
+            if (downloadProgressDialog.isShowing())
+                showProgressBar(false);
+            return;
+        }
+
         APIClient.getFacebookGraphAPI()
                 .getPosts(SharedPreferencesUtil.getString(ConstantStrings.FACEBOOK_PAGE_ID, null),
                         getContext().getResources().getString(R.string.fields),
@@ -113,7 +119,7 @@ public class FeedFragment extends BaseFragment {
             @Override
             public void activeConnection() {
                 //Internet is working
-                if(SharedPreferencesUtil.getString(ConstantStrings.FACEBOOK_PAGE_ID, null) == null)
+                if (SharedPreferencesUtil.getString(ConstantStrings.FACEBOOK_PAGE_ID, null) == null)
                     APIClient.getFacebookGraphAPI().getPageId(SharedPreferencesUtil.getString(ConstantStrings.FACEBOOK_PAGE_NAME, null),
                             getResources().getString(R.string.facebook_access_token))
                             .subscribeOn(Schedulers.io())
@@ -122,7 +128,6 @@ public class FeedFragment extends BaseFragment {
                                 String id = facebookPageId.getId();
                                 SharedPreferencesUtil.putString(ConstantStrings.FACEBOOK_PAGE_ID, id);
                             });
-
                 downloadFeed();
             }
 

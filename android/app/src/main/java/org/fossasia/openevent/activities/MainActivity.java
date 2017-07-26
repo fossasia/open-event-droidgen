@@ -369,12 +369,16 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
         if(SharedPreferencesUtil.getString(ConstantStrings.FACEBOOK_PAGE_NAME, null) == null) {
             RealmList<SocialLink> socialLinks = event.getSocialLinks();
             RealmResults<SocialLink> facebookPage = socialLinks.where().equalTo("name", "Facebook").findAll();
+            if (facebookPage.size() == 0)
+                return;
+
             SocialLink facebookLink = facebookPage.get(0);
-            String pageName = facebookLink.getLink().substring(20);
+            String pageName = facebookLink.getLink().split("facebook.com/")[1];
             SharedPreferencesUtil.putString(ConstantStrings.FACEBOOK_PAGE_NAME, pageName);
         }
 
-        if(SharedPreferencesUtil.getString(ConstantStrings.FACEBOOK_PAGE_ID, null) == null)
+        if(SharedPreferencesUtil.getString(ConstantStrings.FACEBOOK_PAGE_ID, null) == null &&
+                SharedPreferencesUtil.getString(ConstantStrings.FACEBOOK_PAGE_NAME, null) != null) {
             APIClient.getFacebookGraphAPI().getPageId(SharedPreferencesUtil.getString(ConstantStrings.FACEBOOK_PAGE_NAME, null),
                     getResources().getString(R.string.facebook_access_token))
                     .subscribeOn(Schedulers.io())
@@ -383,6 +387,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
                         String id = facebookPageId.getId();
                         SharedPreferencesUtil.putString(ConstantStrings.FACEBOOK_PAGE_ID, id);
                     });
+        }
     }
 
     private void setupConnection() {
@@ -591,7 +596,10 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
     }
 
     private void startDownload() {
-        DataDownloadManager.getInstance().downloadEvents();
+        int eventId = SharedPreferencesUtil.getInt(ConstantStrings.EVENT_ID, 0);
+        if (eventId == 0)
+            return;
+        DataDownloadManager.getInstance().downloadEvent(eventId);
         startDownloadListener();
         Timber.d("Download has started");
     }

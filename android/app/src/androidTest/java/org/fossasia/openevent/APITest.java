@@ -76,7 +76,7 @@ public class APITest extends AndroidTestCase {
 
     public void testEventAPIResponse() throws Exception {
         final CountDownLatch latch = new CountDownLatch(1);
-        APIClient.getOpenEventAPI().getEvents().enqueue(new Callback<Event>() {
+        APIClient.getOpenEventAPI().getEvent("59").enqueue(new Callback<Event>() {
             @Override
             public void onResponse(Call<Event> call, Response<Event> response) {
                 if (response.isSuccessful()) {
@@ -99,7 +99,7 @@ public class APITest extends AndroidTestCase {
 
     public void testSessionAPIResponse() throws Exception {
         final CountDownLatch latch = new CountDownLatch(1);
-        APIClient.getOpenEventAPI().getSessions("start_time.asc").enqueue(new Callback<List<Session>>() {
+        APIClient.getOpenEventAPI().getSessions().enqueue(new Callback<List<Session>>() {
             @Override
             public void onResponse(Call<List<Session>> call, Response<List<Session>> response) {
                 if (response.isSuccessful()) {
