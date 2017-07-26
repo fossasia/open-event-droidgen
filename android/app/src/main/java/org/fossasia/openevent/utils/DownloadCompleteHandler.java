@@ -27,7 +27,7 @@ public class DownloadCompleteHandler {
     private Context context;
     private ProgressDialog downloadProgressDialog;
     private int counter;
-    private int eventsDone;
+    private int eventsDone = 0;
 
     private String shownMessage = "";
 

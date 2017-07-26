@@ -1,11 +1,19 @@
 package org.fossasia.openevent.api;
 
 import com.facebook.stetho.okhttp3.StethoInterceptor;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.jasminb.jsonapi.retrofit.JSONAPIConverterFactory;
 
 import org.fossasia.openevent.BuildConfig;
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.api.network.FacebookGraphAPI;
 import org.fossasia.openevent.api.network.OpenEventAPI;
+import org.fossasia.openevent.data.Event;
+import org.fossasia.openevent.data.Microlocation;
+import org.fossasia.openevent.data.Session;
+import org.fossasia.openevent.data.Speaker;
+import org.fossasia.openevent.data.Sponsor;
+import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.utils.NetworkUtils;
 
 import java.io.File;
@@ -63,10 +71,13 @@ public final class APIClient {
                     .setLevel(HttpLoggingInterceptor.Level.BASIC))
                     .build();
 
-            retrofitBuilder.client(okHttpClient);
+            ObjectMapper objectMapper = OpenEventApp.getObjectMapper();
+            Class[] classes = {Event.class, Track.class, Speaker.class, Sponsor.class, Session.class, Microlocation.class};
 
-            openEventAPI = retrofitBuilder
+            openEventAPI = new Retrofit.Builder()
+                    .client(okHttpClient)
                     .baseUrl(Urls.BASE_URL)
+                    .addConverterFactory(new JSONAPIConverterFactory(objectMapper, classes))
                     .build()
                     .create(OpenEventAPI.class);
         }

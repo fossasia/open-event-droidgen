@@ -27,8 +27,8 @@ public final class DataDownloadManager {
         return instance;
     }
 
-    public void downloadEvents() {
-        APIClient.getOpenEventAPI().getEvents().enqueue(new EventListResponseProcessor());
+    public void downloadEvent(int eventId) {
+        APIClient.getOpenEventAPI().getEvent(eventId).enqueue(new EventListResponseProcessor());
     }
 
     public void downloadSpeakers() {
@@ -40,7 +40,7 @@ public final class DataDownloadManager {
     }
 
     public void downloadSession() {
-        APIClient.getOpenEventAPI().getSessions("start_time.asc").enqueue(new SessionListResponseProcessor());
+        APIClient.getOpenEventAPI().getSessions().enqueue(new SessionListResponseProcessor());
     }
 
     public void downloadTracks() {
