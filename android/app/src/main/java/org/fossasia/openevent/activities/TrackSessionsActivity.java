@@ -32,9 +32,9 @@ import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.events.BookmarkChangedEvent;
 import org.fossasia.openevent.utils.ConstantStrings;
+import org.fossasia.openevent.utils.DateConverter;
 import org.fossasia.openevent.utils.DateService;
 import org.fossasia.openevent.utils.Views;
-import org.fossasia.openevent.utils.DateUtils;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -151,8 +151,8 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
             for (Session trackSession : mSessions) {
                 flag = 0;
                 try {
-                    Date start = DateUtils.getDate(trackSession.getStartsAt());
-                    Date end = DateUtils.getDate((trackSession.getEndsAt()));
+                    Date start = DateConverter.getDate(trackSession.getStartsAt());
+                    Date end = DateConverter.getDate((trackSession.getEndsAt()));
                     Date current = new Date();
                     if (DateService.isUpcomingSession(start, end, current)) {
                         ongoingPosition = countUpcoming;
