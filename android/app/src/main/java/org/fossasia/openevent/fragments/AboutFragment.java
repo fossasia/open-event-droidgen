@@ -21,10 +21,11 @@ import com.squareup.otto.Subscribe;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
-import org.fossasia.openevent.adapters.DayScheduleAdapter;
+import org.fossasia.openevent.adapters.GlobalSearchAdapter;
 import org.fossasia.openevent.adapters.SocialLinksListAdapter;
 import org.fossasia.openevent.data.Event;
 import org.fossasia.openevent.data.Session;
+import org.fossasia.openevent.data.extras.EventDates;
 import org.fossasia.openevent.data.extras.SocialLink;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.events.BookmarkChangedEvent;
@@ -32,6 +33,7 @@ import org.fossasia.openevent.events.EventLoadedEvent;
 import org.fossasia.openevent.utils.DateConverter;
 import org.fossasia.openevent.utils.Views;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,11 +76,12 @@ public class AboutFragment extends BaseFragment {
 
     private String searchText = "";
     private SearchView searchView;
+    private ArrayList<String> dateList = new ArrayList<>();
 
-    private DayScheduleAdapter bookMarksListAdapter;
+    private GlobalSearchAdapter bookMarksListAdapter;
     private SocialLinksListAdapter socialLinksListAdapter;
     private RealmResults<Session> bookmarksResult;
-    private List<Session> mSessions = new ArrayList<>();
+    private List<Object> mSessions = new ArrayList<>();
     private List<SocialLink> mSocialLinks = new ArrayList<>();
 
     private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
@@ -116,9 +119,9 @@ public class AboutFragment extends BaseFragment {
         loadEvent(eventLoadedEvent.getEvent());
     }
 
-    private void setUpBookmarksRecyclerView(){
+    private void setUpBookmarksRecyclerView() {
         bookmarksRecyclerView.setVisibility(View.VISIBLE);
-        bookMarksListAdapter = new DayScheduleAdapter(mSessions,getContext());
+        bookMarksListAdapter = new GlobalSearchAdapter(mSessions, getContext());
         bookmarksRecyclerView.setAdapter(bookMarksListAdapter);
         bookmarksRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         bookmarksRecyclerView.setNestedScrollingEnabled(false);
@@ -183,7 +186,7 @@ public class AboutFragment extends BaseFragment {
 
         inflater.inflate(R.menu.menu_home, menu);
         // Get the SearchView and set the searchable configuration
-        SearchManager searchManager = (SearchManager)getContext(). getSystemService(Context.SEARCH_SERVICE);
+        SearchManager searchManager = (SearchManager) getContext().getSystemService(Context.SEARCH_SERVICE);
         searchView = (SearchView) menu.findItem(R.id.action_search_home).getActionView();
         // Assumes current activity is the searchable activity
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
@@ -212,14 +215,42 @@ public class AboutFragment extends BaseFragment {
         }
     }
 
+    private void loadEventDates() {
+        dateList.clear();
+        RealmResults<EventDates> eventDates = realmRepo.getEventDatesSync();
+        for (EventDates eventDate : eventDates) {
+            dateList.add(eventDate.getDate());
+        }
+    }
+
     private void loadData() {
+        loadEventDates();
+
         bookmarksResult = realmRepo.getBookMarkedSessions();
         bookmarksResult.removeAllChangeListeners();
-        bookmarksResult.addChangeListener((bookmarked, orderedCollectionChangeSet) -> {
+        bookmarksResult.addChangeListener((bookmarked, orderedCollectionInnerChangeSet) -> {
+
             mSessions.clear();
-            mSessions.addAll(bookmarked);
-            bookMarksListAdapter.notifyDataSetChanged();
-            handleVisibility();
+            for (String eventDate : dateList) {
+                boolean headerCheck = false;
+                for(Session bookmarkedSession : bookmarked){
+                    if(bookmarkedSession.getStartDate().equals(eventDate)){
+                        if(!headerCheck){
+                            String headerDate = "Invalid";
+                            try {
+                                headerDate = DateUtils.formatDay(eventDate);
+                            } catch (ParseException e){
+                                e.printStackTrace();
+                            }
+                            mSessions.add(headerDate);
+                            headerCheck = true;
+                        }
+                        mSessions.add(bookmarkedSession);
+                    }
+                }
+                bookMarksListAdapter.notifyDataSetChanged();
+                handleVisibility();
+            }
         });
     }
 

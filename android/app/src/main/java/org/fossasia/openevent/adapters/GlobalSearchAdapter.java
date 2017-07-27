@@ -7,13 +7,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.fossasia.openevent.R;
+import org.fossasia.openevent.activities.SearchActivity;
+import org.fossasia.openevent.adapters.viewholders.DayScheduleViewHolder;
 import org.fossasia.openevent.adapters.viewholders.DividerViewHolder;
 import org.fossasia.openevent.data.Microlocation;
+import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.adapters.viewholders.LocationViewHolder;
 import org.fossasia.openevent.adapters.viewholders.SpeakerViewHolder;
 import org.fossasia.openevent.adapters.viewholders.TrackViewHolder;
+import org.fossasia.openevent.dbutils.RealmDataRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,12 +27,14 @@ public class GlobalSearchAdapter extends BaseRVAdapter<Object, RecyclerView.View
     private Context context;
 
     private List<Object> filteredResultList = new ArrayList<>();
+    private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
 
     //ViewType Constants
     private final int TRACK = 0;
     private final int SPEAKER = 2;
     private final int LOCATION = 3;
     private final int DIVIDER = 4;
+    private final int BOOKMARK = 5;
 
     public GlobalSearchAdapter(List<Object> dataList, Context context) {
         super(dataList);
@@ -56,6 +62,8 @@ public class GlobalSearchAdapter extends BaseRVAdapter<Object, RecyclerView.View
             return SPEAKER;
         } else if (filteredResultList.get(position) instanceof Microlocation) {
             return LOCATION;
+        } else if(filteredResultList.get(position) instanceof Session){
+            return BOOKMARK;
         } else {
             return 1;
         }
@@ -90,8 +98,17 @@ public class GlobalSearchAdapter extends BaseRVAdapter<Object, RecyclerView.View
                 resultHolder = new LocationViewHolder(location, context);
                 break;
             case DIVIDER:
-                View header = inflater.inflate(R.layout.search_result_type_header_format, parent, false);
+                View header;
+                if(context instanceof SearchActivity) {
+                    header = inflater.inflate(R.layout.search_result_type_header_format, parent, false);
+                } else {
+                    header = inflater.inflate(R.layout.recycler_view_header,parent,false);
+                }
                 resultHolder = new DividerViewHolder(header);
+                break;
+            case BOOKMARK:
+                View bookmark = inflater.inflate(R.layout.item_schedule, parent, false);
+                resultHolder = new DayScheduleViewHolder(bookmark,context);
                 break;
             default:
                 //If viewType doesn't match any of the above objects no view is created
@@ -122,6 +139,12 @@ public class GlobalSearchAdapter extends BaseRVAdapter<Object, RecyclerView.View
                 DividerViewHolder resultTypeViewHolder = (DividerViewHolder) holder;
                 String headerItem = (String) getItem(position);
                 resultTypeViewHolder.bindHeader(headerItem);
+                break;
+            case BOOKMARK:
+                DayScheduleViewHolder bookmarkTypeViewHolder = (DayScheduleViewHolder) holder;
+                Session bookmarkItem = (Session) getItem(position);
+                bookmarkTypeViewHolder.setSession(bookmarkItem);
+                bookmarkTypeViewHolder.bindSession(realmRepo);
                 break;
             default:
                 //If viewType is none of the above then nothing is done

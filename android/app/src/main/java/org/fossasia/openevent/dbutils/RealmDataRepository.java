@@ -496,6 +496,10 @@ public class RealmDataRepository {
         return realm.where(EventDates.class).findAllAsync();
     }
 
+    public RealmResults<EventDates> getEventDatesSync(){
+        return realm.where(EventDates.class).findAll();
+    }
+
     /**
      * Compacts the database to save space
      * Should be called when exiting application to ensure

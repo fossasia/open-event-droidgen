@@ -14,7 +14,7 @@ import butterknife.ButterKnife;
  */
 
 public class DividerViewHolder extends RecyclerView.ViewHolder {
-    @BindView(R.id.search_result_type_view)
+    @BindView(R.id.recyclerview_view_header)
     protected TextView resultTypeHeader;
 
     public DividerViewHolder(View itemView) {

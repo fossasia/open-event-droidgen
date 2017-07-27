@@ -10,7 +10,7 @@
     <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/search_result_type_view"
+            android:id="@+id/recyclerview_view_header"
             android:text="@string/result_type"
             android:background="@color/color_accent"
             android:textStyle="bold"

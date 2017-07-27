@@ -30,13 +30,7 @@
                 android:id="@+id/list_bookmarks"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:clipToPadding="false"
-                android:paddingLeft="@dimen/padding_medium"
-                android:paddingStart="@dimen/padding_medium"
-                android:paddingEnd="@dimen/padding_medium"
-                android:paddingRight="@dimen/padding_medium"
-                android:scrollbars="horizontal"
-                tools:listitem="@layout/tracksactvity_item" />
+                android:clipToPadding="false" />
 
             <include layout="@layout/content_about_event"/>
 
