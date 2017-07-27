@@ -17,8 +17,7 @@ public class SharedPreferencesUtil {
     //Add more methods if needed
 
     public static void putInt(String key, int value) {
-        editor.putInt(key, value);
-        editor.apply();
+        editor.putInt(key, value).apply();
     }
 
     public static int getInt(String key, int defaultValue) {
@@ -26,8 +25,7 @@ public class SharedPreferencesUtil {
     }
 
     public static void putLong(String key, long value) {
-        editor.putLong(key, value);
-        editor.apply();
+        editor.putLong(key, value).apply();
     }
 
     public static long getLong(String key, long defaultValue) {
@@ -35,8 +33,7 @@ public class SharedPreferencesUtil {
     }
 
     public static void putString(String key, String value) {
-        editor.putString(key, value);
-        editor.apply();
+        editor.putString(key, value).apply();
     }
 
     public static String getString(String key, String defaultValue) {
@@ -44,11 +41,14 @@ public class SharedPreferencesUtil {
     }
 
     public static void putBoolean(String key, boolean value) {
-        editor.putBoolean(key, value);
-        editor.apply();
+        editor.putBoolean(key, value).apply();
     }
 
     public static boolean getBoolean(String key, boolean defaultValue) {
         return sharedPreferences.getBoolean(key, defaultValue);
+    }
+
+    public static void remove(String key) {
+        editor.remove(key).apply();
     }
 }

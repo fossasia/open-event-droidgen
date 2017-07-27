@@ -1,5 +1,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <group android:id="@+id/menu_user_profile">
+        <item
+            android:id="@+id/nav_user_profile"
+            android:icon="@drawable/ic_account_circle_grey_24dp"
+            android:title="@string/menu_sign_up"
+            app:showAsAction="always" />
+    </group>
+
     <group
         android:id="@+id/menu_top"
         android:checkableBehavior="single">

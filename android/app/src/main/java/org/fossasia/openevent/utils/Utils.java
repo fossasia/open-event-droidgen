@@ -5,10 +5,14 @@ import android.net.Uri;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Patterns;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.api.Urls;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Utils {
 
@@ -28,6 +32,22 @@ public class Utils {
 
     public static boolean isBaseUrlEmpty(){
         return Urls.getBaseUrl().equals(Urls.EMPTY_LINK);
+    }
+
+    public static boolean isEmailValid(String email){
+        Pattern pattern = Patterns.EMAIL_ADDRESS;
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
+
+    //Check password with minimum requirement
+    public static boolean isPasswordValid(String password){
+        return password.length() >= 6;
+    }
+
+    public static boolean isUserLoggedIn() {
+        String token = SharedPreferencesUtil.getString(ConstantStrings.TOKEN, null);
+        return token != null && !JWTUtils.isExpired(token);
     }
 
     public static void registerIfUrlValid(SwipeRefreshLayout swipeRefreshLayout,
