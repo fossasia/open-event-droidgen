@@ -238,7 +238,7 @@ public class AboutFragment extends BaseFragment {
                         if(!headerCheck){
                             String headerDate = "Invalid";
                             try {
-                                headerDate = DateUtils.formatDay(eventDate);
+                                headerDate = DateConverter.formatDay(eventDate);
                             } catch (ParseException e){
                                 e.printStackTrace();
                             }

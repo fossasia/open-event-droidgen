@@ -76,7 +76,7 @@ public class APITest extends AndroidTestCase {
 
     public void testEventAPIResponse() throws Exception {
         final CountDownLatch latch = new CountDownLatch(1);
-        APIClient.getOpenEventAPI().getEvent("59").enqueue(new Callback<Event>() {
+        APIClient.getOpenEventAPI().getEvent(59).enqueue(new Callback<Event>() {
             @Override
             public void onResponse(Call<Event> call, Response<Event> response) {
                 if (response.isSuccessful()) {
