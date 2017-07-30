@@ -14,6 +14,8 @@ import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Sponsor;
 import org.fossasia.openevent.data.Track;
+import org.fossasia.openevent.data.auth.SignUp;
+import org.fossasia.openevent.data.auth.User;
 import org.fossasia.openevent.utils.NetworkUtils;
 
 import java.io.File;
@@ -72,12 +74,14 @@ public final class APIClient {
                     .build();
 
             ObjectMapper objectMapper = OpenEventApp.getObjectMapper();
-            Class[] classes = {Event.class, Track.class, Speaker.class, Sponsor.class, Session.class, Microlocation.class};
+            Class[] classes = {Event.class, Track.class, Speaker.class, Sponsor.class, Session.class, Microlocation.class, SignUp.class, User.class};
 
             openEventAPI = new Retrofit.Builder()
                     .client(okHttpClient)
-                    .baseUrl(Urls.BASE_URL)
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .addConverterFactory(new JSONAPIConverterFactory(objectMapper, classes))
+                    .addConverterFactory(JacksonConverterFactory.create(OpenEventApp.getObjectMapper()))
+                    .baseUrl(Urls.BASE_URL)
                     .build()
                     .create(OpenEventAPI.class);
         }

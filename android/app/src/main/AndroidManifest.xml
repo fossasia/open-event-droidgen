@@ -42,6 +42,21 @@
                 android:value=".activities.SearchActivity" />
         </activity>
         <activity
+            android:name=".activities.UserProfileActivity"
+            android:label="@string/title_activity_user_profile"
+            android:theme="@style/AppTheme.NoActionBar.Alternate"
+            android:configChanges="orientation|screenSize|keyboardHidden"/>
+        <activity
+            android:name=".activities.SignUpActivity"
+            android:label="@string/title_activity_sign_up"
+            android:theme="@style/AppTheme.NoActionBar.Alternate"
+            android:configChanges="orientation|screenSize|keyboardHidden"/>
+        <activity
+            android:name=".activities.LoginActivity"
+            android:label="@string/title_activity_login"
+            android:theme="@style/AppTheme.NoActionBar.Alternate"
+            android:configChanges="orientation|screenSize|keyboardHidden"/>
+        <activity
             android:name=".activities.SettingsActivity"
             android:label="@string/action_settings"
             android:exported="false"

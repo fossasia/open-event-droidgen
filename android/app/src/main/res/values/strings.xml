@@ -1,6 +1,33 @@
 <resources>
     <string name="app_name" translatable="false">OpenEvent</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="create_password">Create password</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="login">Login</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="logout">Logout</string>
+    <string name="logout_confirmation">Are you sure you want to log out?</string>
+    <string name="have_an_account_question">Have an account?</string>
+    <string name="new_here_question">New here?</string>
+    <string name="cancel">Cancel</string>
 
+    <string name="error_email_required">Email is required</string>
+    <string name="error_enter_valid_email">Enter a valid email</string>
+    <string name="error_password_required">Password is required</string>
+    <string name="error_password_length">Password must be atleast 6 characters</string>
+    <string name="error_confirm_password">Confirm password here</string>
+    <string name="error_password_not_matching">Password not matching</string>
+    <string name="error_in_signing_up">Error in signing up</string>
+    <string name="error_authentication_failed">Authentication failed</string>
+
+    <string name="logged_in_successfully">Successfully logged in</string>
+    <string name="logged_out_successfully">Successfully logged out</string>
+    <string name="signed_up_successfully">Successfully signed up</string>
+
+    <string name="title_activity_user_profile">My Profile</string>
+    <string name="title_activity_sign_up">Sign Up</string>
+    <string name="title_activity_login">Login</string>
     <string name="title_section_tracks">Tracks</string>
     <string name="title_section_speakerlist">Speakers</string>
     <string name="title_section_location">Locations</string>
@@ -19,7 +46,8 @@
     <string name="sessions">Sessions</string>
     <string name="session_types">Session Types</string>
 
-    <!-- Main menu_speakers -->
+    <!-- Drawer menu items -->
+    <string name="menu_sign_up">Sign Up</string>
     <string name="menu_home">Home</string>
     <string name="menu_feed">Live Feed</string>
     <string name="menu_tracks">Tracks</string>
@@ -46,7 +74,7 @@
     <string name="settings_mode_download">Download updates only on WiFi</string>
     <string name="summary_mode_download">If on app will not use Mobile Data to update Schedule</string>
     <string name="download_mode_key">internet_mode</string>
-    <string name= "notification_interval_title">Notification Interval Time</string>
+    <string name="notification_interval_title">Notification Interval Time</string>
 
     <string name="settings_mode_notification"> Notification Mode</string>
     <string name="default_mode_notification">10 mins</string>

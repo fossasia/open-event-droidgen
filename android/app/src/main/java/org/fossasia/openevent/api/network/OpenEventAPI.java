@@ -7,11 +7,18 @@ import org.fossasia.openevent.data.SessionType;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Sponsor;
 import org.fossasia.openevent.data.Track;
+import org.fossasia.openevent.data.auth.Login;
+import org.fossasia.openevent.data.auth.LoginResponse;
+import org.fossasia.openevent.data.auth.SignUp;
+import org.fossasia.openevent.data.auth.User;
 
 import java.util.List;
 
+import io.reactivex.Observable;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 /**
@@ -19,6 +26,12 @@ import retrofit2.http.Path;
  * Date: 25/5/15
  */
 public interface OpenEventAPI {
+
+    @POST("../../users")
+    Observable<User> signUp(@Body SignUp signUp);
+
+    @POST("../../../auth/session")
+    Observable<LoginResponse> login(@Body Login login);
 
     @GET("speakers?include=sessions&fields[session]=title")
     Call<List<Speaker>> getSpeakers();

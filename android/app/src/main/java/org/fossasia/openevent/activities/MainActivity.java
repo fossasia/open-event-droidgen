@@ -27,6 +27,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -117,6 +118,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
     private boolean atHome = true;
     private boolean backPressedOnce;
     private boolean mTwoPane;
+    private boolean isUserAuthEnabled = true;
     private boolean customTabsSupported;
     private int currentMenuItemId;
 
@@ -274,6 +276,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
     }
 
     private void setUpNavDrawer() {
+        setUpUserProfileMenu();
         headerView = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.headerDrawer);
         if (toolbar != null && !mTwoPane) {
             final ActionBar ab = getSupportActionBar();
@@ -297,6 +300,21 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
             smoothActionBarToggle.syncState();
         } else if (toolbar!=null && toolbar.getTitle().equals(getString(R.string.menu_about))) {
             navigationView.setCheckedItem(R.id.nav_home);
+        }
+    }
+
+    private void setUpUserProfileMenu() {
+        if (!isUserAuthEnabled) {
+            navigationView.getMenu().setGroupVisible(R.id.menu_user_profile, false);
+            return;
+        }
+
+        MenuItem userProfileMenuItem = navigationView.getMenu().findItem(R.id.nav_user_profile);
+        if (Utils.isUserLoggedIn()) {
+            String email = SharedPreferencesUtil.getString(ConstantStrings.USER_EMAIL, null);
+            if (email != null) {
+                userProfileMenuItem.setTitle(email);
+            }
         }
     }
 
@@ -502,6 +520,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
     }
 
     private void doMenuAction(int menuItemId) {
+        Intent intent;
         addShadowToAppBar(true);
         switch (menuItemId) {
             case R.id.nav_home:
@@ -536,8 +555,12 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
                 mapFragment.setArguments(bundle);
                 replaceFragment(mapFragment, R.string.menu_map);
                 break;
+            case R.id.nav_user_profile:
+                intent = new Intent(MainActivity.this, UserProfileActivity.class);
+                startActivity(intent);
+                break;
             case R.id.nav_settings:
-                final Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                intent = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivity(intent);
                 break;
             case R.id.nav_share:
