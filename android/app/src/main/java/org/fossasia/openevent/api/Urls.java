@@ -79,9 +79,10 @@ public abstract class Urls {
      * Checks if the app link is replaced by the generator, if not
      * returns null which is to be checked by caller to make decision
      * accordingly.
+     *
      * @return String
      */
     public static String getAppLink() {
-        return APP_LINK.equals("https://app_link_goes_here.com")?GOOGLE_PLAY_HOME:APP_LINK;
+        return APP_LINK.equals("https://app_link_goes_here.com") ? GOOGLE_PLAY_HOME : APP_LINK;
     }
 }

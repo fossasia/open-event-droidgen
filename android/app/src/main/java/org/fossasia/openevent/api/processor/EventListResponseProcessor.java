@@ -17,7 +17,7 @@ public class EventListResponseProcessor extends ResponseProcessor<Event> {
 
     private void save(Event event) {
         realmRepo.saveEvent(event).subscribe(() ->
-                OpenEventApp.postEventOnUIThread(new EventDownloadEvent(true)),
+                        OpenEventApp.postEventOnUIThread(new EventDownloadEvent(true)),
                 Timber::e);
     }
 

@@ -16,7 +16,7 @@ abstract class ResponseProcessor<T> implements Callback<T> {
 
     @Override
     public void onResponse(Call<T> call, Response<T> response) {
-        if(!response.isSuccessful()) {
+        if (!response.isSuccessful()) {
             OpenEventApp.postEventOnUIThread(getErrorResponseEvent(response.code()));
         } else {
             onSuccess(response.body());

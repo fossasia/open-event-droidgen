@@ -34,7 +34,7 @@ public class RealmDataRepository {
     private static HashMap<Realm, RealmDataRepository> repoCache = new HashMap<>();
 
     public static RealmDataRepository getDefaultInstance() {
-        if(realmDataRepository == null)
+        if (realmDataRepository == null)
             realmDataRepository = new RealmDataRepository(Realm.getDefaultInstance());
 
         return realmDataRepository;
@@ -46,11 +46,12 @@ public class RealmDataRepository {
      * must be taken to close the Realm instance after use or else app will crash
      * onDestroy of MainActivity. This is to ensure the database remains compact and
      * application remains free of silent bugs
+     *
      * @param realmInstance Separate Realm instance to be used
      * @return Realm Data Repository
      */
     public static RealmDataRepository getInstance(Realm realmInstance) {
-        if(!repoCache.containsKey(realmInstance)) {
+        if (!repoCache.containsKey(realmInstance)) {
             repoCache.put(realmInstance, new RealmDataRepository(realmInstance));
         }
         return repoCache.get(realmInstance);
@@ -75,6 +76,7 @@ public class RealmDataRepository {
     /**
      * Saves the Event object in database and returns Completable
      * object for tracking the state of operation
+     *
      * @param event Event which is to be stored
      * @return Completable object to be subscribed by caller
      */
@@ -89,6 +91,7 @@ public class RealmDataRepository {
      * Returns Future style Event which is null
      * To get the contents of Event, add an OnRealmChangeListener
      * which notifies about the object state asynchronously
+     *
      * @return Event Returns Event Future
      */
     public Event getEvent() {
@@ -97,6 +100,7 @@ public class RealmDataRepository {
 
     /**
      * Returns Event synchronously
+     *
      * @return Event
      */
     public Event getEventSync() {
@@ -107,6 +111,7 @@ public class RealmDataRepository {
 
     /**
      * Saves tracks while merging with sessions asynchronously
+     *
      * @param tracks Tracks to be saved
      */
     private void saveTracksInRealm(final List<Track> tracks) {
@@ -114,7 +119,7 @@ public class RealmDataRepository {
         Realm realm = Realm.getDefaultInstance();
 
         realm.executeTransaction(realm1 -> {
-            for(Track track : tracks) {
+            for (Track track : tracks) {
                 List<Session> sessions = track.getSessions();
 
                 if (sessions != null && !sessions.isEmpty()) {
@@ -146,6 +151,7 @@ public class RealmDataRepository {
     /**
      * Saves the list of Tracks in database and returns Completable
      * object for tracking the state of operation
+     *
      * @param tracks Tracks to be saved
      * @return Completable object to be subscribed by caller
      */
@@ -158,6 +164,7 @@ public class RealmDataRepository {
 
     /**
      * Returns filtered tracks according to query
+     *
      * @param query Query String WITHOUT wildcards
      * @return List of Tracks following constraints
      */
@@ -189,6 +196,7 @@ public class RealmDataRepository {
 
     /**
      * Saves sessions while merging with tracks and speakers asynchronously
+     *
      * @param sessions Sessions to be saved
      */
     private void saveSessionsInRealm(final List<Session> sessions) {
@@ -197,15 +205,15 @@ public class RealmDataRepository {
 
         realm.executeTransaction(transaction -> {
 
-            for(Session session : sessions) {
+            for (Session session : sessions) {
                 // If session was previously bookmarked, set this one too
                 Session storedSession = transaction.where(Session.class).equalTo("id", session.getId()).findFirst();
-                if(storedSession != null && storedSession.getIsBookmarked())
+                if (storedSession != null && storedSession.getIsBookmarked())
                     session.setIsBookmarked(true);
 
                 List<Speaker> speakers = session.getSpeakers();
 
-                if(speakers != null && !speakers.isEmpty()) {
+                if (speakers != null && !speakers.isEmpty()) {
 
                     RealmList<Speaker> newSpeakers = new RealmList<>();
 
@@ -234,17 +242,17 @@ public class RealmDataRepository {
                     } else {
                         // Set intermediate information for partial update
 
-                        if(TextUtils.isEmpty(track.getColor()))
+                        if (TextUtils.isEmpty(track.getColor()))
                             track.setColor("#bbbbbb");
 
-                        if(track.getName() == null)
+                        if (track.getName() == null)
                             track.setName("");
                         else
                             track.setName(track.getName());
                     }
                 }
 
-                if(session.getTitle().contains("Create Full"))
+                if (session.getTitle().contains("Create Full"))
                     Timber.d("Session " + session.toString());
 
                 transaction.insertOrUpdate(session);
@@ -263,8 +271,9 @@ public class RealmDataRepository {
 
     /**
      * Sets bookmark of a session asynchronously
+     *
      * @param sessionId Session ID whose bookmark is to be updated
-     * @param bookmark boolean value of bookmark to be set
+     * @param bookmark  boolean value of bookmark to be set
      * @return Completable denoting action completion
      */
     public Completable setBookmark(final int sessionId, final boolean bookmark) {
@@ -301,8 +310,9 @@ public class RealmDataRepository {
     /**
      * Returns sessions belonging to a specific track filtered by
      * a query string.
+     *
      * @param trackId ID of Track which Sessions should belong to
-     * @param query Query of search WITHOUT wildcards
+     * @param query   Query of search WITHOUT wildcards
      * @return List of Sessions following constraints
      */
     public RealmResults<Session> getSessionsFiltered(int trackId, String query) {
@@ -347,6 +357,7 @@ public class RealmDataRepository {
 
     /**
      * Saves speakers while merging with sessions asynchronously
+     *
      * @param speakers Speakers to be saved
      */
     private void saveSpeakersInRealm(final List<Speaker> speakers) {
@@ -355,10 +366,10 @@ public class RealmDataRepository {
         Realm realm = Realm.getDefaultInstance();
 
         realm.executeTransaction(transaction -> {
-            for(Speaker speaker : speakers) {
+            for (Speaker speaker : speakers) {
                 List<Session> sessions = speaker.getSessions();
 
-                if(sessions != null && !sessions.isEmpty()) {
+                if (sessions != null && !sessions.isEmpty()) {
                     RealmList<Session> newSessions = new RealmList<>();
 
                     for (Session session : sessions) {
@@ -479,6 +490,7 @@ public class RealmDataRepository {
     /**
      * Saves Event Dates Synchronously
      * TODO : Use threaded asynchronous transaction using separate Realm instance
+     *
      * @param eventDates List of dates of entire event span (inclusive)
      */
     private void saveEventDatesInRealm(List<EventDates> eventDates) {
@@ -496,7 +508,7 @@ public class RealmDataRepository {
         return realm.where(EventDates.class).findAllAsync();
     }
 
-    public RealmResults<EventDates> getEventDatesSync(){
+    public RealmResults<EventDates> getEventDatesSync() {
         return realm.where(EventDates.class).findAll();
     }
 
@@ -504,7 +516,7 @@ public class RealmDataRepository {
      * Compacts the database to save space
      * Should be called when exiting application to ensure
      * all Realm instances are ready to be closed.
-     *
+     * <p>
      * Closing the repoCache instances is the responsibility
      * of caller
      */

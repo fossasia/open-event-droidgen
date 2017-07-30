@@ -24,13 +24,13 @@ public class Utils {
 
     public static String checkStringEmpty(String string) {
         String finalString = "";
-        if(!isEmpty(string)) {
+        if (!isEmpty(string)) {
             finalString = string;
         }
         return finalString;
     }
 
-    public static boolean isBaseUrlEmpty(){
+    public static boolean isBaseUrlEmpty() {
         return Urls.getBaseUrl().equals(Urls.EMPTY_LINK);
     }
 
@@ -51,7 +51,7 @@ public class Utils {
     }
 
     public static void registerIfUrlValid(SwipeRefreshLayout swipeRefreshLayout,
-                                              Object object, SwipeRefreshLayout.OnRefreshListener onRefreshListener){
+                                          Object object, SwipeRefreshLayout.OnRefreshListener onRefreshListener) {
         if (isBaseUrlEmpty()) {
             swipeRefreshLayout.setEnabled(false);
         } else {
@@ -60,20 +60,20 @@ public class Utils {
         }
     }
 
-    public static void unregisterIfUrlValid(Object object){
+    public static void unregisterIfUrlValid(Object object) {
         if (!isBaseUrlEmpty()) {
             OpenEventApp.getEventBus().unregister(object);
         }
     }
 
     public static String parseImageUri(String uri) {
-        if(isEmpty(uri))
+        if (isEmpty(uri))
             return null;
 
-        if(uri.startsWith("http") || uri.startsWith("https"))
+        if (uri.startsWith("http") || uri.startsWith("https"))
             return uri;
 
-        if(uri.startsWith("/"))
+        if (uri.startsWith("/"))
             return "file:///android_asset" + uri;
 
         return null;
@@ -104,7 +104,7 @@ public class Utils {
     /**
      * @return Drawable id for given SocialLink name if found else returns 1
      */
-    public static int getSocialLinkDrawableId(String name){
+    public static int getSocialLinkDrawableId(String name) {
         int id = 1;
         switch (name) {
             case ConstantStrings.SOCIAL_LINK_GITHUB:

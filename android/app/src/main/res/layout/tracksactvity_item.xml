@@ -22,19 +22,19 @@
                 android:id="@+id/titleLinearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/layout_margin_medium"
                 android:background="@color/color_primary"
                 android:orientation="horizontal"
-                android:padding="@dimen/padding_medium"
-                android:layout_marginBottom="@dimen/layout_margin_medium">
+                android:padding="@dimen/padding_medium">
 
                 <TextView
                     android:id="@+id/session_title"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:padding="@dimen/padding_medium"
                     android:textColor="@color/white"
                     android:textSize="@dimen/heading_text_size"
-                    android:padding="@dimen/padding_medium"
                     tools:text="Session Title" />
 
                 <ImageView
@@ -108,15 +108,16 @@
                         android:layout_width="@dimen/card_width"
                         android:layout_height="wrap_content"
                         android:layout_gravity="fill"
-                        android:layout_toRightOf="@id/icon_speaker"
                         android:layout_marginLeft="@dimen/layout_margin_large"
+                        android:layout_toRightOf="@id/icon_speaker"
                         android:textColor="@color/primary_text"
                         android:textSize="@dimen/text_size_large"
                         tools:text="Speaker" />
+
                     <TextView
+                        android:id="@+id/session_status"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/session_status"
                         android:layout_marginLeft="@dimen/session_status_margin"
                         android:textStyle="bold" />
                 </LinearLayout>

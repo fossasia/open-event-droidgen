@@ -61,7 +61,7 @@ public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, RecyclerView.Vie
     @Override
     public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
         super.onDetachedFromRecyclerView(recyclerView);
-        if(disposable != null && !disposable.isDisposed())
+        if (disposable != null && !disposable.isDisposed())
             disposable.dispose();
     }
 
@@ -99,7 +99,7 @@ public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, RecyclerView.Vie
 
             sponsorViewHolder.sponsorType.setText(sponserType);
             sponsorViewHolder.sponsorName.setText(sponserName);
-            if(logo != null) {
+            if (logo != null) {
                 sponsorViewHolder.sponsorImage.setVisibility(View.VISIBLE);
                 OpenEventApp.picassoWithCache
                         .load(Uri.parse(logo))
@@ -115,7 +115,7 @@ public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, RecyclerView.Vie
                 Sponsor sponsor = getItem(holder.getAdapterPosition());
                 String sponsorUrl = sponsor.getUrl();
 
-                if(TextUtils.isEmpty(sponsorUrl))
+                if (TextUtils.isEmpty(sponsorUrl))
                     return;
 
                 if (!sponsorUrl.startsWith("http") && !sponsorUrl.startsWith("https")) {
@@ -126,7 +126,7 @@ public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, RecyclerView.Vie
                         CustomTabsIntent.Builder customTabsBuilder = new CustomTabsIntent.Builder();
 
                         customTabsBuilder.setToolbarColor(ContextCompat.getColor(context, R.color.color_primary));
-                        customTabsBuilder.setCloseButtonIcon(BitmapFactory.decodeResource(context.getResources(),R.drawable.ic_arrow_back_white_cct_24dp));
+                        customTabsBuilder.setCloseButtonIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_arrow_back_white_cct_24dp));
                         customTabsBuilder.setStartAnimations(context, R.anim.slide_in_right, R.anim.slide_out_left);
                         customTabsBuilder.setExitAnimations(context, R.anim.slide_in_left, R.anim.slide_out_right);
 

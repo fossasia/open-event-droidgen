@@ -72,11 +72,11 @@
                     android:id="@+id/speaker_details_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/layout_margin_extra_large"
                     android:fontFamily="sans-serif-condensed"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/heading_text_size"
                     android:textStyle="bold"
-                    android:layout_marginLeft="@dimen/layout_margin_extra_large"
                     tools:targetApi="jelly_bean"
                     tools:text="Title" />
 
@@ -84,11 +84,11 @@
                     android:id="@+id/speaker_details_designation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/layout_margin_extra_large"
+                    android:paddingBottom="@dimen/padding_small"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/text_size_large"
-                    android:layout_marginLeft="@dimen/layout_margin_extra_large"
-                    tools:text="Subtitle"
-                    android:paddingBottom="@dimen/padding_small"/>
+                    tools:text="Subtitle" />
 
             </LinearLayout>
 
@@ -125,20 +125,20 @@
                 android:id="@+id/layoutSocialMedia"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/padding_medium"
-                android:layout_marginLeft="@dimen/padding_medium"
+                android:layout_below="@+id/speaker_bio"
                 android:layout_marginEnd="@dimen/padding_medium"
+                android:layout_marginLeft="@dimen/padding_medium"
                 android:layout_marginRight="@dimen/padding_medium"
-                android:layout_below="@+id/speaker_bio">
+                android:layout_marginStart="@dimen/padding_medium">
 
                 <ImageView
                     android:id="@+id/imageView_fb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_medium"
                     android:background="?selectableItemBackgroundBorderless"
                     android:clickable="true"
                     android:contentDescription="@string/facebook_icon"
+                    android:padding="@dimen/padding_medium"
                     android:tag="@string/fb"
                     app:srcCompat="@drawable/ic_facebook_24dp" />
 
@@ -146,10 +146,10 @@
                     android:id="@+id/imageView_linkedin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_medium"
                     android:background="?selectableItemBackgroundBorderless"
                     android:clickable="true"
                     android:contentDescription="@string/linkedin_icon"
+                    android:padding="@dimen/padding_medium"
                     android:tag="@string/linkedin"
                     app:srcCompat="@drawable/ic_linkedin_24dp" />
 
@@ -157,10 +157,10 @@
                     android:id="@+id/imageView_twitter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_medium"
                     android:background="?selectableItemBackgroundBorderless"
                     android:clickable="true"
                     android:contentDescription="@string/twitter_icon"
+                    android:padding="@dimen/padding_medium"
                     android:tag="@string/twitter"
                     app:srcCompat="@drawable/ic_twitter_24dp" />
 
@@ -168,10 +168,10 @@
                     android:id="@+id/imageView_github"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_medium"
                     android:background="?selectableItemBackgroundBorderless"
                     android:clickable="true"
                     android:contentDescription="@string/github_icon"
+                    android:padding="@dimen/padding_medium"
                     android:tag="@string/github"
                     app:srcCompat="@drawable/ic_github_24dp" />
 
@@ -179,10 +179,10 @@
                     android:id="@+id/imageView_web"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_medium"
                     android:background="?selectableItemBackgroundBorderless"
                     android:clickable="true"
                     android:contentDescription="@string/web_icon"
+                    android:padding="@dimen/padding_medium"
                     android:tag="@string/website"
                     app:srcCompat="@drawable/ic_domain_black_24dp" />
             </LinearLayout>

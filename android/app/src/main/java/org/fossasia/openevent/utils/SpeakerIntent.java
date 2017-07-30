@@ -80,7 +80,7 @@ public class SpeakerIntent {
                     CustomTabsIntent.Builder customTabsBuilder = new CustomTabsIntent.Builder(customTabsSession);
                     context = view.getContext();
                     customTabsBuilder.setToolbarColor(ContextCompat.getColor(context, R.color.color_primary));
-                    customTabsBuilder.setCloseButtonIcon(BitmapFactory.decodeResource(context.getResources(),R.drawable.ic_arrow_back_white_cct_24dp));
+                    customTabsBuilder.setCloseButtonIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_arrow_back_white_cct_24dp));
                     customTabsBuilder.setStartAnimations(context, R.anim.slide_in_right, R.anim.slide_out_left);
                     customTabsBuilder.setExitAnimations(context, R.anim.slide_in_left, R.anim.slide_out_right);
                     CustomTabsIntent customTabsIntent = customTabsBuilder.build();

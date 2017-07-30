@@ -15,6 +15,7 @@ import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.FeedAdapter;
 import org.fossasia.openevent.api.APIClient;
 import org.fossasia.openevent.data.facebook.FeedItem;
+import org.fossasia.openevent.modules.ImageZoomModule;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.NetworkUtils;
 import org.fossasia.openevent.utils.SharedPreferencesUtil;
@@ -38,9 +39,12 @@ public class FeedFragment extends BaseFragment {
     private List<FeedItem> feedItems;
     private ProgressDialog downloadProgressDialog;
 
-    @BindView(R.id.feed_swipe_refresh) SwipeRefreshLayout swipeRefreshLayout;
-    @BindView(R.id.feed_recycler_view) RecyclerView feedRecyclerView;
-    @BindView(R.id.txt_no_posts) TextView noFeedView;
+    @BindView(R.id.feed_swipe_refresh)
+    SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.feed_recycler_view)
+    RecyclerView feedRecyclerView;
+    @BindView(R.id.txt_no_posts)
+    TextView noFeedView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -51,12 +55,12 @@ public class FeedFragment extends BaseFragment {
         feedItems = new ArrayList<>();
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         feedRecyclerView.setLayoutManager(mLayoutManager);
-        feedAdapter = new FeedAdapter(getContext(), (FeedAdapter.AdapterCallback)getActivity(), feedItems);
+        feedAdapter = new FeedAdapter(getActivity(), (FeedAdapter.AdapterCallback) getActivity(), (ImageZoomModule) getActivity(), feedItems);
         feedRecyclerView.setAdapter(feedAdapter);
 
         setupProgressBar();
 
-        if(NetworkUtils.haveNetworkConnection(getContext()))
+        if (NetworkUtils.haveNetworkConnection(getContext()))
             showProgressBar(true);
 
         downloadFeed();
@@ -111,7 +115,7 @@ public class FeedFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
 
-        if(swipeRefreshLayout != null) swipeRefreshLayout.setOnRefreshListener(null);
+        if (swipeRefreshLayout != null) swipeRefreshLayout.setOnRefreshListener(null);
     }
 
     private void refresh() {
@@ -138,7 +142,7 @@ public class FeedFragment extends BaseFragment {
                     swipeRefreshLayout.setRefreshing(false);
                 }
                 //Device is connected to WI-FI or Mobile Data but Internet is not working
-                ShowNotificationSnackBar showNotificationSnackBar = new ShowNotificationSnackBar(getContext(),getView(),swipeRefreshLayout) {
+                ShowNotificationSnackBar showNotificationSnackBar = new ShowNotificationSnackBar(getContext(), getView(), swipeRefreshLayout) {
                     @Override
                     public void refreshClicked() {
                         refresh();
@@ -167,7 +171,7 @@ public class FeedFragment extends BaseFragment {
     }
 
     private void showProgressBar(boolean show) {
-        if(show)
+        if (show)
             downloadProgressDialog.show();
         else
             downloadProgressDialog.dismiss();

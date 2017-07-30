@@ -88,4 +88,6 @@ public class ConstantStrings {
     public static final String SOCIAL_LINK_YOUTUBE ="YouTube";
 
     public static final String SOCIAL_LINK_GOOGLE ="Google";
+
+    public static final String IMAGE_ZOOM_KEY ="imageZoom";
 }

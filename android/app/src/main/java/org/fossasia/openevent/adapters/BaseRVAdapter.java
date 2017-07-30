@@ -36,7 +36,7 @@ public abstract class BaseRVAdapter<T, V extends RecyclerView.ViewHolder> extend
     }
 
     protected void addItem(int position, T data) {
-        if(position < dataList.size()) {
+        if (position < dataList.size()) {
             dataList.add(position, data);
             notifyItemInserted(position);
         } else {

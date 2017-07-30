@@ -53,7 +53,7 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TrackViewHolder> imp
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            if(results == null || results.values == null) {
+            if (results == null || results.values == null) {
                 Timber.e("No results published. There is an error in query. Check " + getClass().getName() + " filter!");
 
                 return;
@@ -77,6 +77,7 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TrackViewHolder> imp
     public void onBindViewHolder(TrackViewHolder holder, int position) {
         holder.bindTrack(getItem(position));
     }
+
     public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
         super.onDetachedFromRecyclerView(recyclerView);
     }
@@ -85,7 +86,7 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TrackViewHolder> imp
     public TrackViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.item_track, parent, false);
-        return new TrackViewHolder(view,context);
+        return new TrackViewHolder(view, context);
     }
 
     @Override
@@ -96,7 +97,7 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TrackViewHolder> imp
     @Override
     public long getHeaderId(int position) {
         String trackName = Utils.checkStringEmpty(getItem(position).getName());
-        if(!Utils.isEmpty(trackName))
+        if (!Utils.isEmpty(trackName))
             return trackName.charAt(0);
         else
             return 0;
@@ -106,7 +107,8 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TrackViewHolder> imp
     public RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.recycler_view_header, parent, false);
-        return new RecyclerView.ViewHolder(view) {};
+        return new RecyclerView.ViewHolder(view) {
+        };
     }
 
     @Override
@@ -114,7 +116,7 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TrackViewHolder> imp
         TextView textView = (TextView) holder.itemView.findViewById(R.id.recyclerview_view_header);
 
         String trackName = getItem(position).getName();
-        if(!TextUtils.isEmpty(trackName))
+        if (!TextUtils.isEmpty(trackName))
             textView.setText(String.valueOf(trackName.charAt(0)));
     }
 

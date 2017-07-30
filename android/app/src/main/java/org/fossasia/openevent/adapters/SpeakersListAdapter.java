@@ -54,7 +54,7 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakerViewHolde
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            if(results == null || results.values == null) {
+            if (results == null || results.values == null) {
                 Timber.e("No results published. There is an error in query. Check " + getClass().getName() + " filter!");
 
                 return;
@@ -120,11 +120,12 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakerViewHolde
 
         holder.bindSpeaker(current);
     }
-    public int getDistinctOrgs(){
+
+    public int getDistinctOrgs() {
         return distinctOrgs.size();
     }
 
-    public int getDistinctCountry(){
+    public int getDistinctCountry() {
         return distinctCountry.size();
     }
 

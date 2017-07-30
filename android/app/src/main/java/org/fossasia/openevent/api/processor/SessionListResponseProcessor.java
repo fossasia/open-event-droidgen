@@ -25,8 +25,8 @@ public class SessionListResponseProcessor extends ResponseProcessor<List<Session
                 .toList()
                 .flatMapCompletable(sessionList ->
                         RealmDataRepository
-                        .getDefaultInstance()
-                        .saveSessions(sessionList)));
+                                .getDefaultInstance()
+                                .saveSessions(sessionList)));
     }
 
     @Override

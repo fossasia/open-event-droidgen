@@ -74,21 +74,36 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
 
     private static final int spearkerWiseSessionList = 2;
 
-    @BindView(R.id.toolbar_speakers) Toolbar toolbar;
-    @BindView(R.id.txt_no_sessions) TextView noSessionsView;
-    @BindView(R.id.appbar) AppBarLayout appBarLayout;
-    @BindView(R.id.collapsing_toolbar) CollapsingToolbarLayout collapsingToolbarLayout;
-    @BindView(R.id.imageView_linkedin) ImageView linkedin;
-    @BindView(R.id.imageView_fb) ImageView fb;
-    @BindView(R.id.imageView_github) ImageView github;
-    @BindView(R.id.imageView_twitter) ImageView twitter;
-    @BindView(R.id.imageView_web) ImageView website;
-    @BindView(R.id.speaker_details_title) TextView speakerNameText;
-    @BindView(R.id.speaker_image) ImageView speakerImage;
-    @BindView(R.id.speaker_bio) TextView biography;
-    @BindView(R.id.speaker_details_header) LinearLayout toolbarHeaderView;
-    @BindView(R.id.recyclerView_speakers) RecyclerView sessionRecyclerView;
-    @BindView(R.id.speaker_details_designation) TextView speakerDesignation;
+    @BindView(R.id.toolbar_speakers)
+    Toolbar toolbar;
+    @BindView(R.id.txt_no_sessions)
+    TextView noSessionsView;
+    @BindView(R.id.appbar)
+    AppBarLayout appBarLayout;
+    @BindView(R.id.collapsing_toolbar)
+    CollapsingToolbarLayout collapsingToolbarLayout;
+    @BindView(R.id.imageView_linkedin)
+    ImageView linkedin;
+    @BindView(R.id.imageView_fb)
+    ImageView fb;
+    @BindView(R.id.imageView_github)
+    ImageView github;
+    @BindView(R.id.imageView_twitter)
+    ImageView twitter;
+    @BindView(R.id.imageView_web)
+    ImageView website;
+    @BindView(R.id.speaker_details_title)
+    TextView speakerNameText;
+    @BindView(R.id.speaker_image)
+    ImageView speakerImage;
+    @BindView(R.id.speaker_bio)
+    TextView biography;
+    @BindView(R.id.speaker_details_header)
+    LinearLayout toolbarHeaderView;
+    @BindView(R.id.recyclerView_speakers)
+    RecyclerView sessionRecyclerView;
+    @BindView(R.id.speaker_details_designation)
+    TextView speakerDesignation;
     @BindView(R.id.progress_bar)
     protected ProgressBar progressBar;
 
@@ -102,7 +117,7 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
 
         speakerName = getIntent().getStringExtra(Speaker.SPEAKER);
         setSupportActionBar(toolbar);
-        if(getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         collapsingToolbarLayout.setTitle(" ");
 
         appBarLayout.addOnOffsetChangedListener(this);
@@ -156,7 +171,7 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
 
             int backgroundColor = ContextCompat.getColor(context, R.color.color_primary);
 
-            if(swatch != null) {
+            if (swatch != null) {
                 backgroundColor = swatch.getRgb();
             }
 
@@ -290,7 +305,7 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
     @Override
     protected void onStop() {
         super.onStop();
-        if(speaker != null)
+        if (speaker != null)
             speaker.removeAllChangeListeners();
     }
 
@@ -333,7 +348,7 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
                         String.format("\n\n%s (%s)\n",
                                 getResources().getString(R.string.message_3),
                                 Urls.getAppLink()
-                                  );
+                        );
 
                 sendIntent.putExtra(Intent.EXTRA_TEXT, message);
                 sendIntent.setType("text/plain");
@@ -350,7 +365,7 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
     public boolean onCreateOptionsMenu(final Menu menu) {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_speakers_activity, menu);
-        
+
         return true;
     }
 
@@ -358,7 +373,7 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(customTabsServiceConnection != null)
+        if (customTabsServiceConnection != null)
             unbindService(customTabsServiceConnection);
     }
 

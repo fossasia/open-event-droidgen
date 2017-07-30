@@ -50,7 +50,7 @@ public class TrackViewHolder extends RecyclerView.ViewHolder {
         String trackName = Utils.checkStringEmpty(track.getName());
 
         trackTitle.setText(trackName);
-        if(!Utils.isEmpty(trackName)) {
+        if (!Utils.isEmpty(trackName)) {
             TextDrawable drawable = drawableBuilder.build(String.valueOf(trackName.charAt(0)), trackColor);
             trackImageIcon.setImageDrawable(drawable);
             trackImageIcon.setBackgroundColor(Color.TRANSPARENT);

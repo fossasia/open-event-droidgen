@@ -12,27 +12,27 @@
         android:background="@color/color_primary">
 
         <ImageView
+            android:id="@+id/bookmark_image"
             android:layout_width="@dimen/bookmark_image_view_width"
             android:layout_height="@dimen/bookmark_image_view_height"
-            android:layout_margin="@dimen/layout_margin_medium"
-            android:id="@+id/bookmark_image"
             android:layout_gravity="center"
+            android:layout_margin="@dimen/layout_margin_medium"
             android:contentDescription="@string/logo_widget"
             android:src="@drawable/ic_noti_bookmark" />
 
         <TextView
+            style="@style/Base.TextAppearance.AppCompat.Large.Inverse"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
-            android:layout_marginTop="@dimen/layout_margin_medium"
-            android:layout_marginStart="@dimen/layout_margin_small"
-            android:layout_marginLeft="@dimen/layout_margin_small"
             android:layout_marginBottom="@dimen/layout_margin_medium"
-            android:layout_toRightOf="@+id/bookmark_image"
+            android:layout_marginLeft="@dimen/layout_margin_small"
+            android:layout_marginStart="@dimen/layout_margin_small"
+            android:layout_marginTop="@dimen/layout_margin_medium"
             android:layout_toEndOf="@+id/bookmark_image"
+            android:layout_toRightOf="@+id/bookmark_image"
             android:text="@string/bookmarks"
-            android:textColor="@color/white"
-            style="@style/Base.TextAppearance.AppCompat.Large.Inverse" />
+            android:textColor="@color/white" />
 
     </RelativeLayout>
 
@@ -46,10 +46,10 @@
             android:id="@+id/widget_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="@dimen/padding_medium"
-            android:padding="@dimen/padding_medium"
             android:divider="@color/grey"
             android:dividerHeight="@dimen/bookmark_divider_height"
+            android:padding="@dimen/padding_medium"
+            android:paddingTop="@dimen/padding_medium"
             tools:listitem="@layout/widget_list_item" />
 
         <TextView

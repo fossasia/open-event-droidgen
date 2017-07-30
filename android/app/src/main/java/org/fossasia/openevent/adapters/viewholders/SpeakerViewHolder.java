@@ -67,7 +67,7 @@ public class SpeakerViewHolder extends RecyclerView.ViewHolder {
 
         Drawable placeholder = VectorDrawableCompat.create(context.getResources(), R.drawable.ic_account_circle_grey_24dp, null);
 
-        if(thumbnail != null) {
+        if (thumbnail != null) {
             RequestCreator requestCreator = OpenEventApp.picassoWithCache
                     .load(Uri.parse(thumbnail))
                     .placeholder(placeholder);
@@ -78,7 +78,7 @@ public class SpeakerViewHolder extends RecyclerView.ViewHolder {
 
             requestCreator.into(speakerImage);
         } else {
-           speakerImage.setImageDrawable(placeholder);
+            speakerImage.setImageDrawable(placeholder);
         }
 
         setStringField(speakerName, speaker.getName());

@@ -203,7 +203,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
         holder.sessionTime.setText(String.format("%s - %s",
                 DateConverter.formatDateWithDefault(DateConverter.FORMAT_12H, session.getStartsAt()),
                 DateConverter.formatDateWithDefault(DateConverter.FORMAT_12H, session.getEndsAt())));
-        if(session.getMicrolocation() != null) {
+        if (session.getMicrolocation() != null) {
             String locationName = Utils.checkStringEmpty(session.getMicrolocation().getName());
             holder.sessionLocation.setText(locationName);
         }

@@ -53,9 +53,12 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
 
     final private String SEARCH = "searchText";
 
-    @BindView(R.id.speaker_swipe_refresh) SwipeRefreshLayout swipeRefreshLayout;
-    @BindView(R.id.txt_no_speakers)  TextView noSpeakersView;
-    @BindView(R.id.rv_speakers) RecyclerView speakersRecyclerView;
+    @BindView(R.id.speaker_swipe_refresh)
+    SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.txt_no_speakers)
+    TextView noSpeakersView;
+    @BindView(R.id.rv_speakers)
+    RecyclerView speakersRecyclerView;
 
     private List<Speaker> mSpeakers = new ArrayList<>();
     private SpeakersListAdapter speakersListAdapter;
@@ -84,7 +87,7 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
         //setting the grid layout to cut-off white space in tablet view
         DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
         float width = displayMetrics.widthPixels / displayMetrics.density;
-        final int spanCount = (int) (width/150.00);
+        final int spanCount = (int) (width / 150.00);
 
         speakersRecyclerView.addItemDecoration(new MarginDecoration(getContext()));
         speakersRecyclerView.setHasFixedSize(true);
@@ -138,8 +141,8 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
         Utils.unregisterIfUrlValid(this);
 
         // Remove listeners to fix memory leak
-        if(swipeRefreshLayout != null) swipeRefreshLayout.setOnRefreshListener(null);
-        if(searchView != null) searchView.setOnQueryTextListener(null);
+        if (swipeRefreshLayout != null) swipeRefreshLayout.setOnRefreshListener(null);
+        if (searchView != null) searchView.setOnQueryTextListener(null);
     }
 
     @Override
@@ -160,13 +163,13 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
 
                 int list_options;
 
-                if(num_orgs==1 && num_country==1){
+                if (num_orgs == 1 && num_country == 1) {
                     list_options = R.array.speaker_sort_name;
-                } else if(num_orgs==1){
+                } else if (num_orgs == 1) {
                     list_options = R.array.speaker_sort_name_country;
-                } else if(num_country==1){
+                } else if (num_country == 1) {
                     list_options = R.array.speaker_sort_name_organisation;
-                } else{
+                } else {
                     list_options = R.array.speaker_sort_all;
                 }
 
@@ -196,7 +199,7 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
         searchView = (SearchView) MenuItemCompat.getActionView(item);
         DrawableCompat.setTint(menu.findItem(R.id.action_search_speakers).getIcon(), Color.WHITE);
         searchView.setOnQueryTextListener(this);
-        if(searchView != null && !TextUtils.isEmpty(searchText))
+        if (searchView != null && !TextUtils.isEmpty(searchText))
             searchView.setQuery(searchText, false);
     }
 
@@ -224,7 +227,7 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
                     swipeRefreshLayout.setRefreshing(false);
                 }
                 //Device is connected to WI-FI or Mobile Data but Internet is not working
-                ShowNotificationSnackBar showNotificationSnackBar = new ShowNotificationSnackBar(getContext(),getView(),swipeRefreshLayout) {
+                ShowNotificationSnackBar showNotificationSnackBar = new ShowNotificationSnackBar(getContext(), getView(), swipeRefreshLayout) {
                     @Override
                     public void refreshClicked() {
                         refresh();
@@ -250,7 +253,7 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
 
     @Subscribe
     public void speakerDownloadDone(SpeakerDownloadEvent event) {
-        if(swipeRefreshLayout == null)
+        if (swipeRefreshLayout == null)
             return;
 
         swipeRefreshLayout.setRefreshing(false);

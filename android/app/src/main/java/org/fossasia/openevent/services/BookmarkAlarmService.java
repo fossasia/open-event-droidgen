@@ -26,7 +26,7 @@ public class BookmarkAlarmService extends IntentService {
         super(name);
     }
 
-    public BookmarkAlarmService(){
+    public BookmarkAlarmService() {
         super("BookMarkAlarmService");
     }
 
@@ -64,12 +64,13 @@ public class BookmarkAlarmService extends IntentService {
         Intent intent1 = new Intent(this.getApplicationContext(), SessionDetailActivity.class);
         intent1.putExtra(ConstantStrings.SESSION, session.getTitle());
         intent1.putExtra(ConstantStrings.ID, session.getId());
-        intent1.putExtra(ConstantStrings.TRACK,session.getTrack().getName());
+        intent1.putExtra(ConstantStrings.TRACK, session.getTrack().getName());
         PendingIntent pendingNotificationIntent = PendingIntent.getActivity(this.getApplicationContext(), 0, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
         Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
 
         int smallIcon = R.drawable.ic_bookmark_white_24dp;
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) smallIcon = R.drawable.ic_noti_bookmark;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
+            smallIcon = R.drawable.ic_noti_bookmark;
 
         String session_timings = String.format("%s - %s",
                 DateConverter.formatDateWithDefault(DateConverter.FORMAT_12H, session.getStartsAt()),

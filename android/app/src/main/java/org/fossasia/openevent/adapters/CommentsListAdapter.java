@@ -43,7 +43,7 @@ public class CommentsListAdapter extends BaseRVAdapter<CommentItem, CommentsList
 
     public CommentsListAdapter(List<CommentItem> commentItems) {
         super(commentItems);
-        this.commentItems=commentItems;
+        this.commentItems = commentItems;
     }
 
     @Override

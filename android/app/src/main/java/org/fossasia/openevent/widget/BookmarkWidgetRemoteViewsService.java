@@ -39,7 +39,7 @@ public class BookmarkWidgetRemoteViewsService extends RemoteViewsService {
 
     private static final int INDEX_BOOKMARK_END_TIME = 3;
 
-    private static final int INDEX_BOOKMARK_DATE= 4;
+    private static final int INDEX_BOOKMARK_DATE = 4;
 
     private final String ID = "id";
 
@@ -102,7 +102,7 @@ public class BookmarkWidgetRemoteViewsService extends RemoteViewsService {
 
             @Override
             public int getCount() {
-                if(data != null)
+                if (data != null)
                     return data.getCount();
 
                 return 0;

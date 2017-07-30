@@ -16,15 +16,15 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/bookmark_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/bookmark_header"
-                android:text="@string/bookmark_header"
                 android:background="@color/color_accent"
-                android:textStyle="bold"
                 android:padding="@dimen/padding_medium"
+                android:text="@string/bookmark_header"
+                android:textColor="@color/card_title"
                 android:textSize="@dimen/text_size_extra_large"
-                android:textColor="@color/card_title"/>
+                android:textStyle="bold" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/list_bookmarks"
@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:clipToPadding="false" />
 
-            <include layout="@layout/content_about_event"/>
+            <include layout="@layout/content_about_event" />
 
         </LinearLayout>
 

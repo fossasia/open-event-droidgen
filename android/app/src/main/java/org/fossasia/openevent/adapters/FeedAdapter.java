@@ -1,6 +1,6 @@
 package org.fossasia.openevent.adapters;
 
-import android.content.Context;
+import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.design.widget.Snackbar;
@@ -21,6 +21,7 @@ import com.squareup.picasso.Picasso;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.data.facebook.CommentItem;
 import org.fossasia.openevent.data.facebook.FeedItem;
+import org.fossasia.openevent.modules.ImageZoomModule;
 import org.fossasia.openevent.utils.DateConverter;
 import org.fossasia.openevent.utils.Utils;
 
@@ -38,8 +39,9 @@ import timber.log.Timber;
 public class FeedAdapter extends BaseRVAdapter<FeedItem, FeedAdapter.RecyclerViewHolder> {
 
     private List<FeedItem> feedItems;
-    private Context context;
+    private Activity activity;
     private AdapterCallback mAdapterCallback;
+    private ImageZoomModule imageZoomModule;
     private List<CommentItem> commentItems;
 
     class RecyclerViewHolder extends RecyclerView.ViewHolder {
@@ -60,28 +62,33 @@ public class FeedAdapter extends BaseRVAdapter<FeedItem, FeedAdapter.RecyclerVie
             ButterKnife.bind(this, view);
             view.bringToFront();
 
+            feedImageView.setOnClickListener(v -> {
+                goFullScreen(Utils.parseImageUri(feedItems.get(getPosition()).getFullPicture()));
+            });
+
             getComments.setOnClickListener(v -> {
                 FeedItem clickedFeedItem = feedItems.get(getPosition());
                 commentItems = new ArrayList<>();
-                if(clickedFeedItem.getComments() != null) {
+                if (clickedFeedItem.getComments() != null) {
                     commentItems.addAll(clickedFeedItem.getComments().getData());
                 }
-                if(commentItems.size()!=0)
+                if (commentItems.size() != 0)
                     mAdapterCallback.onMethodCallback(commentItems);
                 else
-                    Snackbar.make(v, context.getResources().getString(R.string.no_comments), Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(v, activity.getResources().getString(R.string.no_comments), Snackbar.LENGTH_SHORT).show();
             });
         }
     }
 
-    public FeedAdapter(Context context, AdapterCallback adapterCallback, List<FeedItem> feedItems) {
+    public FeedAdapter(Activity activity, AdapterCallback adapterCallback, ImageZoomModule imageZoomModule, List<FeedItem> feedItems) {
         super(feedItems);
         this.feedItems = feedItems;
-        this.context = context;
+        this.activity = activity;
         try {
             this.mAdapterCallback = adapterCallback;
+            this.imageZoomModule = imageZoomModule;
         } catch (ClassCastException e) {
-            throw new ClassCastException("Activity must implement AdapterCallback.");
+            throw new ClassCastException("Activity must implement CallBack");
         }
     }
 
@@ -128,10 +135,10 @@ public class FeedAdapter extends BaseRVAdapter<FeedItem, FeedAdapter.RecyclerVie
         }
 
         String feedImageUri = Utils.parseImageUri(feedItem.getFullPicture());
-        Drawable placeholder = VectorDrawableCompat.create(context.getResources(),
+        Drawable placeholder = VectorDrawableCompat.create(activity.getResources(),
                 R.drawable.ic_placeholder_24dp, null);
 
-        if(feedImageUri != null) {
+        if (feedImageUri != null) {
             holder.feedImageView.setVisibility(View.VISIBLE);
             Picasso.with(holder.feedImageView.getContext())
                     .load(Uri.parse(feedImageUri))
@@ -145,5 +152,9 @@ public class FeedAdapter extends BaseRVAdapter<FeedItem, FeedAdapter.RecyclerVie
 
     public interface AdapterCallback {
         void onMethodCallback(List<CommentItem> commentItems);
+    }
+
+    private void goFullScreen(String feedImageUri) {
+        imageZoomModule.onImageZoomCallback(feedImageUri);
     }
 }

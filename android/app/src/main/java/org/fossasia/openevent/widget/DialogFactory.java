@@ -41,9 +41,9 @@ public final class DialogFactory {
     }
 
     public static Dialog createDownloadDialog(Context context,
-                                                  @StringRes int titleResource,
-                                                  @StringRes int messageResource,
-                                                  DialogInterface.OnClickListener listener) {
+                                              @StringRes int titleResource,
+                                              @StringRes int messageResource,
+                                              DialogInterface.OnClickListener listener) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(context)
                 .setTitle(context.getString(titleResource))
                 .setMessage(context.getString(messageResource))

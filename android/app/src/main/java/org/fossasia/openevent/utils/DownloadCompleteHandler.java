@@ -54,7 +54,7 @@ public class DownloadCompleteHandler {
     }
 
     public DownloadCompleteHandler stopListening() {
-        if(eventHandler != null)
+        if (eventHandler != null)
             eventHandler.unregister();
 
         return this;
@@ -128,14 +128,14 @@ public class DownloadCompleteHandler {
 
     private void updateDownloadProgress(float progress, @StringRes int stringRes) {
         String message = String.format(getString(R.string.downloaded_format), getString(stringRes));
-        Timber.d("Progress : %f %s", progress*100, message);
+        Timber.d("Progress : %f %s", progress * 100, message);
         shownMessage += "\n" + message;
         downloadProgressDialog.setMessage(shownMessage);
-        downloadProgressDialog.setProgress((int) (progress*100));
+        downloadProgressDialog.setProgress((int) (progress * 100));
     }
 
     private void showProgressBar(boolean show) {
-        if(show)
+        if (show)
             downloadProgressDialog.show();
         else
             downloadProgressDialog.dismiss();
@@ -145,7 +145,7 @@ public class DownloadCompleteHandler {
         if (event.isState()) {
             eventsDone++;
             Timber.tag(COUNTER_TAG).d("%d %s %d", eventsDone, getString(stringRes), counter);
-            updateDownloadProgress(eventsDone/ (float) counter, stringRes);
+            updateDownloadProgress(eventsDone / (float) counter, stringRes);
             if (counter == eventsDone) {
                 notifyComplete();
             }

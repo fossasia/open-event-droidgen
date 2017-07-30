@@ -42,13 +42,16 @@ import timber.log.Timber;
 public class LocationsFragment extends BaseFragment implements SearchView.OnQueryTextListener {
     final private String SEARCH = "searchText";
 
-    @BindView(R.id.locations_swipe_refresh) SwipeRefreshLayout swipeRefreshLayout;
-    @BindView(R.id.list_locations) RecyclerView locationsRecyclerView;
-    @BindView(R.id.txt_no_microlocations) TextView noMicrolocationsView;
+    @BindView(R.id.locations_swipe_refresh)
+    SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.list_locations)
+    RecyclerView locationsRecyclerView;
+    @BindView(R.id.txt_no_microlocations)
+    TextView noMicrolocationsView;
 
     private List<Microlocation> mLocations = new ArrayList<>();
     private LocationsListAdapter locationsListAdapter;
-    
+
     private String searchText = "";
 
     private SearchView searchView;
@@ -75,7 +78,8 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
         final StickyRecyclerHeadersDecoration headersDecoration = new StickyRecyclerHeadersDecoration(locationsListAdapter);
         locationsRecyclerView.addItemDecoration(headersDecoration);
         locationsListAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-            @Override public void onChanged() {
+            @Override
+            public void onChanged() {
                 headersDecoration.invalidateHeaders();
             }
         });
@@ -168,17 +172,17 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
         super.onDestroyView();
         Utils.unregisterIfUrlValid(this);
 
-        if(compositeDisposable != null && !compositeDisposable.isDisposed())
+        if (compositeDisposable != null && !compositeDisposable.isDisposed())
             compositeDisposable.dispose();
 
         // Remove listeners to fix memory leak
-        if(swipeRefreshLayout != null) swipeRefreshLayout.setOnRefreshListener(null);
-        if(searchView != null) searchView.setOnQueryTextListener(null);
+        if (swipeRefreshLayout != null) swipeRefreshLayout.setOnRefreshListener(null);
+        if (searchView != null) searchView.setOnQueryTextListener(null);
     }
 
     @Subscribe
     public void onLocationsDownloadDone(MicrolocationDownloadEvent event) {
-        if(swipeRefreshLayout == null)
+        if (swipeRefreshLayout == null)
             return;
 
         swipeRefreshLayout.setRefreshing(false);

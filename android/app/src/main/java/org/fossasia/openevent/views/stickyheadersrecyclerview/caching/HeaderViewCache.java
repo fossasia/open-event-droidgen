@@ -33,7 +33,7 @@ public class HeaderViewCache implements HeaderProvider {
 
         View header = mHeaderViews.get(headerId);
 
-        if(header != null) {
+        if (header != null) {
             if (header.getWidth() != parent.getWidth()) {
                 int widthSpec = View.MeasureSpec.makeMeasureSpec(parent.getWidth(), View.MeasureSpec.EXACTLY);
                 int childWidth = ViewGroup.getChildMeasureSpec(widthSpec,
@@ -41,7 +41,7 @@ public class HeaderViewCache implements HeaderProvider {
                 header.measure(childWidth, header.getHeight());
                 header.layout(0, 0, parent.getWidth(), header.getHeight());
             }
-        }else {
+        } else {
             RecyclerView.ViewHolder viewHolder = mAdapter.onCreateHeaderViewHolder(parent);
             mAdapter.onBindHeaderViewHolder(viewHolder, position);
             header = viewHolder.itemView;

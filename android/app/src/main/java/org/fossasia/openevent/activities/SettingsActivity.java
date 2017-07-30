@@ -45,7 +45,7 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
 
         overridePendingTransition(R.anim.slide_in_right, R.anim.stay_in_place);
 
-        PreferenceManager.setDefaultValues(this,R.xml.settings,false);
+        PreferenceManager.setDefaultValues(this, R.xml.settings, false);
         addPreferencesFromResource(R.xml.settings);
         setContentView(R.layout.activity_settings);
         setToolbar();
@@ -56,7 +56,7 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
         timezonePreference.setOnPreferenceChangeListener(this);
 
         prefNotification = findPreference(NOTIFICATION_PREF_MODE);
-        languagePreference=findPreference(LANGUAGE_PREF_MODE);
+        languagePreference = findPreference(LANGUAGE_PREF_MODE);
         languagePreference.setSummary(OpenEventApp.sDefSystemLanguage);
     }
 
@@ -154,7 +154,7 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
     @Override
     public void finish() {
         super.finish();
-        SettingsActivity.this.overridePendingTransition(0,R.anim.slide_out_right);
+        SettingsActivity.this.overridePendingTransition(0, R.anim.slide_out_right);
 
     }
 

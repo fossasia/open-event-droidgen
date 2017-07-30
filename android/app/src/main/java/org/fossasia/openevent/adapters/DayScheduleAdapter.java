@@ -63,7 +63,7 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleViewHo
     public DayScheduleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.item_schedule, parent, false);
-        return new DayScheduleViewHolder(view,context);
+        return new DayScheduleViewHolder(view, context);
     }
 
     @Override
@@ -82,7 +82,7 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleViewHo
     @Override
     public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
         super.onDetachedFromRecyclerView(recyclerView);
-        if(disposable != null && !disposable.isDisposed())
+        if (disposable != null && !disposable.isDisposed())
             disposable.dispose();
     }
 
@@ -106,7 +106,7 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleViewHo
             return;
         }
 
-        if(filteredSessions.isEmpty()) {
+        if (filteredSessions.isEmpty()) {
             Timber.e("No results published. There is an error in query. Check " + getClass().getName() + " filter!");
             return;
         }
@@ -119,7 +119,7 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleViewHo
         String id = "";
         if (SortOrder.sortOrderSchedule().equals(Session.TITLE)) {
             return getItem(position).getTitle().charAt(0);
-        } else if (SortOrder.sortOrderSchedule().equals(Session.TRACK)){
+        } else if (SortOrder.sortOrderSchedule().equals(Session.TRACK)) {
             if (tracks != null && !tracks.contains(getItem(position).getTrack().getName())) {
                 tracks.add(getItem(position).getTrack().getName());
             }
@@ -136,7 +136,8 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleViewHo
     public RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.recycler_view_header, parent, false);
-        return new RecyclerView.ViewHolder(view) {};
+        return new RecyclerView.ViewHolder(view) {
+        };
     }
 
     @Override
@@ -147,7 +148,7 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleViewHo
 
         if (SortOrder.sortOrderSchedule().equals(Session.TITLE) && (!Utils.isEmpty(sortTitle))) {
             textView.setText(String.valueOf(sortTitle.charAt(0)));
-        } else if (SortOrder.sortOrderSchedule().equals(Session.TRACK)){
+        } else if (SortOrder.sortOrderSchedule().equals(Session.TRACK)) {
             textView.setText(String.valueOf(sortName));
         } else if (SortOrder.sortOrderSchedule().equals(Session.START_TIME)) {
             textView.setText(DateConverter.formatDateWithDefault(DateConverter.FORMAT_24H, getItem(position).getStartsAt()));

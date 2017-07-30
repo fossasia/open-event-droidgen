@@ -149,10 +149,10 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
         adapter = new SessionSpeakerListAdapter(speakers);
 
         fabSessionBookmark.setOnClickListener(view -> {
-            if(session == null)
+            if (session == null)
                 return;
 
-            if(session.getIsBookmarked()) {
+            if (session.getIsBookmarked()) {
                 Timber.tag(TAG).d("Bookmark Removed");
 
                 realmRepo.setBookmark(session.getId(), false).subscribe();
@@ -186,7 +186,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
     }
 
     private void updateSession() {
-        if(hasTrack)
+        if (hasTrack)
             setUiColor(Color.parseColor(session.getTrack().getColor()));
 
         Timber.d("Updated");
@@ -199,7 +199,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
 
         Microlocation microlocation = session.getMicrolocation();
 
-        if(microlocation != null) {
+        if (microlocation != null) {
             location = microlocation.getName();
             text_room1.setText(microlocation.getName());
         } else {
@@ -224,14 +224,14 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
 
         String video_link = session.getVideoUrl();
 
-        if(!Utils.isEmpty(video_link)) {
+        if (!Utils.isEmpty(video_link)) {
             playButton.setVisibility(View.VISIBLE);
 
-            if(video_link.contains(ConstantStrings.YOUTUBE)) {
+            if (video_link.contains(ConstantStrings.YOUTUBE)) {
                 youtubeThumbnail.setVisibility(View.VISIBLE);
 
                 Picasso.with(this)
-                        .load(ConstantStrings.YOUTUBE_URI_1 + video_link.substring(video_link.length()-11) + ConstantStrings.YOUTUBE_URI_2)
+                        .load(ConstantStrings.YOUTUBE_URI_1 + video_link.substring(video_link.length() - 11) + ConstantStrings.YOUTUBE_URI_2)
                         .into(youtubeThumbnail);
             }
 
@@ -252,7 +252,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
     }
 
     private void updateFloatingIcon() {
-        if(session.getIsBookmarked()) {
+        if (session.getIsBookmarked()) {
             Timber.tag(TAG).d("Bookmarked");
             fabSessionBookmark.setImageResource(R.drawable.ic_bookmark_white_24dp);
         } else {
@@ -347,7 +347,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
 
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                Fragment mapFragment = ((OpenEventApp)getApplication())
+                Fragment mapFragment = ((OpenEventApp) getApplication())
                         .getMapModuleFactory()
                         .provideMapModule()
                         .provideMapFragment();
@@ -407,7 +407,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
             // Collapsed
 
             linearLayout.setVisibility(View.GONE);
-            if (showMap){
+            if (showMap) {
                 collapsingToolbarLayout.setTitle(location);
             } else {
                 collapsingToolbarLayout.setTitle(title);
@@ -417,7 +417,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
             // Not Collapsed
 
             collapsingToolbarLayout.setTitle(" ");
-            if (showMap){
+            if (showMap) {
                 text_title.setText(location);
             } else {
                 text_title.setText(title);
@@ -438,10 +438,10 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
 
         sessionById = realmRepo.getSession(id);
         sessionById.addChangeListener((RealmChangeListener<Session>) loadedSession -> {
-            if(!loadedSession.isValid())
+            if (!loadedSession.isValid())
                 return;
 
-            if(loadedFlag == null || loadedFlag.equals(BY_ID)) {
+            if (loadedFlag == null || loadedFlag.equals(BY_ID)) {
 
                 loadedFlag = BY_ID;
 
@@ -454,10 +454,10 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
 
         sessionByName = realmRepo.getSession(title);
         sessionByName.addChangeListener((RealmChangeListener<Session>) loadedSession -> {
-            if(!loadedSession.isValid())
+            if (!loadedSession.isValid())
                 return;
 
-            if(loadedFlag == null || loadedFlag.equals(BY_NAME)) {
+            if (loadedFlag == null || loadedFlag.equals(BY_NAME)) {
 
                 loadedFlag = BY_NAME;
 
@@ -473,7 +473,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
     protected void onStop() {
         super.onStop();
 
-        if(sessionById != null) sessionById.removeAllChangeListeners();
-        if(sessionByName != null) sessionByName.removeAllChangeListeners();
+        if (sessionById != null) sessionById.removeAllChangeListeners();
+        if (sessionByName != null) sessionByName.removeAllChangeListeners();
     }
 }

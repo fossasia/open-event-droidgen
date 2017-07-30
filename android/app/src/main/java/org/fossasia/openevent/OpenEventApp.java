@@ -88,8 +88,8 @@ public class OpenEventApp extends Application {
         return application.refWatcher;
     }
 
-    public static ObjectMapper getObjectMapper(){
-        if (objectMapper == null){
+    public static ObjectMapper getObjectMapper() {
+        if (objectMapper == null) {
             objectMapper = new ObjectMapper();
             objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         }
@@ -172,7 +172,7 @@ public class OpenEventApp extends Application {
             inputStream.read(buffer);
             inputStream.close();
             config_json = new String(buffer, "UTF-8");
-        } catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -202,7 +202,7 @@ public class OpenEventApp extends Application {
             inputStream.read(buffer);
             inputStream.close();
             event_json = new String(buffer, "UTF-8");
-        } catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -222,11 +222,11 @@ public class OpenEventApp extends Application {
         }
     }
 
-    private int extractEventIdFromApiLink(String apiLink){
-        if(apiLink == null)
+    private int extractEventIdFromApiLink(String apiLink) {
+        if (apiLink == null)
             return 0;
 
-        return Integer.parseInt(apiLink.split("/v1/events/")[1].replace("/",""));
+        return Integer.parseInt(apiLink.split("/v1/events/")[1].replace("/", ""));
     }
 
     public void attachMainActivity(MainActivity activity) {
@@ -242,7 +242,7 @@ public class OpenEventApp extends Application {
         if (event.connState()) {
             Timber.d("[NetNotif] %s", "Connected to Internet");
 
-            if(activity != null)
+            if (activity != null)
                 activity.dismissDialogNetworkNotification();
 
         } else {

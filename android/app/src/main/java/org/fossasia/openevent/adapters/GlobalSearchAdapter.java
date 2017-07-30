@@ -62,7 +62,7 @@ public class GlobalSearchAdapter extends BaseRVAdapter<Object, RecyclerView.View
             return SPEAKER;
         } else if (filteredResultList.get(position) instanceof Microlocation) {
             return LOCATION;
-        } else if(filteredResultList.get(position) instanceof Session){
+        } else if (filteredResultList.get(position) instanceof Session) {
             return BOOKMARK;
         } else {
             return 1;
@@ -99,16 +99,16 @@ public class GlobalSearchAdapter extends BaseRVAdapter<Object, RecyclerView.View
                 break;
             case DIVIDER:
                 View header;
-                if(context instanceof SearchActivity) {
+                if (context instanceof SearchActivity) {
                     header = inflater.inflate(R.layout.search_result_type_header_format, parent, false);
                 } else {
-                    header = inflater.inflate(R.layout.recycler_view_header,parent,false);
+                    header = inflater.inflate(R.layout.recycler_view_header, parent, false);
                 }
                 resultHolder = new DividerViewHolder(header);
                 break;
             case BOOKMARK:
                 View bookmark = inflater.inflate(R.layout.item_schedule, parent, false);
-                resultHolder = new DayScheduleViewHolder(bookmark,context);
+                resultHolder = new DayScheduleViewHolder(bookmark, context);
                 break;
             default:
                 //If viewType doesn't match any of the above objects no view is created

@@ -107,7 +107,7 @@ public final class Views {
         CharSequence converted = fromHtml(html);
 
         if (TextUtils.isEmpty(converted)) {
-            if(hide) textView.setVisibility(View.GONE);
+            if (hide) textView.setVisibility(View.GONE);
         } else {
             textView.setVisibility(View.VISIBLE);
             textView.setText(converted);

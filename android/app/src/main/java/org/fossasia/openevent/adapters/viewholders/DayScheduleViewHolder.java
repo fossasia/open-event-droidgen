@@ -59,13 +59,13 @@ public class DayScheduleViewHolder extends RecyclerView.ViewHolder {
     private Session session;
     private Context context;
 
-    public DayScheduleViewHolder(View itemView,Context context) {
+    public DayScheduleViewHolder(View itemView, Context context) {
         super(itemView);
         ButterKnife.bind(this, itemView);
         this.context = context;
     }
 
-    public void bindSession(RealmDataRepository realmRepo){
+    public void bindSession(RealmDataRepository realmRepo) {
 
         String startTimeText = DateConverter.formatDateWithDefault(DateConverter.FORMAT_24H, session.getStartsAt());
         String endTimeText = DateConverter.formatDateWithDefault(DateConverter.FORMAT_24H, session.getEndsAt());
@@ -83,17 +83,17 @@ public class DayScheduleViewHolder extends RecyclerView.ViewHolder {
             slotTrack.getBackground().setColorFilter(storedColor, PorterDuff.Mode.SRC_ATOP);
             slotTrack.setText(sessionTrack.getName());
 
-            if(session.getIsBookmarked()) {
+            if (session.getIsBookmarked()) {
                 slot_bookmark.setImageResource(R.drawable.ic_bookmark_white_24dp);
             } else {
                 slot_bookmark.setImageResource(R.drawable.ic_bookmark_border_white_24dp);
             }
-            slot_bookmark.setColorFilter(storedColor,PorterDuff.Mode.SRC_ATOP);
+            slot_bookmark.setColorFilter(storedColor, PorterDuff.Mode.SRC_ATOP);
 
             final int sessionId = session.getId();
 
             slot_bookmark.setOnClickListener(v -> {
-                if(session.getIsBookmarked()) {
+                if (session.getIsBookmarked()) {
 
                     realmRepo.setBookmark(sessionId, false).subscribe();
                     slot_bookmark.setImageResource(R.drawable.ic_bookmark_border_white_24dp);
@@ -122,7 +122,7 @@ public class DayScheduleViewHolder extends RecyclerView.ViewHolder {
 
                     realmRepo.setBookmark(sessionId, true).subscribe();
                     slot_bookmark.setImageResource(R.drawable.ic_bookmark_white_24dp);
-                    slot_bookmark.setColorFilter(storedColor,PorterDuff.Mode.SRC_ATOP);
+                    slot_bookmark.setColorFilter(storedColor, PorterDuff.Mode.SRC_ATOP);
 
                     Snackbar.make(slot_content, R.string.added_bookmark, Snackbar.LENGTH_SHORT).show();
                 }
@@ -165,7 +165,7 @@ public class DayScheduleViewHolder extends RecyclerView.ViewHolder {
             Timber.d("This session has no track somehow : " + session + " " + sessionTrack);
         }
 
-        if(session.getMicrolocation() != null) {
+        if (session.getMicrolocation() != null) {
             String locationName = Utils.checkStringEmpty(session.getMicrolocation().getName());
             slotLocation.setText(locationName);
         }

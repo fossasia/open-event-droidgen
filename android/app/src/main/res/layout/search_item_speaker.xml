@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:foreground="?android:attr/selectableItemBackground" >
+    android:foreground="?android:attr/selectableItemBackground"
+    android:orientation="vertical">
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:padding="@dimen/padding_large">
 
         <ImageView
@@ -21,24 +21,24 @@
             tools:src="@drawable/ic_account_circle_grey_24dp" />
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingEnd="@dimen/padding_large"
             android:paddingLeft="@dimen/padding_large"
-            android:paddingStart="@dimen/padding_large"
             android:paddingRight="@dimen/padding_large"
-            android:paddingEnd="@dimen/padding_large">
+            android:paddingStart="@dimen/padding_large">
 
             <TextView
                 android:id="@+id/speakers_list_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLines="2"
-                android:textStyle="bold"
                 android:padding="@dimen/padding_small"
                 android:textColor="@color/primary_text"
                 android:textSize="@dimen/text_size_large"
+                android:textStyle="bold"
                 tools:text="Speaker Name" />
 
             <TextView

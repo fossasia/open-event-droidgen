@@ -51,9 +51,12 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
 
     private SearchView searchView;
 
-    @BindView(R.id.schedule_swipe_refresh) SwipeRefreshLayout swipeRefreshLayout;
-    @BindView(R.id.list_schedule) RecyclerView dayRecyclerView;
-    @BindView(R.id.txt_no_schedule) TextView noSchedule;
+    @BindView(R.id.schedule_swipe_refresh)
+    SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.list_schedule)
+    RecyclerView dayRecyclerView;
+    @BindView(R.id.txt_no_schedule)
+    TextView noSchedule;
 
     private List<Session> mSessions = new ArrayList<>();
     private List<Session> mSessionsFiltered = new ArrayList<>();
@@ -86,7 +89,8 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
         final StickyRecyclerHeadersDecoration headersDecoration = new StickyRecyclerHeadersDecoration(dayScheduleAdapter);
         dayRecyclerView.addItemDecoration(headersDecoration);
         dayScheduleAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-            @Override public void onChanged() {
+            @Override
+            public void onChanged() {
                 headersDecoration.invalidateHeaders();
             }
         });
@@ -115,7 +119,7 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
     }
 
     public void filter(List<String> selectedTracks) {
-        if(dayScheduleAdapter == null)
+        if (dayScheduleAdapter == null)
             return;
 
         realmRepo.getSessionsByDate(date, SortOrder.sortOrderSchedule())
@@ -127,14 +131,14 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
                     if (selectedTracks.isEmpty()) {
                         mSessionsFiltered.addAll(mSessions);
                     } else {
-                        for(int i = 0 ; i < mSessions.size() ; i++) {
+                        for (int i = 0; i < mSessions.size(); i++) {
                             String trackName = mSessions.get(i).getTrack().getName();
                             if (selectedTracks.contains(trackName)) {
                                 mSessionsFiltered.add(mSessions.get(i));
                             }
                         }
 
-                        if(searchText!=null)
+                        if (searchText != null)
                             dayScheduleAdapter.filter(searchText);
                     }
 
@@ -164,17 +168,17 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
         super.onDestroyView();
         Utils.unregisterIfUrlValid(this);
 
-        if(compositeDisposable != null && !compositeDisposable.isDisposed())
+        if (compositeDisposable != null && !compositeDisposable.isDisposed())
             compositeDisposable.dispose();
 
         // Remove listeners to fix memory leak
-        if(swipeRefreshLayout != null) swipeRefreshLayout.setOnRefreshListener(null);
-        if(searchView != null) searchView.setOnQueryTextListener(null);
+        if (swipeRefreshLayout != null) swipeRefreshLayout.setOnRefreshListener(null);
+        if (searchView != null) searchView.setOnQueryTextListener(null);
     }
 
     @Subscribe
     public void onSessionsDownloadDone(SessionDownloadEvent event) {
-        if(swipeRefreshLayout!=null)
+        if (swipeRefreshLayout != null)
             swipeRefreshLayout.setRefreshing(false);
         if (event.isState()) {
             if (searchView != null && !searchView.getQuery().toString().isEmpty() && !searchView.isIconified()) {
@@ -239,7 +243,7 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
                 if (swipeRefreshLayout != null && swipeRefreshLayout.isRefreshing()) {
                     swipeRefreshLayout.setRefreshing(false);
                 }
-                ShowNotificationSnackBar showNotificationSnackBar = new ShowNotificationSnackBar(getContext(),getView(),swipeRefreshLayout) {
+                ShowNotificationSnackBar showNotificationSnackBar = new ShowNotificationSnackBar(getContext(), getView(), swipeRefreshLayout) {
                     @Override
                     public void refreshClicked() {
                         refresh();

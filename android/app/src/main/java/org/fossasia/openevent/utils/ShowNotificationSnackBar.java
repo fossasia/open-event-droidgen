@@ -25,12 +25,13 @@ import static android.content.Context.NOTIFICATION_SERVICE;
  */
 
 public abstract class ShowNotificationSnackBar {
-    private  Context context;
+    private Context context;
     private View view;
     private SwipeRefreshLayout swipeRefreshLayout;
     private Snackbar snackbar;
+
     public ShowNotificationSnackBar(Context context, View view, SwipeRefreshLayout swipeRefreshLayout) {
-        this.context =context;
+        this.context = context;
         this.view = view;
         this.swipeRefreshLayout = swipeRefreshLayout;
         buildNotification();
@@ -39,7 +40,7 @@ public abstract class ShowNotificationSnackBar {
 
     public abstract void refreshClicked();
 
-    public void showSnackBar(){
+    public void showSnackBar() {
         if (view == null) {
             if (swipeRefreshLayout != null) {
                 view = swipeRefreshLayout;
@@ -51,7 +52,7 @@ public abstract class ShowNotificationSnackBar {
 
         snackbar = Snackbar.make(view, R.string.waiting_for_network, Snackbar.LENGTH_INDEFINITE)
                 .setAction(R.string.snackbar_refresh_action, v -> {
-                    if (swipeRefreshLayout!=null)
+                    if (swipeRefreshLayout != null)
                         swipeRefreshLayout.setRefreshing(true);
                     snackbar.dismiss();
                     refreshClicked();
@@ -60,14 +61,13 @@ public abstract class ShowNotificationSnackBar {
     }
 
 
-
-    public void buildNotification(){
-        if(context == null)
+    public void buildNotification() {
+        if (context == null)
             return;
 
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         android.net.NetworkInfo isWifi = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-        if (isWifi.isConnectedOrConnecting()){
+        if (isWifi.isConnectedOrConnecting()) {
             NotificationManager mManager = (NotificationManager) context.getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"));
             PendingIntent pendingNotificationIntent = PendingIntent.getActivity(context.getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);

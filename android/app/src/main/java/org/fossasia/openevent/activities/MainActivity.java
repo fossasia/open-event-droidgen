@@ -73,10 +73,12 @@ import org.fossasia.openevent.fragments.AboutFragment;
 import org.fossasia.openevent.fragments.CommentsDialogFragment;
 import org.fossasia.openevent.fragments.FeedFragment;
 import org.fossasia.openevent.fragments.LocationsFragment;
+import org.fossasia.openevent.fragments.PhotoViewFragment;
 import org.fossasia.openevent.fragments.ScheduleFragment;
 import org.fossasia.openevent.fragments.SpeakersListFragment;
 import org.fossasia.openevent.fragments.SponsorsFragment;
 import org.fossasia.openevent.fragments.TracksFragment;
+import org.fossasia.openevent.modules.ImageZoomModule;
 import org.fossasia.openevent.utils.CommonTaskLoop;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.DateConverter;
@@ -106,7 +108,7 @@ import io.realm.RealmList;
 import io.realm.RealmResults;
 import timber.log.Timber;
 
-public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCallback {
+public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCallback, ImageZoomModule {
 
     private static final String STATE_FRAGMENT = "stateFragment";
     private static final String NAV_ITEM = "navItem";
@@ -674,7 +676,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
                 downloadFromAssets();
                 break;
             default:
-                startDownload();
+                downloadFromAssets();
                 break;
         }
     }
@@ -858,10 +860,19 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
 
     @Override
     public void onMethodCallback(List<CommentItem> commentItems) {
-        CommentsDialogFragment newFragment = new CommentsDialogFragment();
+        CommentsDialogFragment commentsDialogFragment = new CommentsDialogFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList(ConstantStrings.FACEBOOK_COMMENTS, new ArrayList<>(commentItems));
-        newFragment.setArguments(bundle);
-        newFragment.show(fragmentManager, "Comments");
+        commentsDialogFragment.setArguments(bundle);
+        commentsDialogFragment.show(fragmentManager, "Comments");
+    }
+
+    @Override
+    public void onImageZoomCallback(String uri) {
+        PhotoViewFragment photoViewFragment = new PhotoViewFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(ConstantStrings.IMAGE_ZOOM_KEY, uri);
+        photoViewFragment.setArguments(bundle);
+        photoViewFragment.show(fragmentManager, "ZoomedImage");
     }
 }

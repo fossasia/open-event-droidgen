@@ -12,8 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
-        android:orientation="horizontal"
         android:gravity="center"
+        android:orientation="horizontal"
         android:padding="@dimen/padding_large">
 
         <ImageView
@@ -26,9 +26,9 @@
             android:id="@+id/track_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/layout_margin_large"
             android:textColor="@color/primary_text"
             android:textSize="@dimen/text_size_large"
-            android:layout_margin="@dimen/layout_margin_large"
             tools:text="Track Title" />
     </LinearLayout>
 

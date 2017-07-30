@@ -99,12 +99,12 @@ public class SponsorsFragment extends BaseFragment {
         Utils.unregisterIfUrlValid(this);
 
         // Remove listeners to fix memory leak
-        if(swipeRefreshLayout != null) swipeRefreshLayout.setOnRefreshListener(null);
+        if (swipeRefreshLayout != null) swipeRefreshLayout.setOnRefreshListener(null);
     }
 
     @Subscribe
     public void sponsorDownloadDone(SponsorDownloadEvent event) {
-        if(swipeRefreshLayout == null)
+        if (swipeRefreshLayout == null)
             return;
 
         swipeRefreshLayout.setRefreshing(false);
@@ -127,7 +127,7 @@ public class SponsorsFragment extends BaseFragment {
             @Override
             public void inactiveConnection() {
                 //Device is connected to WI-FI or Mobile Data but Internet is not working
-                ShowNotificationSnackBar showNotificationSnackBar = new ShowNotificationSnackBar(getContext(),getView(),swipeRefreshLayout) {
+                ShowNotificationSnackBar showNotificationSnackBar = new ShowNotificationSnackBar(getContext(), getView(), swipeRefreshLayout) {
                     @Override
                     public void refreshClicked() {
                         refresh();

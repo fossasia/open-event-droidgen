@@ -43,7 +43,7 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
     private final String SEARCH = "SAVE_KEY_ON_ROTATE";
 
     @BindView(R.id.search_recyclerView)
-    protected  RecyclerView searchRecyclerView;
+    protected RecyclerView searchRecyclerView;
     @BindView(R.id.txt_no_results)
     protected TextView noResultsView;
 
@@ -157,7 +157,7 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
                 .like("name", queryString, Case.INSENSITIVE).findAllSortedAsync("name");
 
         filteredTracks.addChangeListener(tracks -> {
-            if(tracks.size()>0){
+            if (tracks.size() > 0) {
                 results.add("Tracks");
             }
             results.addAll(tracks);
@@ -174,7 +174,7 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
                 .like("organisation", queryString, Case.INSENSITIVE).findAllSortedAsync("name");
 
         filteredSpeakers.addChangeListener(speakers -> {
-            if(speakers.size()>0){
+            if (speakers.size() > 0) {
                 results.add("Speakers");
             }
             results.addAll(speakers);
@@ -189,7 +189,7 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
                 .like("name", queryString, Case.INSENSITIVE).findAllSortedAsync("name");
 
         filteredMicrolocations.addChangeListener(microlocations -> {
-            if(microlocations.size()>0) {
+            if (microlocations.size() > 0) {
                 results.add("Location");
             }
             results.addAll(filteredMicrolocations);

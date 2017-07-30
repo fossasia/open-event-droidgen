@@ -122,7 +122,7 @@ public class LocationsListAdapter extends BaseRVAdapter<Microlocation, LocationV
         TextView textView = (TextView) holder.itemView.findViewById(R.id.recyclerview_view_header);
         String locationName = Utils.checkStringEmpty(getItem(position).getName());
 
-        if(!Utils.isEmpty(locationName)) {
+        if (!Utils.isEmpty(locationName)) {
             textView.setText(String.valueOf(locationName.charAt(0)));
         }
     }

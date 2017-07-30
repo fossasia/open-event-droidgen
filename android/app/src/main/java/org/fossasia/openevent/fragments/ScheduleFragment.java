@@ -39,12 +39,18 @@ import timber.log.Timber;
  */
 public class ScheduleFragment extends BaseFragment {
 
-    @BindView(R.id.viewpager) ViewPager viewPager;
-    @BindView(R.id.tabLayout) TabLayout scheduleTabLayout;
-    @BindView(R.id.schedule_fab_filter) FloatingActionButton fabFilter;
-    @BindView(R.id.filter_text) TextView filtersText;
-    @BindView(R.id.close_filter) ImageView closeFilterBarButton;
-    @BindView(R.id.filter_bar) LinearLayout filterBar;
+    @BindView(R.id.viewpager)
+    ViewPager viewPager;
+    @BindView(R.id.tabLayout)
+    TabLayout scheduleTabLayout;
+    @BindView(R.id.schedule_fab_filter)
+    FloatingActionButton fabFilter;
+    @BindView(R.id.filter_text)
+    TextView filtersText;
+    @BindView(R.id.close_filter)
+    ImageView closeFilterBarButton;
+    @BindView(R.id.filter_bar)
+    LinearLayout filterBar;
 
     private CompositeDisposable compositeDisposable;
     private int sortType;
@@ -107,7 +113,7 @@ public class ScheduleFragment extends BaseFragment {
             tracksNames = new String[mTracks.size()];
             isTrackSelected = new boolean[mTracks.size()];
 
-            for(int i = 0; i < mTracks.size(); i++){
+            for (int i = 0; i < mTracks.size(); i++) {
                 tracksNames[i] = mTracks.get(i).getName();
             }
         });
@@ -141,7 +147,7 @@ public class ScheduleFragment extends BaseFragment {
     }
 
     private void notifyUpdate(int position, List<String> selectedTracks) {
-        if(position == -1)
+        if (position == -1)
             position = viewPager.getCurrentItem();
 
         ((DayScheduleFragment) adapter.getItem(position)).filter(selectedTracks);
@@ -168,7 +174,7 @@ public class ScheduleFragment extends BaseFragment {
         return super.onOptionsItemSelected(item);
     }
 
-    @OnClick (R.id.schedule_fab_filter)
+    @OnClick(R.id.schedule_fab_filter)
     public void filterSchedule() {
         final AlertDialog.Builder dialogSort = new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.dialog_filter_title)
@@ -177,10 +183,10 @@ public class ScheduleFragment extends BaseFragment {
                     selectedTracks.clear();
                     int count = 0;
                     String tracksFiltered = "";
-                    for(int i=0 ; i<isTrackSelected.length ; i++) {
+                    for (int i = 0; i < isTrackSelected.length; i++) {
                         if (isTrackSelected[i]) {
                             selectedTracks.add(tracksNames[i]);
-                            if(count == 0)
+                            if (count == 0)
                                 tracksFiltered += tracksNames[i];
                             else
                                 tracksFiltered += ("," + tracksNames[i]);
@@ -188,8 +194,8 @@ public class ScheduleFragment extends BaseFragment {
                         }
                     }
                     notifyUpdate(-1, selectedTracks);
-                    if(count!=0) {
-                        filtersText.setText("Filters" + "(" + count +")" + ": " + tracksFiltered);
+                    if (count != 0) {
+                        filtersText.setText("Filters" + "(" + count + ")" + ": " + tracksFiltered);
                         filterBar.setVisibility(View.VISIBLE);
                     } else {
                         filterBar.setVisibility(View.GONE);
@@ -199,7 +205,7 @@ public class ScheduleFragment extends BaseFragment {
         dialogSort.show();
     }
 
-    @OnClick (R.id.close_filter)
+    @OnClick(R.id.close_filter)
     public void closeFilterBar() {
         Arrays.fill(isTrackSelected, false);
         selectedTracks.clear();
@@ -211,9 +217,9 @@ public class ScheduleFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         OpenEventApp.getEventBus().unregister(this);
-        if(compositeDisposable != null && !compositeDisposable.isDisposed())
+        if (compositeDisposable != null && !compositeDisposable.isDisposed())
             compositeDisposable.dispose();
-        if(viewPager != null && onPageChangeListener != null)
+        if (viewPager != null && onPageChangeListener != null)
             viewPager.removeOnPageChangeListener(onPageChangeListener);
     }
 }
