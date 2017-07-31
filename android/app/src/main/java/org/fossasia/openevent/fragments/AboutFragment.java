@@ -127,7 +127,7 @@ public class AboutFragment extends BaseFragment {
         bookmarksRecyclerView.setNestedScrollingEnabled(false);
     }
 
-    private void setUpSocialLinksRecyclerView(){
+    private void setUpSocialLinksRecyclerView() {
         socialLinksListAdapter = new SocialLinksListAdapter(mSocialLinks);
         socialLinksRecyclerView.setAdapter(socialLinksListAdapter);
         socialLinksRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -135,7 +135,7 @@ public class AboutFragment extends BaseFragment {
     }
 
     private void loadEvent(Event event) {
-        if(event == null || !event.isValid())
+        if (event == null || !event.isValid())
             return;
 
         String date = String.format("%s\n%s",
@@ -233,13 +233,13 @@ public class AboutFragment extends BaseFragment {
             mSessions.clear();
             for (String eventDate : dateList) {
                 boolean headerCheck = false;
-                for(Session bookmarkedSession : bookmarked){
-                    if(bookmarkedSession.getStartDate().equals(eventDate)){
-                        if(!headerCheck){
+                for (Session bookmarkedSession : bookmarked) {
+                    if (bookmarkedSession.getStartDate().equals(eventDate)) {
+                        if (!headerCheck) {
                             String headerDate = "Invalid";
                             try {
                                 headerDate = DateConverter.formatDay(eventDate);
-                            } catch (ParseException e){
+                            } catch (ParseException e) {
                                 e.printStackTrace();
                             }
                             mSessions.add(headerDate);
@@ -264,9 +264,9 @@ public class AboutFragment extends BaseFragment {
     public void onStop() {
         super.onStop();
         OpenEventApp.getEventBus().unregister(this);
-        if(bookmarksResult != null)
+        if (bookmarksResult != null)
             bookmarksResult.removeAllChangeListeners();
-        if(event != null && event.isValid())
+        if (event != null && event.isValid())
             event.removeAllChangeListeners();
     }
 
@@ -284,6 +284,6 @@ public class AboutFragment extends BaseFragment {
         super.onDestroy();
 
         // Remove listeners to fix memory leak
-        if(searchView != null) searchView.setOnQueryTextListener(null);
+        if (searchView != null) searchView.setOnQueryTextListener(null);
     }
 }
