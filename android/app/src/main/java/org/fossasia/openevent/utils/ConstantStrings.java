@@ -67,7 +67,10 @@ public class ConstantStrings {
 
     public static final String LOCATION_NAME = "locationName";
 
-    public static final String PREF_SORT = "sortType";
+    //Sort order
+    public static final String PREF_SORT_SCHEDULE = "schedule_sort_type";
+
+    public static final String PREF_SORT_SPEAKER = "speaker_sort_type";
 
     public static final String SESSION_MAP_ID = "sessionMapId";
 

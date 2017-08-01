@@ -67,7 +67,7 @@ public class ScheduleFragment extends BaseFragment {
         filterBar.setVisibility(View.GONE);
         OpenEventApp.getEventBus().register(true);
         compositeDisposable = new CompositeDisposable();
-        sortType = SharedPreferencesUtil.getInt(ConstantStrings.PREF_SORT, 0);
+        sortType = SharedPreferencesUtil.getInt(ConstantStrings.PREF_SORT_SCHEDULE, 2);
         selectedTracks = new ArrayList<>();
 
         setupViewPager(viewPager);
@@ -155,7 +155,7 @@ public class ScheduleFragment extends BaseFragment {
                         .setTitle(R.string.dialog_sort_title)
                         .setSingleChoiceItems(R.array.session_sort, sortType, (dialog, which) -> {
                             sortType = which;
-                            SharedPreferencesUtil.putInt(ConstantStrings.PREF_SORT, which);
+                            SharedPreferencesUtil.putInt(ConstantStrings.PREF_SORT_SCHEDULE, which);
                             notifyUpdate(-1, selectedTracks);
                             dialog.dismiss();
                         });
