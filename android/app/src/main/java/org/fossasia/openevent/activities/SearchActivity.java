@@ -1,9 +1,11 @@
 package org.fossasia.openevent.activities;
 
+import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -20,6 +22,7 @@ import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Track;
+import org.fossasia.openevent.utils.SharedPreferencesUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,10 +46,17 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
 
     private final String SEARCH = "SAVE_KEY_ON_ROTATE";
 
+    private final static String TRACK_HEADER = "Tracks";
+    private final static String SESSION_HEADER = "Sessions";
+    private final static String SPEAKER_HEADER = "Speakers";
+    private final static String LOCATION_HEADER = "Locations";
+
     @BindView(R.id.search_recyclerView)
     protected RecyclerView searchRecyclerView;
     @BindView(R.id.txt_no_results)
     protected TextView noResultsView;
+    @BindView(R.id.fab_filter_search)
+    FloatingActionButton fabFilter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +65,8 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
         OpenEventApp.getEventBus().register(this);
 
         handleVisibility();
+
+        populateFilters();
 
         globalSearchAdapter = new GlobalSearchAdapter(results, this);
         searchRecyclerView.setAdapter(globalSearchAdapter);
@@ -67,6 +79,35 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
         if (Intent.ACTION_SEARCH.equals(getIntent().getAction())) {
             handleIntent(getIntent());
         }
+
+        fabFilter.setOnClickListener(view -> {
+            AlertDialog filterDialog;
+
+            final String[] checks = {TRACK_HEADER, SESSION_HEADER, SPEAKER_HEADER, LOCATION_HEADER};
+            final ArrayList<Integer> selectedItems = new ArrayList<>();
+            final boolean[] defaultCheckedValues = {SharedPreferencesUtil.getBoolean(TRACK_HEADER, true),
+                    SharedPreferencesUtil.getBoolean(SESSION_HEADER, true),
+                    SharedPreferencesUtil.getBoolean(SPEAKER_HEADER, true),
+                    SharedPreferencesUtil.getBoolean(LOCATION_HEADER, true)};
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(SearchActivity.this);
+            builder.setTitle("Filters");
+            builder.setMultiChoiceItems(checks, defaultCheckedValues,
+                    (dialog, indexSelected, isChecked) -> {
+                        SharedPreferencesUtil.putBoolean(checks[indexSelected], isChecked);
+                        defaultCheckedValues[indexSelected] = isChecked;
+                        if (isChecked) {
+                            selectedItems.add(indexSelected);
+                        } else if (selectedItems.contains(indexSelected)) {
+                            selectedItems.remove(Integer.valueOf(indexSelected));
+                        }
+                    })
+                    .setPositiveButton("OK", (dialog, id) -> searchQuery(searchText))
+                    .setNegativeButton("Cancel", (dialog, id) -> Timber.d("Filter Dialog Cancelled"));
+
+            filterDialog = builder.create();
+            filterDialog.show();
+        });
     }
 
     @Override
@@ -89,6 +130,7 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
             searchView.setQuery(searchText, true);
         }
         return true;
+
     }
 
     @Override
@@ -117,6 +159,7 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
 
     public void handleIntent(Intent intent) {
         final String query = intent.getStringExtra(SearchManager.QUERY);
+        searchText = query;
         searchQuery(query);
     }
 
@@ -126,10 +169,19 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
         if (!TextUtils.isEmpty(constraint)) {
             String query = constraint.toLowerCase(Locale.getDefault());
             String wildcardQuery = String.format("*%s*", query);
-            addResultsFromTracks(wildcardQuery);
-            addResultFromSessions(wildcardQuery);
-            addResultsFromSpeakers(wildcardQuery);
-            addResultsFromLocations(wildcardQuery);
+
+            if (SharedPreferencesUtil.getBoolean(TRACK_HEADER, true)) {
+                addResultsFromTracks(wildcardQuery);
+            }
+            if (SharedPreferencesUtil.getBoolean(SESSION_HEADER, true)) {
+                addResultFromSessions(wildcardQuery);
+            }
+            if (SharedPreferencesUtil.getBoolean(SPEAKER_HEADER, true)) {
+                addResultsFromSpeakers(wildcardQuery);
+            }
+            if (SharedPreferencesUtil.getBoolean(LOCATION_HEADER, true)) {
+                addResultsFromLocations(wildcardQuery);
+            }
         }
     }
 
@@ -160,7 +212,7 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
 
         filteredTracks.addChangeListener(tracks -> {
             if (tracks.size() > 0) {
-                results.add("Tracks");
+                results.add(TRACK_HEADER);
             }
             results.addAll(tracks);
             globalSearchAdapter.notifyDataSetChanged();
@@ -177,7 +229,7 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
 
         filteredSpeakers.addChangeListener(speakers -> {
             if (speakers.size() > 0) {
-                results.add("Speakers");
+                results.add(SPEAKER_HEADER);
             }
             results.addAll(speakers);
             globalSearchAdapter.notifyDataSetChanged();
@@ -192,7 +244,7 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
 
         filteredMicrolocations.addChangeListener(microlocations -> {
             if (microlocations.size() > 0) {
-                results.add("Locations");
+                results.add(LOCATION_HEADER);
             }
             results.addAll(filteredMicrolocations);
             globalSearchAdapter.notifyDataSetChanged();
@@ -207,7 +259,7 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
 
         filteredSessions.addChangeListener(sessions -> {
             if (sessions.size() > 0) {
-                results.add("Sessions");
+                results.add(SESSION_HEADER);
             }
             results.addAll(filteredSessions);
             globalSearchAdapter.notifyDataSetChanged();
@@ -225,5 +277,13 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
             searchRecyclerView.setVisibility(View.VISIBLE);
         }
     }
+
+    public void populateFilters() {
+        SharedPreferencesUtil.putBoolean(TRACK_HEADER, true);
+        SharedPreferencesUtil.putBoolean(SPEAKER_HEADER, true);
+        SharedPreferencesUtil.putBoolean(LOCATION_HEADER, true);
+        SharedPreferencesUtil.putBoolean(SESSION_HEADER, true);
+    }
+
 }
 

@@ -62,7 +62,7 @@ public class GlobalSearchAdapter extends BaseRVAdapter<Object, RecyclerView.View
             return SPEAKER;
         } else if (filteredResultList.get(position) instanceof Microlocation) {
             return LOCATION;
-        } else if (filteredResultList.get(position) instanceof Session) {
+        } else if(filteredResultList.get(position) instanceof Session){
             return SESSION;
         } else {
             return 1;
