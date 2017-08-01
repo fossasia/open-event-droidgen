@@ -32,6 +32,7 @@ import org.fossasia.openevent.api.DataDownloadManager;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.events.SpeakerDownloadEvent;
+import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.NetworkUtils;
 import org.fossasia.openevent.utils.SharedPreferencesUtil;
 import org.fossasia.openevent.utils.ShowNotificationSnackBar;
@@ -48,8 +49,6 @@ import timber.log.Timber;
 import static org.fossasia.openevent.utils.SortOrder.sortOrderSpeaker;
 
 public class SpeakersListFragment extends BaseFragment implements SearchView.OnQueryTextListener {
-
-    private static final String PREF_SORT = "sortType";
 
     final private String SEARCH = "searchText";
 
@@ -79,7 +78,7 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
 
         Utils.registerIfUrlValid(swipeRefreshLayout, this, this::refresh);
 
-        sortType = SharedPreferencesUtil.getInt(PREF_SORT, 0);
+        sortType = SharedPreferencesUtil.getInt(ConstantStrings.PREF_SORT_SPEAKER, 0);
 
         //setting the grid layout to cut-off white space in tablet view
         DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
@@ -174,7 +173,7 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
                         .setTitle(R.string.dialog_sort_title)
                         .setSingleChoiceItems(list_options, sortType, (dialog, which) -> {
                             sortType = which;
-                            SharedPreferencesUtil.putInt(PREF_SORT, which);
+                            SharedPreferencesUtil.putInt(ConstantStrings.PREF_SORT_SPEAKER, which);
                             loadData();
                             dialog.dismiss();
                         });

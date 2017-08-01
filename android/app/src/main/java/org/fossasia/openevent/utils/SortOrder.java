@@ -1,7 +1,5 @@
 package org.fossasia.openevent.utils;
 
-import android.content.Context;
-
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
 
@@ -15,13 +13,12 @@ public final class SortOrder {
     private static final int SORT_TYPE_FIRST = 0;
     private static final int SORT_TYPE_SECOND = 1;
     private static final int SORT_TYPE_THIRD = 2;
-    private static final String PREF_SORT = "sortType";
 
     private SortOrder() {
     }
 
     public static String sortOrderSpeaker() {
-        switch (SharedPreferencesUtil.getInt(PREF_SORT, 0)) {
+        switch (SharedPreferencesUtil.getInt(ConstantStrings.PREF_SORT_SPEAKER, 0)) {
             case SORT_TYPE_FIRST:
                 //By NAME
                 return Speaker.NAME;
@@ -37,7 +34,7 @@ public final class SortOrder {
     }
 
     public static String sortOrderSchedule() {
-        switch (SharedPreferencesUtil.getInt(PREF_SORT, 2)) {
+        switch (SharedPreferencesUtil.getInt(ConstantStrings.PREF_SORT_SCHEDULE, 2)) {
             case SORT_TYPE_FIRST:
                 //By TITLE
                 return Session.TITLE;
