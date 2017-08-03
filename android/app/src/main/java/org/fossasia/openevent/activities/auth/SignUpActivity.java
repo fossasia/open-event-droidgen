@@ -1,6 +1,7 @@
-package org.fossasia.openevent.activities;
+package org.fossasia.openevent.activities.auth;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.design.widget.TextInputLayout;
@@ -23,72 +24,78 @@ import org.fossasia.openevent.utils.Utils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class LoginActivity extends AppCompatActivity implements AppCompatEditText.OnEditorActionListener {
+public class SignUpActivity extends AppCompatActivity implements AppCompatEditText.OnEditorActionListener {
 
     @BindView(R.id.text_input_layout_email)
     TextInputLayout mTextInputLayoutEmail;
-    @BindView(R.id.text_input_layout_password)
-    TextInputLayout mTextInputLayoutPassword;
-    @BindView(R.id.btnLogin)
-    Button btnLogin;
+    @BindView(R.id.text_input_layout_create_password)
+    TextInputLayout mTextInputLayoutCreatePassword;
+    @BindView(R.id.text_input_layout_confirm_password)
+    TextInputLayout mTextInputLayoutConfirmPassword;
+    @BindView(R.id.btnSignUp)
+    Button btnSignUp;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
-    @BindView(R.id.sign_up)
-    TextView switchToSignUp;
+    @BindView(R.id.login)
+    TextView switchToLogin;
 
     private AppCompatEditText mEditTextEmail;
-    private AppCompatEditText mEditTextPassword;
+    private AppCompatEditText mEditTextCreatePassword;
+    private AppCompatEditText mEditTextConfirmPassword;
 
     private String email;
+    private String password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-
-        overridePendingTransition(R.anim.slide_in_right, R.anim.stay_in_place);
+        setContentView(R.layout.activity_sign_up);
 
         ButterKnife.bind(this);
 
         mEditTextEmail = (AppCompatEditText) mTextInputLayoutEmail.getEditText();
-        mEditTextPassword = (AppCompatEditText) mTextInputLayoutPassword.getEditText();
+        mEditTextCreatePassword = (AppCompatEditText) mTextInputLayoutCreatePassword.getEditText();
+        mEditTextConfirmPassword = (AppCompatEditText) mTextInputLayoutConfirmPassword.getEditText();
 
         setEditTextListener();
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        switchToSignUp.setOnClickListener(v -> onBackPressed());
+        switchToLogin.setOnClickListener(v -> startActivity(new Intent(SignUpActivity.this, LoginActivity.class)));
 
-        btnLogin.setOnClickListener(v -> {
+        btnSignUp.setOnClickListener(v -> {
             hideKeyBoard();
-            if (mEditTextEmail == null || mEditTextPassword == null)
+            if (mEditTextEmail == null || mEditTextCreatePassword == null || mEditTextConfirmPassword == null)
                 return;
 
             email = mEditTextEmail.getText().toString();
-            String password = mEditTextPassword.getText().toString();
+            password = mEditTextCreatePassword.getText().toString();
+            String confirmPassword = mEditTextConfirmPassword.getText().toString();
 
-            if (validateCredentials(email, password)) {
-                AuthUtil.loginUser(LoginActivity.this, email, password, progressBar);
+            if (validateCredentials(email, password, confirmPassword)) {
+                AuthUtil.signUpUser(SignUpActivity.this, email, password, progressBar);
             }
         });
     }
 
     private void setEditTextListener() {
-        if (mEditTextEmail == null || mEditTextPassword == null)
+        if (mEditTextEmail == null || mEditTextCreatePassword == null || mEditTextConfirmPassword == null)
             return;
 
         mEditTextEmail.setOnEditorActionListener(this);
-        mEditTextPassword.setOnEditorActionListener(this);
+        mEditTextCreatePassword.setOnEditorActionListener(this);
+        mEditTextConfirmPassword.setOnEditorActionListener(this);
     }
 
-    private boolean validateCredentials(String email, String password) {
+    private boolean validateCredentials(String email, String password, String confirmPasssword) {
 
         // Reset errors.
         mTextInputLayoutEmail.setError(null);
-        mTextInputLayoutPassword.setError(null);
+        mTextInputLayoutCreatePassword.setError(null);
+        mTextInputLayoutConfirmPassword.setError(null);
 
         if (Utils.isEmpty(email)) {
             handleError(mTextInputLayoutEmail, R.string.error_email_required);
@@ -99,7 +106,20 @@ public class LoginActivity extends AppCompatActivity implements AppCompatEditTex
         }
 
         if (Utils.isEmpty(password)) {
-            handleError(mTextInputLayoutPassword, R.string.error_password_required);
+            handleError(mTextInputLayoutCreatePassword, R.string.error_password_required);
+            return false;
+        } else if (!Utils.isPasswordValid(password)) {
+            handleError(mTextInputLayoutCreatePassword, R.string.error_password_length);
+            return false;
+        }
+
+        if (Utils.isEmpty(confirmPasssword)) {
+            handleError(mTextInputLayoutConfirmPassword, R.string.error_confirm_password);
+            return false;
+        }
+
+        if (!confirmPasssword.equals(password)) {
+            handleError(mTextInputLayoutConfirmPassword, R.string.error_password_not_matching);
             return false;
         }
 
@@ -112,16 +132,10 @@ public class LoginActivity extends AppCompatActivity implements AppCompatEditTex
     }
 
     @Override
-    public void finish() {
-        super.finish();
-        LoginActivity.this.overridePendingTransition(0, R.anim.slide_out_right);
-    }
-
-    @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
         if (actionId == EditorInfo.IME_ACTION_DONE) {
             hideKeyBoard();
-            btnLogin.performClick();
+            btnSignUp.performClick();
             return true;
         }
         return false;
@@ -149,4 +163,3 @@ public class LoginActivity extends AppCompatActivity implements AppCompatEditTex
         return super.onOptionsItemSelected(item);
     }
 }
-

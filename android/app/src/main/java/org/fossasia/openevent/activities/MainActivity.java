@@ -39,6 +39,7 @@ import com.squareup.otto.Subscribe;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
+import org.fossasia.openevent.activities.auth.UserProfileActivity;
 import org.fossasia.openevent.adapters.FeedAdapter;
 import org.fossasia.openevent.api.APIClient;
 import org.fossasia.openevent.api.DataDownloadManager;
@@ -77,6 +78,7 @@ import org.fossasia.openevent.fragments.ScheduleFragment;
 import org.fossasia.openevent.fragments.SpeakersListFragment;
 import org.fossasia.openevent.fragments.SponsorsFragment;
 import org.fossasia.openevent.fragments.TracksFragment;
+import org.fossasia.openevent.utils.AuthUtil;
 import org.fossasia.openevent.utils.CommonTaskLoop;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.DateConverter;
@@ -310,7 +312,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
         }
 
         MenuItem userProfileMenuItem = navigationView.getMenu().findItem(R.id.nav_user_profile);
-        if (Utils.isUserLoggedIn()) {
+        if (AuthUtil.isUserLoggedIn()) {
             String email = SharedPreferencesUtil.getString(ConstantStrings.USER_EMAIL, null);
             if (email != null) {
                 userProfileMenuItem.setTitle(email);

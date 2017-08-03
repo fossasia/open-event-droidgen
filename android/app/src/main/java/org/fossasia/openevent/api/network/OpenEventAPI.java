@@ -7,9 +7,10 @@ import org.fossasia.openevent.data.SessionType;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Sponsor;
 import org.fossasia.openevent.data.Track;
+import org.fossasia.openevent.data.auth.ImageResponse;
 import org.fossasia.openevent.data.auth.Login;
 import org.fossasia.openevent.data.auth.LoginResponse;
-import org.fossasia.openevent.data.auth.SignUp;
+import org.fossasia.openevent.data.auth.UploadImage;
 import org.fossasia.openevent.data.auth.User;
 
 import java.util.List;
@@ -18,6 +19,7 @@ import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
@@ -28,10 +30,19 @@ import retrofit2.http.Path;
 public interface OpenEventAPI {
 
     @POST("../../users")
-    Observable<User> signUp(@Body SignUp signUp);
+    Observable<User> signUp(@Body User user);
 
     @POST("../../../auth/session")
     Observable<LoginResponse> login(@Body Login login);
+
+    @GET("../../users/{id}")
+    Observable<User> getUser(@Path("id") long id);
+
+    @PATCH("../../users/{id}")
+    Observable<User> updateUser(@Body User user, @Path("id") long id);
+
+    @POST("../../upload/image")
+    Observable<ImageResponse> uploadImage(@Body UploadImage uploadImage);
 
     @GET("speakers?include=sessions&fields[session]=title")
     Call<List<Speaker>> getSpeakers();

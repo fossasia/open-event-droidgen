@@ -5,6 +5,7 @@
     <!--view specifics -->
     <dimen name="view_height">1dp</dimen>
     <dimen name="home_screen_divider_width">2dp</dimen>
+    <dimen name="profile_menu_height">72dp</dimen>
 
     <!--image view specifics -->
     <dimen name="item_image_view_small">24dp</dimen>

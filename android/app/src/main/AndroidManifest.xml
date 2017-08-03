@@ -42,17 +42,24 @@
                 android:value=".activities.SearchActivity" />
         </activity>
         <activity
-            android:name=".activities.UserProfileActivity"
+            android:name=".activities.auth.UserProfileActivity"
             android:label="@string/title_activity_user_profile"
-            android:theme="@style/AppTheme.NoActionBar.Alternate"
             android:configChanges="orientation|screenSize|keyboardHidden"/>
         <activity
-            android:name=".activities.SignUpActivity"
+            android:name=".activities.auth.EditProfileActivity"
+            android:label="@string/title_activity_edit_profile"
+            android:configChanges="orientation|screenSize|keyboardHidden"/>
+        <activity
+            android:name=".activities.auth.ChangePasswordActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:label="@string/title_activity_change_password" />
+        <activity
+            android:name=".activities.auth.SignUpActivity"
             android:label="@string/title_activity_sign_up"
             android:theme="@style/AppTheme.NoActionBar.Alternate"
             android:configChanges="orientation|screenSize|keyboardHidden"/>
         <activity
-            android:name=".activities.LoginActivity"
+            android:name=".activities.auth.LoginActivity"
             android:label="@string/title_activity_login"
             android:theme="@style/AppTheme.NoActionBar.Alternate"
             android:configChanges="orientation|screenSize|keyboardHidden"/>

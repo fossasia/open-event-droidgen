@@ -45,11 +45,6 @@ public class Utils {
         return password.length() >= 6;
     }
 
-    public static boolean isUserLoggedIn() {
-        String token = SharedPreferencesUtil.getString(ConstantStrings.TOKEN, null);
-        return token != null && !JWTUtils.isExpired(token);
-    }
-
     public static void registerIfUrlValid(SwipeRefreshLayout swipeRefreshLayout,
                                               Object object, SwipeRefreshLayout.OnRefreshListener onRefreshListener){
         if (isBaseUrlEmpty()) {

@@ -5,7 +5,7 @@
     android:id="@+id/activity_login"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="org.fossasia.openevent.activities.LoginActivity">
+    tools:context="org.fossasia.openevent.activities.auth.LoginActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"

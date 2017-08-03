@@ -24,6 +24,12 @@ public class JWTUtils {
         return Long.parseLong(new JSONObject(decoded.get(1)).get("exp").toString());
     }
 
+    public static int getIdentity(String token) throws JSONException {
+        SparseArrayCompat<String> decoded = decode(token);
+
+        return Integer.parseInt(new JSONObject(decoded.get(1)).get("identity").toString());
+    }
+
     public static boolean isExpired(String token) {
         long expiry;
 
