@@ -1,18 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/user_profile_swipe_refresh"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:clipToPadding="false"
-    android:padding="@dimen/padding_large"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="User"
-        android:textSize="@dimen/heading_text_size" />
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-</android.support.v4.widget.NestedScrollView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/layout_margin_large"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/avatar"
+                    android:layout_width="@dimen/item_image_view_large"
+                    android:layout_height="@dimen/item_image_view_large"
+                    android:layout_gravity="center_horizontal"
+                    android:contentDescription="Avatar image view"
+                    android:padding="@dimen/padding_large"
+                    android:src="@drawable/ic_account_circle_grey_24dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/padding_medium">
+
+                    <TextView
+                        android:id="@+id/first_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/padding_medium"
+                        android:paddingRight="@dimen/padding_small"
+                        android:textSize="@dimen/text_size_extra_large"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/last_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/padding_small"
+                        android:paddingRight="@dimen/padding_medium"
+                        android:textSize="@dimen/text_size_extra_large"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="@dimen/padding_medium"
+                    android:textSize="@dimen/text_size_large" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:divider="@drawable/line_divider"
+                android:orientation="vertical"
+                android:showDividers="middle">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="@drawable/line_divider" />
+
+                <TextView
+                    android:id="@+id/edit_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?android:selectableItemBackground"
+                    android:drawableLeft="@drawable/ic_edit_black_24dp"
+                    android:drawablePadding="@dimen/padding_large"
+                    android:gravity="center_vertical"
+                    android:minHeight="@dimen/profile_menu_height"
+                    android:paddingLeft="@dimen/padding_large"
+                    android:text="@string/edit_profile"
+                    android:textSize="@dimen/text_size_large" />
+
+                <TextView
+                    android:id="@+id/change_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?android:selectableItemBackground"
+                    android:drawableLeft="@drawable/ic_security_black_24dp"
+                    android:drawablePadding="@dimen/padding_large"
+                    android:gravity="center_vertical"
+                    android:minHeight="@dimen/profile_menu_height"
+                    android:paddingLeft="@dimen/padding_large"
+                    android:text="@string/change_password"
+                    android:textSize="@dimen/text_size_large" />
+
+                <TextView
+                    android:id="@+id/logout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?android:selectableItemBackground"
+                    android:drawableLeft="@drawable/ic_logout"
+                    android:drawablePadding="@dimen/padding_large"
+                    android:gravity="center_vertical"
+                    android:minHeight="@dimen/profile_menu_height"
+                    android:paddingLeft="@dimen/padding_large"
+                    android:text="@string/logout"
+                    android:textSize="@dimen/text_size_large" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="@drawable/line_divider" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+</android.support.v4.widget.SwipeRefreshLayout>

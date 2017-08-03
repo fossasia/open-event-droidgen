@@ -6,11 +6,12 @@ import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.data.Event;
 import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.data.Session;
+import org.fossasia.openevent.data.SessionType;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Sponsor;
 import org.fossasia.openevent.data.Track;
+import org.fossasia.openevent.data.auth.User;
 import org.fossasia.openevent.data.extras.EventDates;
-import org.fossasia.openevent.data.SessionType;
 import org.fossasia.openevent.events.BookmarkChangedEvent;
 
 import java.util.HashMap;
@@ -63,6 +64,68 @@ public class RealmDataRepository {
     public Realm getRealmInstance() {
         return realm;
     }
+
+    //User Section
+
+    private void saveUserInRealm(User user) {
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        realm.insertOrUpdate(user);
+        realm.commitTransaction();
+        realm.close();
+    }
+
+    /**
+     * Saves the User object in database and returns Completable
+     * object for tracking the state of operation
+     *
+     * @param user User which is to be stored
+     * @return Completable object to be subscribed by caller
+     */
+    public Completable saveUser(final User user) {
+        return Completable.fromAction(() -> {
+            saveUserInRealm(user);
+            Timber.d("Saved User");
+        });
+    }
+
+    /**
+     * Returns Future style User which is null
+     * To get the contents of User, add an OnRealmChangeListener
+     * which notifies about the object state asynchronously
+     *
+     * @return User Returns User Future
+     */
+    public User getUser() {
+        Realm realm = Realm.getDefaultInstance();
+        User user = realm.where(User.class).findFirstAsync();
+        realm.close();
+        return user;
+    }
+
+    /**
+     * Returns User synchronously
+     *
+     * @return User
+     */
+    public User getUserSync() {
+        Realm realm = Realm.getDefaultInstance();
+        User user = realm.where(User.class).findFirst();
+        realm.close();
+        return user;
+    }
+
+    public void clearUserData() {
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.delete(User.class);
+            }
+        });
+        realm.close();
+    }
+
 
     // Events Section
 
