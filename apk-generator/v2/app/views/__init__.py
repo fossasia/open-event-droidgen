@@ -61,13 +61,15 @@ def process(data=None, via_api=False):
     email = data.get('email', None)
     data_source = data.get('data-source', None)
     build_type = data.get('build-type', None)
+    is_auth_enabled = data.get('is-auth-enabled', 'false') == 'true'
     theme_colors = json.loads(data.get('colors', None))
 
     if not email or not data_source or data_source not in VALID_DATA_SOURCES or not validators.email(email):
         return jsonify(status='error', message='invalid data'), 400
 
     payload = {
-        'creator_email': email
+        'creator_email': email,
+        'is_auth_enabled': is_auth_enabled
     }
 
     identifier = str(uuid.uuid4())

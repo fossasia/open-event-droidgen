@@ -54,9 +54,10 @@ import timber.log.Timber;
  */
 public class OpenEventApp extends Application {
 
-    public static final String API_LINK = "Api_Link";
-    public static final String EMAIL = "Email";
-    public static final String APP_NAME = "App_Name";
+    public static final String API_LINK = "api-link";
+    public static final String EMAIL = "email";
+    public static final String APP_NAME = "app-name";
+    public static final String AUTH_OPTION = "is-auth-enabled";
 
     public static String sDefSystemLanguage;
     private static Handler handler;
@@ -181,12 +182,14 @@ public class OpenEventApp extends Application {
             String email = jsonObject.has(EMAIL) ? jsonObject.getString(EMAIL) : "";
             String appName = jsonObject.has(APP_NAME) ? jsonObject.getString(APP_NAME) : "";
             String apiLink = jsonObject.has(API_LINK) ? jsonObject.getString(API_LINK) : "";
+            boolean isAuthEnabled = jsonObject.has(AUTH_OPTION) && jsonObject.getBoolean(AUTH_OPTION);
 
             Urls.setBaseUrl(apiLink);
 
             SharedPreferencesUtil.putString(ConstantStrings.EMAIL, email);
             SharedPreferencesUtil.putString(ConstantStrings.APP_NAME, appName);
             SharedPreferencesUtil.putString(ConstantStrings.BASE_API_URL, apiLink);
+            SharedPreferencesUtil.putBoolean(ConstantStrings.IS_AUTH_ENABLED, isAuthEnabled);
 
             if (extractEventIdFromApiLink(apiLink) != 0)
                 SharedPreferencesUtil.putInt(ConstantStrings.EVENT_ID, extractEventIdFromApiLink(apiLink));
@@ -223,7 +226,7 @@ public class OpenEventApp extends Application {
     }
 
     private int extractEventIdFromApiLink(String apiLink){
-        if(apiLink == null)
+        if(Utils.isEmpty(apiLink))
             return 0;
 
         return Integer.parseInt(apiLink.split("/v1/events/")[1].replace("/",""));
