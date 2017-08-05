@@ -1,3 +1,5 @@
+# Digital Ocean installation
+
 This guide will show you how to deploy Open Event Android App Generator on Digital Ocean. The basic idea is installing Docker on Digital Ocean droplet and then running Open Event in it.
 
 #### Phase 1
@@ -10,7 +12,7 @@ This guide will show you how to deploy Open Event Android App Generator on Digit
 
 * Once droplet has been created, you will get email from DigitalOcean with its information IP Address, username and password.
 
-![droplet_email](../images/digitalocean-droplet.png)
+![droplet_email](../_static/images/digitalocean-droplet.png)
 
 * Open a terminal window and ssh into the server. The command is `ssh USERNAME@IP`. When run, it will ask for the password you got through email. Ctrl-Shift-V to paste the password and ENTER. An example has been given below.
 

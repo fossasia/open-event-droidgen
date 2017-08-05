@@ -1,8 +1,7 @@
----
-title: GCE Kubernetes
----
+# GCE Kubernetes
 
-# Mode 1 - Dependent on API Server Kubernetes deployment
+
+## Mode 1 - Dependent on API Server Kubernetes deployment
 
 - Follow all steps at https://github.com/fossasia/open-event-orga-server/blob/nextgen/docs/installation/gce-kubernetes.md (Ensure you use the config in the `nextgen` branch)
 - Now switch back to this repository. (open-event-android)
@@ -15,7 +14,7 @@ title: GCE Kubernetes
     ```
 - Once deployed, your instance will be accessible at your domain name.
 
-# Mode 2 - Standalone deployment
+## Mode 2 - Standalone deployment
 
 > Note: this mode is untested.
 

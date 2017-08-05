@@ -1,3 +1,5 @@
+# AWS EC2 installation
+
 ## Phase 1
 
 This phase involves creating the EC2 instance which will hold your app.
@@ -9,16 +11,16 @@ This phase involves creating the EC2 instance which will hold your app.
 * Follow the other steps till you reach the 6th step which is about *configuring Security groups*. There add a rule to accept all HTTP connections. See the screenshot on how
 it should look like.
 
-![ec2_security_grp](../images/aws-security-group.png)
+![ec2_security_grp](../_static/images/aws-security-group.png)
 
 * Click Launch in the 7th step and you will be presented with a dialog to create a key. Create a new key and give it a name. In this tutorial, I will use the name 'mykey'.
 Then download the key. Keep it safe because if you lose it, you will lose access to the server.
 
-![ec2_create_key](../images/aws-key-pair.png)
+![ec2_create_key](../_static/images/aws-key-pair.png)
 
 * Once the instance is created, you will be forwarded to the instances list. Select the newly created instance and click on Connect button. You will see a dialog with instructions on how to connect to it using ssh.
 
-![connect_ssh_ec2](../images/aws-instance.png)
+![connect_ssh_ec2](../_static/images/aws-instance.png)
 
 * In the above case, the command is as follows. So open the terminal in your Downloads directory (which has the downloaded key file) and then run the command you got from the
 previous step. In my case, it was -

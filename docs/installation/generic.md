@@ -1,9 +1,9 @@
-
+# Generic installation
 
 ### Requirements
 
  Operating system Ubuntu 14.04 or above is preferred. (This guide will be based on ubuntu/debian based operating systems.)
- 
+
 - Python 2.7
 - Oracle JDK 8
 - Android SDK & necessary build tools and platform SDKs
@@ -31,7 +31,7 @@ sudo apt-get install -y ca-certificates && update-ca-certificates
 #### Installing Python 2.7.x
 
 ```bash
-sudo apt-get install -y python python-dev python-pip libpq-dev libevent-dev libmagic-dev 
+sudo apt-get install -y python python-dev python-pip libpq-dev libevent-dev libmagic-dev
 ```
 
 #### Installing Oracle JDK 8
@@ -76,12 +76,12 @@ brew install ca-certificates && update-ca-certificates
 #### Installing Python 2.7.x
 
 ```bash
-brew install python 
-brew install python-dev 
-brew install python-pip 
-brew install libpq-dev 
-brew install libevent-dev 
-brew install libmagic-dev 
+brew install python
+brew install python-dev
+brew install python-pip
+brew install libpq-dev
+brew install libevent-dev
+brew install libmagic-dev
 ```
 
 #### Installing Oracle JDK 8
@@ -182,6 +182,6 @@ gunicorn -b 0.0.0.0:8080 app:app --enable-stdio-inheritance --log-level "info"
 You can now visit [http://localhost:8080](http://localhost:8080/) on your browser to access the app generator.
 
 #### A FEW PRECAUTIONS/TIPS:
-##### - Run Celery and Gunicorn command on different commandline windows. 
+##### - Run Celery and Gunicorn command on different commandline windows.
 ##### - Use of virtualenv is recommended.
 ##### - Take care that the above environment variables are present at all times. You could also store them as permanent environment variables.

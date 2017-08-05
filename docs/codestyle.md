@@ -1,4 +1,4 @@
-## Code Style Guidelines for Open-Event-Android
+# Code Style Guidelines for Open-Event-Android
 
 Our code style guidelines is based on the [Android Code Style Guidelines for Contributors](https://source.android.com/source/code-style.html).
 

@@ -1,4 +1,4 @@
-## How to set up the Android app in your development environment
+# How to set up the Android app in your development environment
 
 This is a generic app that has two parts:
 
@@ -38,7 +38,7 @@ Note - Remember not to upload this file after this process.
 
 ### Configuring the app
 
-The configuration file named [config.json](https://github.com/fossasia/open-event-android/blob/development/android/app/src/main/assets/config.json) is located inside the assets folder of the Android Source code and contains details like : 
+The configuration file named [config.json](https://github.com/fossasia/open-event-android/blob/development/android/app/src/main/assets/config.json) is located inside the assets folder of the Android Source code and contains details like :
 
 Key  | Significance
 ------------- | -------------
@@ -90,4 +90,3 @@ Api_Link  | A REST API which will provide event's data to the app
   - _/app/src/main/res/values/_
   - _/app/src/main/res/values-v21/_
   - _/app/src/main/res/values-w820dp/_
-
