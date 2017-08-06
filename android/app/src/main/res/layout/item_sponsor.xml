@@ -35,9 +35,4 @@
             android:textStyle="bold|italic"
             tools:text="Sponsor Type" />
     </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/list_divider_height"
-        android:background="?android:attr/listDivider" />
 </LinearLayout>
