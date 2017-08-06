@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -59,11 +60,10 @@ public class SponsorsFragment extends BaseFragment {
 
         Utils.registerIfUrlValid(swipeRefreshLayout, this, this::refresh);
 
-        sponsorsListAdapter = new SponsorsListAdapter(getContext(), mSponsors,
-                getActivity(), true);
+        sponsorsListAdapter = new SponsorsListAdapter(getContext(), mSponsors);
         sponsorsRecyclerView.setAdapter(sponsorsListAdapter);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-        sponsorsRecyclerView.setLayoutManager(linearLayoutManager);
+        sponsorsRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        sponsorsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         RealmDataRepository.getDefaultInstance()
                 .getSponsors()
