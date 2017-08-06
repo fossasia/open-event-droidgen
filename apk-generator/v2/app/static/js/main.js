@@ -11,6 +11,7 @@ var $generateBtn = $("#generate-btn"),
     dataSourceType = null,
     $buildTypeRadio = $("input:radio[name=build-type]"),
     buildType = null,
+    $authOptionCheckbox = $("input:checkbox[name=is-auth-enabled]"),
     $colorPrimary = $("#cp-primary"),
     $colorPrimaryDark = $("#cp-primary-dark"),
     $colorAccent = $("#cp-accent");
@@ -225,6 +226,7 @@ $form.submit(function (e) {
     data.append("email", $emailInput.val());
     data.append("data-source", dataSourceType);
     data.append("build-type", buildType);
+    data.append("is-auth-enabled", $authOptionCheckbox.is(":checked"));
     data.append("colors", JSON.stringify({
         'primary': $colorPrimary.colorpicker('getValue'),
         'primary_dark': $colorPrimaryDark.colorpicker('getValue'),

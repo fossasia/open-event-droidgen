@@ -40,6 +40,7 @@ class Generator:
         self.working_dir = config['WORKING_DIR']
         self.src_dir = config['APP_SOURCE_DIR']
         self.creator_email = ''
+        self.is_auth_enabled = False
         self.event_name = ''
         self.app_name = ''
         self.app_working_dir = os.path.abspath(self.working_dir + '/' + self.identifier + '/android-src/')
@@ -69,10 +70,11 @@ class Generator:
         """
         return os.path.abspath(self.app_temp_assets + '/' + relative_path)
 
-    def normalize(self, creator_email, endpoint_url=None, zip_file=None):
+    def normalize(self, creator_email, endpoint_url=None, is_auth_enabled=False, zip_file=None):
         """
         Normalize the required data irrespective of the source
         :param creator_email:
+        :param is_auth_enabled:
         :param endpoint_url:
         :param zip_file:
         :return:
@@ -101,6 +103,7 @@ class Generator:
         self.event_name = event_info['name']
         self.app_name = self.event_name
         self.creator_email = creator_email
+        self.is_auth_enabled = is_auth_enabled
         self.update_status('Processing background image and logo')
         background_image = event_info['background_image'].strip() if event_info['background_image'] else ''
         logo = event_info['logo'].strip() if event_info['logo'] else ''
@@ -134,9 +137,10 @@ class Generator:
         logger.info('App package name: %s' % self.app_package_name)
 
         config = {
-            'Email': self.creator_email,
-            'App_Name': self.app_name,
-            'Api_Link': self.api_link
+            'email': self.creator_email,
+            'app-name': self.app_name,
+            'api-link': self.api_link,
+            'is-auth-enabled': self.is_auth_enabled
         }
 
         self.update_status('Generating app configuration')

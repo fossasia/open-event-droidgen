@@ -120,7 +120,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
     private boolean atHome = true;
     private boolean backPressedOnce;
     private boolean mTwoPane;
-    private boolean isUserAuthEnabled = true;
+    private boolean isAuthEnabled = SharedPreferencesUtil.getBoolean(ConstantStrings.IS_AUTH_ENABLED, false);
     private boolean customTabsSupported;
     private int currentMenuItemId;
 
@@ -306,7 +306,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
     }
 
     private void setUpUserProfileMenu() {
-        if (!isUserAuthEnabled) {
+        if (!isAuthEnabled) {
             navigationView.getMenu().setGroupVisible(R.id.menu_user_profile, false);
             return;
         }

@@ -21,6 +21,8 @@ public class ConstantStrings {
 
     public static final String APP_NAME = "APP_NAME";
 
+    public static final String IS_AUTH_ENABLED = "is_auth_enabled";
+
     public static final String EVENT_ID = "eventId";
 
     public static final String ORG_DESCRIPTION = "organizer_description";
