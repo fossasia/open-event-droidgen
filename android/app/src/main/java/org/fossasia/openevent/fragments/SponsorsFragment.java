@@ -24,6 +24,7 @@ import org.fossasia.openevent.events.SponsorDownloadEvent;
 import org.fossasia.openevent.utils.NetworkUtils;
 import org.fossasia.openevent.utils.ShowNotificationSnackBar;
 import org.fossasia.openevent.utils.Utils;
+import org.fossasia.openevent.views.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -64,6 +65,15 @@ public class SponsorsFragment extends BaseFragment {
         sponsorsRecyclerView.setAdapter(sponsorsListAdapter);
         sponsorsRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         sponsorsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        final StickyRecyclerHeadersDecoration headersDecoration = new StickyRecyclerHeadersDecoration(sponsorsListAdapter);
+        sponsorsRecyclerView.addItemDecoration(headersDecoration);
+        sponsorsListAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onChanged() {
+                headersDecoration.invalidateHeaders();
+            }
+        });
 
         RealmDataRepository.getDefaultInstance()
                 .getSponsors()

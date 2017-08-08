@@ -23,8 +23,6 @@ import timber.log.Timber;
 public class SponsorViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.sponsor_image)
     public ImageView sponsorImage;
-    @BindView(R.id.sponsor_type)
-    public TextView sponsorType;
     @BindView(R.id.sponsor_name)
     public TextView sponsorName;
     private Sponsor sponsor;
@@ -60,10 +58,8 @@ public class SponsorViewHolder extends RecyclerView.ViewHolder {
         final int height = displayMetrics.heightPixels;
 
         String name = Utils.checkStringEmpty(sponsor.getName());
-        String type = Utils.checkStringEmpty(sponsor.getType());
         String logo = Utils.parseImageUri(sponsor.getLogoUrl());
 
-        sponsorType.setText(type);
         sponsorName.setText(name);
         if (logo != null) {
             sponsorImage.setVisibility(View.VISIBLE);
