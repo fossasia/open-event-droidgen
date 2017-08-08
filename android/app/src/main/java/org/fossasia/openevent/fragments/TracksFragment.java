@@ -1,9 +1,11 @@
 package org.fossasia.openevent.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -16,16 +18,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.mikepenz.fastadapter.FastAdapter;
+import com.mikepenz.fastadapter.adapters.GenericItemAdapter;
 import com.squareup.otto.Subscribe;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
-import org.fossasia.openevent.adapters.TracksListAdapter;
+import org.fossasia.openevent.activities.TrackSessionsActivity;
+import org.fossasia.openevent.adapters.StickyHeaderAdapter;
+import org.fossasia.openevent.adapters.items.TrackItem;
 import org.fossasia.openevent.api.DataDownloadManager;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.events.RefreshUiEvent;
 import org.fossasia.openevent.events.TracksDownloadEvent;
+import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.NetworkUtils;
 import org.fossasia.openevent.utils.ShowNotificationSnackBar;
 import org.fossasia.openevent.utils.Utils;
@@ -36,6 +43,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import io.realm.RealmResults;
 
 /**
@@ -47,7 +57,7 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
     final private String SEARCH = "searchText";
 
     private List<Track> mTracks = new ArrayList<>();
-    private TracksListAdapter tracksListAdapter;
+    private GenericItemAdapter<Track, TrackItem> trackItemsAdapter;
 
     @BindView(R.id.tracks_swipe_refresh) SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.txt_no_tracks) TextView noTracksView;
@@ -60,7 +70,7 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
 
     private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
     private RealmResults<Track> realmResults;
-
+    private Disposable disposable;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
@@ -68,35 +78,28 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
         handleVisibility();
+        setUpRecyclerView();
 
         Utils.registerIfUrlValid(swipeRefreshLayout, this, this::refresh);
-
-        tracksRecyclerView.setHasFixedSize(true);
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-        tracksRecyclerView.setLayoutManager(linearLayoutManager);
-        tracksListAdapter = new TracksListAdapter(getContext(), mTracks);
-        tracksRecyclerView.setAdapter(tracksListAdapter);
-
-        final StickyRecyclerHeadersDecoration headersDecoration = new StickyRecyclerHeadersDecoration(tracksListAdapter);
-        tracksRecyclerView.addItemDecoration(headersDecoration);
-        tracksListAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-            @Override public void onChanged() {
-                headersDecoration.invalidateHeaders();
-            }
-        });
 
         if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
             searchText = savedInstanceState.getString(SEARCH);
         }
 
-        realmResults = realmRepo.getTracks();
-        realmResults.addChangeListener((tracks, orderedCollectionChangeSet) -> {
-            mTracks.clear();
-            mTracks.addAll(tracks);
-
-            tracksListAdapter.notifyDataSetChanged();
-            handleVisibility();
-        });
+        disposable = realmRepo.getTracksObservable()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(realmResults -> {
+                    this.realmResults = realmResults;
+                    this.realmResults.addChangeListener((tracks, orderedCollectionChangeSet) -> {
+                        mTracks.clear();
+                        mTracks.addAll(realmRepo.getRealmInstance().copyFromRealm(tracks));
+                        trackItemsAdapter.clearModel();
+                        trackItemsAdapter.addModel(mTracks);
+                        trackItemsAdapter.notifyDataSetChanged();
+                        handleVisibility();
+                    });
+                });
 
         return view;
     }
@@ -116,6 +119,40 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
         return R.layout.list_tracks;
     }
 
+    private void setUpRecyclerView() {
+        FastAdapter fastAdapter = new FastAdapter();
+        fastAdapter.setHasStableIds(true);
+
+        StickyHeaderAdapter stickyHeaderAdapter = new StickyHeaderAdapter();
+        trackItemsAdapter = new GenericItemAdapter<>(TrackItem::new);
+        trackItemsAdapter.getItemFilter().withFilterPredicate((item, constraint) -> !item.getModel().getName().toLowerCase().contains(constraint.toString().toLowerCase()));
+
+        fastAdapter.withSelectable(true);
+        fastAdapter.withOnClickListener((v, adapter, item, position) -> {
+            Intent intent = new Intent(getActivity(), TrackSessionsActivity.class);
+            intent.putExtra(ConstantStrings.TRACK, mTracks.get(position).getName());
+            intent.putExtra(ConstantStrings.TRACK_ID, mTracks.get(position).getId());
+            getActivity().startActivity(intent);
+            return true;
+        });
+
+        tracksRecyclerView.setHasFixedSize(true);
+        tracksRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        tracksRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        tracksRecyclerView.setItemAnimator(null);
+        tracksRecyclerView.setAdapter(trackItemsAdapter.wrap(stickyHeaderAdapter.wrap(fastAdapter)));
+
+        final StickyRecyclerHeadersDecoration headersDecoration = new StickyRecyclerHeadersDecoration(stickyHeaderAdapter);
+        tracksRecyclerView.addItemDecoration(headersDecoration);
+
+        stickyHeaderAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onChanged() {
+                headersDecoration.invalidateHeaders();
+            }
+        });
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -125,6 +162,9 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
         realmResults.removeAllChangeListeners();
         if(swipeRefreshLayout != null) swipeRefreshLayout.setOnRefreshListener(null);
         if(searchView != null) searchView.setOnQueryTextListener(null);
+
+        if (disposable != null && !disposable.isDisposed())
+            disposable.dispose();
     }
 
     @Override
@@ -156,8 +196,7 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
     @Override
     public boolean onQueryTextChange(String query) {
         searchText = query;
-        tracksListAdapter.getFilter().filter(searchText);
-
+        trackItemsAdapter.filter(searchText);
         return true;
     }
 
@@ -178,7 +217,7 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
             swipeRefreshLayout.setRefreshing(false);
         if (event.isState()) {
             if (!searchView.getQuery().toString().isEmpty() && !searchView.isIconified()) {
-                tracksListAdapter.getFilter().filter(searchView.getQuery());
+                trackItemsAdapter.filter(searchView.getQuery());
             }
         } else {
             if (getActivity() != null) {

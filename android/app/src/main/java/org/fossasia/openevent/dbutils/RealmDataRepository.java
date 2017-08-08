@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import io.reactivex.Completable;
+import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
 import io.realm.Case;
 import io.realm.Realm;
@@ -234,6 +235,10 @@ public class RealmDataRepository {
 
     public RealmResults<Track> getTracks() {
         return realm.where(Track.class).findAllSortedAsync("name");
+    }
+
+    public Observable<RealmResults<Track>> getTracksObservable(){
+        return Observable.just(getTracks());
     }
 
     public RealmResults<Track> getTracksSync() {

@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
+import com.amulyakhare.textdrawable.TextDrawable;
 import com.facebook.stetho.Stetho;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -64,6 +65,7 @@ public class OpenEventApp extends Application {
     private static Bus eventBus;
     private static WeakReference<Context> context;
     public static Picasso picassoWithCache;
+    public static TextDrawable.IBuilder textDrawableBuilder;
     private static ObjectMapper objectMapper;
     private MapModuleFactory mapModuleFactory;
     private RefWatcher refWatcher;
@@ -95,6 +97,13 @@ public class OpenEventApp extends Application {
             objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         }
         return objectMapper;
+    }
+
+    public static TextDrawable.IBuilder getTextDrawableBuilder() {
+        if (textDrawableBuilder == null) {
+            textDrawableBuilder = TextDrawable.builder().round();
+        }
+        return textDrawableBuilder;
     }
 
     public void setUpTimeZone() {

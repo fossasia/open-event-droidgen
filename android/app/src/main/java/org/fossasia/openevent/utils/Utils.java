@@ -2,6 +2,7 @@ package org.fossasia.openevent.utils;
 
 import android.content.Context;
 import android.net.Uri;
+import android.support.annotation.StringRes;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -94,6 +95,10 @@ public class Utils {
 
         CustomTabsIntent customTabsIntent = intentBuilder.build();
         customTabsIntent.launchUrl(context, uri);
+    }
+
+    public static String getString(@StringRes int id){
+        return OpenEventApp.getAppContext().getResources().getString(id);
     }
 
     /**

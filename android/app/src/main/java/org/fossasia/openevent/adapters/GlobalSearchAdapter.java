@@ -87,7 +87,7 @@ public class GlobalSearchAdapter extends BaseRVAdapter<Object, RecyclerView.View
         switch (viewType) {
             case TRACK:
                 View track = inflater.inflate(R.layout.item_track, parent, false);
-                resultHolder = new TrackViewHolder(track, context);
+                resultHolder = new TrackViewHolder(track);
                 break;
             case SPEAKER:
                 View speaker = inflater.inflate(R.layout.search_item_speaker, parent, false);
@@ -95,7 +95,7 @@ public class GlobalSearchAdapter extends BaseRVAdapter<Object, RecyclerView.View
                 break;
             case LOCATION:
                 View location = inflater.inflate(R.layout.item_location, parent, false);
-                resultHolder = new LocationViewHolder(location, context);
+                resultHolder = new LocationViewHolder(location);
                 break;
             case DIVIDER:
                 View header;
@@ -123,7 +123,7 @@ public class GlobalSearchAdapter extends BaseRVAdapter<Object, RecyclerView.View
             case TRACK:
                 TrackViewHolder trackSearchHolder = (TrackViewHolder) holder;
                 Track currentTrack = (Track) getItem(position);
-                trackSearchHolder.bindTrack(currentTrack);
+                //trackSearchHolder.bindTrack(currentTrack);
                 break;
             case SPEAKER:
                 SpeakerViewHolder speakerSearchHolder = (SpeakerViewHolder) holder;
@@ -133,7 +133,7 @@ public class GlobalSearchAdapter extends BaseRVAdapter<Object, RecyclerView.View
             case LOCATION:
                 LocationViewHolder locationSearchHolder = (LocationViewHolder) holder;
                 Microlocation location = (Microlocation) getItem(position);
-                locationSearchHolder.bindLocation(location);
+                //locationSearchHolder.bindLocation(location);
                 break;
             case DIVIDER:
                 DividerViewHolder resultTypeViewHolder = (DividerViewHolder) holder;

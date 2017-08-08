@@ -1,11 +1,13 @@
 package org.fossasia.openevent.fragments;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -17,14 +19,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.mikepenz.fastadapter.FastAdapter;
+import com.mikepenz.fastadapter.adapters.GenericItemAdapter;
 import com.squareup.otto.Subscribe;
 
 import org.fossasia.openevent.R;
-import org.fossasia.openevent.adapters.LocationsListAdapter;
+import org.fossasia.openevent.activities.LocationActivity;
+import org.fossasia.openevent.adapters.StickyHeaderAdapter;
+import org.fossasia.openevent.adapters.items.LocationItem;
 import org.fossasia.openevent.api.DataDownloadManager;
 import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.events.MicrolocationDownloadEvent;
+import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.Utils;
 import org.fossasia.openevent.views.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
@@ -47,8 +54,8 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
     @BindView(R.id.txt_no_microlocations) TextView noMicrolocationsView;
 
     private List<Microlocation> mLocations = new ArrayList<>();
-    private LocationsListAdapter locationsListAdapter;
-    
+    private GenericItemAdapter<Microlocation, LocationItem> locationItemsAdapter;
+
     private String searchText = "";
 
     private SearchView searchView;
@@ -65,20 +72,7 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
         Utils.registerIfUrlValid(swipeRefreshLayout, this, this::refresh);
 
         compositeDisposable = new CompositeDisposable();
-
-        locationsRecyclerView.setHasFixedSize(true);
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-        locationsRecyclerView.setLayoutManager(linearLayoutManager);
-        locationsListAdapter = new LocationsListAdapter(getContext(), mLocations);
-        locationsRecyclerView.setAdapter(locationsListAdapter);
-
-        final StickyRecyclerHeadersDecoration headersDecoration = new StickyRecyclerHeadersDecoration(locationsListAdapter);
-        locationsRecyclerView.addItemDecoration(headersDecoration);
-        locationsListAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-            @Override public void onChanged() {
-                headersDecoration.invalidateHeaders();
-            }
-        });
+        setUpRecyclerView();
 
         if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
             searchText = savedInstanceState.getString(SEARCH);
@@ -87,9 +81,10 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
         realmRepo.getLocations()
                 .addChangeListener((microlocations, orderedCollectionChangeSet) -> {
                     mLocations.clear();
-                    mLocations.addAll(microlocations);
-
-                    locationsListAdapter.notifyDataSetChanged();
+                    mLocations.addAll(realmRepo.getRealmInstance().copyFromRealm(microlocations));
+                    locationItemsAdapter.clearModel();
+                    locationItemsAdapter.addModel(mLocations);
+                    locationItemsAdapter.notifyDataSetChanged();
                     handleVisibility();
                 });
 
@@ -99,7 +94,7 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
     }
 
     private void handleVisibility() {
-        if (locationsListAdapter.getItemCount() != 0) {
+        if (!mLocations.isEmpty()) {
             noMicrolocationsView.setVisibility(View.GONE);
             locationsRecyclerView.setVisibility(View.VISIBLE);
         } else {
@@ -111,6 +106,39 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
     @Override
     protected int getLayoutResource() {
         return R.layout.list_locations;
+    }
+
+    private void setUpRecyclerView() {
+        FastAdapter fastAdapter = new FastAdapter();
+        fastAdapter.setHasStableIds(true);
+
+        StickyHeaderAdapter stickyHeaderAdapter = new StickyHeaderAdapter();
+        locationItemsAdapter = new GenericItemAdapter<>(LocationItem::new);
+        locationItemsAdapter.getItemFilter().withFilterPredicate((item, constraint) -> !item.getModel().getName().toLowerCase().contains(constraint.toString().toLowerCase()));
+
+        fastAdapter.withSelectable(true);
+        fastAdapter.withOnClickListener((v, adapter, item, position) -> {
+            Intent intent = new Intent(getActivity(), LocationActivity.class);
+            intent.putExtra(ConstantStrings.LOCATION_NAME, mLocations.get(position).getName());
+            getActivity().startActivity(intent);
+            return true;
+        });
+
+        locationsRecyclerView.setHasFixedSize(true);
+        locationsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        locationsRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        locationsRecyclerView.setItemAnimator(null);
+        locationsRecyclerView.setAdapter(locationItemsAdapter.wrap(stickyHeaderAdapter.wrap(fastAdapter)));
+
+        final StickyRecyclerHeadersDecoration headersDecoration = new StickyRecyclerHeadersDecoration(stickyHeaderAdapter);
+        locationsRecyclerView.addItemDecoration(headersDecoration);
+
+        stickyHeaderAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onChanged() {
+                headersDecoration.invalidateHeaders();
+            }
+        });
     }
 
     public void setVisibility(Boolean isDownloadDone) {
@@ -151,8 +179,7 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
 
     @Override
     public boolean onQueryTextChange(String query) {
-        locationsListAdapter.getFilter().filter(query);
-
+        locationItemsAdapter.filter(query);
         searchText = query;
         return true;
     }
@@ -183,6 +210,9 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
 
         swipeRefreshLayout.setRefreshing(false);
         if (event.isState()) {
+            if (!searchView.getQuery().toString().isEmpty() && !searchView.isIconified()) {
+                locationItemsAdapter.filter(searchView.getQuery());
+            }
             Timber.d("Locations Downloaded");
         } else {
             Snackbar.make(swipeRefreshLayout, getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, view -> refresh()).show();

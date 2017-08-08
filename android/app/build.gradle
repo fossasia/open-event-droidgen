@@ -107,6 +107,10 @@ dependencies {
     compile 'com.squareup:otto:1.3.8'
     compile 'com.jakewharton.timber:timber:4.5.1'
     compile 'com.jakewharton:butterknife:8.5.1'
+    compile('com.mikepenz:fastadapter:2.6.2@aar') {
+        transitive = true
+    }
+    compile 'com.mikepenz:fastadapter-commons:2.6.3@aar'
     compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
     compile 'com.facebook.stetho:stetho:1.4.2'
     compile 'com.facebook.stetho:stetho-okhttp3:1.4.2'
