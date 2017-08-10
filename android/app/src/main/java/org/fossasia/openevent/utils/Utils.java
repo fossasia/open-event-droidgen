@@ -61,6 +61,22 @@ public class Utils {
         }
     }
 
+    public static String getNameLetters(String name) {
+        if (isEmpty(name))
+            return "#";
+
+        String[] strings = name.split(" ");
+        StringBuilder nameLetters = new StringBuilder();
+        for (String s : strings) {
+            if (nameLetters.length() >= 2)
+                return nameLetters.toString().toUpperCase();
+            if (!isEmpty(s)) {
+                nameLetters.append(s.trim().charAt(0));
+            }
+        }
+        return nameLetters.toString().toUpperCase();
+    }
+
     public static String parseImageUri(String uri) {
         if(isEmpty(uri))
             return null;
