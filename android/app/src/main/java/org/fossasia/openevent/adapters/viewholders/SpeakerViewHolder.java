@@ -2,15 +2,15 @@ package org.fossasia.openevent.adapters.viewholders;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.amulyakhare.textdrawable.TextDrawable;
+import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.squareup.picasso.RequestCreator;
 
 import org.fossasia.openevent.OpenEventApp;
@@ -61,16 +61,23 @@ public class SpeakerViewHolder extends RecyclerView.ViewHolder {
         this.speaker = speaker;
 
         String thumbnail = Utils.parseImageUri(this.speaker.getThumbnailImageUrl());
+        String name = Utils.checkStringEmpty(speaker.getName());
 
         if (thumbnail == null)
             thumbnail = Utils.parseImageUri(this.speaker.getPhotoUrl());
 
-        Drawable placeholder = VectorDrawableCompat.create(context.getResources(), R.drawable.ic_account_circle_grey_24dp, null);
+        TextDrawable drawable;
+        if (isImageCircle) {
+            drawable = OpenEventApp.getTextDrawableBuilder().round().build(Utils.getNameLetters(name), ColorGenerator.MATERIAL.getColor(name));
+        } else {
+            drawable = OpenEventApp.getTextDrawableBuilder().buildRect(Utils.getNameLetters(name), ColorGenerator.MATERIAL.getColor(name));
+        }
 
-        if(thumbnail != null) {
+        if (thumbnail != null) {
             RequestCreator requestCreator = OpenEventApp.picassoWithCache
                     .load(Uri.parse(thumbnail))
-                    .placeholder(placeholder);
+                    .placeholder(drawable)
+                    .error(drawable);
 
             if (isImageCircle) {
                 requestCreator.transform(new CircleTransform());
@@ -78,10 +85,10 @@ public class SpeakerViewHolder extends RecyclerView.ViewHolder {
 
             requestCreator.into(speakerImage);
         } else {
-           speakerImage.setImageDrawable(placeholder);
+            speakerImage.setImageDrawable(drawable);
         }
 
-        setStringField(speakerName, speaker.getName());
+        setStringField(speakerName, name);
         setStringField(speakerDesignation, String.format("%s %s", speaker.getPosition(), speaker.getOrganisation()));
         setStringField(speakerCountry, speaker.getCountry());
     }

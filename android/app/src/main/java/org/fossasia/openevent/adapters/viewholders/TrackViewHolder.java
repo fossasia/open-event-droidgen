@@ -8,8 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.amulyakhare.textdrawable.TextDrawable;
-
+import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.activities.TrackSessionsActivity;
 import org.fossasia.openevent.data.Track;
@@ -28,7 +27,6 @@ public class TrackViewHolder extends RecyclerView.ViewHolder {
     protected TextView trackTitle;
 
     private Track track;
-    private TextDrawable.IBuilder drawableBuilder = TextDrawable.builder().round();
 
     public TrackViewHolder(View itemView, Context context) {
         super(itemView);
@@ -51,8 +49,7 @@ public class TrackViewHolder extends RecyclerView.ViewHolder {
 
         trackTitle.setText(trackName);
         if(!Utils.isEmpty(trackName)) {
-            TextDrawable drawable = drawableBuilder.build(String.valueOf(trackName.charAt(0)), trackColor);
-            trackImageIcon.setImageDrawable(drawable);
+            trackImageIcon.setImageDrawable(OpenEventApp.getTextDrawableBuilder().round().build(String.valueOf(trackName.charAt(0)), trackColor));
             trackImageIcon.setBackgroundColor(Color.TRANSPARENT);
         }
     }

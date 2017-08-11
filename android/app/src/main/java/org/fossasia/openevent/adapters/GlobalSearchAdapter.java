@@ -92,6 +92,7 @@ public class GlobalSearchAdapter extends BaseRVAdapter<Object, RecyclerView.View
             case SPEAKER:
                 View speaker = inflater.inflate(R.layout.search_item_speaker, parent, false);
                 resultHolder = new SpeakerViewHolder(speaker, context);
+                ((SpeakerViewHolder)resultHolder).setIsImageCircle(true);
                 break;
             case LOCATION:
                 View location = inflater.inflate(R.layout.item_location, parent, false);
