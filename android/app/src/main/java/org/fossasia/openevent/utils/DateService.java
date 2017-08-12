@@ -8,6 +8,9 @@ import java.util.Date;
 
 public class DateService {
     public static boolean isUpcomingSession(Date start, Date end, Date current) {
-        return ((start.before(current) || start.equals(current)) && (end.after(current) || end.equals(current)));
+        return start.after(current) && end.after(current);
+    }
+    public static boolean isOngoingSession(Date start, Date end, Date current) {
+        return start.before(current) && end.after(current);
     }
 }
