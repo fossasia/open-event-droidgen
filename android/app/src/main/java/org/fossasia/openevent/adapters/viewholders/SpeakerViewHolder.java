@@ -2,7 +2,6 @@ package org.fossasia.openevent.adapters.viewholders;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
@@ -66,27 +65,21 @@ public class SpeakerViewHolder extends RecyclerView.ViewHolder {
         if (thumbnail == null)
             thumbnail = Utils.parseImageUri(this.speaker.getPhotoUrl());
 
+        RequestCreator requestCreator = OpenEventApp.picassoWithCache
+                .load(thumbnail);
+
         TextDrawable drawable;
         if (isImageCircle) {
+            requestCreator.transform(new CircleTransform());
             drawable = OpenEventApp.getTextDrawableBuilder().round().build(Utils.getNameLetters(name), ColorGenerator.MATERIAL.getColor(name));
         } else {
             drawable = OpenEventApp.getTextDrawableBuilder().buildRect(Utils.getNameLetters(name), ColorGenerator.MATERIAL.getColor(name));
         }
 
-        if (thumbnail != null) {
-            RequestCreator requestCreator = OpenEventApp.picassoWithCache
-                    .load(Uri.parse(thumbnail))
-                    .placeholder(drawable)
-                    .error(drawable);
-
-            if (isImageCircle) {
-                requestCreator.transform(new CircleTransform());
-            }
-
-            requestCreator.into(speakerImage);
-        } else {
-            speakerImage.setImageDrawable(drawable);
-        }
+        requestCreator
+                .placeholder(drawable)
+                .error(drawable)
+                .into(speakerImage);
 
         setStringField(speakerName, name);
         setStringField(speakerDesignation, String.format("%s %s", speaker.getPosition(), speaker.getOrganisation()));
