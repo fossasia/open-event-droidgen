@@ -269,7 +269,7 @@
     <string name="bookmark_header">Bookmarks</string>
     <string name="event_details_header">Event Description</string>
 
-    <!--Feed Strings-->
+    <!--FacebookFeed Strings-->
     <string name="facebook_access_token" templateMergeStrategy="preserve" translatable="false">1786614831603417|DWqP48Lm77hBqCQDWVsq4lFixuo</string>
     <string name="no_comments">No Comments Yet :(</string>
     <string name="comments">comments</string>

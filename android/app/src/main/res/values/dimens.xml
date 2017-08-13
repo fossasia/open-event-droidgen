@@ -80,7 +80,7 @@
     <!--Track Tag-->
     <dimen name="track_tag_height">30dp</dimen>
 
-    <!--Feed Item-->
+    <!--FacebookFeed Item-->
     <dimen name="feed_item_margin">10dp</dimen>
     <dimen name="feed_item_padding_top_bottom">20dp</dimen>
     <dimen name="feed_item_padding_left_right">15dp</dimen>

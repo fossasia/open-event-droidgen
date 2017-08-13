@@ -1,7 +1,7 @@
 package org.fossasia.openevent.api.network;
 
-import org.fossasia.openevent.data.facebook.FacebookPageId;
-import org.fossasia.openevent.data.facebook.Feed;
+import org.fossasia.openevent.data.feed.FacebookPageId;
+import org.fossasia.openevent.data.feed.FacebookFeed;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
@@ -17,6 +17,6 @@ public interface FacebookGraphAPI {
     Observable<FacebookPageId> getPageId(@Path("event_name") String eventName, @Query("access_token") String accessToken);
 
     @GET("/{page_id}/feed")
-    Observable<Feed> getPosts(@Path("page_id") String pageId, @Query("fields") String fields, @Query("access_token") String accessToken);
+    Observable<FacebookFeed> getPosts(@Path("page_id") String pageId, @Query("fields") String fields, @Query("access_token") String accessToken);
 
 }

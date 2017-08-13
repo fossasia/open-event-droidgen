@@ -52,7 +52,7 @@ import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Sponsor;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.data.extras.SocialLink;
-import org.fossasia.openevent.data.facebook.CommentItem;
+import org.fossasia.openevent.data.feed.CommentItem;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.events.CounterEvent;
 import org.fossasia.openevent.events.DataDownloadEvent;
@@ -124,11 +124,17 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
     private boolean customTabsSupported;
     private int currentMenuItemId;
 
-    @BindView(R.id.toolbar) Toolbar toolbar;
-    @BindView(R.id.nav_view) NavigationView navigationView;
-    @BindView(R.id.layout_main) CoordinatorLayout mainFrame;
-    @BindView(R.id.appbar) AppBarLayout appBarLayout;
-    @Nullable @BindView(R.id.drawer) DrawerLayout drawerLayout;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.nav_view)
+    NavigationView navigationView;
+    @BindView(R.id.layout_main)
+    CoordinatorLayout mainFrame;
+    @BindView(R.id.appbar)
+    AppBarLayout appBarLayout;
+    @Nullable
+    @BindView(R.id.drawer)
+    DrawerLayout drawerLayout;
     private ImageView headerView;
 
     private Context context;
@@ -219,6 +225,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
                 customTabsClient = client;
                 customTabsClient.warmup(0L);
             }
+
             @Override
             public void onServiceDisconnected(ComponentName name) {
                 //initially left empty
@@ -251,7 +258,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
     }
 
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState){
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         currentMenuItemId = savedInstanceState.getInt(STATE_FRAGMENT);
     }
@@ -271,7 +278,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
     private void setupEvent() {
         event = realmRepo.getEventSync();
 
-        if(event == null)
+        if (event == null)
             return;
 
         setNavHeader(event);
@@ -282,7 +289,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
         headerView = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.headerDrawer);
         if (toolbar != null && !mTwoPane) {
             final ActionBar ab = getSupportActionBar();
-            if(ab == null) return;
+            if (ab == null) return;
             SmoothActionBarDrawerToggle smoothActionBarToggle = new SmoothActionBarDrawerToggle(this,
                     drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
 
@@ -290,7 +297,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
                 public void onDrawerStateChanged(int newState) {
                     super.onDrawerStateChanged(newState);
 
-                    if(toolbar.getTitle().equals(getString(R.string.menu_about))) {
+                    if (toolbar.getTitle().equals(getString(R.string.menu_about))) {
                         navigationView.setCheckedItem(R.id.nav_home);
                     }
                 }
@@ -298,9 +305,8 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
 
             drawerLayout.addDrawerListener(smoothActionBarToggle);
             ab.setDisplayHomeAsUpEnabled(true);
-            ab.setDisplayHomeAsUpEnabled(true);
             smoothActionBarToggle.syncState();
-        } else if (toolbar!=null && toolbar.getTitle().equals(getString(R.string.menu_about))) {
+        } else if (toolbar != null && toolbar.getTitle().equals(getString(R.string.menu_about))) {
             navigationView.setCheckedItem(R.id.nav_home);
         }
     }
@@ -360,7 +366,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
         OpenEventApp.postEventOnUIThread(new EventLoadedEvent(event));
         saveEventDates(event);
 
-        downloadPageId();
+        storeFeedDetails();
     }
 
     private void startDownloadFromNetwork() {
@@ -384,21 +390,22 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
         }
     }
 
-    private void downloadPageId() {
-        //Store the facebook page name in the shared preference from the database
-        if(SharedPreferencesUtil.getString(ConstantStrings.FACEBOOK_PAGE_NAME, null) == null) {
-            RealmList<SocialLink> socialLinks = event.getSocialLinks();
-            RealmResults<SocialLink> facebookPage = socialLinks.where().equalTo("name", "Facebook").findAll();
-            if (facebookPage.size() == 0)
-                return;
+    private void storeFeedDetails() {
 
-            SocialLink facebookLink = facebookPage.get(0);
-            String pageName = facebookLink.getLink().split("facebook.com/")[1];
-            SharedPreferencesUtil.putString(ConstantStrings.FACEBOOK_PAGE_NAME, pageName);
+        //Store the facebook and twitter page name in the shared preference from the database
+        storePageName(ConstantStrings.SOCIAL_LINK_FACEBOOK, ConstantStrings.FACEBOOK_PAGE_NAME);
+
+        storePageName(ConstantStrings.SOCIAL_LINK_TWITTER, ConstantStrings.TWITTER_PAGE_NAME);
+
+        if (SharedPreferencesUtil.getString(ConstantStrings.FACEBOOK_PAGE_NAME, null) == null
+                && SharedPreferencesUtil.getString(ConstantStrings.TWITTER_PAGE_NAME, null) == null) {
+            Menu menu = navigationView.getMenu();
+            MenuItem feedMenuItem = menu.findItem(R.id.nav_feed);
+            feedMenuItem.setVisible(false);
         }
 
-        if(SharedPreferencesUtil.getString(ConstantStrings.FACEBOOK_PAGE_ID, null) == null &&
-                SharedPreferencesUtil.getString(ConstantStrings.FACEBOOK_PAGE_NAME, null) != null) {
+        if (SharedPreferencesUtil.getString(ConstantStrings.FACEBOOK_PAGE_ID, null) == null
+                && SharedPreferencesUtil.getString(ConstantStrings.FACEBOOK_PAGE_NAME, null) != null) {
             APIClient.getFacebookGraphAPI().getPageId(SharedPreferencesUtil.getString(ConstantStrings.FACEBOOK_PAGE_NAME, null),
                     getResources().getString(R.string.facebook_access_token))
                     .subscribeOn(Schedulers.io())
@@ -407,6 +414,22 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
                         String id = facebookPageId.getId();
                         SharedPreferencesUtil.putString(ConstantStrings.FACEBOOK_PAGE_ID, id);
                     });
+        }
+    }
+
+    private void storePageName(String feedType, String key) {
+        if (SharedPreferencesUtil.getString(key, null) == null) {
+            RealmList<SocialLink> socialLinks = event.getSocialLinks();
+            RealmResults<SocialLink> page = socialLinks.where().equalTo("name", feedType).findAll();
+            if (!page.isEmpty()) {
+                SocialLink socialLink = page.get(0);
+                String socialLinkUrl = socialLink.getLink();
+                String tempString = ".com/";
+                int startIndex = socialLinkUrl.indexOf(tempString) + tempString.length();
+                String pageName = socialLinkUrl.substring(startIndex);
+                pageName = pageName.replace("/", "");
+                SharedPreferencesUtil.putString(key, pageName);
+            }
         }
     }
 
@@ -428,7 +451,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
                                     default:
                                         // No action to be taken
                                 }
-                    }).show();
+                            }).show();
                 } else {
                     completeHandler.hide();
                 }
@@ -437,7 +460,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
             @Override
             public void inactiveConnection() {
                 //Device is connected to WI-FI or Mobile Data but Internet is not working
-                ShowNotificationSnackBar showNotificationSnackBar = new ShowNotificationSnackBar(MainActivity.this,mainFrame, null) {
+                ShowNotificationSnackBar showNotificationSnackBar = new ShowNotificationSnackBar(MainActivity.this, mainFrame, null) {
                     @Override
                     public void refreshClicked() {
                         OpenEventApp.getEventBus().unregister(this);
@@ -477,7 +500,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
     private void setupDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(menuItem -> {
             final int id = menuItem.getItemId();
-            if(!mTwoPane) {
+            if (!mTwoPane) {
                 drawerLayout.closeDrawers();
                 drawerLayout.postDelayed(() -> doMenuAction(id), 300);
             } else {
@@ -493,10 +516,9 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
             shareIntent.setAction(Intent.ACTION_SEND);
             shareIntent.setType("text/plain");
             shareIntent.putExtra(Intent.EXTRA_TEXT, String.format(getString(R.string.whatsapp_promo_msg_template),
-                    String.format(getString(R.string.app_share_url),getPackageName())));
+                    String.format(getString(R.string.app_share_url), getPackageName())));
             startActivity(shareIntent);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             Snackbar.make(mainFrame, getString(R.string.error_msg_retry), Snackbar.LENGTH_SHORT).show();
         }
     }
@@ -506,7 +528,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
         boolean isAtHome = false;
         String TAG = FRAGMENT_TAG_REST;
 
-        if(fragment instanceof AboutFragment) {
+        if (fragment instanceof AboutFragment) {
             isAtHome = true;
             TAG = FRAGMENT_TAG_HOME;
         }
@@ -550,7 +572,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
             case R.id.nav_map:
                 Bundle bundle = new Bundle();
                 bundle.putBoolean(ConstantStrings.IS_MAP_FRAGMENT_FROM_MAIN_ACTIVITY, true);
-                Fragment mapFragment = ((OpenEventApp)getApplication())
+                Fragment mapFragment = ((OpenEventApp) getApplication())
                         .getMapModuleFactory()
                         .provideMapModule()
                         .provideMapFragment();
@@ -667,6 +689,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
 
     @Subscribe
     public void downloadData(DataDownloadEvent event) {
+
         switch (Urls.getBaseUrl()) {
             case Urls.INVALID_LINK:
                 showErrorDialog("Invalid Api", "Api link doesn't seem to be valid");
@@ -714,14 +737,16 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
 
                     OpenEventApp.postEventOnUIThread(new EventDownloadEvent(true));
                     break;
-                } case ConstantStrings.TRACKS: {
+                }
+                case ConstantStrings.TRACKS: {
                     List<Track> tracks = objectMapper.readValue(json, objectMapper.getTypeFactory().constructCollectionType(List.class, Track.class));
 
                     realmDataRepository.saveTracks(tracks).subscribe();
 
                     OpenEventApp.postEventOnUIThread(new TracksDownloadEvent(true));
                     break;
-                } case ConstantStrings.SESSIONS: {
+                }
+                case ConstantStrings.SESSIONS: {
                     List<Session> sessions = objectMapper.readValue(json, objectMapper.getTypeFactory().constructCollectionType(List.class, Session.class));
 
                     for (Session current : sessions) {
@@ -732,35 +757,40 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
 
                     OpenEventApp.postEventOnUIThread(new SessionDownloadEvent(true));
                     break;
-                } case ConstantStrings.SPEAKERS: {
+                }
+                case ConstantStrings.SPEAKERS: {
                     List<Speaker> speakers = objectMapper.readValue(json, objectMapper.getTypeFactory().constructCollectionType(List.class, Speaker.class));
 
                     realmRepo.saveSpeakers(speakers).subscribe();
 
                     OpenEventApp.postEventOnUIThread(new SpeakerDownloadEvent(true));
                     break;
-                } case ConstantStrings.SPONSORS: {
+                }
+                case ConstantStrings.SPONSORS: {
                     List<Sponsor> sponsors = objectMapper.readValue(json, objectMapper.getTypeFactory().constructCollectionType(List.class, Sponsor.class));
 
                     realmRepo.saveSponsors(sponsors).subscribe();
 
                     OpenEventApp.postEventOnUIThread(new SponsorDownloadEvent(true));
                     break;
-                } case ConstantStrings.MICROLOCATIONS: {
+                }
+                case ConstantStrings.MICROLOCATIONS: {
                     List<Microlocation> microlocations = objectMapper.readValue(json, objectMapper.getTypeFactory().constructCollectionType(List.class, Microlocation.class));
 
                     realmRepo.saveLocations(microlocations).subscribe();
 
                     OpenEventApp.postEventOnUIThread(new MicrolocationDownloadEvent(true));
                     break;
-                } case ConstantStrings.SESSION_TYPES: {
+                }
+                case ConstantStrings.SESSION_TYPES: {
                     List<SessionType> sessionTypes = objectMapper.readValue(json, objectMapper.getTypeFactory().constructCollectionType(List.class, SessionType.class));
 
                     realmRepo.saveSessionTypes(sessionTypes).subscribe();
 
                     OpenEventApp.postEventOnUIThread(new SessionTypesDownloadEvent(true));
                     break;
-                } default:
+                }
+                default:
                     //do nothing
             }
             realm.close();
@@ -844,11 +874,11 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
     protected void onDestroy() {
         super.onDestroy();
         unbindService(customTabsServiceConnection);
-        if(disposable != null && !disposable.isDisposed())
+        if (disposable != null && !disposable.isDisposed())
             disposable.dispose();
-        if(event != null)
+        if (event != null)
             event.removeAllChangeListeners();
-        if(completeHandler != null)
+        if (completeHandler != null)
             completeHandler.stopListening();
         ((OpenEventApp) getApplicationContext()).detachMainActivity();
     }

@@ -19,8 +19,8 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import org.fossasia.openevent.R;
-import org.fossasia.openevent.data.facebook.CommentItem;
-import org.fossasia.openevent.data.facebook.FeedItem;
+import org.fossasia.openevent.data.feed.CommentItem;
+import org.fossasia.openevent.data.feed.FeedItem;
 import org.fossasia.openevent.utils.DateConverter;
 import org.fossasia.openevent.utils.Utils;
 
@@ -63,10 +63,10 @@ public class FeedAdapter extends BaseRVAdapter<FeedItem, FeedAdapter.RecyclerVie
             getComments.setOnClickListener(v -> {
                 FeedItem clickedFeedItem = feedItems.get(getPosition());
                 commentItems = new ArrayList<>();
-                if(clickedFeedItem.getComments() != null) {
+                if (clickedFeedItem.getComments() != null) {
                     commentItems.addAll(clickedFeedItem.getComments().getData());
                 }
-                if(commentItems.size()!=0)
+                if (commentItems.size() != 0)
                     mAdapterCallback.onMethodCallback(commentItems);
                 else
                     Snackbar.make(v, context.getResources().getString(R.string.no_comments), Snackbar.LENGTH_SHORT).show();
@@ -106,41 +106,79 @@ public class FeedAdapter extends BaseRVAdapter<FeedItem, FeedAdapter.RecyclerVie
             Timber.e(e);
         }
 
-        if (!TextUtils.isEmpty(feedItem.getMessage())) {
-            holder.statusMsg.setText(feedItem.getMessage());
-            holder.statusMsg.setVisibility(View.VISIBLE);
+        if (feedItem.getId() != null) {
+
+            if (!TextUtils.isEmpty(feedItem.getMessage())) {
+                holder.statusMsg.setText(feedItem.getMessage());
+                holder.statusMsg.setVisibility(View.VISIBLE);
+            } else {
+                // status is empty, remove from view
+                holder.statusMsg.setVisibility(View.GONE);
+            }
+
+            // Checking for null feed url
+            if (feedItem.getLink() != null) {
+                holder.url.setText(Html.fromHtml("<a href=\"" + feedItem.getLink() + "\">"
+                        + feedItem.getLink() + "</a> "));
+
+                // Making url clickable
+                holder.url.setMovementMethod(LinkMovementMethod.getInstance());
+                holder.url.setVisibility(View.VISIBLE);
+            } else {
+                // url is null, remove from the view
+                holder.url.setVisibility(View.GONE);
+            }
+
+            String feedImageUri = Utils.parseImageUri(feedItem.getFullPicture());
+            Drawable placeholder = VectorDrawableCompat.create(context.getResources(),
+                    R.drawable.ic_placeholder_24dp, null);
+
+            if (feedImageUri != null) {
+                holder.feedImageView.setVisibility(View.VISIBLE);
+                Picasso.with(holder.feedImageView.getContext())
+                        .load(Uri.parse(feedImageUri))
+                        .placeholder(placeholder)
+                        .into(holder.feedImageView);
+            } else {
+                holder.feedImageView.setVisibility(View.GONE);
+            }
         } else {
-            // status is empty, remove from view
-            holder.statusMsg.setVisibility(View.GONE);
+
+            if (!TextUtils.isEmpty(feedItem.getText())) {
+                holder.statusMsg.setText(feedItem.getText());
+                holder.statusMsg.setVisibility(View.VISIBLE);
+            } else {
+                // status is empty, remove from view
+                holder.statusMsg.setVisibility(View.GONE);
+            }
+
+            // Checking for null feed url
+            if (feedItem.getLink() != null) {
+                holder.url.setText(Html.fromHtml("<a href=\"" + feedItem.getLink() + "\">"
+                        + feedItem.getLink() + "</a> "));
+
+                // Making url clickable
+                holder.url.setMovementMethod(LinkMovementMethod.getInstance());
+                holder.url.setVisibility(View.VISIBLE);
+            } else {
+                // url is null, remove from the view
+                holder.url.setVisibility(View.GONE);
+            }
+
+            if (feedItem.getImages().size() > 0) {
+                String feedImageUri = Utils.parseImageUri(feedItem.getImages().get(0));
+                Drawable placeholder = VectorDrawableCompat.create(context.getResources(),
+                        R.drawable.ic_placeholder_24dp, null);
+
+                holder.feedImageView.setVisibility(View.VISIBLE);
+                Picasso.with(holder.feedImageView.getContext())
+                        .load(Uri.parse(feedImageUri))
+                        .placeholder(placeholder)
+                        .into(holder.feedImageView);
+            } else {
+                holder.feedImageView.setVisibility(View.GONE);
+            }
         }
-
-        // Checking for null feed url
-        if (feedItem.getLink() != null) {
-            holder.url.setText(Html.fromHtml("<a href=\"" + feedItem.getLink() + "\">"
-                    + feedItem.getLink() + "</a> "));
-
-            // Making url clickable
-            holder.url.setMovementMethod(LinkMovementMethod.getInstance());
-            holder.url.setVisibility(View.VISIBLE);
-        } else {
-            // url is null, remove from the view
-            holder.url.setVisibility(View.GONE);
-        }
-
-        String feedImageUri = Utils.parseImageUri(feedItem.getFullPicture());
-        Drawable placeholder = VectorDrawableCompat.create(context.getResources(),
-                R.drawable.ic_placeholder_24dp, null);
-
-        if(feedImageUri != null) {
-            holder.feedImageView.setVisibility(View.VISIBLE);
-            Picasso.with(holder.feedImageView.getContext())
-                    .load(Uri.parse(feedImageUri))
-                    .placeholder(placeholder)
-                    .into(holder.feedImageView);
-        } else {
-            holder.feedImageView.setVisibility(View.GONE);
-        }
-
     }
 
     public interface AdapterCallback {

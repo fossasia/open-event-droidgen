@@ -1,4 +1,4 @@
-package org.fossasia.openevent.data.facebook;
+package org.fossasia.openevent.data.feed;
 
 import android.os.Parcel;
 import android.os.Parcelable;

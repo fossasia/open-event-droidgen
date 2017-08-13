@@ -1,4 +1,4 @@
-package org.fossasia.openevent.data.facebook;
+package org.fossasia.openevent.data.feed;
 
 /**
  * Created by rohanagarwal94 on 11/6/17.

@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.fossasia.openevent.R;
-import org.fossasia.openevent.data.facebook.CommentItem;
+import org.fossasia.openevent.data.feed.CommentItem;
 import org.fossasia.openevent.utils.DateConverter;
 
 import java.text.ParseException;

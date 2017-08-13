@@ -41,6 +41,9 @@ public abstract class Urls {
 
     public static String FACEBOOK_BASE_URL = "https://graph.facebook.com";
 
+    //TODO: Please change base url after http://loklak.org gets stable. Till only for local testing purpose
+    public static String LOKLAK_BASE_URL = "http://35.193.155.174";
+
     public static final String BASE_GET_URL = BASE_URL + "/api/" + API_VERSION;
 
     public static final String BASE_GET_URL_ALT = "https://raw.githubusercontent.com/fossasia/open-event/master/testapi/";
