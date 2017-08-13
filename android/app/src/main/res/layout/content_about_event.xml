@@ -95,7 +95,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/layout_margin_medium"
                 android:layout_marginRight="@dimen/layout_margin_medium"
-                android:src="@drawable/ic_event_white_24dp"
+                app:srcCompat="@drawable/ic_event_white_24dp"
                 android:tint="@color/black" />
 
             <TextView
@@ -124,7 +124,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/layout_margin_medium"
                 android:layout_marginRight="@dimen/layout_margin_medium"
-                android:src="@drawable/ic_location_on_black_24dp" />
+                app:srcCompat="@drawable/ic_location_on_black_24dp" />
 
             <TextView
                 android:id="@+id/event_venue_details"
@@ -206,7 +206,6 @@
             android:layout_gravity="center"
             android:overScrollMode="never"
             android:clipToPadding="false"
-
             tools:listitem="@layout/item_social_link" />
     </LinearLayout>
 </LinearLayout>
