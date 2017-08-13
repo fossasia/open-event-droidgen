@@ -1,12 +1,12 @@
 package org.fossasia.openevent;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
 import com.amulyakhare.textdrawable.TextDrawable;
@@ -53,7 +53,7 @@ import timber.log.Timber;
  * User: MananWason
  * Date: 02-06-2015
  */
-public class OpenEventApp extends Application {
+public class OpenEventApp extends MultiDexApplication {
 
     public static final String API_LINK = "api-link";
     public static final String EMAIL = "email";
