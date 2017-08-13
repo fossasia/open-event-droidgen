@@ -21,6 +21,7 @@ import org.fossasia.openevent.utils.AuthUtil;
 import org.fossasia.openevent.utils.CircleTransform;
 import org.fossasia.openevent.utils.JWTUtils;
 import org.fossasia.openevent.utils.NetworkUtils;
+import org.fossasia.openevent.utils.Views;
 import org.json.JSONException;
 
 import java.lang.ref.WeakReference;
@@ -134,7 +135,7 @@ public class UserProfileActivity extends AppCompatActivity {
             Timber.d("User data loaded from disk");
         });
 
-        if (loadFromNetwork && NetworkUtils.isActiveInternetPresent()) {
+        if (loadFromNetwork && NetworkUtils.haveNetworkConnection(UserProfileActivity.this)) {
             //get latest user data from network
             loadFromNetwork();
             Timber.d("Getting user data from network");
@@ -189,9 +190,9 @@ public class UserProfileActivity extends AppCompatActivity {
 
     private void refresh() {
         NetworkUtils.checkConnection(new WeakReference<>(UserProfileActivity.this), new NetworkUtils.NetworkStateReceiverListener() {
+
             @Override
-            public void activeConnection() {
-                //Internet is working
+            public void networkAvailable() {
                 try {
                     loadFromNetwork();
                 } catch (JSONException e) {
@@ -200,29 +201,15 @@ public class UserProfileActivity extends AppCompatActivity {
             }
 
             @Override
-            public void inactiveConnection() {
+            public void networkUnavailable() {
                 stopRefreshing();
                 Snackbar.make(coordinatorLayout, getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, view -> refresh()).show();
             }
-
-            @Override
-            public void networkAvailable() {
-                // Network is available but we need to wait for activity
-            }
-
-            @Override
-            public void networkUnavailable() {
-                stopRefreshing();
-                Snackbar.make(coordinatorLayout, getString(R.string.net_unavailable), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, view -> refresh()).show();
-            }
         });
-
     }
 
     private void stopRefreshing() {
-        if (mSwipeRefreshLayout != null && mSwipeRefreshLayout.isRefreshing()) {
-            mSwipeRefreshLayout.setRefreshing(false);
-        }
+        Views.setSwipeRefreshLayout(mSwipeRefreshLayout, false);
     }
 
     @Override

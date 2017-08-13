@@ -27,8 +27,8 @@ import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.events.RefreshUiEvent;
 import org.fossasia.openevent.events.TracksDownloadEvent;
 import org.fossasia.openevent.utils.NetworkUtils;
-import org.fossasia.openevent.utils.ShowNotificationSnackBar;
 import org.fossasia.openevent.utils.Utils;
+import org.fossasia.openevent.utils.Views;
 import org.fossasia.openevent.views.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
 import java.lang.ref.WeakReference;
@@ -37,6 +37,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import io.realm.RealmResults;
+import timber.log.Timber;
 
 /**
  * User: MananWason
@@ -174,14 +175,16 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
 
     @Subscribe
     public void onTrackDownloadDone(TracksDownloadEvent event) {
-        if(swipeRefreshLayout!=null)
-            swipeRefreshLayout.setRefreshing(false);
+        Views.setSwipeRefreshLayout(swipeRefreshLayout, false);
+
         if (event.isState()) {
+            Timber.i("Tracks download completed");
             if (!searchView.getQuery().toString().isEmpty() && !searchView.isIconified()) {
                 tracksListAdapter.getFilter().filter(searchView.getQuery());
             }
         } else {
-            if (getActivity() != null) {
+            Timber.i("Tracks download failed");
+            if (getActivity() != null && windowFrame != null) {
                 Snackbar.make(windowFrame, getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, view -> refresh()).show();
             }
         }
@@ -189,34 +192,11 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
 
     private void refresh() {
         NetworkUtils.checkConnection(new WeakReference<>(getContext()), new NetworkUtils.NetworkStateReceiverListener() {
-            @Override
-            public void activeConnection() {
-                //Internet is working
-                DataDownloadManager.getInstance().downloadTracks();
-            }
-
-            @Override
-            public void inactiveConnection() {
-                //set is refreshing false as let user to login
-                if (swipeRefreshLayout != null && swipeRefreshLayout.isRefreshing()) {
-                    swipeRefreshLayout.setRefreshing(false);
-                }
-                //Device is connected to WI-FI or Mobile Data but Internet is not working
-                ShowNotificationSnackBar showNotificationSnackBar = new ShowNotificationSnackBar(getContext(),getView(),swipeRefreshLayout) {
-                    @Override
-                    public void refreshClicked() {
-                        refresh();
-                    }
-                };
-                //show snackbar will be useful if user have blocked notification for this app
-                showNotificationSnackBar.showSnackBar();
-                //show notification (Only when connected to WiFi)
-                showNotificationSnackBar.buildNotification();
-            }
 
             @Override
             public void networkAvailable() {
-                // Network is available but we need to wait for activity
+                // Network is available
+                DataDownloadManager.getInstance().downloadTracks();
             }
 
             @Override
@@ -224,7 +204,6 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
                 OpenEventApp.getEventBus().post(new TracksDownloadEvent(false));
             }
         });
-
     }
 
 }

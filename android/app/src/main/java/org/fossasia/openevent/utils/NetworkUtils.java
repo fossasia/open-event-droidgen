@@ -20,67 +20,42 @@ import timber.log.Timber;
  */
 public class NetworkUtils {
 
-    public static boolean haveNetworkConnection(Context ctx) {
-        return haveWifiConnection(ctx) || haveMobileConnection(ctx);
-    }
+    public static final String TYPE_WIFI = "WIFI";
+
+    public static final String TYPE_MOBILE = "MOBILE";
 
     public static Single<Boolean> haveNetworkConnectionObservable(final Context context) {
         return Single.fromCallable(() -> haveNetworkConnection(context));
     }
 
-    public static boolean haveWifiConnection(Context ctx) {
-        ConnectivityManager cm = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
+    public static boolean haveNetworkConnection(Context context) {
+        return haveWifiConnection(context) || haveMobileConnection(context);
+    }
+
+    public static boolean haveWifiConnection(Context context) {
+        return haveConnection(context, TYPE_WIFI);
+    }
+
+    public static boolean haveMobileConnection(Context context) {
+        return haveConnection(context, TYPE_MOBILE);
+    }
+
+    public static boolean haveConnection(Context context, String NETWORK_TYPE) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         ArrayList<NetworkInfo> networkInfos = new ArrayList<>();
 
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            for (Network net : cm.getAllNetworks()) {
-                networkInfos.add(cm.getNetworkInfo(net));
+            for (Network network : connectivityManager.getAllNetworks()) {
+                networkInfos.add(connectivityManager.getNetworkInfo(network));
             }
         } else {
-            networkInfos = new ArrayList<>(Arrays.asList(cm.getAllNetworkInfo()));
+            networkInfos = new ArrayList<>(Arrays.asList(connectivityManager.getAllNetworkInfo()));
         }
         for (NetworkInfo networkInfo : networkInfos) {
-            if (networkInfo != null && networkInfo.getTypeName().equalsIgnoreCase("WIFI") && networkInfo.isConnected())
+            if (networkInfo != null && networkInfo.getTypeName().equalsIgnoreCase(NETWORK_TYPE) && networkInfo.isConnected())
                 return true;
         }
         return false;
-
-    }
-
-    public static boolean haveMobileConnection(Context ctx) {
-        ConnectivityManager cm = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
-        ArrayList<NetworkInfo> networkInfos = new ArrayList<>();
-
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            for (Network network : cm.getAllNetworks()) {
-                networkInfos.add(cm.getNetworkInfo(network));
-            }
-        } else {
-            networkInfos = new ArrayList<>(Arrays.asList(cm.getAllNetworkInfo()));
-        }
-        for (NetworkInfo networkInfo : networkInfos) {
-            if (networkInfo != null && networkInfo.getTypeName().equalsIgnoreCase("MOBILE") && networkInfo.isConnected())
-                return true;
-        }
-        return false;
-
-    }
-
-    public static boolean isActiveInternetPresent() {
-        try {
-            Process p1 = java.lang.Runtime.getRuntime().exec("ping -c 1 www.google.com");
-            int returnVal = p1.waitFor();
-            return (returnVal == 0);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    public static Single<Boolean> isActiveInternetPresentObservable() {
-        return Single.fromCallable(() -> isActiveInternetPresent());
     }
 
     public static void checkConnection(WeakReference<Context> reference, final NetworkStateReceiverListener listener) {
@@ -94,16 +69,6 @@ public class NetworkUtils {
 
                     if (hasConnection) {
                         listener.networkAvailable();
-                        isActiveInternetPresentObservable()
-                                .subscribeOn(Schedulers.computation())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(isActive -> {
-                                    if (isActive) {
-                                        listener.activeConnection();
-                                    } else {
-                                        listener.inactiveConnection();
-                                    }
-                                });
                     } else {
                         listener.networkUnavailable();
                     }
@@ -115,9 +80,6 @@ public class NetworkUtils {
     }
 
     public interface NetworkStateReceiverListener {
-        void activeConnection();
-
-        void inactiveConnection();
 
         void networkAvailable();
 

@@ -43,10 +43,9 @@ public final class APIClient {
      * Or Build Config
      */
 
-    private static final int CONNECT_TIMEOUT_MILLIS = 20 * 1000; // 15s
+    private static final int CONNECT_TIMEOUT_SECONDS = 15; // 15s
 
-    private static final int READ_TIMEOUT_MILLIS = 50 * 1000; // 20s
-
+    private static final int READ_TIMEOUT_SECONDS = 15; // 15s
     private static final String CACHE_CONTROL = "Cache-Control";
 
     private static OpenEventAPI openEventAPI;
@@ -57,8 +56,8 @@ public final class APIClient {
 
     static {
         okHttpClientBuilder = new OkHttpClient().newBuilder()
-                .connectTimeout(CONNECT_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)
-                .readTimeout(READ_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS);
+                .connectTimeout(CONNECT_TIMEOUT_SECONDS, TimeUnit.SECONDS)
+                .readTimeout(READ_TIMEOUT_SECONDS, TimeUnit.SECONDS);
 
         if (BuildConfig.DEBUG)
             okHttpClientBuilder.addNetworkInterceptor(new StethoInterceptor());
