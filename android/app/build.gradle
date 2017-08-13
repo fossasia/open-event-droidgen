@@ -85,7 +85,11 @@ android {
     sourceSets.test.resources.srcDirs += ["src/main/assets"]
 }
 
-
+configurations.all {
+    resolutionStrategy {
+        force 'com.android.support:multidex:1.0.2'
+    }
+}
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -96,7 +100,7 @@ dependencies {
     compile "com.android.support:design:${SUPPORT_LIB_VERSION}"
     compile "com.android.support:customtabs:${SUPPORT_LIB_VERSION}"
     compile "com.android.support:palette-v7:${SUPPORT_LIB_VERSION}"
-    compile 'com.android.support:multidex:1.0.1'
+    compile 'com.android.support:multidex:1.0.2'
     compile 'com.github.jasminb:jsonapi-converter:0.7'
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-jackson:2.3.0'
