@@ -10,8 +10,8 @@
     <string name="sign_up">Sign Up</string>
     <string name="logout">Logout</string>
     <string name="logout_confirmation">Are you sure you want to log out?</string>
-    <string name="have_an_account_question">Have an account?</string>
-    <string name="new_here_question">New here?</string>
+    <string name="have_an_account_question">Have an account? Login</string>
+    <string name="new_here_question">New here? Sign Up</string>
     <string name="cancel">Cancel</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="edit_profile_confirmation">Do you want to save your changes?</string>
@@ -167,7 +167,7 @@
     <string name="dialog_sort_by_tracks">Tracks</string>
     <string name="dialog_sort_by_start_time">Start Time</string>
 
-
+    <string name="image_view" translatable="false">Image View</string>
     <string name="launcher_icon" translatable="false">Launcher Icon</string>
     <string name="sponsor_image" translatable="false">Sponsor Image</string>
     <string name="header_image" translatable="false">Header Image</string>
@@ -251,6 +251,7 @@
     <!--Misc Strings-->
     <string name="time_separator" translatable="false">\u0020-\u0020</string>
     <string name="delimiter" translatable="false">\u0020/\u0020</string>
+    <string name="right_arrow" translatable="false">Right Arrow</string>
 
     <!--About Screen-->
     <string name="welcome_message">Welcome to %1$s!</string>

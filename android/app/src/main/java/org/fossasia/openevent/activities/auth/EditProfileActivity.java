@@ -6,10 +6,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatEditText;
 import android.util.Base64;
 import android.view.MenuItem;
 import android.view.View;
@@ -55,8 +55,8 @@ public class EditProfileActivity extends AppCompatActivity {
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
 
-    private AppCompatEditText mEditTextFirstName;
-    private AppCompatEditText mEditTextLastName;
+    private TextInputEditText mEditTextFirstName;
+    private TextInputEditText mEditTextLastName;
 
     private User user;
     private Disposable updateUserDisposable;
@@ -74,8 +74,8 @@ public class EditProfileActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        mEditTextFirstName = (AppCompatEditText) mTextInputLayoutFirstName.getEditText();
-        mEditTextLastName = (AppCompatEditText) mTextInputLayoutLastName.getEditText();
+        mEditTextFirstName = (TextInputEditText) mTextInputLayoutFirstName.getEditText();
+        mEditTextLastName = (TextInputEditText) mTextInputLayoutLastName.getEditText();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -194,7 +194,7 @@ public class EditProfileActivity extends AppCompatActivity {
         String firstName = mEditTextFirstName.getText().toString();
         String lastName = mEditTextLastName.getText().toString();
 
-        if (!user.getFirstName().equals(firstName) || !user.getLastName().equals(lastName) || !Utils.isEmpty(encodedImage)) {
+        if (!user.getFirstName().trim().equals(firstName) || !user.getLastName().trim().equals(lastName) || !Utils.isEmpty(encodedImage)) {
             //Show confirmation dialog
             AlertDialog confirmationDialog = new AlertDialog.Builder(this)
                     .setMessage(R.string.edit_profile_confirmation)

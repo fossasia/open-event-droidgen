@@ -3,6 +3,7 @@ package org.fossasia.openevent.activities.auth;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
+import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatEditText;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -36,10 +38,10 @@ public class LoginActivity extends AppCompatActivity implements AppCompatEditTex
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
     @BindView(R.id.sign_up)
-    TextView switchToSignUp;
+    LinearLayout switchToSignUp;
 
-    private AppCompatEditText mEditTextEmail;
-    private AppCompatEditText mEditTextPassword;
+    private TextInputEditText mEditTextEmail;
+    private TextInputEditText mEditTextPassword;
 
     private String email;
 
@@ -52,8 +54,8 @@ public class LoginActivity extends AppCompatActivity implements AppCompatEditTex
 
         ButterKnife.bind(this);
 
-        mEditTextEmail = (AppCompatEditText) mTextInputLayoutEmail.getEditText();
-        mEditTextPassword = (AppCompatEditText) mTextInputLayoutPassword.getEditText();
+        mEditTextEmail = (TextInputEditText) mTextInputLayoutEmail.getEditText();
+        mEditTextPassword = (TextInputEditText) mTextInputLayoutPassword.getEditText();
 
         setEditTextListener();
 

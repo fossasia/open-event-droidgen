@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
+import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatEditText;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -39,11 +41,11 @@ public class SignUpActivity extends AppCompatActivity implements AppCompatEditTe
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
     @BindView(R.id.login)
-    TextView switchToLogin;
+    LinearLayout switchToLogin;
 
-    private AppCompatEditText mEditTextEmail;
-    private AppCompatEditText mEditTextCreatePassword;
-    private AppCompatEditText mEditTextConfirmPassword;
+    private TextInputEditText mEditTextEmail;
+    private TextInputEditText mEditTextCreatePassword;
+    private TextInputEditText mEditTextConfirmPassword;
 
     private String email;
     private String password;
@@ -55,9 +57,9 @@ public class SignUpActivity extends AppCompatActivity implements AppCompatEditTe
 
         ButterKnife.bind(this);
 
-        mEditTextEmail = (AppCompatEditText) mTextInputLayoutEmail.getEditText();
-        mEditTextCreatePassword = (AppCompatEditText) mTextInputLayoutCreatePassword.getEditText();
-        mEditTextConfirmPassword = (AppCompatEditText) mTextInputLayoutConfirmPassword.getEditText();
+        mEditTextEmail = (TextInputEditText) mTextInputLayoutEmail.getEditText();
+        mEditTextCreatePassword = (TextInputEditText) mTextInputLayoutCreatePassword.getEditText();
+        mEditTextConfirmPassword = (TextInputEditText) mTextInputLayoutConfirmPassword.getEditText();
 
         setEditTextListener();
 

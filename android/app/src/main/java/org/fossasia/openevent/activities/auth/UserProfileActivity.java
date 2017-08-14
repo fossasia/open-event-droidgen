@@ -9,6 +9,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.fossasia.openevent.OpenEventApp;
@@ -41,16 +42,18 @@ public class UserProfileActivity extends AppCompatActivity {
     TextView mTextViewLastName;
     @BindView(R.id.email)
     TextView mTextViewEmail;
-    @BindView(R.id.edit_profile)
-    TextView mTextViewEditProfile;
-    @BindView(R.id.change_password)
-    TextView mTextViewChangePassword;
+
     @BindView(R.id.coordinate_layout_user_profile)
     CoordinatorLayout coordinatorLayout;
     @BindView(R.id.user_profile_swipe_refresh)
     SwipeRefreshLayout mSwipeRefreshLayout;
+
+    @BindView(R.id.edit_profile)
+    LinearLayout mEditProfile;
+    @BindView(R.id.change_password)
+    LinearLayout mChangePassword;
     @BindView(R.id.logout)
-    TextView mTextViewLogout;
+    LinearLayout mLogout;
 
     private User user;
     private Disposable disposable;
@@ -74,17 +77,17 @@ public class UserProfileActivity extends AppCompatActivity {
             return;
         }
 
-        mTextViewEditProfile.setOnClickListener(v -> {
+        mEditProfile.setOnClickListener(v -> {
             Intent intent = new Intent(UserProfileActivity.this, EditProfileActivity.class);
             startActivity(intent);
         });
 
-        mTextViewChangePassword.setOnClickListener(v -> {
+        mChangePassword.setOnClickListener(v -> {
             Intent intent = new Intent(UserProfileActivity.this, ChangePasswordActivity.class);
             startActivity(intent);
         });
 
-        mTextViewLogout.setOnClickListener(v -> {
+        mLogout.setOnClickListener(v -> {
             AlertDialog logoutDialog = new AlertDialog.Builder(this)
                     .setMessage(R.string.logout_confirmation)
                     .setPositiveButton(R.string.logout, (dialog, which) -> AuthUtil.logout(UserProfileActivity.this))

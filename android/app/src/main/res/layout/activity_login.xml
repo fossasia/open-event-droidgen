@@ -24,6 +24,7 @@
     <include layout="@layout/content_login" />
 
     <LinearLayout
+        android:id="@+id/sign_up"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
@@ -40,17 +41,12 @@
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_extra_large" />
 
-        <TextView
-            android:id="@+id/sign_up"
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/layout_margin_large"
-            android:drawablePadding="@dimen/padding_small"
-            android:drawableRight="@drawable/ic_arrow_right_white_24dp"
-            android:gravity="center"
-            android:text="@string/sign_up"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_extra_large" />
+            android:contentDescription="@string/right_arrow"
+            android:padding="@dimen/padding_small"
+            app:srcCompat="@drawable/ic_arrow_right_white_24dp" />
     </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -83,44 +83,71 @@
                     android:layout_height="0dp"
                     android:background="@drawable/line_divider" />
 
-                <TextView
+                <LinearLayout
                     android:id="@+id/edit_profile"
-                    android:layout_width="match_parent"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:background="?android:selectableItemBackground"
-                    android:drawableLeft="@drawable/ic_edit_black_24dp"
-                    android:drawablePadding="@dimen/padding_large"
                     android:gravity="center_vertical"
                     android:minHeight="@dimen/profile_menu_height"
-                    android:paddingLeft="@dimen/padding_large"
-                    android:text="@string/edit_profile"
-                    android:textSize="@dimen/text_size_large" />
+                    android:orientation="horizontal">
 
-                <TextView
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/image_view"
+                        android:padding="@dimen/padding_large"
+                        app:srcCompat="@drawable/ic_edit_black_24dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/edit_profile"
+                        android:textSize="@dimen/text_size_extra_large" />
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/change_password"
-                    android:layout_width="match_parent"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:background="?android:selectableItemBackground"
-                    android:drawableLeft="@drawable/ic_security_black_24dp"
-                    android:drawablePadding="@dimen/padding_large"
                     android:gravity="center_vertical"
                     android:minHeight="@dimen/profile_menu_height"
-                    android:paddingLeft="@dimen/padding_large"
-                    android:text="@string/change_password"
-                    android:textSize="@dimen/text_size_large" />
+                    android:orientation="horizontal">
 
-                <TextView
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/image_view"
+                        android:padding="@dimen/padding_large"
+                        app:srcCompat="@drawable/ic_security_black_24dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/change_password"
+                        android:textSize="@dimen/text_size_extra_large" />
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/logout"
-                    android:layout_width="match_parent"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:background="?android:selectableItemBackground"
-                    android:drawableLeft="@drawable/ic_logout"
-                    android:drawablePadding="@dimen/padding_large"
                     android:gravity="center_vertical"
                     android:minHeight="@dimen/profile_menu_height"
-                    android:paddingLeft="@dimen/padding_large"
-                    android:text="@string/logout"
-                    android:textSize="@dimen/text_size_large" />
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/image_view"
+                        android:padding="@dimen/padding_large"
+                        app:srcCompat="@drawable/ic_logout" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/logout"
+                        android:textSize="@dimen/text_size_extra_large" />
+                </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
