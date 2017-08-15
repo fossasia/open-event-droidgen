@@ -55,7 +55,7 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
     private GridLayoutManager gridLayoutManager;
     private Dialog upcomingDialogBox;
 
-    private List<Session> mSessions = new ArrayList<>();
+    private List<Session> sessions = new ArrayList<>();
     private List<Session> sortedSessions = new ArrayList<>();
     private static final int locationWiseSessionList = 1;
 
@@ -113,15 +113,15 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
         sessionRecyclerView.setHasFixedSize(true);
         gridLayoutManager = new GridLayoutManager(this, spanCount);
         sessionRecyclerView.setLayoutManager(gridLayoutManager);
-        sessionsListAdapter = new SessionsListAdapter(this, mSessions, locationWiseSessionList);
+        sessionsListAdapter = new SessionsListAdapter(this, sessions, locationWiseSessionList);
         sessionRecyclerView.setAdapter(sessionsListAdapter);
         sessionRecyclerView.scrollToPosition(SessionsListAdapter.listPosition);
         sessionRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         realmRepo.getSessionsByLocation(location)
                 .addChangeListener((sessions, orderedCollectionChangeSet) -> {
-                    mSessions.clear();
-                    mSessions.addAll(sessions);
+                    this.sessions.clear();
+                    this.sessions.addAll(sessions);
                     sortedSessions.clear();
                     sortedSessions.addAll(sessions.sort("startsAt"));
                     setUpcomingSession();
@@ -182,7 +182,7 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
     }
 
     private void handleVisibility() {
-        if (!mSessions.isEmpty()) {
+        if (!sessions.isEmpty()) {
             noSessionsView.setVisibility(View.GONE);
             sessionRecyclerView.setVisibility(View.VISIBLE);
         } else {
@@ -226,7 +226,7 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
 
     @Override
     public void onBackPressed() {
-        if ((mSessions.isEmpty())) {
+        if ((sessions.isEmpty())) {
             noSessionsView.setVisibility(View.VISIBLE);
         } else {
             sessionRecyclerView.setVisibility(View.VISIBLE);
@@ -289,10 +289,10 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
     public boolean onQueryTextChange(final String query) {
         realmRepo.getSessionsByLocation(location)
                 .addChangeListener((sessions, orderedCollectionChangeSet) -> {
-                    mSessions.clear();
-                    mSessions.addAll(sessions);
+                    this.sessions.clear();
+                    this.sessions.addAll(sessions);
 
-                    final List<Session> filteredModelList = filter(mSessions,
+                    final List<Session> filteredModelList = filter(this.sessions,
                             query.toLowerCase(Locale.getDefault()));
                     sessionsListAdapter.notifyDataSetChanged();
                     sessionsListAdapter.animateTo(filteredModelList);

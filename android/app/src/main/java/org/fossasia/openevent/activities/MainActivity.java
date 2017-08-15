@@ -118,7 +118,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
     private boolean fromServer = true;
     private boolean atHome = true;
     private boolean backPressedOnce;
-    private boolean mTwoPane;
+    private boolean isTwoPane;
     private boolean isAuthEnabled = SharedPreferencesUtil.getBoolean(ConstantStrings.IS_AUTH_ENABLED, false);
     private boolean customTabsSupported;
     private int currentMenuItemId;
@@ -176,8 +176,8 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
         setTheme(R.style.AppTheme_NoActionBar_MainTheme);
         super.onCreate(savedInstanceState);
 
-        mTwoPane = drawerLayout == null;
-        Utils.setTwoPane(mTwoPane);
+        isTwoPane = drawerLayout == null;
+        Utils.setTwoPane(isTwoPane);
 
         disposable = new CompositeDisposable();
 
@@ -279,7 +279,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
     private void setUpNavDrawer() {
         setUpUserProfileMenu();
         headerView = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.headerDrawer);
-        if (toolbar != null && !mTwoPane) {
+        if (toolbar != null && !isTwoPane) {
             final ActionBar ab = getSupportActionBar();
             if(ab == null) return;
             SmoothActionBarDrawerToggle smoothActionBarToggle = new SmoothActionBarDrawerToggle(this,
@@ -462,7 +462,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
     private void setupDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(menuItem -> {
             final int id = menuItem.getItemId();
-            if(!mTwoPane) {
+            if(!isTwoPane) {
                 drawerLayout.closeDrawers();
                 drawerLayout.postDelayed(() -> doMenuAction(id), 300);
             } else {
@@ -561,7 +561,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
 
     @Override
     public void onBackPressed() {
-        if (!mTwoPane && drawerLayout.isDrawerOpen(GravityCompat.START)) {
+        if (!isTwoPane && drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
         } else if (atHome) {
             if (backPressedOnce) {

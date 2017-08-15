@@ -14,8 +14,8 @@ import java.util.List;
  * Created by Manan Wason on 16/06/16.
  */
 public class ScheduleViewPagerAdapter extends FragmentPagerAdapter {
-    private List<Fragment> mFragmentList = new ArrayList<>();
-    private List<String> mFragmentTitleList = new ArrayList<>();
+    private List<Fragment> fragmentList = new ArrayList<>();
+    private List<String> fragmentTitleList = new ArrayList<>();
 
 
     public ScheduleViewPagerAdapter(FragmentManager manager) {
@@ -24,12 +24,12 @@ public class ScheduleViewPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return mFragmentList.get(position);
+        return fragmentList.get(position);
     }
 
     @Override
     public int getCount() {
-        return mFragmentList.size();
+        return fragmentList.size();
     }
 
     public void addFragment(final Fragment fragment, final String title, String dayArgument) {
@@ -37,12 +37,12 @@ public class ScheduleViewPagerAdapter extends FragmentPagerAdapter {
         bundle.putString(ConstantStrings.EVENT_DAY, dayArgument);
         fragment.setArguments(bundle);
 
-        mFragmentList.add(fragment);
-        mFragmentTitleList.add(title);
+        fragmentList.add(fragment);
+        fragmentTitleList.add(title);
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return mFragmentTitleList.get(position);
+        return fragmentTitleList.get(position);
     }
 }

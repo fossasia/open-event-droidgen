@@ -56,7 +56,7 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
     @BindView(R.id.txt_no_speakers)  TextView noSpeakersView;
     @BindView(R.id.rv_speakers) RecyclerView speakersRecyclerView;
 
-    private List<Speaker> mSpeakers = new ArrayList<>();
+    private List<Speaker> speakers = new ArrayList<>();
     private SpeakersListAdapter speakersListAdapter;
 
     private GridLayoutManager gridLayoutManager;
@@ -87,7 +87,7 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
 
         speakersRecyclerView.addItemDecoration(new MarginDecoration(getContext()));
         speakersRecyclerView.setHasFixedSize(true);
-        speakersListAdapter = new SpeakersListAdapter(mSpeakers, getActivity());
+        speakersListAdapter = new SpeakersListAdapter(speakers, getActivity());
         speakersRecyclerView.setAdapter(speakersListAdapter);
         gridLayoutManager = new GridLayoutManager(getActivity(), spanCount);
         speakersRecyclerView.setLayoutManager(gridLayoutManager);
@@ -107,8 +107,8 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
         realmRepo.getSpeakers(sortOrderSpeaker())
                 .addChangeListener((speakers, orderedCollectionChangeSet) -> {
 
-                    mSpeakers.clear();
-                    mSpeakers.addAll(speakers);
+                    this.speakers.clear();
+                    this.speakers.addAll(speakers);
 
                     speakersListAdapter.notifyDataSetChanged();
 
@@ -117,7 +117,7 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
     }
 
     private void handleVisibility() {
-        if (!mSpeakers.isEmpty()) {
+        if (!speakers.isEmpty()) {
             noSpeakersView.setVisibility(View.GONE);
             speakersRecyclerView.setVisibility(View.VISIBLE);
         } else {

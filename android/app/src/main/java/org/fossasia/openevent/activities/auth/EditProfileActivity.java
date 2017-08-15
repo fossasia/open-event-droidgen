@@ -45,18 +45,18 @@ import timber.log.Timber;
 public class EditProfileActivity extends AppCompatActivity {
 
     @BindView(R.id.avatar)
-    ImageView mImageViewAvatar;
+    ImageView avatar;
     @BindView(R.id.text_input_layout_first_name)
-    TextInputLayout mTextInputLayoutFirstName;
+    TextInputLayout firstNameWrapper;
     @BindView(R.id.text_input_layout_last_name)
-    TextInputLayout mTextInputLayoutLastName;
+    TextInputLayout lastNameWrapper;
     @BindView(R.id.btnSave)
-    Button btnSave;
+    Button save;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
 
-    private TextInputEditText mEditTextFirstName;
-    private TextInputEditText mEditTextLastName;
+    private TextInputEditText firstNameInput;
+    private TextInputEditText lastNameInput;
 
     private User user;
     private Disposable updateUserDisposable;
@@ -74,8 +74,8 @@ public class EditProfileActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        mEditTextFirstName = (TextInputEditText) mTextInputLayoutFirstName.getEditText();
-        mEditTextLastName = (TextInputEditText) mTextInputLayoutLastName.getEditText();
+        firstNameInput = (TextInputEditText) firstNameWrapper.getEditText();
+        lastNameInput = (TextInputEditText) lastNameWrapper.getEditText();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -85,11 +85,11 @@ public class EditProfileActivity extends AppCompatActivity {
             Timber.d("User data loaded from database");
         });
 
-        mImageViewAvatar.setOnClickListener(v -> {
+        avatar.setOnClickListener(v -> {
             showFileChooser();
         });
 
-        btnSave.setOnClickListener(v -> {
+        save.setOnClickListener(v -> {
             hideKeyBoard();
             saveChanges();
         });
@@ -127,11 +127,11 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
     private void updateUser() {
-        if (mEditTextFirstName == null || mEditTextLastName == null)
+        if (firstNameInput == null || lastNameInput == null)
             return;
 
-        String firstName = mEditTextFirstName.getText().toString();
-        String lastName = mEditTextLastName.getText().toString();
+        String firstName = firstNameInput.getText().toString();
+        String lastName = lastNameInput.getText().toString();
 
         int id = 0;
         try {
@@ -186,13 +186,13 @@ public class EditProfileActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (user == null || mEditTextFirstName == null || mEditTextLastName == null) {
+        if (user == null || firstNameInput == null || lastNameInput == null) {
             super.onBackPressed();
             return;
         }
 
-        String firstName = mEditTextFirstName.getText().toString();
-        String lastName = mEditTextLastName.getText().toString();
+        String firstName = firstNameInput.getText().toString();
+        String lastName = lastNameInput.getText().toString();
 
         if (!user.getFirstName().trim().equals(firstName) || !user.getLastName().trim().equals(lastName) || !Utils.isEmpty(encodedImage)) {
             //Show confirmation dialog
@@ -239,7 +239,7 @@ public class EditProfileActivity extends AppCompatActivity {
             OpenEventApp.picassoWithCache
                     .load(imageUri)
                     .transform(new CircleTransform())
-                    .into(mImageViewAvatar);
+                    .into(avatar);
         }
     }
 
@@ -255,7 +255,7 @@ public class EditProfileActivity extends AppCompatActivity {
         if (user == null || !user.isValid())
             return;
 
-        if (mEditTextFirstName == null || mEditTextLastName == null)
+        if (firstNameInput == null || lastNameInput == null)
             return;
 
         String firstName = user.getFirstName();
@@ -263,14 +263,14 @@ public class EditProfileActivity extends AppCompatActivity {
         String avatarUrl = user.getAvatarUrl();
 
         if (firstName != null)
-            mEditTextFirstName.setText(firstName.trim());
+            firstNameInput.setText(firstName.trim());
         if (lastName != null)
-            mEditTextLastName.setText(lastName.trim());
+            lastNameInput.setText(lastName.trim());
 
         if (avatarUrl != null) {
             OpenEventApp.picassoWithCache.load(avatarUrl)
                     .transform(new CircleTransform())
-                    .into(mImageViewAvatar);
+                    .into(avatar);
         }
     }
 

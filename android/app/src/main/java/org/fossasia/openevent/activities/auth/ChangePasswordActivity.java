@@ -33,22 +33,22 @@ import timber.log.Timber;
 public class ChangePasswordActivity extends AppCompatActivity {
 
     @BindView(R.id.text_input_layout_current_password)
-    TextInputLayout mTextInputLayoutCurrentPassword;
+    TextInputLayout currentPasswordWrapper;
     @BindView(R.id.text_input_layout_new_password)
-    TextInputLayout mTextInputLayoutNewPassword;
+    TextInputLayout newPasswordWrapper;
     @BindView(R.id.text_input_layout_confirm_password)
-    TextInputLayout mTextInputLayoutConfirmPassword;
+    TextInputLayout confirmPasswordWrapper;
     @BindView(R.id.btnChangePassword)
-    Button btnChangePassword;
+    Button changePassword;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
 
     String currentPassword;
     String newPassword;
 
-    private AppCompatEditText mEditTextCurrentPassword;
-    private AppCompatEditText mEditTextNewPassword;
-    private AppCompatEditText mEditTextConfirmPassword;
+    private AppCompatEditText currentPasswordInput;
+    private AppCompatEditText newPasswordInput;
+    private AppCompatEditText confirmPasswordInput;
 
     private User user;
     private Disposable checkPasswordDisposable;
@@ -67,23 +67,23 @@ public class ChangePasswordActivity extends AppCompatActivity {
         user.addChangeListener(userModel -> {
         });
 
-        mEditTextCurrentPassword = (AppCompatEditText) mTextInputLayoutCurrentPassword.getEditText();
-        mEditTextNewPassword = (AppCompatEditText) mTextInputLayoutNewPassword.getEditText();
-        mEditTextConfirmPassword = (AppCompatEditText) mTextInputLayoutConfirmPassword.getEditText();
+        currentPasswordInput = (AppCompatEditText) currentPasswordWrapper.getEditText();
+        newPasswordInput = (AppCompatEditText) newPasswordWrapper.getEditText();
+        confirmPasswordInput = (AppCompatEditText) confirmPasswordWrapper.getEditText();
 
-        btnChangePassword.setOnClickListener(v -> {
+        changePassword.setOnClickListener(v -> {
             hideKeyBoard();
             saveChanges();
         });
     }
 
     private void saveChanges() {
-        if (mEditTextCurrentPassword == null || mEditTextNewPassword == null || mEditTextConfirmPassword == null)
+        if (currentPasswordInput == null || newPasswordInput == null || confirmPasswordInput == null)
             return;
 
-        currentPassword = mEditTextCurrentPassword.getText().toString();
-        newPassword = mEditTextNewPassword.getText().toString();
-        String confirmPassword = mEditTextConfirmPassword.getText().toString();
+        currentPassword = currentPasswordInput.getText().toString();
+        newPassword = newPasswordInput.getText().toString();
+        String confirmPassword = confirmPasswordInput.getText().toString();
 
         if (validateCredentials(currentPassword, newPassword, confirmPassword)) {
             checkCurrentPassword(currentPassword);
@@ -153,30 +153,30 @@ public class ChangePasswordActivity extends AppCompatActivity {
     private boolean validateCredentials(String currentPassword, String newPassword, String confirmPasssword) {
 
         // Reset errors.
-        mTextInputLayoutCurrentPassword.setError(null);
-        mTextInputLayoutNewPassword.setError(null);
-        mTextInputLayoutConfirmPassword.setError(null);
+        currentPasswordWrapper.setError(null);
+        newPasswordWrapper.setError(null);
+        confirmPasswordWrapper.setError(null);
 
         if (Utils.isEmpty(currentPassword)) {
-            handleError(mTextInputLayoutCurrentPassword, R.string.error_password_required);
+            handleError(currentPasswordWrapper, R.string.error_password_required);
             return false;
         }
 
         if (Utils.isEmpty(newPassword)) {
-            handleError(mTextInputLayoutNewPassword, R.string.error_password_required);
+            handleError(newPasswordWrapper, R.string.error_password_required);
             return false;
         } else if (!Utils.isPasswordValid(newPassword)) {
-            handleError(mTextInputLayoutNewPassword, R.string.error_password_length);
+            handleError(newPasswordWrapper, R.string.error_password_length);
             return false;
         }
 
         if (Utils.isEmpty(confirmPasssword)) {
-            handleError(mTextInputLayoutConfirmPassword, R.string.error_confirm_password);
+            handleError(confirmPasswordWrapper, R.string.error_confirm_password);
             return false;
         }
 
         if (!confirmPasssword.equals(newPassword)) {
-            handleError(mTextInputLayoutConfirmPassword, R.string.error_password_not_matching);
+            handleError(confirmPasswordWrapper, R.string.error_password_not_matching);
             return false;
         }
 

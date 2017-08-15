@@ -56,8 +56,8 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
     @BindView(R.id.list_schedule) RecyclerView dayRecyclerView;
     @BindView(R.id.txt_no_schedule) TextView noSchedule;
 
-    private List<Session> mSessions = new ArrayList<>();
-    private List<Session> mSessionsFiltered = new ArrayList<>();
+    private List<Session> sessions = new ArrayList<>();
+    private List<Session> filteredSessions = new ArrayList<>();
     private DayScheduleAdapter dayScheduleAdapter;
 
     private String date;
@@ -80,7 +80,7 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
         Utils.registerIfUrlValid(swipeRefreshLayout, this, this::refresh);
 
         dayRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        dayScheduleAdapter = new DayScheduleAdapter(mSessionsFiltered, getContext());
+        dayScheduleAdapter = new DayScheduleAdapter(filteredSessions, getContext());
         dayRecyclerView.setAdapter(dayScheduleAdapter);
         dayScheduleAdapter.setEventDate(date);
 
@@ -98,11 +98,11 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
 
         realmRepo.getSessionsByDate(date, SortOrder.sortOrderSchedule())
                 .addChangeListener((sortedSessions, orderedCollectionChangeSet) -> {
-                    mSessions.clear();
-                    mSessions.addAll(sortedSessions);
+                    sessions.clear();
+                    sessions.addAll(sortedSessions);
 
-                    mSessionsFiltered.clear();
-                    mSessionsFiltered.addAll(sortedSessions);
+                    filteredSessions.clear();
+                    filteredSessions.addAll(sortedSessions);
 
                     dayScheduleAdapter.setCopy(sortedSessions);
                     dayScheduleAdapter.notifyDataSetChanged();
@@ -121,17 +121,17 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
 
         realmRepo.getSessionsByDate(date, SortOrder.sortOrderSchedule())
                 .addChangeListener((sortedSessions, orderedCollectionChangeSet) -> {
-                    mSessions.clear();
-                    mSessions.addAll(sortedSessions);
+                    sessions.clear();
+                    sessions.addAll(sortedSessions);
 
-                    mSessionsFiltered.clear();
+                    filteredSessions.clear();
                     if (selectedTracks.isEmpty()) {
-                        mSessionsFiltered.addAll(mSessions);
+                        filteredSessions.addAll(sessions);
                     } else {
-                        for(int i = 0 ; i < mSessions.size() ; i++) {
-                            String trackName = mSessions.get(i).getTrack().getName();
+                        for(int i = 0; i < sessions.size() ; i++) {
+                            String trackName = sessions.get(i).getTrack().getName();
                             if (selectedTracks.contains(trackName)) {
-                                mSessionsFiltered.add(mSessions.get(i));
+                                filteredSessions.add(sessions.get(i));
                             }
                         }
 
@@ -147,7 +147,7 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
 
     private void handleVisibility() {
         if (dayRecyclerView != null && noSchedule != null) {
-            if (!mSessionsFiltered.isEmpty()) {
+            if (!filteredSessions.isEmpty()) {
                 noSchedule.setVisibility(View.GONE);
             } else {
                 noSchedule.setVisibility(View.VISIBLE);

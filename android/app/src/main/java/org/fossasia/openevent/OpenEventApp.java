@@ -60,7 +60,7 @@ public class OpenEventApp extends MultiDexApplication {
     public static final String APP_NAME = "app-name";
     public static final String AUTH_OPTION = "is-auth-enabled";
 
-    public static String sDefSystemLanguage;
+    public static String defaultSystemLanguage;
     private static Handler handler;
     private static Bus eventBus;
     private static WeakReference<Context> context;
@@ -120,7 +120,7 @@ public class OpenEventApp extends MultiDexApplication {
         Branch.getAutoInstance(this);
 
         setUpTimeZone();
-        sDefSystemLanguage = Locale.getDefault().getDisplayLanguage();
+        defaultSystemLanguage = Locale.getDefault().getDisplayLanguage();
 
         Realm.init(this);
         RealmConfiguration config = new RealmConfiguration.Builder()
@@ -267,7 +267,7 @@ public class OpenEventApp extends MultiDexApplication {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
-        sDefSystemLanguage = newConfig.locale.getDisplayLanguage();
+        defaultSystemLanguage = newConfig.locale.getDisplayLanguage();
     }
 
     public MapModuleFactory getMapModuleFactory() {

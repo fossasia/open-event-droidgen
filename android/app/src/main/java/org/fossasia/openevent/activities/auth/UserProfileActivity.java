@@ -36,25 +36,25 @@ import timber.log.Timber;
 public class UserProfileActivity extends AppCompatActivity {
 
     @BindView(R.id.avatar)
-    ImageView mImageViewAvatar;
+    ImageView avatar;
     @BindView(R.id.first_name)
-    TextView mTextViewFirstName;
+    TextView firstName;
     @BindView(R.id.last_name)
-    TextView mTextViewLastName;
+    TextView lastName;
     @BindView(R.id.email)
-    TextView mTextViewEmail;
+    TextView email;
 
     @BindView(R.id.coordinate_layout_user_profile)
     CoordinatorLayout coordinatorLayout;
     @BindView(R.id.user_profile_swipe_refresh)
-    SwipeRefreshLayout mSwipeRefreshLayout;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     @BindView(R.id.edit_profile)
-    LinearLayout mEditProfile;
+    LinearLayout editProfile;
     @BindView(R.id.change_password)
-    LinearLayout mChangePassword;
+    LinearLayout changePassword;
     @BindView(R.id.logout)
-    LinearLayout mLogout;
+    LinearLayout logout;
 
     private User user;
     private Disposable disposable;
@@ -78,17 +78,17 @@ public class UserProfileActivity extends AppCompatActivity {
             return;
         }
 
-        mEditProfile.setOnClickListener(v -> {
+        editProfile.setOnClickListener(v -> {
             Intent intent = new Intent(UserProfileActivity.this, EditProfileActivity.class);
             startActivity(intent);
         });
 
-        mChangePassword.setOnClickListener(v -> {
+        changePassword.setOnClickListener(v -> {
             Intent intent = new Intent(UserProfileActivity.this, ChangePasswordActivity.class);
             startActivity(intent);
         });
 
-        mLogout.setOnClickListener(v -> {
+        logout.setOnClickListener(v -> {
             AlertDialog logoutDialog = new AlertDialog.Builder(this)
                     .setMessage(R.string.logout_confirmation)
                     .setPositiveButton(R.string.logout, (dialog, which) -> AuthUtil.logout(UserProfileActivity.this))
@@ -98,7 +98,7 @@ public class UserProfileActivity extends AppCompatActivity {
             logoutDialog.show();
         });
 
-        mSwipeRefreshLayout.setOnRefreshListener(this::refresh);
+        swipeRefreshLayout.setOnRefreshListener(this::refresh);
 
         try {
             loadUser(true);
@@ -120,8 +120,8 @@ public class UserProfileActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mSwipeRefreshLayout != null)
-            mSwipeRefreshLayout.setOnRefreshListener(null);
+        if (swipeRefreshLayout != null)
+            swipeRefreshLayout.setOnRefreshListener(null);
 
         if (disposable != null && !disposable.isDisposed())
             disposable.dispose();
@@ -176,16 +176,16 @@ public class UserProfileActivity extends AppCompatActivity {
         String avatarUrl = user.getAvatarUrl();
 
         if (firstName != null)
-            mTextViewFirstName.setText(firstName.trim());
+            this.firstName.setText(firstName.trim());
         if (lastName != null)
-            mTextViewLastName.setText(lastName.trim());
+            this.lastName.setText(lastName.trim());
 
         if (avatarUrl != null) {
             OpenEventApp.picassoWithCache.load(avatarUrl)
                     .transform(new CircleTransform())
-                    .into(mImageViewAvatar);
+                    .into(avatar);
         }
-        mTextViewEmail.setText(email);
+        this.email.setText(email);
     }
 
     private void refresh() {
@@ -209,7 +209,7 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     private void stopRefreshing() {
-        Views.setSwipeRefreshLayout(mSwipeRefreshLayout, false);
+        Views.setSwipeRefreshLayout(swipeRefreshLayout, false);
     }
 
     @Override
