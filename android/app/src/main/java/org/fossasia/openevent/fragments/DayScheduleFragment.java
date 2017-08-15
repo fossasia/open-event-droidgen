@@ -28,9 +28,9 @@ import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.events.SessionDownloadEvent;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.NetworkUtils;
-import org.fossasia.openevent.utils.ShowNotificationSnackBar;
 import org.fossasia.openevent.utils.SortOrder;
 import org.fossasia.openevent.utils.Utils;
+import org.fossasia.openevent.utils.Views;
 import org.fossasia.openevent.views.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
 import java.lang.ref.WeakReference;
@@ -39,6 +39,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import io.reactivex.disposables.CompositeDisposable;
+import timber.log.Timber;
 
 /**
  * Created by Manan Wason on 17/06/16.
@@ -174,14 +175,16 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
 
     @Subscribe
     public void onSessionsDownloadDone(SessionDownloadEvent event) {
-        if(swipeRefreshLayout!=null)
-            swipeRefreshLayout.setRefreshing(false);
+        Views.setSwipeRefreshLayout(swipeRefreshLayout, false);
+
         if (event.isState()) {
+            Timber.i("Schedule download completed");
             if (searchView != null && !searchView.getQuery().toString().isEmpty() && !searchView.isIconified()) {
                 dayScheduleAdapter.filter(searchView.getQuery().toString());
             }
         } else {
-            if (swipeRefreshLayout != null) {
+            Timber.i("Schedule download failed");
+            if (getActivity() != null && swipeRefreshLayout != null) {
                 Snackbar.make(swipeRefreshLayout, getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, view -> refresh()).show();
             }
         }
@@ -226,34 +229,11 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
 
     private void refresh() {
         NetworkUtils.checkConnection(new WeakReference<>(getContext()), new NetworkUtils.NetworkStateReceiverListener() {
-            @Override
-            public void activeConnection() {
-                //Internet is working
-                DataDownloadManager.getInstance().downloadSession();
-            }
-
-            @Override
-            public void inactiveConnection() {
-                //Device is connected to WI-FI or Mobile Data but Internet is not working
-                //set is refreshing false as let user to login
-                if (swipeRefreshLayout != null && swipeRefreshLayout.isRefreshing()) {
-                    swipeRefreshLayout.setRefreshing(false);
-                }
-                ShowNotificationSnackBar showNotificationSnackBar = new ShowNotificationSnackBar(getContext(),getView(),swipeRefreshLayout) {
-                    @Override
-                    public void refreshClicked() {
-                        refresh();
-                    }
-                };
-                //show snackbar will be useful if user have blocked notification for this app
-                showNotificationSnackBar.showSnackBar();
-                //show notification (Only when connected to WiFi)
-                showNotificationSnackBar.buildNotification();
-            }
 
             @Override
             public void networkAvailable() {
-                // Network is available but we need to wait for activity
+                // Network is available
+                DataDownloadManager.getInstance().downloadSession();
             }
 
             @Override

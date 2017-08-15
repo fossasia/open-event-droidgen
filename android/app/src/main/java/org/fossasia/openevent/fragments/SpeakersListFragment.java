@@ -35,8 +35,8 @@ import org.fossasia.openevent.events.SpeakerDownloadEvent;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.NetworkUtils;
 import org.fossasia.openevent.utils.SharedPreferencesUtil;
-import org.fossasia.openevent.utils.ShowNotificationSnackBar;
 import org.fossasia.openevent.utils.Utils;
+import org.fossasia.openevent.utils.Views;
 import org.fossasia.openevent.views.MarginDecoration;
 
 import java.lang.ref.WeakReference;
@@ -208,36 +208,27 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
         gridLayoutManager.setSpanCount(spanCount);
     }
 
+    @Subscribe
+    public void speakerDownloadDone(SpeakerDownloadEvent event) {
+        Views.setSwipeRefreshLayout(swipeRefreshLayout, false);
+
+        if (event.isState()) {
+            Timber.i("Speaker download completed");
+        } else {
+            Timber.i("Speaker download failed.");
+            if (getActivity() != null && swipeRefreshLayout != null) {
+                Snackbar.make(swipeRefreshLayout, getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, view -> refresh()).show();
+            }
+        }
+    }
+
     private void refresh() {
         NetworkUtils.checkConnection(new WeakReference<>(getContext()), new NetworkUtils.NetworkStateReceiverListener() {
-            @Override
-            public void activeConnection() {
-                //Internet is working
-                DataDownloadManager.getInstance().downloadSpeakers();
-            }
-
-            @Override
-            public void inactiveConnection() {
-                //set is refreshing false as let user to login
-                if (swipeRefreshLayout != null && swipeRefreshLayout.isRefreshing()) {
-                    swipeRefreshLayout.setRefreshing(false);
-                }
-                //Device is connected to WI-FI or Mobile Data but Internet is not working
-                ShowNotificationSnackBar showNotificationSnackBar = new ShowNotificationSnackBar(getContext(),getView(),swipeRefreshLayout) {
-                    @Override
-                    public void refreshClicked() {
-                        refresh();
-                    }
-                };
-                //show snackbar will be useful if user have blocked notification for this app
-                showNotificationSnackBar.showSnackBar();
-                //show notification (Only when connected to WiFi)
-                showNotificationSnackBar.buildNotification();
-            }
 
             @Override
             public void networkAvailable() {
-                // Network is available but we need to wait for activity
+                // Network is available
+                DataDownloadManager.getInstance().downloadSpeakers();
             }
 
             @Override
@@ -245,20 +236,6 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
                 OpenEventApp.getEventBus().post(new SpeakerDownloadEvent(false));
             }
         });
-    }
-
-    @Subscribe
-    public void speakerDownloadDone(SpeakerDownloadEvent event) {
-        if(swipeRefreshLayout == null)
-            return;
-
-        swipeRefreshLayout.setRefreshing(false);
-        if (event.isState()) {
-            Timber.i("Speaker download completed");
-        } else {
-            Snackbar.make(swipeRefreshLayout, getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, view -> refresh()).show();
-            Timber.i("Speaker download failed.");
-        }
     }
 
     @Override

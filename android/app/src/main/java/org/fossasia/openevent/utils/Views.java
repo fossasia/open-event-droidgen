@@ -13,6 +13,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.widget.EdgeEffectCompat;
 import android.support.v4.widget.NestedScrollView;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.TextUtils;
@@ -100,6 +101,17 @@ public final class Views {
             return Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY);
         } else {
             return Html.fromHtml(html);
+        }
+    }
+
+    public static void setSwipeRefreshLayout(SwipeRefreshLayout swipeRefreshLayout, boolean refreshing) {
+        if (swipeRefreshLayout == null)
+            return;
+
+        if (refreshing && !swipeRefreshLayout.isRefreshing()) {
+            swipeRefreshLayout.setRefreshing(true);
+        } else {
+            swipeRefreshLayout.setRefreshing(false);
         }
     }
 

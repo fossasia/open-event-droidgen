@@ -19,15 +19,19 @@ import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
 
+import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.LocationsListAdapter;
 import org.fossasia.openevent.api.DataDownloadManager;
 import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.events.MicrolocationDownloadEvent;
+import org.fossasia.openevent.utils.NetworkUtils;
 import org.fossasia.openevent.utils.Utils;
+import org.fossasia.openevent.utils.Views;
 import org.fossasia.openevent.views.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -178,18 +182,31 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
 
     @Subscribe
     public void onLocationsDownloadDone(MicrolocationDownloadEvent event) {
-        if(swipeRefreshLayout == null)
-            return;
+        Views.setSwipeRefreshLayout(swipeRefreshLayout, false);
 
-        swipeRefreshLayout.setRefreshing(false);
         if (event.isState()) {
-            Timber.d("Locations Downloaded");
+            Timber.d("Locations download completed");
         } else {
-            Snackbar.make(swipeRefreshLayout, getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, view -> refresh()).show();
+            Timber.d("Locations download failed");
+            if (getActivity() != null && swipeRefreshLayout != null) {
+                Snackbar.make(swipeRefreshLayout, getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, view -> refresh()).show();
+            }
         }
     }
 
     private void refresh() {
-        DataDownloadManager.getInstance().downloadMicrolocations();
+        NetworkUtils.checkConnection(new WeakReference<>(getContext()), new NetworkUtils.NetworkStateReceiverListener() {
+
+            @Override
+            public void networkAvailable() {
+                // Network is available
+                DataDownloadManager.getInstance().downloadMicrolocations();
+            }
+
+            @Override
+            public void networkUnavailable() {
+                OpenEventApp.getEventBus().post(new MicrolocationDownloadEvent(false));
+            }
+        });
     }
 }

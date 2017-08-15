@@ -18,7 +18,7 @@ import org.fossasia.openevent.data.facebook.FeedItem;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.NetworkUtils;
 import org.fossasia.openevent.utils.SharedPreferencesUtil;
-import org.fossasia.openevent.utils.ShowNotificationSnackBar;
+import org.fossasia.openevent.utils.Views;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -91,7 +91,7 @@ public class FeedFragment extends BaseFragment {
                     Timber.d("Refresh not done");
                     showProgressBar(false);
                 }, () -> {
-                    swipeRefreshLayout.setRefreshing(false);
+                    Views.setSwipeRefreshLayout(swipeRefreshLayout, false);
                     Timber.d("Refresh done");
                     showProgressBar(false);
                 });
@@ -116,9 +116,10 @@ public class FeedFragment extends BaseFragment {
 
     private void refresh() {
         NetworkUtils.checkConnection(new WeakReference<>(getContext()), new NetworkUtils.NetworkStateReceiverListener() {
+
             @Override
-            public void activeConnection() {
-                //Internet is working
+            public void networkAvailable() {
+                // Network is available
                 if (SharedPreferencesUtil.getString(ConstantStrings.FACEBOOK_PAGE_ID, null) == null)
                     APIClient.getFacebookGraphAPI().getPageId(SharedPreferencesUtil.getString(ConstantStrings.FACEBOOK_PAGE_NAME, null),
                             getResources().getString(R.string.facebook_access_token))
@@ -132,38 +133,14 @@ public class FeedFragment extends BaseFragment {
             }
 
             @Override
-            public void inactiveConnection() {
-                //set is refreshing false as let user to login
-                if (swipeRefreshLayout != null && swipeRefreshLayout.isRefreshing()) {
-                    swipeRefreshLayout.setRefreshing(false);
-                }
-                //Device is connected to WI-FI or Mobile Data but Internet is not working
-                ShowNotificationSnackBar showNotificationSnackBar = new ShowNotificationSnackBar(getContext(),getView(),swipeRefreshLayout) {
-                    @Override
-                    public void refreshClicked() {
-                        refresh();
-                    }
-                };
-                //show snackbar will be useful if user have blocked notification for this app
-                showNotificationSnackBar.showSnackBar();
-                //show notification (Only when connected to WiFi)
-                showNotificationSnackBar.buildNotification();
-            }
-
-            @Override
-            public void networkAvailable() {
-                // Network is available but we need to wait for activity
-            }
-
-            @Override
             public void networkUnavailable() {
+                Views.setSwipeRefreshLayout(swipeRefreshLayout, false);
+
                 Snackbar.make(swipeRefreshLayout, getActivity()
                         .getString(R.string.refresh_failed), Snackbar.LENGTH_LONG)
                         .setAction(R.string.retry_download, view -> refresh()).show();
-                swipeRefreshLayout.setRefreshing(false);
             }
         });
-
     }
 
     private void showProgressBar(boolean show) {

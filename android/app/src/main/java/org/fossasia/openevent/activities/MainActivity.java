@@ -85,7 +85,6 @@ import org.fossasia.openevent.utils.DateConverter;
 import org.fossasia.openevent.utils.DownloadCompleteHandler;
 import org.fossasia.openevent.utils.NetworkUtils;
 import org.fossasia.openevent.utils.SharedPreferencesUtil;
-import org.fossasia.openevent.utils.ShowNotificationSnackBar;
 import org.fossasia.openevent.utils.SmoothActionBarDrawerToggle;
 import org.fossasia.openevent.utils.Utils;
 import org.fossasia.openevent.widget.DialogFactory;
@@ -393,7 +392,13 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
                 return;
 
             SocialLink facebookLink = facebookPage.get(0);
-            String pageName = facebookLink.getLink().split("facebook.com/")[1];
+            String link = facebookLink.getLink();
+            String tempString = ".com";
+            String pageName = link.substring(link.indexOf(tempString) + tempString.length()).replace("/", "");
+
+            if (Utils.isEmpty(pageName))
+                return;
+
             SharedPreferencesUtil.putString(ConstantStrings.FACEBOOK_PAGE_NAME, pageName);
         }
 
@@ -404,17 +409,19 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(facebookPageId -> {
-                        String id = facebookPageId.getId();
-                        SharedPreferencesUtil.putString(ConstantStrings.FACEBOOK_PAGE_ID, id);
-                    });
+                                String id = facebookPageId.getId();
+                                SharedPreferencesUtil.putString(ConstantStrings.FACEBOOK_PAGE_ID, id);
+                            },
+                            throwable -> Timber.d("Facebook page id download failed: " + throwable.toString()));
         }
     }
 
     private void setupConnection() {
         NetworkUtils.checkConnection(new WeakReference<>(this), new NetworkUtils.NetworkStateReceiverListener() {
+
             @Override
-            public void activeConnection() {
-                //Internet is working
+            public void networkAvailable() {
+                // Network is available
                 if (!SharedPreferencesUtil.getBoolean(ConstantStrings.IS_DOWNLOAD_DONE, false)) {
                     DialogFactory.createDownloadDialog(context, R.string.download_assets, R.string.charges_warning,
                             (dialogInterface, button) -> {
@@ -428,40 +435,18 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
                                     default:
                                         // No action to be taken
                                 }
-                    }).show();
+                            }).show();
                 } else {
                     completeHandler.hide();
                 }
             }
 
             @Override
-            public void inactiveConnection() {
-                //Device is connected to WI-FI or Mobile Data but Internet is not working
-                ShowNotificationSnackBar showNotificationSnackBar = new ShowNotificationSnackBar(MainActivity.this,mainFrame, null) {
-                    @Override
-                    public void refreshClicked() {
-                        OpenEventApp.getEventBus().unregister(this);
-                        OpenEventApp.getEventBus().register(this);
-                    }
-                };
-                //show snackbar
-                showNotificationSnackBar.showSnackBar();
-                //snow notification (Only when connected to WiFi)
-                showNotificationSnackBar.buildNotification();
-            }
-
-            @Override
-            public void networkAvailable() {
-                // Waiting for connectivity
-            }
-
-            @Override
             public void networkUnavailable() {
-                Snackbar.make(mainFrame, R.string.display_offline_schedule, Snackbar.LENGTH_LONG).show();
                 downloadFromAssets();
+                Snackbar.make(mainFrame, R.string.display_offline_schedule, Snackbar.LENGTH_LONG).show();
             }
         });
-
     }
 
     private void downloadFailed(final DownloadEvent event) {
@@ -639,6 +624,11 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
         builder.show();
     }
 
+    public void showErrorSnackbar(String errorType, String errorDesc) {
+        completeHandler.hide();
+        Snackbar.make(mainFrame, errorType + ": " + errorDesc, Snackbar.LENGTH_LONG).show();
+    }
+
     public void dismissDialogNetworkNotification() {
         if (dialogNetworkNotification != null)
             dialogNetworkNotification.dismiss();
@@ -791,7 +781,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
                 errorDesc = String.valueOf(error.getThrowable().getLocalizedMessage());
             }
             Timber.tag(errorType).e(errorDesc);
-            showErrorDialog(errorType, errorDesc);
+            showErrorSnackbar(errorType, errorDesc);
         }
     }
 
