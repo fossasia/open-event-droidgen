@@ -34,8 +34,7 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
     private SwitchPreference timezonePreference;
     private Preference prefNotification;
     private Preference languagePreference;
-    private AppCompatDelegate mDelegate;
-
+    private AppCompatDelegate delegate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +56,7 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
 
         prefNotification = findPreference(NOTIFICATION_PREF_MODE);
         languagePreference=findPreference(LANGUAGE_PREF_MODE);
-        languagePreference.setSummary(OpenEventApp.sDefSystemLanguage);
+        languagePreference.setSummary(OpenEventApp.defaultSystemLanguage);
     }
 
     @Override
@@ -125,7 +124,7 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
 
 
         prefNotification.setSummary(SharedPreferencesUtil.getString(getString(R.string.notification_key), ""));
-        languagePreference.setSummary(OpenEventApp.sDefSystemLanguage);
+        languagePreference.setSummary(OpenEventApp.defaultSystemLanguage);
     }
 
     @Override
@@ -174,9 +173,9 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
     }
 
     private AppCompatDelegate getDelegate() {
-        if (mDelegate == null) {
-            mDelegate = AppCompatDelegate.create(this, null);
+        if (delegate == null) {
+            delegate = AppCompatDelegate.create(this, null);
         }
-        return mDelegate;
+        return delegate;
     }
 }

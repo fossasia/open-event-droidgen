@@ -58,7 +58,7 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
 
     private GridLayoutManager gridLayoutManager;
 
-    private List<Session> mSessions = new ArrayList<>();
+    private List<Session> sessions = new ArrayList<>();
 
     private String searchText;
     private int fontColor;
@@ -109,7 +109,7 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
         sessionsRecyclerView.setHasFixedSize(true);
         gridLayoutManager = new GridLayoutManager(this, spanCount);
         sessionsRecyclerView.setLayoutManager(gridLayoutManager);
-        sessionsListAdapter = new SessionsListAdapter(this, mSessions, trackWiseSessionList);
+        sessionsListAdapter = new SessionsListAdapter(this, sessions, trackWiseSessionList);
         if (searchText != null) {
             sessionsListAdapter.getFilter().filter(searchText);
         }
@@ -142,13 +142,13 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
                 sessionsRecyclerView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
             }
 
-            mSessions.clear();
-            mSessions.addAll(track.getSessions().sort("startsAt"));
+            sessions.clear();
+            sessions.addAll(track.getSessions().sort("startsAt"));
 
             //finding upcoming and ongoing sessions
             int countUpcoming = 0;
             int countOngoing = 0;
-            for (Session trackSession : mSessions) {
+            for (Session trackSession : sessions) {
                 flag = 0;
                 try {
                     Date start = DateConverter.getDate(trackSession.getStartsAt());
@@ -174,7 +174,7 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
     }
 
     private void handleVisibility() {
-        if (!mSessions.isEmpty()) {
+        if (!sessions.isEmpty()) {
             noSessionsView.setVisibility(View.GONE);
             sessionsRecyclerView.setVisibility(View.VISIBLE);
         } else {

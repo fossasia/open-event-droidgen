@@ -47,7 +47,7 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
 
     final private String SEARCH = "searchText";
 
-    private List<Track> mTracks = new ArrayList<>();
+    private List<Track> tracks = new ArrayList<>();
     private TracksListAdapter tracksListAdapter;
 
     @BindView(R.id.tracks_swipe_refresh) SwipeRefreshLayout swipeRefreshLayout;
@@ -75,7 +75,7 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
         tracksRecyclerView.setHasFixedSize(true);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         tracksRecyclerView.setLayoutManager(linearLayoutManager);
-        tracksListAdapter = new TracksListAdapter(getContext(), mTracks);
+        tracksListAdapter = new TracksListAdapter(getContext(), tracks);
         tracksRecyclerView.setAdapter(tracksListAdapter);
 
         final StickyRecyclerHeadersDecoration headersDecoration = new StickyRecyclerHeadersDecoration(tracksListAdapter);
@@ -92,8 +92,8 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
 
         realmResults = realmRepo.getTracks();
         realmResults.addChangeListener((tracks, orderedCollectionChangeSet) -> {
-            mTracks.clear();
-            mTracks.addAll(tracks);
+            this.tracks.clear();
+            this.tracks.addAll(tracks);
 
             tracksListAdapter.notifyDataSetChanged();
             handleVisibility();
@@ -103,7 +103,7 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
     }
 
     public void handleVisibility() {
-        if (!mTracks.isEmpty()) {
+        if (!tracks.isEmpty()) {
             noTracksView.setVisibility(View.GONE);
             tracksRecyclerView.setVisibility(View.VISIBLE);
         } else {

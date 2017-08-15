@@ -64,7 +64,7 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
 
     private Speaker selectedSpeaker;
 
-    private List<Session> mSessions = new ArrayList<>();
+    private List<Session> sessions = new ArrayList<>();
 
     private CustomTabsClient customTabsClient;
 
@@ -115,7 +115,7 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
         gridLayoutManager = new GridLayoutManager(this, spanCount);
         sessionRecyclerView.setLayoutManager(gridLayoutManager);
 
-        sessionsListAdapter = new SessionsListAdapter(this, mSessions, spearkerWiseSessionList);
+        sessionsListAdapter = new SessionsListAdapter(this, sessions, spearkerWiseSessionList);
         sessionRecyclerView.setNestedScrollingEnabled(false);
         sessionRecyclerView.setAdapter(sessionsListAdapter);
         sessionRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -132,7 +132,7 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
     }
 
     private void handleVisibility() {
-        if (!mSessions.isEmpty()) {
+        if (!sessions.isEmpty()) {
             noSessionsView.setVisibility(View.GONE);
             sessionRecyclerView.setVisibility(View.VISIBLE);
         } else {
@@ -195,8 +195,8 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
     }
 
     private void loadSpeakerDetails() {
-        mSessions.clear();
-        mSessions.addAll(selectedSpeaker.getSessions());
+        sessions.clear();
+        sessions.addAll(selectedSpeaker.getSessions());
 
         sessionsListAdapter.notifyDataSetChanged();
         handleVisibility();
@@ -329,7 +329,7 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
                         getResources().getString(R.string.message_1),
                         getResources().getString(R.string.app_name),
                         getResources().getString(R.string.message_2)) +
-                        StringUtils.join(mSessions, ", ") +
+                        StringUtils.join(sessions, ", ") +
                         String.format("\n\n%s (%s)\n",
                                 getResources().getString(R.string.message_3),
                                 Urls.getAppLink()

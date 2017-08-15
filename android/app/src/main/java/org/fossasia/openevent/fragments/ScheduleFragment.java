@@ -50,7 +50,7 @@ public class ScheduleFragment extends BaseFragment {
     private int sortType;
     private ScheduleViewPagerAdapter adapter;
     private ViewPager.OnPageChangeListener onPageChangeListener;
-    private List<Track> mTracks = new ArrayList<>();
+    private List<Track> tracks = new ArrayList<>();
     private String tracksNames[];
     private boolean isTrackSelected[];
     private List<String> selectedTracks;
@@ -102,13 +102,13 @@ public class ScheduleFragment extends BaseFragment {
                 });
 
         realmRepo.getTracks().addChangeListener((tracks, orderedCollectionChangeSet) -> {
-            mTracks.clear();
-            mTracks.addAll(tracks);
-            tracksNames = new String[mTracks.size()];
-            isTrackSelected = new boolean[mTracks.size()];
+            this.tracks.clear();
+            this.tracks.addAll(tracks);
+            tracksNames = new String[this.tracks.size()];
+            isTrackSelected = new boolean[this.tracks.size()];
 
-            for(int i = 0; i < mTracks.size(); i++){
-                tracksNames[i] = mTracks.get(i).getName();
+            for(int i = 0; i < this.tracks.size(); i++){
+                tracksNames[i] = this.tracks.get(i).getName();
             }
         });
 

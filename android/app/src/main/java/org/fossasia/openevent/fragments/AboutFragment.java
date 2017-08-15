@@ -56,7 +56,7 @@ public class AboutFragment extends BaseFragment {
     @BindView(R.id.event_timing_details)
     protected TextView eventTiming;
     @BindView(R.id.item_description_img)
-    protected ImageView mDescriptionImg;
+    protected ImageView descriptionImg;
     @BindView(R.id.readmore)
     protected TextView readMore;
     @BindView(R.id.readless)
@@ -81,8 +81,8 @@ public class AboutFragment extends BaseFragment {
     private GlobalSearchAdapter bookMarksListAdapter;
     private SocialLinksListAdapter socialLinksListAdapter;
     private RealmResults<Session> bookmarksResult;
-    private List<Object> mSessions = new ArrayList<>();
-    private List<SocialLink> mSocialLinks = new ArrayList<>();
+    private List<Object> sessions = new ArrayList<>();
+    private List<SocialLink> socialLinks = new ArrayList<>();
 
     private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
     private Event event;
@@ -121,14 +121,14 @@ public class AboutFragment extends BaseFragment {
 
     private void setUpBookmarksRecyclerView() {
         bookmarksRecyclerView.setVisibility(View.VISIBLE);
-        bookMarksListAdapter = new GlobalSearchAdapter(mSessions, getContext());
+        bookMarksListAdapter = new GlobalSearchAdapter(sessions, getContext());
         bookmarksRecyclerView.setAdapter(bookMarksListAdapter);
         bookmarksRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         bookmarksRecyclerView.setNestedScrollingEnabled(false);
     }
 
     private void setUpSocialLinksRecyclerView() {
-        socialLinksListAdapter = new SocialLinksListAdapter(mSocialLinks);
+        socialLinksListAdapter = new SocialLinksListAdapter(socialLinks);
         socialLinksRecyclerView.setAdapter(socialLinksListAdapter);
         socialLinksRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         socialLinksRecyclerView.setNestedScrollingEnabled(false);
@@ -147,7 +147,7 @@ public class AboutFragment extends BaseFragment {
         Views.setHtml(eventDescription, event.getDescription(), true);
         venueDetails.setText(event.getLocationName());
         eventTiming.setText(date);
-        mDescriptionImg.setOnClickListener(v -> collapseExpandTextView());
+        descriptionImg.setOnClickListener(v -> collapseExpandTextView());
         readMore.setOnClickListener(v -> {
             organiserDescription.setMaxLines(Integer.MAX_VALUE);
             readMore.setVisibility(View.GONE);
@@ -159,8 +159,8 @@ public class AboutFragment extends BaseFragment {
             readMore.setVisibility(View.VISIBLE);
         });
 
-        mSocialLinks.clear();
-        mSocialLinks.addAll(event.getSocialLinks());
+        socialLinks.clear();
+        socialLinks.addAll(event.getSocialLinks());
         socialLinksListAdapter.notifyDataSetChanged();
     }
 
@@ -169,11 +169,11 @@ public class AboutFragment extends BaseFragment {
         if (eventDescription.getVisibility() == View.GONE) {
             // it's collapsed - expand it
             eventDescription.setVisibility(View.VISIBLE);
-            mDescriptionImg.setImageResource(R.drawable.ic_expand_less_black_24dp);
+            descriptionImg.setImageResource(R.drawable.ic_expand_less_black_24dp);
         } else {
             // it's expanded - collapse it
             eventDescription.setVisibility(View.GONE);
-            mDescriptionImg.setImageResource(R.drawable.ic_expand_more_black_24dp);
+            descriptionImg.setImageResource(R.drawable.ic_expand_more_black_24dp);
         }
 
         ObjectAnimator animation = ObjectAnimator.ofInt(eventDescription, "maxLines", eventDescription.getMaxLines());
@@ -206,7 +206,7 @@ public class AboutFragment extends BaseFragment {
     }
 
     private void handleVisibility() {
-        if (!mSessions.isEmpty()) {
+        if (!sessions.isEmpty()) {
             bookmarksRecyclerView.setVisibility(View.VISIBLE);
             bookmarkHeader.setVisibility(View.VISIBLE);
         } else {
@@ -230,7 +230,7 @@ public class AboutFragment extends BaseFragment {
         bookmarksResult.removeAllChangeListeners();
         bookmarksResult.addChangeListener((bookmarked, orderedCollectionInnerChangeSet) -> {
 
-            mSessions.clear();
+            sessions.clear();
             for (String eventDate : dateList) {
                 boolean headerCheck = false;
                 for (Session bookmarkedSession : bookmarked) {
@@ -242,10 +242,10 @@ public class AboutFragment extends BaseFragment {
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             }
-                            mSessions.add(headerDate);
+                            sessions.add(headerDate);
                             headerCheck = true;
                         }
-                        mSessions.add(bookmarkedSession);
+                        sessions.add(bookmarkedSession);
                     }
                 }
                 bookMarksListAdapter.notifyDataSetChanged();

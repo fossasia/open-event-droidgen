@@ -50,7 +50,7 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
     @BindView(R.id.list_locations) RecyclerView locationsRecyclerView;
     @BindView(R.id.txt_no_microlocations) TextView noMicrolocationsView;
 
-    private List<Microlocation> mLocations = new ArrayList<>();
+    private List<Microlocation> locations = new ArrayList<>();
     private LocationsListAdapter locationsListAdapter;
     
     private String searchText = "";
@@ -73,7 +73,7 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
         locationsRecyclerView.setHasFixedSize(true);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         locationsRecyclerView.setLayoutManager(linearLayoutManager);
-        locationsListAdapter = new LocationsListAdapter(getContext(), mLocations);
+        locationsListAdapter = new LocationsListAdapter(getContext(), locations);
         locationsRecyclerView.setAdapter(locationsListAdapter);
 
         final StickyRecyclerHeadersDecoration headersDecoration = new StickyRecyclerHeadersDecoration(locationsListAdapter);
@@ -90,8 +90,8 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
 
         realmRepo.getLocations()
                 .addChangeListener((microlocations, orderedCollectionChangeSet) -> {
-                    mLocations.clear();
-                    mLocations.addAll(microlocations);
+                    locations.clear();
+                    locations.addAll(microlocations);
 
                     locationsListAdapter.notifyDataSetChanged();
                     handleVisibility();

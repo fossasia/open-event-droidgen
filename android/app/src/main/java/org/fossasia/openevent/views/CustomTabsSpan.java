@@ -19,33 +19,33 @@ import org.fossasia.openevent.R;
 
 public class CustomTabsSpan extends ClickableSpan {
 
-    private final String mURL;
+    private final String url;
     private Context context;
     private Activity activity;
-    private CustomTabsSession cTSession;
+    private CustomTabsSession customTabsSession;
 
-    public CustomTabsSpan(String url, Context context, Activity activity, CustomTabsSession cTSession) {
+    public CustomTabsSpan(String url, Context context, Activity activity, CustomTabsSession customTabsSession) {
         super();
-        this.mURL = url;
+        this.url = url;
         this.context = context;
         this.activity = activity;
-        this.cTSession = cTSession;
+        this.customTabsSession = customTabsSession;
     }
 
     public String getURL() {
-        return mURL;
+        return url;
     }
 
     @Override
     public void onClick(View widget) {
         Log.d("Clicked", this.getURL());
 
-        CustomTabsIntent.Builder customTabsBuilder = new CustomTabsIntent.Builder(cTSession);
+        CustomTabsIntent.Builder customTabsBuilder = new CustomTabsIntent.Builder(customTabsSession);
         customTabsBuilder.setToolbarColor(ContextCompat.getColor(context, R.color.color_primary));
         customTabsBuilder.setCloseButtonIcon(BitmapFactory.decodeResource(context.getResources(),R.drawable.ic_arrow_back_white_cct_24dp));
         customTabsBuilder.setStartAnimations(context, R.anim.slide_in_right, R.anim.slide_out_left);
         customTabsBuilder.setExitAnimations(context, R.anim.slide_in_left, R.anim.slide_out_right);
         CustomTabsIntent customTabsIntent = customTabsBuilder.build();
-        customTabsIntent.launchUrl(activity, Uri.parse(mURL));
+        customTabsIntent.launchUrl(activity, Uri.parse(url));
     }
 }

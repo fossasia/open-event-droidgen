@@ -29,13 +29,13 @@ import butterknife.ButterKnife;
 public class SignUpActivity extends AppCompatActivity implements AppCompatEditText.OnEditorActionListener {
 
     @BindView(R.id.text_input_layout_email)
-    TextInputLayout mTextInputLayoutEmail;
+    TextInputLayout emailWrapper;
     @BindView(R.id.text_input_layout_create_password)
-    TextInputLayout mTextInputLayoutCreatePassword;
+    TextInputLayout createPasswordWrapper;
     @BindView(R.id.text_input_layout_confirm_password)
-    TextInputLayout mTextInputLayoutConfirmPassword;
+    TextInputLayout confirmPasswordWrapper;
     @BindView(R.id.btnSignUp)
-    Button btnSignUp;
+    Button signUp;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.progressBar)
@@ -43,9 +43,9 @@ public class SignUpActivity extends AppCompatActivity implements AppCompatEditTe
     @BindView(R.id.login)
     LinearLayout switchToLogin;
 
-    private TextInputEditText mEditTextEmail;
-    private TextInputEditText mEditTextCreatePassword;
-    private TextInputEditText mEditTextConfirmPassword;
+    private TextInputEditText emailInput;
+    private TextInputEditText createPasswordInput;
+    private TextInputEditText confirmPasswordInput;
 
     private String email;
     private String password;
@@ -57,9 +57,9 @@ public class SignUpActivity extends AppCompatActivity implements AppCompatEditTe
 
         ButterKnife.bind(this);
 
-        mEditTextEmail = (TextInputEditText) mTextInputLayoutEmail.getEditText();
-        mEditTextCreatePassword = (TextInputEditText) mTextInputLayoutCreatePassword.getEditText();
-        mEditTextConfirmPassword = (TextInputEditText) mTextInputLayoutConfirmPassword.getEditText();
+        emailInput = (TextInputEditText) emailWrapper.getEditText();
+        createPasswordInput = (TextInputEditText) createPasswordWrapper.getEditText();
+        confirmPasswordInput = (TextInputEditText) confirmPasswordWrapper.getEditText();
 
         setEditTextListener();
 
@@ -68,14 +68,14 @@ public class SignUpActivity extends AppCompatActivity implements AppCompatEditTe
 
         switchToLogin.setOnClickListener(v -> startActivity(new Intent(SignUpActivity.this, LoginActivity.class)));
 
-        btnSignUp.setOnClickListener(v -> {
+        signUp.setOnClickListener(v -> {
             hideKeyBoard();
-            if (mEditTextEmail == null || mEditTextCreatePassword == null || mEditTextConfirmPassword == null)
+            if (emailInput == null || createPasswordInput == null || confirmPasswordInput == null)
                 return;
 
-            email = mEditTextEmail.getText().toString();
-            password = mEditTextCreatePassword.getText().toString();
-            String confirmPassword = mEditTextConfirmPassword.getText().toString();
+            email = emailInput.getText().toString();
+            password = createPasswordInput.getText().toString();
+            String confirmPassword = confirmPasswordInput.getText().toString();
 
             if (validateCredentials(email, password, confirmPassword)) {
                 AuthUtil.signUpUser(SignUpActivity.this, email, password, progressBar);
@@ -84,44 +84,44 @@ public class SignUpActivity extends AppCompatActivity implements AppCompatEditTe
     }
 
     private void setEditTextListener() {
-        if (mEditTextEmail == null || mEditTextCreatePassword == null || mEditTextConfirmPassword == null)
+        if (emailInput == null || createPasswordInput == null || confirmPasswordInput == null)
             return;
 
-        mEditTextEmail.setOnEditorActionListener(this);
-        mEditTextCreatePassword.setOnEditorActionListener(this);
-        mEditTextConfirmPassword.setOnEditorActionListener(this);
+        emailInput.setOnEditorActionListener(this);
+        createPasswordInput.setOnEditorActionListener(this);
+        confirmPasswordInput.setOnEditorActionListener(this);
     }
 
     private boolean validateCredentials(String email, String password, String confirmPasssword) {
 
         // Reset errors.
-        mTextInputLayoutEmail.setError(null);
-        mTextInputLayoutCreatePassword.setError(null);
-        mTextInputLayoutConfirmPassword.setError(null);
+        emailWrapper.setError(null);
+        createPasswordWrapper.setError(null);
+        confirmPasswordWrapper.setError(null);
 
         if (Utils.isEmpty(email)) {
-            handleError(mTextInputLayoutEmail, R.string.error_email_required);
+            handleError(emailWrapper, R.string.error_email_required);
             return false;
         } else if (!Utils.isEmailValid(email)) {
-            handleError(mTextInputLayoutEmail, R.string.error_enter_valid_email);
+            handleError(emailWrapper, R.string.error_enter_valid_email);
             return false;
         }
 
         if (Utils.isEmpty(password)) {
-            handleError(mTextInputLayoutCreatePassword, R.string.error_password_required);
+            handleError(createPasswordWrapper, R.string.error_password_required);
             return false;
         } else if (!Utils.isPasswordValid(password)) {
-            handleError(mTextInputLayoutCreatePassword, R.string.error_password_length);
+            handleError(createPasswordWrapper, R.string.error_password_length);
             return false;
         }
 
         if (Utils.isEmpty(confirmPasssword)) {
-            handleError(mTextInputLayoutConfirmPassword, R.string.error_confirm_password);
+            handleError(confirmPasswordWrapper, R.string.error_confirm_password);
             return false;
         }
 
         if (!confirmPasssword.equals(password)) {
-            handleError(mTextInputLayoutConfirmPassword, R.string.error_password_not_matching);
+            handleError(confirmPasswordWrapper, R.string.error_password_not_matching);
             return false;
         }
 
@@ -137,7 +137,7 @@ public class SignUpActivity extends AppCompatActivity implements AppCompatEditTe
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
         if (actionId == EditorInfo.IME_ACTION_DONE) {
             hideKeyBoard();
-            btnSignUp.performClick();
+            signUp.performClick();
             return true;
         }
         return false;

@@ -39,7 +39,7 @@ import timber.log.Timber;
  */
 public class SponsorsFragment extends BaseFragment {
 
-    private List<Sponsor> mSponsors = new ArrayList<>();
+    private List<Sponsor> sponsors = new ArrayList<>();
     private SponsorsListAdapter sponsorsListAdapter;
 
     @BindView(R.id.txt_no_sponsors)
@@ -61,7 +61,7 @@ public class SponsorsFragment extends BaseFragment {
 
         Utils.registerIfUrlValid(swipeRefreshLayout, this, this::refresh);
 
-        sponsorsListAdapter = new SponsorsListAdapter(getContext(), mSponsors);
+        sponsorsListAdapter = new SponsorsListAdapter(getContext(), sponsors);
         sponsorsRecyclerView.setAdapter(sponsorsListAdapter);
         sponsorsRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         sponsorsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -78,8 +78,8 @@ public class SponsorsFragment extends BaseFragment {
         RealmDataRepository.getDefaultInstance()
                 .getSponsors()
                 .addChangeListener((sponsors, orderedCollectionChangeSet) -> {
-                    mSponsors.clear();
-                    mSponsors.addAll(realm.copyFromRealm(sponsors));
+                    this.sponsors.clear();
+                    this.sponsors.addAll(realm.copyFromRealm(sponsors));
 
                     sponsorsListAdapter.notifyDataSetChanged();
                     handleVisibility();

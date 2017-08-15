@@ -28,11 +28,11 @@ import butterknife.ButterKnife;
 public class LoginActivity extends AppCompatActivity implements AppCompatEditText.OnEditorActionListener {
 
     @BindView(R.id.text_input_layout_email)
-    TextInputLayout mTextInputLayoutEmail;
+    TextInputLayout emailWrapper;
     @BindView(R.id.text_input_layout_password)
-    TextInputLayout mTextInputLayoutPassword;
+    TextInputLayout passwordWrapper;
     @BindView(R.id.btnLogin)
-    Button btnLogin;
+    Button login;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.progressBar)
@@ -40,8 +40,8 @@ public class LoginActivity extends AppCompatActivity implements AppCompatEditTex
     @BindView(R.id.sign_up)
     LinearLayout switchToSignUp;
 
-    private TextInputEditText mEditTextEmail;
-    private TextInputEditText mEditTextPassword;
+    private TextInputEditText emailInput;
+    private TextInputEditText passwordInput;
 
     private String email;
 
@@ -54,8 +54,8 @@ public class LoginActivity extends AppCompatActivity implements AppCompatEditTex
 
         ButterKnife.bind(this);
 
-        mEditTextEmail = (TextInputEditText) mTextInputLayoutEmail.getEditText();
-        mEditTextPassword = (TextInputEditText) mTextInputLayoutPassword.getEditText();
+        emailInput = (TextInputEditText) emailWrapper.getEditText();
+        passwordInput = (TextInputEditText) passwordWrapper.getEditText();
 
         setEditTextListener();
 
@@ -64,13 +64,13 @@ public class LoginActivity extends AppCompatActivity implements AppCompatEditTex
 
         switchToSignUp.setOnClickListener(v -> onBackPressed());
 
-        btnLogin.setOnClickListener(v -> {
+        login.setOnClickListener(v -> {
             hideKeyBoard();
-            if (mEditTextEmail == null || mEditTextPassword == null)
+            if (emailInput == null || passwordInput == null)
                 return;
 
-            email = mEditTextEmail.getText().toString();
-            String password = mEditTextPassword.getText().toString();
+            email = emailInput.getText().toString();
+            String password = passwordInput.getText().toString();
 
             if (validateCredentials(email, password)) {
                 AuthUtil.loginUser(LoginActivity.this, email, password, progressBar);
@@ -79,29 +79,29 @@ public class LoginActivity extends AppCompatActivity implements AppCompatEditTex
     }
 
     private void setEditTextListener() {
-        if (mEditTextEmail == null || mEditTextPassword == null)
+        if (emailInput == null || passwordInput == null)
             return;
 
-        mEditTextEmail.setOnEditorActionListener(this);
-        mEditTextPassword.setOnEditorActionListener(this);
+        emailInput.setOnEditorActionListener(this);
+        passwordInput.setOnEditorActionListener(this);
     }
 
     private boolean validateCredentials(String email, String password) {
 
         // Reset errors.
-        mTextInputLayoutEmail.setError(null);
-        mTextInputLayoutPassword.setError(null);
+        emailWrapper.setError(null);
+        passwordWrapper.setError(null);
 
         if (Utils.isEmpty(email)) {
-            handleError(mTextInputLayoutEmail, R.string.error_email_required);
+            handleError(emailWrapper, R.string.error_email_required);
             return false;
         } else if (!Utils.isEmailValid(email)) {
-            handleError(mTextInputLayoutEmail, R.string.error_enter_valid_email);
+            handleError(emailWrapper, R.string.error_enter_valid_email);
             return false;
         }
 
         if (Utils.isEmpty(password)) {
-            handleError(mTextInputLayoutPassword, R.string.error_password_required);
+            handleError(passwordWrapper, R.string.error_password_required);
             return false;
         }
 
@@ -123,7 +123,7 @@ public class LoginActivity extends AppCompatActivity implements AppCompatEditTex
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
         if (actionId == EditorInfo.IME_ACTION_DONE) {
             hideKeyBoard();
-            btnLogin.performClick();
+            login.performClick();
             return true;
         }
         return false;
