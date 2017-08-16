@@ -35,10 +35,9 @@ import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.DateConverter;
 import org.fossasia.openevent.utils.DateService;
 import org.fossasia.openevent.utils.Views;
+import org.threeten.bp.ZonedDateTime;
 
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -150,22 +149,18 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
             int countOngoing = 0;
             for (Session trackSession : sessions) {
                 flag = 0;
-                try {
-                    Date start = DateConverter.getDate(trackSession.getStartsAt());
-                    Date end = DateConverter.getDate((trackSession.getEndsAt()));
-                    Date current = new Date();
-                    if (DateService.isUpcomingSession(start, end, current)) {
-                        ongoingPosition = countUpcoming;
-                        break;
-                    } else if (start.after(current)) {
-                        upcomingPosition = countOngoing;
-                        break;
-                    } else flag += 1;
-                    countUpcoming += 1;
-                    countOngoing += 1;
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                ZonedDateTime start = DateConverter.getDate(trackSession.getStartsAt());
+                ZonedDateTime end = DateConverter.getDate((trackSession.getEndsAt()));
+                ZonedDateTime current = ZonedDateTime.now();
+                if (DateService.isOngoingSession(start, end, current)) {
+                    ongoingPosition = countOngoing;
+                    break;
+                } else if (start.isAfter(current)) {
+                    upcomingPosition = countUpcoming;
+                    break;
+                } else flag += 1;
+                countUpcoming += 1;
+                countOngoing += 1;
             }
             sessionsListAdapter.notifyDataSetChanged();
 

@@ -31,10 +31,9 @@ import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.DateConverter;
+import org.threeten.bp.ZonedDateTime;
 
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -152,18 +151,14 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
         String upcomingTitle = "";
         String track = "";
         String color = null;
-        Date current = new Date();
+        ZonedDateTime current = ZonedDateTime.now();
         for (Session sess : sortedSessions) {
-            try {
-                Date start = DateConverter.getDate(sess.getStartsAt());
-                if (start.after(current)) {
-                    upcomingTitle = sess.getTitle();
-                    track = sess.getTrack().getName();
-                    color = sess.getTrack().getColor();
-                    break;
-                }
-            } catch (ParseException e) {
-                e.printStackTrace();
+            ZonedDateTime start = DateConverter.getDate(sess.getStartsAt());
+            if (start.isAfter(current)) {
+                upcomingTitle = sess.getTitle();
+                track = sess.getTrack().getName();
+                color = sess.getTrack().getColor();
+                break;
             }
 
         }

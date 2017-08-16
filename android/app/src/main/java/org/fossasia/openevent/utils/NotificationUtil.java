@@ -7,8 +7,7 @@ import android.content.Intent;
 
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.receivers.NotificationAlarmReceiver;
-
-import java.util.Calendar;
+import org.threeten.bp.ZonedDateTime;
 
 import io.reactivex.Completable;
 import timber.log.Timber;
@@ -28,23 +27,22 @@ public class NotificationUtil {
 
     public static Completable createNotification(Session session, Context context) {
         return Completable.fromAction(() -> {
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(DateConverter.getDate(session.getStartsAt()));
+            ZonedDateTime zonedDateTime = DateConverter.getDate(session.getStartsAt());
 
             Integer pref_result = Integer.parseInt(SharedPreferencesUtil.getString("notification", "10 mins").substring(0, 2).trim());
             if (pref_result.equals(1)) {
-                calendar.add(Calendar.HOUR, -1);
+                zonedDateTime.minusHours(-1);
             } else if (pref_result.equals(12)) {
-                calendar.add(Calendar.HOUR, -12);
+                zonedDateTime.minusHours(12);
             } else {
-                calendar.add(Calendar.MINUTE, -10);
+                zonedDateTime.minusHours(10);
             }
             Intent myIntent = new Intent(context, NotificationAlarmReceiver.class);
             myIntent.putExtra(ConstantStrings.SESSION, session.getId());
             PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
             AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-            alarmManager.set(AlarmManager.RTC, calendar.getTimeInMillis(), pendingIntent);
+            alarmManager.set(AlarmManager.RTC, zonedDateTime.toInstant().toEpochMilli(), pendingIntent);
         }).doOnComplete(() -> onSuccess(session)).doOnError(throwable -> onError(throwable, session));
     }
 }

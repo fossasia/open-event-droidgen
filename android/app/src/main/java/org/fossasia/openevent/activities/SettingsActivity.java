@@ -72,7 +72,7 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
             boolean showLocalTimezone = choice.equals(true);
 
             timezonePreference.setChecked(showLocalTimezone);
-            DateConverter.setShowLocalTimeZone(showLocalTimezone);
+            DateConverter.setShowLocalTime(showLocalTimezone);
         } else if (preference.getKey().equals(getResources().getString(R.string.notification_key))) {
             prefNotification.setSummary((String) choice);
         } else if (preference.getKey().equals(getResources().getString(R.string.language_key))) {
