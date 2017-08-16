@@ -15,6 +15,7 @@ import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jakewharton.picasso.OkHttp3Downloader;
+import com.jakewharton.threetenabp.AndroidThreeTen;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 import com.squareup.otto.Bus;
@@ -107,7 +108,7 @@ public class OpenEventApp extends MultiDexApplication {
     }
 
     public void setUpTimeZone() {
-        DateConverter.setShowLocalTimeZone(SharedPreferencesUtil.getBoolean(getResources()
+        DateConverter.setShowLocalTime(SharedPreferencesUtil.getBoolean(getResources()
                 .getString(R.string.timezone_mode_key), false));
     }
 
@@ -137,6 +138,8 @@ public class OpenEventApp extends MultiDexApplication {
             return;
         }
         refWatcher = LeakCanary.install(this);
+
+        AndroidThreeTen.init(this);
 
         //Initialize Cache
         File httpCacheDirectory = new File(getCacheDir(), "picasso-cache");

@@ -31,10 +31,9 @@ import org.fossasia.openevent.utils.DateService;
 import org.fossasia.openevent.utils.NotificationUtil;
 import org.fossasia.openevent.utils.Utils;
 import org.fossasia.openevent.utils.WidgetUpdater;
+import org.threeten.bp.ZonedDateTime;
 
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -140,19 +139,15 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
         }
         holder.sessionStatus.setVisibility(View.GONE);
 
-        try {
-            Date start = DateConverter.getDate(session.getStartsAt());
-            Date end = DateConverter.getDate((session.getEndsAt()));
-            Date current = new Date();
-            if (start.after(current)) {
-                holder.sessionStatus.setVisibility(View.VISIBLE);
-                holder.sessionStatus.setText("UPCOMING");
-            } else if (DateService.isUpcomingSession(start, end, current)) {
-                holder.sessionStatus.setVisibility(View.VISIBLE);
-                holder.sessionStatus.setText("ONGOING");
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
+        ZonedDateTime start = DateConverter.getDate(session.getStartsAt());
+        ZonedDateTime end = DateConverter.getDate((session.getEndsAt()));
+        ZonedDateTime current = ZonedDateTime.now();
+        if (start.isAfter(current)) {
+            holder.sessionStatus.setVisibility(View.VISIBLE);
+            holder.sessionStatus.setText("UPCOMING");
+        } else if (DateService.isOngoingSession(start, end, current)) {
+            holder.sessionStatus.setVisibility(View.VISIBLE);
+            holder.sessionStatus.setText("ONGOING");
         }
 
         Track track = session.getTrack();
