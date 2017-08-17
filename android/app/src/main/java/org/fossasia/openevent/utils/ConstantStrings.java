@@ -70,6 +70,7 @@ public class ConstantStrings {
     public static final String LOCATION_NAME = "locationName";
 
     //Sort order
+
     public static final String PREF_SORT_SCHEDULE = "schedule_sort_type";
 
     public static final String PREF_SORT_SPEAKER = "speaker_sort_type";
@@ -81,6 +82,8 @@ public class ConstantStrings {
     public static final String FACEBOOK_PAGE_NAME = "pageName";
 
     public static final String FACEBOOK_COMMENTS = "comments";
+
+    //Social link names
 
     public static final String SOCIAL_LINK_GITHUB ="GitHub";
 

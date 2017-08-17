@@ -113,10 +113,12 @@ public class Utils {
     }
 
     /**
-     * @return Drawable id for given SocialLink name if found else returns 1
+     * @return Drawable id for given SocialLink if found else returns 1
      */
-    public static int getSocialLinkDrawableId(String name){
+    public static int getSocialLinkDrawableId(String link) {
         int id = 1;
+        String name = getSocialLinkName(link.toLowerCase());
+
         switch (name) {
             case ConstantStrings.SOCIAL_LINK_GITHUB:
                 id = R.drawable.ic_github_24dp;
@@ -140,5 +142,27 @@ public class Utils {
                 break;
         }
         return id;
+    }
+
+    public static String getSocialLinkName(String link) {
+
+        if (link.contains(getSocialLinkHostName(ConstantStrings.SOCIAL_LINK_GITHUB))) {
+            return ConstantStrings.SOCIAL_LINK_GITHUB;
+        } else if (link.contains(getSocialLinkHostName(ConstantStrings.SOCIAL_LINK_TWITTER))) {
+            return ConstantStrings.SOCIAL_LINK_TWITTER;
+        } else if (link.contains(getSocialLinkHostName(ConstantStrings.SOCIAL_LINK_FACEBOOK))) {
+            return ConstantStrings.SOCIAL_LINK_FACEBOOK;
+        } else if (link.contains(getSocialLinkHostName(ConstantStrings.SOCIAL_LINK_LINKEDIN))) {
+            return ConstantStrings.SOCIAL_LINK_LINKEDIN;
+        } else if (link.contains(getSocialLinkHostName(ConstantStrings.SOCIAL_LINK_YOUTUBE))) {
+            return ConstantStrings.SOCIAL_LINK_YOUTUBE;
+        } else if (link.contains(getSocialLinkHostName(ConstantStrings.SOCIAL_LINK_GOOGLE))) {
+            return ConstantStrings.SOCIAL_LINK_GOOGLE;
+        }
+        return "";
+    }
+
+    private static String getSocialLinkHostName(String name) {
+        return String.valueOf(name + ".com").toLowerCase();
     }
 }

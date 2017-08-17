@@ -46,12 +46,12 @@ public class SocialLinkViewHolder extends RecyclerView.ViewHolder {
 
     private void setImageDrawable(@NonNull String name,@NonNull String link) {
 
-        if (Utils.isEmpty(name) || Utils.isEmpty(link) || Utils.getSocialLinkDrawableId(name) == 1) {
+        if (Utils.isEmpty(name) || Utils.isEmpty(link) || Utils.getSocialLinkDrawableId(link) == 1) {
             showView(false);
             return;
         }
 
-        imageView.setImageDrawable(getDrawable(Utils.getSocialLinkDrawableId(name)));
+        imageView.setImageDrawable(getDrawable(Utils.getSocialLinkDrawableId(link)));
     }
 
     private Drawable getDrawable(@DrawableRes int id) {
