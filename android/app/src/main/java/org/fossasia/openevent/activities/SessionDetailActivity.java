@@ -45,7 +45,6 @@ import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.DateConverter;
 import org.fossasia.openevent.utils.NotificationUtil;
-import org.fossasia.openevent.utils.SharedPreferencesUtil;
 import org.fossasia.openevent.utils.StringUtils;
 import org.fossasia.openevent.utils.Utils;
 import org.fossasia.openevent.utils.Views;
@@ -117,6 +116,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
     private static final String BY_NAME = "name";
 
     private String trackName, title, location;
+    private int trackColor, darkColor, fontColor;
     private int id;
     private List<Speaker> speakers = new ArrayList<>();
 
@@ -187,7 +187,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
 
     private void updateSession() {
         if(hasTrack)
-            setUiColor(Color.parseColor(session.getTrack().getColor()));
+            setUiColor();
 
         Timber.d("Updated");
 
@@ -252,6 +252,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
     }
 
     private void updateFloatingIcon() {
+        fabSessionBookmark.setColorFilter(fontColor, PorterDuff.Mode.SRC_ATOP);
         if(session.getIsBookmarked()) {
             Timber.tag(TAG).d("Bookmarked");
             fabSessionBookmark.setImageResource(R.drawable.ic_bookmark_white_24dp);
@@ -261,36 +262,34 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
         }
     }
 
-    private void setUiColor(int color) {
-        int darkColor = Views.getDarkColor(color);
-
-        toolbar.setBackgroundColor(color);
+    private void setUiColor() {
+        toolbar.setBackgroundColor(trackColor);
 
         //setting title colour
-        text_title.setTextColor(Color.parseColor(session.getTrack().getFontColor()));
-        collapsingToolbarLayout.setCollapsedTitleTextColor(Color.parseColor(session.getTrack().getFontColor()));
-        collapsingToolbarLayout.setExpandedTitleColor(Color.parseColor(session.getTrack().getFontColor()));
-        collapsingToolbarLayout.setBackgroundColor(color);
-        collapsingToolbarLayout.setContentScrimColor(color);
+        text_title.setTextColor(fontColor);
+        collapsingToolbarLayout.setCollapsedTitleTextColor(fontColor);
+        collapsingToolbarLayout.setExpandedTitleColor(fontColor);
+        collapsingToolbarLayout.setBackgroundColor(trackColor);
+        collapsingToolbarLayout.setContentScrimColor(trackColor);
 
         //coloring status bar icons for marshmallow+ devices
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && (text_title != null) && (Color.parseColor(session.getTrack().getFontColor()) != Color.WHITE)) {
-            text_title.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && (speakersRecyclerView != null) && (fontColor != Color.WHITE)) {
+            speakersRecyclerView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
 
         //setting of back button according to track font color
         Drawable upArrow = ContextCompat.getDrawable(this, R.drawable.abc_ic_ab_back_material);
-        upArrow.setColorFilter(Color.parseColor(session.getTrack().getFontColor()), PorterDuff.Mode.SRC_ATOP);
+        upArrow.setColorFilter(fontColor, PorterDuff.Mode.SRC_ATOP);
         getSupportActionBar().setHomeAsUpIndicator(upArrow);
 
         if (Views.isCompatible(Build.VERSION_CODES.LOLLIPOP)) {
             getWindow().setStatusBarColor(darkColor);
-            Views.setEdgeGlowColorScrollView(color, scrollView);
+            Views.setEdgeGlowColorScrollView(trackColor, scrollView);
             speakersRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
                 public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                     super.onScrollStateChanged(recyclerView, newState);
-                    Views.setEdgeGlowColorRecyclerView(speakersRecyclerView, color);
+                    Views.setEdgeGlowColorRecyclerView(speakersRecyclerView, trackColor);
                 }
             });
         }
@@ -392,9 +391,9 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
     public boolean onCreateOptionsMenu(Menu menu) {
         this.menu = menu;
         getMenuInflater().inflate(R.menu.menu_session_detail, menu);
-        DrawableCompat.setTint(menu.findItem(R.id.action_add_to_calendar).getIcon(), Color.parseColor(session.getTrack().getFontColor()));
-        DrawableCompat.setTint(menu.findItem(R.id.action_map).getIcon(), Color.parseColor(session.getTrack().getFontColor()));
-        DrawableCompat.setTint(menu.findItem(R.id.action_share).getIcon(), Color.parseColor(session.getTrack().getFontColor()));
+        DrawableCompat.setTint(menu.findItem(R.id.action_add_to_calendar).getIcon(), fontColor);
+        DrawableCompat.setTint(menu.findItem(R.id.action_map).getIcon(), fontColor);
+        DrawableCompat.setTint(menu.findItem(R.id.action_share).getIcon(), fontColor);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -438,35 +437,34 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
 
         sessionById = realmRepo.getSession(id);
         sessionById.addChangeListener((RealmChangeListener<Session>) loadedSession -> {
-            if(!loadedSession.isValid())
+            if (!loadedSession.isValid())
                 return;
 
-            if(loadedFlag == null || loadedFlag.equals(BY_ID)) {
-
+            if (loadedFlag == null || loadedFlag.equals(BY_ID)) {
                 loadedFlag = BY_ID;
-
-                session = loadedSession;
-
-                SharedPreferencesUtil.putInt(ConstantStrings.SESSION_MAP_ID, id);
-                updateSession();
+                loadSession(loadedSession);
             }
         });
 
         sessionByName = realmRepo.getSession(title);
         sessionByName.addChangeListener((RealmChangeListener<Session>) loadedSession -> {
-            if(!loadedSession.isValid())
+            if (!loadedSession.isValid())
                 return;
 
-            if(loadedFlag == null || loadedFlag.equals(BY_NAME)) {
-
+            if (loadedFlag == null || loadedFlag.equals(BY_NAME)) {
                 loadedFlag = BY_NAME;
-
-                session = loadedSession;
-
-                SharedPreferencesUtil.putInt(ConstantStrings.SESSION_MAP_ID, -1);
-                updateSession();
+                loadSession(loadedSession);
             }
         });
+    }
+
+    private void loadSession(Session session) {
+        this.session = session;
+        this.trackColor = Color.parseColor(session.getTrack().getColor());
+        this.fontColor = Color.parseColor(session.getTrack().getFontColor());
+        this.darkColor = Views.getDarkColor(Color.parseColor(session.getTrack().getColor()));
+
+        updateSession();
     }
 
     @Override
