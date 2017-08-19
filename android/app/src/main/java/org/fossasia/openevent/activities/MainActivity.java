@@ -172,7 +172,6 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
         ((OpenEventApp) getApplicationContext()).attachMainActivity(this);
         ButterKnife.setDebug(true);
         fragmentManager = getSupportFragmentManager();
-        SharedPreferencesUtil.putInt(ConstantStrings.SESSION_MAP_ID, -1);
         setTheme(R.style.AppTheme_NoActionBar_MainTheme);
         super.onCreate(savedInstanceState);
 
