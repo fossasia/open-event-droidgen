@@ -495,6 +495,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
             TAG = FRAGMENT_TAG_HOME;
         }
 
+        addShadowToAppBar(currentMenuItemId != R.id.nav_schedule);
         atHome = isAtHome;
 
         fragmentManager.beginTransaction()
@@ -507,7 +508,8 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
 
     private void doMenuAction(int menuItemId) {
         Intent intent;
-        addShadowToAppBar(true);
+        currentMenuItemId = menuItemId;
+
         switch (menuItemId) {
             case R.id.nav_home:
                 replaceFragment(new AboutFragment(), R.string.menu_home);
@@ -519,7 +521,6 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
                 replaceFragment(new FeedFragment(), R.string.menu_feed);
                 break;
             case R.id.nav_schedule:
-                addShadowToAppBar(false);
                 replaceFragment(new ScheduleFragment(), R.string.menu_schedule);
                 break;
             case R.id.nav_speakers:
@@ -555,7 +556,6 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
             default:
                 //Do nothing
         }
-        currentMenuItemId = menuItemId;
     }
 
     @Override
@@ -574,6 +574,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
         } else {
             replaceFragment(new AboutFragment(), R.string.menu_home);
             navigationView.setCheckedItem(R.id.nav_home);
+            addShadowToAppBar(true);
         }
     }
 
@@ -582,7 +583,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
             return;
 
         if (addShadow) {
-            appBarLayout.setElevation(12);
+            appBarLayout.setElevation(Utils.dpToPx(4));
         } else {
             appBarLayout.setElevation(0);
         }
