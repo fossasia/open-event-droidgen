@@ -1,7 +1,6 @@
 package org.fossasia.openevent.fragments;
 
 import android.app.AlertDialog;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -23,6 +22,7 @@ import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.DateConverter;
 import org.fossasia.openevent.utils.SharedPreferencesUtil;
+import org.fossasia.openevent.utils.Utils;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -113,7 +113,7 @@ public class ScheduleFragment extends BaseFragment {
         });
 
         viewPager.setAdapter(adapter);
-        viewPager.setPageMargin(dpToPx(15));
+        viewPager.setPageMargin(Math.round(Utils.dpToPx(15)));
         viewPager.setPageMarginDrawable(R.color.grey);
 
         onPageChangeListener = new ViewPager.OnPageChangeListener() {
@@ -134,10 +134,6 @@ public class ScheduleFragment extends BaseFragment {
         };
 
         viewPager.addOnPageChangeListener(onPageChangeListener);
-    }
-
-    private int dpToPx(int dp) {
-        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
 
     private void notifyUpdate(int position, List<String> selectedTracks) {

@@ -1,7 +1,6 @@
 package org.fossasia.openevent.fragments;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
@@ -31,8 +30,9 @@ import org.fossasia.openevent.R;
 import org.fossasia.openevent.data.Event;
 import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
-import org.fossasia.openevent.utils.map.ClusterRenderer;
 import org.fossasia.openevent.utils.ConstantStrings;
+import org.fossasia.openevent.utils.Utils;
+import org.fossasia.openevent.utils.map.ClusterRenderer;
 import org.fossasia.openevent.utils.map.ImageUtils;
 import org.fossasia.openevent.utils.map.MicrolocationClusterWrapper;
 
@@ -143,7 +143,7 @@ public class MapsFragment extends Fragment implements LocationListener, OnMapRea
 
         //Set max zoom level so that all marker are visible
         LatLngBounds bounds = builder.build();
-        final CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, dpToPx(40));
+        final CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, Math.round(Utils.dpToPx(40)));
         try {
             mMap.moveCamera(cameraUpdate);
         } catch (IllegalStateException ise){
@@ -172,10 +172,6 @@ public class MapsFragment extends Fragment implements LocationListener, OnMapRea
                 imm.hideSoftInputFromWindow(mapView.getWindowToken(), 0);
             }
         });
-    }
-
-    private int dpToPx(int dp) {
-        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
 
     private void handleClusterEvents() {

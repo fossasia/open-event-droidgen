@@ -1,6 +1,7 @@
 package org.fossasia.openevent.activities;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -21,6 +22,7 @@ import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.utils.DateConverter;
 import org.fossasia.openevent.utils.SharedPreferencesUtil;
+import org.fossasia.openevent.utils.Utils;
 
 /**
  * User: manan
@@ -162,6 +164,9 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
         setSupportActionBar((Toolbar) findViewById(R.id.setting_toolbar));
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME |
                 ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_TITLE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            getSupportActionBar().setElevation(Utils.dpToPx(4));
     }
 
     private ActionBar getSupportActionBar() {
