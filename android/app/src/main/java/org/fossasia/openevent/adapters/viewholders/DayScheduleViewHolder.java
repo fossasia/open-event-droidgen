@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.os.Build;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -80,6 +81,9 @@ public class DayScheduleViewHolder extends RecyclerView.ViewHolder {
         if (!RealmDataRepository.isNull(sessionTrack)) {
             int storedColor = Color.parseColor(sessionTrack.getColor());
             slotTrack.setVisibility(View.VISIBLE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                slotTrack.setBackground(context.getDrawable(R.drawable.button_ripple));
+            }
             slotTrack.getBackground().setColorFilter(storedColor, PorterDuff.Mode.SRC_ATOP);
             slotTrack.setText(sessionTrack.getName());
 

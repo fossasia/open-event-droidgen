@@ -93,7 +93,7 @@
                 android:layout_below="@+id/slot_location"
                 android:ellipsize="marquee"
                 android:maxLines="1"
-                android:background="@drawable/button_ripple"
+                android:background="@drawable/track_tag_background"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_medium"
                 tools:text="Track" />
