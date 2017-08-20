@@ -142,7 +142,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
         ZonedDateTime start = DateConverter.getDate(session.getStartsAt());
         ZonedDateTime end = DateConverter.getDate((session.getEndsAt()));
         ZonedDateTime current = ZonedDateTime.now();
-        if (start.isAfter(current)) {
+        if (DateService.isUpcomingSession(start, end, current)) {
             holder.sessionStatus.setVisibility(View.VISIBLE);
             holder.sessionStatus.setText("UPCOMING");
         } else if (DateService.isOngoingSession(start, end, current)) {

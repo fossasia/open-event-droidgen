@@ -155,7 +155,7 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
                 if (DateService.isOngoingSession(start, end, current)) {
                     ongoingPosition = countOngoing;
                     break;
-                } else if (start.isAfter(current)) {
+                } else if (DateService.isUpcomingSession(start, end, current)) {
                     upcomingPosition = countUpcoming;
                     break;
                 } else flag += 1;

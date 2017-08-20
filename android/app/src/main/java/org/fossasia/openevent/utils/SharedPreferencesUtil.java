@@ -1,7 +1,7 @@
 package org.fossasia.openevent.utils;
 
-import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import org.fossasia.openevent.OpenEventApp;
 
@@ -10,7 +10,7 @@ public class SharedPreferencesUtil {
     private static SharedPreferences.Editor editor;
 
     static {
-        sharedPreferences = OpenEventApp.getAppContext().getSharedPreferences(ConstantStrings.FOSS_PREFS, Context.MODE_PRIVATE);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(OpenEventApp.getAppContext());
         editor = sharedPreferences.edit();
     }
 
