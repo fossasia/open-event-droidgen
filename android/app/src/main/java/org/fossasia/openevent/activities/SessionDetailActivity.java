@@ -45,6 +45,7 @@ import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.DateConverter;
 import org.fossasia.openevent.utils.NotificationUtil;
+import org.fossasia.openevent.utils.SharedPreferencesUtil;
 import org.fossasia.openevent.utils.StringUtils;
 import org.fossasia.openevent.utils.Utils;
 import org.fossasia.openevent.utils.Views;
@@ -442,6 +443,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
 
             if (loadedFlag == null || loadedFlag.equals(BY_ID)) {
                 loadedFlag = BY_ID;
+                SharedPreferencesUtil.putInt(ConstantStrings.SESSION_MAP_ID, id);
                 loadSession(loadedSession);
             }
         });
@@ -453,6 +455,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
 
             if (loadedFlag == null || loadedFlag.equals(BY_NAME)) {
                 loadedFlag = BY_NAME;
+                SharedPreferencesUtil.putInt(ConstantStrings.SESSION_MAP_ID, -1);
                 loadSession(loadedSession);
             }
         });

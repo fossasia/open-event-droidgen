@@ -175,6 +175,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
         setTheme(R.style.AppTheme_NoActionBar_MainTheme);
         super.onCreate(savedInstanceState);
 
+        SharedPreferencesUtil.putInt(ConstantStrings.SESSION_MAP_ID, -1);
         isTwoPane = drawerLayout == null;
         Utils.setTwoPane(isTwoPane);
 
