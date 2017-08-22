@@ -1,4 +1,12 @@
 <resources>
+
+    <!--Quantity Strings(Plurals) for sessions-->
+    <plurals name="sessions">
+        <item quantity="zero">No sessions</item>
+        <item quantity="one">1 session</item>
+        <item quantity="other">%d sessions</item>
+    </plurals>
+
     <string name="app_name" translatable="false">OpenEvent</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
