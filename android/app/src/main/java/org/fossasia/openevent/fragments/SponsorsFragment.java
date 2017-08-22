@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import io.realm.Realm;
+import io.realm.RealmResults;
 import timber.log.Timber;
 
 /**
@@ -50,7 +50,7 @@ public class SponsorsFragment extends BaseFragment {
     RecyclerView sponsorsRecyclerView;
 
     private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
-    private Realm realm = realmRepo.getRealmInstance();
+    private RealmResults<Sponsor> realmResults;
 
     @Nullable
     @Override
@@ -60,8 +60,24 @@ public class SponsorsFragment extends BaseFragment {
         final View view = super.onCreateView(inflater, container, savedInstanceState);
 
         Utils.registerIfUrlValid(swipeRefreshLayout, this, this::refresh);
+        setUpRecyclerView();
 
+        realmResults = realmRepo.getSponsors();
+        realmResults.addChangeListener((sponsors, orderedCollectionChangeSet) -> {
+            this.sponsors.clear();
+            this.sponsors.addAll(sponsors);
+
+            sponsorsListAdapter.notifyDataSetChanged();
+            handleVisibility();
+        });
+
+        return view;
+    }
+
+    private void setUpRecyclerView() {
         sponsorsListAdapter = new SponsorsListAdapter(getContext(), sponsors);
+
+        sponsorsRecyclerView.setHasFixedSize(true);
         sponsorsRecyclerView.setAdapter(sponsorsListAdapter);
         sponsorsRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         sponsorsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -74,18 +90,6 @@ public class SponsorsFragment extends BaseFragment {
                 headersDecoration.invalidateHeaders();
             }
         });
-
-        RealmDataRepository.getDefaultInstance()
-                .getSponsors()
-                .addChangeListener((sponsors, orderedCollectionChangeSet) -> {
-                    this.sponsors.clear();
-                    this.sponsors.addAll(realm.copyFromRealm(sponsors));
-
-                    sponsorsListAdapter.notifyDataSetChanged();
-                    handleVisibility();
-                });
-
-        return view;
     }
 
     private void handleVisibility() {
@@ -109,6 +113,7 @@ public class SponsorsFragment extends BaseFragment {
         Utils.unregisterIfUrlValid(this);
 
         // Remove listeners to fix memory leak
+        realmResults.removeAllChangeListeners();
         if(swipeRefreshLayout != null) swipeRefreshLayout.setOnRefreshListener(null);
     }
 
