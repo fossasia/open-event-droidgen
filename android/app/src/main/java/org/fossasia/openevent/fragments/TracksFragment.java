@@ -57,7 +57,6 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
     @BindView(R.id.tracks_frame) View windowFrame;
 
     private String searchText = "";
-
     private SearchView searchView;
 
     private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
@@ -68,8 +67,6 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
         setHasOptionsMenu(true);
 
         View view = super.onCreateView(inflater, container, savedInstanceState);
-
-        handleVisibility();
 
         Utils.registerIfUrlValid(swipeRefreshLayout, this, this::refresh);
         setUpRecyclerView();
@@ -83,9 +80,14 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
             this.tracks.clear();
             this.tracks.addAll(tracks);
 
+            tracksListAdapter.setCopyOfTracks(tracks);
             tracksListAdapter.notifyDataSetChanged();
+            if (!Utils.isEmpty(searchText))
+                tracksListAdapter.filter(searchText);
             handleVisibility();
         });
+
+        handleVisibility();
 
         return view;
     }
@@ -163,7 +165,7 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
     @Override
     public boolean onQueryTextChange(String query) {
         searchText = query;
-        tracksListAdapter.getFilter().filter(searchText);
+        tracksListAdapter.filter(searchText);
 
         return true;
     }
@@ -175,7 +177,7 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
     }
 
     @Subscribe
-    public void refreshData(RefreshUiEvent event) {
+    public void  refreshData(RefreshUiEvent event) {
         handleVisibility();
     }
 
@@ -186,7 +188,7 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
         if (event.isState()) {
             Timber.i("Tracks download completed");
             if (!searchView.getQuery().toString().isEmpty() && !searchView.isIconified()) {
-                tracksListAdapter.getFilter().filter(searchView.getQuery());
+                tracksListAdapter.filter(searchText);
             }
         } else {
             Timber.i("Tracks download failed");

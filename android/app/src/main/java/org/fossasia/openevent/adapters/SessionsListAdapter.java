@@ -10,10 +10,10 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 
+import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.activities.SessionDetailActivity;
 import org.fossasia.openevent.adapters.viewholders.SessionViewHolder;
@@ -31,9 +31,9 @@ import org.threeten.bp.ZonedDateTime;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import io.reactivex.Observable;
-import io.realm.Realm;
 import timber.log.Timber;
 
 /**
@@ -50,58 +50,44 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionViewHolde
     private static final int trackWiseSessionList = 4;
     private static final int speakerWiseSessionList = 2;
 
-    private TextDrawable.IBuilder drawableBuilder = TextDrawable.builder().round();
-
     private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
+    private List<Session> copyOfSessions = new ArrayList<>();
 
     private int color;
 
-    @SuppressWarnings("all")
-    private Filter filter = new Filter() {
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
-
-            Realm realm = Realm.getDefaultInstance();
-
-            List<Session> filteredSessions = realm.copyFromRealm(RealmDataRepository.getInstance(realm)
-                    .getSessionsFiltered(trackId, constraint.toString()));
-
-            FilterResults filterResults = new FilterResults();
-            filterResults.values = filteredSessions;
-            filterResults.count = filteredSessions.size();
-            Timber.d("Filtering done total results %d", filterResults.count);
-
-            realm.close();
-            return filterResults;
-        }
-
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-            if (results == null || results.values == null) {
-                Timber.e("No results published. There is an error in query. Check " + getClass().getName() + " filter!");
-
-                return;
-            }
-
-            animateTo((List<Session>) results.values);
-        }
-    };
-
     public SessionsListAdapter(Context context, List<Session> sessions, int type) {
         super(sessions);
+        this.copyOfSessions = sessions;
         this.context = context;
         this.color = ContextCompat.getColor(context, R.color.color_primary);
         this.type = type;
     }
 
+    public void setCopyOfSessions(List<Session> sessions) {
+        this.copyOfSessions = sessions;
+    }
+
+    public void filter(String constraint) {
+        final String query = constraint.toLowerCase(Locale.getDefault());
+
+        List<Session> filteredSessionsList = Observable.fromIterable(copyOfSessions)
+                .filter(session -> session.getTitle()
+                        .toLowerCase(Locale.getDefault())
+                        .contains(query))
+                .toList().blockingGet();
+
+        Timber.d("Filtering done total results %d", filteredSessionsList.size());
+
+        if (filteredSessionsList.isEmpty()) {
+            Timber.e("No results published. There is an error in query. Check " + getClass().getName() + " filter!");
+        }
+
+        animateTo(filteredSessionsList);
+    }
+
     public void setColor(int color) {
         this.color = color;
         notifyDataSetChanged();
-    }
-
-    @Override
-    public Filter getFilter() {
-        return filter;
     }
 
     @Override
@@ -153,7 +139,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionViewHolde
                 color = storedColor;
             }
 
-            TextDrawable drawable = drawableBuilder.build(String.valueOf(track.getName().charAt(0)), storedColor);
+            TextDrawable drawable = OpenEventApp.getTextDrawableBuilder().round().build(String.valueOf(track.getName().charAt(0)), storedColor);
             holder.trackImageIcon.setImageDrawable(drawable);
             holder.trackImageIcon.setBackgroundColor(Color.TRANSPARENT);
             holder.sessionTrack.setText(track.getName());

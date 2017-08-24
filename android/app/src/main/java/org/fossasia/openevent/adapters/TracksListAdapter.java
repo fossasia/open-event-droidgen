@@ -6,20 +6,19 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.viewholders.HeaderViewHolder;
 import org.fossasia.openevent.adapters.viewholders.TrackViewHolder;
 import org.fossasia.openevent.data.Track;
-import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.utils.Utils;
 import org.fossasia.openevent.views.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import io.realm.Realm;
+import io.reactivex.Observable;
 import timber.log.Timber;
 
 /**
@@ -29,43 +28,34 @@ import timber.log.Timber;
 public class TracksListAdapter extends BaseRVAdapter<Track, TrackViewHolder> implements StickyRecyclerHeadersAdapter<HeaderViewHolder> {
 
     private Context context;
-
-    @SuppressWarnings("all")
-    private Filter filter = new Filter() {
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
-
-            final String query = constraint.toString().toLowerCase(Locale.getDefault());
-
-            Realm realm = Realm.getDefaultInstance();
-
-            List<Track> filteredTracks = realm.copyFromRealm(RealmDataRepository.getInstance(realm)
-                    .getTracksFiltered(constraint.toString()));
-
-            FilterResults filterResults = new FilterResults();
-            filterResults.values = filteredTracks;
-            filterResults.count = filteredTracks.size();
-            Timber.d("Filtering done total results %d", filterResults.count);
-
-            realm.close();
-            return filterResults;
-        }
-
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-            if(results == null || results.values == null) {
-                Timber.e("No results published. There is an error in query. Check " + getClass().getName() + " filter!");
-
-                return;
-            }
-
-            animateTo((List<Track>) results.values);
-        }
-    };
+    private List<Track> copyOfTracks = new ArrayList<>();
 
     public TracksListAdapter(Context context, List<Track> tracks) {
         super(tracks);
+        this.copyOfTracks = tracks;
         this.context = context;
+    }
+
+    public void setCopyOfTracks(List<Track> tracks) {
+        this.copyOfTracks = tracks;
+    }
+
+    public void filter(String constraint) {
+        final String query = constraint.toLowerCase(Locale.getDefault());
+
+        List<Track> filteredTracksList = Observable.fromIterable(copyOfTracks)
+                .filter(track -> track.getName()
+                        .toLowerCase(Locale.getDefault())
+                        .contains(query))
+                .toList().blockingGet();
+
+        Timber.d("Filtering done total results %d", filteredTracksList.size());
+
+        if (filteredTracksList.isEmpty()) {
+            Timber.e("No results published. There is an error in query. Check " + getClass().getName() + " filter!");
+        }
+
+        animateTo(filteredTracksList);
     }
 
     @Override
@@ -86,11 +76,6 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TrackViewHolder> imp
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.item_track, parent, false);
         return new TrackViewHolder(view,context);
-    }
-
-    @Override
-    public Filter getFilter() {
-        return filter;
     }
 
     @Override

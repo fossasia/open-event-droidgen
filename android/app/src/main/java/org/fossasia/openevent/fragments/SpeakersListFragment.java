@@ -63,7 +63,6 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
     private GridLayoutManager gridLayoutManager;
 
     private String searchText = "";
-
     private SearchView searchView;
 
     private int sortType;
@@ -115,7 +114,10 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
             this.speakers.clear();
             this.speakers.addAll(speakers);
 
+            speakersListAdapter.setCopyOfSpeakers(speakers);
             speakersListAdapter.notifyDataSetChanged();
+            if (!Utils.isEmpty(searchText))
+                speakersListAdapter.filter(searchText);
             handleVisibility();
         });
     }
@@ -253,8 +255,7 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
     @Override
     public boolean onQueryTextChange(String query) {
         searchText = query;
-
-        speakersListAdapter.getFilter().filter(query);
+        speakersListAdapter.filter(query);
 
         return true;
     }

@@ -2,7 +2,6 @@ package org.fossasia.openevent.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,6 @@ import org.fossasia.openevent.adapters.viewholders.DayScheduleViewHolder;
 import org.fossasia.openevent.adapters.viewholders.HeaderViewHolder;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
-import org.fossasia.openevent.fragments.DayScheduleFragment;
 import org.fossasia.openevent.utils.DateConverter;
 import org.fossasia.openevent.utils.SortOrder;
 import org.fossasia.openevent.utils.Utils;
@@ -37,16 +35,16 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleViewHo
     private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
 
     private ArrayList<String> tracks = new ArrayList<>();
-    private List<Session> copySessions = new ArrayList<>();
+    private List<Session> copyOfSessions = new ArrayList<>();
 
     public DayScheduleAdapter(List<Session> sessions, Context context) {
         super(sessions);
-        copySessions = new ArrayList<>(sessions);
+        this.copyOfSessions = new ArrayList<>(sessions);
         this.context = context;
     }
 
     public void setCopy(List<Session> sessions) {
-        copySessions = sessions;
+        copyOfSessions = sessions;
     }
 
     public String getEventDate() {
@@ -84,26 +82,16 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleViewHo
     public void filter(String constraint) {
         final String query = constraint.toLowerCase(Locale.getDefault());
 
-        ((RealmResults<Session>) copySessions).sort(SortOrder.sortOrderSchedule());
+        ((RealmResults<Session>) copyOfSessions).sort(SortOrder.sortOrderSchedule());
 
-        List<Session> filteredSessions = Observable.fromIterable(copySessions)
-                .filter(session -> {
-                    boolean co = session.getTitle().toLowerCase().contains(query);
-
-                    Log.d("TAG", session.getTitle() + " " + co + " " + query);
-
-                    return co;
-                }).toList().blockingGet();
+        List<Session> filteredSessions = Observable.fromIterable(copyOfSessions)
+                .filter(session -> session.getTitle().toLowerCase().contains(query))
+                .toList().blockingGet();
 
         Timber.d("Filtering done total results %d", filteredSessions.size());
 
-        if (DayScheduleFragment.searchText.equals("")) {
-            return;
-        }
-
-        if(filteredSessions.isEmpty()) {
+        if (filteredSessions.isEmpty()) {
             Timber.e("No results published. There is an error in query. Check " + getClass().getName() + " filter!");
-            return;
         }
 
         animateTo(filteredSessions);

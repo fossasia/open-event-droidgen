@@ -378,7 +378,7 @@ public class RealmDataRepository {
     }
 
     public RealmResults<Session> getSessionsByLocation(String location) {
-        return realm.where(Session.class).equalTo("microlocation.name", location).findAllAsync();
+        return realm.where(Session.class).equalTo("microlocation.name", location).findAllSortedAsync(Session.START_TIME);
     }
 
     public RealmResults<Session> getSessionsByDate(String date, String sortCriteria) {
