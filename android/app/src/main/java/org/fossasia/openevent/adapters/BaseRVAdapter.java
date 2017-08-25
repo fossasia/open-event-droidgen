@@ -1,8 +1,6 @@
 package org.fossasia.openevent.adapters;
 
 import android.support.v7.widget.RecyclerView;
-import android.widget.Filter;
-import android.widget.Filterable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,17 +12,12 @@ import java.util.List;
  * Base class for all the adapters binding to a recycler view
  * Supports add, remove, clear methods & animations
  */
-public abstract class BaseRVAdapter<T, V extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<V> implements Filterable {
+public abstract class BaseRVAdapter<T, V extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<V> {
 
     private List<T> dataList;
 
     BaseRVAdapter(List<T> dataList) {
         this.dataList = dataList;
-    }
-
-    @Override
-    public Filter getFilter() {
-        return null;
     }
 
     public T getItem(int position) {

@@ -23,8 +23,8 @@ import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.DateConverter;
 import org.fossasia.openevent.utils.SharedPreferencesUtil;
 import org.fossasia.openevent.utils.Utils;
+import org.threeten.bp.format.DateTimeParseException;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -94,7 +94,7 @@ public class ScheduleFragment extends BaseFragment {
                             adapter.addFragment(new DayScheduleFragment(),
                                     DateConverter.formatDay(date), date);
                             adapter.notifyDataSetChanged();
-                        } catch (ParseException pe) {
+                        } catch (DateTimeParseException pe) {
                             Timber.e(pe);
                             Timber.e("Invalid date %s in database", date);
                         }

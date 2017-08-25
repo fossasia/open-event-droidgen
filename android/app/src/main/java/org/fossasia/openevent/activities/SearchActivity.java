@@ -4,6 +4,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -58,6 +59,7 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
 
         globalSearchAdapter = new GlobalSearchAdapter(results, this);
         searchRecyclerView.setAdapter(globalSearchAdapter);
+        searchRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         searchRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {

@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -38,7 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import io.reactivex.disposables.CompositeDisposable;
+import io.realm.RealmResults;
 import timber.log.Timber;
 
 /**
@@ -48,8 +49,7 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
 
     final private String SEARCH = "searchText";
 
-    public static String searchText = "";
-
+    private String searchText = "";
     private SearchView searchView;
 
     @BindView(R.id.schedule_swipe_refresh) SwipeRefreshLayout swipeRefreshLayout;
@@ -61,8 +61,8 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
     private DayScheduleAdapter dayScheduleAdapter;
 
     private String date;
-    private CompositeDisposable compositeDisposable;
     private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
+    private RealmResults<Session> realmResults;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -75,44 +75,51 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
         setHasOptionsMenu(true);
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
-        compositeDisposable = new CompositeDisposable();
-
         Utils.registerIfUrlValid(swipeRefreshLayout, this, this::refresh);
+        setUpRecyclerView();
 
-        dayRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
+            searchText = savedInstanceState.getString(SEARCH);
+        }
+
+        realmResults = realmRepo.getSessionsByDate(date, SortOrder.sortOrderSchedule());
+        realmResults.addChangeListener((sortedSessions, orderedCollectionChangeSet) -> {
+            sessions.clear();
+            sessions.addAll(sortedSessions);
+
+            filteredSessions.clear();
+            filteredSessions.addAll(sortedSessions);
+
+            dayScheduleAdapter.setCopy(sortedSessions);
+            dayScheduleAdapter.notifyDataSetChanged();
+            if (!Utils.isEmpty(searchText))
+                dayScheduleAdapter.filter(searchText);
+
+            handleVisibility();
+        });
+
+        handleVisibility();
+
+        return view;
+    }
+
+    private void setUpRecyclerView() {
         dayScheduleAdapter = new DayScheduleAdapter(filteredSessions, getContext());
+
+        dayRecyclerView.setHasFixedSize(true);
+        dayRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        dayRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         dayRecyclerView.setAdapter(dayScheduleAdapter);
         dayScheduleAdapter.setEventDate(date);
 
         final StickyRecyclerHeadersDecoration headersDecoration = new StickyRecyclerHeadersDecoration(dayScheduleAdapter);
         dayRecyclerView.addItemDecoration(headersDecoration);
         dayScheduleAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-            @Override public void onChanged() {
+            @Override
+            public void onChanged() {
                 headersDecoration.invalidateHeaders();
             }
         });
-
-        if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
-            searchText = savedInstanceState.getString(SEARCH);
-        }
-
-        realmRepo.getSessionsByDate(date, SortOrder.sortOrderSchedule())
-                .addChangeListener((sortedSessions, orderedCollectionChangeSet) -> {
-                    sessions.clear();
-                    sessions.addAll(sortedSessions);
-
-                    filteredSessions.clear();
-                    filteredSessions.addAll(sortedSessions);
-
-                    dayScheduleAdapter.setCopy(sortedSessions);
-                    dayScheduleAdapter.notifyDataSetChanged();
-
-                    handleVisibility();
-                });
-
-        handleVisibility();
-
-        return view;
     }
 
     public void filter(List<String> selectedTracks) {
@@ -165,10 +172,8 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
         super.onDestroyView();
         Utils.unregisterIfUrlValid(this);
 
-        if(compositeDisposable != null && !compositeDisposable.isDisposed())
-            compositeDisposable.dispose();
-
         // Remove listeners to fix memory leak
+        realmResults.removeAllChangeListeners();
         if(swipeRefreshLayout != null) swipeRefreshLayout.setOnRefreshListener(null);
         if(searchView != null) searchView.setOnQueryTextListener(null);
     }

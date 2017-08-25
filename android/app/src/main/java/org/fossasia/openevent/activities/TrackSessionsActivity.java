@@ -34,6 +34,7 @@ import org.fossasia.openevent.events.BookmarkChangedEvent;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.DateConverter;
 import org.fossasia.openevent.utils.DateService;
+import org.fossasia.openevent.utils.Utils;
 import org.fossasia.openevent.utils.Views;
 import org.threeten.bp.ZonedDateTime;
 
@@ -59,7 +60,7 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
 
     private List<Session> sessions = new ArrayList<>();
 
-    private String searchText;
+    private String searchText = "";
     private int fontColor;
 
     private SearchView searchView;
@@ -109,9 +110,6 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
         gridLayoutManager = new GridLayoutManager(this, spanCount);
         sessionsRecyclerView.setLayoutManager(gridLayoutManager);
         sessionsListAdapter = new SessionsListAdapter(this, sessions, trackWiseSessionList);
-        if (searchText != null) {
-            sessionsListAdapter.getFilter().filter(searchText);
-        }
         sessionsRecyclerView.setAdapter(sessionsListAdapter);
         sessionsRecyclerView.scrollToPosition(SessionsListAdapter.listPosition);
         sessionsRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -143,6 +141,10 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
 
             sessions.clear();
             sessions.addAll(track.getSessions().sort("startsAt"));
+            sessionsListAdapter.setCopyOfSessions(track.getSessions().sort("startsAt"));
+            if (!Utils.isEmpty(searchText))
+                sessionsListAdapter.filter(searchText);
+            sessionsListAdapter.notifyDataSetChanged();
 
             //finding upcoming and ongoing sessions
             int countUpcoming = 0;
@@ -162,7 +164,6 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
                 countUpcoming += 1;
                 countOngoing += 1;
             }
-            sessionsListAdapter.notifyDataSetChanged();
 
             handleVisibility();
         });
@@ -297,9 +298,9 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
 
     @Override
     public boolean onQueryTextChange(String query) {
-        sessionsListAdapter.getFilter().filter(query);
-
         searchText = query;
+        sessionsListAdapter.filter(searchText);
+
         return true;
     }
 }

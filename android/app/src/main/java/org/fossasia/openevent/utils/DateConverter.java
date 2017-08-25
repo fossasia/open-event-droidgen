@@ -11,7 +11,6 @@ import org.threeten.bp.format.DateTimeFormatter;
 import org.threeten.bp.format.DateTimeParseException;
 import org.threeten.bp.temporal.Temporal;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -77,7 +76,20 @@ public class DateConverter {
 
     @NonNull
     public static ZonedDateTime getDate(@NonNull String isoDateString) {
-        return ZonedDateTime.parse(isoDateString).withZoneSameInstant(getZoneId());
+        ZonedDateTime zonedDateTime = ZonedDateTime.now();
+
+        try {
+            ZonedDateTime.parse(isoDateString).withZoneSameInstant(getZoneId());
+        } catch (DateTimeParseException pe) {
+            Timber.e(pe);
+            Timber.e("Error parsing date %s. Default ZonedDateTime : %s",
+                    isoDateString, zonedDateTime.toString());
+            throw pe;
+        } catch (NullPointerException ne) {
+            Timber.e(ne);
+            Timber.e("Error parsing date because input string is null");
+        }
+        return zonedDateTime;
     }
 
     @NonNull
@@ -114,12 +126,12 @@ public class DateConverter {
     }
 
     @NonNull
-    public static String formatDay(@NonNull String dateString) throws ParseException {
+    public static String formatDay(@NonNull String dateString) throws DateTimeParseException {
         return formatDate(FORMAT_DATE, LocalDate.from(DateTimeFormatter.ISO_LOCAL_DATE.parse(dateString)));
     }
 
     @NonNull
-    public static List<EventDates> getDaysInBetween(@NonNull String startDate, @NonNull String endDate) throws ParseException {
+    public static List<EventDates> getDaysInBetween(@NonNull String startDate, @NonNull String endDate) throws DateTimeParseException {
         List<EventDates> dates = new ArrayList<>();
 
         LocalDate start = getDate(startDate).toLocalDate();
@@ -139,7 +151,7 @@ public class DateConverter {
         return dates;
     }
 
-    public static String getRelativeTimeFromTimestamp(String timeStamp) throws ParseException {
+    public static String getRelativeTimeFromTimestamp(String timeStamp) throws DateTimeParseException {
         ZonedDateTime timeCreatedDate = ZonedDateTime.from(getFormatter(FORMAT_ISO_DATE_TIME_WITH_TIME_ZONE).parse(timeStamp));
         return (String) android.text.format.DateUtils.getRelativeTimeSpanString(
                 (timeCreatedDate.toInstant().toEpochMilli()),

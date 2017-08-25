@@ -10,7 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.fossasia.openevent.R;
@@ -37,7 +37,7 @@ import timber.log.Timber;
 public class DayScheduleViewHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.content_frame)
-    RelativeLayout slot_content;
+    LinearLayout slot_content;
 
     @BindView(R.id.slot_start_time)
     TextView startTime;

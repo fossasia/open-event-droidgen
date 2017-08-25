@@ -23,8 +23,8 @@ import org.fossasia.openevent.data.facebook.CommentItem;
 import org.fossasia.openevent.data.facebook.FeedItem;
 import org.fossasia.openevent.utils.DateConverter;
 import org.fossasia.openevent.utils.Utils;
+import org.threeten.bp.format.DateTimeParseException;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -102,7 +102,7 @@ public class FeedAdapter extends BaseRVAdapter<FeedItem, FeedAdapter.RecyclerVie
         String createdTime = feedItem.getCreatedTime();
         try {
             holder.timeStamp.setText(DateConverter.getRelativeTimeFromTimestamp(createdTime));
-        } catch (ParseException e) {
+        } catch (DateTimeParseException e) {
             Timber.e(e);
         }
 

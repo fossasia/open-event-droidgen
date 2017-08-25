@@ -17,12 +17,18 @@ import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
+import org.fossasia.openevent.data.Event;
+import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.utils.DateConverter;
 import org.fossasia.openevent.utils.SharedPreferencesUtil;
 import org.fossasia.openevent.utils.Utils;
+import org.threeten.bp.format.DateTimeParseException;
+
+import timber.log.Timber;
 
 /**
  * User: manan
@@ -75,6 +81,7 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
 
             timezonePreference.setChecked(showLocalTimezone);
             DateConverter.setShowLocalTime(showLocalTimezone);
+            updateEventDates();
         } else if (preference.getKey().equals(getResources().getString(R.string.notification_key))) {
             prefNotification.setSummary((String) choice);
         } else if (preference.getKey().equals(getResources().getString(R.string.language_key))) {
@@ -167,6 +174,21 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             getSupportActionBar().setElevation(Utils.dpToPx(4));
+    }
+
+    private void updateEventDates() {
+        Event event = RealmDataRepository.getDefaultInstance().getEventSync();
+
+        String startTime = event.getStartsAt();
+        String endTime = event.getEndsAt();
+
+        try {
+            RealmDataRepository.getDefaultInstance().saveEventDates(DateConverter.getDaysInBetween(startTime, endTime)).subscribe();
+        } catch (DateTimeParseException pe) {
+            Toast.makeText(this, "DateTimeParseException : Error updating event dates", Toast.LENGTH_SHORT).show();
+            Timber.e("Error updating event dates : enable to parse start date: %s and end date: %s in ISO format",
+                    startTime, endTime);
+        }
     }
 
     private ActionBar getSupportActionBar() {
