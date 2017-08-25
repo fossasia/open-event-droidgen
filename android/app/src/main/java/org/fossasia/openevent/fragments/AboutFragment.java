@@ -33,8 +33,8 @@ import org.fossasia.openevent.events.BookmarkChangedEvent;
 import org.fossasia.openevent.events.EventLoadedEvent;
 import org.fossasia.openevent.utils.DateConverter;
 import org.fossasia.openevent.utils.Views;
+import org.threeten.bp.format.DateTimeParseException;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -241,7 +241,7 @@ public class AboutFragment extends BaseFragment {
                             String headerDate = "Invalid";
                             try {
                                 headerDate = DateConverter.formatDay(eventDate);
-                            } catch (ParseException e) {
+                            } catch (DateTimeParseException e) {
                                 e.printStackTrace();
                             }
                             sessions.add(headerDate);
