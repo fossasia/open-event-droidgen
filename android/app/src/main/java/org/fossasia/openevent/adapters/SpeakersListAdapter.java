@@ -6,20 +6,17 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
 
 import org.fossasia.openevent.R;
-import org.fossasia.openevent.data.Speaker;
-import org.fossasia.openevent.dbutils.RealmDataRepository;
-import org.fossasia.openevent.utils.SortOrder;
 import org.fossasia.openevent.adapters.viewholders.SpeakerViewHolder;
+import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import io.realm.Realm;
+import io.reactivex.Observable;
 import timber.log.Timber;
 
 /**
@@ -30,43 +27,35 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakerViewHolde
 
     private List<String> distinctOrgs = new ArrayList<>();
     private List<String> distinctCountry = new ArrayList<>();
+
     private Context context;
-
-    @SuppressWarnings("all")
-    Filter filter = new Filter() {
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
-            final String query = constraint.toString().toLowerCase(Locale.getDefault());
-
-            Realm realm = Realm.getDefaultInstance();
-
-            List<Speaker> filteredSpeakers = realm.copyFromRealm(RealmDataRepository.getInstance(realm)
-                    .getSpeakersFiltered(constraint.toString(), SortOrder.sortOrderSpeaker()));
-
-            FilterResults filterResults = new FilterResults();
-            filterResults.values = filteredSpeakers;
-            filterResults.count = filteredSpeakers.size();
-            Timber.d("Filtering done total results %d", filterResults.count);
-
-            realm.close();
-            return filterResults;
-        }
-
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-            if(results == null || results.values == null) {
-                Timber.e("No results published. There is an error in query. Check " + getClass().getName() + " filter!");
-
-                return;
-            }
-
-            animateTo((List<Speaker>) results.values);
-        }
-    };
+    private List<Speaker> copyOfSpeakers = new ArrayList<>();
 
     public SpeakersListAdapter(List<Speaker> speakers, Context context) {
         super(speakers);
         this.context = context;
+    }
+
+    public void setCopyOfSpeakers(List<Speaker> speakers) {
+        this.copyOfSpeakers = speakers;
+    }
+
+    public void filter(String constraint) {
+        final String query = constraint.toLowerCase(Locale.getDefault());
+
+        List<Speaker> filteredSpeakersList = Observable.fromIterable(copyOfSpeakers)
+                .filter(speaker -> speaker.getName()
+                        .toLowerCase(Locale.getDefault())
+                        .contains(query))
+                .toList().blockingGet();
+
+        Timber.d("Filtering done total results %d", filteredSpeakersList.size());
+
+        if (filteredSpeakersList.isEmpty()) {
+            Timber.e("No results published. There is an error in query. Check " + getClass().getName() + " filter!");
+        }
+
+        animateTo(filteredSpeakersList);
     }
 
     @Override
@@ -77,11 +66,6 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakerViewHolde
     @Override
     public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
         super.onDetachedFromRecyclerView(recyclerView);
-    }
-
-    @Override
-    public Filter getFilter() {
-        return filter;
     }
 
     @Override

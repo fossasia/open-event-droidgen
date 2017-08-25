@@ -5,24 +5,19 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.viewholders.HeaderViewHolder;
 import org.fossasia.openevent.adapters.viewholders.LocationViewHolder;
 import org.fossasia.openevent.data.Microlocation;
-import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.utils.Utils;
 import org.fossasia.openevent.views.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import io.reactivex.Observable;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Predicate;
-import io.realm.Realm;
-import io.realm.RealmResults;
 import timber.log.Timber;
 
 /**
@@ -32,52 +27,33 @@ import timber.log.Timber;
 public class LocationsListAdapter extends BaseRVAdapter<Microlocation, LocationViewHolder> implements StickyRecyclerHeadersAdapter<HeaderViewHolder> {
 
     private Context context;
+    private List<Microlocation> copyOfLocations = new ArrayList<>();
 
     public LocationsListAdapter(Context context, List<Microlocation> microLocations) {
         super(microLocations);
         this.context = context;
     }
 
-    @SuppressWarnings("all")
-    Filter filter = new Filter() {
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
-            final String query = constraint.toString().toLowerCase(Locale.getDefault());
+    public void setCopyOfTracks(List<Microlocation> locations) {
+        this.copyOfLocations = locations;
+    }
 
-            Realm realm = Realm.getDefaultInstance();
+    public void filter(String constraint) {
+        final String query = constraint.toLowerCase(Locale.getDefault());
 
-            RealmResults<Microlocation> locations = RealmDataRepository
-                    .getInstance(realm)
-                    .getLocationsSync();
+        List<Microlocation> filteredLocationsList = Observable.fromIterable(copyOfLocations)
+                .filter(microlocation -> microlocation.getName()
+                        .toLowerCase(Locale.getDefault())
+                        .contains(query))
+                .toList().blockingGet();
 
-            List<Microlocation> filteredMicrolocationList = Observable.fromIterable(locations)
-                    .filter(new Predicate<Microlocation>() {
-                        @Override
-                        public boolean test(@NonNull Microlocation microlocation) throws Exception {
-                            return microlocation.getName()
-                                    .toLowerCase(Locale.getDefault())
-                                    .contains(query);
-                        }
-                    }).toList().blockingGet();
+        Timber.d("Filtering done total results %d", filteredLocationsList.size());
 
-            FilterResults filterResults = new FilterResults();
-            filterResults.values = realm.copyFromRealm(filteredMicrolocationList);
-            filterResults.count = filteredMicrolocationList.size();
-            Timber.d("Filtering done total results %d", filterResults.count);
-
-            realm.close();
-            return filterResults;
+        if (filteredLocationsList.isEmpty()) {
+            Timber.e("No results published. There is an error in query. Check " + getClass().getName() + " filter!");
         }
 
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-            animateTo((List<Microlocation>) results.values);
-        }
-    };
-
-    @Override
-    public Filter getFilter() {
-        return filter;
+        animateTo(filteredLocationsList);
     }
 
     @Override

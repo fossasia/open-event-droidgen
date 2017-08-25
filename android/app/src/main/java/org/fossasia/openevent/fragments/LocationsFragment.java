@@ -45,6 +45,7 @@ import timber.log.Timber;
  * Date: 8/18/2015
  */
 public class LocationsFragment extends BaseFragment implements SearchView.OnQueryTextListener {
+
     final private String SEARCH = "searchText";
 
     @BindView(R.id.locations_swipe_refresh) SwipeRefreshLayout swipeRefreshLayout;
@@ -55,7 +56,6 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
     private LocationsListAdapter locationsListAdapter;
     
     private String searchText = "";
-
     private SearchView searchView;
 
     private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
@@ -79,7 +79,10 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
             this.locations.clear();
             this.locations.addAll(microlocations);
 
+            locationsListAdapter.setCopyOfTracks(microlocations);
             locationsListAdapter.notifyDataSetChanged();
+            if (!Utils.isEmpty(searchText))
+                locationsListAdapter.filter(searchText);
             handleVisibility();
         });
 
@@ -159,7 +162,7 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
 
     @Override
     public boolean onQueryTextChange(String query) {
-        locationsListAdapter.getFilter().filter(query);
+        locationsListAdapter.filter(query);
 
         searchText = query;
         return true;

@@ -49,8 +49,7 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
 
     final private String SEARCH = "searchText";
 
-    public static String searchText = "";
-
+    private String searchText = "";
     private SearchView searchView;
 
     @BindView(R.id.schedule_swipe_refresh) SwipeRefreshLayout swipeRefreshLayout;
@@ -93,6 +92,8 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
 
             dayScheduleAdapter.setCopy(sortedSessions);
             dayScheduleAdapter.notifyDataSetChanged();
+            if (!Utils.isEmpty(searchText))
+                dayScheduleAdapter.filter(searchText);
 
             handleVisibility();
         });

@@ -31,14 +31,13 @@ import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.DateConverter;
+import org.fossasia.openevent.utils.Utils;
 import org.threeten.bp.ZonedDateTime;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
-import io.reactivex.disposables.CompositeDisposable;
 
 /**
  * User: MananWason
@@ -55,7 +54,7 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
     private Dialog upcomingDialogBox;
 
     private List<Session> sessions = new ArrayList<>();
-    private List<Session> sortedSessions = new ArrayList<>();
+
     private static final int locationWiseSessionList = 1;
 
     @BindView(R.id.recyclerView_locations)
@@ -69,12 +68,11 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
 
     private String location;
 
-    private String searchText;
+    private String searchText = "";
 
     private SearchView searchView;
     private Menu menu;
 
-    private CompositeDisposable disposable;
     private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
     private TextView upcomingSessionText;
     private TextView upcomingSessionTitle;
@@ -85,8 +83,6 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
 
         super.onCreate(savedInstanceState);
         setUpcomingSessionsDialog();
-
-        disposable = new CompositeDisposable();
 
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
@@ -117,19 +113,24 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
         sessionRecyclerView.scrollToPosition(SessionsListAdapter.listPosition);
         sessionRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
+        loadData();
+
+        handleVisibility();
+    }
+
+    private void loadData() {
         realmRepo.getSessionsByLocation(location)
                 .addChangeListener((sessions, orderedCollectionChangeSet) -> {
                     this.sessions.clear();
                     this.sessions.addAll(sessions);
-                    sortedSessions.clear();
-                    sortedSessions.addAll(sessions.sort("startsAt"));
-                    setUpcomingSession();
-                    sessionsListAdapter.notifyDataSetChanged();
 
+                    setUpcomingSession();
+                    sessionsListAdapter.setCopyOfSessions(sessions);
+                    sessionsListAdapter.notifyDataSetChanged();
+                    if (!Utils.isEmpty(searchText))
+                        sessionsListAdapter.filter(searchText);
                     handleVisibility();
                 });
-
-        handleVisibility();
     }
 
     public void setUpcomingSessionsDialog() {
@@ -152,15 +153,14 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
         String track = "";
         String color = null;
         ZonedDateTime current = ZonedDateTime.now();
-        for (Session sess : sortedSessions) {
-            ZonedDateTime start = DateConverter.getDate(sess.getStartsAt());
+        for (Session session : sessions) {
+            ZonedDateTime start = DateConverter.getDate(session.getStartsAt());
             if (start.isAfter(current)) {
-                upcomingTitle = sess.getTitle();
-                track = sess.getTrack().getName();
-                color = sess.getTrack().getColor();
+                upcomingTitle = session.getTitle();
+                track = session.getTrack().getName();
+                color = session.getTrack().getColor();
                 break;
             }
-
         }
 
         if (!TextUtils.isEmpty(upcomingTitle)) {
@@ -197,13 +197,6 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
             bundle.putString(SEARCH, searchText);
         }
         super.onSaveInstanceState(bundle);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (disposable != null && !disposable.isDisposed())
-            disposable.dispose();
     }
 
     @Override
@@ -282,33 +275,9 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
 
     @Override
     public boolean onQueryTextChange(final String query) {
-        realmRepo.getSessionsByLocation(location)
-                .addChangeListener((sessions, orderedCollectionChangeSet) -> {
-                    this.sessions.clear();
-                    this.sessions.addAll(sessions);
-
-                    final List<Session> filteredModelList = filter(this.sessions,
-                            query.toLowerCase(Locale.getDefault()));
-                    sessionsListAdapter.notifyDataSetChanged();
-                    sessionsListAdapter.animateTo(filteredModelList);
-                    sessionRecyclerView.scrollToPosition(0);
-
-                    searchText = query;
-                });
+        searchText = query;
+        sessionsListAdapter.filter(searchText);
 
         return false;
-    }
-
-    private List<Session> filter(List<Session> sessions, String query) {
-        String queryLowerCase = query.toLowerCase(Locale.getDefault());
-
-        final List<Session> filteredTracksList = new ArrayList<>();
-        for (Session session : sessions) {
-            final String text = session.getTitle().toLowerCase(Locale.getDefault());
-            if (text.contains(queryLowerCase)) {
-                filteredTracksList.add(session);
-            }
-        }
-        return filteredTracksList;
     }
 }
