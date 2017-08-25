@@ -275,7 +275,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
 
         //coloring status bar icons for marshmallow+ devices
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && (speakersRecyclerView != null) && (fontColor != Color.WHITE)) {
-            speakersRecyclerView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            collapsingToolbarLayout.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
 
         //setting of back button according to track font color
