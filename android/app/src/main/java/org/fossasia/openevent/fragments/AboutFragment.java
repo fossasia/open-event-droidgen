@@ -6,6 +6,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -123,6 +124,7 @@ public class AboutFragment extends BaseFragment {
         bookmarksRecyclerView.setVisibility(View.VISIBLE);
         bookMarksListAdapter = new GlobalSearchAdapter(sessions, getContext());
         bookmarksRecyclerView.setAdapter(bookMarksListAdapter);
+        bookmarksRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         bookmarksRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         bookmarksRecyclerView.setNestedScrollingEnabled(false);
     }

@@ -6,9 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
-import android.widget.TextView;
 
 import org.fossasia.openevent.R;
+import org.fossasia.openevent.adapters.viewholders.HeaderViewHolder;
+import org.fossasia.openevent.adapters.viewholders.LocationViewHolder;
 import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.utils.Utils;
@@ -19,9 +20,6 @@ import java.util.Locale;
 
 import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;
-
-import org.fossasia.openevent.adapters.viewholders.LocationViewHolder;
-
 import io.reactivex.functions.Predicate;
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -31,7 +29,7 @@ import timber.log.Timber;
  * User: MananWason
  * Date: 8/18/2015
  */
-public class LocationsListAdapter extends BaseRVAdapter<Microlocation, LocationViewHolder> implements StickyRecyclerHeadersAdapter {
+public class LocationsListAdapter extends BaseRVAdapter<Microlocation, LocationViewHolder> implements StickyRecyclerHeadersAdapter<HeaderViewHolder> {
 
     private Context context;
 
@@ -106,25 +104,21 @@ public class LocationsListAdapter extends BaseRVAdapter<Microlocation, LocationV
 
     @Override
     public long getHeaderId(int position) {
-        return getItem(position).getName().charAt(0);
+        return getItem(position).getName().toUpperCase().charAt(0);
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
+    public HeaderViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.recycler_view_header, parent, false);
-        return new RecyclerView.ViewHolder(view) {
-        };
+        return new HeaderViewHolder(view);
     }
 
     @Override
-    public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
-        TextView textView = (TextView) holder.itemView.findViewById(R.id.recyclerview_view_header);
+    public void onBindHeaderViewHolder(HeaderViewHolder holder, int position) {
         String locationName = Utils.checkStringEmpty(getItem(position).getName());
-
-        if(!Utils.isEmpty(locationName)) {
-            textView.setText(String.valueOf(locationName.charAt(0)));
+        if (!Utils.isEmpty(locationName)) {
+            holder.header.setText(String.valueOf(locationName.toUpperCase().charAt(0)));
         }
     }
-
 }

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -71,20 +72,7 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
         handleVisibility();
 
         Utils.registerIfUrlValid(swipeRefreshLayout, this, this::refresh);
-
-        tracksRecyclerView.setHasFixedSize(true);
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-        tracksRecyclerView.setLayoutManager(linearLayoutManager);
-        tracksListAdapter = new TracksListAdapter(getContext(), tracks);
-        tracksRecyclerView.setAdapter(tracksListAdapter);
-
-        final StickyRecyclerHeadersDecoration headersDecoration = new StickyRecyclerHeadersDecoration(tracksListAdapter);
-        tracksRecyclerView.addItemDecoration(headersDecoration);
-        tracksListAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-            @Override public void onChanged() {
-                headersDecoration.invalidateHeaders();
-            }
-        });
+        setUpRecyclerView();
 
         if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
             searchText = savedInstanceState.getString(SEARCH);
@@ -100,6 +88,24 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
         });
 
         return view;
+    }
+
+    private void setUpRecyclerView() {
+        tracksListAdapter = new TracksListAdapter(getContext(), tracks);
+
+        tracksRecyclerView.setHasFixedSize(true);
+        tracksRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        tracksRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        tracksRecyclerView.setAdapter(tracksListAdapter);
+
+        final StickyRecyclerHeadersDecoration headersDecoration = new StickyRecyclerHeadersDecoration(tracksListAdapter);
+        tracksRecyclerView.addItemDecoration(headersDecoration);
+        tracksListAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onChanged() {
+                headersDecoration.invalidateHeaders();
+            }
+        });
     }
 
     public void handleVisibility() {

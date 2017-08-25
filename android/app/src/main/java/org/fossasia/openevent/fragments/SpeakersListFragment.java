@@ -44,6 +44,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import io.realm.RealmResults;
 import timber.log.Timber;
 
 import static org.fossasia.openevent.utils.SortOrder.sortOrderSpeaker;
@@ -68,6 +69,7 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
     private int sortType;
 
     private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
+    private RealmResults<Speaker> realmResults;
 
     @Nullable
     @Override
@@ -77,20 +79,9 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
         Utils.registerIfUrlValid(swipeRefreshLayout, this, this::refresh);
+        setUpRecyclerView();
 
         sortType = SharedPreferencesUtil.getInt(ConstantStrings.PREF_SORT_SPEAKER, 0);
-
-        //setting the grid layout to cut-off white space in tablet view
-        DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
-        float width = displayMetrics.widthPixels / displayMetrics.density;
-        final int spanCount = (int) (width/150.00);
-
-        speakersRecyclerView.addItemDecoration(new MarginDecoration(getContext()));
-        speakersRecyclerView.setHasFixedSize(true);
-        speakersListAdapter = new SpeakersListAdapter(speakers, getActivity());
-        speakersRecyclerView.setAdapter(speakersListAdapter);
-        gridLayoutManager = new GridLayoutManager(getActivity(), spanCount);
-        speakersRecyclerView.setLayoutManager(gridLayoutManager);
 
         if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
             searchText = savedInstanceState.getString(SEARCH);
@@ -103,17 +94,30 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
         return view;
     }
 
+    private void setUpRecyclerView() {
+        //setting the grid layout to cut-off white space in tablet view
+        DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
+        float width = displayMetrics.widthPixels / displayMetrics.density;
+        final int spanCount = (int) (width / 150.00);
+        gridLayoutManager = new GridLayoutManager(getActivity(), spanCount);
+
+        speakersListAdapter = new SpeakersListAdapter(speakers, getActivity());
+
+        speakersRecyclerView.addItemDecoration(new MarginDecoration(getContext()));
+        speakersRecyclerView.setHasFixedSize(true);
+        speakersRecyclerView.setAdapter(speakersListAdapter);
+        speakersRecyclerView.setLayoutManager(gridLayoutManager);
+    }
+
     private void loadData() {
-        realmRepo.getSpeakers(sortOrderSpeaker())
-                .addChangeListener((speakers, orderedCollectionChangeSet) -> {
+        realmResults = realmRepo.getSpeakers(sortOrderSpeaker());
+        realmResults.addChangeListener((speakers, orderedCollectionChangeSet) -> {
+            this.speakers.clear();
+            this.speakers.addAll(speakers);
 
-                    this.speakers.clear();
-                    this.speakers.addAll(speakers);
-
-                    speakersListAdapter.notifyDataSetChanged();
-
-                    handleVisibility();
-                });
+            speakersListAdapter.notifyDataSetChanged();
+            handleVisibility();
+        });
     }
 
     private void handleVisibility() {
@@ -137,6 +141,7 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
         Utils.unregisterIfUrlValid(this);
 
         // Remove listeners to fix memory leak
+        realmResults.removeAllChangeListeners();
         if(swipeRefreshLayout != null) swipeRefreshLayout.setOnRefreshListener(null);
         if(searchView != null) searchView.setOnQueryTextListener(null);
     }

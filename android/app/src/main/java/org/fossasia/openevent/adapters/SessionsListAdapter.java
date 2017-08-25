@@ -6,21 +6,17 @@ import android.graphics.Color;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.activities.SessionDetailActivity;
+import org.fossasia.openevent.adapters.viewholders.SessionViewHolder;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Track;
@@ -36,8 +32,6 @@ import org.threeten.bp.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import io.reactivex.Observable;
 import io.realm.Realm;
 import timber.log.Timber;
@@ -46,7 +40,7 @@ import timber.log.Timber;
  * User: MananWason
  * Date: 26-06-2015
  */
-public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdapter.SessionViewHolder> {
+public class SessionsListAdapter extends BaseRVAdapter<Session, SessionViewHolder> {
 
     private Context context;
     private int trackId;
@@ -289,59 +283,4 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionsListAdap
     public void setTrackId(int trackId) {
         this.trackId = trackId;
     }
-
-    class SessionViewHolder extends RecyclerView.ViewHolder {
-
-        @BindView(R.id.session_title)
-        TextView sessionTitle;
-
-        @BindView(R.id.session_subtitle)
-        TextView sessionSubtitle;
-
-        @BindView(R.id.trackImageDrawable)
-        ImageView trackImageIcon;
-
-        @BindView(R.id.session_track)
-        TextView sessionTrack;
-
-        @BindView(R.id.session_date)
-        TextView sessionDate;
-
-        @BindView(R.id.session_speaker)
-        TextView sessionSpeaker;
-
-        @BindView(R.id.icon_speaker)
-        ImageView speakerIcon;
-
-        @BindView(R.id.icon_location)
-        ImageView locationIcon;
-
-        @BindView(R.id.session_time)
-        TextView sessionTime;
-
-        @BindView(R.id.session_location)
-        TextView sessionLocation;
-
-        @BindView(R.id.session_bookmark_status)
-        ImageView sessionBookmarkIcon;
-
-        @BindView(R.id.session_details)
-        LinearLayout sessionDetailsHolder;
-
-        @BindView(R.id.session_card)
-        CardView sessionCard;
-
-        @BindView(R.id.titleLinearLayout)
-        LinearLayout sessionHeader;
-
-        @BindView(R.id.session_status)
-        TextView sessionStatus;
-
-        SessionViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-        }
-
-    }
-
 }

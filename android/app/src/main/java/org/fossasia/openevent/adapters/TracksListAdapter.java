@@ -7,13 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
-import android.widget.TextView;
 
 import org.fossasia.openevent.R;
+import org.fossasia.openevent.adapters.viewholders.HeaderViewHolder;
+import org.fossasia.openevent.adapters.viewholders.TrackViewHolder;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.utils.Utils;
-import org.fossasia.openevent.adapters.viewholders.TrackViewHolder;
 import org.fossasia.openevent.views.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
 import java.util.List;
@@ -26,7 +26,7 @@ import timber.log.Timber;
  * User: MananWason
  * Date: 07-06-2015
  */
-public class TracksListAdapter extends BaseRVAdapter<Track, TrackViewHolder> implements StickyRecyclerHeadersAdapter {
+public class TracksListAdapter extends BaseRVAdapter<Track, TrackViewHolder> implements StickyRecyclerHeadersAdapter<HeaderViewHolder> {
 
     private Context context;
 
@@ -97,25 +97,22 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TrackViewHolder> imp
     public long getHeaderId(int position) {
         String trackName = Utils.checkStringEmpty(getItem(position).getName());
         if(!Utils.isEmpty(trackName))
-            return trackName.charAt(0);
+            return trackName.toUpperCase().charAt(0);
         else
             return 0;
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
+    public HeaderViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.recycler_view_header, parent, false);
-        return new RecyclerView.ViewHolder(view) {};
+        return new HeaderViewHolder(view);
     }
 
     @Override
-    public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
-        TextView textView = (TextView) holder.itemView.findViewById(R.id.recyclerview_view_header);
-
+    public void onBindHeaderViewHolder(HeaderViewHolder holder, int position) {
         String trackName = getItem(position).getName();
-        if(!TextUtils.isEmpty(trackName))
-            textView.setText(String.valueOf(trackName.charAt(0)));
+        if (!TextUtils.isEmpty(trackName))
+            holder.header.setText(String.valueOf(trackName.toUpperCase().charAt(0)));
     }
-
 }

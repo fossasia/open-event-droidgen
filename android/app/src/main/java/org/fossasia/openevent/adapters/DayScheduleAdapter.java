@@ -6,10 +6,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.viewholders.DayScheduleViewHolder;
+import org.fossasia.openevent.adapters.viewholders.HeaderViewHolder;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.fragments.DayScheduleFragment;
@@ -23,18 +23,16 @@ import java.util.List;
 import java.util.Locale;
 
 import io.reactivex.Observable;
-import io.reactivex.disposables.CompositeDisposable;
 import io.realm.RealmResults;
 import timber.log.Timber;
 
 /**
  * Created by Manan Wason on 17/06/16.
  */
-public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleViewHolder> implements StickyRecyclerHeadersAdapter {
+public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleViewHolder> implements StickyRecyclerHeadersAdapter<HeaderViewHolder> {
 
     private Context context;
     private String eventDate;
-    private CompositeDisposable disposable;
 
     private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
 
@@ -76,14 +74,11 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleViewHo
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
-        disposable = new CompositeDisposable();
     }
 
     @Override
     public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
         super.onDetachedFromRecyclerView(recyclerView);
-        if(disposable != null && !disposable.isDisposed())
-            disposable.dispose();
     }
 
     public void filter(String constraint) {
@@ -118,7 +113,7 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleViewHo
     public long getHeaderId(int position) {
         String id = "";
         if (SortOrder.sortOrderSchedule().equals(Session.TITLE)) {
-            return getItem(position).getTitle().charAt(0);
+            return getItem(position).getTitle().toUpperCase().charAt(0);
         } else if (SortOrder.sortOrderSchedule().equals(Session.TRACK)){
             if (tracks != null && !tracks.contains(getItem(position).getTrack().getName())) {
                 tracks.add(getItem(position).getTrack().getName());
@@ -133,24 +128,23 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleViewHo
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
+    public HeaderViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.recycler_view_header, parent, false);
-        return new RecyclerView.ViewHolder(view) {};
+        return new HeaderViewHolder(view);
     }
 
     @Override
-    public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
-        TextView textView = (TextView) holder.itemView.findViewById(R.id.recyclerview_view_header);
+    public void onBindHeaderViewHolder(HeaderViewHolder holder, int position) {
         String sortTitle = Utils.checkStringEmpty(getItem(position).getTitle());
         String sortName = Utils.checkStringEmpty(getItem(position).getTrack().getName());
 
         if (SortOrder.sortOrderSchedule().equals(Session.TITLE) && (!Utils.isEmpty(sortTitle))) {
-            textView.setText(String.valueOf(sortTitle.charAt(0)));
+            holder.header.setText(String.valueOf(sortTitle.toUpperCase().charAt(0)));
         } else if (SortOrder.sortOrderSchedule().equals(Session.TRACK)){
-            textView.setText(String.valueOf(sortName));
+            holder.header.setText(String.valueOf(sortName));
         } else if (SortOrder.sortOrderSchedule().equals(Session.START_TIME)) {
-            textView.setText(DateConverter.formatDateWithDefault(DateConverter.FORMAT_24H, getItem(position).getStartsAt()));
+            holder.header.setText(DateConverter.formatDateWithDefault(DateConverter.FORMAT_24H, getItem(position).getStartsAt()));
         }
     }
 

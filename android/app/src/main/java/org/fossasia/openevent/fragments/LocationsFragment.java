@@ -6,6 +6,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -36,7 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import io.reactivex.disposables.CompositeDisposable;
+import io.realm.RealmResults;
 import timber.log.Timber;
 
 /**
@@ -57,8 +58,8 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
 
     private SearchView searchView;
 
-    private CompositeDisposable compositeDisposable;
     private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
+    private RealmResults<Microlocation> realmResults;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -67,39 +68,42 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
         Utils.registerIfUrlValid(swipeRefreshLayout, this, this::refresh);
-
-        compositeDisposable = new CompositeDisposable();
-
-        locationsRecyclerView.setHasFixedSize(true);
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-        locationsRecyclerView.setLayoutManager(linearLayoutManager);
-        locationsListAdapter = new LocationsListAdapter(getContext(), locations);
-        locationsRecyclerView.setAdapter(locationsListAdapter);
-
-        final StickyRecyclerHeadersDecoration headersDecoration = new StickyRecyclerHeadersDecoration(locationsListAdapter);
-        locationsRecyclerView.addItemDecoration(headersDecoration);
-        locationsListAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-            @Override public void onChanged() {
-                headersDecoration.invalidateHeaders();
-            }
-        });
+        setUpRecyclerView();
 
         if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
             searchText = savedInstanceState.getString(SEARCH);
         }
 
-        realmRepo.getLocations()
-                .addChangeListener((microlocations, orderedCollectionChangeSet) -> {
-                    locations.clear();
-                    locations.addAll(microlocations);
+        realmResults = realmRepo.getLocations();
+        realmResults.addChangeListener((microlocations, orderedCollectionChangeSet) -> {
+            this.locations.clear();
+            this.locations.addAll(microlocations);
 
-                    locationsListAdapter.notifyDataSetChanged();
-                    handleVisibility();
-                });
+            locationsListAdapter.notifyDataSetChanged();
+            handleVisibility();
+        });
 
         handleVisibility();
 
         return view;
+    }
+
+    private void setUpRecyclerView() {
+        locationsListAdapter = new LocationsListAdapter(getContext(), locations);
+
+        locationsRecyclerView.setHasFixedSize(true);
+        locationsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        locationsRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        locationsRecyclerView.setAdapter(locationsListAdapter);
+
+        final StickyRecyclerHeadersDecoration headersDecoration = new StickyRecyclerHeadersDecoration(locationsListAdapter);
+        locationsRecyclerView.addItemDecoration(headersDecoration);
+        locationsListAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onChanged() {
+                headersDecoration.invalidateHeaders();
+            }
+        });
     }
 
     private void handleVisibility() {
@@ -172,10 +176,8 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
         super.onDestroyView();
         Utils.unregisterIfUrlValid(this);
 
-        if(compositeDisposable != null && !compositeDisposable.isDisposed())
-            compositeDisposable.dispose();
-
         // Remove listeners to fix memory leak
+        realmResults.removeAllChangeListeners();
         if(swipeRefreshLayout != null) swipeRefreshLayout.setOnRefreshListener(null);
         if(searchView != null) searchView.setOnQueryTextListener(null);
     }
