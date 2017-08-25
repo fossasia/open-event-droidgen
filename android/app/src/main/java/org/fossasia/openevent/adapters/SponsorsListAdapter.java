@@ -1,14 +1,13 @@
 package org.fossasia.openevent.adapters;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import org.fossasia.openevent.R;
+import org.fossasia.openevent.adapters.viewholders.HeaderViewHolder;
 import org.fossasia.openevent.adapters.viewholders.SponsorViewHolder;
 import org.fossasia.openevent.data.Sponsor;
 import org.fossasia.openevent.utils.Utils;
@@ -20,7 +19,7 @@ import java.util.List;
  * User: MananWason
  * Date: 09-06-2015
  */
-public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, SponsorViewHolder> implements StickyRecyclerHeadersAdapter {
+public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, SponsorViewHolder> implements StickyRecyclerHeadersAdapter<HeaderViewHolder> {
 
     private Context context;
 
@@ -48,20 +47,18 @@ public class SponsorsListAdapter extends BaseRVAdapter<Sponsor, SponsorViewHolde
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
+    public HeaderViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.recycler_view_header, parent, false);
-        return new RecyclerView.ViewHolder(view) {
-        };
+        return new HeaderViewHolder(view);
     }
 
     @Override
-    public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
-        TextView textView = (TextView) holder.itemView.findViewById(R.id.recyclerview_view_header);
-        textView.setGravity(Gravity.CENTER_HORIZONTAL);
+    public void onBindHeaderViewHolder(HeaderViewHolder holder, int position) {
+        holder.header.setGravity(Gravity.CENTER_HORIZONTAL);
 
         String sponsorType = getItem(position).getType();
         if (!Utils.isEmpty(sponsorType))
-            textView.setText(sponsorType.toUpperCase());
+            holder.header.setText(sponsorType.toUpperCase());
     }
 }
