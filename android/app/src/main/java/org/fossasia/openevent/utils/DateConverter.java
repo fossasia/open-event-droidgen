@@ -79,7 +79,7 @@ public class DateConverter {
         ZonedDateTime zonedDateTime = ZonedDateTime.now();
 
         try {
-            ZonedDateTime.parse(isoDateString).withZoneSameInstant(getZoneId());
+            zonedDateTime = ZonedDateTime.parse(isoDateString).withZoneSameInstant(getZoneId());
         } catch (DateTimeParseException pe) {
             Timber.e(pe);
             Timber.e("Error parsing date %s. Default ZonedDateTime : %s",
