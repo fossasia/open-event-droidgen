@@ -2,6 +2,7 @@ package org.fossasia.openevent.utils;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.content.ContextCompat;
@@ -109,16 +110,18 @@ public class Utils {
 
     public static void setUpCustomTab(Context context, String url) {
 
-        Uri uri = Uri.parse(url);
+        String URL = url;
+        if (!url.startsWith("http://") && !url.startsWith("https://")) {
+            URL = ("http://" + url);
+        }
 
-        CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder();
-        intentBuilder.setToolbarColor(ContextCompat.getColor(context, R.color.color_primary));
-        intentBuilder.setSecondaryToolbarColor(ContextCompat.getColor(context, R.color.color_primary_dark));
-        intentBuilder.setStartAnimations(context, R.anim.slide_in_right, R.anim.slide_out_left);
-        intentBuilder.setExitAnimations(context, android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-
-        CustomTabsIntent customTabsIntent = intentBuilder.build();
-        customTabsIntent.launchUrl(context, uri);
+        CustomTabsIntent.Builder customTabsBuilder = new CustomTabsIntent.Builder();
+        customTabsBuilder.setToolbarColor(ContextCompat.getColor(context, R.color.color_primary));
+        customTabsBuilder.setCloseButtonIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_arrow_back_white_cct_24dp));
+        customTabsBuilder.setStartAnimations(context, R.anim.slide_in_right, R.anim.slide_out_left);
+        customTabsBuilder.setExitAnimations(context, R.anim.slide_in_left, R.anim.slide_out_right);
+        CustomTabsIntent customTabsIntent = customTabsBuilder.build();
+        customTabsIntent.launchUrl(context, Uri.parse(URL));
     }
 
     /**

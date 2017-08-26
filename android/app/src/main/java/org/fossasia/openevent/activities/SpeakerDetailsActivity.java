@@ -1,6 +1,5 @@
 package org.fossasia.openevent.activities;
 
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -9,9 +8,6 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.customtabs.CustomTabsCallback;
-import android.support.customtabs.CustomTabsClient;
-import android.support.customtabs.CustomTabsServiceConnection;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.content.ContextCompat;
@@ -42,7 +38,6 @@ import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.events.ConnectionCheckEvent;
-import org.fossasia.openevent.utils.SpeakerIntent;
 import org.fossasia.openevent.utils.StringUtils;
 import org.fossasia.openevent.utils.Utils;
 import org.fossasia.openevent.utils.Views;
@@ -51,11 +46,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import io.realm.RealmChangeListener;
 
-/**
- * Created by MananWason on 30-06-2015.
- */
 public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout.OnOffsetChangedListener {
 
     private SessionsListAdapter sessionsListAdapter;
@@ -65,10 +58,6 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
     private Speaker selectedSpeaker;
 
     private List<Session> sessions = new ArrayList<>();
-
-    private CustomTabsClient customTabsClient;
-
-    private CustomTabsServiceConnection customTabsServiceConnection;
 
     private boolean isHideToolbarView = false;
 
@@ -92,9 +81,39 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
     @BindView(R.id.progress_bar)
     protected ProgressBar progressBar;
 
+    @OnClick({R.id.imageView_linkedin, R.id.imageView_fb, R.id.imageView_github, R.id.imageView_twitter, R.id.imageView_web})
+    public void openUrl(View v) {
+        int id = v.getId();
+        String url;
+        switch (id) {
+            case R.id.imageView_linkedin:
+                url = speaker.getLinkedin();
+                break;
+            case R.id.imageView_fb:
+                url = speaker.getFacebook();
+                break;
+            case R.id.imageView_github:
+                url = speaker.getGithub();
+                break;
+            case R.id.imageView_twitter:
+                url = speaker.getTwitter();
+                break;
+            case R.id.imageView_web:
+                url = speaker.getWebsite();
+                break;
+            default:
+                return;
+        }
+
+        if (!TextUtils.isEmpty(url)) {
+            Utils.setUpCustomTab(this, url);
+        }
+    }
+
     private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
     private Speaker speaker;
     private String speakerName;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -211,63 +230,31 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
         else
             speakerDesignation.setVisibility(View.GONE);
 
-        boolean customTabsSupported;
-        Intent customTabIntent = new Intent("android.support.customtabs.action.CustomTabsService");
-        customTabIntent.setPackage("com.android.chrome");
-        customTabsServiceConnection = new CustomTabsServiceConnection() {
-            @Override
-            public void onCustomTabsServiceConnected(ComponentName name, CustomTabsClient client) {
-                customTabsClient = client;
-                customTabsClient.warmup(0L);
-            }
-
-            @Override
-            public void onServiceDisconnected(ComponentName name) {
-                //do nothing
-            }
-        };
-        customTabsSupported = bindService(customTabIntent, customTabsServiceConnection, Context.BIND_AUTO_CREATE);
-
-        final SpeakerIntent speakerIntent;
-        if (customTabsClient != null) {
-            speakerIntent = new SpeakerIntent(selectedSpeaker, getApplicationContext(), this,
-                    customTabsClient.newSession(new CustomTabsCallback()), customTabsSupported);
-        } else {
-            speakerIntent = new SpeakerIntent(selectedSpeaker, getApplicationContext(), this, customTabsSupported);
-        }
-
-        if (!TextUtils.isEmpty(selectedSpeaker.getLinkedin())) {
-            speakerIntent.clickedImage(linkedin);
-        } else {
-            linkedin.setVisibility(View.GONE);
-        }
-
-        if (!TextUtils.isEmpty(selectedSpeaker.getTwitter())) {
-            speakerIntent.clickedImage(twitter);
-        } else {
-            twitter.setVisibility(View.GONE);
-        }
-        if (!TextUtils.isEmpty(selectedSpeaker.getGithub())) {
-            speakerIntent.clickedImage(github);
-        } else {
-            github.setVisibility(View.GONE);
-        }
-        if (!TextUtils.isEmpty(selectedSpeaker.getFacebook())) {
-            speakerIntent.clickedImage(fb);
-        } else {
-            fb.setVisibility(View.GONE);
-        }
-        if (!TextUtils.isEmpty(selectedSpeaker.getWebsite())) {
-            speakerIntent.clickedImage(website);
-        } else {
-            website.setVisibility(View.GONE);
-        }
-
         Views.setHtml(biography, selectedSpeaker.getShortBiography(), true);
 
         loadSpeakerImage();
+        hideEmptyURLButtons();
+
     }
 
+    private void hideEmptyURLButtons() {
+
+        if (TextUtils.isEmpty(selectedSpeaker.getLinkedin())) {
+            linkedin.setVisibility(View.GONE);
+        }
+        if (TextUtils.isEmpty(selectedSpeaker.getTwitter())) {
+            twitter.setVisibility(View.GONE);
+        }
+        if (TextUtils.isEmpty(selectedSpeaker.getGithub())) {
+            github.setVisibility(View.GONE);
+        }
+        if (TextUtils.isEmpty(selectedSpeaker.getFacebook())) {
+            fb.setVisibility(View.GONE);
+        }
+        if (TextUtils.isEmpty(selectedSpeaker.getWebsite())) {
+            website.setVisibility(View.GONE);
+        }
+    }
     @Override
     protected void onResume() {
         super.onResume();
@@ -352,14 +339,6 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
         getMenuInflater().inflate(R.menu.menu_speakers_activity, menu);
         
         return true;
-    }
-
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if(customTabsServiceConnection != null)
-            unbindService(customTabsServiceConnection);
     }
 
     @Override
