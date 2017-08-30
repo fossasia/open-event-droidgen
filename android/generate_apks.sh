@@ -2,7 +2,11 @@
 echo Build for FOSSASIA17 Started
 
 ./gradlew build
-./gradlew assembleRelease
+
+if [ $? != 0 ]; then
+	echo "Gradle build failed"
+	exit 1
+fi
 
 #Prevent further builds if a PR
 if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
@@ -45,8 +49,7 @@ mv config.json app/src/main/assets/
 rm app/build/outputs/apk/*
 
 #Start Build
-./gradlew build
-./gradlew assembleRelease
+./gradlew assembleDebug
 
 #Move built apk to $HOME/daily/
 cp -R app/build/outputs/apk/app-fdroid-debug.apk $HOME/daily/"${apkname[$COUNTER]}"
