@@ -41,6 +41,7 @@ import org.fossasia.openevent.adapters.SessionSpeakerListAdapter;
 import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
+import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.DateConverter;
@@ -466,6 +467,12 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
         this.trackColor = Color.parseColor(session.getTrack().getColor());
         this.fontColor = Color.parseColor(session.getTrack().getFontColor());
         this.darkColor = Views.getDarkColor(Color.parseColor(session.getTrack().getColor()));
+
+        Track track = session.getTrack();
+        if (track != null && !Utils.isEmpty(track.getName())) {
+            this.trackName = track.getName();
+            hasTrack = true;
+        }
 
         updateSession();
     }
