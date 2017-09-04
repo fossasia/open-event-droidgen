@@ -14,7 +14,8 @@ var $generateBtn = $("#generate-btn"),
     $authOptionCheckbox = $("input:checkbox[name=is-auth-enabled]"),
     $colorPrimary = $("#cp-primary"),
     $colorPrimaryDark = $("#cp-primary-dark"),
-    $colorAccent = $("#cp-accent");
+    $colorAccent = $("#cp-accent"),
+    $deploymentLink = $("#deploy-link");
 
 var $fileProgressHolder = $("#file-progress"),
     $fileProgressBar = $("#file-progress-bar"),
@@ -30,6 +31,21 @@ var identifier = null,
     taskId = null,
     pollingWorker = null,
     downloadUrl = null;
+
+var menuDisplay = false;
+
+$(".custom-menubutton").click(function() {
+    var menuContent = $(".custom-menu-cont")[0];
+
+    if (menuDisplay) {
+        $(menuContent).removeClass("shown");
+        $(menuContent).addClass("hidden");
+    } else {
+        $(menuContent).removeClass("hidden");
+        $(menuContent).addClass("shown");
+    }
+    menuDisplay = !menuDisplay;
+});
 
 /**
  * Enable the generate button
@@ -152,6 +168,22 @@ function updateStatus(status) {
         $statusMessage.text($statusMessage.data("original"));
     }
 }
+
+function deployStatus() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+            var version = JSON.parse(this.responseText).object.sha;
+            var versionLink = "https://github.com/fossasia/open-event-android/tree/" + version;
+            $("#deploy-link").attr("href", versionLink);
+            $("#deploy-link").html(version);
+        }
+    };
+    xhttp.open("GET", "https://api.github.com/repos/fossasia/open-event-android/git/refs/heads/development", true);
+    xhttp.send();
+}
+
+deployStatus();
 
 /**
  * Show an error message
