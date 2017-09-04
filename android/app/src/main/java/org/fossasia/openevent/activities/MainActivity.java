@@ -509,7 +509,6 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
 
     private void doMenuAction(int menuItemId) {
         Intent intent;
-        currentMenuItemId = menuItemId;
 
         switch (menuItemId) {
             case R.id.nav_home:
@@ -522,7 +521,9 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
                 replaceFragment(new FeedFragment(), R.string.menu_feed);
                 break;
             case R.id.nav_schedule:
-                replaceFragment(new ScheduleFragment(), R.string.menu_schedule);
+                if(R.id.nav_schedule != currentMenuItemId) {
+                    replaceFragment(new ScheduleFragment(), R.string.menu_schedule);
+                }
                 break;
             case R.id.nav_speakers:
                 replaceFragment(new SpeakersListFragment(), R.string.menu_speakers);
@@ -557,6 +558,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
             default:
                 //Do nothing
         }
+        currentMenuItemId = menuItemId;
     }
 
     @Override
