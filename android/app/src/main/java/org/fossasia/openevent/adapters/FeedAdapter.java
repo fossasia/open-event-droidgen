@@ -119,9 +119,7 @@ public class FeedAdapter extends BaseRVAdapter<FeedItem, FeedAdapter.RecyclerVie
                     + feedItem.getLink() + "</a> "));
 
             // Making url clickable
-            holder.url.setOnClickListener(v -> {
-                Utils.setUpCustomTab(context, feedItem.getLink());
-            });
+            holder.url.setOnClickListener(view -> Utils.setUpCustomTab(context, feedItem.getLink()));
             holder.url.setVisibility(View.VISIBLE);
         } else {
             // url is null, remove from the view
