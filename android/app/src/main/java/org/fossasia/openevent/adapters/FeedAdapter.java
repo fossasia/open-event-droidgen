@@ -8,7 +8,6 @@ import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.TextUtils;
-import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -120,7 +119,7 @@ public class FeedAdapter extends BaseRVAdapter<FeedItem, FeedAdapter.RecyclerVie
                     + feedItem.getLink() + "</a> "));
 
             // Making url clickable
-            holder.url.setMovementMethod(LinkMovementMethod.getInstance());
+            holder.url.setOnClickListener(view -> Utils.setUpCustomTab(context, feedItem.getLink()));
             holder.url.setVisibility(View.VISIBLE);
         } else {
             // url is null, remove from the view
