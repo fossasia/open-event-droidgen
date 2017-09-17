@@ -108,7 +108,9 @@ public class FeedAdapter extends BaseRVAdapter<FeedItem, FeedAdapter.RecyclerVie
 
         if (!TextUtils.isEmpty(feedItem.getMessage())) {
             String statusMsg = feedItem.getMessage();
+            // Checking for null feed url
             if (feedItem.getLink() != null)
+                // Removing url in status message
                 statusMsg = statusMsg.replace(feedItem.getLink(), "");
             holder.statusMsg.setText(statusMsg);
             holder.statusMsg.setVisibility(View.VISIBLE);
