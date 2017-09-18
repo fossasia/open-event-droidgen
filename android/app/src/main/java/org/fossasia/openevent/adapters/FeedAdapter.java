@@ -62,10 +62,10 @@ public class FeedAdapter extends BaseRVAdapter<FeedItem, FeedAdapter.RecyclerVie
             getComments.setOnClickListener(v -> {
                 FeedItem clickedFeedItem = feedItems.get(getPosition());
                 commentItems = new ArrayList<>();
-                if(clickedFeedItem.getComments() != null) {
+                if (clickedFeedItem.getComments() != null) {
                     commentItems.addAll(clickedFeedItem.getComments().getData());
                 }
-                if(commentItems.size()!=0)
+                if (commentItems.size() != 0)
                     mAdapterCallback.onMethodCallback(commentItems);
                 else
                     Snackbar.make(v, context.getResources().getString(R.string.no_comments), Snackbar.LENGTH_SHORT).show();
@@ -106,7 +106,12 @@ public class FeedAdapter extends BaseRVAdapter<FeedItem, FeedAdapter.RecyclerVie
         }
 
         if (!TextUtils.isEmpty(feedItem.getMessage())) {
-            holder.statusMsg.setText(feedItem.getMessage());
+            String statusMsg = feedItem.getMessage();
+            // Checking for null feed url
+            if (feedItem.getLink() != null)
+                // Removing url in status message
+                statusMsg = statusMsg.replace(feedItem.getLink(), "");
+            holder.statusMsg.setText(statusMsg);
             holder.statusMsg.setVisibility(View.VISIBLE);
         } else {
             // status is empty, remove from view
@@ -130,7 +135,7 @@ public class FeedAdapter extends BaseRVAdapter<FeedItem, FeedAdapter.RecyclerVie
         Drawable placeholder = VectorDrawableCompat.create(context.getResources(),
                 R.drawable.ic_placeholder_24dp, null);
 
-        if(feedImageUri != null) {
+        if (feedImageUri != null) {
             holder.feedImageView.setVisibility(View.VISIBLE);
             Picasso.with(holder.feedImageView.getContext())
                     .load(Uri.parse(feedImageUri))
