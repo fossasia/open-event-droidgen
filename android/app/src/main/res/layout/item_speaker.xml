@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:contentDescription="@null"
+        android:transitionName="@string/transittype"
         android:scaleType="centerCrop"
         tools:src="@drawable/ic_account_circle_grey_24dp" />
 
