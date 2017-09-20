@@ -35,7 +35,7 @@ public class NotificationUtil {
             } else if (pref_result.equals(12)) {
                 zonedDateTime.minusHours(12);
             } else {
-                zonedDateTime.minusHours(10);
+                zonedDateTime.minusMinutes(10);
             }
             // Checking if the event time is after the current time
             if (zonedDateTime.isAfter(ZonedDateTime.now())) {
