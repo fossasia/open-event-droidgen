@@ -8,6 +8,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
+import android.os.Build;
+import android.os.Bundle;
+
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.squareup.picasso.RequestCreator;
