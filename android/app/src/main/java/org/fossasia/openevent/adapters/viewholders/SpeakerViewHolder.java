@@ -51,10 +51,15 @@ public class SpeakerViewHolder extends RecyclerView.ViewHolder {
         itemView.setOnClickListener(view -> {
             String speakerName = speaker.getName();
             
-            Bundle bundle = ActivityOptions.makeSceneTransitionAnimation((Activity) this.context,speakerImage,speakerImage.getTransitionName()).toBundle();
+            Bundle bundle = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                bundle = ActivityOptions.makeSceneTransitionAnimation((Activity) this.context,speakerImage,speakerImage.getTransitionName()).toBundle();
+            }
             Intent intent = new Intent(this.context, SpeakerDetailsActivity.class);
             intent.putExtra(Speaker.SPEAKER, speakerName);
-            this.context.startActivity(intent,bundle);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                this.context.startActivity(intent,bundle);
+            }
             
         });
     }
