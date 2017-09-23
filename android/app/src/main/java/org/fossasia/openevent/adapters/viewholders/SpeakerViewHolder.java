@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import android.app.Activity;
 import android.app.ActivityOptions;
-import android.os.Build;
 import android.os.Bundle;
 
 import com.amulyakhare.textdrawable.TextDrawable;
