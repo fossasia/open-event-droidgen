@@ -43,7 +43,6 @@
     <string name="error_changing_password">Error changing password</string>
     <string name="error_password_not_correct">Incorrect password</string>
 
-
     <string name="logged_in_successfully">Successfully logged in</string>
     <string name="logged_out_successfully">Successfully logged out</string>
     <string name="signed_up_successfully">Successfully signed up</string>
@@ -158,8 +157,6 @@
     <string name="message_3"> For more information checkout this app on google play store: </string>
     <string name="fmt_floor">"Floor: "</string>
     <string name="noBookmark">No bookmarked session yet !!</string>
-
-    <string name="transition_speaker_to_activity">speaker_transition_to_activity</string>
 
     <string name="invalid_url">Invalid Url</string>
     <string name="dialog_error_title">Error</string>
