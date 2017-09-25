@@ -1,4 +1,4 @@
-ackage org.fossasia.openevent.adapters.viewholders;
+package org.fossasia.openevent.adapters.viewholders;
 
 import android.content.Context;
 import android.content.Intent;
