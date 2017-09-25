@@ -1,6 +1,5 @@
 package org.fossasia.openevent.fragments;
 
-import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
 import android.app.SearchManager;
 import android.content.Context;
@@ -15,7 +14,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
@@ -72,6 +75,8 @@ public class AboutFragment extends BaseFragment {
     protected TextView bookmarkHeader;
     @BindView(R.id.event_details_header)
     protected TextView eventDetailsHeader;
+    @BindView(R.id.slidin_down_part)
+    protected LinearLayout slidin_down_part;
 
     final private String SEARCH = "org.fossasia.openevent.searchText";
 
@@ -168,18 +173,36 @@ public class AboutFragment extends BaseFragment {
 
     @TargetApi(16)
     void collapseExpandTextView() {
+
+
+        TranslateAnimation a  = new TranslateAnimation(0,0,-eventDescription.getHeight(),0);
+        a.setInterpolator(new LinearInterpolator());
+        a.setDuration(300);
+
+        TranslateAnimation b  = new TranslateAnimation(0,0,eventDescription.getHeight(),0);
+        b.setInterpolator(new LinearInterpolator());
+        b.setDuration(300);
+
+        AlphaAnimation a1 = new AlphaAnimation(0,1);
+        AlphaAnimation a2 = new AlphaAnimation(1,0);
+
         if (eventDescription.getVisibility() == View.GONE) {
             // it's collapsed - expand it
+            slidin_down_part.startAnimation(a);
+            eventDescription.startAnimation(a1);
             eventDescription.setVisibility(View.VISIBLE);
             descriptionImg.setImageResource(R.drawable.ic_expand_less_black_24dp);
-        } else {
+
+        }
+
+        else {
             // it's expanded - collapse it
+            slidin_down_part.startAnimation(b);
+            eventDescription.startAnimation(a2);
             eventDescription.setVisibility(View.GONE);
             descriptionImg.setImageResource(R.drawable.ic_expand_more_black_24dp);
         }
 
-        ObjectAnimator animation = ObjectAnimator.ofInt(eventDescription, "maxLines", eventDescription.getMaxLines());
-        animation.setDuration(200).start();
     }
 
     @Override
