@@ -79,14 +79,17 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_home, menu);
+        inflater.inflate(R.menu.menu_search_activity, menu);
         SearchManager searchManager =
                 (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        searchView = (SearchView) menu.findItem(R.id.action_search_home).getActionView();
+        searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
         searchView.setSearchableInfo(
                 searchManager.getSearchableInfo(getComponentName()));
 
         searchView.setOnQueryTextListener(this);
+        // To expand search view by default
+        searchView.setIconified(false);
+        searchView.requestFocus();
         if (searchText != null) {
             searchView.setQuery(searchText, true);
         }
