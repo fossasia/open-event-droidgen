@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -150,6 +151,17 @@ public class AboutFragment extends BaseFragment {
         venueDetails.setText(event.getLocationName());
         eventTiming.setText(date);
         descriptionImg.setOnClickListener(v -> collapseExpandTextView());
+        // Listener to trigger when the TextView is ready to be drawn
+        organiserDescription.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                if (organiserDescription.getLineCount() > 4)
+                    readMore.setVisibility(View.VISIBLE);
+                // Removing Listener after it has invoked once
+                organiserDescription.getViewTreeObserver().removeOnPreDrawListener(this);
+                return true;
+            }
+        });
         readMore.setOnClickListener(v -> {
             organiserDescription.setMaxLines(Integer.MAX_VALUE);
             readMore.setVisibility(View.GONE);

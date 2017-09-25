@@ -173,7 +173,8 @@
             android:text="@string/read_more"
             android:textAllCaps="true"
             android:textColor="@color/color_primary_dark"
-            android:textSize="@dimen/text_size_medium" />
+            android:textSize="@dimen/text_size_medium"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/readless"
