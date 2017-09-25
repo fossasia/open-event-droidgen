@@ -160,7 +160,7 @@
     <string name="fmt_floor">"Floor: "</string>
     <string name="noBookmark">No bookmarked session yet !!</string>
 
-    <string name="transittype">transit</string>
+    <string name="transition_speaker_to_activity">speaker_transition_to_activity</string>
 
     <string name="invalid_url">Invalid Url</string>
     <string name="dialog_error_title">Error</string>
