@@ -9,8 +9,10 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
+        android:transitionName="@string/transition_speaker_to_activity"                                       
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
+        android:transitionName="@string/transittype"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.design.widget.CollapsingToolbarLayout

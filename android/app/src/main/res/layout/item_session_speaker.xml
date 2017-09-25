@@ -10,9 +10,11 @@
 
     <ImageView
         android:id="@+id/speakers_list_image"
+        android:transitionName="@string/transittype"
         android:layout_width="@dimen/item_image_view_large"
         android:layout_height="@dimen/item_image_view_large"
         android:contentDescription="@null"
+        android:transitionName="@string/transition_speaker_to_activity"
         android:scaleType="centerCrop"
         tools:src="@drawable/ic_account_circle_grey_24dp" />
 
