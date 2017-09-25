@@ -1,4 +1,4 @@
-package org.fossasia.openevent.adapters.viewholders;
+ackage org.fossasia.openevent.adapters.viewholders;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,10 +7,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import android.app.Activity;
-import android.app.ActivityOptions;
-import android.os.Bundle;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
