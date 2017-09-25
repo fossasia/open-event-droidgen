@@ -187,16 +187,14 @@ public class AboutFragment extends BaseFragment {
         AlphaAnimation a2 = new AlphaAnimation(1,0);
 
         if (eventDescription.getVisibility() == View.GONE) {
-            // it's collapsed - expand it
+            // it's collapsed - expand it.
             slidin_down_part.startAnimation(a);
             eventDescription.startAnimation(a1);
             eventDescription.setVisibility(View.VISIBLE);
             descriptionImg.setImageResource(R.drawable.ic_expand_less_black_24dp);
 
-        }
-
-        else {
-            // it's expanded - collapse it
+        } else {
+            // it's expanded - collapse it.
             slidin_down_part.startAnimation(b);
             eventDescription.startAnimation(a2);
             eventDescription.setVisibility(View.GONE);
