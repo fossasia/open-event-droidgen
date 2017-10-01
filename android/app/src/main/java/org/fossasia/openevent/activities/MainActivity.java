@@ -75,6 +75,7 @@ import org.fossasia.openevent.events.SponsorDownloadEvent;
 import org.fossasia.openevent.events.TracksDownloadEvent;
 import org.fossasia.openevent.fragments.AboutFragment;
 import org.fossasia.openevent.fragments.CommentsDialogFragment;
+import org.fossasia.openevent.fragments.CopyrightDialogFragment;
 import org.fossasia.openevent.fragments.FeedFragment;
 import org.fossasia.openevent.fragments.LocationsFragment;
 import org.fossasia.openevent.fragments.ScheduleFragment;
@@ -346,6 +347,11 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
 
         Copyright copyright = event.getCopyrightI();
         Toast.makeText(context,copyright.getLicenceUrl(),Toast.LENGTH_SHORT).show();
+
+
+        CopyrightDialogFragment dialog = new CopyrightDialogFragment();
+        dialog.show(getSupportFragmentManager(), "CopyrightDialogFragment");
+
         return true;
     }
 
