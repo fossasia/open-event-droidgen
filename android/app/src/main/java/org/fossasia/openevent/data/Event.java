@@ -61,4 +61,9 @@ public class Event extends RealmObject {
     private SpeakersCall speakersCall;
     @Relationship("social-links")
     private RealmList<SocialLink> socialLinks;
+
+    public Copyright getCopyrightI(){
+
+        return eventCopyright;
+    }
 }
