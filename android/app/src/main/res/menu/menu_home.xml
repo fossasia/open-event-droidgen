@@ -9,4 +9,5 @@
         android:icon="@drawable/ic_search_white_24dp"
         android:title="@string/search"
         app:showAsAction="always" />
+
 </menu>
