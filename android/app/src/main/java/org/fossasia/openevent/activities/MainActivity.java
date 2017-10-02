@@ -346,10 +346,8 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
     public boolean onOptionsItemSelected(MenuItem item) {
 
         Copyright copyright = event.getCopyrightI();
-        Toast.makeText(context,copyright.getLicenceUrl(),Toast.LENGTH_SHORT).show();
 
-
-        CopyrightDialogFragment dialog = new CopyrightDialogFragment();
+        CopyrightDialogFragment dialog = CopyrightDialogFragment.newInstance(copyright);
         dialog.show(getSupportFragmentManager(), "CopyrightDialogFragment");
 
         return true;

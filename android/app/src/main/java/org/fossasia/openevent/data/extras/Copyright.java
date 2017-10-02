@@ -31,4 +31,16 @@ public class Copyright extends RealmObject {
 
         return licenceUrl;
     }
+    public String getLicence(){
+
+        return licence;
+    }
+    public String getHolder(){
+
+        return holder;
+    }
+    public int getYear(){
+
+        return year;
+    }
 }
