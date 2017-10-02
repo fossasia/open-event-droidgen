@@ -96,7 +96,7 @@ class Generator:
             if os.path.isfile(self.get_temp_asset_path('meta')):
                 with open(self.get_temp_asset_path('meta')) as json_data:
                     meta = json.load(json_data)
-                    root_url = meta['root_url']
+                    root_url = meta['root-url']
                     if root_url:
                         self.api_link = root_url + '/api/v1/events/' + str(event_id)
 
@@ -105,8 +105,8 @@ class Generator:
         self.creator_email = creator_email
         self.is_auth_enabled = is_auth_enabled
         self.update_status('Processing background image and logo')
-        background_image = event_info['background_image'].strip() if event_info['background_image'] else ''
-        logo = event_info['logo'].strip() if event_info['logo'] else ''
+        background_image = event_info['original-image-url'].strip() if event_info['original-image-url'] else ''
+        logo = event_info['logo-url'].strip() if event_info['logo-url'] else ''
         if background_image != '':
             if background_image.startswith("/"):
                 self.app_background_image = self.get_temp_asset_path(background_image)

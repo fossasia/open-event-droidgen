@@ -2,19 +2,19 @@ package org.fossasia.openevent.fragments;
 
 import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
-import android.app.SearchManager;
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,6 +22,7 @@ import com.squareup.otto.Subscribe;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
+import org.fossasia.openevent.activities.SearchActivity;
 import org.fossasia.openevent.adapters.GlobalSearchAdapter;
 import org.fossasia.openevent.adapters.SocialLinksListAdapter;
 import org.fossasia.openevent.data.Event;
@@ -73,10 +74,6 @@ public class AboutFragment extends BaseFragment {
     @BindView(R.id.event_details_header)
     protected TextView eventDetailsHeader;
 
-    final private String SEARCH = "org.fossasia.openevent.searchText";
-
-    private String searchText = "";
-    private SearchView searchView;
     private ArrayList<String> dateList = new ArrayList<>();
 
     private GlobalSearchAdapter bookMarksListAdapter;
@@ -96,9 +93,6 @@ public class AboutFragment extends BaseFragment {
         setUpBookmarksRecyclerView();
         setUpSocialLinksRecyclerView();
 
-        if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
-            searchText = savedInstanceState.getString(SEARCH);
-        }
         return view;
     }
 
@@ -150,6 +144,17 @@ public class AboutFragment extends BaseFragment {
         venueDetails.setText(event.getLocationName());
         eventTiming.setText(date);
         descriptionImg.setOnClickListener(v -> collapseExpandTextView());
+        // Listener to trigger when the TextView is ready to be drawn
+        organiserDescription.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                if (organiserDescription.getLineCount() > 4)
+                    readMore.setVisibility(View.VISIBLE);
+                // Removing Listener after it has invoked once
+                organiserDescription.getViewTreeObserver().removeOnPreDrawListener(this);
+                return true;
+            }
+        });
         readMore.setOnClickListener(v -> {
             organiserDescription.setMaxLines(Integer.MAX_VALUE);
             readMore.setVisibility(View.GONE);
@@ -187,12 +192,16 @@ public class AboutFragment extends BaseFragment {
         super.onCreateOptionsMenu(menu, inflater);
 
         inflater.inflate(R.menu.menu_home, menu);
-        // Get the SearchView and set the searchable configuration
-        SearchManager searchManager = (SearchManager) getContext().getSystemService(Context.SEARCH_SERVICE);
-        searchView = (SearchView) menu.findItem(R.id.action_search_home).getActionView();
-        // Assumes current activity is the searchable activity
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
-        searchView.setIconifiedByDefault(true); // Do not iconify the widget; expand it by default
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        // Start Search activity if search icon is clicked
+        if (item.getItemId() == R.id.action_search_home)
+            startActivity(new Intent(getContext(), SearchActivity.class));
+
+        return true;
     }
 
     @Subscribe
@@ -270,22 +279,5 @@ public class AboutFragment extends BaseFragment {
             bookmarksResult.removeAllChangeListeners();
         if (event != null && event.isValid())
             event.removeAllChangeListeners();
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle bundle) {
-        if (searchView != null) {
-            bundle.putString(SEARCH, searchText);
-        }
-        super.onSaveInstanceState(bundle);
-    }
-
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-
-        // Remove listeners to fix memory leak
-        if (searchView != null) searchView.setOnQueryTextListener(null);
     }
 }

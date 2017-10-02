@@ -6,22 +6,65 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="/favicon.ico?v1.1">
-    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css"
-          integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,100' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="static/css/main.css?hash={{ main_css }}">
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/black/pace-theme-flash.min.css"
-          integrity="sha256-HsWJ70tOKcd52gFzhVX319egmTCvQbMOs0DYg3bDMi8=" crossorigin="anonymous"/>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"
-            integrity="sha256-EPrkNjGEmCWyazb3A/Epj+W7Qm2pB9vnfXw+X6LImPM=" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-          integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/black/pace-theme-flash.min.css" integrity="sha256-HsWJ70tOKcd52gFzhVX319egmTCvQbMOs0DYg3bDMi8=" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js" integrity="sha256-EPrkNjGEmCWyazb3A/Epj+W7Qm2pB9vnfXw+X6LImPM=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.5.1/css/bootstrap-colorpicker.min.css">
 </head>
 
 <body>
+
+<div class="custom-navbar">
+    <a href='/' class="custom-navtitle">
+       Open Event Apk Generator
+     </a>
+    <div class="custom-menubutton">
+        <i class="glyphicon glyphicon-th"></i>
+    </div>
+</div>
+
+<div class="custom-menu-cont hidden">
+    <div class="custom-menu">
+      <div class="hide-arrow"></div>
+      <div class="custom-menu-cont">
+        <div class="custom-menu-item">
+          <a class="custom-icon" href="http://github.com/fossasia/open-event-android" target="_blank"><img src="static/icons/code.png">
+          <p class="custom-title">Code</p></a>
+        </div>
+        <div class="custom-menu-item">
+          <a class="custom-icon" href="http://github.com/fossasia/open-event-android/issues" target="_blank"><img src="static/icons/bug.png">
+          <p class="custom-title">Bug Report</p></a>
+        </div>
+        <div class="custom-menu-item">
+          <a class="custom-icon" href="http://blog.fossasia.org" target="_blank"><img src="static/icons/blog.png">
+          <p class="custom-title">Blogs</p></a>
+        </div>
+        <hr style="margin-top: 20px;">
+        <div class="custom-menu-item">
+          <a class="custom-icon" href="http://eventyay.com" target="_blank"><img src="static/icons/eventyay.png">
+          <p class="custom-title">Eventyay</p></a>
+        </div>
+        <div class="custom-menu-item">
+          <a class="custom-icon" href="http://fossasia.org" target="_blank"><img src="static/icons/fossasia.png">
+          <p class="custom-title">FOSSASIA</p></a>
+        </div>
+        <div class="custom-menu-item">
+          <a class="custom-icon" href="http://chat.susi.ai" target="_blank"><img src="static/icons/susi.jpg">
+          <p class="custom-title">Susi</p></a>
+        </div>
+        <div class="custom-menu-item">
+          <a class="custom-icon" href="http://loklak.net" target="_blank"><img src="static/icons/loklak.png">
+          <p class="custom-title">loklak</p></a>
+        </div>
+      </div>
+    </div>
+    <div class="custom-arrow"></div>
+</div>
+
 <div class="container"><br><br>
     <form class="col-md-offset-4 col-xs-offset-2 col-xs-8 col-md-4 form-group generator_form" method="post" id="form"
           name="form" role="form" enctype="multipart/form-data">
@@ -130,6 +173,11 @@
         </div>
     </form>
 </div>
+
+<div id="deployment" onload="deployStatus()">
+    <span> <strong>Version: </strong></span><span> <a id="deploy-link" target="_blank"></a> </span>
+</div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.2/socket.io.min.js" integrity="sha256-WKvqiY0jZHWQZIohYEmr9KUC5rEaYEOFTq+ByllJK8w=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.slim.min.js"
         integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>

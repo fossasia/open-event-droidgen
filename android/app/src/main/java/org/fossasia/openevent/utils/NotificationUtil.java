@@ -35,14 +35,19 @@ public class NotificationUtil {
             } else if (pref_result.equals(12)) {
                 zonedDateTime.minusHours(12);
             } else {
-                zonedDateTime.minusHours(10);
+                zonedDateTime.minusMinutes(10);
             }
-            Intent myIntent = new Intent(context, NotificationAlarmReceiver.class);
-            myIntent.putExtra(ConstantStrings.SESSION, session.getId());
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            // Checking if the event time is after the current time
+            if (zonedDateTime.isAfter(ZonedDateTime.now())) {
+                Intent myIntent = new Intent(context, NotificationAlarmReceiver.class);
+                myIntent.putExtra(ConstantStrings.SESSION, session.getId());
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-            AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-            alarmManager.set(AlarmManager.RTC, zonedDateTime.toInstant().toEpochMilli(), pendingIntent);
+                AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+                alarmManager.set(AlarmManager.RTC, zonedDateTime.toInstant().toEpochMilli(), pendingIntent);
+            } else {
+                Timber.d("Session is finished. Skipping showing notification");
+            }
         }).doOnComplete(() -> onSuccess(session)).doOnError(throwable -> onError(throwable, session));
     }
 }

@@ -32,3 +32,137 @@ center {
 .close {
     line-height: 0.85;
 }
+
+html {
+    height: 100%;
+}
+
+body {
+    position: relative;
+    min-height: 100%;
+    padding-bottom: 40px;
+}
+
+.custom-navbar {
+    padding: 10px 15px;
+    display: relative;
+    margin-bottom: 20px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #bfbfbf;
+}
+
+.custom-navtitle,
+.custom-menubutton {
+    display: inline-block;
+    margin: 0px;
+    font-size: 20px;
+    color: black;
+}
+
+h3.custom-navtitle {
+    position: relative;
+}
+
+.custom-navbar a {
+    text-decoration: none;
+}
+
+.custom-menubutton {
+    position: absolute;
+    right: 40px;
+    cursor: pointer;
+}
+
+.custom-menu-cont {
+    position: relative;
+}
+
+.custom-menu-cont.hidden {
+    display: none;
+}
+
+.custom-menu-cont-shown {
+    display: inline-block;
+}
+
+.custom-menu {
+    min-height: 350px;
+    overflow: auto;
+    width: 300px;
+    position: absolute;
+    border: 1px solid #bfbfbf;
+    position: absolute;
+    right: 20px;
+    top: 0px;
+    box-shadow: 0px 0px 5px 5px #f2f2f2;
+    background-color: white;
+}
+
+.custom-arrow {
+    background-color: white;
+    width: 15px;
+    height: 15px;
+    border: 1px solid #bfbfbf;
+    position: absolute;
+    top: -7px;
+    right: 44px;
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.hide-arrow {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    background-color: white;
+    right: 10px;
+    top: 0px;
+    z-index: 2;
+}
+
+.custom-menu-cont {
+    z-index: 3;
+}
+
+.custom-menu-item {
+    display: inline-block;
+    width: 32%;
+    max-height: 70px;
+    padding: 5px;
+    text-align: center;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin-top: 20px;
+}
+
+.custom-icon img {
+    width: 60%;
+}
+
+#deployment {
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    padding: 10px;
+    bottom: 0px;
+    border-top: 1px solid #bfbfbf;
+    background-color: #f9f9f9;
+}
+
+@media(max-width: 768px) {
+    .custom-navtitle,
+    .custom-menubutton {
+        font-size: 15px;
+    }
+    .custom-arrow {
+        right: 40px;
+    }
+}
+
+@media(max-width: 400px) {
+    .custom-menu {
+        width: 250px;
+    }
+}
