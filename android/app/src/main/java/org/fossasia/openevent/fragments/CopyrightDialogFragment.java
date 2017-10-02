@@ -11,13 +11,10 @@ import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.data.extras.Copyright;
-import org.w3c.dom.Text;
 
 
 public class CopyrightDialogFragment extends DialogFragment{
