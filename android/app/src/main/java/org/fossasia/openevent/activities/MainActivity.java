@@ -34,7 +34,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.squareup.otto.Subscribe;
