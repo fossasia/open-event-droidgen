@@ -332,8 +332,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_extras, menu);
         return true;
-
-    }
+   }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
