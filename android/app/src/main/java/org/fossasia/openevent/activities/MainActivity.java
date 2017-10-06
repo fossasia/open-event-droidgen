@@ -26,6 +26,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -33,6 +36,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.squareup.otto.Subscribe;
@@ -51,6 +55,7 @@ import org.fossasia.openevent.data.SessionType;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Sponsor;
 import org.fossasia.openevent.data.Track;
+import org.fossasia.openevent.data.extras.Copyright;
 import org.fossasia.openevent.data.extras.SocialLink;
 import org.fossasia.openevent.data.facebook.CommentItem;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
@@ -133,14 +138,10 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
     private Context context;
     private Dialog dialogNetworkNotification;
     private FragmentManager fragmentManager;
-
     private CustomTabsServiceConnection customTabsServiceConnection;
     private CustomTabsClient customTabsClient;
-
     private DownloadCompleteHandler completeHandler;
-
     private CompositeDisposable disposable;
-
     private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
     private Event event; // Future Event, stored to remove listeners
 
@@ -326,6 +327,42 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
         } else {
             OpenEventApp.picassoWithCache.load(R.mipmap.ic_launcher).into(headerView);
         }
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_extras, menu);
+        return true;
+   }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.action_display_copyright_dialog:
+                displayCopyrightInformation();
+                break;
+            default:
+                //do nothing
+        }
+        return true;
+    }
+
+    private void displayCopyrightInformation() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.copyright_dialog, null);
+        dialogBuilder.setView(dialogView).setPositiveButton("Back", (dialog, which) -> dialog.cancel());
+        Copyright copyright = event.getEventCopyright();
+        TextView holder = (TextView) dialogView.findViewById(R.id.holder_textview);
+        TextView licence = (TextView) dialogView.findViewById(R.id.licence);
+        TextView licenceurl = (TextView) dialogView.findViewById(R.id.licence_url);
+
+        licence.setText(copyright.getLicence() + " " + String.valueOf(copyright.getYear()));
+        holder.setText(copyright.getHolder());
+        String linkedurl = String.format("<a href=\"%s\">" + copyright.getLicenceUrl() + "</a> ", copyright.getLicenceUrl());
+        licenceurl.setText(Html.fromHtml(linkedurl));
+        licenceurl.setMovementMethod(LinkMovementMethod.getInstance());
+        AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.show();
     }
 
     private void saveEventDates(Event event) {
