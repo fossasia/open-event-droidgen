@@ -37,6 +37,7 @@ import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.events.BookmarkChangedEvent;
 import org.fossasia.openevent.events.EventLoadedEvent;
 import org.fossasia.openevent.utils.DateConverter;
+import org.fossasia.openevent.utils.Utils;
 import org.fossasia.openevent.utils.Views;
 import org.threeten.bp.format.DateTimeParseException;
 
@@ -201,15 +202,15 @@ public class AboutFragment extends BaseFragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch(item.getItemId()) {
-            case R.id.action_search_home :
+        switch (item.getItemId()){
+            case R.id.action_search_home:
                 startActivity(new Intent(getContext(), SearchActivity.class));
                 break;
-            case R.id.action_display_copyright_dialog :
-                displayCopyrightInformation();
+            case R.id.action_ticket_home:
+                Utils.setUpCustomTab(getContext(), event.getTicketUrl());
                 break;
             default:
-                //do nothing
+                //No option selected. Do Nothing..
         }
 
         return true;

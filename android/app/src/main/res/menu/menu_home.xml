@@ -11,6 +11,8 @@
         app:showAsAction="always" />
 
     <item
-        android:title="Copyright"
-        android:id="@+id/action_display_copyright_dialog"/>
+        android:id="@+id/action_ticket_home"
+        android:icon="@drawable/ic_ticket_white_24dp"
+        android:title="Get Tickets"
+        app:showAsAction="ifRoom" />
 </menu>
