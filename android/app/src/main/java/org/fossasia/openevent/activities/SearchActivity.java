@@ -55,6 +55,8 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
 
         OpenEventApp.getEventBus().register(this);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         handleVisibility();
 
         globalSearchAdapter = new GlobalSearchAdapter(results, this);
