@@ -15,4 +15,9 @@
         android:icon="@drawable/ic_ticket_white_24dp"
         android:title="Get Tickets"
         app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_copyright"
+        android:title="@string/copyright"
+        app:showAsAction="never"/>
 </menu>

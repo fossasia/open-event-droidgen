@@ -209,6 +209,9 @@ public class AboutFragment extends BaseFragment {
             case R.id.action_ticket_home:
                 Utils.setUpCustomTab(getContext(), event.getTicketUrl());
                 break;
+            case R.id.action_copyright:
+                displayCopyrightInformation();
+                break;
             default:
                 //No option selected. Do Nothing..
         }

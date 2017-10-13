@@ -128,6 +128,7 @@
     <string name="share">Share</string>
     <string name="add_to_calendar">Add to Calendar</string>
     <string name="upcoming">Upcoming</string>
+    <string name="copyright">Copyright</string>
 
     <!--Search Titles-->
     <string name="global_search_hint">Search App</string>
