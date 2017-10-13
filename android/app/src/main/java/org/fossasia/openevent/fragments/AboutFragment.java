@@ -5,9 +5,12 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,6 +30,7 @@ import org.fossasia.openevent.adapters.GlobalSearchAdapter;
 import org.fossasia.openevent.adapters.SocialLinksListAdapter;
 import org.fossasia.openevent.data.Event;
 import org.fossasia.openevent.data.Session;
+import org.fossasia.openevent.data.extras.Copyright;
 import org.fossasia.openevent.data.extras.EventDates;
 import org.fossasia.openevent.data.extras.SocialLink;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
@@ -197,11 +201,37 @@ public class AboutFragment extends BaseFragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        // Start Search activity if search icon is clicked
-        if (item.getItemId() == R.id.action_search_home)
-            startActivity(new Intent(getContext(), SearchActivity.class));
+        switch(item.getItemId()) {
+            case R.id.action_search_home :
+                startActivity(new Intent(getContext(), SearchActivity.class));
+                break;
+            case R.id.action_display_copyright_dialog :
+                displayCopyrightInformation();
+                break;
+            default:
+                //do nothing
+        }
 
         return true;
+    }
+
+    private void displayCopyrightInformation() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.copyright_dialog, null);
+        dialogBuilder.setView(dialogView).setPositiveButton("Back", (dialog, which) -> dialog.cancel());
+        Copyright copyright = event.getEventCopyright();
+        TextView holder = (TextView) dialogView.findViewById(R.id.holder_textview);
+        TextView licence = (TextView) dialogView.findViewById(R.id.licence);
+        TextView licenceurl = (TextView) dialogView.findViewById(R.id.licence_url);
+
+        licence.setText(copyright.getLicence() + " " + String.valueOf(copyright.getYear()));
+        holder.setText(copyright.getHolder());
+        String linkedurl = String.format("<a href=\"%s\">" + copyright.getLicenceUrl() + "</a> ", copyright.getLicenceUrl());
+        licenceurl.setText(Html.fromHtml(linkedurl));
+        licenceurl.setMovementMethod(LinkMovementMethod.getInstance());
+        AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.show();
     }
 
     @Subscribe
