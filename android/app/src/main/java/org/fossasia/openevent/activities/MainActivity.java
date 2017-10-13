@@ -328,42 +328,6 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
             OpenEventApp.picassoWithCache.load(R.mipmap.ic_launcher).into(headerView);
         }
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_extras, menu);
-        return true;
-   }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
-            case R.id.action_display_copyright_dialog:
-                displayCopyrightInformation();
-                break;
-            default:
-                //do nothing
-        }
-        return true;
-    }
-
-    private void displayCopyrightInformation() {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = this.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.copyright_dialog, null);
-        dialogBuilder.setView(dialogView).setPositiveButton("Back", (dialog, which) -> dialog.cancel());
-        Copyright copyright = event.getEventCopyright();
-        TextView holder = (TextView) dialogView.findViewById(R.id.holder_textview);
-        TextView licence = (TextView) dialogView.findViewById(R.id.licence);
-        TextView licenceurl = (TextView) dialogView.findViewById(R.id.licence_url);
-
-        licence.setText(copyright.getLicence() + " " + String.valueOf(copyright.getYear()));
-        holder.setText(copyright.getHolder());
-        String linkedurl = String.format("<a href=\"%s\">" + copyright.getLicenceUrl() + "</a> ", copyright.getLicenceUrl());
-        licenceurl.setText(Html.fromHtml(linkedurl));
-        licenceurl.setMovementMethod(LinkMovementMethod.getInstance());
-        AlertDialog alertDialog = dialogBuilder.create();
-        alertDialog.show();
-    }
 
     private void saveEventDates(Event event) {
         String startTime = event.getStartsAt();
