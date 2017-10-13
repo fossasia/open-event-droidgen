@@ -14,7 +14,6 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -245,7 +244,7 @@ public class AboutFragment extends BaseFragment {
         holder.setText(copyright.getHolder());
         String linkedurl = String.format("<a href=\"%s\">" + copyright.getLicenceUrl() + "</a> ", copyright.getLicenceUrl());
         licenceurl.setText(Html.fromHtml(linkedurl));
-        licenceurl.setMovementMethod(LinkMovementMethod.getInstance());
+        licenceurl.setOnClickListener(view -> Utils.setUpCustomTab(getContext(), event.getEventCopyright().getLicenceUrl()));
         AlertDialog alertDialog = dialogBuilder.create();
         alertDialog.show();
     }
