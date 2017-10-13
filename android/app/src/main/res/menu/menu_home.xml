@@ -9,4 +9,10 @@
         android:icon="@drawable/ic_search_white_24dp"
         android:title="@string/search"
         app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_ticket_home"
+        android:icon="@drawable/ic_ticket_white_24dp"
+        android:title="Get Tickets"
+        app:showAsAction="ifRoom" />
 </menu>
