@@ -5,6 +5,7 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -207,6 +208,10 @@ public class AboutFragment extends BaseFragment {
                 startActivity(new Intent(getContext(), SearchActivity.class));
                 break;
             case R.id.action_ticket_home:
+                if (!event.isValid()) {
+                    Snackbar.make(getView(), R.string.info_not_available, Snackbar.LENGTH_SHORT).show();
+                    break;
+                }
                 Utils.setUpCustomTab(getContext(), event.getTicketUrl());
                 break;
             default:
