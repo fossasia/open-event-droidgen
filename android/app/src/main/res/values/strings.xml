@@ -272,6 +272,7 @@
     <string name="more_details">For more details check </string>
     <string name="social_links">Social Links</string>
     <string name="social_link">Social Link</string>
+    <string name="info_not_available">Information not available.</string>
 
     <string name="location_not_decided">Not decided yet</string>
     <string name="result_type">Result Type</string>
