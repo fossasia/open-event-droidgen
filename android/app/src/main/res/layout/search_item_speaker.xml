@@ -13,6 +13,7 @@
         android:layout_height="@dimen/item_image_view"
         android:contentDescription="@null"
         android:scaleType="centerCrop"
+        android:transitionName="@string/transition_speaker_to_activity"
         tools:src="@drawable/ic_account_circle_grey_24dp" />
 
     <LinearLayout
