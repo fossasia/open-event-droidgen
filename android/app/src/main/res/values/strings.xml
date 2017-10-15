@@ -29,7 +29,7 @@
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
     <string name="avatar">Avatar</string>
-
+    <string name="transition_speaker_to_activity">transit_speaker</string>
     <string name="error_email_required">Email is required</string>
     <string name="error_enter_valid_email">Enter a valid email</string>
     <string name="error_password_required">Password is required</string>

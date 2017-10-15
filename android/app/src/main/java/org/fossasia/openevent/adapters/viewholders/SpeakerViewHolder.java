@@ -8,6 +8,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
+import android.os.Bundle;
+
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.squareup.picasso.RequestCreator;
@@ -21,6 +25,7 @@ import org.fossasia.openevent.utils.Utils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class SpeakerViewHolder extends RecyclerView.ViewHolder {
 
@@ -52,7 +57,19 @@ public class SpeakerViewHolder extends RecyclerView.ViewHolder {
             String speakerName = speaker.getName();
             Intent intent = new Intent(this.context, SpeakerDetailsActivity.class);
             intent.putExtra(Speaker.SPEAKER, speakerName);
-            this.context.startActivity(intent);
+
+            try{
+                if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP){
+                    Bundle bundle = ActivityOptions.makeSceneTransitionAnimation((Activity) this.context, speakerImage, speakerImage.getTransitionName()).toBundle();
+                    this.context.startActivity(intent, bundle);
+                } else{
+                    this.context.startActivity(intent);
+                }
+            }
+            catch(Exception e){
+                Timber.d("Speaker's transition doesnt occur");
+            }
+
         });
     }
 
