@@ -13,6 +13,6 @@
     <item
         android:id="@+id/action_ticket_home"
         android:icon="@drawable/ic_ticket_white_24dp"
-        android:title="Get Tickets"
+        android:title="@string/ticket"
         app:showAsAction="ifRoom" />
 </menu>
