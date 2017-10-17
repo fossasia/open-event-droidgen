@@ -134,7 +134,7 @@ public class OSMapFragment extends Fragment {
     }
 
     private void showEvent() {
-        if(event == null)
+        if(!event.isValid())
             return;
 
         try {

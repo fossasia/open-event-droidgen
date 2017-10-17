@@ -10,6 +10,7 @@ import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.view.MenuItem;
 import android.view.View;
@@ -130,8 +131,8 @@ public class EditProfileActivity extends AppCompatActivity {
         if (firstNameInput == null || lastNameInput == null)
             return;
 
-        String firstName = firstNameInput.getText().toString();
-        String lastName = lastNameInput.getText().toString();
+        String firstName = firstNameInput.getText().toString().trim();
+        String lastName = lastNameInput.getText().toString().trim();
 
         int id = 0;
         try {
@@ -186,15 +187,16 @@ public class EditProfileActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (user == null || firstNameInput == null || lastNameInput == null) {
+
+        String firstName = firstNameInput.getText().toString().trim();
+        String lastName = lastNameInput.getText().toString().trim();
+
+        if (!user.isValid() || TextUtils.isEmpty(firstName) || TextUtils.isEmpty(lastName)) {
             super.onBackPressed();
             return;
         }
 
-        String firstName = firstNameInput.getText().toString();
-        String lastName = lastNameInput.getText().toString();
-
-        if (!user.getFirstName().trim().equals(firstName) || !user.getLastName().trim().equals(lastName) || !Utils.isEmpty(encodedImage)) {
+        if (!firstName.equals(user.getFirstName()) || !lastName.equals(user.getLastName()) || !Utils.isEmpty(encodedImage)) {
             //Show confirmation dialog
             AlertDialog confirmationDialog = new AlertDialog.Builder(this)
                     .setMessage(R.string.edit_profile_confirmation)
