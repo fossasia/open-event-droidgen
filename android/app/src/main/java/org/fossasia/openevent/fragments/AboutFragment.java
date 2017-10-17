@@ -2,6 +2,9 @@ package org.fossasia.openevent.fragments;
 
 import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,6 +23,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.otto.Subscribe;
 
@@ -33,6 +37,7 @@ import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.extras.Copyright;
 import org.fossasia.openevent.data.extras.EventDates;
 import org.fossasia.openevent.data.extras.SocialLink;
+import org.fossasia.openevent.data.extras.SpeakersCall;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.events.BookmarkChangedEvent;
 import org.fossasia.openevent.events.EventLoadedEvent;
@@ -209,6 +214,11 @@ public class AboutFragment extends BaseFragment {
             case R.id.action_ticket_home:
                 Utils.setUpCustomTab(getContext(), event.getTicketUrl());
                 break;
+            case R.id.action_display_copyright_dialog:
+                displayCopyrightInformation();
+                break;
+            case R.id.action_display_speakers_call_dialog:
+                displaySpeakersCallInformation();
             default:
                 //No option selected. Do Nothing..
         }
@@ -231,6 +241,34 @@ public class AboutFragment extends BaseFragment {
         String linkedurl = String.format("<a href=\"%s\">" + copyright.getLicenceUrl() + "</a> ", copyright.getLicenceUrl());
         licenceurl.setText(Html.fromHtml(linkedurl));
         licenceurl.setMovementMethod(LinkMovementMethod.getInstance());
+        AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.show();
+    }
+
+    private void displaySpeakersCallInformation() {
+        AlertDialog.Builder dialogBuilder  = new AlertDialog.Builder(getContext());
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.speakers_call_dialog, null);
+        TextView holder = (TextView) dialogView.findViewById(R.id.holder_textview);
+        TextView announcement = (TextView) dialogView.findViewById(R.id.announcement);
+        TextView fromDateOfEvent = (TextView) dialogView.findViewById(R.id.from_date_textview);
+        TextView toDateOfEvent = (TextView) dialogView.findViewById(R.id.to_date_textview);
+
+        SpeakersCall speakersCall = event.getSpeakersCall();
+        holder.setText(event.getEventCopyright().getHolder());
+        String announcementString = Html.fromHtml(speakersCall.getAnnouncement()).toString();
+        announcement.setText(announcementString + "at " + event.getEmail());
+        int index = speakersCall.getStartsAt().indexOf("T");
+        toDateOfEvent.setText("To: " + speakersCall.getStartsAt().substring(0, index));
+        fromDateOfEvent.setText("From: " + speakersCall.getEndsAt().substring(0, index));
+        dialogBuilder.setView(dialogView).setNegativeButton("Back", (dialog, which) -> dialog.cancel());
+        dialogBuilder.setPositiveButton("Copy Email",
+                (dialog, which) -> {
+                    ClipboardManager clipboard = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                    ClipData clip = ClipData.newPlainText("Email", event.getEmail());
+                    clipboard.setPrimaryClip(clip);
+                    Toast.makeText(getContext().getApplicationContext(), "Email copied to clipboard", Toast.LENGTH_SHORT).show();
+                });
         AlertDialog alertDialog = dialogBuilder.create();
         alertDialog.show();
     }
