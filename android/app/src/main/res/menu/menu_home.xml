@@ -9,4 +9,16 @@
         android:icon="@drawable/ic_search_white_24dp"
         android:title="@string/search"
         app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_ticket_home"
+        android:icon="@drawable/ic_ticket_white_24dp"
+        android:title="@string/ticket"
+        app:showAsAction="ifRoom" />
+    <item
+        android:title="Copyright"
+        android:id="@+id/action_display_copyright_dialog"/>
+    <item
+        android:title="Call For Speakers"
+        android:id="@+id/action_display_speakers_call_dialog"/>
 </menu>
