@@ -66,147 +66,153 @@
             android:visibility="gone" />
 
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/event_timing"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/color_accent"
-        android:padding="@dimen/padding_medium"
-        android:text="@string/event_open"
-        android:textColor="@color/card_title"
-        android:textSize="@dimen/text_size_extra_large"
-        android:textStyle="bold" />
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/slidin_down_part"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/event_timing"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="@dimen/padding_medium">
-
-            <ImageView
-                android:id="@+id/event_time_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/layout_margin_medium"
-                android:layout_marginRight="@dimen/layout_margin_medium"
-                app:srcCompat="@drawable/ic_event_white_24dp"
-                android:tint="@color/black" />
-
-            <TextView
-                android:id="@+id/event_timing_details"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/primary_text"
-                android:textSize="@dimen/text_size_large" />
-
-        </LinearLayout>
+            android:background="@color/color_accent"
+            android:padding="@dimen/padding_medium"
+            android:text="@string/event_open"
+            android:textColor="@color/card_title"
+            android:textSize="@dimen/text_size_extra_large"
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="@dimen/padding_medium">
+            android:orientation="horizontal">
 
-            <View
-                android:layout_width="@dimen/home_screen_divider_width"
-                android:layout_height="match_parent"
-                android:background="@color/secondary_text" />
-
-            <ImageView
-                android:id="@+id/event_location_icon"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/layout_margin_medium"
-                android:layout_marginRight="@dimen/layout_margin_medium"
-                app:srcCompat="@drawable/ic_location_on_black_24dp" />
+                android:orientation="horizontal"
+                android:padding="@dimen/padding_medium">
 
-            <TextView
-                android:id="@+id/event_venue_details"
+                <ImageView
+                    android:id="@+id/event_time_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/layout_margin_medium"
+                    android:layout_marginRight="@dimen/layout_margin_medium"
+                    app:srcCompat="@drawable/ic_event_white_24dp"
+                    android:tint="@color/black" />
+
+                <TextView
+                    android:id="@+id/event_timing_details"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/primary_text"
+                    android:textSize="@dimen/text_size_large" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/primary_text"
-                android:textSize="@dimen/text_size_large" />
+                android:orientation="horizontal"
+                android:padding="@dimen/padding_medium">
+
+                <View
+                    android:layout_width="@dimen/home_screen_divider_width"
+                    android:layout_height="match_parent"
+                    android:background="@color/secondary_text" />
+
+                <ImageView
+                    android:id="@+id/event_location_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/layout_margin_medium"
+                    android:layout_marginRight="@dimen/layout_margin_medium"
+                    app:srcCompat="@drawable/ic_location_on_black_24dp" />
+
+                <TextView
+                    android:id="@+id/event_venue_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/primary_text"
+                    android:textSize="@dimen/text_size_large" />
+            </LinearLayout>
+
         </LinearLayout>
 
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/organiser"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/color_accent"
-        android:padding="@dimen/padding_medium"
-        android:text="@string/organiser_description"
-        android:textColor="@color/card_title"
-        android:textSize="@dimen/text_size_extra_large"
-        android:textStyle="bold" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="@dimen/layout_margin_medium">
-
         <TextView
-            android:id="@+id/organiser_description"
-            android:layout_width="wrap_content"
+            android:id="@+id/organiser"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="4"
+            android:background="@color/color_accent"
             android:padding="@dimen/padding_medium"
-            android:textColor="@color/primary_text"
-            android:textSize="@dimen/text_size_large" />
+            android:text="@string/organiser_description"
+            android:textColor="@color/card_title"
+            android:textSize="@dimen/text_size_extra_large"
+            android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/readmore"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="@dimen/layout_margin_medium"
-            android:clickable="true"
-            android:text="@string/read_more"
-            android:textAllCaps="true"
-            android:textColor="@color/color_primary_dark"
-            android:textSize="@dimen/text_size_medium"
-            android:visibility="gone" />
+            android:orientation="vertical"
+            android:padding="@dimen/layout_margin_medium">
 
-        <TextView
-            android:id="@+id/readless"
-            android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/organiser_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="4"
+                android:padding="@dimen/padding_medium"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/text_size_large" />
+
+            <TextView
+                android:id="@+id/readmore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/layout_margin_medium"
+                android:clickable="true"
+                android:text="@string/read_more"
+                android:textAllCaps="true"
+                android:textColor="@color/color_primary_dark"
+                android:textSize="@dimen/text_size_medium"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/readless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/layout_margin_medium"
+                android:clickable="true"
+                android:text="@string/read_less"
+                android:textAllCaps="true"
+                android:textColor="@color/color_primary_dark"
+                android:textSize="@dimen/text_size_medium"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/images"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="@dimen/layout_margin_medium"
-            android:clickable="true"
-            android:text="@string/read_less"
-            android:textAllCaps="true"
-            android:textColor="@color/color_primary_dark"
-            android:textSize="@dimen/text_size_medium"
-            android:visibility="gone" />
+            android:layout_gravity="center|fill_horizontal"
+            android:background="@color/color_accent"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
 
-    </LinearLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/list_social_links"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:overScrollMode="never"
+                android:clipToPadding="false"
+                tools:listitem="@layout/item_social_link" />
+        </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/images"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center|fill_horizontal"
-        android:background="@color/color_accent"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/list_social_links"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:overScrollMode="never"
-            android:clipToPadding="false"
-            tools:listitem="@layout/item_social_link" />
     </LinearLayout>
 </LinearLayout>
