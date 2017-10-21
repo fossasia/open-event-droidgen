@@ -67,6 +67,11 @@
 
     </LinearLayout>
 
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:orientation="vertical"
+       android:id="@+id/slidin_down_part"
+       android:layout_height="match_parent">
     <TextView
         android:id="@+id/event_timing"
         android:layout_width="match_parent"
@@ -209,4 +214,6 @@
             android:clipToPadding="false"
             tools:listitem="@layout/item_social_link" />
     </LinearLayout>
+
+   </LinearLayout>
 </LinearLayout>
