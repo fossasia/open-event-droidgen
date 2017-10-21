@@ -235,18 +235,21 @@ public class AboutFragment extends BaseFragment {
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.copyright_dialog, null);
         dialogBuilder.setView(dialogView).setPositiveButton("Back", (dialog, which) -> dialog.cancel());
-        Copyright copyright = event.getEventCopyright();
         TextView holder = (TextView) dialogView.findViewById(R.id.holder_textview);
         TextView licence = (TextView) dialogView.findViewById(R.id.licence);
         TextView licenceurl = (TextView) dialogView.findViewById(R.id.licence_url);
-
-        licence.setText(copyright.getLicence() + " " + String.valueOf(copyright.getYear()));
-        holder.setText(copyright.getHolder());
-        String linkedurl = String.format("<a href=\"%s\">" + copyright.getLicenceUrl() + "</a> ", copyright.getLicenceUrl());
-        licenceurl.setText(Html.fromHtml(linkedurl));
-        licenceurl.setOnClickListener(view -> Utils.setUpCustomTab(getContext(), event.getEventCopyright().getLicenceUrl()));
-        AlertDialog alertDialog = dialogBuilder.create();
-        alertDialog.show();
+        if (event.isValid() && event.getEventCopyright().isValid()) {
+            Copyright copyright = event.getEventCopyright();
+            licence.setText(copyright.getLicence() + " " + String.valueOf(copyright.getYear()));
+            holder.setText(copyright.getHolder());
+            String linkedurl = String.format("<a href=\"%s\">" + copyright.getLicenceUrl() + "</a> ", copyright.getLicenceUrl());
+            licenceurl.setText(Html.fromHtml(linkedurl));
+            licenceurl.setOnClickListener(view -> Utils.setUpCustomTab(getContext(), copyright.getLicenceUrl()));
+            AlertDialog alertDialog = dialogBuilder.create();
+            alertDialog.show();
+        } else {
+            Snackbar.make(getView(), R.string.info_not_available, Snackbar.LENGTH_SHORT).show();
+        }
     }
 
     private void displaySpeakersCallInformation() {
