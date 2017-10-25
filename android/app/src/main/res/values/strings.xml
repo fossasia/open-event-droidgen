@@ -138,6 +138,7 @@
     <string name="download_complete">Download Done</string>
     <string name="share_links">Sharing URL</string>
     <string name="time_not_specified">Timings not specified</string>
+    <string name="no_results">No Results</string>
 
     <!--Error Titles-->
     <string name="no_internet_connection">No Internet connection</string>
