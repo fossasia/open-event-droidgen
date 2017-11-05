@@ -1,62 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/widget_default_height"
+    android:background="#ffffff"
     android:foreground="?android:attr/selectableItemBackground"
     tools:layout_width="@dimen/widget_default_height">
-
-    <ImageView
-        android:id="@+id/speakers_list_image"
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:contentDescription="@null"
-        android:scaleType="centerCrop"
-        android:transitionName="@string/transition_speaker_to_activity"
-        tools:src="@drawable/ic_account_circle_grey_24dp" />
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        card_view:cardElevation="6dp"
+        card_view:cardCornerRadius="2dp"
+        card_view:cardUseCompatPadding="true"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/speakers_list_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@null"
+            android:transitionName="@string/transition_speaker_to_activity"
+            android:scaleType="centerCrop"
+            tools:src="@drawable/ic_account_circle_grey_24dp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:alpha="0.8"
-        android:background="?colorPrimaryDark"
-        android:orientation="vertical"
-        android:padding="@dimen/padding_extra_small">
-
-        <TextView
-            android:id="@+id/speakers_list_name"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:maxLines="2"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/text_size_large"
-            android:textStyle="bold"
-            tools:ignore="SpUsage"
-            tools:text="Speaker Name" />
+            android:layout_gravity="bottom"
+            android:alpha="0.8"
+            android:background="?colorPrimaryDark"
+            android:orientation="vertical"
+            android:padding="@dimen/padding_extra_small">
 
-        <TextView
-            android:id="@+id/speakers_list_designation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:maxLines="2"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/text_size_medium"
-            tools:ignore="SpUsage"
-            tools:text="Designation" />
+            <TextView
+                android:id="@+id/speakers_list_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:maxLines="2"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_large"
+                android:textStyle="bold"
+                tools:ignore="SpUsage"
+                tools:text="Speaker Name" />
 
-        <TextView
-            android:id="@+id/speakers_list_country"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:maxLines="2"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/text_size_medium"
-            tools:ignore="SpUsage"
-            tools:text="Country" />
+            <TextView
+                android:id="@+id/speakers_list_designation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:maxLines="2"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_medium"
+                tools:ignore="SpUsage"
+                tools:text="Designation" />
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/speakers_list_country"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:maxLines="2"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_medium"
+                tools:ignore="SpUsage"
+                tools:text="Country" />
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
 </FrameLayout>
