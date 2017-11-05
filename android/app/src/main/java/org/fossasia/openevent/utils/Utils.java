@@ -8,6 +8,7 @@ import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Patterns;
+import android.view.View;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
@@ -22,6 +23,16 @@ public class Utils {
 
     public static boolean isEmpty(String string) {
         return string == null || string.trim().length() == 0;
+    }
+
+    public static void displayNoResults(View resultView, View recyclerView, View noView, int count) {
+        if (count != 0) {
+            resultView.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+        } else if (noView.getVisibility() != View.VISIBLE) {
+            resultView.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        }
     }
 
     public static String checkStringEmpty(String string) {

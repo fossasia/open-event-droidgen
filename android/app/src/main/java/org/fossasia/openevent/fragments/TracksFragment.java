@@ -53,6 +53,7 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
 
     @BindView(R.id.tracks_swipe_refresh) SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.txt_no_tracks) TextView noTracksView;
+    @BindView(R.id.txt_no_result_tracks) protected TextView noResultsTracksView;
     @BindView(R.id.list_tracks) RecyclerView tracksRecyclerView;
     @BindView(R.id.tracks_frame) View windowFrame;
 
@@ -120,6 +121,7 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
         }
     }
 
+
     @Override
     protected int getLayoutResource() {
         return R.layout.list_tracks;
@@ -166,6 +168,7 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
     public boolean onQueryTextChange(String query) {
         searchText = query;
         tracksListAdapter.filter(searchText);
+        Utils.displayNoResults(noResultsTracksView, tracksRecyclerView, noTracksView, tracksListAdapter.getItemCount());
 
         return true;
     }

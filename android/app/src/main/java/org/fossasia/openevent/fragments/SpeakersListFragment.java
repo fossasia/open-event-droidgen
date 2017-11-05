@@ -55,6 +55,8 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
 
     @BindView(R.id.speaker_swipe_refresh) SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.txt_no_speakers)  TextView noSpeakersView;
+    @BindView(R.id.txt_no_result_speakers)  protected TextView noSpeakersResultView;
+
     @BindView(R.id.rv_speakers) RecyclerView speakersRecyclerView;
 
     private List<Speaker> speakers = new ArrayList<>();
@@ -126,7 +128,7 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
         if (!speakers.isEmpty()) {
             noSpeakersView.setVisibility(View.GONE);
             speakersRecyclerView.setVisibility(View.VISIBLE);
-        } else {
+        } else if(noSpeakersResultView.getVisibility() != View.VISIBLE){
             noSpeakersView.setVisibility(View.VISIBLE);
             speakersRecyclerView.setVisibility(View.GONE);
         }
@@ -256,6 +258,7 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
     public boolean onQueryTextChange(String query) {
         searchText = query;
         speakersListAdapter.filter(query);
+        Utils.displayNoResults(noSpeakersResultView, speakersRecyclerView, noSpeakersView, speakersListAdapter.getItemCount());
 
         return true;
     }

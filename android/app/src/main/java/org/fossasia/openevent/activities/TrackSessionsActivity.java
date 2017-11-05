@@ -82,6 +82,8 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
     RecyclerView sessionsRecyclerView;
     @BindView(R.id.txt_no_sessions)
     TextView noSessionsView;
+    @BindView(R.id.txt_no_result_sessions)
+    protected TextView noResultSessionsView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -178,6 +180,7 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
             sessionsRecyclerView.setVisibility(View.GONE);
         }
     }
+
 
     private void setUiColor(int color) {
         toolbar.setBackgroundColor(color);
@@ -300,6 +303,7 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
     public boolean onQueryTextChange(String query) {
         searchText = query;
         sessionsListAdapter.filter(searchText);
+        Utils.displayNoResults(noResultSessionsView, sessionsRecyclerView, noSessionsView, sessionsListAdapter.getItemCount());
 
         return true;
     }
