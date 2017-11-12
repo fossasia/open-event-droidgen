@@ -55,6 +55,7 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
     @BindView(R.id.schedule_swipe_refresh) SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.list_schedule) RecyclerView dayRecyclerView;
     @BindView(R.id.txt_no_schedule) TextView noSchedule;
+    @BindView(R.id.txt_no_result_schedule) protected TextView noResultsSchedule;
 
     private List<Session> sessions = new ArrayList<>();
     private List<Session> filteredSessions = new ArrayList<>();
@@ -162,6 +163,7 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
         }
     }
 
+
     @Override
     protected int getLayoutResource() {
         return R.layout.list_schedule;
@@ -223,6 +225,8 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
         searchText = query;
 
         dayScheduleAdapter.filter(searchText);
+        Utils.displayNoResults(noResultsSchedule, dayRecyclerView, noSchedule, dayScheduleAdapter.getItemCount());
+
         return true;
     }
 

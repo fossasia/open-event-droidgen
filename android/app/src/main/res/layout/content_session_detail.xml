@@ -34,14 +34,12 @@
                     android:layout_marginBottom="@dimen/layout_margin_medium"
                     android:textColor="@color/primary_text" />
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/layout_margin_medium"
-                    android:columnCount="2"
-                    android:orientation="horizontal"
-                    android:rowCount="5">
-
+                <GridLayout
+                    android:layout_width="wrap_content"
+                    android:columnCount="3"
+                    android:rowCount="4"
+                    android:padding="10dp"
+                    android:layout_height="wrap_content">
                     <TextView
                         android:id="@+id/trak"
                         android:layout_width="wrap_content"
@@ -52,23 +50,23 @@
                         android:textColor="@color/primary_text"
                         android:textSize="@dimen/text_size_large"
                         android:textStyle="bold" />
-
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/primary_text"
+                        android:textStyle="bold"
+                        android:text="@string/dot_session"
+                        android:textSize="@dimen/text_size_large" />
                     <TextView
                         android:id="@+id/track"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/layout_margin_extra_large"
-                        android:layout_marginStart="@dimen/layout_margin_extra_large"
-                        android:layout_toEndOf="@+id/trak"
-                        android:layout_toRightOf="@id/trak"
                         android:textColor="@color/primary_text"
                         android:textSize="@dimen/text_size_large" />
-
                     <TextView
                         android:id="@+id/date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/track"
                         android:layout_marginEnd="@dimen/layout_margin_medium"
                         android:layout_marginRight="@dimen/layout_margin_medium"
                         android:text="@string/date"
@@ -76,90 +74,96 @@
                         android:textSize="@dimen/text_size_large"
                         android:textStyle="bold" />
 
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/primary_text"
+                        android:text="@string/dot_session"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/text_size_large" />
+
+
                     <TextView
                         android:id="@+id/date_session"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/track"
-                        android:layout_marginLeft="@dimen/layout_margin_extra_large"
-                        android:layout_marginStart="@dimen/layout_margin_extra_large"
-                        android:layout_toEndOf="@id/date"
-                        android:layout_toRightOf="@id/date"
                         android:textColor="@color/primary_text"
                         android:textSize="@dimen/text_size_large" />
 
+
                     <TextView
-                        android:id="@+id/start"
+                        android:id="@+id/duration"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/date_session"
                         android:layout_marginEnd="@dimen/layout_margin_medium"
                         android:layout_marginRight="@dimen/layout_margin_medium"
-                        android:text="@string/start_time"
+                        android:text="@string/duration"
                         android:textColor="@color/primary_text"
                         android:textSize="@dimen/text_size_large"
                         android:textStyle="bold" />
-
                     <TextView
-                        android:id="@+id/start_time_session"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/date_session"
-                        android:layout_marginLeft="@dimen/layout_margin_medium"
-                        android:layout_marginStart="@dimen/layout_margin_medium"
-                        android:layout_toEndOf="@id/start"
-                        android:layout_toRightOf="@id/start"
                         android:textColor="@color/primary_text"
+                        android:text="@string/dot_session"
+                        android:textStyle="bold"
                         android:textSize="@dimen/text_size_large" />
-
-                    <TextView
-                        android:id="@+id/end"
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/start_time_session"
-                        android:layout_marginEnd="@dimen/layout_margin_medium"
-                        android:layout_marginRight="@dimen/layout_margin_medium"
-                        android:text="@string/end_time"
-                        android:textColor="@color/primary_text"
-                        android:textSize="@dimen/text_size_large"
-                        android:textStyle="bold" />
+                        android:orientation="horizontal"
+                    >
+                        <TextView
+                            android:id="@+id/start_time_session"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/primary_text"
+                            android:textSize="@dimen/text_size_large" />
 
-                    <TextView
-                        android:id="@+id/end_time_session"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/start_time_session"
-                        android:layout_marginLeft="@dimen/layout_margin_large"
-                        android:layout_marginStart="@dimen/layout_margin_large"
-                        android:layout_toEndOf="@id/end"
-                        android:layout_toRightOf="@id/end"
-                        android:textColor="@color/primary_text"
-                        android:textSize="@dimen/text_size_large" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/primary_text"
+                            android:text="@string/dash"
+                            android:textStyle="bold"
+                            android:textSize="@dimen/text_size_large" />
+
+                        <TextView
+                            android:id="@+id/end_time_session"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/primary_text"
+                            android:textSize="@dimen/text_size_large" />
+                    </LinearLayout>
+
 
                     <TextView
                         android:id="@+id/location"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/end_time_session"
                         android:layout_marginEnd="@dimen/layout_margin_medium"
                         android:layout_marginRight="@dimen/layout_margin_medium"
                         android:text="@string/location"
                         android:textColor="@color/primary_text"
                         android:textSize="@dimen/text_size_large"
                         android:textStyle="bold" />
-
                     <TextView
-                        android:id="@+id/tv_location"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/end_time_session"
-                        android:layout_marginLeft="@dimen/layout_margin_large"
-                        android:layout_marginStart="@dimen/layout_margin_large"
-                        android:layout_toEndOf="@id/location"
-                        android:layout_toRightOf="@id/location"
+                        android:textStyle="bold"
+                        android:textColor="@color/primary_text"
+                        android:text="@string/dot_session"
+                        android:textSize="@dimen/text_size_large" />
+                    <TextView
+                        android:id="@+id/tv_location"
+                        android:paddingRight="20dp"
+                        android:layout_marginRight="60dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:textColor="@color/primary_text"
                         android:textSize="@dimen/text_size_large" />
-                </RelativeLayout>
+                </GridLayout>
 
                 <android.support.v7.widget.CardView
                     android:layout_width="wrap_content"
@@ -230,3 +234,5 @@
             android:textIsSelectable="true" />
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>
+
+

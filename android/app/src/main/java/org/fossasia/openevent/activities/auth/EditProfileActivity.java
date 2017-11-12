@@ -264,8 +264,10 @@ public class EditProfileActivity extends AppCompatActivity {
         String lastName = user.getLastName();
         String avatarUrl = user.getAvatarUrl();
 
-        if (firstName != null)
+        if (firstName != null) {
             firstNameInput.setText(firstName.trim());
+            firstNameInput.setSelection(firstName.length());
+        }
         if (lastName != null)
             lastNameInput.setText(lastName.trim());
 

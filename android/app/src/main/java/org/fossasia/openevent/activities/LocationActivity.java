@@ -61,6 +61,8 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
     RecyclerView sessionRecyclerView;
     @BindView(R.id.txt_no_sessions)
     TextView noSessionsView;
+    @BindView(R.id.txt_no_result_loc_sessions)
+    protected TextView noResultSessionsView;
     @BindView(R.id.toolbar_locations)
     Toolbar toolbar;
 
@@ -186,6 +188,7 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
         }
     }
 
+
     @Override
     protected int getLayoutResource() {
         return R.layout.activity_locations;
@@ -277,6 +280,7 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
     public boolean onQueryTextChange(final String query) {
         searchText = query;
         sessionsListAdapter.filter(searchText);
+        Utils.displayNoResults(noResultSessionsView, sessionRecyclerView, noSessionsView, sessionsListAdapter.getItemCount());
 
         return false;
     }
