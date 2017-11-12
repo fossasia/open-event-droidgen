@@ -298,7 +298,6 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
 
             drawerLayout.addDrawerListener(smoothActionBarToggle);
             ab.setDisplayHomeAsUpEnabled(true);
-            ab.setDisplayHomeAsUpEnabled(true);
             smoothActionBarToggle.syncState();
         } else if (toolbar!=null && toolbar.getTitle().equals(getString(R.string.menu_about))) {
             navigationView.setCheckedItem(R.id.nav_home);
