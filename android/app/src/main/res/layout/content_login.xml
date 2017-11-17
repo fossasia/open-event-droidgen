@@ -35,6 +35,7 @@
             android:id="@+id/text_input_layout_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:passwordToggleEnabled="true"
             android:paddingBottom="@dimen/padding_large">
 
             <android.support.design.widget.TextInputEditText

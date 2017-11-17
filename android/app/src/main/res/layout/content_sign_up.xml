@@ -34,6 +34,7 @@
         <android.support.design.widget.TextInputLayout
             android:id="@+id/text_input_layout_create_password"
             android:layout_width="match_parent"
+            app:passwordToggleEnabled="true"
             android:layout_height="wrap_content"
             android:paddingBottom="@dimen/padding_medium">
 
@@ -42,11 +43,13 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/create_password"
                 android:inputType="textPassword" />
+
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/text_input_layout_confirm_password"
             android:layout_width="match_parent"
+            app:passwordToggleEnabled="true"
             android:layout_height="wrap_content"
             android:paddingBottom="@dimen/padding_large">
 
