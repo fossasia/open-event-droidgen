@@ -1,6 +1,7 @@
 package org.fossasia.openevent.fragments;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -166,9 +167,18 @@ public class ScheduleFragment extends BaseFragment {
 
     @OnClick (R.id.schedule_fab_filter)
     public void filterSchedule() {
+
         final AlertDialog.Builder dialogSort = new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.dialog_filter_title)
                 .setMultiChoiceItems(tracksNames, isTrackSelected, (dialog, which, isSelected) -> isTrackSelected[which] = isSelected)
+                .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialogInterface) {
+                        Arrays.fill(isTrackSelected, false);
+                        selectedTracks.clear();
+                        notifyUpdate(-1, selectedTracks);
+                    }
+                })
                 .setPositiveButton("Filter", (dialogInterface, j) -> {
                     selectedTracks.clear();
                     int count = 0;
@@ -193,6 +203,7 @@ public class ScheduleFragment extends BaseFragment {
                 });
 
         dialogSort.show();
+
     }
 
     @OnClick (R.id.close_filter)
@@ -212,5 +223,6 @@ public class ScheduleFragment extends BaseFragment {
         if(viewPager != null && onPageChangeListener != null)
             viewPager.removeOnPageChangeListener(onPageChangeListener);
     }
+
 }
 
