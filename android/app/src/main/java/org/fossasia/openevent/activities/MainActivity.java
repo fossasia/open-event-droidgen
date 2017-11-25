@@ -26,9 +26,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
-import android.text.method.LinkMovementMethod;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -36,7 +33,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.squareup.otto.Subscribe;
@@ -55,7 +51,6 @@ import org.fossasia.openevent.data.SessionType;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Sponsor;
 import org.fossasia.openevent.data.Track;
-import org.fossasia.openevent.data.extras.Copyright;
 import org.fossasia.openevent.data.extras.SocialLink;
 import org.fossasia.openevent.data.facebook.CommentItem;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
@@ -97,8 +92,14 @@ import org.fossasia.openevent.widget.DialogFactory;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -524,6 +525,19 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
                 break;
             case R.id.nav_schedule:
                 replaceFragment(new ScheduleFragment(), R.string.menu_schedule);
+                boolean isLocal = SharedPreferencesUtil.getBoolean(getString(R.string.showLocalTime), false);
+                if(isLocal) {
+                    Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"),
+                            Locale.getDefault());
+                    Date currentLocalTime = calendar.getTime();
+                    DateFormat date = new SimpleDateFormat("z", Locale.getDefault());
+                    String localTime = date.format(currentLocalTime);
+                    getSupportActionBar().setTitle(getString(R.string.menu_schedule)+" ("+ localTime +")");
+                }
+                else{
+                    getSupportActionBar().setTitle(getString(R.string.menu_schedule));
+                }
+
                 break;
             case R.id.nav_speakers:
                 replaceFragment(new SpeakersListFragment(), R.string.menu_speakers);

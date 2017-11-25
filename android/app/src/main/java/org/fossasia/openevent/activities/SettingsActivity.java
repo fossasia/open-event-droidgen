@@ -78,6 +78,11 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
             }
         } else if (preference.getKey().equals(getResources().getString(R.string.timezone_mode_key))) {
             boolean showLocalTimezone = choice.equals(true);
+            if(showLocalTimezone){
+                SharedPreferencesUtil.putBoolean(getString(R.string.showLocalTime), true);
+            }else{
+                SharedPreferencesUtil.putBoolean(getString(R.string.showLocalTime), false);
+            }
 
             timezonePreference.setChecked(showLocalTimezone);
             DateConverter.setShowLocalTime(showLocalTimezone);

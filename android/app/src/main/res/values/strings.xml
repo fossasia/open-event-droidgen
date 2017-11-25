@@ -292,4 +292,5 @@
     <string name="commenter">Commenter</string>
     <string name="profile_image">Profile Image</string>
     <string name="fields">id,full_picture,message,story,created_time,link,comments</string>
+    <string name="showLocalTime">local_time</string>
 </resources>
