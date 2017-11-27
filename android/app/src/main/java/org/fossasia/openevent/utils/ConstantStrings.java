@@ -6,6 +6,10 @@ public class ConstantStrings {
 
     public static final String USER_EMAIL = "user_email";
 
+    public static final String USER_FIRST_NAME = "user_first_name";
+
+    public static final String USER_LAST_NAME = "user_last_name";
+
     public static final String TRACK = "TRACK";
 
     public static final String TRACK_ID = "TRACK_ID";

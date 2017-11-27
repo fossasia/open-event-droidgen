@@ -81,6 +81,8 @@ public class AuthUtil {
     public static void logout(Context context) {
         SharedPreferencesUtil.remove(ConstantStrings.TOKEN);
         SharedPreferencesUtil.remove(ConstantStrings.USER_EMAIL);
+        SharedPreferencesUtil.remove(ConstantStrings.USER_FIRST_NAME);
+        SharedPreferencesUtil.remove(ConstantStrings.USER_LAST_NAME);
 
         //Delete User data from realm
         RealmDataRepository.getDefaultInstance().clearUserData();

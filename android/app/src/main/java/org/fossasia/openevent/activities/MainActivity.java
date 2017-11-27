@@ -26,6 +26,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -222,6 +223,20 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
         customTabsSupported = bindService(customTabIntent, customTabsServiceConnection, Context.BIND_AUTO_CREATE);
     }
 
+    private void setUserProfileMenuItem(){
+        MenuItem userProfileMenuItem = navigationView.getMenu().findItem(R.id.nav_user_profile);
+        if (AuthUtil.isUserLoggedIn()) {
+            String email = SharedPreferencesUtil.getString(ConstantStrings.USER_EMAIL, null);
+            String firstName = SharedPreferencesUtil.getString(ConstantStrings.USER_FIRST_NAME, null);
+            String lastName = SharedPreferencesUtil.getString(ConstantStrings.USER_LAST_NAME, null);
+
+            if (!TextUtils.isEmpty(firstName))
+                userProfileMenuItem.setTitle(firstName + " " + lastName);
+            else if (!TextUtils.isEmpty(email))
+                userProfileMenuItem.setTitle(email);
+        }
+    }
+
     @Override
     protected int getLayoutResource() {
         return R.layout.activity_main;
@@ -237,6 +252,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
     protected void onResume() {
         super.onResume();
         OpenEventApp.getEventBus().register(this);
+        setUserProfileMenuItem();
     }
 
     @Override
@@ -305,13 +321,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
             return;
         }
 
-        MenuItem userProfileMenuItem = navigationView.getMenu().findItem(R.id.nav_user_profile);
-        if (AuthUtil.isUserLoggedIn()) {
-            String email = SharedPreferencesUtil.getString(ConstantStrings.USER_EMAIL, null);
-            if (email != null) {
-                userProfileMenuItem.setTitle(email);
-            }
-        }
+        setUserProfileMenuItem();
     }
 
     private void setNavHeader(Event event) {

@@ -28,7 +28,9 @@ import org.fossasia.openevent.data.auth.User;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.utils.AuthUtil;
 import org.fossasia.openevent.utils.CircleTransform;
+import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.JWTUtils;
+import org.fossasia.openevent.utils.SharedPreferencesUtil;
 import org.fossasia.openevent.utils.Utils;
 import org.json.JSONException;
 
@@ -263,6 +265,9 @@ public class EditProfileActivity extends AppCompatActivity {
         String firstName = user.getFirstName();
         String lastName = user.getLastName();
         String avatarUrl = user.getAvatarUrl();
+
+        SharedPreferencesUtil.putString(ConstantStrings.USER_FIRST_NAME, user.getFirstName());
+        SharedPreferencesUtil.putString(ConstantStrings.USER_LAST_NAME, user.getLastName());
 
         if (firstName != null) {
             firstNameInput.setText(firstName.trim());
