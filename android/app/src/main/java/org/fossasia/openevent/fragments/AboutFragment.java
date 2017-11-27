@@ -29,6 +29,7 @@ import com.squareup.otto.Subscribe;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
+import org.fossasia.openevent.activities.MainActivity;
 import org.fossasia.openevent.activities.SearchActivity;
 import org.fossasia.openevent.adapters.GlobalSearchAdapter;
 import org.fossasia.openevent.adapters.SocialLinksListAdapter;
@@ -245,6 +246,10 @@ public class AboutFragment extends BaseFragment {
                 break;
             case R.id.action_display_speakers_call_dialog:
                 displaySpeakersCallInformation();
+                break;
+            case R.id.action_download_latest_data:
+                ((MainActivity)getActivity()).downloadData();
+                break;
             default:
                 //No option selected. Do Nothing..
         }

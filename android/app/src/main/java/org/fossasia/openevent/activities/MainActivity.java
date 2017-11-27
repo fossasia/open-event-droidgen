@@ -26,9 +26,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
-import android.text.method.LinkMovementMethod;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -36,7 +33,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.squareup.otto.Subscribe;
@@ -55,7 +51,6 @@ import org.fossasia.openevent.data.SessionType;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Sponsor;
 import org.fossasia.openevent.data.Track;
-import org.fossasia.openevent.data.extras.Copyright;
 import org.fossasia.openevent.data.extras.SocialLink;
 import org.fossasia.openevent.data.facebook.CommentItem;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
@@ -195,7 +190,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
                 SharedPreferencesUtil.putBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true);
             }
         } else {
-            setupConnection();
+            downloadData();
         }
 
         if (savedInstanceState == null) {
@@ -417,7 +412,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
         }
     }
 
-    private void setupConnection() {
+    public void downloadData() {
         NetworkUtils.checkConnection(new WeakReference<>(this), new NetworkUtils.NetworkStateReceiverListener() {
 
             @Override

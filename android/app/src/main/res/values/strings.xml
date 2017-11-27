@@ -292,4 +292,7 @@
     <string name="commenter">Commenter</string>
     <string name="profile_image">Profile Image</string>
     <string name="fields">id,full_picture,message,story,created_time,link,comments</string>
+    <string name="copyright">Copyright</string>
+    <string name="call_for_speakers">Call For Speakers</string>
+    <string name="download_latest_data">Download Latest Data</string>
 </resources>
