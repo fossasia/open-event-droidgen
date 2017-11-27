@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -168,6 +169,18 @@ public class ScheduleFragment extends BaseFragment {
     public void filterSchedule() {
         final AlertDialog.Builder dialogSort = new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.dialog_filter_title)
+                .setOnKeyListener((dialog, keyCode, event) -> {
+                    if (keyCode == KeyEvent.KEYCODE_BACK &&
+                            event.getAction() == KeyEvent.ACTION_UP &&
+                            !event.isCanceled()) {
+                        Arrays.fill(isTrackSelected, false);
+                        selectedTracks.clear();
+                        notifyUpdate(-1, selectedTracks);
+                        dialog.cancel();
+                        return true;
+                    }
+                    return false;
+                })
                 .setMultiChoiceItems(tracksNames, isTrackSelected, (dialog, which, isSelected) -> isTrackSelected[which] = isSelected)
                 .setPositiveButton("Filter", (dialogInterface, j) -> {
                     selectedTracks.clear();
