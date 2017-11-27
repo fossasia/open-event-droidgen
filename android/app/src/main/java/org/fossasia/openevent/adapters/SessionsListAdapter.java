@@ -179,9 +179,12 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionViewHolde
         holder.sessionTime.setText(String.format("%s - %s",
                 DateConverter.formatDateWithDefault(DateConverter.FORMAT_12H, session.getStartsAt()),
                 DateConverter.formatDateWithDefault(DateConverter.FORMAT_12H, session.getEndsAt())));
+
         if(session.getMicrolocation() != null) {
             String locationName = Utils.checkStringEmpty(session.getMicrolocation().getName());
             holder.sessionLocation.setText(locationName);
+        } else {
+            holder.sessionLocation.setText(context.getString(R.string.location_not_decided));
         }
 
         Observable.just(session.getSpeakers())

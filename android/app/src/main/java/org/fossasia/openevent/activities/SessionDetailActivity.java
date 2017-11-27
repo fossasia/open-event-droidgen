@@ -464,13 +464,13 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
 
     private void loadSession(Session session) {
         this.session = session;
-        this.trackColor = Color.parseColor(session.getTrack().getColor());
-        this.fontColor = Color.parseColor(session.getTrack().getFontColor());
-        this.darkColor = Views.getDarkColor(Color.parseColor(session.getTrack().getColor()));
-
         Track track = session.getTrack();
+
         if (track != null && !Utils.isEmpty(track.getName())) {
             this.trackName = track.getName();
+            this.trackColor = Color.parseColor(track.getColor());
+            this.fontColor = Color.parseColor(track.getFontColor());
+            this.darkColor = Views.getDarkColor(Color.parseColor(track.getColor()));
             hasTrack = true;
         }
 
