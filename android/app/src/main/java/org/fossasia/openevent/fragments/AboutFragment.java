@@ -348,7 +348,7 @@ public class AboutFragment extends BaseFragment {
             for (String eventDate : dateList) {
                 boolean headerCheck = false;
                 for (Session bookmarkedSession : bookmarked) {
-                    if (bookmarkedSession.getStartDate().equals(eventDate)) {
+                    if (bookmarkedSession.getStartDate() != null && bookmarkedSession.getStartDate().equals(eventDate)) {
                         if (!headerCheck) {
                             String headerDate = "Invalid";
                             try {
