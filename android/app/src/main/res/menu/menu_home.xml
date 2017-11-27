@@ -16,9 +16,12 @@
         android:title="@string/ticket"
         app:showAsAction="ifRoom" />
     <item
-        android:title="Copyright"
+        android:title="@string/copyright"
         android:id="@+id/action_display_copyright_dialog"/>
     <item
-        android:title="Call For Speakers"
+        android:title="@string/call_for_speakers"
         android:id="@+id/action_display_speakers_call_dialog"/>
+    <item
+        android:title="@string/download_latest_data"
+        android:id="@+id/action_download_latest_data"/>
 </menu>
