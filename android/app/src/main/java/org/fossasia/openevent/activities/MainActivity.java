@@ -495,6 +495,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
         atHome = isAtHome;
 
         fragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
                 .replace(R.id.content_frame, fragment, TAG).commit();
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(title);
