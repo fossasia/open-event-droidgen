@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.support.design.widget.Snackbar;
+import android.support.v4.graphics.ColorUtils;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
@@ -23,6 +24,7 @@ import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.DateConverter;
 import org.fossasia.openevent.utils.NotificationUtil;
 import org.fossasia.openevent.utils.Utils;
+import org.fossasia.openevent.utils.Views;
 import org.fossasia.openevent.utils.WidgetUpdater;
 
 import butterknife.BindView;
@@ -103,14 +105,16 @@ public class DayScheduleViewHolder extends RecyclerView.ViewHolder {
                     slot_bookmark.setImageResource(R.drawable.ic_bookmark_border_white_24dp);
 
                     if ("MainActivity".equals(context.getClass().getSimpleName())) {
-                        Snackbar.make(slot_content, R.string.removed_bookmark, Snackbar.LENGTH_LONG)
+                        Snackbar snackbar = Snackbar.make(slot_content, R.string.removed_bookmark, Snackbar.LENGTH_LONG)
                                 .setAction(R.string.undo, view -> {
 
                                     realmRepo.setBookmark(sessionId, true).subscribe();
                                     slot_bookmark.setImageResource(R.drawable.ic_bookmark_white_24dp);
 
                                     WidgetUpdater.updateWidget(context);
-                                }).show();
+                                })
+                                .setActionTextColor(ColorUtils.setAlphaComponent(Views.getAccentColor(context), 220));
+                        snackbar.show();
                     } else {
                         Snackbar.make(slot_content, R.string.removed_bookmark, Snackbar.LENGTH_SHORT).show();
                     }

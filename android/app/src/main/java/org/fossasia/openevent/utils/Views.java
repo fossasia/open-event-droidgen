@@ -10,6 +10,7 @@ import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.widget.EdgeEffectCompat;
 import android.support.v4.widget.NestedScrollView;
@@ -23,6 +24,8 @@ import android.view.ViewTreeObserver;
 import android.widget.EdgeEffect;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import org.fossasia.openevent.R;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -193,5 +196,9 @@ public final class Views {
         EdgeEffect effect = (EdgeEffect) field.get(edgeEffect);
         if (effect != null)
             effect.setColor(color);
+    }
+
+    public static int getAccentColor(final Context context) {
+        return ContextCompat.getColor(context, R.color.color_accent);
     }
 }
