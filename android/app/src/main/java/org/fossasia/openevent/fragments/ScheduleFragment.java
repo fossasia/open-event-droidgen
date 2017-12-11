@@ -1,10 +1,13 @@
 package org.fossasia.openevent.fragments;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -23,6 +26,7 @@ import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.DateConverter;
 import org.fossasia.openevent.utils.SharedPreferencesUtil;
+import org.fossasia.openevent.utils.SortOrder;
 import org.fossasia.openevent.utils.Utils;
 import org.threeten.bp.format.DateTimeParseException;
 
@@ -49,12 +53,14 @@ public class ScheduleFragment extends BaseFragment {
 
     private CompositeDisposable compositeDisposable;
     private int sortType;
+    private int sortOrder;
     private ScheduleViewPagerAdapter adapter;
     private ViewPager.OnPageChangeListener onPageChangeListener;
     private List<Track> tracks = new ArrayList<>();
     private String tracksNames[];
     private boolean isTrackSelected[];
     private List<String> selectedTracks;
+    private Dialog sortDialog;
 
     private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
 
@@ -69,6 +75,7 @@ public class ScheduleFragment extends BaseFragment {
         OpenEventApp.getEventBus().register(true);
         compositeDisposable = new CompositeDisposable();
         sortType = SharedPreferencesUtil.getInt(ConstantStrings.PREF_SORT_SCHEDULE, 2);
+        sortOrder = SharedPreferencesUtil.getInt(ConstantStrings.PREF_SORT_ORDER, 0);
         selectedTracks = new ArrayList<>();
 
         setupViewPager(viewPager);
@@ -154,10 +161,26 @@ public class ScheduleFragment extends BaseFragment {
                             sortType = which;
                             SharedPreferencesUtil.putInt(ConstantStrings.PREF_SORT_SCHEDULE, which);
                             notifyUpdate(-1, selectedTracks);
+                        })
+                        .setPositiveButton(R.string.ascending, (dialog, which) -> {
+                            sortOrder = SortOrder.SORT_ORDER_ASCENDING;
+                            SharedPreferencesUtil.putInt(ConstantStrings.PREF_SORT_ORDER, sortOrder);
+                            notifyUpdate(-1, selectedTracks);
+                            dialog.dismiss();
+                        })
+                        .setNegativeButton(R.string.descending, (dialog, which) -> {
+                            sortOrder = SortOrder.SORT_ORDER_DESCENDING;
+                            SharedPreferencesUtil.putInt(ConstantStrings.PREF_SORT_ORDER, sortOrder);
+                            notifyUpdate(-1, selectedTracks);
                             dialog.dismiss();
                         });
 
-                dialogSort.show();
+                AlertDialog dialog = dialogSort.show();
+                dialog.getButton(sortOrder == SortOrder.SORT_ORDER_ASCENDING ? AlertDialog.BUTTON_NEGATIVE : AlertDialog.BUTTON_POSITIVE)
+                        .setTextColor(ContextCompat.getColor(getContext(), android.R.color.darker_gray));
+                dialog.getButton(sortOrder == SortOrder.SORT_ORDER_ASCENDING ? AlertDialog.BUTTON_POSITIVE : AlertDialog.BUTTON_NEGATIVE)
+                        .setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
+                dialog.show();
                 break;
             default:
                 //Do nothing

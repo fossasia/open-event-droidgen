@@ -77,6 +77,8 @@ public class ConstantStrings {
     public static final String PREF_SORT_SCHEDULE = "schedule_sort_type";
 
     public static final String PREF_SORT_SPEAKER = "speaker_sort_type";
+
+    public static final String PREF_SORT_ORDER = "sort_order";
     
     public static final String FACEBOOK_PAGE_ID = "pageId";
 

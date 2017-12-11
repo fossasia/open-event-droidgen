@@ -82,7 +82,7 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleViewHo
     public void filter(String constraint) {
         final String query = constraint.toLowerCase(Locale.getDefault());
 
-        ((RealmResults<Session>) copyOfSessions).sort(SortOrder.sortOrderSchedule());
+        ((RealmResults<Session>) copyOfSessions).sort(SortOrder.sortTypeSchedule());
 
         List<Session> filteredSessions = Observable.fromIterable(copyOfSessions)
                 .filter(session -> session.getTitle().toLowerCase().contains(query))
@@ -100,14 +100,14 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleViewHo
     @Override
     public long getHeaderId(int position) {
         String id = "";
-        if (SortOrder.sortOrderSchedule().equals(Session.TITLE)) {
+        if (SortOrder.sortTypeSchedule().equals(Session.TITLE)) {
             return getItem(position).getTitle().toUpperCase().charAt(0);
-        } else if (SortOrder.sortOrderSchedule().equals(Session.TRACK)){
+        } else if (SortOrder.sortTypeSchedule().equals(Session.TRACK)){
             if (tracks != null && !tracks.contains(getItem(position).getTrack().getName())) {
                 tracks.add(getItem(position).getTrack().getName());
             }
             return tracks.indexOf(getItem(position).getTrack().getName());
-        } else if (SortOrder.sortOrderSchedule().equals(Session.START_TIME)) {
+        } else if (SortOrder.sortTypeSchedule().equals(Session.START_TIME)) {
             id = DateConverter.formatDateWithDefault(DateConverter.FORMAT_24H, getItem(position).getStartsAt(), "")
                     .replace(":", "")
                     .replace(" ", "");
@@ -127,11 +127,11 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleViewHo
         String sortTitle = Utils.checkStringEmpty(getItem(position).getTitle());
         String sortName = Utils.checkStringEmpty(getItem(position).getTrack().getName());
 
-        if (SortOrder.sortOrderSchedule().equals(Session.TITLE) && (!Utils.isEmpty(sortTitle))) {
+        if (SortOrder.sortTypeSchedule().equals(Session.TITLE) && (!Utils.isEmpty(sortTitle))) {
             holder.header.setText(String.valueOf(sortTitle.toUpperCase().charAt(0)));
-        } else if (SortOrder.sortOrderSchedule().equals(Session.TRACK)){
+        } else if (SortOrder.sortTypeSchedule().equals(Session.TRACK)){
             holder.header.setText(String.valueOf(sortName));
-        } else if (SortOrder.sortOrderSchedule().equals(Session.START_TIME)) {
+        } else if (SortOrder.sortTypeSchedule().equals(Session.START_TIME)) {
             holder.header.setText(DateConverter.formatDateWithDefault(DateConverter.FORMAT_24H, getItem(position).getStartsAt()));
         }
     }

@@ -36,6 +36,7 @@ import org.fossasia.openevent.views.stickyheadersrecyclerview.StickyRecyclerHead
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -83,7 +84,7 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
             searchText = savedInstanceState.getString(SEARCH);
         }
 
-        realmResults = realmRepo.getSessionsByDate(date, SortOrder.sortOrderSchedule());
+        realmResults = realmRepo.getSessionsByDate(date, SortOrder.sortTypeSchedule());
         realmResults.addChangeListener((sortedSessions, orderedCollectionChangeSet) -> {
             sessions.clear();
             sessions.addAll(sortedSessions);
@@ -95,6 +96,9 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
             dayScheduleAdapter.notifyDataSetChanged();
             if (!Utils.isEmpty(searchText))
                 dayScheduleAdapter.filter(searchText);
+
+            if(SortOrder.sortOrderSchedule() == SortOrder.SORT_ORDER_DESCENDING)
+                Collections.reverse(filteredSessions);
 
             handleVisibility();
         });
@@ -127,7 +131,7 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
         if(dayScheduleAdapter == null)
             return;
 
-        realmRepo.getSessionsByDate(date, SortOrder.sortOrderSchedule())
+        realmRepo.getSessionsByDate(date, SortOrder.sortTypeSchedule())
                 .addChangeListener((sortedSessions, orderedCollectionChangeSet) -> {
                     sessions.clear();
                     sessions.addAll(sortedSessions);
@@ -146,6 +150,9 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
                         if(searchText!=null)
                             dayScheduleAdapter.filter(searchText);
                     }
+
+                    if(SortOrder.sortOrderSchedule() == SortOrder.SORT_ORDER_DESCENDING)
+                        Collections.reverse(filteredSessions);
 
                     dayScheduleAdapter.notifyDataSetChanged();
 

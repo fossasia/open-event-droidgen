@@ -14,6 +14,9 @@ public final class SortOrder {
     private static final int SORT_TYPE_SECOND = 1;
     private static final int SORT_TYPE_THIRD = 2;
 
+    public static final int SORT_ORDER_ASCENDING = 0;
+    public static final int SORT_ORDER_DESCENDING = 1;
+
     private SortOrder() {
     }
 
@@ -33,7 +36,7 @@ public final class SortOrder {
         }
     }
 
-    public static String sortOrderSchedule() {
+    public static String sortTypeSchedule() {
         switch (SharedPreferencesUtil.getInt(ConstantStrings.PREF_SORT_SCHEDULE, 2)) {
             case SORT_TYPE_FIRST:
                 //By TITLE
@@ -46,6 +49,19 @@ public final class SortOrder {
                 return Session.START_TIME;
             default:
                 return Session.START_TIME;
+        }
+    }
+
+    public static int sortOrderSchedule() {
+        switch (SharedPreferencesUtil.getInt(ConstantStrings.PREF_SORT_ORDER, 0)) {
+            case SORT_ORDER_ASCENDING:
+                return SORT_ORDER_ASCENDING;
+
+            case SORT_ORDER_DESCENDING:
+                return SORT_ORDER_DESCENDING;
+
+            default:
+                return SORT_ORDER_ASCENDING;
         }
     }
 

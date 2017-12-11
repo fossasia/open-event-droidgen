@@ -295,4 +295,6 @@
     <string name="copyright">Copyright</string>
     <string name="call_for_speakers">Call For Speakers</string>
     <string name="download_latest_data">Download Latest Data</string>
+    <string name="ascending">Ascending</string>
+    <string name="descending">Descending</string>
 </resources>
