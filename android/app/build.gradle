@@ -1,7 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'jacoco-everywhere'
-apply plugin: 'me.tatarka.retrolambda'
-apply plugin: 'android-apt'
 apply plugin: 'realm-android'
 
 def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
@@ -9,11 +6,10 @@ def buildTime = new Date().format("yyyy-MM-dd'T'HH:mm'Z'", TimeZone.getTimeZone(
 
 def isTravis = "true" == System.getenv("TRAVIS")
 def preDexEnabled = "true" == System.getProperty("pre-dex", "true")
-def SUPPORT_LIB_VERSION = "25.4.0"
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 27
+    buildToolsVersion "27.0.1"
 
     dexOptions {
         // Skip pre-dexing when running on Travis CI or when disabled via -Dpre-dex=false.
@@ -26,8 +22,8 @@ android {
 
     defaultConfig {
         applicationId "org.fossasia.openevent"
-        minSdkVersion 15
-        targetSdkVersion 25
+        minSdkVersion 16
+        targetSdkVersion 27
         versionCode 101
         versionName "1.0.1"
 
@@ -40,20 +36,21 @@ android {
         // Enabling multidex support.
         multiDexEnabled true
     }
+
     buildTypes {
-        debug {
-            testCoverageEnabled true
-        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 
+    flavorDimensions "tier"
     productFlavors {
         fdroid {
+            dimension "tier"
         }
         googleplay {
+            dimension "tier"
         }
     }
     packagingOptions {
@@ -63,18 +60,6 @@ android {
     lintOptions {
         abortOnError false
         disable 'InvalidPackage'
-    }
-
-    // https://stackoverflow.com/questions/36833606/android-support-library-error-after-updating-to-23-3-0
-    configurations.all {
-        resolutionStrategy {
-            force "com.android.support:support-annotation:${SUPPORT_LIB_VERSION}"
-            force "com.android.support:appcompat-v7:${SUPPORT_LIB_VERSION}"
-            force "com.android.support:support-v4:${SUPPORT_LIB_VERSION}"
-            force "com.android.support:recyclerview-v7:${SUPPORT_LIB_VERSION}"
-            force "com.android.support:design:${SUPPORT_LIB_VERSION}"
-            force "com.android.support:customtabs:${SUPPORT_LIB_VERSION}"
-        }
     }
 
     compileOptions{
@@ -91,66 +76,65 @@ configurations.all {
     }
 }
 
+def SUPPORT_LIB_VERSION = "27.0.2"
+
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile "com.android.support:appcompat-v7:${SUPPORT_LIB_VERSION}"
-    compile "com.android.support:support-v4:${SUPPORT_LIB_VERSION}"
-    compile "com.android.support:cardview-v7:${SUPPORT_LIB_VERSION}"
-    compile "com.android.support:recyclerview-v7:${SUPPORT_LIB_VERSION}"
-    compile "com.android.support:design:${SUPPORT_LIB_VERSION}"
-    compile "com.android.support:customtabs:${SUPPORT_LIB_VERSION}"
-    compile "com.android.support:palette-v7:${SUPPORT_LIB_VERSION}"
-    compile 'com.android.support:multidex:1.0.2'
-    compile 'com.github.jasminb:jsonapi-converter:0.7'
-    compile 'com.squareup.retrofit2:retrofit:2.3.0'
-    compile 'com.squareup.retrofit2:converter-jackson:2.3.0'
-    compile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.6.0'
-    compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
-    compile 'com.jakewharton.threetenabp:threetenabp:1.0.5'
-    compile 'com.squareup:otto:1.3.8'
-    compile 'com.jakewharton.timber:timber:4.5.1'
-    compile 'com.jakewharton:butterknife:8.5.1'
-    compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
-    compile 'com.facebook.stetho:stetho:1.4.2'
-    compile 'com.facebook.stetho:stetho-okhttp3:1.4.2'
-    compile 'com.uphyca:stetho_realm:2.0.0'
-    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
-    compile 'io.reactivex.rxjava2:rxjava:2.1.0'
-    provided "org.projectlombok:lombok:1.16.18"
-    apt 'com.jakewharton:butterknife-compiler:8.5.1'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "com.android.support:appcompat-v7:${SUPPORT_LIB_VERSION}"
+    implementation "com.android.support:support-v4:${SUPPORT_LIB_VERSION}"
+    implementation "com.android.support:cardview-v7:${SUPPORT_LIB_VERSION}"
+    implementation "com.android.support:recyclerview-v7:${SUPPORT_LIB_VERSION}"
+    implementation "com.android.support:design:${SUPPORT_LIB_VERSION}"
+    implementation "com.android.support:customtabs:${SUPPORT_LIB_VERSION}"
+    implementation "com.android.support:palette-v7:${SUPPORT_LIB_VERSION}"
+    implementation 'com.android.support:multidex:1.0.2'
+    implementation 'com.github.jasminb:jsonapi-converter:0.7'
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    implementation 'com.squareup.retrofit2:converter-jackson:2.3.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1'
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.0.5'
+    implementation 'com.squareup:otto:1.3.8'
+    implementation 'com.jakewharton.timber:timber:4.5.1'
+    implementation 'com.jakewharton:butterknife:8.5.1'
+    implementation 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
+    implementation 'com.facebook.stetho:stetho:1.5.0'
+    implementation 'com.facebook.stetho:stetho-okhttp3:1.5.0'
+    implementation 'com.uphyca:stetho_realm:2.1.0'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.3'
+    compileOnly "org.projectlombok:lombok:1.16.18"
+    annotationProcessor "org.projectlombok:lombok:1.16.18"
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 
     // Googleplay Variant
-    googleplayCompile 'com.google.android.gms:play-services-maps:10.2.6'
-    googleplayCompile 'com.google.android.gms:play-services-location:10.2.6'
-    googleplayCompile 'com.google.maps.android:android-maps-utils:0.4'
+    googleplayImplementation 'com.google.android.gms:play-services-maps:11.6.2'
+    googleplayImplementation 'com.google.android.gms:play-services-location:11.6.2'
+    googleplayImplementation 'com.google.maps.android:android-maps-utils:0.4'
 
     // Fdroid Variant
-    fdroidCompile 'org.osmdroid:osmdroid-android:5.1'
-    fdroidCompile 'org.apache.directory.studio:org.slf4j.api:1.7.2'
-    fdroidCompile 'org.slf4j:slf4j-simple:1.7.14'
+    fdroidImplementation 'org.osmdroid:osmdroid-android:5.1'
+    fdroidImplementation 'org.apache.directory.studio:org.slf4j.api:1.7.2'
+    fdroidImplementation 'org.slf4j:slf4j-simple:1.7.14'
 
     // Unit Test
-    testCompile 'junit:junit:4.12'
-    testCompile "org.robolectric:robolectric:3.0"
-    testCompile 'org.threeten:threetenbp:1.3.6'
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.threeten:threetenbp:1.3.6'
 
     //Instrumentation Test
-    androidTestCompile "com.android.support:support-annotations:${SUPPORT_LIB_VERSION}"
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
-    androidTestCompile 'com.android.support.test.espresso:espresso-contrib:2.2.2'
-    androidTestCompile 'com.android.support.test:runner:0.5'
-    androidTestCompile 'com.android.support.test:rules:0.5'
-    androidTestCompile "org.mockito:mockito-core:1.10.19"
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.1', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
 
     // Catch all the leaks
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
-    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.1'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
+    testImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
 
     //Branch integration for deep linking
-    compile ('io.branch.sdk.android:library:2.5.9') {
+    implementation ('io.branch.sdk.android:library:2.5.9') {
         exclude module: 'answers-shim'
     }
 }
