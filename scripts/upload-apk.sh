@@ -1,9 +1,11 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 if [ "$TRAVIS_PULL_REQUEST" != "false" -o "$TRAVIS_REPO_SLUG" != "fossasia/open-event-android" ]; then
     echo "Just a PR. Skip apk upload."
     exit 0
 fi
+
+export appdir=$HOME/apps
 
 # go to home and setup git
 cd $HOME
@@ -13,7 +15,7 @@ git config --global user.name "Travis-CI"
 git clone --quiet --branch=apk https://the-dagger:$GITHUB_API_KEY@github.com/fossasia/open-event-android  apk > /dev/null
 cd apk
 rm -rf *.apk
-cp -Rf $HOME/daily/*  ./
+cp -Rf $appdir/*  ./
 
 mv fossasia17-fdroid.apk sample-apk-fossasia17-${TRAVIS_BRANCH}.apk
 mv fbf817-fdroid.apk sample-apk-fbf817-${TRAVIS_BRANCH}.apk
