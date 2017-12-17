@@ -25,8 +25,7 @@ install:
 before_script:
   - cd android
 script:
-  - chmod +x configedit.sh
-  - bash generate_apks.sh
+  - bash ../scripts/generate_apks.sh
 notifications:
   webhooks:
     urls:
@@ -35,4 +34,4 @@ notifications:
     on_failure: always
     on_start: false
 after_success:
-  - bash ../upload-apk.sh
+  - bash ../scripts/upload-apk.sh
