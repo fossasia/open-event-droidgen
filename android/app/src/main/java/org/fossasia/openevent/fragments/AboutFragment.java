@@ -288,23 +288,27 @@ public class AboutFragment extends BaseFragment {
         TextView fromDateOfEvent = (TextView) dialogView.findViewById(R.id.from_date_textview);
         TextView toDateOfEvent = (TextView) dialogView.findViewById(R.id.to_date_textview);
 
-        SpeakersCall speakersCall = event.getSpeakersCall();
-        holder.setText(event.getEventCopyright().getHolder());
-        String announcementString = Html.fromHtml(speakersCall.getAnnouncement()).toString();
-        announcement.setText(announcementString + "at " + event.getEmail());
-        int index = speakersCall.getStartsAt().indexOf("T");
-        toDateOfEvent.setText("To: " + speakersCall.getStartsAt().substring(0, index));
-        fromDateOfEvent.setText("From: " + speakersCall.getEndsAt().substring(0, index));
-        dialogBuilder.setView(dialogView).setNegativeButton("Back", (dialog, which) -> dialog.cancel());
-        dialogBuilder.setPositiveButton("Copy Email",
-                (dialog, which) -> {
-                    ClipboardManager clipboard = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-                    ClipData clip = ClipData.newPlainText("Email", event.getEmail());
-                    clipboard.setPrimaryClip(clip);
-                    Toast.makeText(getContext().getApplicationContext(), "Email copied to clipboard", Toast.LENGTH_SHORT).show();
-                });
-        AlertDialog alertDialog = dialogBuilder.create();
-        alertDialog.show();
+        if (event.isValid() && event.getSpeakersCall().isValid()) {
+            SpeakersCall speakersCall = event.getSpeakersCall();
+            holder.setText(event.getEventCopyright().getHolder());
+            String announcementString = Html.fromHtml(speakersCall.getAnnouncement()).toString();
+            announcement.setText(announcementString + "at " + event.getEmail());
+            int index = speakersCall.getStartsAt().indexOf("T");
+            toDateOfEvent.setText("To: " + speakersCall.getStartsAt().substring(0, index));
+            fromDateOfEvent.setText("From: " + speakersCall.getEndsAt().substring(0, index));
+            dialogBuilder.setView(dialogView).setNegativeButton("Back", (dialog, which) -> dialog.cancel());
+            dialogBuilder.setPositiveButton("Copy Email",
+                    (dialog, which) -> {
+                        ClipboardManager clipboard = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                        ClipData clip = ClipData.newPlainText("Email", event.getEmail());
+                        clipboard.setPrimaryClip(clip);
+                        Toast.makeText(getContext().getApplicationContext(), "Email copied to clipboard", Toast.LENGTH_SHORT).show();
+                    });
+            AlertDialog alertDialog = dialogBuilder.create();
+            alertDialog.show();
+        } else {
+            Snackbar.make(getView(), R.string.info_not_available, Snackbar.LENGTH_SHORT).show();
+        }
     }
 
     @Subscribe
