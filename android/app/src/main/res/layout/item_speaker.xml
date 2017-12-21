@@ -12,7 +12,7 @@
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         card_view:cardElevation="6dp"
         card_view:cardCornerRadius="2dp"
-        card_view:cardUseCompatPadding="true"
+        android:layout_margin="@dimen/layout_margin_medium"
         android:layout_height="match_parent">
         <ImageView
             android:id="@+id/speakers_list_image"

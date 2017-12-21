@@ -38,6 +38,7 @@ import org.fossasia.openevent.utils.SharedPreferencesUtil;
 import org.fossasia.openevent.utils.Utils;
 import org.fossasia.openevent.utils.Views;
 import org.fossasia.openevent.views.MarginDecoration;
+import org.fossasia.openevent.views.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -104,10 +105,17 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
 
         speakersListAdapter = new SpeakersListAdapter(speakers, getActivity());
 
-        speakersRecyclerView.addItemDecoration(new MarginDecoration(getContext()));
         speakersRecyclerView.setHasFixedSize(true);
         speakersRecyclerView.setAdapter(speakersListAdapter);
         speakersRecyclerView.setLayoutManager(gridLayoutManager);
+        final StickyRecyclerHeadersDecoration headersDecoration = new StickyRecyclerHeadersDecoration(speakersListAdapter);
+        speakersRecyclerView.addItemDecoration(headersDecoration);
+        speakersListAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onChanged() {
+                headersDecoration.invalidateHeaders();
+            }
+        });
     }
 
     private void loadData() {
