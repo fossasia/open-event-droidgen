@@ -137,4 +137,7 @@ dependencies {
     implementation ('io.branch.sdk.android:library:2.5.9') {
         exclude module: 'answers-shim'
     }
+
+    //ViewModel and LiveData
+    implementation "android.arch.lifecycle:extensions:1.0.0"
 }
