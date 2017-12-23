@@ -650,12 +650,23 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
     public void showNetworkDialog(ShowNetworkDialogEvent event) {
         completeHandler.hide();
         if (dialogNetworkNotification == null) {
-            dialogNetworkNotification = DialogFactory.createSimpleActionDialog(this,
+            dialogNetworkNotification = DialogFactory.createCancellableSimpleActionDialog(this,
                     R.string.net_unavailable,
                     R.string.turn_on,
-                    (dialog, which) -> {
-                        Intent setNetworkIntent = new Intent(Settings.ACTION_SETTINGS);
-                        startActivity(setNetworkIntent);
+                    R.string.ok,
+                    R.string.cancel,
+                    (dialogInterface, button) -> {
+                        switch (button) {
+                            case DialogInterface.BUTTON_POSITIVE:
+                                Intent setNetworkIntent = new Intent(Settings.ACTION_SETTINGS);
+                                startActivity(setNetworkIntent);
+                                break;
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                dialogNetworkNotification.dismiss();
+                                return;
+                            default:
+                                // No action to be taken
+                        }
                     });
         }
 

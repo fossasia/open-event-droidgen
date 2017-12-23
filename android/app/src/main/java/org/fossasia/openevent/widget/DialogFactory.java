@@ -75,4 +75,18 @@ public final class DialogFactory {
                                                       @StringRes int messageResource) {
         return createProgressDialog(context, context.getString(messageResource));
     }
+
+    public static Dialog createCancellableSimpleActionDialog(Context context,
+                                              @StringRes int titleResource,
+                                              @StringRes int messageResource,
+                                              @StringRes int positiveButtonMessage,
+                                              @StringRes int negativeButtonMessage,
+                                              DialogInterface.OnClickListener listener) {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(context)
+                .setTitle(context.getString(titleResource))
+                .setMessage(context.getString(messageResource))
+                .setPositiveButton(context.getString(positiveButtonMessage), listener)
+                .setNegativeButton(context.getString(negativeButtonMessage), listener);
+        return alertDialog.create();
+    }
 }
