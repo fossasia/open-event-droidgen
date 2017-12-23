@@ -11,8 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
-        android:transitionName="@string/transition_speaker_to_activity"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:theme="@style/AppTheme.AppBarOverlay"
+        android:transitionName="@string/transition_speaker_to_activity">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
@@ -73,11 +73,11 @@
                     android:id="@+id/speaker_details_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/layout_margin_extra_large"
                     android:fontFamily="sans-serif-condensed"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/heading_text_size"
                     android:textStyle="bold"
-                    android:layout_marginLeft="@dimen/layout_margin_extra_large"
                     tools:targetApi="jelly_bean"
                     tools:text="Title" />
 
@@ -85,12 +85,12 @@
                     android:id="@+id/speaker_details_designation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/layout_margin_extra_large"
+                    android:layout_marginRight="@dimen/layout_margin_extra_large"
+                    android:paddingBottom="@dimen/padding_small"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/text_size_large"
-                    android:layout_marginRight="@dimen/layout_margin_extra_large"
-                    android:layout_marginLeft="@dimen/layout_margin_extra_large"
-                    tools:text="Subtitle"
-                    android:paddingBottom="@dimen/padding_small"/>
+                    tools:text="Subtitle"/>
 
             </LinearLayout>
 
@@ -112,87 +112,157 @@
             android:orientation="vertical"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <TextView
-                android:id="@+id/speaker_bio"
+            <android.support.v7.widget.CardView
+                android:id="@+id/speaker_bio_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/layout_margin_medium"
-                android:paddingEnd="@dimen/padding_large"
-                android:paddingLeft="@dimen/padding_large"
-                android:paddingRight="@dimen/padding_large"
-                android:paddingStart="@dimen/padding_large"
-                tools:text="Paresh Mayani, Technical Lead @ Android" />
-
-            <LinearLayout
-                android:id="@+id/layoutSocialMedia"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/padding_medium"
+                android:layout_marginEnd="@dimen/layout_margin_medium"
                 android:layout_marginLeft="@dimen/padding_medium"
-                android:layout_marginEnd="@dimen/padding_medium"
                 android:layout_marginRight="@dimen/padding_medium"
-                android:layout_below="@+id/speaker_bio">
+                android:layout_marginStart="@dimen/layout_margin_medium"
+                android:layout_marginTop="@dimen/layout_margin_medium">
 
-                <ImageView
-                    android:id="@+id/imageView_fb"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_medium"
-                    android:background="?selectableItemBackgroundBorderless"
-                    android:clickable="true"
-                    android:contentDescription="@string/facebook_icon"
-                    android:tag="@string/fb"
-                    app:srcCompat="@drawable/ic_facebook_24dp" />
+                    android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/imageView_linkedin"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_medium"
-                    android:background="?selectableItemBackgroundBorderless"
-                    android:clickable="true"
-                    android:contentDescription="@string/linkedin_icon"
-                    android:tag="@string/linkedin"
-                    app:srcCompat="@drawable/ic_linkedin_24dp" />
+                    <TextView
+                        android:id="@+id/tv_speaker_bio_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/layout_margin_medium"
+                        android:layout_marginTop="@dimen/layout_margin_medium"
+                        android:padding="@dimen/padding_medium"
+                        android:text="@string/speakers_bio"
+                        android:textStyle="bold" />
 
-                <ImageView
-                    android:id="@+id/imageView_twitter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_medium"
-                    android:background="?selectableItemBackgroundBorderless"
-                    android:clickable="true"
-                    android:contentDescription="@string/twitter_icon"
-                    android:tag="@string/twitter"
-                    app:srcCompat="@drawable/ic_twitter_24dp" />
+                    <TextView
+                        android:id="@+id/speaker_bio"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingEnd="@dimen/padding_medium"
+                        android:paddingLeft="@dimen/padding_medium"
+                        android:paddingRight="@dimen/padding_medium"
+                        android:paddingStart="@dimen/padding_medium"
+                        tools:text="Paresh Mayani, Technical Lead @ Android" />
 
-                <ImageView
-                    android:id="@+id/imageView_github"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_medium"
-                    android:background="?selectableItemBackgroundBorderless"
-                    android:clickable="true"
-                    android:contentDescription="@string/github_icon"
-                    android:tag="@string/github"
-                    app:srcCompat="@drawable/ic_github_24dp" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
 
-                <ImageView
-                    android:id="@+id/imageView_web"
-                    android:layout_width="wrap_content"
+            <android.support.v7.widget.CardView
+                android:id="@+id/layoutSocialMediaCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/speaker_bio_card"
+                android:layout_marginEnd="@dimen/padding_medium"
+                android:layout_marginLeft="@dimen/padding_medium"
+                android:layout_marginRight="@dimen/padding_medium"
+                android:layout_marginStart="@dimen/padding_medium"
+                android:layout_marginTop="@dimen/layout_margin_medium">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_medium"
-                    android:background="?selectableItemBackgroundBorderless"
-                    android:clickable="true"
-                    android:contentDescription="@string/web_icon"
-                    android:tag="@string/website"
-                    app:srcCompat="@drawable/ic_domain_black_24dp" />
-            </LinearLayout>
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_speaker_social_media_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_margin_medium"
+                        android:padding="@dimen/padding_medium"
+                        android:text="@string/social_media"
+                        android:textStyle="bold"
+                        android:visibility="gone"/>
+
+                    <LinearLayout
+                        android:id="@+id/layoutSocialMedia"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/imageView_fb"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="?selectableItemBackgroundBorderless"
+                            android:clickable="true"
+                            android:contentDescription="@string/facebook_icon"
+                            android:padding="@dimen/padding_medium"
+                            android:tag="@string/fb"
+                            app:srcCompat="@drawable/ic_facebook_24dp"
+                            android:visibility="gone"/>
+
+                        <ImageView
+                            android:id="@+id/imageView_linkedin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="?selectableItemBackgroundBorderless"
+                            android:clickable="true"
+                            android:contentDescription="@string/linkedin_icon"
+                            android:padding="@dimen/padding_medium"
+                            android:tag="@string/linkedin"
+                            app:srcCompat="@drawable/ic_linkedin_24dp"
+                            android:visibility="gone"/>
+
+                        <ImageView
+                            android:id="@+id/imageView_twitter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="?selectableItemBackgroundBorderless"
+                            android:clickable="true"
+                            android:contentDescription="@string/twitter_icon"
+                            android:padding="@dimen/padding_medium"
+                            android:tag="@string/twitter"
+                            app:srcCompat="@drawable/ic_twitter_24dp"
+                            android:visibility="gone"/>
+
+                        <ImageView
+                            android:id="@+id/imageView_github"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="?selectableItemBackgroundBorderless"
+                            android:clickable="true"
+                            android:contentDescription="@string/github_icon"
+                            android:padding="@dimen/padding_medium"
+                            android:tag="@string/github"
+                            app:srcCompat="@drawable/ic_github_24dp"
+                            android:visibility="gone"/>
+
+                        <ImageView
+                            android:id="@+id/imageView_web"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="?selectableItemBackgroundBorderless"
+                            android:clickable="true"
+                            android:contentDescription="@string/web_icon"
+                            android:padding="@dimen/padding_medium"
+                            android:tag="@string/website"
+                            app:srcCompat="@drawable/ic_domain_black_24dp"
+                            android:visibility="gone"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <TextView
+                android:id="@+id/tv_speaker_seminar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/layoutSocialMediaCard"
+                android:layout_marginEnd="@dimen/padding_medium"
+                android:layout_marginLeft="@dimen/padding_medium"
+                android:layout_marginRight="@dimen/padding_medium"
+                android:layout_marginStart="@dimen/padding_medium"
+                android:layout_marginTop="@dimen/layout_margin_medium"
+                android:padding="@dimen/padding_medium"
+                android:text="@string/sessions_title_card"
+                android:textStyle="bold"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@+id/layoutSocialMedia">
+                android:layout_below="@+id/tv_speaker_seminar_title">
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerView_speakers"
@@ -208,6 +278,7 @@
                     android:text="@string/noSessions"
                     android:textAppearance="?android:textAppearanceMedium"
                     android:textColor="@color/secondary_text" />
+
             </RelativeLayout>
         </RelativeLayout>
     </android.support.v4.widget.NestedScrollView>

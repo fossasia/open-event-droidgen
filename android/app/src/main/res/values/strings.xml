@@ -298,4 +298,7 @@
     <string name="download_latest_data">Download Latest Data</string>
     <string name="ascending">Ascending</string>
     <string name="descending">Descending</string>
+    <string name="speakers_bio">About me</string>
+    <string name="social_media">Social media</string>
+    <string name="sessions_title_card">Sessions</string>
 </resources>

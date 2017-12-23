@@ -78,6 +78,9 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
     @BindView(R.id.speaker_details_header) LinearLayout toolbarHeaderView;
     @BindView(R.id.recyclerView_speakers) RecyclerView sessionRecyclerView;
     @BindView(R.id.speaker_details_designation) TextView speakerDesignation;
+    @BindView(R.id.tv_speaker_seminar_title) TextView speakerSessionsTitle;
+    @BindView(R.id.tv_speaker_bio_title) TextView speakerBioTitle;
+    @BindView(R.id.tv_speaker_social_media_title) TextView speakerSocialMediaTitle;
     @BindView(R.id.progress_bar)
     protected ProgressBar progressBar;
 
@@ -153,9 +156,11 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
     private void handleVisibility() {
         if (!sessions.isEmpty()) {
             noSessionsView.setVisibility(View.GONE);
+            speakerSessionsTitle.setVisibility(View.VISIBLE);
             sessionRecyclerView.setVisibility(View.VISIBLE);
         } else {
             noSessionsView.setVisibility(View.VISIBLE);
+            speakerSessionsTitle.setVisibility(View.GONE);
             sessionRecyclerView.setVisibility(View.GONE);
         }
     }
@@ -231,6 +236,9 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
             speakerDesignation.setVisibility(View.GONE);
 
         Views.setHtml(biography, selectedSpeaker.getShortBiography(), true);
+        if (biography.getVisibility() == View.GONE) {
+            speakerBioTitle.setVisibility(View.GONE);
+        }
 
         loadSpeakerImage();
         hideEmptyURLButtons();
@@ -239,21 +247,34 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
 
     private void hideEmptyURLButtons() {
 
-        if (TextUtils.isEmpty(selectedSpeaker.getLinkedin())) {
-            linkedin.setVisibility(View.GONE);
+        boolean showSocialMediaTitle = false;
+
+        if (!TextUtils.isEmpty(selectedSpeaker.getLinkedin())) {
+            linkedin.setVisibility(View.VISIBLE);
+            showSocialMediaTitle = true;
         }
-        if (TextUtils.isEmpty(selectedSpeaker.getTwitter())) {
-            twitter.setVisibility(View.GONE);
+        if (!TextUtils.isEmpty(selectedSpeaker.getTwitter())) {
+            twitter.setVisibility(View.VISIBLE);
+            showSocialMediaTitle = true;
         }
-        if (TextUtils.isEmpty(selectedSpeaker.getGithub())) {
-            github.setVisibility(View.GONE);
+        if (!TextUtils.isEmpty(selectedSpeaker.getGithub())) {
+            github.setVisibility(View.VISIBLE);
+            showSocialMediaTitle = true;
         }
-        if (TextUtils.isEmpty(selectedSpeaker.getFacebook())) {
-            fb.setVisibility(View.GONE);
+        if (!TextUtils.isEmpty(selectedSpeaker.getFacebook())) {
+            fb.setVisibility(View.VISIBLE);
+            showSocialMediaTitle = true;
         }
-        if (TextUtils.isEmpty(selectedSpeaker.getWebsite())) {
-            website.setVisibility(View.GONE);
+        if (!TextUtils.isEmpty(selectedSpeaker.getWebsite())) {
+            website.setVisibility(View.VISIBLE);
+            showSocialMediaTitle = true;
         }
+
+        //show the title
+        if (showSocialMediaTitle) {
+            speakerSocialMediaTitle.setVisibility(View.VISIBLE);
+        }
+
     }
     @Override
     protected void onResume() {
