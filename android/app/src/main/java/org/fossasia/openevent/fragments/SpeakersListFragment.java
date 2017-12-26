@@ -114,7 +114,7 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
     }
 
     private void loadData() {
-        speakersListFragmentViewModel.getSpeakers().observe(this,speakersList ->{
+        speakersListFragmentViewModel.getSpeakers(sortType).observe(this,speakersList ->{
             speakers.clear();
             speakers.addAll(speakersList);
             speakersListAdapter.setCopyOfSpeakers(speakersList);
