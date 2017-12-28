@@ -19,17 +19,24 @@ public class SpeakersListFragmentViewModel extends ViewModel{
     private RealmDataRepository realmRepo;
     private RealmResults<Speaker> realmResults;
     private String searchText = "";
+    private int speakersListSortType = 0;
 
     public SpeakersListFragmentViewModel() {
         realmRepo = RealmDataRepository.getDefaultInstance();
     }
 
-    public LiveData<List<Speaker>> getSpeakers() {
-        speakersList = new MutableLiveData<>();
-        realmResults = realmRepo.getSpeakers(sortOrderSpeaker());
-        realmResults.addChangeListener((speakers, orderedCollectionChangeSet) -> {
-            speakersList.setValue(speakers);
-        });
+    public LiveData<List<Speaker>> getSpeakers(int sortType) {
+        if (speakersList == null || sortType != speakersListSortType) {
+            if (speakersList == null) {
+                speakersList = new MutableLiveData<>();
+            }
+            clearListeners();
+            realmResults = realmRepo.getSpeakers(sortOrderSpeaker());
+            speakersListSortType = sortType;
+            realmResults.addChangeListener((speakers, orderedCollectionChangeSet) -> {
+                speakersList.setValue(speakers);
+            });
+        }
         return speakersList;
     }
 
@@ -41,9 +48,15 @@ public class SpeakersListFragmentViewModel extends ViewModel{
         this.searchText = searchText;
     }
 
+    private void clearListeners() {
+        if (realmResults != null) {
+            realmResults.removeAllChangeListeners();
+        }
+    }
+
     @Override
     protected void onCleared() {
-        realmResults.removeAllChangeListeners();
+        clearListeners();
         super.onCleared();
     }
 }
