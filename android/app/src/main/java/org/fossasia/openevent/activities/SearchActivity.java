@@ -100,7 +100,7 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
 
     @Override
     public boolean onQueryTextChange(String query) {
-        if (query != null) {
+        if (!TextUtils.isEmpty(query)) {
             searchQuery(query);
             searchText = query;
         } else {
