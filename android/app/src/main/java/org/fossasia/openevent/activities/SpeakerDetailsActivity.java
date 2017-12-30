@@ -1,5 +1,6 @@
 package org.fossasia.openevent.activities;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -36,18 +37,17 @@ import org.fossasia.openevent.adapters.SessionsListAdapter;
 import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
-import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.events.ConnectionCheckEvent;
 import org.fossasia.openevent.utils.StringUtils;
 import org.fossasia.openevent.utils.Utils;
 import org.fossasia.openevent.utils.Views;
+import org.fossasia.openevent.viewmodels.SpeakerDetailsActivityViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.realm.RealmChangeListener;
 
 public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout.OnOffsetChangedListener {
 
@@ -58,6 +58,8 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
     private Speaker selectedSpeaker;
 
     private List<Session> sessions = new ArrayList<>();
+
+    private SpeakerDetailsActivityViewModel speakerDetailsActivityViewModel;
 
     private boolean isHideToolbarView = false;
 
@@ -90,19 +92,19 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
         String url;
         switch (id) {
             case R.id.imageView_linkedin:
-                url = speaker.getLinkedin();
+                url = selectedSpeaker.getLinkedin();
                 break;
             case R.id.imageView_fb:
-                url = speaker.getFacebook();
+                url = selectedSpeaker.getFacebook();
                 break;
             case R.id.imageView_github:
-                url = speaker.getGithub();
+                url = selectedSpeaker.getGithub();
                 break;
             case R.id.imageView_twitter:
-                url = speaker.getTwitter();
+                url = selectedSpeaker.getTwitter();
                 break;
             case R.id.imageView_web:
-                url = speaker.getWebsite();
+                url = selectedSpeaker.getWebsite();
                 break;
             default:
                 return;
@@ -113,10 +115,7 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
         }
     }
 
-    private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
-    private Speaker speaker;
     private String speakerName;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,6 +131,8 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
         DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
         float width = displayMetrics.widthPixels / displayMetrics.density;
         int spanCount = (int) (width / 250.00);
+
+        speakerDetailsActivityViewModel = ViewModelProviders.of(this).get(SpeakerDetailsActivityViewModel.class);
 
         sessionRecyclerView.setHasFixedSize(true);
         gridLayoutManager = new GridLayoutManager(this, spanCount);
@@ -288,9 +289,8 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
 
         gridLayoutManager.setSpanCount(spanCount);
 
-        speaker = realmRepo.getSpeaker(speakerName);
-        speaker.addChangeListener((RealmChangeListener<Speaker>) speaker -> {
-            selectedSpeaker = speaker;
+        speakerDetailsActivityViewModel.getSpeaker(speakerName).observe(this, speakerData -> {
+            selectedSpeaker = speakerData;
             loadSpeakerDetails();
         });
     }
@@ -298,8 +298,6 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
     @Override
     protected void onStop() {
         super.onStop();
-        if(speaker != null)
-            speaker.removeAllChangeListeners();
     }
 
     @Override
