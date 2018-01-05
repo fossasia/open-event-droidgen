@@ -17,7 +17,7 @@
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/item_image_view_extra_large"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
@@ -36,7 +36,7 @@
                 <ImageView
                     android:id="@+id/speaker_image"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/item_image_view_extra_large"
+                    android:layout_height="match_parent"
                     android:contentDescription="@null"
                     android:fitsSystemWindows="true"
                     android:scaleType="centerCrop"
@@ -52,6 +52,7 @@
                     android:layout_height="@dimen/speaker_view_scrim_bottom"
                     android:layout_gravity="bottom"
                     android:background="@drawable/scrim_bottom" />
+
             </FrameLayout>
 
             <android.support.v7.widget.Toolbar
@@ -64,8 +65,8 @@
                 android:id="@+id/speaker_details_header"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
                 android:layout_marginLeft="@dimen/layout_margin_extra_large"
+                android:layout_gravity="bottom"
                 android:layout_marginStart="@dimen/layout_margin_extra_large"
                 android:orientation="vertical">
 
@@ -90,7 +91,7 @@
                     android:paddingBottom="@dimen/padding_small"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/text_size_large"
-                    tools:text="Subtitle"/>
+                    tools:text="Subtitle" />
 
             </LinearLayout>
 
