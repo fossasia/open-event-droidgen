@@ -15,6 +15,7 @@ import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.FeedAdapter;
 import org.fossasia.openevent.api.APIClient;
 import org.fossasia.openevent.data.facebook.FeedItem;
+import org.fossasia.openevent.modules.OnImageZoomListener;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.NetworkUtils;
 import org.fossasia.openevent.utils.SharedPreferencesUtil;
@@ -52,6 +53,7 @@ public class FeedFragment extends BaseFragment {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         feedRecyclerView.setLayoutManager(mLayoutManager);
         feedAdapter = new FeedAdapter(getContext(), (FeedAdapter.AdapterCallback)getActivity(), feedItems);
+        feedAdapter.setOnImageZoomListener((OnImageZoomListener)getActivity());
         feedRecyclerView.setAdapter(feedAdapter);
 
         setupProgressBar();
@@ -164,5 +166,13 @@ public class FeedFragment extends BaseFragment {
     @Override
     protected int getLayoutResource() {
         return R.layout.list_feed;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (feedAdapter != null) {
+            feedAdapter.removeOnImageZoomListener();
+        }
     }
 }

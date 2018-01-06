@@ -20,6 +20,7 @@ import com.squareup.picasso.Picasso;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.data.facebook.CommentItem;
 import org.fossasia.openevent.data.facebook.FeedItem;
+import org.fossasia.openevent.modules.OnImageZoomListener;
 import org.fossasia.openevent.utils.DateConverter;
 import org.fossasia.openevent.utils.Utils;
 import org.threeten.bp.format.DateTimeParseException;
@@ -39,6 +40,7 @@ public class FeedAdapter extends BaseRVAdapter<FeedItem, FeedAdapter.RecyclerVie
     private List<FeedItem> feedItems;
     private Context context;
     private AdapterCallback mAdapterCallback;
+    private OnImageZoomListener onImageZoomListener;
     private List<CommentItem> commentItems;
 
     class RecyclerViewHolder extends RecyclerView.ViewHolder {
@@ -70,6 +72,12 @@ public class FeedAdapter extends BaseRVAdapter<FeedItem, FeedAdapter.RecyclerVie
                 else
                     Snackbar.make(v, context.getResources().getString(R.string.no_comments), Snackbar.LENGTH_SHORT).show();
             });
+
+            if (onImageZoomListener != null) {
+                feedImageView.setOnClickListener(v -> {
+                    zoomImage(Utils.parseImageUri(feedItems.get(getPosition()).getFullPicture()));
+                });
+            }
         }
     }
 
@@ -149,5 +157,19 @@ public class FeedAdapter extends BaseRVAdapter<FeedItem, FeedAdapter.RecyclerVie
 
     public interface AdapterCallback {
         void onMethodCallback(List<CommentItem> commentItems);
+    }
+
+    public void setOnImageZoomListener(OnImageZoomListener onImageZoomListener) {
+        this.onImageZoomListener = onImageZoomListener;
+    }
+
+    public void removeOnImageZoomListener() {
+        onImageZoomListener = null;
+    }
+
+    private void zoomImage(String imageUri) {
+        if (onImageZoomListener != null) {
+            onImageZoomListener.onZoom(imageUri);
+        }
     }
 }
