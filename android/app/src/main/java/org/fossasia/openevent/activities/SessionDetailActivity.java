@@ -23,6 +23,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -379,7 +380,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
                 Intent intent = new Intent(Intent.ACTION_INSERT);
                 intent.setType("vnd.android.cursor.item/event");
                 intent.putExtra(CalendarContract.Events.TITLE, title);
-                intent.putExtra(CalendarContract.Events.DESCRIPTION, session.getShortAbstract());
+                intent.putExtra(CalendarContract.Events.DESCRIPTION, Html.fromHtml(session.getShortAbstract()).toString());
                 intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, DateConverter.formatDateWithDefault(DateConverter.FORMAT_24H, session.getStartsAt()));
                 intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, DateConverter.formatDateWithDefault(DateConverter.FORMAT_24H, session.getEndsAt()));
                 startActivity(intent);
