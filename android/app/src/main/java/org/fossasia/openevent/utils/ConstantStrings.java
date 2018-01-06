@@ -72,6 +72,8 @@ public class ConstantStrings {
 
     public static final String SESSION_MAP_ID = "sessionMapId";
 
+    public static final String IMAGE_ZOOM_KEY = "imageZoom";
+
     //Sort order
 
     public static final String PREF_SORT_SCHEDULE = "schedule_sort_type";

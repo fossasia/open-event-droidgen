@@ -140,4 +140,7 @@ dependencies {
 
     //ViewModel and LiveData
     implementation "android.arch.lifecycle:extensions:1.0.0"
+
+    //Zoomable image view
+    compile 'com.github.chrisbanes:PhotoView:2.1.3'
 }
