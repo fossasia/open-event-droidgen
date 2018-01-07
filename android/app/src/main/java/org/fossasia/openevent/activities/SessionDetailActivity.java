@@ -39,6 +39,7 @@ import com.squareup.picasso.Picasso;
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.SessionSpeakerListAdapter;
+import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
@@ -374,8 +375,12 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
                                 "Duration : %s" + " - " + " %s \n" +
                                 "Location : %s\n" +
                                 "Speaker : %s",
-                        trackName, title, date, startTime, endTime, location, StringUtils.join(nameAndOrgansisation, ", ")) +
-                        "\nDescription: " + Html.fromHtml(session.getShortAbstract()).toString();
+                        trackName, title, date, startTime, endTime, location, StringUtils.join(nameAndOrgansisation, ", ") +
+                        "\nDescription: " + Html.fromHtml(session.getShortAbstract()).toString() +
+                        String.format("\n\n%s (%s)\n",
+                                getResources().getString(R.string.message_3),
+                                Urls.getAppLink()
+                        ));
 
 
                 Intent sendIntent = new Intent();

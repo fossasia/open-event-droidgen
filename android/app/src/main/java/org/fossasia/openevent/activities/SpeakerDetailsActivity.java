@@ -332,12 +332,17 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
                 sendIntent.putExtra(Intent.EXTRA_SUBJECT, getResources().getString(R.string.subject));
+                List<String> topicsList = new ArrayList<>();
+                for(int i = 0;i < sessionsListAdapter.getItemCount();i++){
+                    Session session = sessionsListAdapter.getItem(i);
+                    topicsList.add(session.getTitle());
+                }
                 String message = String.format("%s %s %s %s\n\n",
                         selectedSpeaker.getName(),
                         getResources().getString(R.string.message_1),
                         getResources().getString(R.string.app_name),
                         getResources().getString(R.string.message_2)) +
-                        StringUtils.join(sessions, ", ") +
+                        StringUtils.join(topicsList, "\nsp") +
                         String.format("\n\n%s (%s)\n",
                                 getResources().getString(R.string.message_3),
                                 Urls.getAppLink()
