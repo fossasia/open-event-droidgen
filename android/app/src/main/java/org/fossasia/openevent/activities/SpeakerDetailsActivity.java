@@ -342,7 +342,7 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
                         getResources().getString(R.string.message_1),
                         getResources().getString(R.string.app_name),
                         getResources().getString(R.string.message_2)) +
-                        StringUtils.join(topicsList, "\nsp") +
+                        StringUtils.join(topicsList, "\n") +
                         String.format("\n\n%s (%s)\n",
                                 getResources().getString(R.string.message_3),
                                 Urls.getAppLink()
