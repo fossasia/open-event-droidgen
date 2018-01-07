@@ -23,6 +23,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -357,16 +358,25 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
                 return true;
 
             case R.id.action_share:
-                String startTime = DateConverter.formatDateWithDefault(DateConverter.FORMAT_DATE_COMPLETE, session.getStartsAt());
-                String endTime = DateConverter.formatDateWithDefault(DateConverter.FORMAT_DATE_COMPLETE, session.getEndsAt());
-                String shareText = String.format("Session Track: %s \n" +
-                                "Title: %s \n" +
-                                "Start Time: %s \n" +
-                                "End Time: %s\n" +
-                                "Speakers: %s\n" +
-                                "Location: %s",
-                        trackName, title, startTime, endTime, StringUtils.join(speakers, ", "), location) +
-                        "\nDescription: " + Views.fromHtml(session.getLongAbstract());
+                String date = DateConverter.formatDateWithDefault(DateConverter.FORMAT_DATE_COMPLETE, session.getStartsAt());
+                String startTime = DateConverter.formatDateWithDefault(DateConverter.FORMAT_12H, session.getStartsAt());
+                String endTime = DateConverter.formatDateWithDefault(DateConverter.FORMAT_12H, session.getEndsAt());
+
+                List<String> nameAndOrgansisation = new ArrayList<>();
+                for(int i = 0;i < adapter.getItemCount();i++){
+                    Speaker speaker = adapter.getItem(i);
+                    nameAndOrgansisation.add(speaker.getName() + " (" + speaker.getOrganisation() + ")");
+                }
+
+                String shareText = String.format("Session Track : %s \n" +
+                                "Title : %s \n" +
+                                "Date : %s \n" +
+                                "Duration : %s" + " - " + " %s \n" +
+                                "Location : %s\n" +
+                                "Speaker : %s",
+                        trackName, title, date, startTime, endTime, location, StringUtils.join(nameAndOrgansisation, ", ")) +
+                        "\nDescription: " + Html.fromHtml(session.getShortAbstract()).toString();
+
 
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);

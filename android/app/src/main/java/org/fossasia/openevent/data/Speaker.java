@@ -58,4 +58,12 @@ public class Speaker extends RealmObject {
     private String sponsorshipRequired;
     @Relationship("sessions")
     private RealmList<Session> sessions;
+
+    public String getName() {
+        return name;
+    }
+
+    public String getOrganisation() {
+        return organisation;
+    }
 }
