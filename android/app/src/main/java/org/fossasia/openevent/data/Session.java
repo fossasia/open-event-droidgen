@@ -62,4 +62,8 @@ public class Session extends RealmObject {
     private Microlocation microlocation;
     @Relationship("speakers")
     private RealmList<Speaker> speakers;
+
+    public String getTitle() {
+        return title;
+    }
 }
