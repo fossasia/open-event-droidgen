@@ -111,7 +111,7 @@ import io.realm.RealmList;
 import io.realm.RealmResults;
 import timber.log.Timber;
 
-public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCallback, OnImageZoomListener {
+public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommentsDialogListener, OnImageZoomListener {
 
     private static final String STATE_FRAGMENT = "stateFragment";
     private static final String NAV_ITEM = "navItem";
@@ -870,7 +870,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
     }
 
     @Override
-    public void onMethodCallback(List<CommentItem> commentItems) {
+    public void openCommentsDialog(List<CommentItem> commentItems) {
         CommentsDialogFragment newFragment = new CommentsDialogFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList(ConstantStrings.FACEBOOK_COMMENTS, new ArrayList<>(commentItems));
