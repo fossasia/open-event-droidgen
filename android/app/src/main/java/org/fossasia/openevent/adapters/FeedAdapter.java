@@ -39,7 +39,7 @@ public class FeedAdapter extends BaseRVAdapter<FeedItem, FeedAdapter.RecyclerVie
 
     private List<FeedItem> feedItems;
     private Context context;
-    private AdapterCallback mAdapterCallback;
+    private OpenCommentsDialogListener openCommentsDialogListener;
     private OnImageZoomListener onImageZoomListener;
     private List<CommentItem> commentItems;
 
@@ -68,7 +68,7 @@ public class FeedAdapter extends BaseRVAdapter<FeedItem, FeedAdapter.RecyclerVie
                     commentItems.addAll(clickedFeedItem.getComments().getData());
                 }
                 if (commentItems.size() != 0)
-                    mAdapterCallback.onMethodCallback(commentItems);
+                    openCommentsDialogListener.openCommentsDialog(commentItems);
                 else
                     Snackbar.make(v, context.getResources().getString(R.string.no_comments), Snackbar.LENGTH_SHORT).show();
             });
@@ -81,14 +81,14 @@ public class FeedAdapter extends BaseRVAdapter<FeedItem, FeedAdapter.RecyclerVie
         }
     }
 
-    public FeedAdapter(Context context, AdapterCallback adapterCallback, List<FeedItem> feedItems) {
+    public FeedAdapter(Context context, OpenCommentsDialogListener openCommentsDialogListener, List<FeedItem> feedItems) {
         super(feedItems);
         this.feedItems = feedItems;
         this.context = context;
         try {
-            this.mAdapterCallback = adapterCallback;
+            this.openCommentsDialogListener = openCommentsDialogListener;
         } catch (ClassCastException e) {
-            throw new ClassCastException("Activity must implement AdapterCallback.");
+            throw new ClassCastException("Activity must implement OpenCommentsDialogListener.");
         }
     }
 
@@ -155,8 +155,8 @@ public class FeedAdapter extends BaseRVAdapter<FeedItem, FeedAdapter.RecyclerVie
 
     }
 
-    public interface AdapterCallback {
-        void onMethodCallback(List<CommentItem> commentItems);
+    public interface OpenCommentsDialogListener {
+        void openCommentsDialog(List<CommentItem> commentItems);
     }
 
     public void setOnImageZoomListener(OnImageZoomListener onImageZoomListener) {

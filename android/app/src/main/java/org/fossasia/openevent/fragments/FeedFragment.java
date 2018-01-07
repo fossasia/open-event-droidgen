@@ -52,7 +52,7 @@ public class FeedFragment extends BaseFragment {
         feedItems = new ArrayList<>();
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         feedRecyclerView.setLayoutManager(mLayoutManager);
-        feedAdapter = new FeedAdapter(getContext(), (FeedAdapter.AdapterCallback)getActivity(), feedItems);
+        feedAdapter = new FeedAdapter(getContext(), (FeedAdapter.OpenCommentsDialogListener)getActivity(), feedItems);
         feedAdapter.setOnImageZoomListener((OnImageZoomListener)getActivity());
         feedRecyclerView.setAdapter(feedAdapter);
 
