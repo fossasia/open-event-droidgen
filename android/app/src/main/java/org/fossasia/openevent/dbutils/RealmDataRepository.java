@@ -22,6 +22,7 @@ import io.reactivex.schedulers.Schedulers;
 import io.realm.Case;
 import io.realm.Realm;
 import io.realm.RealmList;
+import io.realm.RealmObject;
 import io.realm.RealmResults;
 import io.realm.Sort;
 import timber.log.Timber;
@@ -561,6 +562,20 @@ public class RealmDataRepository {
 
     public RealmResults<EventDates> getEventDatesSync(){
         return realm.where(EventDates.class).findAll();
+    }
+
+    /**
+     * Convert RealmResults to LiveReamlData
+     */
+    public static <K extends RealmObject> LiveRealmData<K> asLiveData(RealmResults<K> data) {
+        return new LiveRealmData<>(data);
+    }
+
+    /**
+     * Convert RealmObject to LiveReamlDataObject
+     */
+    public static <K extends RealmObject> LiveRealmDataObject<K> asLiveDataForObject(K data) {
+        return new LiveRealmDataObject<>(data);
     }
 
     /**
