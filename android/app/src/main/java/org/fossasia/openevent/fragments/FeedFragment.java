@@ -173,6 +173,7 @@ public class FeedFragment extends BaseFragment {
         super.onStop();
         if (feedAdapter != null) {
             feedAdapter.removeOnImageZoomListener();
+            feedAdapter.removeOpenCommentsDialogListener();
         }
     }
 }
