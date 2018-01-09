@@ -20,6 +20,7 @@ import com.squareup.picasso.Picasso;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.data.facebook.CommentItem;
 import org.fossasia.openevent.data.facebook.FeedItem;
+import org.fossasia.openevent.modules.OnImageZoomListener;
 import org.fossasia.openevent.utils.DateConverter;
 import org.fossasia.openevent.utils.Utils;
 import org.threeten.bp.format.DateTimeParseException;
@@ -38,7 +39,8 @@ public class FeedAdapter extends BaseRVAdapter<FeedItem, FeedAdapter.RecyclerVie
 
     private List<FeedItem> feedItems;
     private Context context;
-    private AdapterCallback mAdapterCallback;
+    private OpenCommentsDialogListener openCommentsDialogListener;
+    private OnImageZoomListener onImageZoomListener;
     private List<CommentItem> commentItems;
 
     class RecyclerViewHolder extends RecyclerView.ViewHolder {
@@ -66,21 +68,27 @@ public class FeedAdapter extends BaseRVAdapter<FeedItem, FeedAdapter.RecyclerVie
                     commentItems.addAll(clickedFeedItem.getComments().getData());
                 }
                 if (commentItems.size() != 0)
-                    mAdapterCallback.onMethodCallback(commentItems);
+                    openCommentsDialogListener.openCommentsDialog(commentItems);
                 else
                     Snackbar.make(v, context.getResources().getString(R.string.no_comments), Snackbar.LENGTH_SHORT).show();
             });
+
+            if (onImageZoomListener != null) {
+                feedImageView.setOnClickListener(v -> {
+                    zoomImage(Utils.parseImageUri(feedItems.get(getPosition()).getFullPicture()));
+                });
+            }
         }
     }
 
-    public FeedAdapter(Context context, AdapterCallback adapterCallback, List<FeedItem> feedItems) {
+    public FeedAdapter(Context context, OpenCommentsDialogListener openCommentsDialogListener, List<FeedItem> feedItems) {
         super(feedItems);
         this.feedItems = feedItems;
         this.context = context;
         try {
-            this.mAdapterCallback = adapterCallback;
+            this.openCommentsDialogListener = openCommentsDialogListener;
         } catch (ClassCastException e) {
-            throw new ClassCastException("Activity must implement AdapterCallback.");
+            throw new ClassCastException("Activity must implement OpenCommentsDialogListener.");
         }
     }
 
@@ -147,7 +155,21 @@ public class FeedAdapter extends BaseRVAdapter<FeedItem, FeedAdapter.RecyclerVie
 
     }
 
-    public interface AdapterCallback {
-        void onMethodCallback(List<CommentItem> commentItems);
+    public interface OpenCommentsDialogListener {
+        void openCommentsDialog(List<CommentItem> commentItems);
+    }
+
+    public void setOnImageZoomListener(OnImageZoomListener onImageZoomListener) {
+        this.onImageZoomListener = onImageZoomListener;
+    }
+
+    public void removeOnImageZoomListener() {
+        onImageZoomListener = null;
+    }
+
+    private void zoomImage(String imageUri) {
+        if (onImageZoomListener != null) {
+            onImageZoomListener.onZoom(imageUri);
+        }
     }
 }

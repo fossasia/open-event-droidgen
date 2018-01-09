@@ -77,16 +77,16 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
         //set up view model
         locationsFragmentViewModel = ViewModelProviders.of(this).get(LocationsFragmentViewModel.class);
         searchText = locationsFragmentViewModel.getSearchText();
-        locationsFragmentViewModel.getLocations().observe(LocationsFragment.this, microlocations ->  {
-                locations.clear();
-                locations.addAll(microlocations);
+        locationsFragmentViewModel.getLocations().observe(LocationsFragment.this, microlocations -> {
+            locations.clear();
+            locations.addAll(microlocations);
 
-                locationsListAdapter.setCopyOfTracks(microlocations);
-                locationsListAdapter.notifyDataSetChanged();
-                if (!Utils.isEmpty(searchText))
-                    locationsListAdapter.filter(searchText);
-                handleVisibility();
-            });
+            locationsListAdapter.setCopyOfTracks(microlocations);
+            locationsListAdapter.notifyDataSetChanged();
+            if (!Utils.isEmpty(searchText))
+                locationsListAdapter.filter(searchText);
+            LocationsFragment.this.handleVisibility();
+        });
 
         handleVisibility();
 

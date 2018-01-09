@@ -1,6 +1,7 @@
 package org.fossasia.openevent.activities;
 
 import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -79,6 +80,8 @@ import org.fossasia.openevent.fragments.ScheduleFragment;
 import org.fossasia.openevent.fragments.SpeakersListFragment;
 import org.fossasia.openevent.fragments.SponsorsFragment;
 import org.fossasia.openevent.fragments.TracksFragment;
+import org.fossasia.openevent.fragments.ZoomableImageDialogFragment;
+import org.fossasia.openevent.modules.OnImageZoomListener;
 import org.fossasia.openevent.utils.AuthUtil;
 import org.fossasia.openevent.utils.CommonTaskLoop;
 import org.fossasia.openevent.utils.ConstantStrings;
@@ -108,7 +111,7 @@ import io.realm.RealmList;
 import io.realm.RealmResults;
 import timber.log.Timber;
 
-public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCallback {
+public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommentsDialogListener, OnImageZoomListener {
 
     private static final String STATE_FRAGMENT = "stateFragment";
     private static final String NAV_ITEM = "navItem";
@@ -867,11 +870,21 @@ public class MainActivity extends BaseActivity implements FeedAdapter.AdapterCal
     }
 
     @Override
-    public void onMethodCallback(List<CommentItem> commentItems) {
+    public void openCommentsDialog(List<CommentItem> commentItems) {
         CommentsDialogFragment newFragment = new CommentsDialogFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList(ConstantStrings.FACEBOOK_COMMENTS, new ArrayList<>(commentItems));
         newFragment.setArguments(bundle);
         newFragment.show(fragmentManager, "Comments");
+    }
+
+    @Override
+    public void onZoom(String imageUri) {
+        ZoomableImageDialogFragment zoomableImageDialogFragment = new ZoomableImageDialogFragment();
+        zoomableImageDialogFragment.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
+        Bundle bundle = new Bundle();
+        bundle.putString(ConstantStrings.IMAGE_ZOOM_KEY, imageUri);
+        zoomableImageDialogFragment.setArguments(bundle);
+        zoomableImageDialogFragment.show(fragmentManager, "ZoomableImage");
     }
 }
