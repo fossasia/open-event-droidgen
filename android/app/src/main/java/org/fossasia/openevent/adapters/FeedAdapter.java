@@ -172,4 +172,8 @@ public class FeedAdapter extends BaseRVAdapter<FeedItem, FeedAdapter.RecyclerVie
             onImageZoomListener.onZoom(imageUri);
         }
     }
+
+    public void removeOpenCommentsDialogListener() {
+        openCommentsDialogListener = null;
+    }
 }
