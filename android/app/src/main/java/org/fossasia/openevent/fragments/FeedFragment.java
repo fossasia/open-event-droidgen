@@ -90,9 +90,11 @@ public class FeedFragment extends BaseFragment {
                     feedAdapter.notifyDataSetChanged();
                     handleVisibility();
                 }, throwable -> {
-                    Snackbar.make(swipeRefreshLayout, getActivity()
-                            .getString(R.string.refresh_failed), Snackbar.LENGTH_LONG)
-                            .setAction(R.string.retry_download, view -> refresh()).show();
+                    if(getActivity() != null){
+                      Snackbar.make(swipeRefreshLayout, getActivity()
+                                .getString(R.string.refresh_failed), Snackbar.LENGTH_LONG)
+                                .setAction(R.string.retry_download, view -> refresh()).show();
+                    }
                     Timber.d("Refresh not done");
                     showProgressBar(false);
                 }, () -> {
