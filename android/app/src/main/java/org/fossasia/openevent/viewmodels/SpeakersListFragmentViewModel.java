@@ -1,7 +1,6 @@
 package org.fossasia.openevent.viewmodels;
 
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 
@@ -22,18 +21,12 @@ public class SpeakersListFragmentViewModel extends ViewModel {
 
     public SpeakersListFragmentViewModel() {
         realmRepo = RealmDataRepository.getDefaultInstance();
-        speakersList = new MutableLiveData<>();
-        subscribeToSpeakers();
-    }
-
-    private void subscribeToSpeakers() {
-        LiveRealmData<Speaker> speakerLiveRealmData = RealmDataRepository.asLiveData(realmRepo.getSpeakers(sortOrderSpeaker()));
-        speakersList = Transformations.map(speakerLiveRealmData, input -> input);
     }
 
     public LiveData<List<Speaker>> getSpeakers(int sortType) {
-        if (sortType != speakersListSortType) {
-            subscribeToSpeakers();
+        if (sortType != speakersListSortType || speakersList == null) {
+            LiveRealmData<Speaker> speakerLiveRealmData = RealmDataRepository.asLiveData(realmRepo.getSpeakers(sortOrderSpeaker()));
+            speakersList = Transformations.map(speakerLiveRealmData, input -> input);
             speakersListSortType = sortType;
         }
         return speakersList;
@@ -47,8 +40,4 @@ public class SpeakersListFragmentViewModel extends ViewModel {
         this.searchText = searchText;
     }
 
-    @Override
-    protected void onCleared() {
-        super.onCleared();
-    }
 }

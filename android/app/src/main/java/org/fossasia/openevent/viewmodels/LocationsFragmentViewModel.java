@@ -1,7 +1,6 @@
 package org.fossasia.openevent.viewmodels;
 
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 
@@ -20,16 +19,13 @@ public class LocationsFragmentViewModel extends ViewModel {
 
     public LocationsFragmentViewModel() {
         realmRepo = RealmDataRepository.getDefaultInstance();
-        locations = new MutableLiveData<>();
-        subscribeToLocations();
-    }
-
-    private void subscribeToLocations() {
-        LiveRealmData<Microlocation> microlocationLiveRealmData = RealmDataRepository.asLiveData(realmRepo.getLocations());
-        locations = Transformations.map(microlocationLiveRealmData, input -> input);
     }
 
     public LiveData<List<Microlocation>> getLocations() {
+        if (locations == null) {
+            LiveRealmData<Microlocation> microlocationLiveRealmData = RealmDataRepository.asLiveData(realmRepo.getLocations());
+            locations = Transformations.map(microlocationLiveRealmData, input -> input);
+        }
         return locations;
     }
 
@@ -41,8 +37,4 @@ public class LocationsFragmentViewModel extends ViewModel {
         this.searchText = searchText;
     }
 
-    @Override
-    protected void onCleared() {
-        super.onCleared();
-    }
 }
