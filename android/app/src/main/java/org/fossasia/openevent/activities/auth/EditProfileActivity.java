@@ -20,6 +20,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.yalantis.ucrop.UCrop;
+
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.api.APIClient;
@@ -35,6 +37,7 @@ import org.fossasia.openevent.utils.Utils;
 import org.json.JSONException;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
@@ -230,10 +233,14 @@ public class EditProfileActivity extends AppCompatActivity {
 
             imageUri = data.getData();
             Timber.d(imageUri.toString());
+            UCrop.of(imageUri,Uri.fromFile(new File(getCacheDir(),imageUri.getUserInfo()+".png"))).start(this);
 
+        }
+        if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
+            final Uri resultUri = UCrop.getOutput(data);
             InputStream imageStream = null;
             try {
-                imageStream = getContentResolver().openInputStream(imageUri);
+                imageStream = getContentResolver().openInputStream(resultUri);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -241,9 +248,12 @@ public class EditProfileActivity extends AppCompatActivity {
             encodedImage = encodeImage(selectedImage);
 
             OpenEventApp.picassoWithCache
-                    .load(imageUri)
+                    .load(resultUri)
                     .transform(new CircleTransform())
                     .into(avatar);
+        } else if (resultCode == UCrop.RESULT_ERROR) {
+            final Throwable cropError = UCrop.getError(data);
+            Timber.d("EditProfileActivity", "UCrop Error" + cropError);
         }
     }
 

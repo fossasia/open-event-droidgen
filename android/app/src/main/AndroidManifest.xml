@@ -50,6 +50,10 @@
             android:label="@string/title_activity_edit_profile"
             android:configChanges="orientation|screenSize|keyboardHidden"/>
         <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity
             android:name=".activities.auth.ChangePasswordActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/title_activity_change_password" />
