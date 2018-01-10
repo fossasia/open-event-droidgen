@@ -341,7 +341,7 @@ public class AboutFragment extends BaseFragment {
 
     private void loadData() {
         loadEventDates();
-        aboutFragmentViewModel.getSessions(dateList).observe(this, sessionsList -> {
+        aboutFragmentViewModel.getSessions().observe(this, sessionsList -> {
             sessions.clear();
             sessions.addAll(sessionsList);
             bookMarksListAdapter = new GlobalSearchAdapter(sessions, getContext());
