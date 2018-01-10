@@ -1,6 +1,7 @@
 package org.fossasia.openevent.viewmodels;
 
 import android.arch.lifecycle.LiveData;
+
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 
