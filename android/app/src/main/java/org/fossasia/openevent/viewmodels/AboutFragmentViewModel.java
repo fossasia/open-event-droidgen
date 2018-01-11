@@ -28,9 +28,7 @@ public class AboutFragmentViewModel extends ViewModel {
 
     public AboutFragmentViewModel() {
         realmRepo = RealmDataRepository.getDefaultInstance();
-        sessions = new MutableLiveData<>();
         dateList = new MutableLiveData<>();
-        eventLiveData = new MutableLiveData<>();
         subscribeToEvent();
         subscribeToDateList();
     }
