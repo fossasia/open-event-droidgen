@@ -85,11 +85,7 @@ public class FeedAdapter extends BaseRVAdapter<FeedItem, FeedAdapter.RecyclerVie
         super(feedItems);
         this.feedItems = feedItems;
         this.context = context;
-        try {
-            this.openCommentsDialogListener = openCommentsDialogListener;
-        } catch (ClassCastException e) {
-            throw new ClassCastException("Activity must implement OpenCommentsDialogListener.");
-        }
+        this.openCommentsDialogListener = openCommentsDialogListener;
     }
 
     @Override
