@@ -44,7 +44,6 @@ public class ScheduleFragment extends BaseFragment {
 
     @BindView(R.id.viewpager) ViewPager viewPager;
     @BindView(R.id.tabLayout) TabLayout scheduleTabLayout;
-    @BindView(R.id.schedule_fab_filter) FloatingActionButton fabFilter;
     @BindView(R.id.filter_text) TextView filtersText;
     @BindView(R.id.close_filter) ImageView closeFilterBarButton;
     @BindView(R.id.filter_bar) LinearLayout filterBar;
@@ -67,7 +66,8 @@ public class ScheduleFragment extends BaseFragment {
         setHasOptionsMenu(true);
 
         View view = super.onCreateView(inflater, container, savedInstanceState);
-
+        FloatingActionButton fabFilter = (FloatingActionButton) getActivity().findViewById(R.id.schedule_fab_filter);
+        fabFilter.setVisibility(View.VISIBLE);
         filterBar.setVisibility(View.GONE);
         OpenEventApp.getEventBus().register(true);
         compositeDisposable = new CompositeDisposable();
@@ -79,6 +79,8 @@ public class ScheduleFragment extends BaseFragment {
 
         setupViewPager(viewPager);
         scheduleTabLayout.setupWithViewPager(viewPager);
+
+        fabFilter.setOnClickListener(v -> filterSchedule());
 
         return view;
     }
@@ -175,7 +177,6 @@ public class ScheduleFragment extends BaseFragment {
         return super.onOptionsItemSelected(item);
     }
 
-    @OnClick (R.id.schedule_fab_filter)
     public void filterSchedule() {
         final AlertDialog.Builder dialogSort = new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.dialog_filter_title)
@@ -234,6 +235,8 @@ public class ScheduleFragment extends BaseFragment {
             compositeDisposable.dispose();
         if(viewPager != null && onPageChangeListener != null)
             viewPager.removeOnPageChangeListener(onPageChangeListener);
+        FloatingActionButton fabFilter = (FloatingActionButton) getActivity().findViewById(R.id.schedule_fab_filter);
+        fabFilter.setVisibility(View.GONE);
     }
 }
 

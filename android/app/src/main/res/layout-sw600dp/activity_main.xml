@@ -58,6 +58,17 @@
                 android:layout_height="match_parent"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/schedule_fab_filter"
+                android:layout_width="@dimen/fab_width"
+                android:layout_height="@dimen/fab_height"
+                android:layout_gravity="bottom|end"
+                android:visibility="gone"
+                android:layout_marginBottom="@dimen/layout_margin_large"
+                android:layout_marginEnd="@dimen/layout_margin_large"
+                android:layout_marginRight="@dimen/layout_margin_large"
+                app:srcCompat="@drawable/ic_filter_24dp"/>
+
         </android.support.design.widget.CoordinatorLayout>
     </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

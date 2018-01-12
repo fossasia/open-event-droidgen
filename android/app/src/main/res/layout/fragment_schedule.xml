@@ -61,17 +61,5 @@
             android:background="@android:color/white"
             android:layout_below="@+id/filter_bar"/>
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/schedule_fab_filter"
-            android:layout_width="@dimen/fab_width"
-            android:layout_height="@dimen/fab_height"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="@dimen/layout_margin_large"
-            android:layout_marginEnd="@dimen/layout_margin_large"
-            android:layout_marginRight="@dimen/layout_margin_large"
-            app:srcCompat="@drawable/ic_filter_24dp"/>
-
     </RelativeLayout>
 </android.support.design.widget.AppBarLayout>
