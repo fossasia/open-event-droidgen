@@ -78,6 +78,7 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
     private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
     private TextView upcomingSessionText;
     private TextView upcomingSessionTitle;
+    private View upcomingSessionDetails;
     private TextDrawable.IBuilder drawableBuilder = TextDrawable.builder().round();
 
     @Override
@@ -142,6 +143,7 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
         upcomingSessionText = (TextView) upcomingDialogBox.findViewById(R.id.upcoming_session_textview);
         upcomingSessionTitle = (TextView) upcomingDialogBox.findViewById(R.id.upcoming_Session_title);
         Button dialogButton = (Button) upcomingDialogBox.findViewById(R.id.upcoming_button);
+        upcomingSessionDetails = (View) upcomingDialogBox.findViewById(R.id.upcoming_session_details);
         dialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -174,10 +176,9 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
             upcomingSessionText.setText(upcomingTitle);
         } else {
             upcomingSessionTitle.setText(getResources().getString(R.string.no_upcoming_Sess));
-            upcomingSessionText.setVisibility(View.GONE);
+            upcomingSessionDetails.setVisibility(View.GONE);
         }
     }
-
     private void handleVisibility() {
         if (!sessions.isEmpty()) {
             noSessionsView.setVisibility(View.GONE);
