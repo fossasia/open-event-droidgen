@@ -1,7 +1,6 @@
 package org.fossasia.openevent.viewmodels;
 
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 
@@ -23,47 +22,37 @@ public class AboutFragmentViewModel extends ViewModel {
 
     private RealmDataRepository realmRepo;
     private LiveData<List<Object>> sessions;
-    private MutableLiveData<ArrayList<String>> dateList;
+    private ArrayList<String> dateList;
     private LiveData<Event> eventLiveData;
 
     public AboutFragmentViewModel() {
         realmRepo = RealmDataRepository.getDefaultInstance();
-        sessions = new MutableLiveData<>();
-        dateList = new MutableLiveData<>();
-        eventLiveData = new MutableLiveData<>();
-        subscribeToEvent();
-        subscribeToDateList();
-    }
-
-    private void subscribeToSessions(ArrayList<String> dates) {
-        LiveRealmData<Session> sessionLiveRealmData = RealmDataRepository.asLiveData(realmRepo.getBookMarkedSessions());
-        sessions = Transformations.map(sessionLiveRealmData, input -> getSessionsList(dates, input));
-    }
-
-    private void subscribeToDateList() {
-        RealmResults<EventDates> eventDates = realmRepo.getEventDatesSync();
-        ArrayList<String> dateListString = new ArrayList<>();
-        for (EventDates eventDate : eventDates) {
-            dateListString.add(eventDate.getDate());
-        }
-        dateList.setValue(dateListString);
-        subscribeToSessions(dateListString);
-    }
-
-    private void subscribeToEvent() {
-        LiveRealmDataObject<Event> liveRealmDataObject = RealmDataRepository.asLiveDataForObject(realmRepo.getEvent());
-        eventLiveData = Transformations.map(liveRealmDataObject, input -> input);
     }
 
     public LiveData<Event> getEvent() {
+        if (eventLiveData == null) {
+            LiveRealmDataObject<Event> liveRealmDataObject = RealmDataRepository.asLiveDataForObject(realmRepo.getEvent());
+            eventLiveData = Transformations.map(liveRealmDataObject, input -> input);
+        }
         return eventLiveData;
     }
 
-    public LiveData<ArrayList<String>> getDateList() {
+    public ArrayList<String> getDateList() {
+        if (dateList == null) {
+            dateList = new ArrayList<>();
+            RealmResults<EventDates> eventDates = realmRepo.getEventDatesSync();
+            for (EventDates eventDate : eventDates) {
+                dateList.add(eventDate.getDate());
+            }
+        }
         return dateList;
     }
 
-    public LiveData<List<Object>> getSessions() {
+    public LiveData<List<Object>> getBookmarkedSessions() {
+        if (sessions == null) {
+            LiveRealmData<Session> sessionLiveRealmData = RealmDataRepository.asLiveData(realmRepo.getBookMarkedSessions());
+            sessions = Transformations.map(sessionLiveRealmData, input -> getSessionsList(dateList, input));
+        }
         return sessions;
     }
 
@@ -90,8 +79,4 @@ public class AboutFragmentViewModel extends ViewModel {
         return sessionsList;
     }
 
-    @Override
-    protected void onCleared() {
-        super.onCleared();
-    }
 }

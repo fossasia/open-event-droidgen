@@ -333,15 +333,13 @@ public class AboutFragment extends BaseFragment {
     }
 
     private void loadEventDates() {
-        aboutFragmentViewModel.getDateList().observe(this, dateList -> {
-            this.dateList.clear();
-            this.dateList.addAll(dateList);
-        });
+        this.dateList.clear();
+        this.dateList.addAll(aboutFragmentViewModel.getDateList());
     }
 
     private void loadData() {
         loadEventDates();
-        aboutFragmentViewModel.getSessions().observe(this, sessionsList -> {
+        aboutFragmentViewModel.getBookmarkedSessions().observe(this, sessionsList -> {
             sessions.clear();
             sessions.addAll(sessionsList);
             bookMarksListAdapter = new GlobalSearchAdapter(sessions, getContext());
