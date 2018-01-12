@@ -95,6 +95,7 @@ public class FeedFragment extends BaseFragment {
                             .setAction(R.string.retry_download, view -> refresh()).show();
                     Timber.d("Refresh not done");
                     showProgressBar(false);
+                    swipeRefreshLayout.setRefreshing(false);
                 }, () -> {
                     Views.setSwipeRefreshLayout(swipeRefreshLayout, false);
                     Timber.d("Refresh done");
@@ -125,6 +126,7 @@ public class FeedFragment extends BaseFragment {
             @Override
             public void networkAvailable() {
                 // Network is available
+                swipeRefreshLayout.setRefreshing(true);
                 if (SharedPreferencesUtil.getString(ConstantStrings.FACEBOOK_PAGE_ID, null) == null)
                     APIClient.getFacebookGraphAPI().getPageId(SharedPreferencesUtil.getString(ConstantStrings.FACEBOOK_PAGE_NAME, null),
                             getResources().getString(R.string.facebook_access_token))
