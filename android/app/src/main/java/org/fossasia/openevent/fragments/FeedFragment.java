@@ -116,7 +116,7 @@ public class FeedFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-
+        feedAdapter.setOnImageZoomListener(null);
         if(swipeRefreshLayout != null) swipeRefreshLayout.setOnRefreshListener(null);
     }
 

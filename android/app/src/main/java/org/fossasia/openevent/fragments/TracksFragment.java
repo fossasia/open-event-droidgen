@@ -62,6 +62,7 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
 
     private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
     private RealmResults<Track> realmResults;
+    private RecyclerView.AdapterDataObserver adapterDataObserver;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -103,12 +104,13 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
 
         final StickyRecyclerHeadersDecoration headersDecoration = new StickyRecyclerHeadersDecoration(tracksListAdapter);
         tracksRecyclerView.addItemDecoration(headersDecoration);
-        tracksListAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+        adapterDataObserver = new RecyclerView.AdapterDataObserver() {
             @Override
             public void onChanged() {
                 headersDecoration.invalidateHeaders();
             }
-        });
+        };
+        tracksListAdapter.registerAdapterDataObserver(adapterDataObserver);
     }
 
     public void handleVisibility() {
@@ -131,6 +133,7 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
     public void onDestroyView() {
         super.onDestroyView();
         Utils.unregisterIfUrlValid(this);
+        tracksListAdapter.unregisterAdapterDataObserver(adapterDataObserver);
 
         // Remove listeners to fix memory leak
         realmResults.removeAllChangeListeners();
