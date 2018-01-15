@@ -1,7 +1,6 @@
 package org.fossasia.openevent.viewmodels;
 
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 
 import org.fossasia.openevent.data.Microlocation;
@@ -16,7 +15,6 @@ import io.reactivex.functions.Predicate;
 public class LocationsFragmentViewModel extends ViewModel {
 
     private FilterableRealmLiveData<Microlocation> filterableRealmLiveData;
-    private LiveData<List<Microlocation>> filteredLocations;
     private String searchText = "";
 
     public LocationsFragmentViewModel() {
@@ -24,18 +22,15 @@ public class LocationsFragmentViewModel extends ViewModel {
     }
 
     public LiveData<List<Microlocation>> getLocations(String searchText) {
-        if (!this.searchText.equals(searchText) || filteredLocations == null) {
+        if (!this.searchText.equals(searchText)) {
             setSearchText(searchText);
             final String query = searchText.toLowerCase(Locale.getDefault());
             Predicate<Microlocation> predicate = location -> location.getName()
                     .toLowerCase(Locale.getDefault())
                     .contains(query);
             filterableRealmLiveData.filter(predicate);
-            if (filteredLocations == null) {
-                filteredLocations = Transformations.map(filterableRealmLiveData, input -> input);
-            }
         }
-        return filteredLocations;
+        return filterableRealmLiveData;
     }
 
     public String getSearchText() {
