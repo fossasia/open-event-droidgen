@@ -15,10 +15,6 @@ import org.fossasia.openevent.views.stickyheadersrecyclerview.StickyRecyclerHead
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-
-import io.reactivex.Observable;
-import timber.log.Timber;
 
 /**
  * User: MananWason
@@ -36,24 +32,6 @@ public class LocationsListAdapter extends BaseRVAdapter<Microlocation, LocationV
 
     public void setCopyOfTracks(List<Microlocation> locations) {
         this.copyOfLocations = locations;
-    }
-
-    public void filter(String constraint) {
-        final String query = constraint.toLowerCase(Locale.getDefault());
-
-        List<Microlocation> filteredLocationsList = Observable.fromIterable(copyOfLocations)
-                .filter(microlocation -> microlocation.getName()
-                        .toLowerCase(Locale.getDefault())
-                        .contains(query))
-                .toList().blockingGet();
-
-        Timber.d("Filtering done total results %d", filteredLocationsList.size());
-
-        if (filteredLocationsList.isEmpty()) {
-            Timber.e("No results published. There is an error in query. Check " + getClass().getName() + " filter!");
-        }
-
-        animateTo(filteredLocationsList);
     }
 
     @Override
