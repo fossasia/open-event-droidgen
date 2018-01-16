@@ -230,8 +230,6 @@ public class ScheduleFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         OpenEventApp.getEventBus().unregister(this);
-        viewPager.removeOnPageChangeListener(onPageChangeListener);
-        viewPager.setAdapter(null);
         if(compositeDisposable != null && !compositeDisposable.isDisposed())
             compositeDisposable.dispose();
         if(viewPager != null && onPageChangeListener != null)
