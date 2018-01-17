@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DividerItemDecoration;
@@ -33,6 +34,7 @@ import com.squareup.otto.Subscribe;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
+import org.fossasia.openevent.listeners.BookmarkStatus;
 import org.fossasia.openevent.activities.MainActivity;
 import org.fossasia.openevent.activities.SearchActivity;
 import org.fossasia.openevent.adapters.GlobalSearchAdapter;
@@ -43,7 +45,9 @@ import org.fossasia.openevent.data.extras.SocialLink;
 import org.fossasia.openevent.data.extras.SpeakersCall;
 import org.fossasia.openevent.events.BookmarkChangedEvent;
 import org.fossasia.openevent.events.EventLoadedEvent;
+import org.fossasia.openevent.listeners.OnBookmarkSelectedListener;
 import org.fossasia.openevent.utils.DateConverter;
+import org.fossasia.openevent.utils.SnackbarUtil;
 import org.fossasia.openevent.utils.Utils;
 import org.fossasia.openevent.utils.Views;
 import org.fossasia.openevent.viewmodels.AboutFragmentViewModel;
@@ -58,7 +62,7 @@ import timber.log.Timber;
  * Created by harshita30 on 9/3/17.
  */
 
-public class AboutFragment extends BaseFragment {
+public class AboutFragment extends BaseFragment implements OnBookmarkSelectedListener {
 
     @BindView(R.id.welcomeMessage)
     protected TextView welcomeMessage;
@@ -86,6 +90,8 @@ public class AboutFragment extends BaseFragment {
     protected TextView eventDetailsHeader;
     @BindView(R.id.slidin_down_part)
     protected LinearLayout slidinDownPart;
+    @BindView(R.id.coordinate_layout_about)
+    protected CoordinatorLayout coordinatorLayoutParent;
 
 
     private ArrayList<String> dateList = new ArrayList<>();
@@ -134,6 +140,7 @@ public class AboutFragment extends BaseFragment {
     private void setUpBookmarksRecyclerView() {
         bookmarksRecyclerView.setVisibility(View.VISIBLE);
         bookMarksListAdapter = new GlobalSearchAdapter(sessions, getContext());
+        bookMarksListAdapter.setOnBookmarkSelectedListener(this);
         bookmarksRecyclerView.setAdapter(bookMarksListAdapter);
         bookmarksRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         bookmarksRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -191,11 +198,11 @@ public class AboutFragment extends BaseFragment {
     @TargetApi(16)
     void collapseExpandTextView() {
         //translation animation of event bar
-        TranslateAnimation eventBarDownDirection  = new TranslateAnimation(0, 0, -eventDescription.getHeight(), 0);
+        TranslateAnimation eventBarDownDirection = new TranslateAnimation(0, 0, -eventDescription.getHeight(), 0);
         eventBarDownDirection.setInterpolator(new LinearInterpolator());
         eventBarDownDirection.setDuration(300);
 
-        TranslateAnimation eventBarUpDirection  = new TranslateAnimation(0, 0, eventDescription.getHeight(), 0);
+        TranslateAnimation eventBarUpDirection = new TranslateAnimation(0, 0, eventDescription.getHeight(), 0);
         eventBarUpDirection.setInterpolator(new LinearInterpolator());
         eventBarUpDirection.setDuration(300);
 
@@ -229,7 +236,7 @@ public class AboutFragment extends BaseFragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_search_home:
                 startActivity(new Intent(getContext(), SearchActivity.class));
                 break;
@@ -247,7 +254,7 @@ public class AboutFragment extends BaseFragment {
                 displaySpeakersCallInformation();
                 break;
             case R.id.action_download_latest_data:
-                ((MainActivity)getActivity()).downloadData();
+                ((MainActivity) getActivity()).downloadData();
                 break;
             default:
                 //No option selected. Do Nothing..
@@ -279,7 +286,7 @@ public class AboutFragment extends BaseFragment {
     }
 
     private void displaySpeakersCallInformation() {
-        AlertDialog.Builder dialogBuilder  = new AlertDialog.Builder(getContext());
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.speakers_call_dialog, null);
         TextView holder = (TextView) dialogView.findViewById(R.id.holder_textview);
@@ -343,6 +350,7 @@ public class AboutFragment extends BaseFragment {
             sessions.clear();
             sessions.addAll(sessionsList);
             bookMarksListAdapter = new GlobalSearchAdapter(sessions, getContext());
+            bookMarksListAdapter.setOnBookmarkSelectedListener(this);
             bookmarksRecyclerView.setAdapter(bookMarksListAdapter);
             handleVisibility();
         });
@@ -360,5 +368,18 @@ public class AboutFragment extends BaseFragment {
         OpenEventApp.getEventBus().unregister(this);
         if (event != null && event.isValid())
             event.removeAllChangeListeners();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        bookMarksListAdapter.clearOnBookmarkSelectedListener();
+    }
+
+    @Override
+    public void showSnackbar(BookmarkStatus bookmarkStatus) {
+        Snackbar snackbar = Snackbar.make(bookmarkHeader, SnackbarUtil.getMessageResource(bookmarkStatus), Snackbar.LENGTH_LONG);
+        SnackbarUtil.setSnackbarAction(getContext(), snackbar, bookmarkStatus)
+                .show();
     }
 }

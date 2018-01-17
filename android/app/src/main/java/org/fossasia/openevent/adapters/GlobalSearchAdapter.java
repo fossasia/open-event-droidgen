@@ -18,6 +18,7 @@ import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
+import org.fossasia.openevent.listeners.OnBookmarkSelectedListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,7 @@ import java.util.List;
 public class GlobalSearchAdapter extends BaseRVAdapter<Object, RecyclerView.ViewHolder> {
 
     private Context context;
+    private OnBookmarkSelectedListener onBookmarkSelectedListener;
 
     private List<Object> filteredResultList = new ArrayList<>();
     private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
@@ -109,7 +111,7 @@ public class GlobalSearchAdapter extends BaseRVAdapter<Object, RecyclerView.View
                 break;
             case SESSION:
                 View bookmark = inflater.inflate(R.layout.item_schedule, parent, false);
-                resultHolder = new DayScheduleViewHolder(bookmark, context);
+                resultHolder = new DayScheduleViewHolder(bookmark, context, onBookmarkSelectedListener);
                 break;
             default:
                 //If viewType doesn't match any of the above objects no view is created
@@ -153,4 +155,11 @@ public class GlobalSearchAdapter extends BaseRVAdapter<Object, RecyclerView.View
         }
     }
 
+    public void setOnBookmarkSelectedListener(OnBookmarkSelectedListener onBookmarkSelectedListener) {
+        this.onBookmarkSelectedListener = onBookmarkSelectedListener;
+    }
+
+    public void clearOnBookmarkSelectedListener() {
+        this.onBookmarkSelectedListener = null;
+    }
 }
