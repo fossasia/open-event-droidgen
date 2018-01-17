@@ -45,4 +45,8 @@ public class ScheduleViewPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         return fragmentTitleList.get(position);
     }
+
+    public Fragment getLast() {
+        return fragmentList.get(getCount() - 1);
+    }
 }

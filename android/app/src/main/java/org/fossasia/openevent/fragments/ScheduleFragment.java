@@ -6,7 +6,9 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -21,10 +23,13 @@ import android.widget.TextView;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
+import org.fossasia.openevent.listeners.BookmarkStatus;
 import org.fossasia.openevent.adapters.ScheduleViewPagerAdapter;
 import org.fossasia.openevent.data.Track;
+import org.fossasia.openevent.listeners.OnBookmarkSelectedListener;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.SharedPreferencesUtil;
+import org.fossasia.openevent.utils.SnackbarUtil;
 import org.fossasia.openevent.utils.SortOrder;
 import org.fossasia.openevent.utils.Utils;
 import org.fossasia.openevent.viewmodels.ScheduleFragmentViewModel;
@@ -40,7 +45,7 @@ import io.reactivex.disposables.CompositeDisposable;
 /**
  * Created by Manan Wason on 16/06/16.
  */
-public class ScheduleFragment extends BaseFragment {
+public class ScheduleFragment extends BaseFragment implements OnBookmarkSelectedListener {
 
     @BindView(R.id.viewpager) ViewPager viewPager;
     @BindView(R.id.tabLayout) TabLayout scheduleTabLayout;
@@ -48,6 +53,8 @@ public class ScheduleFragment extends BaseFragment {
     @BindView(R.id.filter_text) TextView filtersText;
     @BindView(R.id.close_filter) ImageView closeFilterBarButton;
     @BindView(R.id.filter_bar) LinearLayout filterBar;
+    @BindView(R.id.coordinate_layout_schedule)
+    protected CoordinatorLayout coordinatorLayoutParent;
 
     private CompositeDisposable compositeDisposable;
     private int sortType;
@@ -93,6 +100,7 @@ public class ScheduleFragment extends BaseFragment {
 
         scheduleFragmentViewModel.getEventDateString().observe(this, datePair -> {
             adapter.addFragment(new DayScheduleFragment(), datePair.first, datePair.second);
+            ((DayScheduleFragment)adapter.getLast()).setOnBookmarkSelectedListener(this);
             adapter.notifyDataSetChanged();
         });
 
@@ -234,6 +242,14 @@ public class ScheduleFragment extends BaseFragment {
             compositeDisposable.dispose();
         if(viewPager != null && onPageChangeListener != null)
             viewPager.removeOnPageChangeListener(onPageChangeListener);
+        for (int i = 0; i < adapter.getCount(); i++)
+            ((DayScheduleFragment) adapter.getItem(i)).clearOnBookmarkSelectedListener();
     }
+
+    @Override
+    public void showSnackbar(BookmarkStatus bookmarkStatus) {
+        Snackbar snackbar = Snackbar.make(coordinatorLayoutParent, SnackbarUtil.getMessageResource(bookmarkStatus), Snackbar.LENGTH_LONG);
+        SnackbarUtil.setSnackbarAction(getContext(), snackbar, bookmarkStatus)
+                .show();    }
 }
 

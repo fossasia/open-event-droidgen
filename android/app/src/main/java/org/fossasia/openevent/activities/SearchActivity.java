@@ -4,6 +4,8 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,11 +18,14 @@ import android.widget.TextView;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
+import org.fossasia.openevent.listeners.BookmarkStatus;
 import org.fossasia.openevent.adapters.GlobalSearchAdapter;
 import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Track;
+import org.fossasia.openevent.listeners.OnBookmarkSelectedListener;
+import org.fossasia.openevent.utils.SnackbarUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,13 +37,12 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 import timber.log.Timber;
 
-public class SearchActivity extends BaseActivity implements SearchView.OnQueryTextListener {
+public class SearchActivity extends BaseActivity implements SearchView.OnQueryTextListener, OnBookmarkSelectedListener {
 
     private GlobalSearchAdapter globalSearchAdapter;
     private List<Object> results = new ArrayList<>();
 
     private Realm realm = Realm.getDefaultInstance();
-
     private SearchView searchView;
     private String searchText;
 
@@ -48,6 +52,8 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
     protected RecyclerView searchRecyclerView;
     @BindView(R.id.txt_no_results)
     protected TextView noResultsView;
+    @BindView(R.id.main_content)
+    protected CoordinatorLayout coordinatorLayoutParent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +66,7 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
         handleVisibility();
 
         globalSearchAdapter = new GlobalSearchAdapter(results, this);
+        globalSearchAdapter.setOnBookmarkSelectedListener(this);
         searchRecyclerView.setAdapter(globalSearchAdapter);
         searchRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         searchRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -159,6 +166,7 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
 
         //Set listener to null to avoid memory leaks
         if (searchView != null) searchView.setOnQueryTextListener(null);
+        globalSearchAdapter.clearOnBookmarkSelectedListener();
     }
 
     public void addResultsFromTracks(String queryString) {
@@ -231,6 +239,13 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
             noResultsView.setVisibility(View.INVISIBLE);
             searchRecyclerView.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public void showSnackbar(BookmarkStatus bookmarkStatus) {
+        Snackbar snackbar = Snackbar.make(coordinatorLayoutParent, SnackbarUtil.getMessageResource(bookmarkStatus), Snackbar.LENGTH_LONG);
+        SnackbarUtil.setSnackbarAction(this, snackbar, bookmarkStatus)
+                .show();
     }
 }
 

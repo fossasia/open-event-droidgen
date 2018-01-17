@@ -27,6 +27,7 @@ import org.fossasia.openevent.api.DataDownloadManager;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.events.SessionDownloadEvent;
+import org.fossasia.openevent.listeners.OnBookmarkSelectedListener;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.NetworkUtils;
 import org.fossasia.openevent.utils.SortOrder;
@@ -61,6 +62,7 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
     private List<Session> sessions = new ArrayList<>();
     private List<Session> filteredSessions = new ArrayList<>();
     private DayScheduleAdapter dayScheduleAdapter;
+    private OnBookmarkSelectedListener onBookmarkSelectedListener;
 
     private String date;
     private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
@@ -110,6 +112,7 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
 
     private void setUpRecyclerView() {
         dayScheduleAdapter = new DayScheduleAdapter(filteredSessions, getContext());
+        dayScheduleAdapter.setOnBookmarkSelectedListener(onBookmarkSelectedListener);
 
         dayRecyclerView.setHasFixedSize(true);
         dayRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
@@ -257,5 +260,13 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
                 OpenEventApp.getEventBus().post(new SessionDownloadEvent(false));
             }
         });
+    }
+
+    public void setOnBookmarkSelectedListener(OnBookmarkSelectedListener onBookmarkSelectedListener) {
+        this.onBookmarkSelectedListener = onBookmarkSelectedListener;
+    }
+
+    public void clearOnBookmarkSelectedListener() {
+        this.onBookmarkSelectedListener = null;
     }
 }
