@@ -1,5 +1,6 @@
 package org.fossasia.openevent.activities;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -43,7 +44,6 @@ import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Track;
-import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.DateConverter;
 import org.fossasia.openevent.utils.NotificationUtil;
@@ -52,12 +52,12 @@ import org.fossasia.openevent.utils.StringUtils;
 import org.fossasia.openevent.utils.Utils;
 import org.fossasia.openevent.utils.Views;
 import org.fossasia.openevent.utils.WidgetUpdater;
+import org.fossasia.openevent.viewmodels.SessionDetailActivityViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import io.realm.RealmChangeListener;
 import timber.log.Timber;
 
 /**
@@ -115,13 +115,13 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
     @BindView(R.id.watch)
     protected ImageButton playButton;
 
-    private static final String BY_ID = "id";
-    private static final String BY_NAME = "name";
-
     private String trackName, title, location;
     private int trackColor, darkColor, fontColor;
     private int id;
     private List<Speaker> speakers = new ArrayList<>();
+
+    private Session sessionById;
+    private Session sessionByName;
 
     private boolean isHideToolbarView = false;
     private boolean hasTrack = true;
@@ -129,9 +129,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
 
     private String loadedFlag;
 
-    private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
-    private Session sessionById;
-    private Session sessionByName;
+    private SessionDetailActivityViewModel sessionDetailActivityViewModel;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -151,6 +149,8 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
 
         adapter = new SessionSpeakerListAdapter(speakers);
 
+        sessionDetailActivityViewModel = ViewModelProviders.of(this).get(SessionDetailActivityViewModel.class);
+
         fabSessionBookmark.setOnClickListener(view -> {
             if(session == null)
                 return;
@@ -158,14 +158,14 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
             if(session.getIsBookmarked()) {
                 Timber.tag(TAG).d("Bookmark Removed");
 
-                realmRepo.setBookmark(session.getId(), false).subscribe();
+                sessionDetailActivityViewModel.setBookmark(session, false);
                 fabSessionBookmark.setImageResource(R.drawable.ic_bookmark_border_white_24dp);
 
                 Snackbar.make(speakersRecyclerView, R.string.removed_bookmark, Snackbar.LENGTH_SHORT).show();
             } else {
                 Timber.tag(TAG).d("Bookmark Added");
 
-                realmRepo.setBookmark(session.getId(), true).subscribe();
+                sessionDetailActivityViewModel.setBookmark(session, true);
                 fabSessionBookmark.setImageResource(R.drawable.ic_bookmark_white_24dp);
 
                 NotificationUtil.createNotification(session, getApplicationContext()).subscribe(
@@ -438,29 +438,20 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
         title = getIntent().getStringExtra(ConstantStrings.SESSION);
         trackName = getIntent().getStringExtra(ConstantStrings.TRACK);
 
-        sessionById = realmRepo.getSession(id);
-        sessionById.addChangeListener((RealmChangeListener<Session>) loadedSession -> {
-            if (!loadedSession.isValid())
-                return;
-
-            if (loadedFlag == null || loadedFlag.equals(BY_ID)) {
-                loadedFlag = BY_ID;
-                SharedPreferencesUtil.putInt(ConstantStrings.SESSION_MAP_ID, id);
-                loadSession(loadedSession);
-            }
+        sessionDetailActivityViewModel.getSessionById(id, loadedFlag).observe(this, sessionData -> {
+            sessionById = sessionData;
+            loadedFlag = SessionDetailActivityViewModel.BY_ID;
+            SharedPreferencesUtil.putInt(ConstantStrings.SESSION_MAP_ID, id);
+            loadSession(sessionById);
         });
 
-        sessionByName = realmRepo.getSession(title);
-        sessionByName.addChangeListener((RealmChangeListener<Session>) loadedSession -> {
-            if (!loadedSession.isValid())
-                return;
-
-            if (loadedFlag == null || loadedFlag.equals(BY_NAME)) {
-                loadedFlag = BY_NAME;
-                SharedPreferencesUtil.putInt(ConstantStrings.SESSION_MAP_ID, -1);
-                loadSession(loadedSession);
-            }
+        sessionDetailActivityViewModel.getSessionByName(title, loadedFlag).observe(this, sessionData -> {
+            sessionByName = sessionData;
+            loadedFlag = SessionDetailActivityViewModel.BY_NAME;
+            SharedPreferencesUtil.putInt(ConstantStrings.SESSION_MAP_ID, -1);
+            loadSession(sessionByName);
         });
+
     }
 
     private void loadSession(Session session) {
@@ -478,11 +469,4 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
         updateSession();
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-        if(sessionById != null) sessionById.removeAllChangeListeners();
-        if(sessionByName != null) sessionByName.removeAllChangeListeners();
-    }
 }
