@@ -39,6 +39,7 @@ import android.widget.ImageView;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.squareup.otto.Subscribe;
 
+import org.fossasia.openevent.Components.DataDownloadComponentMainActivity;
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.activities.auth.UserProfileActivity;
@@ -85,6 +86,7 @@ import org.fossasia.openevent.modules.OnImageZoomListener;
 import org.fossasia.openevent.utils.AuthUtil;
 import org.fossasia.openevent.utils.CommonTaskLoop;
 import org.fossasia.openevent.utils.ConstantStrings;
+import org.fossasia.openevent.utils.DataDownloadListenerMainActivity;
 import org.fossasia.openevent.utils.DateConverter;
 import org.fossasia.openevent.utils.DownloadCompleteHandler;
 import org.fossasia.openevent.utils.NetworkUtils;
@@ -111,7 +113,7 @@ import io.realm.RealmList;
 import io.realm.RealmResults;
 import timber.log.Timber;
 
-public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommentsDialogListener, OnImageZoomListener {
+public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommentsDialogListener, OnImageZoomListener, DataDownloadListenerMainActivity {
 
     private static final String STATE_FRAGMENT = "stateFragment";
     private static final String NAV_ITEM = "navItem";
@@ -144,6 +146,8 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
     private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
     private Event event; // Future Event, stored to remove listeners
 
+    private DataDownloadComponentMainActivity dataDownloadComponentMainActivity;
+
     public static Intent createLaunchFragmentIntent(Context context) {
         return new Intent(context, MainActivity.class)
                 .putExtra(NAV_ITEM, BOOKMARK);
@@ -174,6 +178,8 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
         fragmentManager = getSupportFragmentManager();
         setTheme(R.style.AppTheme_NoActionBar_MainTheme);
         super.onCreate(savedInstanceState);
+
+        dataDownloadComponentMainActivity = new DataDownloadComponentMainActivity(this);
 
         SharedPreferencesUtil.putInt(ConstantStrings.SESSION_MAP_ID, -1);
         isTwoPane = drawerLayout == null;
@@ -379,7 +385,8 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(isConnected -> {
                         if (isConnected) {
-                            OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
+//                            OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
+                            dataDownloadComponentMainActivity.downloadData();
                         } else {
                             final Snackbar snackbar = Snackbar.make(mainFrame, R.string.internet_preference_warning, Snackbar.LENGTH_INDEFINITE);
                             snackbar.setAction(R.string.yes, view -> downloadFromAssets());
@@ -387,7 +394,8 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
                         }
                     }));
         } else {
-            OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
+//            OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
+            dataDownloadComponentMainActivity.downloadData();
         }
     }
 
@@ -676,21 +684,21 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
         dialogNetworkNotification.show();
     }
 
-    @Subscribe
-    public void downloadData(DataDownloadEvent event) {
-        switch (Urls.getBaseUrl()) {
-            case Urls.INVALID_LINK:
-                showErrorDialog("Invalid Api", "Api link doesn't seem to be valid");
-                downloadFromAssets();
-                break;
-            case Urls.EMPTY_LINK:
-                downloadFromAssets();
-                break;
-            default:
-                startDownload();
-                break;
-        }
-    }
+//    @Subscribe
+//    public void downloadData(DataDownloadEvent event) {
+//        switch (Urls.getBaseUrl()) {
+//            case Urls.INVALID_LINK:
+//                showErrorDialog("Invalid Api", "Api link doesn't seem to be valid");
+//                downloadFromAssets();
+//                break;
+//            case Urls.EMPTY_LINK:
+//                downloadFromAssets();
+//                break;
+//            default:
+//                startDownload();
+//                break;
+//        }
+//    }
 
     @Subscribe
     public void handleResponseEvent(RetrofitResponseEvent responseEvent) {
@@ -886,5 +894,23 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
         bundle.putString(ConstantStrings.IMAGE_ZOOM_KEY, imageUri);
         zoomableImageDialogFragment.setArguments(bundle);
         zoomableImageDialogFragment.show(fragmentManager, "ZoomableImage");
+    }
+
+    @Override
+    public void onDataDownload(int mode) {
+        switch (mode) {
+            case 1:
+                showErrorDialog("Invalid Api", "Api link doesn't seem to be valid");
+                downloadFromAssets();
+                break;
+            case 2:
+                downloadFromAssets();
+                break;
+            case 3:
+                startDownload();
+                break;
+            default:
+                //no implementation
+        }
     }
 }
