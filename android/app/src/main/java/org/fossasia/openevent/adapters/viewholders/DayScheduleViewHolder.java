@@ -123,10 +123,9 @@ public class DayScheduleViewHolder extends RecyclerView.ViewHolder {
                             });
 
                     realmRepo.setBookmark(sessionId, true).subscribe();
+
                     slotBookmark.setImageResource(R.drawable.ic_bookmark_white_24dp);
                     slotBookmark.setColorFilter(storedColor, PorterDuff.Mode.SRC_ATOP);
-                    if (onBookmarkSelectedListener != null)
-                        onBookmarkSelectedListener.showSnackbar(new BookmarkStatus(storedColor, sessionId, CODE_UNDO_ADDED));
                 }
                 WidgetUpdater.updateWidget(context);
             });
