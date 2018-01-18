@@ -25,16 +25,10 @@ import java.util.List;
 public class TracksListAdapter extends BaseRVAdapter<Track, TrackViewHolder> implements StickyRecyclerHeadersAdapter<HeaderViewHolder> {
 
     private Context context;
-    private List<Track> copyOfTracks = new ArrayList<>();
 
     public TracksListAdapter(Context context, List<Track> tracks) {
         super(tracks);
-        this.copyOfTracks = tracks;
         this.context = context;
-    }
-
-    public void setCopyOfTracks(List<Track> tracks) {
-        this.copyOfTracks = tracks;
     }
 
     @Override
