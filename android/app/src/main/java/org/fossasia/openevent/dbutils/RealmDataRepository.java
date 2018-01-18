@@ -579,6 +579,13 @@ public class RealmDataRepository {
     }
 
     /**
+     * Convert RealmResults to FilterableRealmLiveData
+     */
+    public static <K extends RealmObject> FilterableRealmLiveData<K> asFilterableLiveData(RealmResults<K> data) {
+        return new FilterableRealmLiveData<K>(data);
+    }
+
+    /**
      * Compacts the database to save space
      * Should be called when exiting application to ensure
      * all Realm instances are ready to be closed.

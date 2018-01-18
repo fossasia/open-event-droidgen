@@ -1,20 +1,22 @@
 package org.fossasia.openevent.viewmodels;
 
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 
 import org.fossasia.openevent.data.Speaker;
-import org.fossasia.openevent.dbutils.LiveRealmData;
+import org.fossasia.openevent.dbutils.FilterableRealmLiveData;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
 
 import java.util.List;
+import java.util.Locale;
+
+import io.reactivex.functions.Predicate;
 
 import static org.fossasia.openevent.utils.SortOrder.sortOrderSpeaker;
 
 public class SpeakersListFragmentViewModel extends ViewModel {
 
-    private LiveData<List<Speaker>> speakersList;
+    private FilterableRealmLiveData<Speaker> filterableRealmLiveData;
     private RealmDataRepository realmRepo;
     private String searchText = "";
     private int speakersListSortType = 0;
@@ -23,13 +25,23 @@ public class SpeakersListFragmentViewModel extends ViewModel {
         realmRepo = RealmDataRepository.getDefaultInstance();
     }
 
-    public LiveData<List<Speaker>> getSpeakers(int sortType) {
-        if (sortType != speakersListSortType || speakersList == null) {
-            LiveRealmData<Speaker> speakerLiveRealmData = RealmDataRepository.asLiveData(realmRepo.getSpeakers(sortOrderSpeaker()));
-            speakersList = Transformations.map(speakerLiveRealmData, input -> input);
+    public LiveData<List<Speaker>> getSpeakers(int sortType, String searchText) {
+        setSearchText(searchText);
+        if (sortType != speakersListSortType || filterableRealmLiveData == null) {
+                filterableRealmLiveData = RealmDataRepository.asFilterableLiveData(realmRepo.getSpeakers(sortOrderSpeaker()));
             speakersListSortType = sortType;
+            loadFilteredSpeakers();
+        } else {
+            loadFilteredSpeakers();
         }
-        return speakersList;
+        return filterableRealmLiveData;
+    }
+
+    private void loadFilteredSpeakers() {
+        final String query = searchText.toLowerCase(Locale.getDefault());
+        Predicate<Speaker> predicate = speaker -> speaker.getName()
+                .toLowerCase(Locale.getDefault()).contains(query);
+        filterableRealmLiveData.filter(predicate);
     }
 
     public String getSearchText() {

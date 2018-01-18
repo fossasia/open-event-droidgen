@@ -11,6 +11,7 @@ import org.fossasia.openevent.adapters.viewholders.DayScheduleViewHolder;
 import org.fossasia.openevent.adapters.viewholders.HeaderViewHolder;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
+import org.fossasia.openevent.listeners.OnBookmarkSelectedListener;
 import org.fossasia.openevent.utils.DateConverter;
 import org.fossasia.openevent.utils.SortOrder;
 import org.fossasia.openevent.utils.Utils;
@@ -31,6 +32,7 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleViewHo
 
     private Context context;
     private String eventDate;
+    private OnBookmarkSelectedListener onBookmarkSelectedListener;
 
     private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
 
@@ -59,7 +61,7 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleViewHo
     public DayScheduleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.item_schedule, parent, false);
-        return new DayScheduleViewHolder(view,context);
+        return new DayScheduleViewHolder(view,context, onBookmarkSelectedListener);
     }
 
     @Override
@@ -136,4 +138,7 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleViewHo
         }
     }
 
+    public void setOnBookmarkSelectedListener(OnBookmarkSelectedListener onBookmarkSelectedListener) {
+        this.onBookmarkSelectedListener = onBookmarkSelectedListener;
+    }
 }

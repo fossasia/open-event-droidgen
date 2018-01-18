@@ -1,6 +1,5 @@
 package org.fossasia.openevent.adapters;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -18,10 +17,6 @@ import org.fossasia.openevent.views.stickyheadersrecyclerview.StickyRecyclerHead
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-
-import io.reactivex.Observable;
-import timber.log.Timber;
 
 /**
  * User: MananWason
@@ -35,34 +30,9 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakerViewHolde
     private List<String> Country = new ArrayList<>();
 
     private int sortType;
-    private Context context;
-    private List<Speaker> copyOfSpeakers = new ArrayList<>();
 
-    public SpeakersListAdapter(List<Speaker> speakers, Context context) {
+    public SpeakersListAdapter(List<Speaker> speakers) {
         super(speakers);
-        this.context = context;
-    }
-
-    public void setCopyOfSpeakers(List<Speaker> speakers) {
-        this.copyOfSpeakers = speakers;
-    }
-
-    public void filter(String constraint) {
-        final String query = constraint.toLowerCase(Locale.getDefault());
-
-        List<Speaker> filteredSpeakersList = Observable.fromIterable(copyOfSpeakers)
-                .filter(speaker -> speaker.getName()
-                        .toLowerCase(Locale.getDefault())
-                        .contains(query))
-                .toList().blockingGet();
-
-        Timber.d("Filtering done total results %d", filteredSpeakersList.size());
-
-        if (filteredSpeakersList.isEmpty()) {
-            Timber.e("No results published. There is an error in query. Check " + getClass().getName() + " filter!");
-        }
-
-        animateTo(filteredSpeakersList);
     }
 
     @Override

@@ -16,10 +16,7 @@ import org.fossasia.openevent.views.stickyheadersrecyclerview.StickyRecyclerHead
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
-import io.reactivex.Observable;
-import timber.log.Timber;
 
 /**
  * User: MananWason
@@ -28,34 +25,10 @@ import timber.log.Timber;
 public class TracksListAdapter extends BaseRVAdapter<Track, TrackViewHolder> implements StickyRecyclerHeadersAdapter<HeaderViewHolder> {
 
     private Context context;
-    private List<Track> copyOfTracks = new ArrayList<>();
 
     public TracksListAdapter(Context context, List<Track> tracks) {
         super(tracks);
-        this.copyOfTracks = tracks;
         this.context = context;
-    }
-
-    public void setCopyOfTracks(List<Track> tracks) {
-        this.copyOfTracks = tracks;
-    }
-
-    public void filter(String constraint) {
-        final String query = constraint.toLowerCase(Locale.getDefault());
-
-        List<Track> filteredTracksList = Observable.fromIterable(copyOfTracks)
-                .filter(track -> track.getName()
-                        .toLowerCase(Locale.getDefault())
-                        .contains(query))
-                .toList().blockingGet();
-
-        Timber.d("Filtering done total results %d", filteredTracksList.size());
-
-        if (filteredTracksList.isEmpty()) {
-            Timber.e("No results published. There is an error in query. Check " + getClass().getName() + " filter!");
-        }
-
-        animateTo(filteredTracksList);
     }
 
     @Override
