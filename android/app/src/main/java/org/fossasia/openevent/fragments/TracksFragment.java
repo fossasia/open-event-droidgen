@@ -81,8 +81,6 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
         tracksFragmentViewModel.getTracks(searchText).observe(this, tracksList -> {
             tracks.clear();
             tracks.addAll(tracksList);
-
-            tracksListAdapter.setCopyOfTracks(tracks);
             tracksListAdapter.notifyDataSetChanged();
             handleVisibility();
         });
