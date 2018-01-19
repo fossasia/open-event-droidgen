@@ -1,7 +1,6 @@
 package org.fossasia.openevent.activities;
 
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -80,7 +79,6 @@ import org.fossasia.openevent.fragments.ScheduleFragment;
 import org.fossasia.openevent.fragments.SpeakersListFragment;
 import org.fossasia.openevent.fragments.SponsorsFragment;
 import org.fossasia.openevent.fragments.TracksFragment;
-import org.fossasia.openevent.fragments.ZoomableImageDialogFragment;
 import org.fossasia.openevent.modules.OnImageZoomListener;
 import org.fossasia.openevent.utils.AuthUtil;
 import org.fossasia.openevent.utils.CommonTaskLoop;
@@ -91,6 +89,7 @@ import org.fossasia.openevent.utils.NetworkUtils;
 import org.fossasia.openevent.utils.SharedPreferencesUtil;
 import org.fossasia.openevent.utils.SmoothActionBarDrawerToggle;
 import org.fossasia.openevent.utils.Utils;
+import org.fossasia.openevent.utils.ZoomableImageUtil;
 import org.fossasia.openevent.widget.DialogFactory;
 
 import java.io.IOException;
@@ -880,11 +879,6 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
 
     @Override
     public void onZoom(String imageUri) {
-        ZoomableImageDialogFragment zoomableImageDialogFragment = new ZoomableImageDialogFragment();
-        zoomableImageDialogFragment.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
-        Bundle bundle = new Bundle();
-        bundle.putString(ConstantStrings.IMAGE_ZOOM_KEY, imageUri);
-        zoomableImageDialogFragment.setArguments(bundle);
-        zoomableImageDialogFragment.show(fragmentManager, "ZoomableImage");
+        ZoomableImageUtil.showZoomableImageDialogFragment(fragmentManager, imageUri);
     }
 }
