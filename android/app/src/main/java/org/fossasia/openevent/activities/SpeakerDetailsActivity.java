@@ -41,6 +41,7 @@ import org.fossasia.openevent.events.ConnectionCheckEvent;
 import org.fossasia.openevent.utils.StringUtils;
 import org.fossasia.openevent.utils.Utils;
 import org.fossasia.openevent.utils.Views;
+import org.fossasia.openevent.utils.ZoomableImageUtil;
 import org.fossasia.openevent.viewmodels.SpeakerDetailsViewModel;
 
 import java.util.ArrayList;
@@ -388,4 +389,9 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
         }
     }
 
+    @OnClick(R.id.speaker_image)
+    public void onZoom() {
+        String imageUri = Utils.parseImageUri(selectedSpeaker.getPhotoUrl());
+        ZoomableImageUtil.showZoomableImageDialogFragment(getSupportFragmentManager(), imageUri);
+    }
 }
