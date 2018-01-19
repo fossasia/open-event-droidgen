@@ -68,6 +68,7 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
     private int sortType;
 
     private SpeakersListFragmentViewModel speakersListFragmentViewModel;
+    private RecyclerView.AdapterDataObserver adapterDataObserver;
 
     @Nullable
     @Override
@@ -105,12 +106,13 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
         speakersRecyclerView.setLayoutManager(gridLayoutManager);
         final StickyRecyclerHeadersDecoration headersDecoration = new StickyRecyclerHeadersDecoration(speakersListAdapter);
         speakersRecyclerView.addItemDecoration(headersDecoration);
-        speakersListAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+        adapterDataObserver = new RecyclerView.AdapterDataObserver() {
             @Override
             public void onChanged() {
                 headersDecoration.invalidateHeaders();
             }
-        });
+        };
+        speakersListAdapter.registerAdapterDataObserver(adapterDataObserver);
     }
 
     private void loadData() {
@@ -141,6 +143,7 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
     public void onDestroyView() {
         super.onDestroyView();
         Utils.unregisterIfUrlValid(this);
+        speakersListAdapter.unregisterAdapterDataObserver(adapterDataObserver);
 
         // Remove listeners to fix memory leak
         if(swipeRefreshLayout != null) swipeRefreshLayout.setOnRefreshListener(null);

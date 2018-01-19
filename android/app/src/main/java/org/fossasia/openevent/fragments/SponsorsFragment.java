@@ -41,6 +41,7 @@ public class SponsorsFragment extends BaseFragment {
 
     private List<Sponsor> sponsors = new ArrayList<>();
     private SponsorsListAdapter sponsorsListAdapter;
+    private RecyclerView.AdapterDataObserver adapterDataObserver;
 
     @BindView(R.id.txt_no_sponsors)
     TextView noSponsorsView;
@@ -82,12 +83,13 @@ public class SponsorsFragment extends BaseFragment {
 
         final StickyRecyclerHeadersDecoration headersDecoration = new StickyRecyclerHeadersDecoration(sponsorsListAdapter);
         sponsorsRecyclerView.addItemDecoration(headersDecoration);
-        sponsorsListAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+        adapterDataObserver = new RecyclerView.AdapterDataObserver() {
             @Override
             public void onChanged() {
                 headersDecoration.invalidateHeaders();
             }
-        });
+        };
+        sponsorsListAdapter.registerAdapterDataObserver(adapterDataObserver);
     }
 
     private void handleVisibility() {
@@ -109,6 +111,7 @@ public class SponsorsFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         Utils.unregisterIfUrlValid(this);
+        sponsorsListAdapter.unregisterAdapterDataObserver(adapterDataObserver);
 
         if(swipeRefreshLayout != null) swipeRefreshLayout.setOnRefreshListener(null);
     }

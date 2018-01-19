@@ -67,6 +67,7 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
     private String date;
     private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
     private RealmResults<Session> realmResults;
+    private RecyclerView.AdapterDataObserver adapterDataObserver;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -122,12 +123,13 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
 
         final StickyRecyclerHeadersDecoration headersDecoration = new StickyRecyclerHeadersDecoration(dayScheduleAdapter);
         dayRecyclerView.addItemDecoration(headersDecoration);
-        dayScheduleAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+        adapterDataObserver = new RecyclerView.AdapterDataObserver() {
             @Override
             public void onChanged() {
                 headersDecoration.invalidateHeaders();
             }
-        });
+        };
+        dayScheduleAdapter.registerAdapterDataObserver(adapterDataObserver);
     }
 
     public void filter(List<String> selectedTracks) {
@@ -183,6 +185,7 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
     public void onDestroyView() {
         super.onDestroyView();
         Utils.unregisterIfUrlValid(this);
+        dayScheduleAdapter.unregisterAdapterDataObserver(adapterDataObserver);
 
         // Remove listeners to fix memory leak
         realmResults.removeAllChangeListeners();
