@@ -42,6 +42,7 @@
     <string name="error_uploading_image">Error uploading image</string>
     <string name="error_changing_password">Error changing password</string>
     <string name="error_password_not_correct">Incorrect password</string>
+    <string name="error_password_empty">Error, Cannot set empty password</string>
     <string name="ok">OK</string>
 
     <string name="logged_in_successfully">Successfully logged in</string>
