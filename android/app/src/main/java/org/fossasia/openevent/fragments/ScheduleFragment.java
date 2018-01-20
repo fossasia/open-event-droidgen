@@ -99,9 +99,11 @@ public class ScheduleFragment extends BaseFragment implements OnBookmarkSelected
         adapter = new ScheduleViewPagerAdapter(getChildFragmentManager());
 
         scheduleFragmentViewModel.getEventDateString().observe(this, datePair -> {
-            adapter.addFragment(new DayScheduleFragment(), datePair.first, datePair.second);
-            ((DayScheduleFragment)adapter.getLast()).setOnBookmarkSelectedListener(this);
-            adapter.notifyDataSetChanged();
+            for (int i = 0; i < datePair.size(); i++) {
+                adapter.addFragment(new DayScheduleFragment(), datePair.get(i).first, datePair.get(i).second);
+                ((DayScheduleFragment) adapter.getLast()).setOnBookmarkSelectedListener(this);
+                adapter.notifyDataSetChanged();
+            }
         });
 
         scheduleFragmentViewModel.getTracks().observe(this, tracksList -> {
