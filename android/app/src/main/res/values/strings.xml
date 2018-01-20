@@ -301,4 +301,14 @@
     <string name="speakers_bio">About me</string>
     <string name="social_media">Social media</string>
     <string name="sessions_title_card">Sessions</string>
+
+    <!--Session-detail-strings-->
+    <string name="session_track_details">Session Track :</string>
+    <string name="title_details">Title :</string>
+    <string name="start_time_details">Start Time :</string>
+    <string name="end_time_details">End Time :</string>
+    <string name="location_details">Location :</string>
+    <string name="speakers_details">Speaker(s) :</string>
+    <string name="description_details">Description :</string>
+
 </resources>
