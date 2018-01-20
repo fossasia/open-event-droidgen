@@ -1,11 +1,13 @@
 package org.fossasia.openevent.activities.auth;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatEditText;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -14,21 +16,12 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import org.fossasia.openevent.R;
-import org.fossasia.openevent.api.APIClient;
-import org.fossasia.openevent.data.auth.Login;
 import org.fossasia.openevent.data.auth.User;
-import org.fossasia.openevent.dbutils.RealmDataRepository;
-import org.fossasia.openevent.utils.AuthUtil;
-import org.fossasia.openevent.utils.JWTUtils;
 import org.fossasia.openevent.utils.Utils;
-import org.json.JSONException;
+import org.fossasia.openevent.viewmodels.auth.ChangePasswordActivityViewModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
-import timber.log.Timber;
 
 public class ChangePasswordActivity extends AppCompatActivity {
 
@@ -51,8 +44,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
     private AppCompatEditText confirmPasswordInput;
 
     private User user;
-    private Disposable checkPasswordDisposable;
-    private Disposable changePasswordDisposable;
+    private ChangePasswordActivityViewModel changePasswordActivityViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +55,9 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        user = RealmDataRepository.getDefaultInstance().getUser();
-        user.addChangeListener(userModel -> {
+        changePasswordActivityViewModel = ViewModelProviders.of(this).get(ChangePasswordActivityViewModel.class);
+        changePasswordActivityViewModel.getUser().observe(this, user -> {
+            this.user = user;
         });
 
         currentPasswordInput = (AppCompatEditText) currentPasswordWrapper.getEditText();
@@ -78,9 +71,6 @@ public class ChangePasswordActivity extends AppCompatActivity {
     }
 
     private void saveChanges() {
-        if (currentPasswordInput == null || newPasswordInput == null || confirmPasswordInput == null)
-            return;
-
         currentPassword = currentPasswordInput.getText().toString();
         newPassword = newPasswordInput.getText().toString();
         String confirmPassword = confirmPasswordInput.getText().toString();
@@ -94,60 +84,40 @@ public class ChangePasswordActivity extends AppCompatActivity {
         if (user == null)
             return;
 
-        checkPasswordDisposable = APIClient.getOpenEventAPI().login(new Login(user.getEmail(), currentPassword))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(loginResponse -> {
-                            Timber.d("Received token. Password is correct");
-                        },
-                        throwable -> {
-                            showProgressBar(false);
-                            Toast.makeText(ChangePasswordActivity.this, R.string.error_password_not_correct, Toast.LENGTH_SHORT).show();
-                            Timber.d("Error changing password: " + throwable.getMessage());
-                        },
-                        () -> {
-                            showProgressBar(false);
-                            //Old password matched change
-                            changePassword();
-                        },
-                        disposable -> showProgressBar(true));
+        showProgressBar(true);
+        changePasswordActivityViewModel.checkCurrentPassword(currentPassword).observe(this, response -> {
+            switch (response) {
+                case ChangePasswordActivityViewModel.ON_ERROR:
+                    Toast.makeText(ChangePasswordActivity.this, R.string.error_password_not_correct, Toast.LENGTH_SHORT).show();
+                    break;
+                case ChangePasswordActivityViewModel.ON_COMPLETE:
+                    //Old password matched change
+                    changePassword();
+                    break;
+                default:
+                    //Not implemented
+            }
+            showProgressBar(false);
+        });
     }
 
     private void changePassword() {
-        if (newPassword == null)
-            return;
-
-        int id = 0;
-        try {
-            id = JWTUtils.getIdentity(AuthUtil.getAuthorization());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        changePasswordDisposable = APIClient.getOpenEventAPI().updateUser(User.builder().id(id).password(newPassword).build(), id)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(user -> {
-                            RealmDataRepository
-                                    .getDefaultInstance()
-                                    .saveUser(user)
-                                    .subscribe();
-                            this.user = user;
-                            showProgressBar(false);
-                            Timber.d("User data saved in database");
-                        },
-                        throwable -> {
-                            showProgressBar(false);
-                            Toast.makeText(ChangePasswordActivity.this, R.string.error_changing_password, Toast.LENGTH_SHORT).show();
-                            Timber.d("Error changing password" + throwable.getMessage());
-                        },
-                        () -> {
-                            showProgressBar(false);
-                            Toast.makeText(ChangePasswordActivity.this, R.string.password_changed_successfully, Toast.LENGTH_SHORT).show();
-                            Timber.d("Password changed successfully");
-                            finish();
-                        },
-                        disposable -> showProgressBar(true));
+        changePasswordActivityViewModel.changePassword(newPassword).observe(this, response -> {
+            switch (response) {
+                case ChangePasswordActivityViewModel.ON_ERROR:
+                    Toast.makeText(ChangePasswordActivity.this, R.string.error_changing_password, Toast.LENGTH_SHORT).show();
+                    break;
+                case ChangePasswordActivityViewModel.ON_COMPLETE:
+                    Toast.makeText(ChangePasswordActivity.this, R.string.password_changed_successfully, Toast.LENGTH_SHORT).show();
+                    finish();
+                    break;
+                case ChangePasswordActivityViewModel.ON_EMPTY_PASSWORD:
+                    Toast.makeText(ChangePasswordActivity.this, R.string.error_password_empty, Toast.LENGTH_SHORT).show();
+                    break;
+                default:
+                    //Not implemented
+            }
+        });
     }
 
     private boolean validateCredentials(String currentPassword, String newPassword, String confirmPasssword) {
@@ -203,16 +173,6 @@ public class ChangePasswordActivity extends AppCompatActivity {
             view.clearFocus();
             manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        if (checkPasswordDisposable != null && !checkPasswordDisposable.isDisposed())
-            checkPasswordDisposable.dispose();
-        if (changePasswordDisposable != null && !changePasswordDisposable.isDisposed())
-            changePasswordDisposable.dispose();
     }
 
     @Override
