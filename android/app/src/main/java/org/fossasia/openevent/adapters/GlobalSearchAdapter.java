@@ -41,6 +41,9 @@ public class GlobalSearchAdapter extends BaseRVAdapter<Object, RecyclerView.View
     public GlobalSearchAdapter(List<Object> dataList, Context context) {
         super(dataList);
         this.context = context;
+    }
+
+    public void setCopyOfSearches(List<Object> dataList){
         this.filteredResultList = dataList;
     }
 
