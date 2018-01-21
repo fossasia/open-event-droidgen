@@ -31,7 +31,6 @@ import butterknife.ButterKnife;
 import io.realm.RealmChangeListener;
 import timber.log.Timber;
 
-import static org.fossasia.openevent.listeners.BookmarkStatus.Status.CODE_BLANK;
 import static org.fossasia.openevent.listeners.BookmarkStatus.Status.CODE_ERROR;
 import static org.fossasia.openevent.listeners.BookmarkStatus.Status.CODE_UNDO_ADDED;
 import static org.fossasia.openevent.listeners.BookmarkStatus.Status.CODE_UNDO_REMOVED;
@@ -115,7 +114,7 @@ public class DayScheduleViewHolder extends RecyclerView.ViewHolder {
                     NotificationUtil.createNotification(session, context).subscribe(
                             () -> {
                                 if (onBookmarkSelectedListener != null)
-                                    onBookmarkSelectedListener.showSnackbar(new BookmarkStatus(-1, -1, CODE_BLANK));
+                                    onBookmarkSelectedListener.showSnackbar(new BookmarkStatus(storedColor, sessionId, CODE_UNDO_ADDED));
                             },
                             throwable -> {
                                 if (onBookmarkSelectedListener != null)
