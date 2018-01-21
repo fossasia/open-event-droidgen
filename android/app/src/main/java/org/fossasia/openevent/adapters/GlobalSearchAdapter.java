@@ -41,10 +41,11 @@ public class GlobalSearchAdapter extends BaseRVAdapter<Object, RecyclerView.View
     public GlobalSearchAdapter(List<Object> dataList, Context context) {
         super(dataList);
         this.context = context;
+        filteredResultList = dataList;
     }
 
-    public void setCopyOfSearches(List<Object> dataList){
-        this.filteredResultList = dataList;
+    public void setCopyOfSearches(List<Object> dataList) {
+        filteredResultList = dataList;
     }
 
     @Override
@@ -97,7 +98,7 @@ public class GlobalSearchAdapter extends BaseRVAdapter<Object, RecyclerView.View
             case SPEAKER:
                 View speaker = inflater.inflate(R.layout.search_item_speaker, parent, false);
                 resultHolder = new SpeakerViewHolder(speaker, context);
-                ((SpeakerViewHolder)resultHolder).setIsImageCircle(true);
+                ((SpeakerViewHolder) resultHolder).setIsImageCircle(true);
                 break;
             case LOCATION:
                 View location = inflater.inflate(R.layout.item_location, parent, false);
