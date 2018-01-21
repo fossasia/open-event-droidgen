@@ -6,12 +6,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -19,7 +17,6 @@ import android.widget.TextView;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
-import org.fossasia.openevent.listeners.BookmarkStatus;
 import org.fossasia.openevent.adapters.GlobalSearchAdapter;
 import org.fossasia.openevent.viewmodels.SearchActivityViewModel;
 
@@ -27,14 +24,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import io.realm.Realm;
 
 public class SearchActivity extends BaseActivity implements SearchView.OnQueryTextListener {
 
     private GlobalSearchAdapter globalSearchAdapter;
     private List<Object> results = new ArrayList<>();
 
-    private Realm realm = Realm.getDefaultInstance();
     private SearchView searchView;
     private String searchText;
 
