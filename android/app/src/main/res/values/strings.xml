@@ -148,6 +148,8 @@
     <string name="net_unavailable">Network not available</string>
     <string name="turn_on">Turn on WiFi or Mobile data in Settings</string>
     <string name="error">Error</string>
+    <string name="http_error">HTTP Error</string>
+    <string name="api_not_found">API Not Found</string>
 
     <string name="empty_list">No Bookmarks Available</string>
     <string name="bullet">"•"</string>

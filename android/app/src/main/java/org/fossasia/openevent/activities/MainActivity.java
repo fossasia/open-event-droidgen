@@ -694,9 +694,8 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
     @Subscribe
     public void handleResponseEvent(RetrofitResponseEvent responseEvent) {
         Integer statusCode = responseEvent.getStatusCode();
-        if (statusCode.equals(404)) {
-            showErrorDialog("HTTP Error", statusCode + "Api Not Found");
-        }
+        if (statusCode.equals(404))
+            showErrorDialog(getResources().getString(R.string.http_error), statusCode + "\n" + getResources().getString(R.string.api_not_found));
     }
 
     @Subscribe
