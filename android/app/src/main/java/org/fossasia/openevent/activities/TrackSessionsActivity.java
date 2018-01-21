@@ -1,5 +1,6 @@
 package org.fossasia.openevent.activities;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -29,20 +30,16 @@ import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.SessionsListAdapter;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Track;
-import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.events.BookmarkChangedEvent;
 import org.fossasia.openevent.utils.ConstantStrings;
-import org.fossasia.openevent.utils.DateConverter;
-import org.fossasia.openevent.utils.DateService;
 import org.fossasia.openevent.utils.Utils;
 import org.fossasia.openevent.utils.Views;
-import org.threeten.bp.ZonedDateTime;
+import org.fossasia.openevent.viewmodels.TrackSessionsActivityViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import io.realm.RealmObjectChangeListener;
 import timber.log.Timber;
 
 
@@ -69,7 +66,8 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
     private static final int trackWiseSessionList = 4;
     private int trackId;
 
-    private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
+    private TrackSessionsActivityViewModel trackSessionsActivityViewModel;
+
     private Track track;
 
     private ActionBar actionBar;
@@ -99,9 +97,9 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
             if (!TextUtils.isEmpty(track))
                 actionBar.setTitle(track);
         }
-        if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
-            searchText = savedInstanceState.getString(SEARCH);
-        }
+
+        trackSessionsActivityViewModel = ViewModelProviders.of(this).get(TrackSessionsActivityViewModel.class);
+        searchText = trackSessionsActivityViewModel.getSearchText();
 
         //setting the grid layout to cut-off white space in tablet view
         DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
@@ -120,54 +118,44 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
 
         sessionsListAdapter.setTrackId(trackId);
 
-        loadData();
+        loadTracks();
 
         handleVisibility();
     }
 
-    private void loadData() {
-        track = realmRepo.getTrack(trackId);
-        track.removeAllChangeListeners();
-        track.addChangeListener((RealmObjectChangeListener<Track>) (track, objectChangeSet) -> {
-            int color = Color.parseColor(track.getColor());
-            fontColor = Color.parseColor(track.getFontColor());
-            setUiColor(color);
+    private void makeUiChanges() {
+        int color = Color.parseColor(track.getColor());
+        fontColor = Color.parseColor(track.getFontColor());
+        setUiColor(color);
 
-            actionBar.setTitle(track.getName());
-            toolbar.setTitleTextColor(fontColor);
+        actionBar.setTitle(track.getName());
+        toolbar.setTitleTextColor(fontColor);
 
-            //coloring status bar icons for marshmallow+ devices
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && (sessionsRecyclerView != null) && (fontColor != Color.WHITE)) {
-                sessionsRecyclerView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-            }
+        //coloring status bar icons for marshmallow+ devices
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && (sessionsRecyclerView != null) && (fontColor != Color.WHITE)) {
+            sessionsRecyclerView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
+    }
 
+    private void loadTracks() {
+        trackSessionsActivityViewModel.getTrack(trackId).observe(this, track -> {
+            this.track = track;
+            makeUiChanges();
+            loadSessions();
+        });
+    }
+
+    private void loadSessions() {
+        trackSessionsActivityViewModel.getSessions(searchText).observe(this, filteredSessions -> {
             sessions.clear();
-            sessions.addAll(track.getSessions().sort("startsAt"));
-            sessionsListAdapter.setCopyOfSessions(track.getSessions().sort("startsAt"));
-            if (!Utils.isEmpty(searchText))
-                sessionsListAdapter.filter(searchText);
+            sessions.addAll(filteredSessions);
             sessionsListAdapter.notifyDataSetChanged();
 
-            //finding upcoming and ongoing sessions
-            int countUpcoming = 0;
-            int countOngoing = 0;
-            for (Session trackSession : sessions) {
-                flag = 0;
-                ZonedDateTime start = DateConverter.getDate(trackSession.getStartsAt());
-                ZonedDateTime end = DateConverter.getDate((trackSession.getEndsAt()));
-                ZonedDateTime current = ZonedDateTime.now();
-                if (DateService.isOngoingSession(start, end, current)) {
-                    ongoingPosition = countOngoing;
-                    break;
-                } else if (DateService.isUpcomingSession(start, end, current)) {
-                    upcomingPosition = countUpcoming;
-                    break;
-                } else flag += 1;
-                countUpcoming += 1;
-                countOngoing += 1;
-            }
-
             handleVisibility();
+
+            ongoingPosition = trackSessionsActivityViewModel.getOngoingPosition();
+            upcomingPosition = trackSessionsActivityViewModel.getUpcomingPosition();
+            flag = trackSessionsActivityViewModel.getFlag();
         });
     }
 
@@ -208,7 +196,8 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
     @Subscribe
     public void onBookmarksChanged(BookmarkChangedEvent bookmarkChangedEvent) {
         Timber.d("Bookmarks Changed");
-        loadData();
+        loadTracks();
+        loadSessions();
     }
 
     @Override
@@ -302,7 +291,7 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
     @Override
     public boolean onQueryTextChange(String query) {
         searchText = query;
-        sessionsListAdapter.filter(searchText);
+        loadSessions();
         Utils.displayNoResults(noResultSessionsView, sessionsRecyclerView, noSessionsView, sessionsListAdapter.getItemCount());
 
         return true;

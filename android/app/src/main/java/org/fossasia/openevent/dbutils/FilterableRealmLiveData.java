@@ -26,6 +26,7 @@ public class FilterableRealmLiveData<V extends RealmModel> extends LiveData<List
 
     public FilterableRealmLiveData(RealmResults<V> unfilteredData) {
         this.unfilteredData = unfilteredData;
+        setValue(unfilteredData);
         compositeDisposable = new CompositeDisposable();
     }
 
