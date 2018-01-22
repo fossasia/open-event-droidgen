@@ -125,10 +125,10 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionViewHolde
         ZonedDateTime current = ZonedDateTime.now();
         if (DateService.isUpcomingSession(start, end, current)) {
             holder.sessionStatus.setVisibility(View.VISIBLE);
-            holder.sessionStatus.setText("UPCOMING");
+            holder.sessionStatus.setText(R.string.status_upcoming);
         } else if (DateService.isOngoingSession(start, end, current)) {
             holder.sessionStatus.setVisibility(View.VISIBLE);
-            holder.sessionStatus.setText("ONGOING");
+            holder.sessionStatus.setText(R.string.status_ongoing);
         }
 
         Track track = session.getTrack();

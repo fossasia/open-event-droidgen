@@ -314,4 +314,8 @@
     <string name="speakers_details">Speaker(s) :</string>
     <string name="description_details">Description :</string>
 
+    <!--Tracks Session Status-->
+    <string name="status_upcoming">UPCOMING</string>
+    <string name="status_ongoing">ONGOING</string>
+
 </resources>
