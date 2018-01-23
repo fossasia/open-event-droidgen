@@ -65,8 +65,8 @@
                 android:id="@+id/speaker_details_header"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/layout_margin_extra_large"
                 android:layout_gravity="bottom"
+                android:layout_marginLeft="@dimen/layout_margin_extra_large"
                 android:layout_marginStart="@dimen/layout_margin_extra_large"
                 android:orientation="vertical">
 
@@ -175,7 +175,7 @@
                         android:padding="@dimen/padding_medium"
                         android:text="@string/social_media"
                         android:textStyle="bold"
-                        android:visibility="gone"/>
+                        android:visibility="gone" />
 
                     <LinearLayout
                         android:id="@+id/layoutSocialMedia"
@@ -191,8 +191,8 @@
                             android:contentDescription="@string/facebook_icon"
                             android:padding="@dimen/padding_medium"
                             android:tag="@string/fb"
-                            app:srcCompat="@drawable/ic_facebook_24dp"
-                            android:visibility="gone"/>
+                            android:visibility="gone"
+                            app:srcCompat="@drawable/ic_facebook_24dp" />
 
                         <ImageView
                             android:id="@+id/imageView_linkedin"
@@ -203,8 +203,8 @@
                             android:contentDescription="@string/linkedin_icon"
                             android:padding="@dimen/padding_medium"
                             android:tag="@string/linkedin"
-                            app:srcCompat="@drawable/ic_linkedin_24dp"
-                            android:visibility="gone"/>
+                            android:visibility="gone"
+                            app:srcCompat="@drawable/ic_linkedin_24dp" />
 
                         <ImageView
                             android:id="@+id/imageView_twitter"
@@ -215,8 +215,8 @@
                             android:contentDescription="@string/twitter_icon"
                             android:padding="@dimen/padding_medium"
                             android:tag="@string/twitter"
-                            app:srcCompat="@drawable/ic_twitter_24dp"
-                            android:visibility="gone"/>
+                            android:visibility="gone"
+                            app:srcCompat="@drawable/ic_twitter_24dp" />
 
                         <ImageView
                             android:id="@+id/imageView_github"
@@ -227,8 +227,8 @@
                             android:contentDescription="@string/github_icon"
                             android:padding="@dimen/padding_medium"
                             android:tag="@string/github"
-                            app:srcCompat="@drawable/ic_github_24dp"
-                            android:visibility="gone"/>
+                            android:visibility="gone"
+                            app:srcCompat="@drawable/ic_github_24dp" />
 
                         <ImageView
                             android:id="@+id/imageView_web"
@@ -239,8 +239,8 @@
                             android:contentDescription="@string/web_icon"
                             android:padding="@dimen/padding_medium"
                             android:tag="@string/website"
-                            app:srcCompat="@drawable/ic_domain_black_24dp"
-                            android:visibility="gone"/>
+                            android:visibility="gone"
+                            app:srcCompat="@drawable/ic_domain_black_24dp" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -258,7 +258,7 @@
                 android:layout_marginTop="@dimen/layout_margin_medium"
                 android:padding="@dimen/padding_medium"
                 android:text="@string/sessions_title_card"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <RelativeLayout
                 android:layout_width="match_parent"

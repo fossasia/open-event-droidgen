@@ -213,12 +213,12 @@
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/list_social_links"
-                    tools:listitem="@layout/item_social_link"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:clipToPadding="false"
-                    android:overScrollMode="never" />
+                    android:overScrollMode="never"
+                    tools:listitem="@layout/item_social_link" />
             </LinearLayout>
 
         </LinearLayout>

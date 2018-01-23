@@ -1,5 +1,4 @@
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_content"
@@ -26,10 +25,9 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/search_recyclerView"
             android:layout_width="match_parent"
-            android:background="@color/white"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            />
+            android:background="@color/white"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
     </FrameLayout>
 
 </android.support.design.widget.CoordinatorLayout>

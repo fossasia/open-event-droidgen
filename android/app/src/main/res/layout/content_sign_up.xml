@@ -34,10 +34,10 @@
         <android.support.design.widget.TextInputLayout
             android:id="@+id/text_input_layout_create_password"
             android:layout_width="match_parent"
-            app:passwordToggleEnabled="true"
-            app:passwordToggleTint="@color/color_accent"
             android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/padding_medium">
+            android:paddingBottom="@dimen/padding_medium"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/color_accent">
 
             <android.support.design.widget.TextInputEditText
                 android:layout_width="match_parent"
@@ -50,9 +50,9 @@
             android:id="@+id/text_input_layout_confirm_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/padding_large"
             app:passwordToggleEnabled="true"
-            app:passwordToggleTint="@color/color_accent"
-            android:paddingBottom="@dimen/padding_large">
+            app:passwordToggleTint="@color/color_accent">
 
             <android.support.design.widget.TextInputEditText
                 android:layout_width="match_parent"
