@@ -139,17 +139,12 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
     public void setUpcomingSessionsDialog() {
         upcomingDialogBox = new Dialog(this);
         upcomingDialogBox.setContentView(R.layout.upcoming_dialogbox);
-        trackImageIcon = (ImageView) upcomingDialogBox.findViewById(R.id.track_image_drawable);
-        upcomingSessionText = (TextView) upcomingDialogBox.findViewById(R.id.upcoming_session_textview);
-        upcomingSessionTitle = (TextView) upcomingDialogBox.findViewById(R.id.upcoming_Session_title);
-        Button dialogButton = (Button) upcomingDialogBox.findViewById(R.id.upcoming_button);
-        upcomingSessionDetails = (View) upcomingDialogBox.findViewById(R.id.upcoming_session_details);
-        dialogButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                upcomingDialogBox.dismiss();
-            }
-        });
+        trackImageIcon = upcomingDialogBox.findViewById(R.id.track_image_drawable);
+        upcomingSessionText = upcomingDialogBox.findViewById(R.id.upcoming_session_textview);
+        upcomingSessionTitle = upcomingDialogBox.findViewById(R.id.upcoming_Session_title);
+        Button dialogButton = upcomingDialogBox.findViewById(R.id.upcoming_button);
+        upcomingSessionDetails = upcomingDialogBox.findViewById(R.id.upcoming_session_details);
+        dialogButton.setOnClickListener(view -> upcomingDialogBox.dismiss());
     }
 
     public void setUpcomingSession() {

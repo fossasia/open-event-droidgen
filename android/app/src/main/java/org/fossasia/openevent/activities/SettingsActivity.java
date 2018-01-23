@@ -168,7 +168,7 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
 
     private void setToolbar() {
         setContentView(R.layout.activity_settings);
-        setSupportActionBar((Toolbar) findViewById(R.id.setting_toolbar));
+        setSupportActionBar(findViewById(R.id.setting_toolbar));
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME |
                 ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_TITLE);
 

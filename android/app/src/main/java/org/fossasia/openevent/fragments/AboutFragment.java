@@ -268,9 +268,9 @@ public class AboutFragment extends BaseFragment implements OnBookmarkSelectedLis
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.copyright_dialog, null);
         dialogBuilder.setView(dialogView).setPositiveButton("Back", (dialog, which) -> dialog.cancel());
-        TextView holder = (TextView) dialogView.findViewById(R.id.holder_textview);
-        TextView licence = (TextView) dialogView.findViewById(R.id.licence);
-        TextView licenceurl = (TextView) dialogView.findViewById(R.id.licence_url);
+        TextView holder = dialogView.findViewById(R.id.holder_textview);
+        TextView licence = dialogView.findViewById(R.id.licence);
+        TextView licenceurl = dialogView.findViewById(R.id.licence_url);
         if (event.isValid() && event.getEventCopyright().isValid()) {
             Copyright copyright = event.getEventCopyright();
             licence.setText(copyright.getLicence() + " " + String.valueOf(copyright.getYear()));
@@ -289,10 +289,10 @@ public class AboutFragment extends BaseFragment implements OnBookmarkSelectedLis
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.speakers_call_dialog, null);
-        TextView holder = (TextView) dialogView.findViewById(R.id.holder_textview);
-        TextView announcement = (TextView) dialogView.findViewById(R.id.announcement);
-        TextView fromDateOfEvent = (TextView) dialogView.findViewById(R.id.from_date_textview);
-        TextView toDateOfEvent = (TextView) dialogView.findViewById(R.id.to_date_textview);
+        TextView holder = dialogView.findViewById(R.id.holder_textview);
+        TextView announcement = dialogView.findViewById(R.id.announcement);
+        TextView fromDateOfEvent = dialogView.findViewById(R.id.from_date_textview);
+        TextView toDateOfEvent = dialogView.findViewById(R.id.to_date_textview);
 
         if (event.isValid() && event.getSpeakersCall().isValid()) {
             SpeakersCall speakersCall = event.getSpeakersCall();

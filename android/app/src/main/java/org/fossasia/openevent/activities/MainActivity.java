@@ -292,7 +292,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
 
     private void setUpNavDrawer() {
         setUpUserProfileMenu();
-        headerView = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.headerDrawer);
+        headerView = navigationView.getHeaderView(0).findViewById(R.id.headerDrawer);
         if (toolbar != null && !isTwoPane) {
             final ActionBar ab = getSupportActionBar();
             if(ab == null) return;

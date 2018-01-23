@@ -26,7 +26,7 @@ public class CommentsDialogFragment extends DialogFragment {
         View root = inflater.inflate(R.layout.list_comment, container, false);
         getDialog().getWindow().getAttributes().alpha = 0.8f;
         List<CommentItem> commentItems=this.getArguments().getParcelableArrayList(ConstantStrings.FACEBOOK_COMMENTS);
-        RecyclerView recyclerView = (RecyclerView)root.findViewById(R.id.comment_recycler_view);
+        RecyclerView recyclerView = root.findViewById(R.id.comment_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         CommentsListAdapter commentsAdapter = new CommentsListAdapter(commentItems);
         recyclerView.setAdapter(commentsAdapter);
