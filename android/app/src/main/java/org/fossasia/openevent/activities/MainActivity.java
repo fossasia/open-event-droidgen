@@ -188,12 +188,14 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
 
         completeHandler = DownloadCompleteHandler.with(context);
 
-        if (Utils.isBaseUrlEmpty()) {
-            if (!SharedPreferencesUtil.getBoolean(ConstantStrings.IS_DOWNLOAD_DONE, false)) {
+        if(!SharedPreferencesUtil.getBoolean(ConstantStrings.IS_DOWNLOAD_DONE, false)) {
+            if(Utils.isBaseUrlEmpty()) {
                 downloadFromAssets();
+            } else {
+                downloadData();
             }
         } else {
-            downloadData();
+            completeHandler.hide();
         }
 
         if (savedInstanceState == null) {
@@ -429,23 +431,20 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
             @Override
             public void networkAvailable() {
                 // Network is available
-                if (!SharedPreferencesUtil.getBoolean(ConstantStrings.IS_DOWNLOAD_DONE, false)) {
-                    DialogFactory.createDownloadDialog(context, R.string.download_assets, R.string.charges_warning,
-                            (dialogInterface, button) -> {
-                                switch (button) {
-                                    case DialogInterface.BUTTON_POSITIVE:
-                                        startDownloadFromNetwork();
-                                        break;
-                                    case DialogInterface.BUTTON_NEGATIVE:
-                                        downloadFromAssets();
-                                        break;
-                                    default:
-                                        // No action to be taken
-                                }
-                            }).show();
-                } else {
-                    completeHandler.hide();
-                }
+                DialogFactory.createDownloadDialog(context, R.string.download_assets, R.string.charges_warning,
+                        (dialogInterface, button) -> {
+                            switch (button) {
+                                case DialogInterface.BUTTON_POSITIVE:
+                                    startDownloadFromNetwork();
+                                    break;
+                                case DialogInterface.BUTTON_NEGATIVE:
+                                    downloadFromAssets();
+                                    break;
+                                default:
+                                    // No action to be taken
+                            }
+                        }).show();
+
             }
 
             @Override
