@@ -1,5 +1,6 @@
 package org.fossasia.openevent.activities.auth;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,10 +19,14 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
-import org.fossasia.openevent.utils.AuthUtil;
-import org.fossasia.openevent.utils.Utils;
+import org.fossasia.openevent.activities.MainActivity;
+import org.fossasia.openevent.utils.ConstantStrings;
+import org.fossasia.openevent.utils.SharedPreferencesUtil;
+import org.fossasia.openevent.viewmodels.auth.SignUpActivityViewModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,6 +55,8 @@ public class SignUpActivity extends AppCompatActivity implements AppCompatEditTe
     private String email;
     private String password;
 
+    private SignUpActivityViewModel signUpActivityViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +68,8 @@ public class SignUpActivity extends AppCompatActivity implements AppCompatEditTe
         createPasswordInput = (TextInputEditText) createPasswordWrapper.getEditText();
         confirmPasswordInput = (TextInputEditText) confirmPasswordWrapper.getEditText();
 
+        signUpActivityViewModel = ViewModelProviders.of(this).get(SignUpActivityViewModel.class);
+
         setEditTextListener();
 
         setSupportActionBar(toolbar);
@@ -70,59 +79,102 @@ public class SignUpActivity extends AppCompatActivity implements AppCompatEditTe
 
         signUp.setOnClickListener(v -> {
             hideKeyBoard();
-            if (emailInput == null || createPasswordInput == null || confirmPasswordInput == null)
-                return;
 
             email = emailInput.getText().toString();
             password = createPasswordInput.getText().toString();
             String confirmPassword = confirmPasswordInput.getText().toString();
 
-            if (validateCredentials(email, password, confirmPassword)) {
-                AuthUtil.signUpUser(SignUpActivity.this, email, password, progressBar);
+            signUp(confirmPassword);
+        });
+    }
+
+    private void signUp(String confirmPassword) {
+        if (validateCredentials(email, password, confirmPassword)) {
+            progressBar.setVisibility(View.VISIBLE);
+
+            signUpActivityViewModel.signUpUser(email, password).observe(this, signUpResponse -> {
+                switch (signUpResponse) {
+                    case SignUpActivityViewModel.VALID:
+                        //sign up successful
+                        showMessage(R.string.signed_up_successfully);
+                        loginAfterSignUp();
+                        break;
+                    default:
+                        //sign up unsuccessful
+                        showMessage(R.string.error_in_signing_up);
+                        progressBar.setVisibility(View.INVISIBLE);
+                        break;
+                }
+            });
+        }
+    }
+
+    private void loginAfterSignUp() {
+        signUpActivityViewModel.loginUserAfterSignUp(email, password).observe(this, loginResponse -> {
+            progressBar.setVisibility(View.INVISIBLE);
+            switch (loginResponse.first) {
+                case SignUpActivityViewModel.VALID:
+                    //Save token & email in shared preferences
+                    SharedPreferencesUtil.putString(ConstantStrings.TOKEN, loginResponse.second);
+                    SharedPreferencesUtil.putString(ConstantStrings.USER_EMAIL, email);
+
+                    showMessage(R.string.logged_in_successfully);
+
+                    Intent intent = new Intent(this, MainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    break;
+                default:
+                    showMessage(R.string.error_authentication_failed);
+                    break;
             }
         });
     }
 
     private void setEditTextListener() {
-        if (emailInput == null || createPasswordInput == null || confirmPasswordInput == null)
-            return;
-
         emailInput.setOnEditorActionListener(this);
         createPasswordInput.setOnEditorActionListener(this);
         confirmPasswordInput.setOnEditorActionListener(this);
     }
 
-    private boolean validateCredentials(String email, String password, String confirmPasssword) {
+    private boolean validateCredentials(String email, String password, String confirmPassword) {
 
         // Reset errors.
         emailWrapper.setError(null);
         createPasswordWrapper.setError(null);
         confirmPasswordWrapper.setError(null);
 
-        if (Utils.isEmpty(email)) {
-            handleError(emailWrapper, R.string.error_email_required);
-            return false;
-        } else if (!Utils.isEmailValid(email)) {
-            handleError(emailWrapper, R.string.error_enter_valid_email);
-            return false;
+        switch (signUpActivityViewModel.validateEmail(email)) {
+            case SignUpActivityViewModel.EMPTY:
+                handleError(emailWrapper, R.string.error_email_required);
+                return false;
+            case SignUpActivityViewModel.INVALID:
+                handleError(emailWrapper, R.string.error_enter_valid_email);
+                return false;
+            default:
+                //No implementation
         }
 
-        if (Utils.isEmpty(password)) {
-            handleError(createPasswordWrapper, R.string.error_password_required);
-            return false;
-        } else if (!Utils.isPasswordValid(password)) {
-            handleError(createPasswordWrapper, R.string.error_password_length);
-            return false;
+        switch (signUpActivityViewModel.validatePassword(password)) {
+            case SignUpActivityViewModel.EMPTY:
+                handleError(createPasswordWrapper, R.string.error_password_required);
+                return false;
+            case SignUpActivityViewModel.INVALID:
+                handleError(createPasswordWrapper, R.string.error_password_length);
+                return false;
+            default:
+                //No implementation
         }
 
-        if (Utils.isEmpty(confirmPasssword)) {
-            handleError(confirmPasswordWrapper, R.string.error_confirm_password);
-            return false;
-        }
-
-        if (!confirmPasssword.equals(password)) {
-            handleError(confirmPasswordWrapper, R.string.error_password_not_matching);
-            return false;
+        switch (signUpActivityViewModel.validateConfirmPassword(confirmPassword, password)) {
+            case SignUpActivityViewModel.EMPTY:
+                handleError(confirmPasswordWrapper, R.string.error_confirm_password);
+                return false;
+            case SignUpActivityViewModel.INVALID:
+                handleError(confirmPasswordWrapper, R.string.error_password_not_matching);
+                return false;
+            default:
+                //No implementation
         }
 
         return true;
@@ -163,5 +215,9 @@ public class SignUpActivity extends AppCompatActivity implements AppCompatEditTe
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private static void showMessage(@StringRes int id) {
+        Toast.makeText(OpenEventApp.getAppContext(), id, Toast.LENGTH_SHORT).show();
     }
 }

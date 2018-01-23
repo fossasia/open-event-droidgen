@@ -15,7 +15,6 @@ import org.fossasia.openevent.R;
 import org.fossasia.openevent.activities.MainActivity;
 import org.fossasia.openevent.api.APIClient;
 import org.fossasia.openevent.data.auth.Login;
-import org.fossasia.openevent.data.auth.User;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
 
 import java.io.IOException;
@@ -33,25 +32,6 @@ import timber.log.Timber;
 public class AuthUtil {
 
     private static Authenticator authenticator;
-
-    public static void signUpUser(Context context, String email, String password, ProgressBar progressBar) {
-        APIClient.getOpenEventAPI().signUp(User.builder().email(email).password(password).build())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        user -> loginUser(context, email, password, progressBar),
-                        throwable -> {
-                            showProgressBar(progressBar, false);
-                            showMessage(R.string.error_in_signing_up);
-                            Timber.d(throwable.toString());
-                        },
-                        () -> {
-                            showProgressBar(progressBar, false);
-                            showMessage(R.string.signed_up_successfully);
-                            Timber.d("Signed up successfully");
-                        },
-                        disposable -> showProgressBar(progressBar, true));
-    }
 
     public static void loginUser(Context context, String email, String password, ProgressBar progressBar) {
         APIClient.getOpenEventAPI().login(new Login(email, password))
