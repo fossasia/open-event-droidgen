@@ -12,7 +12,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -53,16 +52,17 @@ import timber.log.Timber;
 public class DayScheduleFragment extends BaseFragment implements SearchView.OnQueryTextListener {
 
 
-
-    private String searchText ;
-    private SearchView searchView;
     private static final String LOG_TAG = "DayScheduleFragment";
-
-    @BindView(R.id.schedule_swipe_refresh) SwipeRefreshLayout swipeRefreshLayout;
-    @BindView(R.id.list_schedule) RecyclerView dayRecyclerView;
-    @BindView(R.id.txt_no_schedule) TextView noSchedule;
-    @BindView(R.id.txt_no_result_schedule) protected TextView noResultsSchedule;
-
+    @BindView(R.id.txt_no_result_schedule)
+    protected TextView noResultsSchedule;
+    @BindView(R.id.schedule_swipe_refresh)
+    SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.list_schedule)
+    RecyclerView dayRecyclerView;
+    @BindView(R.id.txt_no_schedule)
+    TextView noSchedule;
+    private String searchText;
+    private SearchView searchView;
     private List<Session> sessionsList = new ArrayList<>();
     private List<Session> filteredSessionsList = new ArrayList<>();
 
@@ -89,7 +89,6 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
 
         Utils.registerIfUrlValid(swipeRefreshLayout, this, this::refresh);
         setUpRecyclerView();
-        Log.v(LOG_TAG,"Fragment Opened");
 
         dayScheduleFragmentViewModel = ViewModelProviders.of(this)
                 .get(DayScheduleFragmentViewModel.class);
@@ -99,16 +98,14 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
         final Observer<RealmResults<Session>> realmResultsObserver = realmResults -> realmResults.addChangeListener((sortedSessions, orderedCollectionChangeSet) -> {
             sessionsList.clear();
             sessionsList.addAll(sortedSessions);
-
             filteredSessionsList.clear();
             filteredSessionsList.addAll(sortedSessions);
-
             dayScheduleAdapter.setCopy(sortedSessions);
             dayScheduleAdapter.notifyDataSetChanged();
             if (!Utils.isEmpty(searchText))
                 dayScheduleAdapter.filter(searchText);
 
-            if(SortOrder.sortOrderSchedule() == SortOrder.SORT_ORDER_DESCENDING)
+            if (SortOrder.sortOrderSchedule() == SortOrder.SORT_ORDER_DESCENDING)
                 Collections.reverse(filteredSessionsList);
 
             handleVisibility();
@@ -116,7 +113,7 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
 
         });
 
-        dayScheduleFragmentViewModel.getRealmResults().observe(this,realmResultsObserver);
+        dayScheduleFragmentViewModel.getRealmResults().observe(this, realmResultsObserver);
 
 
         return view;
@@ -144,7 +141,7 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
     }
 
     public void filter(List<String> selectedTracks) {
-        if(dayScheduleAdapter == null)
+        if (dayScheduleAdapter == null)
             return;
         final Observer<RealmResults<Session>> realmResultsFilterObserver = realmResults -> realmResults.addChangeListener((sortedSessions, orderedCollectionChangeSet) -> {
             sessionsList.clear();
@@ -172,7 +169,7 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
 
             handleVisibility();
         });
-        dayScheduleFragmentViewModel.getRealmResults().observe(this,realmResultsFilterObserver);
+        dayScheduleFragmentViewModel.getRealmResults().observe(this, realmResultsFilterObserver);
 
     }
 
@@ -200,9 +197,9 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
 
         // Remove listeners to fix memory leak
         if (realmResults != null)
-        realmResults.removeAllChangeListeners();
-        if(swipeRefreshLayout != null) swipeRefreshLayout.setOnRefreshListener(null);
-        if(searchView != null) searchView.setOnQueryTextListener(null);
+            realmResults.removeAllChangeListeners();
+        if (swipeRefreshLayout != null) swipeRefreshLayout.setOnRefreshListener(null);
+        if (searchView != null) searchView.setOnQueryTextListener(null);
     }
 
     @Subscribe

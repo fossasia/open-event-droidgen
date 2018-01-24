@@ -42,8 +42,6 @@ public class DayScheduleFragmentViewModel extends ViewModel {
         return realmResults;
     }
 
-
-
     public String getSearchText() {
         return searchText;
     }
