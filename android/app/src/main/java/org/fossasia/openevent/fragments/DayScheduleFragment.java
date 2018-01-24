@@ -51,8 +51,6 @@ import timber.log.Timber;
  */
 public class DayScheduleFragment extends BaseFragment implements SearchView.OnQueryTextListener {
 
-
-    private static final String LOG_TAG = "DayScheduleFragment";
     @BindView(R.id.txt_no_result_schedule)
     protected TextView noResultsSchedule;
     @BindView(R.id.schedule_swipe_refresh)
