@@ -97,6 +97,7 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:id="@+id/ll_event_date"
                     android:orientation="horizontal"
                     android:padding="@dimen/padding_medium">
 
@@ -121,6 +122,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:id="@+id/ll_event_loc"
                     android:orientation="horizontal"
                     android:padding="@dimen/padding_medium">
 

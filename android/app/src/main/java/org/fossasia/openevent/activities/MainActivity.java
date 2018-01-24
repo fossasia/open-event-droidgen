@@ -110,7 +110,7 @@ import io.realm.RealmList;
 import io.realm.RealmResults;
 import timber.log.Timber;
 
-public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommentsDialogListener, OnImageZoomListener {
+public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommentsDialogListener, OnImageZoomListener, AboutFragment.OnMapSelectedListener {
 
     private static final String STATE_FRAGMENT = "stateFragment";
     private static final String NAV_ITEM = "navItem";
@@ -125,6 +125,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
     private boolean isAuthEnabled = SharedPreferencesUtil.getBoolean(ConstantStrings.IS_AUTH_ENABLED, false);
     private boolean customTabsSupported;
     private int currentMenuItemId;
+    private boolean isMapFragment;
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.nav_view) NavigationView navigationView;
@@ -142,6 +143,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
     private CompositeDisposable disposable;
     private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
     private Event event; // Future Event, stored to remove listeners
+    private AboutFragment.OnMapSelectedListener onMapSelectedListener = value -> isMapFragment = value;
 
     public static Intent createLaunchFragmentIntent(Context context) {
         return new Intent(context, MainActivity.class)
@@ -521,7 +523,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
 
         switch (menuItemId) {
             case R.id.nav_home:
-                replaceFragment(new AboutFragment(), R.string.menu_home);
+                replaceFragment(AboutFragment.newInstance(onMapSelectedListener), R.string.menu_home);
                 break;
             case R.id.nav_tracks:
                 replaceFragment(new TracksFragment(), R.string.menu_tracks);
@@ -569,19 +571,24 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
 
     @Override
     public void onBackPressed() {
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
+
         if (!isTwoPane && drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
         } else if (atHome) {
             if (backPressedOnce) {
                 super.onBackPressed();
-            } else {
+            } else if (fragment instanceof AboutFragment) {
                 backPressedOnce = true;
                 Snackbar snackbar = Snackbar.make(mainFrame, R.string.press_back_again, 2000);
                 snackbar.show();
                 new Handler().postDelayed(() -> backPressedOnce = false, 2000);
+            } else if (isMapFragment) {
+                replaceFragment(AboutFragment.newInstance(onMapSelectedListener), R.string.menu_home);
+                addShadowToAppBar(true);
             }
         } else {
-            replaceFragment(new AboutFragment(), R.string.menu_home);
+            replaceFragment(AboutFragment.newInstance(onMapSelectedListener), R.string.menu_home);
             navigationView.setCheckedItem(R.id.nav_home);
             addShadowToAppBar(true);
         }
@@ -879,6 +886,10 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
     }
 
     @Override
+    public void onMapSelected(boolean value) {
+        //it is used to check if the maps fragment is selected
+    }
+
     public void onZoom(String imageUri) {
         ZoomableImageUtil.showZoomableImageDialogFragment(fragmentManager, imageUri);
     }
