@@ -145,7 +145,8 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionViewHolde
                 color = storedColor;
             }
 
-            TextDrawable drawable = OpenEventApp.getTextDrawableBuilder().round().build(String.valueOf(track.getName().charAt(0)), storedColor);
+            TextDrawable drawable = OpenEventApp.getTextDrawableBuilder().round()
+                    .build(String.valueOf(track.getName().charAt(0)), storedColor);
             holder.trackImageIcon.setImageDrawable(drawable);
             holder.trackImageIcon.setBackgroundColor(Color.TRANSPARENT);
             holder.sessionTrack.setText(track.getName());
@@ -236,13 +237,15 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionViewHolde
                 setBookmarkIcon(holder.sessionBookmarkIcon, false, track.getFontColor());
 
                 if(onBookmarkSelectedListener != null)
-                    onBookmarkSelectedListener.showSnackbar(new BookmarkStatus(Color.parseColor(track.getColor()), sessionId, BookmarkStatus.Status.CODE_UNDO_REMOVED));
+                    onBookmarkSelectedListener.showSnackbar(new BookmarkStatus(Color.parseColor(track.getColor()),
+                            sessionId, BookmarkStatus.Status.CODE_UNDO_REMOVED));
 
             } else {
                 NotificationUtil.createNotification(session, context).subscribe(
                         () -> {
                             if (onBookmarkSelectedListener != null)
-                                onBookmarkSelectedListener.showSnackbar(new BookmarkStatus(Color.parseColor(track.getColor()), sessionId, CODE_UNDO_ADDED));
+                                onBookmarkSelectedListener.showSnackbar(new BookmarkStatus(Color.parseColor(track.getColor()),
+                                        sessionId, CODE_UNDO_ADDED));
                         },
                         throwable -> {
                             if (onBookmarkSelectedListener != null)

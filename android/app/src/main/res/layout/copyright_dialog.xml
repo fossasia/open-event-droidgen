@@ -11,24 +11,24 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/holder_textview"
-        style="@style/CardContent.Header"
-        tools:text="Header"/>
+        <TextView
+            android:id="@+id/holder_textview"
+            style="@style/CardContent.Header"
+            tools:text="Header" />
 
-    <TextView
-        android:id="@+id/licence"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/CardContent"
-        tools:text="License"/>
+        <TextView
+            android:id="@+id/licence"
+            style="@style/CardContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="License" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/licence_url"
-        style="@style/CardContent"
-        tools:text="License URL"/>
+        <TextView
+            android:id="@+id/licence_url"
+            style="@style/CardContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="License URL" />
 
     </LinearLayout>
 

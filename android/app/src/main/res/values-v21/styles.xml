@@ -16,8 +16,12 @@
         <item name="android:windowEnterTransition">@android:transition/fade</item>
         <item name="android:windowExitAnimation">@android:transition/fade</item>
         <!--specify how shared elements should animate-->
-        <item name="android:windowSharedElementEnterTransition">@transition/change_details_transform</item>
-        <item name="android:windowSharedElementExitTransition">@transition/change_details_transform</item>
+        <item name="android:windowSharedElementEnterTransition">
+            @transition/change_details_transform
+        </item>
+        <item name="android:windowSharedElementExitTransition">
+            @transition/change_details_transform
+        </item>
     </style>
 
     <style name="AppTheme.NoActionBar">

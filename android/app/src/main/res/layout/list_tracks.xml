@@ -13,8 +13,8 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:text="@string/no_results_found"
-        android:visibility="gone"
-        android:textAppearance="?android:textAppearanceMedium" />
+        android:textAppearance="?android:textAppearanceMedium"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/txt_no_tracks"

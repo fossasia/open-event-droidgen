@@ -8,11 +8,10 @@
         android:layout_height="wrap_content"
         android:ems="12"
         android:hint="@string/search"
-        android:shadowColor="@color/white"
         android:imeOptions="actionSearch"
         android:inputType="textAutoComplete|textAutoCorrect"
-        android:textColorHint="@color/white"
+        android:shadowColor="@color/white"
         android:textColor="@color/white"
-        />
+        android:textColorHint="@color/white" />
 
 </LinearLayout>

@@ -60,7 +60,8 @@ public class SpeakerViewHolder extends RecyclerView.ViewHolder {
 
             try{
                 if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP){
-                    Bundle bundle = ActivityOptions.makeSceneTransitionAnimation((Activity) this.context, speakerImage, speakerImage.getTransitionName()).toBundle();
+                    Bundle bundle = ActivityOptions.makeSceneTransitionAnimation((Activity) this.context,
+                            speakerImage, speakerImage.getTransitionName()).toBundle();
                     this.context.startActivity(intent, bundle);
                 } else{
                     this.context.startActivity(intent);
@@ -88,9 +89,11 @@ public class SpeakerViewHolder extends RecyclerView.ViewHolder {
         TextDrawable drawable;
         if (isImageCircle) {
             requestCreator.transform(new CircleTransform());
-            drawable = OpenEventApp.getTextDrawableBuilder().round().build(Utils.getNameLetters(name), ColorGenerator.MATERIAL.getColor(name));
+            drawable = OpenEventApp.getTextDrawableBuilder().round().build(Utils.getNameLetters(name),
+                    ColorGenerator.MATERIAL.getColor(name));
         } else {
-            drawable = OpenEventApp.getTextDrawableBuilder().buildRect(Utils.getNameLetters(name), ColorGenerator.MATERIAL.getColor(name));
+            drawable = OpenEventApp.getTextDrawableBuilder().buildRect(Utils.getNameLetters(name),
+                    ColorGenerator.MATERIAL.getColor(name));
         }
 
         requestCreator

@@ -58,7 +58,8 @@ public class TrackViewHolder extends RecyclerView.ViewHolder {
                 sessions, sessions));
 
         if(!Utils.isEmpty(trackName)) {
-            trackImageIcon.setImageDrawable(OpenEventApp.getTextDrawableBuilder().round().build(String.valueOf(trackName.charAt(0)), trackColor));
+            trackImageIcon.setImageDrawable(OpenEventApp.getTextDrawableBuilder().round()
+                    .build(String.valueOf(trackName.charAt(0)), trackColor));
             trackImageIcon.setBackgroundColor(Color.TRANSPARENT);
         }
     }
