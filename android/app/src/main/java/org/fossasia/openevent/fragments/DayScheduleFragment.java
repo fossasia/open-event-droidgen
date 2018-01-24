@@ -71,8 +71,7 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
     private OnBookmarkSelectedListener onBookmarkSelectedListener;
 
     private String date;
-    //private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
-    //private RealmResults<Session> realmResults;
+    private RealmResults<Session> realmResults;
     private RecyclerView.AdapterDataObserver adapterDataObserver;
 
     private DayScheduleFragmentViewModel dayScheduleFragmentViewModel;
@@ -94,14 +93,15 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
 
         dayScheduleFragmentViewModel = ViewModelProviders.of(this)
                 .get(DayScheduleFragmentViewModel.class);
-        dayScheduleFragmentViewModel.init(date);
+        dayScheduleFragmentViewModel.setDate(date);
         searchText = dayScheduleFragmentViewModel.getSearchText();
 
-        final Observer<List<Session>> sessionsObserver = sessions -> sessionsList = sessions;
+        final Observer<RealmResults<Session>> realmResultsObserver = realmResults -> realmResults.addChangeListener((sortedSessions, orderedCollectionChangeSet) -> {
+            sessionsList.clear();
+            sessionsList.addAll(sortedSessions);
 
-        final Observer<List<Session>> filteredSessionsObserver = filteredSessions -> {
-            filteredSessionsList = filteredSessions;
-            RealmResults<Session> sortedSessions = dayScheduleFragmentViewModel.getSortedSessions();
+            filteredSessionsList.clear();
+            filteredSessionsList.addAll(sortedSessions);
 
             dayScheduleAdapter.setCopy(sortedSessions);
             dayScheduleAdapter.notifyDataSetChanged();
@@ -112,12 +112,12 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
                 Collections.reverse(filteredSessionsList);
 
             handleVisibility();
-        };
 
-        dayScheduleFragmentViewModel.getSessions().observe(this,sessionsObserver);
-        dayScheduleFragmentViewModel.getFilteredSessions().observe(this,filteredSessionsObserver);
 
-        handleVisibility();
+        });
+
+        dayScheduleFragmentViewModel.getRealmResults().observe(this,realmResultsObserver);
+
 
         return view;
     }
@@ -146,17 +146,33 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
     public void filter(List<String> selectedTracks) {
         if(dayScheduleAdapter == null)
             return;
-        dayScheduleFragmentViewModel.filteredList(selectedTracks,date);
-        if (!selectedTracks.isEmpty())
-            if(searchText!=null)
-                dayScheduleAdapter.filter(searchText);
+        final Observer<RealmResults<Session>> realmResultsFilterObserver = realmResults -> realmResults.addChangeListener((sortedSessions, orderedCollectionChangeSet) -> {
+            sessionsList.clear();
+            sessionsList.addAll(sortedSessions);
 
-        if(SortOrder.sortOrderSchedule() == SortOrder.SORT_ORDER_DESCENDING)
-            Collections.reverse(filteredSessionsList);
+            filteredSessionsList.clear();
+            if (selectedTracks.isEmpty()) {
+                filteredSessionsList.addAll(sessionsList);
+            } else {
+                for (int i = 0; i < sessionsList.size(); i++) {
+                    String trackName = sessionsList.get(i).getTrack().getName();
+                    if (selectedTracks.contains(trackName)) {
+                        filteredSessionsList.add(sessionsList.get(i));
+                    }
+                }
 
-        dayScheduleAdapter.notifyDataSetChanged();
+                if (searchText != null)
+                    dayScheduleAdapter.filter(searchText);
+            }
 
-        handleVisibility();
+            if (SortOrder.sortOrderSchedule() == SortOrder.SORT_ORDER_DESCENDING)
+                Collections.reverse(filteredSessionsList);
+
+            dayScheduleAdapter.notifyDataSetChanged();
+
+            handleVisibility();
+        });
+        dayScheduleFragmentViewModel.getRealmResults().observe(this,realmResultsFilterObserver);
 
     }
 
@@ -183,7 +199,8 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
         dayScheduleAdapter.unregisterAdapterDataObserver(adapterDataObserver);
 
         // Remove listeners to fix memory leak
-        //realmResults.removeAllChangeListeners();
+        if (realmResults != null)
+        realmResults.removeAllChangeListeners();
         if(swipeRefreshLayout != null) swipeRefreshLayout.setOnRefreshListener(null);
         if(searchView != null) searchView.setOnQueryTextListener(null);
     }
