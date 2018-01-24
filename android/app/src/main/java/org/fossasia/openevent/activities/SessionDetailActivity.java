@@ -44,11 +44,13 @@ import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Track;
+import org.fossasia.openevent.listeners.BookmarkStatus;
+import org.fossasia.openevent.listeners.OnBookmarkSelectedListener;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.DateConverter;
 import org.fossasia.openevent.utils.NotificationUtil;
 import org.fossasia.openevent.utils.SharedPreferencesUtil;
-import org.fossasia.openevent.utils.StringUtils;
+import org.fossasia.openevent.utils.SnackbarUtil;
 import org.fossasia.openevent.utils.Utils;
 import org.fossasia.openevent.utils.Views;
 import org.fossasia.openevent.utils.WidgetUpdater;
@@ -64,7 +66,7 @@ import timber.log.Timber;
  * User: MananWason
  * Date: 08-07-2015
  */
-public class SessionDetailActivity extends BaseActivity implements AppBarLayout.OnOffsetChangedListener {
+public class SessionDetailActivity extends BaseActivity implements AppBarLayout.OnOffsetChangedListener, OnBookmarkSelectedListener {
     private static final String TAG = "Session Detail";
 
     private SessionSpeakerListAdapter adapter;
@@ -161,7 +163,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
                 sessionDetailActivityViewModel.setBookmark(session, false);
                 fabSessionBookmark.setImageResource(R.drawable.ic_bookmark_border_white_24dp);
 
-                Snackbar.make(speakersRecyclerView, R.string.removed_bookmark, Snackbar.LENGTH_SHORT).show();
+                showSnackbar(new BookmarkStatus(Color.parseColor(session.getTrack().getColor()), session.getId(), BookmarkStatus.Status.CODE_UNDO_REMOVED));
             } else {
                 Timber.tag(TAG).d("Bookmark Added");
 
@@ -169,14 +171,12 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
                 fabSessionBookmark.setImageResource(R.drawable.ic_bookmark_white_24dp);
 
                 NotificationUtil.createNotification(session, getApplicationContext()).subscribe(
-                        () -> Snackbar.make(speakersRecyclerView,
-                                R.string.added_bookmark,
-                                Snackbar.LENGTH_SHORT)
-                                .show(),
-                        throwable -> Snackbar.make(speakersRecyclerView,
-                                R.string.error_create_notification,
-                                Snackbar.LENGTH_LONG).show());
-
+                        () -> showSnackbar(new BookmarkStatus(Color.parseColor(session.getTrack().getColor()),
+                                session.getId(),
+                                BookmarkStatus.Status.CODE_UNDO_ADDED)),
+                        throwable -> showSnackbar(new BookmarkStatus(Color.parseColor(session.getTrack().getColor()),
+                                session.getId(),
+                                BookmarkStatus.Status.CODE_ERROR)));
             }
 
             WidgetUpdater.updateWidget(getApplicationContext());
@@ -479,4 +479,10 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
         updateSession();
     }
 
+    @Override
+    public void showSnackbar(BookmarkStatus bookmarkStatus) {
+        Snackbar snackbar = Snackbar.make(speakersRecyclerView, SnackbarUtil.getMessageResource(bookmarkStatus), Snackbar.LENGTH_LONG);
+        SnackbarUtil.setSnackbarAction(this, snackbar, bookmarkStatus)
+                .show();
+    }
 }

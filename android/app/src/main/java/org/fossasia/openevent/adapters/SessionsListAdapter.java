@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -22,6 +21,8 @@ import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
+import org.fossasia.openevent.listeners.BookmarkStatus;
+import org.fossasia.openevent.listeners.OnBookmarkSelectedListener;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.DateConverter;
 import org.fossasia.openevent.utils.DateService;
@@ -37,6 +38,9 @@ import java.util.Locale;
 import io.reactivex.Observable;
 import timber.log.Timber;
 
+import static org.fossasia.openevent.listeners.BookmarkStatus.Status.CODE_ERROR;
+import static org.fossasia.openevent.listeners.BookmarkStatus.Status.CODE_UNDO_ADDED;
+
 /**
  * User: MananWason
  * Date: 26-06-2015
@@ -50,6 +54,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionViewHolde
     private static final int locationWiseSessionList = 1;
     private static final int trackWiseSessionList = 4;
     private static final int speakerWiseSessionList = 2;
+    private OnBookmarkSelectedListener onBookmarkSelectedListener;
 
     private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
     private List<Session> copyOfSessions = new ArrayList<>();
@@ -230,31 +235,22 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionViewHolde
                 realmRepo.setBookmark(sessionId, false).subscribe();
                 setBookmarkIcon(holder.sessionBookmarkIcon, false, track.getFontColor());
 
-                if ("MainActivity".equals(context.getClass().getSimpleName())) {
-                    Snackbar.make(holder.sessionCard, R.string.removed_bookmark, Snackbar.LENGTH_LONG)
-                            .setAction(R.string.undo, view -> {
+                if(onBookmarkSelectedListener != null)
+                    onBookmarkSelectedListener.showSnackbar(new BookmarkStatus(Color.parseColor(track.getColor()), sessionId, BookmarkStatus.Status.CODE_UNDO_REMOVED));
 
-                                realmRepo.setBookmark(sessionId, true).subscribe();
-                                setBookmarkIcon(holder.sessionBookmarkIcon, true, track.getFontColor());
-                                WidgetUpdater.updateWidget(context);
-                            }).show();
-                } else {
-                    Snackbar.make(holder.sessionCard, R.string.removed_bookmark, Snackbar.LENGTH_SHORT).show();
-                }
             } else {
                 NotificationUtil.createNotification(session, context).subscribe(
-                        () -> Snackbar.make(holder.sessionCard,
-                                R.string.added_bookmark,
-                                Snackbar.LENGTH_SHORT)
-                                .show(),
-                        throwable -> Snackbar.make(holder.sessionCard,
-                                R.string.error_create_notification,
-                                Snackbar.LENGTH_LONG).show());
+                        () -> {
+                            if (onBookmarkSelectedListener != null)
+                                onBookmarkSelectedListener.showSnackbar(new BookmarkStatus(Color.parseColor(track.getColor()), sessionId, CODE_UNDO_ADDED));
+                        },
+                        throwable -> {
+                            if (onBookmarkSelectedListener != null)
+                                onBookmarkSelectedListener.showSnackbar(new BookmarkStatus(-1, -1, CODE_ERROR));
+                        });
 
                 realmRepo.setBookmark(sessionId, true).subscribe();
                 setBookmarkIcon(holder.sessionBookmarkIcon, true, track.getFontColor());
-
-                Snackbar.make(holder.sessionCard, R.string.added_bookmark, Snackbar.LENGTH_SHORT).show();
             }
             WidgetUpdater.updateWidget(context);
         });
@@ -279,5 +275,13 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionViewHolde
 
     public void setTrackId(int trackId) {
         this.trackId = trackId;
+    }
+
+    public void setOnBookmarkSelectedListener(OnBookmarkSelectedListener onBookmarkSelectedListener) {
+        this.onBookmarkSelectedListener = onBookmarkSelectedListener;
+    }
+
+    public void clearOnBookmarkSelectedListener() {
+        this.onBookmarkSelectedListener = null;
     }
 }

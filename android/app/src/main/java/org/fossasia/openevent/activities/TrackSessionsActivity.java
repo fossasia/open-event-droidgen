@@ -7,6 +7,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.ActionBar;
@@ -31,7 +32,10 @@ import org.fossasia.openevent.adapters.SessionsListAdapter;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.events.BookmarkChangedEvent;
+import org.fossasia.openevent.listeners.BookmarkStatus;
+import org.fossasia.openevent.listeners.OnBookmarkSelectedListener;
 import org.fossasia.openevent.utils.ConstantStrings;
+import org.fossasia.openevent.utils.SnackbarUtil;
 import org.fossasia.openevent.utils.Utils;
 import org.fossasia.openevent.utils.Views;
 import org.fossasia.openevent.viewmodels.TrackSessionsActivityViewModel;
@@ -47,7 +51,7 @@ import timber.log.Timber;
  * User: MananWason
  * Date: 14-06-2015
  */
-public class TrackSessionsActivity extends BaseActivity implements SearchView.OnQueryTextListener {
+public class TrackSessionsActivity extends BaseActivity implements SearchView.OnQueryTextListener, OnBookmarkSelectedListener {
 
     final private String SEARCH = "org.fossasia.openevent.searchText";
 
@@ -110,6 +114,7 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
         gridLayoutManager = new GridLayoutManager(this, spanCount);
         sessionsRecyclerView.setLayoutManager(gridLayoutManager);
         sessionsListAdapter = new SessionsListAdapter(this, sessions, trackWiseSessionList);
+        sessionsListAdapter.setOnBookmarkSelectedListener(this);
         sessionsRecyclerView.setAdapter(sessionsListAdapter);
         sessionsRecyclerView.scrollToPosition(SessionsListAdapter.listPosition);
         sessionsRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -223,6 +228,7 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
     protected void onDestroy() {
         super.onDestroy();
         DrawableCompat.setTint(menu.findItem(R.id.action_search_tracks).getIcon(), Color.WHITE);
+        sessionsListAdapter.clearOnBookmarkSelectedListener();
     }
 
     @Override
@@ -295,5 +301,12 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
         Utils.displayNoResults(noResultSessionsView, sessionsRecyclerView, noSessionsView, sessionsListAdapter.getItemCount());
 
         return true;
+    }
+
+    @Override
+    public void showSnackbar(BookmarkStatus bookmarkStatus) {
+        Snackbar snackbar = Snackbar.make(sessionsRecyclerView, SnackbarUtil.getMessageResource(bookmarkStatus), Snackbar.LENGTH_LONG);
+        SnackbarUtil.setSnackbarAction(this, snackbar, bookmarkStatus)
+                .show();
     }
 }
