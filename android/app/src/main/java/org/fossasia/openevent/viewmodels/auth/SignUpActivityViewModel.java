@@ -3,7 +3,6 @@ package org.fossasia.openevent.viewmodels.auth;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
-import android.util.Pair;
 
 import org.fossasia.openevent.api.APIClient;
 import org.fossasia.openevent.data.auth.Login;
@@ -13,6 +12,7 @@ import org.fossasia.openevent.utils.Utils;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
+import lombok.Data;
 import timber.log.Timber;
 
 public class SignUpActivityViewModel extends ViewModel {
@@ -21,26 +21,8 @@ public class SignUpActivityViewModel extends ViewModel {
     public static final int INVALID = 2;
 
     private MutableLiveData<Integer> signUpResponse;
-    private MutableLiveData<Pair<Integer,String>> loginResponse;
+    private MutableLiveData<SignUpResponse> loginResponse;
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
-
-    public int validateEmail(String email) {
-       if (Utils.isEmpty(email)) {
-           return EMPTY;
-       } else if (!Utils.isEmailValid(email)) {
-           return INVALID;
-       }
-       return VALID;
-    }
-
-    public int validatePassword(String password) {
-        if (Utils.isEmpty(password)) {
-            return EMPTY;
-        } else if (!Utils.isPasswordValid(password)) {
-            return INVALID;
-        }
-        return VALID;
-    }
 
     public int validateConfirmPassword(String confirmPassword, String password) {
         if (Utils.isEmpty(confirmPassword)) {
@@ -69,7 +51,7 @@ public class SignUpActivityViewModel extends ViewModel {
         return signUpResponse;
     }
 
-    public LiveData<Pair<Integer,String>> loginUserAfterSignUp(String email, String password) {
+    public LiveData<SignUpResponse> loginUserAfterSignUp(String email, String password) {
         if (loginResponse == null) {
             loginResponse = new MutableLiveData<>();
         }
@@ -78,11 +60,11 @@ public class SignUpActivityViewModel extends ViewModel {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
                             Timber.d("Saved token and logged in successfully");
-                            loginResponse.setValue(new Pair<>(SignUpActivityViewModel.VALID, response.getAccessToken()));
+                            loginResponse.setValue(new SignUpResponse(SignUpActivityViewModel.VALID, response.getAccessToken()));
                         },
                         throwable -> {
                             Timber.d(throwable.toString());
-                            loginResponse.setValue(new Pair<>(SignUpActivityViewModel.INVALID, ""));
+                            loginResponse.setValue(new SignUpResponse(SignUpActivityViewModel.INVALID, ""));
                         }));
         return loginResponse;
     }
@@ -91,5 +73,11 @@ public class SignUpActivityViewModel extends ViewModel {
     protected void onCleared() {
         compositeDisposable.dispose();
         super.onCleared();
+    }
+
+    @Data
+    public static class SignUpResponse {
+        private final int response;
+        private final String token;
     }
 }
