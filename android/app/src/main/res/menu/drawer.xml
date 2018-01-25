@@ -5,7 +5,7 @@
         <item
             android:id="@+id/nav_user_profile"
             android:icon="@drawable/ic_account_circle_grey_24dp"
-            android:title="@string/menu_sign_up"
+            android:title="@string/login"
             app:showAsAction="always" />
     </group>
 

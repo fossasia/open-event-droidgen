@@ -75,7 +75,7 @@ public class SignUpActivity extends AppCompatActivity implements AppCompatEditTe
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        switchToLogin.setOnClickListener(v -> startActivity(new Intent(SignUpActivity.this, LoginActivity.class)));
+        switchToLogin.setOnClickListener(v -> onBackPressed());
 
         signUp.setOnClickListener(v -> {
             hideKeyBoard();
