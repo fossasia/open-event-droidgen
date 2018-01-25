@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -46,6 +47,7 @@ public class SpeakerViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.speakers_list_country)
     protected TextView speakerCountry;
 
+    @Nullable
     @BindView(R.id.linear_layout_speaker_list_info)
     protected LinearLayout speakerTextualInfo;
 
@@ -115,7 +117,9 @@ public class SpeakerViewHolder extends RecyclerView.ViewHolder {
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                 speakerImage.setImageBitmap(bitmap);
-                Palette.from(bitmap).generate(paletteAsyncListener);
+                if (speakerTextualInfo != null) {
+                    Palette.from(bitmap).generate(paletteAsyncListener);
+                }
             }
 
             @Override
