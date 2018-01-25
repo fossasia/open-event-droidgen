@@ -75,7 +75,7 @@ public class LoginActivity extends AppCompatActivity implements AppCompatEditTex
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        switchToSignUp.setOnClickListener(v -> onBackPressed());
+        switchToSignUp.setOnClickListener(v -> startActivity(new Intent(LoginActivity.this, SignUpActivity.class)));
 
         loginActivityViewModel = ViewModelProviders.of(this).get(LoginActivityViewModel.class);
 

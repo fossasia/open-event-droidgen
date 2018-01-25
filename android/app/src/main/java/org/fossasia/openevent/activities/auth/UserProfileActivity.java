@@ -72,7 +72,7 @@ public class UserProfileActivity extends AppCompatActivity {
             //Delete User data from realm
             RealmDataRepository.getDefaultInstance().clearUserData();
 
-            Intent intent = new Intent(UserProfileActivity.this, SignUpActivity.class);
+            Intent intent = new Intent(UserProfileActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();
             return;
