@@ -23,9 +23,9 @@ import android.widget.TextView;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
-import org.fossasia.openevent.listeners.BookmarkStatus;
 import org.fossasia.openevent.adapters.ScheduleViewPagerAdapter;
 import org.fossasia.openevent.data.Track;
+import org.fossasia.openevent.listeners.BookmarkStatus;
 import org.fossasia.openevent.listeners.OnBookmarkSelectedListener;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.SharedPreferencesUtil;
@@ -98,9 +98,9 @@ public class ScheduleFragment extends BaseFragment implements OnBookmarkSelected
     private void setupViewPager(final ViewPager viewPager) {
         adapter = new ScheduleViewPagerAdapter(getChildFragmentManager());
 
-        scheduleFragmentViewModel.getEventDateString().observe(this, datePair -> {
-            for (int i = 0; i < datePair.size(); i++) {
-                adapter.addFragment(new DayScheduleFragment(), datePair.get(i).first, datePair.get(i).second);
+        scheduleFragmentViewModel.getEventDateString().observe(this, dateStrings -> {
+            for (int i = 0; i < dateStrings.size(); i++) {
+                adapter.addFragment(new DayScheduleFragment(), dateStrings.get(i).getFormattedDate(), dateStrings.get(i).getDate());
                 ((DayScheduleFragment) adapter.getLast()).setOnBookmarkSelectedListener(this);
                 adapter.notifyDataSetChanged();
             }

@@ -3,7 +3,6 @@ package org.fossasia.openevent.viewmodels;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
-import android.util.Pair;
 
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.data.extras.EventDates;
@@ -15,11 +14,12 @@ import org.threeten.bp.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.Data;
 import timber.log.Timber;
 
 public class ScheduleFragmentViewModel extends ViewModel {
 
-    private LiveData<List<Pair<String, String>>> eventDateStringLivePair;
+    private LiveData<List<EventDateStrings>> eventDateStringLivePair;
     private FilterableRealmLiveData<Track> trackFilterableRealmLiveData;
     private FilterableRealmLiveData<EventDates> eventDatesFilterableRealmLiveData;
 
@@ -29,16 +29,16 @@ public class ScheduleFragmentViewModel extends ViewModel {
         eventDatesFilterableRealmLiveData = RealmDataRepository.asFilterableLiveData(realmRepo.getEventDates());
     }
 
-    public LiveData<List<Pair<String, String>>> getEventDateString() {
+    public LiveData<List<EventDateStrings>> getEventDateString() {
         if (eventDateStringLivePair == null) {
             eventDateStringLivePair = Transformations.map(eventDatesFilterableRealmLiveData, eventDates -> {
                 int eventDays = eventDates.size();
-                List<Pair<String, String>> eventDateStringData = new ArrayList<>();
+                List<EventDateStrings> eventDateStringData = new ArrayList<>();
                 for (int i = 0; i < eventDays; i++) {
                     String date = eventDates.get(i).getDate();
                     try {
                         String formattedDate = DateConverter.formatDay(date);
-                        Pair<String, String> data = new Pair<>(formattedDate, date);
+                        EventDateStrings data = new EventDateStrings(formattedDate, date);
                         eventDateStringData.add(data);
                     } catch (DateTimeParseException pe) {
                         Timber.e(pe);
@@ -53,5 +53,11 @@ public class ScheduleFragmentViewModel extends ViewModel {
 
     public LiveData<List<Track>> getTracks() {
         return trackFilterableRealmLiveData;
+    }
+
+    @Data
+    public static class EventDateStrings {
+        private final String formattedDate;
+        private final String date;
     }
 }

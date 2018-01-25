@@ -24,6 +24,7 @@ import android.widget.Toast;
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.activities.MainActivity;
+import org.fossasia.openevent.utils.AuthUtil;
 import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.utils.SharedPreferencesUtil;
 import org.fossasia.openevent.viewmodels.auth.SignUpActivityViewModel;
@@ -112,10 +113,10 @@ public class SignUpActivity extends AppCompatActivity implements AppCompatEditTe
     private void loginAfterSignUp() {
         signUpActivityViewModel.loginUserAfterSignUp(email, password).observe(this, loginResponse -> {
             progressBar.setVisibility(View.INVISIBLE);
-            switch (loginResponse.first) {
+            switch (loginResponse.getResponse()) {
                 case SignUpActivityViewModel.VALID:
                     //Save token & email in shared preferences
-                    SharedPreferencesUtil.putString(ConstantStrings.TOKEN, loginResponse.second);
+                    SharedPreferencesUtil.putString(ConstantStrings.TOKEN, loginResponse.getToken());
                     SharedPreferencesUtil.putString(ConstantStrings.USER_EMAIL, email);
 
                     showMessage(R.string.logged_in_successfully);
@@ -144,7 +145,7 @@ public class SignUpActivity extends AppCompatActivity implements AppCompatEditTe
         createPasswordWrapper.setError(null);
         confirmPasswordWrapper.setError(null);
 
-        switch (signUpActivityViewModel.validateEmail(email)) {
+        switch (AuthUtil.validateEmail(email)) {
             case SignUpActivityViewModel.EMPTY:
                 handleError(emailWrapper, R.string.error_email_required);
                 return false;
@@ -155,7 +156,7 @@ public class SignUpActivity extends AppCompatActivity implements AppCompatEditTe
                 //No implementation
         }
 
-        switch (signUpActivityViewModel.validatePassword(password)) {
+        switch (AuthUtil.validatePassword(password)) {
             case SignUpActivityViewModel.EMPTY:
                 handleError(createPasswordWrapper, R.string.error_password_required);
                 return false;
