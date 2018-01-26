@@ -44,13 +44,18 @@ import org.fossasia.openevent.utils.Views;
 import org.fossasia.openevent.utils.ZoomableImageUtil;
 import org.fossasia.openevent.viewmodels.SpeakerDetailsViewModel;
 
+import android.support.design.widget.Snackbar;
+import org.fossasia.openevent.listeners.BookmarkStatus;
+import org.fossasia.openevent.listeners.OnBookmarkSelectedListener;
+import org.fossasia.openevent.utils.SnackbarUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout.OnOffsetChangedListener {
+public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout.OnOffsetChangedListener,OnBookmarkSelectedListener {
 
     private SessionsListAdapter sessionsListAdapter;
 
@@ -118,6 +123,18 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
 
     private String speakerName;
 
+    @Override
+      protected void onDestroy() {
+                super.onDestroy();
+                sessionsListAdapter.clearOnBookmarkSelectedListener();
+            }
+
+    @Override
+    public void showSnackbar(BookmarkStatus bookmarkStatus) {
+                Snackbar snackbar = Snackbar.make(sessionRecyclerView, SnackbarUtil.getMessageResource(bookmarkStatus), Snackbar.LENGTH_LONG);
+                SnackbarUtil.setSnackbarAction(this, snackbar, bookmarkStatus)
+                                .show();
+            }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,12 +158,17 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
         sessionRecyclerView.setLayoutManager(gridLayoutManager);
 
         sessionsListAdapter = new SessionsListAdapter(this, sessions, spearkerWiseSessionList);
+        sessionsListAdapter.setOnBookmarkSelectedListener(this);
+
         sessionRecyclerView.setNestedScrollingEnabled(false);
         sessionRecyclerView.setAdapter(sessionsListAdapter);
         sessionRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         handleVisibility();
+
     }
+
+
 
     @Subscribe
     public void onConnectionChange(ConnectionCheckEvent event) {
