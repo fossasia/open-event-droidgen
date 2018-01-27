@@ -1,5 +1,6 @@
 package org.fossasia.openevent.activities;
 
+import android.app.Dialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -21,9 +22,12 @@ import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amulyakhare.textdrawable.TextDrawable;
 import com.squareup.otto.Subscribe;
 
 import org.fossasia.openevent.OpenEventApp;
@@ -35,10 +39,12 @@ import org.fossasia.openevent.events.BookmarkChangedEvent;
 import org.fossasia.openevent.listeners.BookmarkStatus;
 import org.fossasia.openevent.listeners.OnBookmarkSelectedListener;
 import org.fossasia.openevent.utils.ConstantStrings;
+import org.fossasia.openevent.utils.DateConverter;
 import org.fossasia.openevent.utils.SnackbarUtil;
 import org.fossasia.openevent.utils.Utils;
 import org.fossasia.openevent.utils.Views;
 import org.fossasia.openevent.viewmodels.TrackSessionsActivityViewModel;
+import org.threeten.bp.ZonedDateTime;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,6 +73,13 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
     private SearchView searchView;
     private Menu menu;
 
+    private Dialog upcomingDialogBox;
+    private ImageView trackImageIcon;
+    private TextView upcomingSessionText;
+    private TextView upcomingSessionTitle;
+    private View upcomingSessionDetails;
+    private TextDrawable.IBuilder drawableBuilder = TextDrawable.builder().round();
+
     private static final int trackWiseSessionList = 4;
     private int trackId;
 
@@ -91,6 +104,7 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setBackgroundDrawable(null);
+        setUpcomingSessionsDialog();
 
         setSupportActionBar(toolbar);
         String track = getIntent().getStringExtra(ConstantStrings.TRACK);
@@ -147,6 +161,7 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
             this.track = track;
             makeUiChanges();
             loadSessions();
+            setUpcomingSession();
         });
     }
 
@@ -164,6 +179,47 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
         });
     }
 
+    public void setUpcomingSessionsDialog() {
+        upcomingDialogBox = new Dialog(this);
+        upcomingDialogBox.setContentView(R.layout.upcoming_dialogbox);
+        trackImageIcon = upcomingDialogBox.findViewById(R.id.track_image_drawable);
+        upcomingSessionText = upcomingDialogBox.findViewById(R.id.upcoming_session_textview);
+        upcomingSessionTitle = upcomingDialogBox.findViewById(R.id.upcoming_Session_title);
+        Button dialogButton = upcomingDialogBox.findViewById(R.id.upcoming_button);
+        upcomingSessionDetails = upcomingDialogBox.findViewById(R.id.upcoming_session_details);
+        dialogButton.setOnClickListener(view -> upcomingDialogBox.dismiss());
+    }
+
+    public void setUpcomingSession() {
+        String upcomingTitle = "";
+        String track = "";
+        String color = null;
+        ZonedDateTime current = ZonedDateTime.now();
+        for (Session session : sessions) {
+            ZonedDateTime start = DateConverter.getDate(session.getStartsAt());
+            if (start.isAfter(current)) {
+                upcomingTitle = session.getTitle();
+                track = session.getTrack().getName();
+                color = session.getTrack().getColor();
+                break;
+            }
+        }
+
+        if (!TextUtils.isEmpty(upcomingTitle)) {
+            int trackColor = Color.parseColor(color);
+            upcomingSessionTitle.setPadding(10, 60, 10, 10);
+            upcomingSessionTitle.setText(getResources().getString(R.string.upcoming_sess));
+            TextDrawable drawable = drawableBuilder.build(String.valueOf(track.charAt(0)), trackColor);
+            trackImageIcon.setImageDrawable(drawable);
+            trackImageIcon.setBackgroundColor(Color.TRANSPARENT);
+            upcomingSessionText.setText(upcomingTitle);
+        } else {
+            upcomingSessionTitle.setPadding(10, 60, 10, 10);
+            upcomingSessionTitle.setText(getResources().getString(R.string.no_upcoming_Sess));
+            upcomingSessionDetails.setVisibility(View.GONE);
+        }
+    }
+
     private void handleVisibility() {
         if (!sessions.isEmpty()) {
             noSessionsView.setVisibility(View.GONE);
@@ -173,7 +229,6 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
             sessionsRecyclerView.setVisibility(View.GONE);
         }
     }
-
 
     private void setUiColor(int color) {
         toolbar.setBackgroundColor(color);
@@ -250,13 +305,8 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
             case R.id.action_search_sessions:
                 return true;
             case R.id.upcoming_sessions:
-                if (ongoingPosition != 0)
-                    gridLayoutManager.scrollToPositionWithOffset(ongoingPosition, 0);
-                else if (upcomingPosition != 0)
-                    gridLayoutManager.scrollToPositionWithOffset(upcomingPosition, 0);
-                else if (flag > 0) {
-                    Toast.makeText(this, getString(R.string.no_upcoming_ongoing), Toast.LENGTH_SHORT).show();
-                }
+                upcomingDialogBox.show();
+                return true;
             default:
                 //Do nothing
         }
