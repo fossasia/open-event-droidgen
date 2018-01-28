@@ -99,6 +99,10 @@
         <item name="android:textSize">@dimen/text_size_expanded_title</item>
     </style>
 
+    <style name="ToolbarTitle" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">@dimen/heading_text_size</item>
+    </style>
+
     <!--Change toolbar colors -->
     <style name="ToolbarTheme" parent="Widget.AppCompat.Toolbar">
         <item name="android:background">@color/color_primary</item>
