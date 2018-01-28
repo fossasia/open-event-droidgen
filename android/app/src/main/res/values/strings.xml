@@ -318,4 +318,11 @@
     <string name="status_upcoming">UPCOMING</string>
     <string name="status_ongoing">ONGOING</string>
 
+    <!--Strings with placeholders -->
+    <string name="filters_text">Filters(%d): %s</string>
+    <string name="space_separated_strings">%s %s</string>
+    <string name="about_fragment_announcement">%s at %s</string>
+    <string name="about_fragment_to_date_event">To: %s</string>
+    <string name="about_fragment_from_date_event">From: %s</string>
+
 </resources>

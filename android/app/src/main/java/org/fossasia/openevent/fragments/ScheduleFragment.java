@@ -218,7 +218,7 @@ public class ScheduleFragment extends BaseFragment implements OnBookmarkSelected
                     }
                     notifyUpdate(-1, selectedTracks);
                     if(count!=0) {
-                        filtersText.setText("Filters" + "(" + count +")" + ": " + tracksFiltered);
+                        filtersText.setText(getResources().getString(R.string.filters_text, count, tracksFiltered));
                         filterBar.setVisibility(View.VISIBLE);
                     } else {
                         filterBar.setVisibility(View.GONE);
