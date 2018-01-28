@@ -175,8 +175,7 @@ public class ScheduleFragment extends BaseFragment implements OnBookmarkSelected
                 AlertDialog dialog = dialogSort.show();
                 dialog.getButton(sortOrder == SortOrder.SORT_ORDER_ASCENDING ? AlertDialog.BUTTON_NEGATIVE : AlertDialog.BUTTON_POSITIVE)
                         .setTextColor(ContextCompat.getColor(getContext(), android.R.color.darker_gray));
-                dialog.getButton(sortOrder == SortOrder.SORT_ORDER_ASCENDING ? AlertDialog.BUTTON_POSITIVE : AlertDialog.BUTTON_NEGATIVE)
-                        .setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
+                dialog.getButton(sortOrder == SortOrder.SORT_ORDER_ASCENDING ? AlertDialog.BUTTON_POSITIVE : AlertDialog.BUTTON_NEGATIVE);
                 dialog.show();
                 break;
             default:
