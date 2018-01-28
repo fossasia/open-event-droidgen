@@ -8,8 +8,7 @@ import io.realm.RealmObject;
 
 public class LiveRealmDataObject<T extends RealmObject> extends LiveData<T> {
     private T data;
-    private final RealmChangeListener<T> listener =
-            results -> setValue(results);
+    private final RealmChangeListener<T> listener = this::setValue;
 
     public LiveRealmDataObject(T data) {
         this.data = data;

@@ -1,6 +1,7 @@
 package org.fossasia.openevent.activities;
 
 import android.app.Dialog;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -35,42 +36,24 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.squareup.otto.Subscribe;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.activities.auth.UserProfileActivity;
 import org.fossasia.openevent.adapters.FeedAdapter;
-import org.fossasia.openevent.api.APIClient;
 import org.fossasia.openevent.api.DataDownloadManager;
 import org.fossasia.openevent.api.Urls;
 import org.fossasia.openevent.data.Event;
-import org.fossasia.openevent.data.Microlocation;
-import org.fossasia.openevent.data.Session;
-import org.fossasia.openevent.data.SessionType;
-import org.fossasia.openevent.data.Speaker;
-import org.fossasia.openevent.data.Sponsor;
-import org.fossasia.openevent.data.Track;
-import org.fossasia.openevent.data.extras.SocialLink;
 import org.fossasia.openevent.data.facebook.CommentItem;
-import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.events.CounterEvent;
-import org.fossasia.openevent.events.DataDownloadEvent;
 import org.fossasia.openevent.events.DownloadEvent;
-import org.fossasia.openevent.events.EventDownloadEvent;
 import org.fossasia.openevent.events.EventLoadedEvent;
 import org.fossasia.openevent.events.JsonReadEvent;
-import org.fossasia.openevent.events.MicrolocationDownloadEvent;
 import org.fossasia.openevent.events.NoInternetEvent;
 import org.fossasia.openevent.events.RetrofitError;
 import org.fossasia.openevent.events.RetrofitResponseEvent;
-import org.fossasia.openevent.events.SessionDownloadEvent;
-import org.fossasia.openevent.events.SessionTypesDownloadEvent;
 import org.fossasia.openevent.events.ShowNetworkDialogEvent;
-import org.fossasia.openevent.events.SpeakerDownloadEvent;
-import org.fossasia.openevent.events.SponsorDownloadEvent;
-import org.fossasia.openevent.events.TracksDownloadEvent;
 import org.fossasia.openevent.fragments.AboutFragment;
 import org.fossasia.openevent.fragments.CommentsDialogFragment;
 import org.fossasia.openevent.fragments.FeedFragment;
@@ -83,13 +66,13 @@ import org.fossasia.openevent.modules.OnImageZoomListener;
 import org.fossasia.openevent.utils.AuthUtil;
 import org.fossasia.openevent.utils.CommonTaskLoop;
 import org.fossasia.openevent.utils.ConstantStrings;
-import org.fossasia.openevent.utils.DateConverter;
 import org.fossasia.openevent.utils.DownloadCompleteHandler;
 import org.fossasia.openevent.utils.NetworkUtils;
 import org.fossasia.openevent.utils.SharedPreferencesUtil;
 import org.fossasia.openevent.utils.SmoothActionBarDrawerToggle;
 import org.fossasia.openevent.utils.Utils;
 import org.fossasia.openevent.utils.ZoomableImageUtil;
+import org.fossasia.openevent.viewmodels.MainActivityViewModel;
 import org.fossasia.openevent.widget.DialogFactory;
 
 import java.io.IOException;
@@ -100,14 +83,10 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.Completable;
-import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import io.realm.Realm;
-import io.realm.RealmList;
-import io.realm.RealmResults;
 import timber.log.Timber;
 
 public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommentsDialogListener, OnImageZoomListener, AboutFragment.OnMapSelectedListener {
@@ -141,7 +120,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
     private CustomTabsClient customTabsClient;
     private DownloadCompleteHandler completeHandler;
     private CompositeDisposable disposable;
-    private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
+    private MainActivityViewModel mainActivityViewModel;
     private Event event; // Future Event, stored to remove listeners
     private AboutFragment.OnMapSelectedListener onMapSelectedListener = value -> isMapFragment = value;
 
@@ -176,6 +155,8 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
         setTheme(R.style.AppTheme_NoActionBar_MainTheme);
         super.onCreate(savedInstanceState);
 
+        mainActivityViewModel= ViewModelProviders.of(this).get(MainActivityViewModel.class);
+
         SharedPreferencesUtil.putInt(ConstantStrings.SESSION_MAP_ID, -1);
         isTwoPane = drawerLayout == null;
         Utils.setTwoPane(isTwoPane);
@@ -195,7 +176,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
                 SharedPreferencesUtil.putBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true);
             }
         } else {
-            downloadData();
+            showDownloadDialog();
         }
 
         if (savedInstanceState == null) {
@@ -284,12 +265,10 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
     }
 
     private void setupEvent() {
-        event = realmRepo.getEventSync();
-
-        if(event == null)
-            return;
-
-        setNavHeader(event);
+        mainActivityViewModel.getEvent().observe(this, eventData -> {
+            event = eventData;
+            setNavHeader(event);
+        });
     }
 
     private void setUpNavDrawer() {
@@ -337,22 +316,14 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
         }
     }
 
-    private void saveEventDates(Event event) {
-        String startTime = event.getStartsAt();
-        String endTime = event.getEndsAt();
-
-        Observable.fromCallable(() ->
-                DateConverter.getDaysInBetween(startTime, endTime)
-        ).subscribe(eventDates -> realmRepo.saveEventDates(eventDates).subscribe(), throwable -> {
-            Timber.e(throwable);
-            Timber.e("Error start parsing start date: %s and end date: %s in ISO format",
-                    startTime, endTime);
-            OpenEventApp.postEventOnUIThread(new RetrofitError(new Throwable("Error parsing dates")));
-        });
-    }
 
     private void syncComplete() {
         String successMessage = "Data loaded from JSON";
+        String pageId = SharedPreferencesUtil.getString(ConstantStrings.FACEBOOK_PAGE_ID, null);
+        String pageName = SharedPreferencesUtil.getString(ConstantStrings.FACEBOOK_PAGE_NAME, null);
+
+        String token = getResources().getString(R.string.facebook_app_id);
+
 
         if (fromServer) {
             // Event successfully loaded, set data downloaded to true
@@ -366,9 +337,11 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
 
         setupEvent();
         OpenEventApp.postEventOnUIThread(new EventLoadedEvent(event));
-        saveEventDates(event);
+        mainActivityViewModel.saveEventDates(event);
 
-        downloadPageId();
+        mainActivityViewModel.downloadPageId(pageName).observe(this, fbPageName -> SharedPreferencesUtil.putString(ConstantStrings.FACEBOOK_PAGE_NAME, fbPageName));
+        mainActivityViewModel.downloadPageName(pageId, pageName, token).observe(this, fbPageId -> SharedPreferencesUtil.putString(ConstantStrings.FACEBOOK_PAGE_ID, fbPageId));
+
     }
 
     private void startDownloadFromNetwork() {
@@ -380,7 +353,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(isConnected -> {
                         if (isConnected) {
-                            OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
+                            startDownloading();
                         } else {
                             final Snackbar snackbar = Snackbar.make(mainFrame, R.string.internet_preference_warning, Snackbar.LENGTH_INDEFINITE);
                             snackbar.setAction(R.string.yes, view -> downloadFromAssets());
@@ -388,44 +361,11 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
                         }
                     }));
         } else {
-            OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
+            startDownloading();
         }
     }
 
-    private void downloadPageId() {
-        //Store the facebook page name in the shared preference from the database
-        if(SharedPreferencesUtil.getString(ConstantStrings.FACEBOOK_PAGE_NAME, null) == null) {
-            RealmList<SocialLink> socialLinks = event.getSocialLinks();
-            RealmResults<SocialLink> facebookPage = socialLinks.where().equalTo("name", "Facebook").findAll();
-            if (facebookPage.size() == 0)
-                return;
-
-            SocialLink facebookLink = facebookPage.get(0);
-            String link = facebookLink.getLink();
-            String tempString = ".com";
-            String pageName = link.substring(link.indexOf(tempString) + tempString.length()).replace("/", "");
-
-            if (Utils.isEmpty(pageName))
-                return;
-
-            SharedPreferencesUtil.putString(ConstantStrings.FACEBOOK_PAGE_NAME, pageName);
-        }
-
-        if(SharedPreferencesUtil.getString(ConstantStrings.FACEBOOK_PAGE_ID, null) == null &&
-                SharedPreferencesUtil.getString(ConstantStrings.FACEBOOK_PAGE_NAME, null) != null) {
-            APIClient.getFacebookGraphAPI().getPageId(SharedPreferencesUtil.getString(ConstantStrings.FACEBOOK_PAGE_NAME, null),
-                    getResources().getString(R.string.facebook_access_token))
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(facebookPageId -> {
-                                String id = facebookPageId.getId();
-                                SharedPreferencesUtil.putString(ConstantStrings.FACEBOOK_PAGE_ID, id);
-                            },
-                            throwable -> Timber.d("Facebook page id download failed: " + throwable.toString()));
-        }
-    }
-
-    public void downloadData() {
+    public void showDownloadDialog() {
         NetworkUtils.checkConnection(new WeakReference<>(this), new NetworkUtils.NetworkStateReceiverListener() {
 
             @Override
@@ -461,7 +401,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
     private void downloadFailed(final DownloadEvent event) {
         Snackbar.make(mainFrame, getString(R.string.download_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, view -> {
             if (event == null)
-                OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
+                showDownloadDialog();
             else
                 OpenEventApp.postEventOnUIThread(event);
         }).show();
@@ -606,7 +546,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
     }
 
     private void startDownloadListener() {
-        completeHandler.startListening()
+        Disposable disposable = completeHandler.startListening()
                 .show()
                 .withCompletionListener()
                 .subscribe(this::syncComplete, throwable -> {
@@ -619,9 +559,11 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
                         OpenEventApp.postEventOnUIThread(new RetrofitError(throwable));
                     }
                 });
+        // Currently a hack, refactor when possible
+        mainActivityViewModel.addDisposable(disposable);
     }
 
-    private void startDownload() {
+    private void startDownloadFromApi() {
         int eventId = SharedPreferencesUtil.getInt(ConstantStrings.EVENT_ID, 0);
         if (eventId == 0)
             return;
@@ -682,8 +624,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
         dialogNetworkNotification.show();
     }
 
-    @Subscribe
-    public void downloadData(DataDownloadEvent event) {
+    public void startDownloading() {
         switch (Urls.getBaseUrl()) {
             case Urls.INVALID_LINK:
                 showErrorDialog("Invalid Api", "Api link doesn't seem to be valid");
@@ -693,7 +634,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
                 downloadFromAssets();
                 break;
             default:
-                startDownload();
+                startDownloadFromApi();
                 break;
         }
     }
@@ -709,84 +650,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
 
     @Subscribe
     public void handleJsonEvent(final JsonReadEvent jsonReadEvent) {
-        final String name = jsonReadEvent.getName();
-        final String json = jsonReadEvent.getJson();
-
-        Completable.fromAction(() -> {
-            ObjectMapper objectMapper = OpenEventApp.getObjectMapper();
-
-            // Need separate instance for background thread
-            Realm realm = Realm.getDefaultInstance();
-
-            RealmDataRepository realmDataRepository = RealmDataRepository
-                    .getInstance(realm);
-
-            switch (name) {
-                case ConstantStrings.EVENT: {
-                    Event event = objectMapper.readValue(json, Event.class);
-
-                    saveEventDates(event);
-                    realmDataRepository.saveEvent(event).subscribe();
-
-                    realmDataRepository.saveEvent(event).subscribe();
-
-                    OpenEventApp.postEventOnUIThread(new EventDownloadEvent(true));
-                    break;
-                } case ConstantStrings.TRACKS: {
-                    List<Track> tracks = objectMapper.readValue(json, objectMapper.getTypeFactory().constructCollectionType(List.class, Track.class));
-
-                    realmDataRepository.saveTracks(tracks).subscribe();
-
-                    OpenEventApp.postEventOnUIThread(new TracksDownloadEvent(true));
-                    break;
-                } case ConstantStrings.SESSIONS: {
-                    List<Session> sessions = objectMapper.readValue(json, objectMapper.getTypeFactory().constructCollectionType(List.class, Session.class));
-
-                    for (Session current : sessions) {
-                        current.setStartDate(current.getStartsAt().split("T")[0]);
-                    }
-
-                    realmDataRepository.saveSessions(sessions).subscribe();
-
-                    OpenEventApp.postEventOnUIThread(new SessionDownloadEvent(true));
-                    break;
-                } case ConstantStrings.SPEAKERS: {
-                    List<Speaker> speakers = objectMapper.readValue(json, objectMapper.getTypeFactory().constructCollectionType(List.class, Speaker.class));
-
-                    realmRepo.saveSpeakers(speakers).subscribe();
-
-                    OpenEventApp.postEventOnUIThread(new SpeakerDownloadEvent(true));
-                    break;
-                } case ConstantStrings.SPONSORS: {
-                    List<Sponsor> sponsors = objectMapper.readValue(json, objectMapper.getTypeFactory().constructCollectionType(List.class, Sponsor.class));
-
-                    realmRepo.saveSponsors(sponsors).subscribe();
-
-                    OpenEventApp.postEventOnUIThread(new SponsorDownloadEvent(true));
-                    break;
-                } case ConstantStrings.MICROLOCATIONS: {
-                    List<Microlocation> microlocations = objectMapper.readValue(json, objectMapper.getTypeFactory().constructCollectionType(List.class, Microlocation.class));
-
-                    realmRepo.saveLocations(microlocations).subscribe();
-
-                    OpenEventApp.postEventOnUIThread(new MicrolocationDownloadEvent(true));
-                    break;
-                } case ConstantStrings.SESSION_TYPES: {
-                    List<SessionType> sessionTypes = objectMapper.readValue(json, objectMapper.getTypeFactory().constructCollectionType(List.class, SessionType.class));
-
-                    realmRepo.saveSessionTypes(sessionTypes).subscribe();
-
-                    OpenEventApp.postEventOnUIThread(new SessionTypesDownloadEvent(true));
-                    break;
-                } default:
-                    //do nothing
-            }
-            realm.close();
-        }).observeOn(Schedulers.computation()).subscribe(() -> Timber.d("Saved event from JSON"), throwable -> {
-            throwable.printStackTrace();
-            Timber.e(throwable);
-            OpenEventApp.postEventOnUIThread(new RetrofitError(throwable));
-        });
+        mainActivityViewModel.handleEvent(jsonReadEvent);
     }
 
     @Subscribe
@@ -864,17 +728,11 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
         unbindService(customTabsServiceConnection);
         if(disposable != null && !disposable.isDisposed())
             disposable.dispose();
-        if(event != null)
-            event.removeAllChangeListeners();
         if(completeHandler != null)
             completeHandler.stopListening();
         ((OpenEventApp) getApplicationContext()).detachMainActivity();
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-    }
 
     @Override
     public void openCommentsDialog(List<CommentItem> commentItems) {
