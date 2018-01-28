@@ -54,8 +54,6 @@ public class FilterableRealmLiveData<V extends RealmModel> extends LiveData<List
     @Override
     protected void onInactive() {
         unfilteredData.removeChangeListener(listener);
-        if (!compositeDisposable.isDisposed()) {
-            compositeDisposable.dispose();
-        }
+        compositeDisposable.dispose();
     }
 }
