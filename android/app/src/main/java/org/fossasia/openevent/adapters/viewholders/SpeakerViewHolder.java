@@ -1,20 +1,26 @@
 package org.fossasia.openevent.adapters.viewholders;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import android.app.Activity;
-import android.app.ActivityOptions;
-import android.os.Bundle;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
+import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
+import com.squareup.picasso.Target;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
@@ -41,6 +47,10 @@ public class SpeakerViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.speakers_list_country)
     protected TextView speakerCountry;
 
+    @Nullable
+    @BindView(R.id.linear_layout_speaker_list_info)
+    protected LinearLayout speakerTextualInfo;
+
     private Speaker speaker;
     private Context context;
 
@@ -60,7 +70,8 @@ public class SpeakerViewHolder extends RecyclerView.ViewHolder {
 
             try{
                 if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP){
-                    Bundle bundle = ActivityOptions.makeSceneTransitionAnimation((Activity) this.context, speakerImage, speakerImage.getTransitionName()).toBundle();
+                    Bundle bundle = ActivityOptions.makeSceneTransitionAnimation((Activity) this.context,
+                            speakerImage, speakerImage.getTransitionName()).toBundle();
                     this.context.startActivity(intent, bundle);
                 } else{
                     this.context.startActivity(intent);
@@ -82,21 +93,47 @@ public class SpeakerViewHolder extends RecyclerView.ViewHolder {
         if (thumbnail == null)
             thumbnail = Utils.parseImageUri(this.speaker.getPhotoUrl());
 
+        final Palette.PaletteAsyncListener paletteAsyncListener = palette -> {
+            Palette.Swatch swatch = palette.getVibrantSwatch();
+            if (swatch != null) {
+                speakerTextualInfo.setBackgroundColor(swatch.getRgb());
+            }
+        };
+
         RequestCreator requestCreator = OpenEventApp.picassoWithCache
                 .load(thumbnail);
 
         TextDrawable drawable;
         if (isImageCircle) {
             requestCreator.transform(new CircleTransform());
-            drawable = OpenEventApp.getTextDrawableBuilder().round().build(Utils.getNameLetters(name), ColorGenerator.MATERIAL.getColor(name));
+            drawable = OpenEventApp.getTextDrawableBuilder().round().build(Utils.getNameLetters(name),
+                    ColorGenerator.MATERIAL.getColor(name));
         } else {
-            drawable = OpenEventApp.getTextDrawableBuilder().buildRect(Utils.getNameLetters(name), ColorGenerator.MATERIAL.getColor(name));
+            drawable = OpenEventApp.getTextDrawableBuilder().buildRect(Utils.getNameLetters(name),
+                    ColorGenerator.MATERIAL.getColor(name));
         }
 
-        requestCreator
-                .placeholder(drawable)
-                .error(drawable)
-                .into(speakerImage);
+        final Target target = new Target() {
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                speakerImage.setImageBitmap(bitmap);
+                if (speakerTextualInfo != null) {
+                    Palette.from(bitmap).generate(paletteAsyncListener);
+                }
+            }
+
+            @Override
+            public void onBitmapFailed(Drawable errorDrawable) {
+                speakerImage.setImageDrawable(drawable);
+            }
+
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+                speakerImage.setImageDrawable(drawable);
+            }
+        };
+
+        requestCreator.into(target);
 
         setStringField(speakerName, name);
         setStringField(speakerDesignation, String.format("%s %s", speaker.getPosition(), speaker.getOrganisation()));

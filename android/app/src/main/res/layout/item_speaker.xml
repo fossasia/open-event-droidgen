@@ -3,24 +3,29 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/widget_default_height"
+    android:layout_height="wrap_content"
     android:background="#ffffff"
     android:foreground="?android:attr/selectableItemBackground"
     tools:layout_width="@dimen/widget_default_height">
-    <android.support.v7.widget.CardView
+
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        card_view:cardElevation="6dp"
-        card_view:cardCornerRadius="2dp"
+        android:layout_height="wrap_content"
         android:layout_margin="@dimen/layout_margin_medium"
-        android:layout_height="match_parent">
+        card_view:cardCornerRadius="2dp"
+        card_view:cardElevation="2dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
         <ImageView
             android:id="@+id/speakers_list_image"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="@dimen/widget_default_height"
             android:contentDescription="@null"
+            android:scaleType="fitXY"
             android:transitionName="@string/transition_speaker_to_activity"
-            android:scaleType="centerCrop"
             tools:src="@drawable/ic_account_circle_grey_24dp" />
 
         <LinearLayout
@@ -30,7 +35,8 @@
             android:alpha="0.8"
             android:background="?colorPrimaryDark"
             android:orientation="vertical"
-            android:padding="@dimen/padding_extra_small">
+            android:padding="@dimen/padding_extra_small"
+            android:id="@+id/linear_layout_speaker_list_info">
 
             <TextView
                 android:id="@+id/speakers_list_name"
@@ -66,6 +72,7 @@
                 tools:ignore="SpUsage"
                 tools:text="Country" />
 
+        </LinearLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>
 

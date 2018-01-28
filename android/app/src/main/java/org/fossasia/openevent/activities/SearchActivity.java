@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +19,9 @@ import android.widget.TextView;
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.adapters.GlobalSearchAdapter;
+import org.fossasia.openevent.listeners.BookmarkStatus;
+import org.fossasia.openevent.listeners.OnBookmarkSelectedListener;
+import org.fossasia.openevent.utils.SnackbarUtil;
 import org.fossasia.openevent.viewmodels.SearchActivityViewModel;
 
 import java.util.ArrayList;
@@ -25,7 +29,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class SearchActivity extends BaseActivity implements SearchView.OnQueryTextListener {
+public class SearchActivity extends BaseActivity implements SearchView.OnQueryTextListener, OnBookmarkSelectedListener {
 
     private GlobalSearchAdapter globalSearchAdapter;
     private List<Object> results = new ArrayList<>();
@@ -94,6 +98,7 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
 
     private void setUpRecyclerView() {
         globalSearchAdapter = new GlobalSearchAdapter(results, this);
+        globalSearchAdapter.setOnBookmarkSelectedListener(this);
         searchRecyclerView.setAdapter(globalSearchAdapter);
         searchRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         searchRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -132,6 +137,7 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
         OpenEventApp.getEventBus().unregister(this);
         //Set listener to null to avoid memory leaks
         if (searchView != null) searchView.setOnQueryTextListener(null);
+        globalSearchAdapter.clearOnBookmarkSelectedListener();
     }
 
     public void handleVisibility() {
@@ -144,5 +150,11 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
         }
     }
 
+    @Override
+    public void showSnackbar(BookmarkStatus bookmarkStatus) {
+        Snackbar snackbar = Snackbar.make(coordinatorLayoutParent, SnackbarUtil.getMessageResource(bookmarkStatus), Snackbar.LENGTH_LONG);
+        SnackbarUtil.setSnackbarAction(this, snackbar, bookmarkStatus)
+                .show();
+    }
 }
 

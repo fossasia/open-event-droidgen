@@ -65,7 +65,8 @@ public class BookmarkAlarmService extends IntentService {
         intent1.putExtra(ConstantStrings.SESSION, session.getTitle());
         intent1.putExtra(ConstantStrings.ID, session.getId());
         intent1.putExtra(ConstantStrings.TRACK,session.getTrack().getName());
-        PendingIntent pendingNotificationIntent = PendingIntent.getActivity(this.getApplicationContext(), 0, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingNotificationIntent = PendingIntent.getActivity(this.getApplicationContext(),
+                0, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
         Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
 
         int smallIcon = R.drawable.ic_bookmark_white_24dp;

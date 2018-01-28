@@ -1,6 +1,8 @@
 package org.fossasia.openevent.activities.auth;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.design.widget.TextInputEditText;
@@ -17,13 +19,22 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
+import org.fossasia.openevent.activities.MainActivity;
 import org.fossasia.openevent.utils.AuthUtil;
-import org.fossasia.openevent.utils.Utils;
+import org.fossasia.openevent.utils.ConstantStrings;
+import org.fossasia.openevent.utils.SharedPreferencesUtil;
+import org.fossasia.openevent.viewmodels.auth.LoginActivityViewModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static org.fossasia.openevent.utils.AuthUtil.EMPTY;
+import static org.fossasia.openevent.utils.AuthUtil.INVALID;
+import static org.fossasia.openevent.utils.AuthUtil.VALID;
 
 public class LoginActivity extends AppCompatActivity implements AppCompatEditText.OnEditorActionListener {
 
@@ -45,6 +56,8 @@ public class LoginActivity extends AppCompatActivity implements AppCompatEditTex
 
     private String email;
 
+    private LoginActivityViewModel loginActivityViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,26 +75,48 @@ public class LoginActivity extends AppCompatActivity implements AppCompatEditTex
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        switchToSignUp.setOnClickListener(v -> onBackPressed());
+        switchToSignUp.setOnClickListener(v -> startActivity(new Intent(LoginActivity.this, SignUpActivity.class)));
+
+        loginActivityViewModel = ViewModelProviders.of(this).get(LoginActivityViewModel.class);
 
         login.setOnClickListener(v -> {
             hideKeyBoard();
-            if (emailInput == null || passwordInput == null)
-                return;
 
+            progressBar.setVisibility(View.VISIBLE);
             email = emailInput.getText().toString();
             String password = passwordInput.getText().toString();
 
             if (validateCredentials(email, password)) {
-                AuthUtil.loginUser(LoginActivity.this, email, password, progressBar);
+                loginUser(password);
+            }
+        });
+    }
+
+    private void loginUser(String password) {
+        loginActivityViewModel.loginUser(email, password).observe(this, loginResponse -> {
+            progressBar.setVisibility(View.INVISIBLE);
+            switch (loginResponse.getResponse()) {
+                case VALID:
+                    //Save token & email in shared preferences
+                    SharedPreferencesUtil.putString(ConstantStrings.TOKEN, loginResponse.getAccessToken());
+                    SharedPreferencesUtil.putString(ConstantStrings.USER_EMAIL, email);
+
+                    showMessage(R.string.logged_in_successfully);
+
+                    Intent intent = new Intent(this, MainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    break;
+                case INVALID:
+                    showMessage(R.string.error_authentication_failed);
+                    break;
+                default:
+                    // No implementation
             }
         });
     }
 
     private void setEditTextListener() {
-        if (emailInput == null || passwordInput == null)
-            return;
-
         emailInput.setOnEditorActionListener(this);
         passwordInput.setOnEditorActionListener(this);
     }
@@ -92,17 +127,23 @@ public class LoginActivity extends AppCompatActivity implements AppCompatEditTex
         emailWrapper.setError(null);
         passwordWrapper.setError(null);
 
-        if (Utils.isEmpty(email)) {
-            handleError(emailWrapper, R.string.error_email_required);
-            return false;
-        } else if (!Utils.isEmailValid(email)) {
-            handleError(emailWrapper, R.string.error_enter_valid_email);
-            return false;
+        switch (AuthUtil.validateEmail(email)) {
+            case EMPTY:
+                handleError(emailWrapper, R.string.error_email_required);
+                return false;
+            case INVALID:
+                handleError(emailWrapper, R.string.error_enter_valid_email);
+                return false;
+            default:
+                //No implementation
         }
 
-        if (Utils.isEmpty(password)) {
-            handleError(passwordWrapper, R.string.error_password_required);
-            return false;
+        switch (AuthUtil.validatePassword(password)) {
+            case EMPTY:
+                handleError(passwordWrapper, R.string.error_password_required);
+                return false;
+            default:
+                //No implementation
         }
 
         return true;
@@ -149,6 +190,10 @@ public class LoginActivity extends AppCompatActivity implements AppCompatEditTex
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private static void showMessage(@StringRes int id) {
+        Toast.makeText(OpenEventApp.getAppContext(), id, Toast.LENGTH_SHORT).show();
     }
 }
 

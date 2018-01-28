@@ -1,6 +1,8 @@
 package org.fossasia.openevent.fragments;
 
 import android.annotation.TargetApi;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -45,6 +47,7 @@ import org.fossasia.openevent.data.extras.SocialLink;
 import org.fossasia.openevent.data.extras.SpeakersCall;
 import org.fossasia.openevent.events.BookmarkChangedEvent;
 import org.fossasia.openevent.events.EventLoadedEvent;
+import org.fossasia.openevent.utils.ConstantStrings;
 import org.fossasia.openevent.listeners.OnBookmarkSelectedListener;
 import org.fossasia.openevent.utils.DateConverter;
 import org.fossasia.openevent.utils.SnackbarUtil;
@@ -90,6 +93,10 @@ public class AboutFragment extends BaseFragment implements OnBookmarkSelectedLis
     protected TextView eventDetailsHeader;
     @BindView(R.id.slidin_down_part)
     protected LinearLayout slidinDownPart;
+    @BindView(R.id.ll_event_date)
+    protected LinearLayout eventDate;
+    @BindView(R.id.ll_event_loc)
+    protected LinearLayout eventLoc;
     @BindView(R.id.coordinate_layout_about)
     protected CoordinatorLayout coordinatorLayoutParent;
 
@@ -101,8 +108,15 @@ public class AboutFragment extends BaseFragment implements OnBookmarkSelectedLis
 
     private List<Object> sessions = new ArrayList<>();
     private List<SocialLink> socialLinks = new ArrayList<>();
+    private static final String MAP_FRAGMENT_TAG = "mapFragment";
 
     private Event event;
+    private static OnMapSelectedListener mapFragmentCallback;
+
+    public interface OnMapSelectedListener {
+        public void onMapSelected(boolean value);
+    }
+
     private AboutFragmentViewModel aboutFragmentViewModel;
 
     @Override
@@ -112,6 +126,31 @@ public class AboutFragment extends BaseFragment implements OnBookmarkSelectedLis
 
         setUpBookmarksRecyclerView();
         setUpSocialLinksRecyclerView();
+
+        eventLoc.setOnClickListener(v -> {
+            if (event.isValid()) {
+                Bundle bundle = new Bundle();
+                bundle.putBoolean(ConstantStrings.IS_MAP_FRAGMENT_FROM_MAIN_ACTIVITY, true);
+                bundle.putString(ConstantStrings.LOCATION_NAME, event.getLocationName());
+
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                Context context = getActivity();
+                Fragment mapFragment = ((OpenEventApp) context.getApplicationContext())
+                        .getMapModuleFactory()
+                        .provideMapModule()
+                        .provideMapFragment();
+                mapFragment.setArguments(bundle);
+                fragmentTransaction.replace(R.id.content_frame, mapFragment, MAP_FRAGMENT_TAG).commit();
+                ((MainActivity) getActivity()).getSupportActionBar().setTitle(event.getLocationName());
+                if (mapFragmentCallback != null)
+                    mapFragmentCallback.onMapSelected(true);
+            }
+        });
+
+        eventDate.setOnClickListener(v -> {
+            if (event.isValid())
+                startActivity(Utils.eventCalendar(event));
+        });
 
         aboutFragmentViewModel = ViewModelProviders.of(this).get(AboutFragmentViewModel.class);
 
@@ -130,6 +169,12 @@ public class AboutFragment extends BaseFragment implements OnBookmarkSelectedLis
             event = eventData;
             loadEvent(event);
         });
+    }
+
+    public static AboutFragment newInstance(OnMapSelectedListener onMapSelectedListener) {
+        AboutFragment fragment = new AboutFragment();
+        mapFragmentCallback = onMapSelectedListener;
+        return fragment;
     }
 
     @Subscribe
@@ -273,7 +318,7 @@ public class AboutFragment extends BaseFragment implements OnBookmarkSelectedLis
         TextView licenceurl = dialogView.findViewById(R.id.licence_url);
         if (event.isValid() && event.getEventCopyright().isValid()) {
             Copyright copyright = event.getEventCopyright();
-            licence.setText(copyright.getLicence() + " " + String.valueOf(copyright.getYear()));
+            licence.setText(getResources().getString(R.string.space_separated_strings, copyright.getLicence(), String.valueOf(copyright.getYear())));
             holder.setText(copyright.getHolder());
             String linkedurl = String.format("<a href=\"%s\">" + copyright.getLicenceUrl() + "</a> ", copyright.getLicenceUrl());
             licenceurl.setText(Html.fromHtml(linkedurl));
@@ -298,10 +343,10 @@ public class AboutFragment extends BaseFragment implements OnBookmarkSelectedLis
             SpeakersCall speakersCall = event.getSpeakersCall();
             holder.setText(event.getEventCopyright().getHolder());
             String announcementString = Html.fromHtml(speakersCall.getAnnouncement()).toString();
-            announcement.setText(announcementString + "at " + event.getEmail());
+            announcement.setText(getResources().getString(R.string.about_fragment_announcement, announcementString, event.getEmail()));
             int index = speakersCall.getStartsAt().indexOf("T");
-            toDateOfEvent.setText("To: " + speakersCall.getStartsAt().substring(0, index));
-            fromDateOfEvent.setText("From: " + speakersCall.getEndsAt().substring(0, index));
+            toDateOfEvent.setText(getResources().getString(R.string.about_fragment_to_date_event, speakersCall.getStartsAt().substring(0, index)));
+            fromDateOfEvent.setText(getResources().getString(R.string.about_fragment_from_date_event, speakersCall.getEndsAt().substring(0, index)));
             dialogBuilder.setView(dialogView).setNegativeButton("Back", (dialog, which) -> dialog.cancel());
             dialogBuilder.setPositiveButton("Copy Email",
                     (dialog, which) -> {
@@ -327,6 +372,12 @@ public class AboutFragment extends BaseFragment implements OnBookmarkSelectedLis
     public void onResume() {
         super.onResume();
         loadData();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mapFragmentCallback = null;
     }
 
     private void handleVisibility() {

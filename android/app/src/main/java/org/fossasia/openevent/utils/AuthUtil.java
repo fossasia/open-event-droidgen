@@ -13,16 +13,12 @@ import android.widget.Toast;
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.activities.MainActivity;
-import org.fossasia.openevent.api.APIClient;
-import org.fossasia.openevent.data.auth.Login;
 import org.fossasia.openevent.dbutils.RealmDataRepository;
 
 import java.io.IOException;
 
 import javax.annotation.Nullable;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 import okhttp3.Authenticator;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -31,32 +27,11 @@ import timber.log.Timber;
 
 public class AuthUtil {
 
-    private static Authenticator authenticator;
+    public static final int VALID = 0;
+    public static final int EMPTY = 1;
+    public static final int INVALID = 2;
 
-    public static void loginUser(Context context, String email, String password, ProgressBar progressBar) {
-        APIClient.getOpenEventAPI().login(new Login(email, password))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        loginResponse -> {
-                            //Save token & email in shared preferences
-                            SharedPreferencesUtil.putString(ConstantStrings.TOKEN, loginResponse.getAccessToken());
-                            SharedPreferencesUtil.putString(ConstantStrings.USER_EMAIL, email);
-                            goToMainActivity(context);
-                        },
-                        throwable -> {
-                            showProgressBar(progressBar, false);
-                            showMessage(R.string.error_authentication_failed);
-                            Timber.d(throwable.toString());
-                        },
-                        () -> {
-                            showProgressBar(progressBar, false);
-                            showMessage(R.string.logged_in_successfully);
-                            Timber.d("Saved token and logged in successfully");
-                        },
-                        disposable -> showProgressBar(progressBar, true));
-        Timber.d(email);
-    }
+    private static Authenticator authenticator;
 
     public static void logout(Context context) {
         SharedPreferencesUtil.remove(ConstantStrings.TOKEN);
@@ -132,5 +107,23 @@ public class AuthUtil {
 
     private static void showMessage(@StringRes int id) {
         Toast.makeText(OpenEventApp.getAppContext(), id, Toast.LENGTH_SHORT).show();
+    }
+
+    public static int validateEmail(String email) {
+        if (Utils.isEmpty(email)) {
+            return EMPTY;
+        } else if (!Utils.isEmailValid(email)) {
+            return INVALID;
+        }
+        return VALID;
+    }
+
+    public static int validatePassword(String password) {
+        if (Utils.isEmpty(password)) {
+            return EMPTY;
+        } else if (!Utils.isPasswordValid(password)) {
+            return INVALID;
+        }
+        return VALID;
     }
 }

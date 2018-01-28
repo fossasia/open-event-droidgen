@@ -16,12 +16,12 @@
         android:title="@string/ticket"
         app:showAsAction="ifRoom" />
     <item
-        android:title="@string/copyright"
-        android:id="@+id/action_display_copyright_dialog"/>
+        android:id="@+id/action_display_copyright_dialog"
+        android:title="@string/copyright" />
     <item
-        android:title="@string/call_for_speakers"
-        android:id="@+id/action_display_speakers_call_dialog"/>
+        android:id="@+id/action_display_speakers_call_dialog"
+        android:title="@string/call_for_speakers" />
     <item
-        android:title="@string/download_latest_data"
-        android:id="@+id/action_download_latest_data"/>
+        android:id="@+id/action_download_latest_data"
+        android:title="@string/download_latest_data" />
 </menu>

@@ -1,9 +1,11 @@
 package org.fossasia.openevent.utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.provider.CalendarContract;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -13,6 +15,7 @@ import android.view.View;
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.api.Urls;
+import org.fossasia.openevent.data.Event;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -183,6 +186,16 @@ public class Utils {
             return ConstantStrings.SOCIAL_LINK_GOOGLE;
         }
         return "";
+    }
+
+    public static Intent eventCalendar(Event event) {
+        Intent intent = new Intent(Intent.ACTION_INSERT);
+        intent.setType("vnd.android.cursor.item/event");
+        intent.putExtra(CalendarContract.Events.TITLE, event.getName());
+        intent.putExtra(CalendarContract.Events.DESCRIPTION, event.getDescription());
+        intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, DateConverter.formatDateWithDefault(DateConverter.FORMAT_24H, event.getStartsAt()));
+        intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, DateConverter.formatDateWithDefault(DateConverter.FORMAT_24H, event.getEndsAt()));
+        return intent;
     }
 
     private static String getSocialLinkHostName(String name) {

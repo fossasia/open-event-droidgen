@@ -9,6 +9,6 @@
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         android:background="@color/white"
-        android:scaleType="fitXY"/>
+        android:scaleType="fitXY" />
 
 </FrameLayout>

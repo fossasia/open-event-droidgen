@@ -69,7 +69,7 @@ public class UserProfileActivity extends AppCompatActivity {
             //Delete User data from realm
             userProfileActivityViewModel.eraseUserData();
 
-            Intent intent = new Intent(UserProfileActivity.this, SignUpActivity.class);
+            Intent intent = new Intent(UserProfileActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();
             return;

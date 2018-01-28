@@ -10,27 +10,26 @@
         android:id="@+id/title_widget_bookmarks"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/text_size_extra_large"
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
         android:textColor="@color/primary_text"
+        android:textSize="@dimen/text_size_extra_large"
         tools:text="Bookmark Title" />
 
     <TextView
         android:id="@+id/date_widget_bookmarks"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/text_size_medium"
         android:layout_alignEnd="@+id/title_widget_bookmarks"
         android:layout_alignRight="@+id/title_widget_bookmarks"
         android:layout_below="@+id/title_widget_bookmarks"
         android:textColor="@color/secondary_text"
+        android:textSize="@dimen/text_size_medium"
         tools:text="Fri, 17 March 2017" />
 
     <TextView
         android:id="@+id/time_widget_bookmarks"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/text_size_medium"
         android:layout_alignEnd="@+id/date_widget_bookmarks"
         android:layout_alignLeft="@+id/date_widget_bookmarks"
         android:layout_alignRight="@+id/date_widget_bookmarks"
@@ -38,6 +37,7 @@
         android:layout_below="@+id/date_widget_bookmarks"
         android:layout_marginBottom="@dimen/layout_margin_small"
         android:textColor="@color/secondary_text"
+        android:textSize="@dimen/text_size_medium"
         tools:text="23:05, GMT +8:00" />
 
 </RelativeLayout>
