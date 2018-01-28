@@ -529,7 +529,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
                 replaceFragment(new TracksFragment(), R.string.menu_tracks);
                 break;
             case R.id.nav_feed:
-                replaceFragment(new FeedFragment(), R.string.menu_feed);
+                replaceFragment(FeedFragment.getInstance(this, this), R.string.menu_feed);
                 break;
             case R.id.nav_schedule:
                 replaceFragment(new ScheduleFragment(), R.string.menu_schedule);
