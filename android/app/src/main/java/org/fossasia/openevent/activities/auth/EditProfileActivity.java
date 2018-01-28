@@ -44,6 +44,7 @@ import java.io.InputStream;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
@@ -65,8 +66,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private TextInputEditText lastNameInput;
 
     private User user;
-    private Disposable updateUserDisposable;
-    private Disposable uploadImageDisposable;
+    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     private int PICK_IMAGE_REQUEST = 100;
     private Uri imageUri;
@@ -112,12 +112,12 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
     private void uploadImage(String encodedImage) {
-        uploadImageDisposable = APIClient.getOpenEventAPI().uploadImage(new UploadImage(encodedImage))
+        Disposable uploadImageDisposable = APIClient.getOpenEventAPI().uploadImage(new UploadImage(encodedImage))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(imageResponse -> {
                             uploadedImageUrl = imageResponse.getUrl();
-                            Timber.d("Image uploaded successfully." + " Url: " + uploadImageDisposable);
+                            Timber.d("Image uploaded successfully." + " Url: " + uploadedImageUrl);
                         },
                         throwable -> {
                             showProgressBar(false);
@@ -130,6 +130,7 @@ public class EditProfileActivity extends AppCompatActivity {
                             updateUser();
                         },
                         disposable -> showProgressBar(true));
+        compositeDisposable.add(uploadImageDisposable);
     }
 
     private void updateUser() {
@@ -153,7 +154,7 @@ public class EditProfileActivity extends AppCompatActivity {
             builder.avatarUrl(uploadedImageUrl);
 
         User updateUser = builder.build();
-        updateUserDisposable = APIClient.getOpenEventAPI().updateUser(updateUser, id)
+        Disposable updateUserDisposable = APIClient.getOpenEventAPI().updateUser(updateUser, id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(user -> {
@@ -178,16 +179,13 @@ public class EditProfileActivity extends AppCompatActivity {
                             finish();
                         },
                         disposable -> showProgressBar(true));
+        compositeDisposable.add(updateUserDisposable);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-        if (updateUserDisposable != null && !updateUserDisposable.isDisposed())
-            updateUserDisposable.dispose();
-        if (uploadImageDisposable != null && !uploadImageDisposable.isDisposed())
-            uploadImageDisposable.dispose();
+        compositeDisposable.dispose();
     }
 
     @Override
