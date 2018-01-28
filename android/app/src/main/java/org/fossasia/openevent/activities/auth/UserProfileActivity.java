@@ -19,7 +19,9 @@ import org.fossasia.openevent.data.auth.User;
 import org.fossasia.openevent.utils.AuthUtil;
 import org.fossasia.openevent.utils.CircleTransform;
 import org.fossasia.openevent.utils.NetworkUtils;
+import org.fossasia.openevent.utils.Utils;
 import org.fossasia.openevent.utils.Views;
+import org.fossasia.openevent.utils.ZoomableImageUtil;
 import org.fossasia.openevent.viewmodels.UserProfileActivityViewModel;
 import org.json.JSONException;
 
@@ -27,6 +29,7 @@ import java.lang.ref.WeakReference;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import timber.log.Timber;
 
 public class UserProfileActivity extends AppCompatActivity {
@@ -214,5 +217,11 @@ public class UserProfileActivity extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @OnClick(R.id.avatar)
+    public void onZoom() {
+        String imageUri = Utils.parseImageUri(user.getAvatarUrl());
+        ZoomableImageUtil.showZoomableImageDialogFragment(getSupportFragmentManager(), imageUri);
     }
 }
