@@ -54,7 +54,7 @@ public class DateConverter {
     // Public methods
 
     @NonNull
-    private static ZoneId getZoneId() {
+    public static ZoneId getZoneId() {
         if (showLocal || Utils.isEmpty(getEventTimeZone()))
             return ZoneId.systemDefault();
         else

@@ -12,6 +12,8 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -28,11 +30,15 @@ import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.listeners.BookmarkStatus;
 import org.fossasia.openevent.listeners.OnBookmarkSelectedListener;
 import org.fossasia.openevent.utils.ConstantStrings;
+import org.fossasia.openevent.utils.DateConverter;
 import org.fossasia.openevent.utils.SharedPreferencesUtil;
 import org.fossasia.openevent.utils.SnackbarUtil;
 import org.fossasia.openevent.utils.SortOrder;
 import org.fossasia.openevent.utils.Utils;
 import org.fossasia.openevent.viewmodels.ScheduleFragmentViewModel;
+import org.threeten.bp.Instant;
+import org.threeten.bp.ZoneId;
+import org.threeten.bp.ZoneOffset;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -93,6 +99,15 @@ public class ScheduleFragment extends BaseFragment implements OnBookmarkSelected
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_schedule;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //showing timezone with offset.
+        ZoneId zoneId = DateConverter.getZoneId();
+        ZoneOffset zoneOffset = zoneId.getRules().getOffset(Instant.now());
+        setSubtitle("(GMT" + zoneOffset.toString() + ")");
     }
 
     private void setupViewPager(final ViewPager viewPager) {
@@ -244,6 +259,8 @@ public class ScheduleFragment extends BaseFragment implements OnBookmarkSelected
             viewPager.removeOnPageChangeListener(onPageChangeListener);
         for (int i = 0; i < adapter.getCount(); i++)
             ((DayScheduleFragment) adapter.getItem(i)).clearOnBookmarkSelectedListener();
+        //Resets the subtitle to blank so that it is not shown in other Fragments.
+        setSubtitle("");
     }
 
     @Override
@@ -251,5 +268,12 @@ public class ScheduleFragment extends BaseFragment implements OnBookmarkSelected
         Snackbar snackbar = Snackbar.make(coordinatorLayoutParent, SnackbarUtil.getMessageResource(bookmarkStatus), Snackbar.LENGTH_LONG);
         SnackbarUtil.setSnackbarAction(getContext(), snackbar, bookmarkStatus)
                 .show();    }
+
+    private void setSubtitle(String subtitle) {
+        ActionBar supportActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        if (supportActionBar != null) {
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle(subtitle);
+        }
+    }
 }
 
