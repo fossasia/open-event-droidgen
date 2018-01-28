@@ -1,6 +1,10 @@
 package org.fossasia.openevent.utils;
 
+import android.text.Html;
+import android.text.Spanned;
 import android.text.TextUtils;
+
+import org.fossasia.openevent.data.Session;
 
 import java.util.List;
 
@@ -46,5 +50,20 @@ public final class StringUtils {
         }
 
         return stringBuilder.toString();
+    }
+
+    public static Spanned buildSession(List<Session> sessions) {
+        StringBuilder sessionsBuilder = new StringBuilder();
+        boolean firstSession = true;
+
+        for (Session session : sessions) {
+            if (!firstSession) {
+                sessionsBuilder.append(", ");
+            }
+            sessionsBuilder.append(session.getTitle() + session.getShortAbstract());
+            firstSession = false;
+        }
+
+        return Html.fromHtml(sessionsBuilder.toString());
     }
 }

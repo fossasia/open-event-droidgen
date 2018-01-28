@@ -218,7 +218,7 @@ public class ScheduleFragment extends BaseFragment implements OnBookmarkSelected
                     }
                     notifyUpdate(-1, selectedTracks);
                     if(count!=0) {
-                        filtersText.setText("Filters" + "(" + count +")" + ": " + tracksFiltered);
+                        filtersText.setText(getResources().getString(R.string.filters_text, count, tracksFiltered));
                         filterBar.setVisibility(View.VISIBLE);
                     } else {
                         filterBar.setVisibility(View.GONE);
@@ -240,8 +240,7 @@ public class ScheduleFragment extends BaseFragment implements OnBookmarkSelected
     public void onDestroyView() {
         super.onDestroyView();
         OpenEventApp.getEventBus().unregister(this);
-        if(compositeDisposable != null && !compositeDisposable.isDisposed())
-            compositeDisposable.dispose();
+        compositeDisposable.dispose();
         if(viewPager != null && onPageChangeListener != null)
             viewPager.removeOnPageChangeListener(onPageChangeListener);
         for (int i = 0; i < adapter.getCount(); i++)

@@ -140,7 +140,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
     private CustomTabsServiceConnection customTabsServiceConnection;
     private CustomTabsClient customTabsClient;
     private DownloadCompleteHandler completeHandler;
-    private CompositeDisposable disposable;
+    private final CompositeDisposable disposable = new CompositeDisposable();
     private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
     private Event event; // Future Event, stored to remove listeners
     private AboutFragment.OnMapSelectedListener onMapSelectedListener = value -> isMapFragment = value;
@@ -179,8 +179,6 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
         SharedPreferencesUtil.putInt(ConstantStrings.SESSION_MAP_ID, -1);
         isTwoPane = drawerLayout == null;
         Utils.setTwoPane(isTwoPane);
-
-        disposable = new CompositeDisposable();
 
         setUpToolbar();
         setUpNavDrawer();
@@ -529,7 +527,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
                 replaceFragment(new TracksFragment(), R.string.menu_tracks);
                 break;
             case R.id.nav_feed:
-                replaceFragment(new FeedFragment(), R.string.menu_feed);
+                replaceFragment(FeedFragment.getInstance(this, this), R.string.menu_feed);
                 break;
             case R.id.nav_schedule:
                 replaceFragment(new ScheduleFragment(), R.string.menu_schedule);
@@ -862,8 +860,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
     protected void onDestroy() {
         super.onDestroy();
         unbindService(customTabsServiceConnection);
-        if(disposable != null && !disposable.isDisposed())
-            disposable.dispose();
+        disposable.dispose();
         if(event != null)
             event.removeAllChangeListeners();
         if(completeHandler != null)
