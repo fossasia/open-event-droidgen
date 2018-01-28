@@ -1,5 +1,6 @@
 package org.fossasia.openevent.activities.auth;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -14,23 +15,18 @@ import android.widget.TextView;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
-import org.fossasia.openevent.api.APIClient;
 import org.fossasia.openevent.data.auth.User;
-import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.utils.AuthUtil;
 import org.fossasia.openevent.utils.CircleTransform;
-import org.fossasia.openevent.utils.JWTUtils;
 import org.fossasia.openevent.utils.NetworkUtils;
 import org.fossasia.openevent.utils.Views;
+import org.fossasia.openevent.viewmodels.UserProfileActivityViewModel;
 import org.json.JSONException;
 
 import java.lang.ref.WeakReference;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 public class UserProfileActivity extends AppCompatActivity {
@@ -56,8 +52,8 @@ public class UserProfileActivity extends AppCompatActivity {
     @BindView(R.id.logout)
     LinearLayout logout;
 
+    private UserProfileActivityViewModel userProfileActivityViewModel;
     private User user;
-    private Disposable disposable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,9 +64,10 @@ public class UserProfileActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        userProfileActivityViewModel = ViewModelProviders.of(this).get(UserProfileActivityViewModel.class);
         if (!AuthUtil.isUserLoggedIn()) {
             //Delete User data from realm
-            RealmDataRepository.getDefaultInstance().clearUserData();
+            userProfileActivityViewModel.eraseUserData();
 
             Intent intent = new Intent(UserProfileActivity.this, LoginActivity.class);
             startActivity(intent);
@@ -122,18 +119,19 @@ public class UserProfileActivity extends AppCompatActivity {
         super.onDestroy();
         if (swipeRefreshLayout != null)
             swipeRefreshLayout.setOnRefreshListener(null);
+    }
 
-        if (disposable != null && !disposable.isDisposed())
-            disposable.dispose();
+    private void subscribeUser() {
+        userProfileActivityViewModel.getUser().observe(this, user -> {
+            this.user = user;
+            showUserInfo(user);
+        });
+
     }
 
     private void loadUser(boolean loadFromNetwork) throws JSONException {
 
-        user = RealmDataRepository.getDefaultInstance().getUser();
-        user.addChangeListener(userModel -> {
-            showUserInfo(user);
-            Timber.d("User data loaded from disk");
-        });
+       subscribeUser();
 
         if (loadFromNetwork && NetworkUtils.haveNetworkConnection(UserProfileActivity.this)) {
             //get latest user data from network
@@ -143,27 +141,20 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     private void loadFromNetwork() throws JSONException {
-        disposable = APIClient.getOpenEventAPI()
-                .getUser(JWTUtils.getIdentity(AuthUtil.getAuthorization()))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(user -> {
-                            RealmDataRepository
-                                    .getDefaultInstance()
-                                    .saveUser(user)
-                                    .subscribe();
-                            this.user = user;
-                            showUserInfo(user);
-                            Timber.d("User data saved in database");
-                        },
-                        throwable -> {
-                            Timber.d(throwable.getMessage() + " Error getting data from network");
+        userProfileActivityViewModel.loadUserFromNetwork(AuthUtil.getAuthorization())
+                .observe(this,response -> {
+                    switch (response) {
+                        case UserProfileActivityViewModel.RETRIEVE_SUCCESSFUL:
+                            subscribeUser();
                             stopRefreshing();
-                        },
-                        () -> {
+                            break;
+                        case UserProfileActivityViewModel.RETRIEVE_UNSUCCESSFUL:
                             stopRefreshing();
-                            Timber.d("User data loaded from network");
-                        });
+                            break;
+                        default:
+                            //Not implementation
+                    }
+                });
     }
 
     private void showUserInfo(User user) {
