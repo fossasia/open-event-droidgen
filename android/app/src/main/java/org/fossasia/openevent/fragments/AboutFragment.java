@@ -318,7 +318,7 @@ public class AboutFragment extends BaseFragment implements OnBookmarkSelectedLis
         TextView licenceurl = dialogView.findViewById(R.id.licence_url);
         if (event.isValid() && event.getEventCopyright().isValid()) {
             Copyright copyright = event.getEventCopyright();
-            licence.setText(copyright.getLicence() + " " + String.valueOf(copyright.getYear()));
+            licence.setText(getResources().getString(R.string.space_separated_strings, copyright.getLicence(), String.valueOf(copyright.getYear())));
             holder.setText(copyright.getHolder());
             String linkedurl = String.format("<a href=\"%s\">" + copyright.getLicenceUrl() + "</a> ", copyright.getLicenceUrl());
             licenceurl.setText(Html.fromHtml(linkedurl));
@@ -343,10 +343,10 @@ public class AboutFragment extends BaseFragment implements OnBookmarkSelectedLis
             SpeakersCall speakersCall = event.getSpeakersCall();
             holder.setText(event.getEventCopyright().getHolder());
             String announcementString = Html.fromHtml(speakersCall.getAnnouncement()).toString();
-            announcement.setText(announcementString + "at " + event.getEmail());
+            announcement.setText(getResources().getString(R.string.about_fragment_announcement, announcementString, event.getEmail()));
             int index = speakersCall.getStartsAt().indexOf("T");
-            toDateOfEvent.setText("To: " + speakersCall.getStartsAt().substring(0, index));
-            fromDateOfEvent.setText("From: " + speakersCall.getEndsAt().substring(0, index));
+            toDateOfEvent.setText(getResources().getString(R.string.about_fragment_to_date_event, speakersCall.getStartsAt().substring(0, index)));
+            fromDateOfEvent.setText(getResources().getString(R.string.about_fragment_from_date_event, speakersCall.getEndsAt().substring(0, index)));
             dialogBuilder.setView(dialogView).setNegativeButton("Back", (dialog, which) -> dialog.cancel());
             dialogBuilder.setPositiveButton("Copy Email",
                     (dialog, which) -> {
