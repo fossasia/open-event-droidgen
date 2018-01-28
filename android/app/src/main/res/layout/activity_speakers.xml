@@ -59,6 +59,7 @@
                 android:id="@+id/toolbar_speakers"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                app:titleTextAppearance="@style/ToolbarTitle"
                 app:layout_collapseMode="pin" />
 
             <LinearLayout
@@ -132,7 +133,6 @@
                         android:id="@+id/tv_speaker_bio_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/layout_margin_medium"
                         android:layout_marginTop="@dimen/layout_margin_medium"
                         android:padding="@dimen/padding_medium"
                         android:text="@string/speakers_bio"
@@ -142,10 +142,7 @@
                         android:id="@+id/speaker_bio"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingEnd="@dimen/padding_medium"
-                        android:paddingLeft="@dimen/padding_medium"
-                        android:paddingRight="@dimen/padding_medium"
-                        android:paddingStart="@dimen/padding_medium"
+                        android:padding="@dimen/padding_medium"
                         tools:text="Paresh Mayani, Technical Lead @ Android" />
 
                 </LinearLayout>
