@@ -1,5 +1,6 @@
 package org.fossasia.openevent.activities.auth;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -24,17 +25,13 @@ import com.yalantis.ucrop.UCrop;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
-import org.fossasia.openevent.api.APIClient;
-import org.fossasia.openevent.data.auth.UploadImage;
 import org.fossasia.openevent.data.auth.User;
-import org.fossasia.openevent.dbutils.RealmDataRepository;
 import org.fossasia.openevent.utils.AuthUtil;
 import org.fossasia.openevent.utils.CircleTransform;
 import org.fossasia.openevent.utils.ConstantStrings;
-import org.fossasia.openevent.utils.JWTUtils;
 import org.fossasia.openevent.utils.SharedPreferencesUtil;
 import org.fossasia.openevent.utils.Utils;
-import org.json.JSONException;
+import org.fossasia.openevent.viewmodels.EditProfileActivityViewModel;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -46,7 +43,6 @@ import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 public class EditProfileActivity extends AppCompatActivity {
@@ -72,6 +68,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private Uri imageUri;
     private String encodedImage;
     private String uploadedImageUrl;
+    private EditProfileActivityViewModel editProfileActivityViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,10 +82,10 @@ public class EditProfileActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        user = RealmDataRepository.getDefaultInstance().getUser();
-        user.addChangeListener(userModel -> {
+        editProfileActivityViewModel = ViewModelProviders.of(this).get(EditProfileActivityViewModel.class);
+        editProfileActivityViewModel.getUser().observe(this, user -> {
+            this.user = user;
             showUserData(user);
-            Timber.d("User data loaded from database");
         });
 
         avatar.setOnClickListener(v -> {
@@ -112,74 +109,46 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
     private void uploadImage(String encodedImage) {
-        Disposable uploadImageDisposable = APIClient.getOpenEventAPI().uploadImage(new UploadImage(encodedImage))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(imageResponse -> {
-                            uploadedImageUrl = imageResponse.getUrl();
-                            Timber.d("Image uploaded successfully." + " Url: " + uploadedImageUrl);
-                        },
-                        throwable -> {
-                            showProgressBar(false);
-                            Toast.makeText(EditProfileActivity.this, R.string.error_uploading_image, Toast.LENGTH_SHORT).show();
-                            Timber.d("Error uploading image: " + throwable.getMessage());
-                        },
-                        () -> {
-                            showProgressBar(false);
-                            //Image uploaded successfully updating user...
-                            updateUser();
-                        },
-                        disposable -> showProgressBar(true));
-        compositeDisposable.add(uploadImageDisposable);
+        showProgressBar(true);
+        editProfileActivityViewModel.uploadImage(encodedImage).observe(this, response -> {
+            switch (response){
+                case EditProfileActivityViewModel.SUCCESSFUL:
+                    updateUser();
+                    break;
+                case EditProfileActivityViewModel.FAILED:
+                    Toast.makeText(EditProfileActivity.this, R.string.error_uploading_image, Toast.LENGTH_SHORT).show();
+                    break;
+                case EditProfileActivityViewModel.COMPLETE:
+                    updateUser();
+                    break;
+                default:
+                    //No implementation
+            }
+            showProgressBar(false);
+        });
     }
-
+    
     private void updateUser() {
-        if (firstNameInput == null || lastNameInput == null)
-            return;
-
         String firstName = firstNameInput.getText().toString().trim();
         String lastName = lastNameInput.getText().toString().trim();
+        showProgressBar(true);
 
-        int id = 0;
-        try {
-            id = JWTUtils.getIdentity(AuthUtil.getAuthorization());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        editProfileActivityViewModel.updateUser(firstName, lastName, AuthUtil.getAuthorization()).observe(this, response -> {
+            switch (response){
+                case EditProfileActivityViewModel.SUCCESSFUL:
+                    Toast.makeText(EditProfileActivity.this, R.string.updated_succesfully, Toast.LENGTH_SHORT).show();
+                    showUserData(user);
+                    finish();
+                    break;
+                case EditProfileActivityViewModel.FAILED:
+                    Toast.makeText(EditProfileActivity.this, R.string.error_updating_data, Toast.LENGTH_SHORT).show();
+                    break;
+                default:
+                    //No Implementation
 
-        User.UserBuilder builder = User.builder();
-        builder.id(id).firstName(firstName).lastName(lastName);
-
-        if (!Utils.isEmpty(uploadedImageUrl))
-            builder.avatarUrl(uploadedImageUrl);
-
-        User updateUser = builder.build();
-        Disposable updateUserDisposable = APIClient.getOpenEventAPI().updateUser(updateUser, id)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(user -> {
-                            RealmDataRepository
-                                    .getDefaultInstance()
-                                    .saveUser(user)
-                                    .subscribe();
-                            this.user = user;
-                            showUserData(user);
-                            showProgressBar(false);
-                            Timber.d("User data saved in database");
-                        },
-                        throwable -> {
-                            showProgressBar(false);
-                            Toast.makeText(EditProfileActivity.this, R.string.error_updating_data, Toast.LENGTH_SHORT).show();
-                            Timber.d("Error updating data" + throwable.getMessage());
-                        },
-                        () -> {
-                            showProgressBar(false);
-                            Toast.makeText(EditProfileActivity.this, R.string.updated_succesfully, Toast.LENGTH_SHORT).show();
-                            Timber.d("User data Updated");
-                            finish();
-                        },
-                        disposable -> showProgressBar(true));
-        compositeDisposable.add(updateUserDisposable);
+            }
+            showProgressBar(false);
+        });
     }
 
     @Override
