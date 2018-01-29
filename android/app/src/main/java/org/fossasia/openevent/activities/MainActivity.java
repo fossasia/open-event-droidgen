@@ -79,6 +79,7 @@ import org.fossasia.openevent.fragments.ScheduleFragment;
 import org.fossasia.openevent.fragments.SpeakersListFragment;
 import org.fossasia.openevent.fragments.SponsorsFragment;
 import org.fossasia.openevent.fragments.TracksFragment;
+import org.fossasia.openevent.fragments.TwitterFeedFragment;
 import org.fossasia.openevent.modules.OnImageZoomListener;
 import org.fossasia.openevent.utils.AuthUtil;
 import org.fossasia.openevent.utils.CommonTaskLoop;
@@ -366,7 +367,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
         OpenEventApp.postEventOnUIThread(new EventLoadedEvent(event));
         saveEventDates(event);
 
-        downloadPageId();
+        storeFeedDetails();
     }
 
     private void startDownloadFromNetwork() {
@@ -390,24 +391,10 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
         }
     }
 
-    private void downloadPageId() {
-        //Store the facebook page name in the shared preference from the database
-        if(SharedPreferencesUtil.getString(ConstantStrings.FACEBOOK_PAGE_NAME, null) == null) {
-            RealmList<SocialLink> socialLinks = event.getSocialLinks();
-            RealmResults<SocialLink> facebookPage = socialLinks.where().equalTo("name", "Facebook").findAll();
-            if (facebookPage.size() == 0)
-                return;
-
-            SocialLink facebookLink = facebookPage.get(0);
-            String link = facebookLink.getLink();
-            String tempString = ".com";
-            String pageName = link.substring(link.indexOf(tempString) + tempString.length()).replace("/", "");
-
-            if (Utils.isEmpty(pageName))
-                return;
-
-            SharedPreferencesUtil.putString(ConstantStrings.FACEBOOK_PAGE_NAME, pageName);
-        }
+    private void storeFeedDetails() {
+        //Store the facebook and twitter page name in the shared preference from the database
+        storePageName(ConstantStrings.SOCIAL_LINK_FACEBOOK, ConstantStrings.FACEBOOK_PAGE_NAME);
+        storePageName(ConstantStrings.SOCIAL_LINK_TWITTER, ConstantStrings.TWITTER_PAGE_NAME);
 
         if(SharedPreferencesUtil.getString(ConstantStrings.FACEBOOK_PAGE_ID, null) == null &&
                 SharedPreferencesUtil.getString(ConstantStrings.FACEBOOK_PAGE_NAME, null) != null) {
@@ -420,6 +407,20 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
                                 SharedPreferencesUtil.putString(ConstantStrings.FACEBOOK_PAGE_ID, id);
                             },
                             throwable -> Timber.d("Facebook page id download failed: " + throwable.toString()));
+        }
+    }
+
+    private void storePageName(String feedType, String key) {
+        if (SharedPreferencesUtil.getString(key, null) == null) {
+            RealmList<SocialLink> socialLinks = event.getSocialLinks();
+            RealmResults<SocialLink> page = socialLinks.where().equalTo("name", feedType).findAll();
+            if (!page.isEmpty()) {
+                SocialLink socialLink = page.get(0);
+                String socialLinkUrl = socialLink.getLink();
+                String tempString = ".com/";
+                String pageName = socialLinkUrl.substring(socialLinkUrl.indexOf(tempString) + tempString.length()).replace("/", "");
+                SharedPreferencesUtil.putString(key, pageName);
+            }
         }
     }
 
@@ -528,6 +529,9 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
                 break;
             case R.id.nav_feed:
                 replaceFragment(FeedFragment.getInstance(this, this), R.string.menu_feed);
+                break;
+            case R.id.nav_twitter_feed:
+                replaceFragment(TwitterFeedFragment.getInstance(this), R.string.menu_twitter);
                 break;
             case R.id.nav_schedule:
                 replaceFragment(new ScheduleFragment(), R.string.menu_schedule);

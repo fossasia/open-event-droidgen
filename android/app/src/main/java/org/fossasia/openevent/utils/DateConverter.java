@@ -3,6 +3,7 @@ package org.fossasia.openevent.utils;
 import android.support.annotation.NonNull;
 
 import org.fossasia.openevent.data.extras.EventDates;
+import org.threeten.bp.Instant;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.ZoneId;
@@ -153,6 +154,14 @@ public class DateConverter {
 
     public static String getRelativeTimeFromTimestamp(String timeStamp) throws DateTimeParseException {
         ZonedDateTime timeCreatedDate = ZonedDateTime.from(getFormatter(FORMAT_ISO_DATE_TIME_WITH_TIME_ZONE).parse(timeStamp));
+        return (String) android.text.format.DateUtils.getRelativeTimeSpanString(
+                (timeCreatedDate.toInstant().toEpochMilli()),
+                System.currentTimeMillis(), android.text.format.DateUtils.SECOND_IN_MILLIS);
+    }
+
+    public static String getRelativeTimeFromUTCTimeStamp(String timeStamp) throws DateTimeParseException {
+        Instant timestampInstant = Instant.parse(timeStamp);
+        ZonedDateTime timeCreatedDate = ZonedDateTime.ofInstant(timestampInstant, getZoneId());
         return (String) android.text.format.DateUtils.getRelativeTimeSpanString(
                 (timeCreatedDate.toInstant().toEpochMilli()),
                 System.currentTimeMillis(), android.text.format.DateUtils.SECOND_IN_MILLIS);
