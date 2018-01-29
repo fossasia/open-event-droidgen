@@ -84,7 +84,9 @@ public class ConstantStrings {
     
     public static final String FACEBOOK_PAGE_ID = "pageId";
 
-    public static final String FACEBOOK_PAGE_NAME = "pageName";
+    public static final String FACEBOOK_PAGE_NAME = "fbPageName";
+
+    public static final String TWITTER_PAGE_NAME = "twitterPageName";
 
     public static final String FACEBOOK_COMMENTS = "comments";
 

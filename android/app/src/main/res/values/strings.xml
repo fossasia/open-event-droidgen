@@ -59,7 +59,7 @@
     <string name="title_section_tracks">Tracks</string>
     <string name="title_section_speakerlist">Speakers</string>
     <string name="title_section_location">Locations</string>
-    
+
     <string name="item_track">This is a track symbol.</string>
     <string name="session_bookmark_status">This image shows the session bookmark status.</string>
     <string name="session_speaker_icon">This is the speaker icon.</string>
@@ -79,6 +79,7 @@
     <string name="menu_sign_up">Sign Up</string>
     <string name="menu_home">Home</string>
     <string name="menu_feed">Live Feed</string>
+    <string name="menu_twitter">Twitter Feed</string>
     <string name="menu_tracks">Tracks</string>
     <string name="menu_bookmarks">Bookmarks</string>
     <string name="menu_speakers">Speakers</string>
@@ -154,7 +155,7 @@
     <string name="empty_list">No Bookmarks Available</string>
     <string name="bullet">"•"</string>
     <string name="bookmarks">Bookmarks</string>
-    
+
     <string name="no_upcoming_ongoing">"No upcoming/ongoing sessions in this track</string>
 
     <!--Speaker-->
@@ -324,5 +325,7 @@
     <string name="about_fragment_announcement">%s at %s</string>
     <string name="about_fragment_to_date_event">To: %s</string>
     <string name="about_fragment_from_date_event">From: %s</string>
+
+    <string name="twitter_feed">Twitter Feed</string>
 
 </resources>

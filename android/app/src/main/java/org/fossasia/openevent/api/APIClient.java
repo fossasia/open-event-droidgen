@@ -7,6 +7,7 @@ import com.github.jasminb.jsonapi.retrofit.JSONAPIConverterFactory;
 import org.fossasia.openevent.BuildConfig;
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.api.network.FacebookGraphAPI;
+import org.fossasia.openevent.api.network.LoklakAPI;
 import org.fossasia.openevent.api.network.OpenEventAPI;
 import org.fossasia.openevent.data.Event;
 import org.fossasia.openevent.data.Microlocation;
@@ -50,6 +51,7 @@ public final class APIClient {
 
     private static OpenEventAPI openEventAPI;
     private static FacebookGraphAPI facebookGraphAPI;
+    private static LoklakAPI loklakAPI;
 
     private static OkHttpClient.Builder okHttpClientBuilder;
     private static Retrofit.Builder retrofitBuilder;
@@ -113,7 +115,7 @@ public final class APIClient {
     private static Cache provideCache() {
         Cache cache = null;
         try {
-            cache = new Cache(new File(OpenEventApp.getAppContext().getCacheDir(), "facebook-feed-cache"),
+            cache = new Cache(new File(OpenEventApp.getAppContext().getCacheDir(), "feed-cache"),
                     10 * 1024 * 1024); // 10 MB
         } catch (Exception e) {
             Timber.e(e, "Could not create Cache!");
@@ -154,5 +156,24 @@ public final class APIClient {
 
             return chain.proceed(request);
         };
+    }
+
+    public static LoklakAPI getLoklakAPI() {
+        if (loklakAPI == null) {
+            OkHttpClient okHttpClient = okHttpClientBuilder.addInterceptor(new HttpLoggingInterceptor()
+                    .setLevel(HttpLoggingInterceptor.Level.BASIC))
+                    .addInterceptor(provideOfflineCacheInterceptor())
+                    .addNetworkInterceptor(provideCacheInterceptor())
+                    .cache(provideCache())
+                    .build();
+
+            retrofitBuilder.client(okHttpClient);
+
+            loklakAPI = retrofitBuilder.baseUrl(Urls.LOKLAK_BASE_URL)
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                    .build()
+                    .create(LoklakAPI.class);
+        }
+        return loklakAPI;
     }
 }

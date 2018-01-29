@@ -3,7 +3,6 @@ package org.fossasia.openevent.adapters;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.support.design.widget.Snackbar;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -11,111 +10,81 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
 import org.fossasia.openevent.R;
-import org.fossasia.openevent.data.facebook.CommentItem;
-import org.fossasia.openevent.data.facebook.FeedItem;
+import org.fossasia.openevent.data.twitter.TwitterFeedItem;
 import org.fossasia.openevent.modules.OnImageZoomListener;
 import org.fossasia.openevent.utils.DateConverter;
 import org.fossasia.openevent.utils.Utils;
 import org.threeten.bp.format.DateTimeParseException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
-/**
- * Created by rohanagarwal94 on 08/6/17.
- */
-public class FeedAdapter extends BaseRVAdapter<FeedItem, FeedAdapter.RecyclerViewHolder> {
+public class TwitterFeedAdapter extends BaseRVAdapter<TwitterFeedItem, TwitterFeedAdapter.RecyclerViewHolder>  {
 
-    private List<FeedItem> feedItems;
+    private List<TwitterFeedItem> twitterFeedItems;
     private Context context;
-    private OpenCommentsDialogListener openCommentsDialogListener;
     private OnImageZoomListener onImageZoomListener;
-    private List<CommentItem> commentItems;
 
-    class RecyclerViewHolder extends RecyclerView.ViewHolder {
-
-        @BindView(R.id.post_timestamp)
+    class RecyclerViewHolder extends RecyclerView.ViewHolder{
+        @BindView(R.id.twitter_post_timestamp)
         TextView timeStamp;
-        @BindView(R.id.txt_status_msg)
+        @BindView(R.id.twitter_txt_status_msg)
         TextView statusMsg;
-        @BindView(R.id.txt_url)
+        @BindView(R.id.twitter_txt_url)
         TextView url;
-        @BindView(R.id.feed_image)
+        @BindView(R.id.twitter_feed_image)
         ImageView feedImageView;
-        @BindView(R.id.comment_button)
-        Button getComments;
 
         RecyclerViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
             view.bringToFront();
 
-            getComments.setOnClickListener(v -> {
-                FeedItem clickedFeedItem = feedItems.get(getPosition());
-                commentItems = new ArrayList<>();
-                if (clickedFeedItem.getComments() != null) {
-                    commentItems.addAll(clickedFeedItem.getComments().getData());
-                }
-                if (commentItems.size() != 0)
-                    openCommentsDialogListener.openCommentsDialog(commentItems);
-                else
-                    Snackbar.make(v, context.getResources().getString(R.string.no_comments), Snackbar.LENGTH_SHORT).show();
-            });
-
             if (onImageZoomListener != null) {
                 feedImageView.setOnClickListener(v -> {
-                    zoomImage(Utils.parseImageUri(feedItems.get(getPosition()).getFullPicture()));
+                    if (twitterFeedItems.get(getPosition()).getImages().get(0) != null) {
+                        zoomImage(Utils.parseImageUri(twitterFeedItems.get(getPosition()).getImages().get(0)));
+                    }
                 });
             }
         }
     }
 
-    public FeedAdapter(Context context, OpenCommentsDialogListener openCommentsDialogListener, List<FeedItem> feedItems) {
-        super(feedItems);
-        this.feedItems = feedItems;
+    public TwitterFeedAdapter(Context context, List<TwitterFeedItem> twitterFeedItems) {
+        super(twitterFeedItems);
         this.context = context;
-        this.openCommentsDialogListener = openCommentsDialogListener;
+        this.twitterFeedItems = twitterFeedItems;
     }
 
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_feed, parent, false);
-
+                .inflate(R.layout.item_twitter_feed, parent, false);
         return new RecyclerViewHolder(itemView);
     }
 
-
     @Override
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
+        final TwitterFeedItem feedItem = twitterFeedItems.get(position);
 
-        final FeedItem feedItem = feedItems.get(position);
-
-        String createdTime = feedItem.getCreatedTime();
+        String createdTime = feedItem.getCreatedAt();
         try {
-            holder.timeStamp.setText(DateConverter.getRelativeTimeFromTimestamp(createdTime));
+            holder.timeStamp.setText(DateConverter.getRelativeTimeFromUTCTimeStamp(createdTime));
         } catch (DateTimeParseException e) {
             Timber.e(e);
         }
 
-        if (!TextUtils.isEmpty(feedItem.getMessage())) {
-            String statusMsg = feedItem.getMessage();
-            // Checking for null feed url
-            if (feedItem.getLink() != null)
-                // Removing url in status message
-                statusMsg = statusMsg.replace(feedItem.getLink(), "");
-            holder.statusMsg.setText(statusMsg);
+        if (!TextUtils.isEmpty(feedItem.getText())) {
+            holder.statusMsg.setText(feedItem.getText());
             holder.statusMsg.setVisibility(View.VISIBLE);
         } else {
             // status is empty, remove from view
@@ -135,11 +104,12 @@ public class FeedAdapter extends BaseRVAdapter<FeedItem, FeedAdapter.RecyclerVie
             holder.url.setVisibility(View.GONE);
         }
 
-        String feedImageUri = Utils.parseImageUri(feedItem.getFullPicture());
-        Drawable placeholder = VectorDrawableCompat.create(context.getResources(),
-                R.drawable.ic_placeholder_24dp, null);
+        if (feedItem.getImages().size() > 0) {
+            //In case of more than one image show the first.
+            String feedImageUri = Utils.parseImageUri(feedItem.getImages().get(0));
+            Drawable placeholder = VectorDrawableCompat.create(context.getResources(),
+                    R.drawable.ic_placeholder_24dp, null);
 
-        if (feedImageUri != null) {
             holder.feedImageView.setVisibility(View.VISIBLE);
             Picasso.with(holder.feedImageView.getContext())
                     .load(Uri.parse(feedImageUri))
@@ -148,11 +118,6 @@ public class FeedAdapter extends BaseRVAdapter<FeedItem, FeedAdapter.RecyclerVie
         } else {
             holder.feedImageView.setVisibility(View.GONE);
         }
-
-    }
-
-    public interface OpenCommentsDialogListener {
-        void openCommentsDialog(List<CommentItem> commentItems);
     }
 
     public void setOnImageZoomListener(OnImageZoomListener onImageZoomListener) {
@@ -167,9 +132,5 @@ public class FeedAdapter extends BaseRVAdapter<FeedItem, FeedAdapter.RecyclerVie
         if (onImageZoomListener != null) {
             onImageZoomListener.onZoom(imageUri);
         }
-    }
-
-    public void removeOpenCommentsDialogListener() {
-        openCommentsDialogListener = null;
     }
 }
