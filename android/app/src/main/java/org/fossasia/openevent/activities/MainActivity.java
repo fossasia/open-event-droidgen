@@ -191,7 +191,6 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
         if (Utils.isBaseUrlEmpty()) {
             if (!SharedPreferencesUtil.getBoolean(ConstantStrings.IS_DOWNLOAD_DONE, false)) {
                 downloadFromAssets();
-                SharedPreferencesUtil.putBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true);
             }
         } else {
             downloadData();
@@ -464,6 +463,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
             else
                 OpenEventApp.postEventOnUIThread(event);
         }).show();
+        SharedPreferencesUtil.putBoolean(ConstantStrings.IS_DOWNLOAD_DONE, false);
 
     }
 
@@ -836,6 +836,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
         } else {
             completeHandler.hide();
         }
+        SharedPreferencesUtil.putBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true);
     }
 
     public void readJsonAsset(final String name) {
