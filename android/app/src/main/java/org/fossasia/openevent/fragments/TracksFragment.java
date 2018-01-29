@@ -48,6 +48,7 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
 
     private List<Track> tracks = new ArrayList<>();
     private TracksListAdapter tracksListAdapter;
+    private RecyclerView.AdapterDataObserver adapterDataObserver;
 
     @BindView(R.id.tracks_swipe_refresh) SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.txt_no_tracks) TextView noTracksView;
@@ -96,12 +97,13 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
 
         final StickyRecyclerHeadersDecoration headersDecoration = new StickyRecyclerHeadersDecoration(tracksListAdapter);
         tracksRecyclerView.addItemDecoration(headersDecoration);
-        tracksListAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+        adapterDataObserver = new RecyclerView.AdapterDataObserver() {
             @Override
             public void onChanged() {
                 headersDecoration.invalidateHeaders();
             }
-        });
+        };
+        tracksListAdapter.registerAdapterDataObserver(adapterDataObserver);
     }
 
     public void handleVisibility() {
@@ -124,6 +126,7 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
     public void onDestroyView() {
         super.onDestroyView();
         Utils.unregisterIfUrlValid(this);
+        tracksListAdapter.unregisterAdapterDataObserver(adapterDataObserver);
 
         if(swipeRefreshLayout != null) swipeRefreshLayout.setOnRefreshListener(null);
         if(searchView != null) searchView.setOnQueryTextListener(null);
