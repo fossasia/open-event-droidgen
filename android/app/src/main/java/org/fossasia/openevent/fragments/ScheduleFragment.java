@@ -62,7 +62,7 @@ public class ScheduleFragment extends BaseFragment implements OnBookmarkSelected
     @BindView(R.id.coordinate_layout_schedule)
     protected CoordinatorLayout coordinatorLayoutParent;
 
-    private CompositeDisposable compositeDisposable;
+    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
     private int sortType;
     private int sortOrder;
     private ScheduleViewPagerAdapter adapter;
@@ -83,7 +83,6 @@ public class ScheduleFragment extends BaseFragment implements OnBookmarkSelected
 
         filterBar.setVisibility(View.GONE);
         OpenEventApp.getEventBus().register(true);
-        compositeDisposable = new CompositeDisposable();
         sortType = SharedPreferencesUtil.getInt(ConstantStrings.PREF_SORT_SCHEDULE, 2);
         sortOrder = SharedPreferencesUtil.getInt(ConstantStrings.PREF_SORT_ORDER, 0);
         selectedTracks = new ArrayList<>();
@@ -255,6 +254,7 @@ public class ScheduleFragment extends BaseFragment implements OnBookmarkSelected
         super.onDestroyView();
         OpenEventApp.getEventBus().unregister(this);
         compositeDisposable.dispose();
+
         if(viewPager != null && onPageChangeListener != null)
             viewPager.removeOnPageChangeListener(onPageChangeListener);
         for (int i = 0; i < adapter.getCount(); i++)

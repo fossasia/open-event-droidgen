@@ -29,11 +29,10 @@ public class ChangePasswordActivityViewModel extends ViewModel {
     private LiveData<User> userLiveData;
     private MutableLiveData<Integer> checkPasswordResponse;
     private MutableLiveData<Integer> changePasswordResponse;
-    private final CompositeDisposable compositeDisposable;
+    private final CompositeDisposable compositeDisposable =  new CompositeDisposable();
 
     public ChangePasswordActivityViewModel() {
         realmRepo = RealmDataRepository.getDefaultInstance();
-        compositeDisposable = new CompositeDisposable();
     }
 
     public LiveData<User> getUser() {

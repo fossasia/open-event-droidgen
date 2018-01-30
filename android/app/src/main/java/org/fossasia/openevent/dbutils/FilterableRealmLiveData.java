@@ -20,14 +20,13 @@ import timber.log.Timber;
 public class FilterableRealmLiveData<V extends RealmModel> extends LiveData<List<V>> {
 
     private RealmResults<V> unfilteredData;
-    private final CompositeDisposable compositeDisposable;
+    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
     private Predicate<V> predicate;
     private final RealmChangeListener<RealmResults<V>> listener = result -> filter(predicate);
 
     public FilterableRealmLiveData(RealmResults<V> unfilteredData) {
         this.unfilteredData = unfilteredData;
         setValue(unfilteredData);
-        compositeDisposable = new CompositeDisposable();
     }
 
     public void filter(Predicate<V> predicate) {
