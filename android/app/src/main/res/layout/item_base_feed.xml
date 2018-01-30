@@ -1,0 +1,82 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/feed_item_margin"
+    android:layout_marginRight="@dimen/feed_item_margin"
+    android:layout_marginTop="@dimen/feed_item_margin"
+    android:background="@drawable/bg_parent_rounded_corner"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/feed_item_padding_top_bottom"
+    android:paddingTop="@dimen/feed_item_padding_top_bottom">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/feed_item_padding_left_right"
+        android:paddingRight="@dimen/feed_item_padding_left_right">
+
+        <ImageView
+            android:id="@+id/profile_pic"
+            android:layout_width="@dimen/feed_item_profile_pic"
+            android:layout_height="@dimen/feed_item_profile_pic"
+            android:background="@mipmap/ic_launcher"
+            android:contentDescription="@string/profile_image"
+            android:scaleType="fitCenter" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/feed_item_profile_info_padd">
+
+            <TextView
+                android:id="@+id/page_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/app_name"
+                android:textSize="@dimen/feed_item_profile_name"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/post_timestamp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/timestamp"
+                android:textSize="@dimen/feed_item_timestamp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/txt_status_msg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dp"
+        android:paddingLeft="@dimen/feed_item_status_pad_left_right"
+        android:paddingRight="@dimen/feed_item_status_pad_left_right"
+        android:paddingTop="@dimen/feed_item_status_pad_top"
+        android:textIsSelectable="true" />
+
+    <TextView
+        android:id="@+id/txt_url"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:linksClickable="true"
+        android:paddingBottom="10dp"
+        android:paddingLeft="@dimen/feed_item_status_pad_left_right"
+        android:paddingRight="@dimen/feed_item_status_pad_left_right"
+        android:textColorLink="@color/link" />
+
+    <ImageView
+        android:id="@+id/feed_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/layout_margin_large"
+        android:layout_marginRight="@dimen/layout_margin_large"
+        android:adjustViewBounds="true"
+        android:background="@color/white"
+        android:scaleType="fitXY"
+        android:visibility="visible" />
+</LinearLayout>

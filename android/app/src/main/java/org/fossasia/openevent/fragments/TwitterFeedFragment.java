@@ -1,9 +1,7 @@
 package org.fossasia.openevent.fragments;
 
 
-import android.app.ProgressDialog;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -34,13 +32,12 @@ import timber.log.Timber;
 import static org.fossasia.openevent.utils.AuthUtil.INVALID;
 import static org.fossasia.openevent.utils.AuthUtil.VALID;
 
-public class TwitterFeedFragment extends BaseFragment {
+public class TwitterFeedFragment extends BaseFeedFragment {
 
     private TwitterFeedAdapter twitterFeedAdapter;
     private OnImageZoomListener onImageZoomListener;
     private List<TwitterFeedItem> twitterFeedItems;
     private TwitterFeedFragmentViewModel twitterFeedFragmentViewModel;
-    private ProgressDialog downloadProgressDialog;
 
     @BindView(R.id.twitter_feed_swipe_refresh)
     SwipeRefreshLayout swipeRefreshLayout;
@@ -139,27 +136,6 @@ public class TwitterFeedFragment extends BaseFragment {
         }
     }
 
-    private void showProgressBar(boolean show) {
-        if (show)
-            downloadProgressDialog.show();
-        else
-            downloadProgressDialog.dismiss();
-    }
-
-    private void setupProgressBar() {
-        downloadProgressDialog = new ProgressDialog(getContext());
-        downloadProgressDialog.setIndeterminate(true);
-        downloadProgressDialog.setProgressPercentFormat(null);
-        downloadProgressDialog.setProgressNumberFormat(null);
-        downloadProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        downloadProgressDialog.setCancelable(false);
-        String shownMessage = String.format(getString(R.string.downloading_format), getString(R.string.menu_feed));
-        downloadProgressDialog.setMessage(shownMessage);
-        downloadProgressDialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.cancel), (dialogInterface, i) -> {
-            downloadProgressDialog.dismiss();
-            getActivity().onBackPressed();
-        });
-    }
 
     @Override
     protected int getLayoutResource() {
@@ -174,4 +150,18 @@ public class TwitterFeedFragment extends BaseFragment {
         }
     }
 
+    @Override
+    protected List getFeedItems() {
+        return twitterFeedItems;
+    }
+
+    @Override
+    protected RecyclerView getRecyclerView() {
+        return twitterFeedRecyclerView;
+    }
+
+    @Override
+    protected View getNoFeedView() {
+        return noFeedView;
+    }
 }

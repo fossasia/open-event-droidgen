@@ -1,8 +1,6 @@
 package org.fossasia.openevent.fragments;
 
-import android.app.ProgressDialog;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -36,10 +34,9 @@ import static org.fossasia.openevent.utils.AuthUtil.VALID;
 /**
  * Created by rohanagarwal94 on 10/6/17.
  */
-public class FeedFragment extends BaseFragment {
+public class FeedFragment extends BaseFeedFragment {
 
     private FeedAdapter feedAdapter;
-    private ProgressDialog downloadProgressDialog;
     private FeedFragmentViewModel feedFragmentViewModel;
     private List<FeedItem> feedItems;
     private FeedAdapter.OpenCommentsDialogListener openCommentsDialogListener;
@@ -113,16 +110,6 @@ public class FeedFragment extends BaseFragment {
                 });
     }
 
-    public void handleVisibility() {
-        if (!feedItems.isEmpty()) {
-            noFeedView.setVisibility(View.GONE);
-            feedRecyclerView.setVisibility(View.VISIBLE);
-        } else {
-            noFeedView.setVisibility(View.VISIBLE);
-            feedRecyclerView.setVisibility(View.GONE);
-        }
-    }
-
     private void refresh() {
         NetworkUtils.checkConnection(new WeakReference<>(getContext()), new NetworkUtils.NetworkStateReceiverListener() {
 
@@ -149,28 +136,6 @@ public class FeedFragment extends BaseFragment {
         });
     }
 
-    private void showProgressBar(boolean show) {
-        if (show)
-            downloadProgressDialog.show();
-        else
-            downloadProgressDialog.dismiss();
-    }
-
-    private void setupProgressBar() {
-        downloadProgressDialog = new ProgressDialog(getContext());
-        downloadProgressDialog.setIndeterminate(true);
-        downloadProgressDialog.setProgressPercentFormat(null);
-        downloadProgressDialog.setProgressNumberFormat(null);
-        downloadProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        downloadProgressDialog.setCancelable(false);
-        String shownMessage = String.format(getString(R.string.downloading_format), getString(R.string.menu_feed));
-        downloadProgressDialog.setMessage(shownMessage);
-        downloadProgressDialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.cancel), (dialogInterface, i) -> {
-            downloadProgressDialog.dismiss();
-            getActivity().onBackPressed();
-        });
-    }
-
     @Override
     protected int getLayoutResource() {
         return R.layout.list_feed;
@@ -183,5 +148,20 @@ public class FeedFragment extends BaseFragment {
             feedAdapter.removeOnImageZoomListener();
             feedAdapter.removeOpenCommentsDialogListener();
         }
+    }
+
+    @Override
+    protected List getFeedItems() {
+        return feedItems;
+    }
+
+    @Override
+    protected RecyclerView getRecyclerView() {
+        return feedRecyclerView;
+    }
+
+    @Override
+    protected View getNoFeedView() {
+        return noFeedView;
     }
 }
