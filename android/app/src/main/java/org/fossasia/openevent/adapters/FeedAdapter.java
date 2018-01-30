@@ -45,13 +45,11 @@ public class FeedAdapter extends BaseRVAdapter<FeedItem, FeedAdapter.RecyclerVie
 
     class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.post_timestamp)
+        @BindView(R.id.item_base)
+        View baseView;
         TextView timeStamp;
-        @BindView(R.id.txt_status_msg)
         TextView statusMsg;
-        @BindView(R.id.txt_url)
         TextView url;
-        @BindView(R.id.feed_image)
         ImageView feedImageView;
         @BindView(R.id.comment_button)
         Button getComments;
@@ -59,6 +57,7 @@ public class FeedAdapter extends BaseRVAdapter<FeedItem, FeedAdapter.RecyclerVie
         RecyclerViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
+            bindViews();
             view.bringToFront();
 
             getComments.setOnClickListener(v -> {
@@ -78,6 +77,13 @@ public class FeedAdapter extends BaseRVAdapter<FeedItem, FeedAdapter.RecyclerVie
                     zoomImage(Utils.parseImageUri(feedItems.get(getPosition()).getFullPicture()));
                 });
             }
+        }
+
+        private void bindViews() {
+            timeStamp = ButterKnife.findById(baseView, R.id.post_timestamp);
+            statusMsg = ButterKnife.findById(baseView, R.id.txt_status_msg);
+            url = ButterKnife.findById(baseView, R.id.txt_url);
+            feedImageView = ButterKnife.findById(baseView, R.id.feed_image);
         }
     }
 

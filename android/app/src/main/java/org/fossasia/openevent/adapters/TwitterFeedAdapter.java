@@ -35,18 +35,17 @@ public class TwitterFeedAdapter extends BaseRVAdapter<TwitterFeedItem, TwitterFe
     private OnImageZoomListener onImageZoomListener;
 
     class RecyclerViewHolder extends RecyclerView.ViewHolder{
-        @BindView(R.id.twitter_post_timestamp)
+        @BindView(R.id.item_base)
+        View baseView;
         TextView timeStamp;
-        @BindView(R.id.twitter_txt_status_msg)
         TextView statusMsg;
-        @BindView(R.id.twitter_txt_url)
         TextView url;
-        @BindView(R.id.twitter_feed_image)
         ImageView feedImageView;
 
         RecyclerViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
+            bindViews();
             view.bringToFront();
 
             if (onImageZoomListener != null) {
@@ -56,6 +55,13 @@ public class TwitterFeedAdapter extends BaseRVAdapter<TwitterFeedItem, TwitterFe
                     }
                 });
             }
+        }
+
+        private void bindViews() {
+            timeStamp = ButterKnife.findById(baseView, R.id.post_timestamp);
+            statusMsg = ButterKnife.findById(baseView, R.id.txt_status_msg);
+            url = ButterKnife.findById(baseView, R.id.txt_url);
+            feedImageView = ButterKnife.findById(baseView, R.id.feed_image);
         }
     }
 
