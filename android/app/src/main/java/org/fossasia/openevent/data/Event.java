@@ -61,4 +61,268 @@ public class Event extends RealmObject {
     private SpeakersCall speakersCall;
     @Relationship("social-links")
     private RealmList<SocialLink> socialLinks;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getLocationName() {
+        return locationName;
+    }
+
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
+    }
+
+    public String getStartsAt() {
+        return startsAt;
+    }
+
+    public void setStartsAt(String startsAt) {
+        this.startsAt = startsAt;
+    }
+
+    public String getEndsAt() {
+        return endsAt;
+    }
+
+    public void setEndsAt(String endsAt) {
+        this.endsAt = endsAt;
+    }
+
+    public String getTimezone() {
+        return timezone;
+    }
+
+    public void setTimezone(String timezone) {
+        this.timezone = timezone;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getLogoUrl() {
+        return logoUrl;
+    }
+
+    public void setLogoUrl(String logoUrl) {
+        this.logoUrl = logoUrl;
+    }
+
+    public String getOrganizerName() {
+        return organizerName;
+    }
+
+    public void setOrganizerName(String organizerName) {
+        this.organizerName = organizerName;
+    }
+
+    public String getOrganizerDescription() {
+        return organizerDescription;
+    }
+
+    public void setOrganizerDescription(String organizerDescription) {
+        this.organizerDescription = organizerDescription;
+    }
+
+    public String getTicketUrl() {
+        return ticketUrl;
+    }
+
+    public void setTicketUrl(String ticketUrl) {
+        this.ticketUrl = ticketUrl;
+    }
+
+    public String getPrivacy() {
+        return privacy;
+    }
+
+    public void setPrivacy(String privacy) {
+        this.privacy = privacy;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getTopic() {
+        return topic;
+    }
+
+    public void setTopic(String topic) {
+        this.topic = topic;
+    }
+
+    public String getSubTopic() {
+        return subTopic;
+    }
+
+    public void setSubTopic(String subTopic) {
+        this.subTopic = subTopic;
+    }
+
+    public String getCodeOfConduct() {
+        return codeOfConduct;
+    }
+
+    public void setCodeOfConduct(String codeOfConduct) {
+        this.codeOfConduct = codeOfConduct;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getSchedulePublishedOn() {
+        return schedulePublishedOn;
+    }
+
+    public void setSchedulePublishedOn(String schedulePublishedOn) {
+        this.schedulePublishedOn = schedulePublishedOn;
+    }
+
+    public String getSearchableLocationName() {
+        return searchableLocationName;
+    }
+
+    public void setSearchableLocationName(String searchableLocationName) {
+        this.searchableLocationName = searchableLocationName;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public boolean isSessionsSpeakersEnabled() {
+        return isSessionsSpeakersEnabled;
+    }
+
+    public void setSessionsSpeakersEnabled(boolean sessionsSpeakersEnabled) {
+        isSessionsSpeakersEnabled = sessionsSpeakersEnabled;
+    }
+
+    public String getThumbnailImageUrl() {
+        return thumbnailImageUrl;
+    }
+
+    public void setThumbnailImageUrl(String thumbnailImageUrl) {
+        this.thumbnailImageUrl = thumbnailImageUrl;
+    }
+
+    public String getOriginalImageUrl() {
+        return originalImageUrl;
+    }
+
+    public void setOriginalImageUrl(String originalImageUrl) {
+        this.originalImageUrl = originalImageUrl;
+    }
+
+    public String getLargeImageUrl() {
+        return largeImageUrl;
+    }
+
+    public void setLargeImageUrl(String largeImageUrl) {
+        this.largeImageUrl = largeImageUrl;
+    }
+
+    public String getIconImageUrl() {
+        return iconImageUrl;
+    }
+
+    public void setIconImageUrl(String iconImageUrl) {
+        this.iconImageUrl = iconImageUrl;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(String deletedAt) {
+        this.deletedAt = deletedAt;
+    }
+
+    public Copyright getEventCopyright() {
+        return eventCopyright;
+    }
+
+    public void setEventCopyright(Copyright eventCopyright) {
+        this.eventCopyright = eventCopyright;
+    }
+
+    public SpeakersCall getSpeakersCall() {
+        return speakersCall;
+    }
+
+    public void setSpeakersCall(SpeakersCall speakersCall) {
+        this.speakersCall = speakersCall;
+    }
+
+    public RealmList<SocialLink> getSocialLinks() {
+        return socialLinks;
+    }
+
+    public void setSocialLinks(RealmList<SocialLink> socialLinks) {
+        this.socialLinks = socialLinks;
+    }
 }

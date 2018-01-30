@@ -30,4 +30,52 @@ public class Track extends RealmObject {
     private String fontColor;
     @Relationship("sessions")
     private RealmList<Session> sessions;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getFontColor() {
+        return fontColor;
+    }
+
+    public void setFontColor(String fontColor) {
+        this.fontColor = fontColor;
+    }
+
+    public RealmList<Session> getSessions() {
+        return sessions;
+    }
+
+    public void setSessions(RealmList<Session> sessions) {
+        this.sessions = sessions;
+    }
 }
