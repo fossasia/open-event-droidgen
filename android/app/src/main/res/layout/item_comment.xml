@@ -1,42 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/layout_margin_medium"
+    android:layout_marginLeft="@dimen/layout_margin_medium"
+    android:layout_marginRight="@dimen/layout_margin_medium"
+    android:background="@color/cardview_light_background"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/commenter"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="5dp"
-        android:drawablePadding="8dp"
-        android:gravity="left|center"
-        android:text="@string/commenter"
-        android:textColor="#222222"
-        android:textSize="14sp"
-        android:textStyle="bold" />
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="@dimen/layout_margin_large"
+        android:layout_marginRight="@dimen/layout_margin_large"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/commenter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/layout_margin_medium"
+            android:layout_marginRight="@dimen/layout_margin_medium"
+            android:layout_weight="1"
+            android:textColor="#222222"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            tools:text="@string/commenter" />
+
+        <TextView
+            android:id="@+id/comment_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            tools:text="11 Jan 2018" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/comment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:drawablePadding="8dp"
+        android:layout_marginBottom="@dimen/layout_margin_medium"
+        android:layout_marginLeft="@dimen/layout_margin_large"
+        android:layout_marginRight="@dimen/layout_margin_large"
         android:textIsSelectable="true"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        tools:text="@string/comment_body" />
 
-    <TextView
-        android:id="@+id/comment_time"
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:gravity="right"
-        android:textSize="12sp" />
-
-
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/layout_margin_small"
+        android:background="@color/grey" />
 </LinearLayout>
