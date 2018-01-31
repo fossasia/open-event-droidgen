@@ -294,6 +294,7 @@
     <string name="facebook_access_token" templateMergeStrategy="preserve" translatable="false">1786614831603417|DWqP48Lm77hBqCQDWVsq4lFixuo</string>
     <string name="no_comments">No Comments Yet :(</string>
     <string name="comments">comments</string>
+    <string name="comments_value">comments (%d)</string>
     <string name="commenter">Commenter</string>
     <string name="profile_image">Profile Image</string>
     <string name="fields">id,full_picture,message,story,created_time,link,comments</string>
@@ -305,6 +306,7 @@
     <string name="speakers_bio">About me</string>
     <string name="social_media">Social media</string>
     <string name="sessions_title_card">Sessions</string>
+    <string name="comment_body">Comment Body</string>
 
     <!--Session-detail-strings-->
     <string name="session_track_details">Session Track :</string>

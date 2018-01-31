@@ -3,18 +3,16 @@
     android:id="@+id/comment_list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="@dimen/layout_margin_extra_large"
-    android:layout_marginRight="@dimen/layout_margin_extra_large"
+    android:layout_marginLeft="@dimen/layout_margin_large"
+    android:layout_marginRight="@dimen/layout_margin_large"
     android:layout_marginTop="@dimen/feed_item_margin"
-    android:background="@drawable/comment_dialog"
-    android:orientation="vertical"
-    android:paddingBottom="@dimen/feed_item_padding_top_bottom"
-    android:paddingTop="@dimen/feed_item_padding_top_bottom">
+    android:orientation="vertical">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/comment_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/comment_list_height"
+        android:paddingTop="@dimen/layout_margin_medium"
         android:scrollbars="vertical" />
 
 </LinearLayout>

@@ -153,6 +153,8 @@ public class FeedAdapter extends BaseRVAdapter<FeedItem, FeedAdapter.RecyclerVie
             holder.feedImageView.setVisibility(View.GONE);
         }
 
+        int comments = feedItem.getComments() != null ? feedItem.getComments().getData().size() : 0;
+        holder.getComments.setText(context.getString(R.string.comments_value, comments));
     }
 
     public interface OpenCommentsDialogListener {
