@@ -188,12 +188,17 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
         String color = null;
         ZonedDateTime current = ZonedDateTime.now();
         for (Session session : sessions) {
-            ZonedDateTime start = DateConverter.getDate(session.getStartsAt());
-            if (start.isAfter(current)) {
-                upcomingTitle = session.getTitle();
-                track = session.getTrack().getName();
-                color = session.getTrack().getColor();
-                break;
+            if (session.getStartDate() != null) {
+                ZonedDateTime start = DateConverter.getDate(session.getStartsAt());
+                if (start.isAfter(current)) {
+                    if (session.getTitle() != null)
+                        upcomingTitle = session.getTitle();
+                    if (session.getTrack().getName() != null)
+                        track = session.getTrack().getName();
+                    if (session.getTrack().getColor() != null)
+                        color = session.getTrack().getColor();
+                    break;
+                }
             }
         }
 
