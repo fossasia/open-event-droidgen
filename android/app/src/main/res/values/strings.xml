@@ -74,6 +74,7 @@
     <string name="event_info">Event Info</string>
     <string name="sessions">Sessions</string>
     <string name="session_types">Session Types</string>
+    <string name="tickets">Tickets</string>
 
     <!-- Drawer menu items -->
     <string name="menu_sign_up">Sign Up</string>

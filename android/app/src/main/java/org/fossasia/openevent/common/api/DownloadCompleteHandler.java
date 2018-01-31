@@ -16,6 +16,7 @@ import org.fossasia.openevent.common.events.SessionDownloadEvent;
 import org.fossasia.openevent.common.events.SessionTypesDownloadEvent;
 import org.fossasia.openevent.common.events.SpeakerDownloadEvent;
 import org.fossasia.openevent.common.events.SponsorDownloadEvent;
+import org.fossasia.openevent.common.events.TicketDownloadEvent;
 import org.fossasia.openevent.common.events.TracksDownloadEvent;
 
 import io.reactivex.subjects.CompletableSubject;
@@ -210,6 +211,11 @@ public class DownloadCompleteHandler {
         @Subscribe
         public void onSessionTypesDownloadDone(SessionTypesDownloadEvent event) {
             onDownloadDone(event, R.string.session_types);
+        }
+
+        @Subscribe
+        public void onTicketsDownloadDone(TicketDownloadEvent ticket) {
+            onDownloadDone(ticket, R.string.tickets);
         }
     }
 

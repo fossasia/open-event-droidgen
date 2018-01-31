@@ -6,16 +6,17 @@ import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.common.arch.FilterableRealmLiveData;
 import org.fossasia.openevent.common.arch.LiveRealmData;
 import org.fossasia.openevent.common.arch.LiveRealmDataObject;
+import org.fossasia.openevent.common.events.BookmarkChangedEvent;
+import org.fossasia.openevent.core.auth.model.User;
 import org.fossasia.openevent.data.Event;
 import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.SessionType;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Sponsor;
+import org.fossasia.openevent.data.Ticket;
 import org.fossasia.openevent.data.Track;
-import org.fossasia.openevent.core.auth.model.User;
 import org.fossasia.openevent.data.extras.EventDates;
-import org.fossasia.openevent.common.events.BookmarkChangedEvent;
 
 import java.util.HashMap;
 import java.util.List;
@@ -494,6 +495,27 @@ public class RealmDataRepository {
     public RealmResults<Sponsor> getSponsors() {
         return realm.where(Sponsor.class).findAllSortedAsync("level", Sort.DESCENDING, "name", Sort.ASCENDING);
     }
+
+    // Tickets Section
+
+    private void saveTicketsInRealm(List<Ticket> tickets) {
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(realm1 -> realm1.insertOrUpdate(tickets));
+        realm.close();
+    }
+
+    public Completable saveTickets(final List<Ticket> tickets) {
+        return Completable.fromAction(() -> {
+            saveTicketsInRealm(tickets);
+            Timber.d("Saved Tickets");
+        });
+    }
+
+    public RealmResults<Ticket> getTickets() {
+       // return realm.where(Ticket.class).findAllSortedAsync("level", Sort.DESCENDING, "name", Sort.ASCENDING);
+        return realm.where(Ticket.class).findAllSortedAsync("name");
+    }
+
 
     // Location Section
 

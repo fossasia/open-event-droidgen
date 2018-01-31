@@ -11,6 +11,7 @@ import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Sponsor;
+import org.fossasia.openevent.data.Ticket;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.core.auth.model.User;
 import org.fossasia.openevent.core.auth.AuthUtil;
@@ -77,7 +78,8 @@ public final class APIClient {
                     .build();
 
             ObjectMapper objectMapper = OpenEventApp.getObjectMapper();
-            Class[] classes = {Event.class, Track.class, Speaker.class, Sponsor.class, Session.class, Microlocation.class, User.class};
+            Class[] classes = {Event.class, Track.class, Speaker.class, Sponsor.class,
+                    Session.class, Microlocation.class, User.class, Ticket.class};
 
             openEventAPI = new Retrofit.Builder()
                     .client(okHttpClient)

@@ -6,6 +6,7 @@ import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.SessionType;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Sponsor;
+import org.fossasia.openevent.data.Ticket;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.core.auth.model.ImageResponse;
 import org.fossasia.openevent.core.auth.model.Login;
@@ -60,5 +61,8 @@ public interface OpenEventAPI {
 
     @GET("session-types")
     Call<List<SessionType>> getSessionTypes();
+
+    @GET("tickets")
+    Call<List<Ticket>> getTickets();
 
 }
