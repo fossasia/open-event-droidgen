@@ -46,7 +46,7 @@
         android:layout_height="@dimen/upcoming_title_height"
         android:layout_gravity="right"
         android:layout_marginTop="@dimen/layout_margin_extra_small"
-        android:text="OK"
+        android:text="@string/ok"
         android:textColor="@color/color_primary" />
 
 </LinearLayout>
