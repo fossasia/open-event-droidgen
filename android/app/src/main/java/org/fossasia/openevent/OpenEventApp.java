@@ -23,17 +23,17 @@ import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 import com.uphyca.stetho_realm.RealmInspectorModulesProvider;
 
-import org.fossasia.openevent.activities.MainActivity;
-import org.fossasia.openevent.api.Urls;
-import org.fossasia.openevent.dbutils.RealmDatabaseMigration;
-import org.fossasia.openevent.events.ConnectionCheckEvent;
-import org.fossasia.openevent.events.ShowNetworkDialogEvent;
-import org.fossasia.openevent.modules.MapModuleFactory;
-import org.fossasia.openevent.receivers.NetworkConnectivityChangeReceiver;
-import org.fossasia.openevent.utils.ConstantStrings;
-import org.fossasia.openevent.utils.DateConverter;
-import org.fossasia.openevent.utils.SharedPreferencesUtil;
-import org.fossasia.openevent.utils.Utils;
+import org.fossasia.openevent.core.main.MainActivity;
+import org.fossasia.openevent.common.api.Urls;
+import org.fossasia.openevent.data.repository.RealmDatabaseMigration;
+import org.fossasia.openevent.common.events.ConnectionCheckEvent;
+import org.fossasia.openevent.common.events.ShowNetworkDialogEvent;
+import org.fossasia.openevent.core.location.modules.MapModuleFactory;
+import org.fossasia.openevent.common.network.NetworkConnectivityChangeReceiver;
+import org.fossasia.openevent.common.ConstantStrings;
+import org.fossasia.openevent.common.date.DateConverter;
+import org.fossasia.openevent.common.utils.SharedPreferencesUtil;
+import org.fossasia.openevent.common.utils.Utils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -50,10 +50,6 @@ import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import timber.log.Timber;
 
-/**
- * User: MananWason
- * Date: 02-06-2015
- */
 public class OpenEventApp extends MultiDexApplication {
 
     public static final String API_LINK = "api-link";
@@ -126,7 +122,7 @@ public class OpenEventApp extends MultiDexApplication {
         Realm.init(this);
         RealmConfiguration config = new RealmConfiguration.Builder()
                 .schemaVersion(RealmDatabaseMigration.DB_VERSION) // Must be bumped when the schema changes
-                //TODO: Re-add migration once DB is locked/finilized
+                //TODO: Re-add migration once DB is locked/finalized
                 .deleteRealmIfMigrationNeeded()
                 .build();
 

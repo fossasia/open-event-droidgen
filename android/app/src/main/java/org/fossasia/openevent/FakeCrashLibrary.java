@@ -1,9 +1,5 @@
 package org.fossasia.openevent;
 
-/**
- * User: mohit
- * Date: 31/1/16
- */
 public final class FakeCrashLibrary {
 
     /**

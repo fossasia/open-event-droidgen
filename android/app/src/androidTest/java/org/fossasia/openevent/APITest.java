@@ -2,7 +2,7 @@ package org.fossasia.openevent;
 
 import android.test.AndroidTestCase;
 
-import org.fossasia.openevent.api.APIClient;
+import org.fossasia.openevent.common.api.APIClient;
 import org.fossasia.openevent.data.Event;
 import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.data.Session;
@@ -17,10 +17,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-/**
- * User: mohit
- * Date: 25/5/15
- */
 public class APITest extends AndroidTestCase {
     public void testSpeakerAPIResponse() throws Exception {
         final CountDownLatch latch = new CountDownLatch(1);

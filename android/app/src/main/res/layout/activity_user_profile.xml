@@ -4,7 +4,7 @@
     android:id="@+id/coordinate_layout_user_profile"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="org.fossasia.openevent.activities.auth.UserProfileActivity">
+    tools:context="org.fossasia.openevent.core.auth.profile.UserProfileActivity">
 
     <include layout="@layout/content_user_profile" />
 

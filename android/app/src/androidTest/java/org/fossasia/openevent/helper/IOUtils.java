@@ -10,10 +10,6 @@ import java.io.InputStream;
 
 import timber.log.Timber;
 
-/**
- * User: mohit
- * Date: 25/1/16
- */
 public final class IOUtils {
     private IOUtils() {
     }
