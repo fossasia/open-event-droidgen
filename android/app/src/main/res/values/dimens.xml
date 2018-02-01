@@ -67,7 +67,6 @@
     <dimen name="top_progressbar_margin">-10dp</dimen>
     <dimen name="bottom_progressbar_margin">-6dp</dimen>
     <dimen name="session_status_margin">60dp</dimen>
-    <dimen name="mainlayout_bottom_margin">55dp</dimen>
 
     <!-- padding specifics -->
     <dimen name="padding_extra_small">2dp</dimen>

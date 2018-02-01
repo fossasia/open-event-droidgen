@@ -8,6 +8,7 @@ import org.fossasia.openevent.common.arch.LiveRealmData;
 import org.fossasia.openevent.common.date.DateConverter;
 import org.fossasia.openevent.data.Event;
 import org.fossasia.openevent.data.Session;
+import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.extras.EventDates;
 import org.fossasia.openevent.data.repository.RealmDataRepository;
 import org.threeten.bp.format.DateTimeParseException;
@@ -23,6 +24,7 @@ public class AboutFragmentViewModel extends ViewModel {
     private LiveData<List<Object>> sessions;
     private List<String> dateList;
     private LiveData<Event> eventLiveData;
+    private LiveData<List<Speaker>> featuredSpeakers;
 
     public AboutFragmentViewModel() {
         realmRepo = RealmDataRepository.getDefaultInstance();
@@ -77,4 +79,11 @@ public class AboutFragmentViewModel extends ViewModel {
         return sessionsList;
     }
 
+    public LiveData<List<Speaker>> getFeaturedSpeakers() {
+        if (featuredSpeakers == null) {
+            LiveRealmData<Speaker> featuredSpeakersLiveData = RealmDataRepository.asLiveData(realmRepo.getFeaturedSpeakers());
+            featuredSpeakers = Transformations.map(featuredSpeakersLiveData, input -> input);
+        }
+        return featuredSpeakers;
+    }
 }

@@ -329,5 +329,6 @@
     <string name="about_fragment_from_date_event">From: %s</string>
 
     <string name="twitter_feed">Twitter Feed</string>
+    <string name="featured_speakers_header">Featured Speakers</string>
 
 </resources>
