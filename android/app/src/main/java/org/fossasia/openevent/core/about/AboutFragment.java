@@ -1,19 +1,20 @@
 package org.fossasia.openevent.core.about;
 
 import android.annotation.TargetApi;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -37,23 +38,25 @@ import com.squareup.otto.Subscribe;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
+import org.fossasia.openevent.common.ConstantStrings;
+import org.fossasia.openevent.common.date.DateConverter;
+import org.fossasia.openevent.common.events.BookmarkChangedEvent;
+import org.fossasia.openevent.common.events.EventLoadedEvent;
+import org.fossasia.openevent.common.ui.SnackbarUtil;
+import org.fossasia.openevent.common.ui.Views;
 import org.fossasia.openevent.common.ui.base.BaseFragment;
+import org.fossasia.openevent.common.utils.Utils;
 import org.fossasia.openevent.core.bookmark.BookmarkStatus;
+import org.fossasia.openevent.core.bookmark.OnBookmarkSelectedListener;
 import org.fossasia.openevent.core.main.MainActivity;
-import org.fossasia.openevent.core.search.SearchActivity;
 import org.fossasia.openevent.core.search.GlobalSearchAdapter;
+import org.fossasia.openevent.core.search.SearchActivity;
+import org.fossasia.openevent.core.track.session.SessionSpeakerListAdapter;
 import org.fossasia.openevent.data.Event;
+import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.extras.Copyright;
 import org.fossasia.openevent.data.extras.SocialLink;
 import org.fossasia.openevent.data.extras.SpeakersCall;
-import org.fossasia.openevent.common.events.BookmarkChangedEvent;
-import org.fossasia.openevent.common.events.EventLoadedEvent;
-import org.fossasia.openevent.common.ConstantStrings;
-import org.fossasia.openevent.core.bookmark.OnBookmarkSelectedListener;
-import org.fossasia.openevent.common.date.DateConverter;
-import org.fossasia.openevent.common.ui.SnackbarUtil;
-import org.fossasia.openevent.common.utils.Utils;
-import org.fossasia.openevent.common.ui.Views;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,14 +98,20 @@ public class AboutFragment extends BaseFragment implements OnBookmarkSelectedLis
     protected LinearLayout eventLoc;
     @BindView(R.id.coordinate_layout_about)
     protected CoordinatorLayout coordinatorLayoutParent;
+    @BindView(R.id.featured_speakers_header)
+    protected TextView featuredSpeakersHeader;
+    @BindView(R.id.list_featured_speakers)
+    protected RecyclerView featuresSpeakersRecyclerView;
 
     private Context context;
     private View root;
     private GlobalSearchAdapter bookMarksListAdapter;
     private SocialLinksListAdapter socialLinksListAdapter;
+    private SessionSpeakerListAdapter featuredSpeakersListAdapter;
 
     private final List<Object> sessions = new ArrayList<>();
     private final List<SocialLink> socialLinks = new ArrayList<>();
+    private final List<Speaker> featuredSpeakers = new ArrayList<>();
     private static final String MAP_FRAGMENT_TAG = "mapFragment";
 
     private Event event;
@@ -122,6 +131,7 @@ public class AboutFragment extends BaseFragment implements OnBookmarkSelectedLis
 
         setUpBookmarksRecyclerView();
         setUpSocialLinksRecyclerView();
+        setUpFeaturedSpeakersRecyclerView();
 
         eventLoc.setOnClickListener(v -> {
             if (event.isValid()) {
@@ -193,6 +203,15 @@ public class AboutFragment extends BaseFragment implements OnBookmarkSelectedLis
         socialLinksRecyclerView.setAdapter(socialLinksListAdapter);
         socialLinksRecyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
         socialLinksRecyclerView.setNestedScrollingEnabled(false);
+    }
+
+    private void setUpFeaturedSpeakersRecyclerView() {
+        featuresSpeakersRecyclerView.setVisibility(View.VISIBLE);
+        featuredSpeakersListAdapter = new SessionSpeakerListAdapter(featuredSpeakers);
+        featuresSpeakersRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        featuresSpeakersRecyclerView.setNestedScrollingEnabled(false);
+        featuresSpeakersRecyclerView.setAdapter(featuredSpeakersListAdapter);
+        featuresSpeakersRecyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 
     private void loadEvent(Event event) {
@@ -386,6 +405,14 @@ public class AboutFragment extends BaseFragment implements OnBookmarkSelectedLis
             bookmarksRecyclerView.setVisibility(View.GONE);
             bookmarkHeader.setVisibility(View.GONE);
         }
+
+        if (!featuredSpeakers.isEmpty()) {
+            featuredSpeakersHeader.setVisibility(View.VISIBLE);
+            featuresSpeakersRecyclerView.setVisibility(View.VISIBLE);
+        } else {
+            featuredSpeakersHeader.setVisibility(View.GONE);
+            featuresSpeakersRecyclerView.setVisibility(View.GONE);
+        }
     }
 
     private void loadData() {
@@ -395,6 +422,13 @@ public class AboutFragment extends BaseFragment implements OnBookmarkSelectedLis
             bookMarksListAdapter = new GlobalSearchAdapter(sessions, getContext());
             bookMarksListAdapter.setOnBookmarkSelectedListener(this);
             bookmarksRecyclerView.setAdapter(bookMarksListAdapter);
+            handleVisibility();
+        });
+
+        aboutFragmentViewModel.getFeaturedSpeakers().observe(this, featuredSpeakersList -> {
+            featuredSpeakers.clear();
+            featuredSpeakers.addAll(featuredSpeakersList);
+            featuredSpeakersListAdapter.notifyDataSetChanged();
             handleVisibility();
         });
     }

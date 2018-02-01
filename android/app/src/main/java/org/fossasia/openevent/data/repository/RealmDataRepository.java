@@ -6,6 +6,8 @@ import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.common.arch.FilterableRealmLiveData;
 import org.fossasia.openevent.common.arch.LiveRealmData;
 import org.fossasia.openevent.common.arch.LiveRealmDataObject;
+import org.fossasia.openevent.common.events.BookmarkChangedEvent;
+import org.fossasia.openevent.core.auth.model.User;
 import org.fossasia.openevent.data.Event;
 import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.data.Session;
@@ -13,9 +15,7 @@ import org.fossasia.openevent.data.SessionType;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Sponsor;
 import org.fossasia.openevent.data.Track;
-import org.fossasia.openevent.core.auth.model.User;
 import org.fossasia.openevent.data.extras.EventDates;
-import org.fossasia.openevent.common.events.BookmarkChangedEvent;
 
 import java.util.HashMap;
 import java.util.List;
@@ -474,6 +474,12 @@ public class RealmDataRepository {
         return realm.where(Speaker.class)
                 .like("name", wildcardQuery, Case.INSENSITIVE)
                 .findAllSorted(sortCriteria);
+    }
+
+    public RealmResults<Speaker> getFeaturedSpeakers() {
+        return realm.where(Speaker.class)
+                .equalTo("isFeatured", true)
+                .findAllAsync();
     }
 
     // Sponsors Section
