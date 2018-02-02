@@ -1,9 +1,17 @@
 package org.fossasia.openevent.core.about;
 
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.RequestCreator;
+import com.squareup.picasso.Target;
+
+import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.common.arch.LiveRealmData;
 import org.fossasia.openevent.common.date.DateConverter;
 import org.fossasia.openevent.data.Event;
@@ -25,6 +33,7 @@ public class AboutFragmentViewModel extends ViewModel {
     private List<String> dateList;
     private LiveData<Event> eventLiveData;
     private LiveData<List<Speaker>> featuredSpeakers;
+    private MutableLiveData<Bitmap> eventLogo;
 
     public AboutFragmentViewModel() {
         realmRepo = RealmDataRepository.getDefaultInstance();
@@ -85,5 +94,30 @@ public class AboutFragmentViewModel extends ViewModel {
             featuredSpeakers = Transformations.map(featuredSpeakersLiveData, input -> input);
         }
         return featuredSpeakers;
+    }
+
+    public LiveData<Bitmap> getEventLogo(String url) {
+        if (eventLogo == null) {
+            eventLogo = new MutableLiveData<>();
+            RequestCreator requestCreator = OpenEventApp.picassoWithCache.load(url);
+            final Target target = new Target() {
+                @Override
+                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                    eventLogo.setValue(bitmap);
+                }
+
+                @Override
+                public void onBitmapFailed(Drawable errorDrawable) {
+                    //no implementation
+                }
+
+                @Override
+                public void onPrepareLoad(Drawable placeHolderDrawable) {
+                    //no implementation
+                }
+            };
+            requestCreator.into(target);
+        }
+        return eventLogo;
     }
 }
