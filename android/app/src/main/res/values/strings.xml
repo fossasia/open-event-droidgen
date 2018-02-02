@@ -331,4 +331,6 @@
     <string name="twitter_feed">Twitter Feed</string>
     <string name="featured_speakers_header">Featured Speakers</string>
 
+    <string name="permission_required">Permission required</string>
+
 </resources>
