@@ -102,6 +102,8 @@ public class AboutFragment extends BaseFragment implements OnBookmarkSelectedLis
     protected TextView featuredSpeakersHeader;
     @BindView(R.id.list_featured_speakers)
     protected RecyclerView featuresSpeakersRecyclerView;
+    @BindView(R.id.logo)
+    protected ImageView eventLogo;
 
     private Context context;
     private View root;
@@ -253,6 +255,10 @@ public class AboutFragment extends BaseFragment implements OnBookmarkSelectedLis
         socialLinks.clear();
         socialLinks.addAll(event.getSocialLinks());
         socialLinksListAdapter.notifyDataSetChanged();
+
+        aboutFragmentViewModel.getEventLogo(event.getLogoUrl()).observe(this, logoBitmap -> {
+            eventLogo.setImageBitmap(logoBitmap);
+        });
     }
 
     @TargetApi(16)
