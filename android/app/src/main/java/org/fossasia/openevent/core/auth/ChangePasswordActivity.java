@@ -1,7 +1,6 @@
 package org.fossasia.openevent.core.auth;
 
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.design.widget.TextInputLayout;
@@ -9,14 +8,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatEditText;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import org.fossasia.openevent.R;
-import org.fossasia.openevent.core.auth.model.User;
+import org.fossasia.openevent.common.ui.Views;
 import org.fossasia.openevent.common.utils.Utils;
+import org.fossasia.openevent.core.auth.model.User;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -54,16 +53,14 @@ public class ChangePasswordActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         changePasswordActivityViewModel = ViewModelProviders.of(this).get(ChangePasswordActivityViewModel.class);
-        changePasswordActivityViewModel.getUser().observe(this, user -> {
-            this.user = user;
-        });
+        changePasswordActivityViewModel.getUser().observe(this, user -> this.user = user);
 
         currentPasswordInput = (AppCompatEditText) currentPasswordWrapper.getEditText();
         newPasswordInput = (AppCompatEditText) newPasswordWrapper.getEditText();
         confirmPasswordInput = (AppCompatEditText) confirmPasswordWrapper.getEditText();
 
         changePassword.setOnClickListener(v -> {
-            hideKeyBoard();
+            Views.hideKeyboard(this, this.getCurrentFocus());
             saveChanges();
         });
     }
@@ -160,17 +157,6 @@ public class ChangePasswordActivity extends AppCompatActivity {
             progressBar.setVisibility(View.VISIBLE);
         } else {
             progressBar.setVisibility(View.GONE);
-        }
-    }
-
-    private void hideKeyBoard() {
-        View view = this.getCurrentFocus();
-        if (view != null) {
-            InputMethodManager manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            view.clearFocus();
-            if (manager != null) {
-                manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
-            }
         }
     }
 

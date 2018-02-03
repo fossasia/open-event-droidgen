@@ -21,6 +21,7 @@ import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EdgeEffect;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -200,5 +201,15 @@ public final class Views {
 
     public static int getAccentColor(final Context context) {
         return ContextCompat.getColor(context, R.color.color_accent);
+    }
+
+    public static void hideKeyboard(Context context, View view) {
+        if (view != null) {
+            InputMethodManager manager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+            view.clearFocus();
+            if (manager != null) {
+                manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
+        }
     }
 }

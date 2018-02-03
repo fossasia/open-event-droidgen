@@ -1,7 +1,6 @@
 package org.fossasia.openevent.core.auth;
 
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
@@ -14,7 +13,6 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -23,9 +21,10 @@ import android.widget.Toast;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
-import org.fossasia.openevent.core.main.MainActivity;
 import org.fossasia.openevent.common.ConstantStrings;
+import org.fossasia.openevent.common.ui.Views;
 import org.fossasia.openevent.common.utils.SharedPreferencesUtil;
+import org.fossasia.openevent.core.main.MainActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -77,7 +76,7 @@ public class SignUpActivity extends AppCompatActivity implements AppCompatEditTe
         switchToLogin.setOnClickListener(v -> onBackPressed());
 
         signUp.setOnClickListener(v -> {
-            hideKeyBoard();
+            Views.hideKeyboard(this, this.getCurrentFocus());
 
             email = emailInput.getText().toString();
             password = createPasswordInput.getText().toString();
@@ -187,22 +186,11 @@ public class SignUpActivity extends AppCompatActivity implements AppCompatEditTe
     @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
         if (actionId == EditorInfo.IME_ACTION_DONE) {
-            hideKeyBoard();
+            Views.hideKeyboard(this, this.getCurrentFocus());
             signUp.performClick();
             return true;
         }
         return false;
-    }
-
-    private void hideKeyBoard() {
-        View view = this.getCurrentFocus();
-        if (view != null) {
-            InputMethodManager manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            view.clearFocus();
-            if (manager != null) {
-                manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
-            }
-        }
     }
 
     @Override

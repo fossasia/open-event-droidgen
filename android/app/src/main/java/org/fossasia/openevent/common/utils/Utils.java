@@ -172,7 +172,7 @@ public class Utils {
         return id;
     }
 
-    public static String getSocialLinkName(String link) {
+    private static String getSocialLinkName(String link) {
 
         if (link.contains(getSocialLinkHostName(ConstantStrings.SOCIAL_LINK_GITHUB))) {
             return ConstantStrings.SOCIAL_LINK_GITHUB;

@@ -1,7 +1,6 @@
 package org.fossasia.openevent.core.auth;
 
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
@@ -14,7 +13,6 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -23,9 +21,10 @@ import android.widget.Toast;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
-import org.fossasia.openevent.core.main.MainActivity;
 import org.fossasia.openevent.common.ConstantStrings;
+import org.fossasia.openevent.common.ui.Views;
 import org.fossasia.openevent.common.utils.SharedPreferencesUtil;
+import org.fossasia.openevent.core.main.MainActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -78,7 +77,7 @@ public class LoginActivity extends AppCompatActivity implements AppCompatEditTex
         loginActivityViewModel = ViewModelProviders.of(this).get(LoginActivityViewModel.class);
 
         login.setOnClickListener(v -> {
-            hideKeyBoard();
+            Views.hideKeyboard(this, this.getCurrentFocus());
 
             progressBar.setVisibility(View.VISIBLE);
             email = emailInput.getText().toString();
@@ -161,22 +160,11 @@ public class LoginActivity extends AppCompatActivity implements AppCompatEditTex
     @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
         if (actionId == EditorInfo.IME_ACTION_DONE) {
-            hideKeyBoard();
+            Views.hideKeyboard(this, this.getCurrentFocus());
             login.performClick();
             return true;
         }
         return false;
-    }
-
-    private void hideKeyBoard() {
-        View view = this.getCurrentFocus();
-        if (view != null) {
-            InputMethodManager manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            view.clearFocus();
-            if (manager != null) {
-                manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
-            }
-        }
     }
 
     @Override
