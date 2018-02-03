@@ -12,12 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.chrisbanes.photoview.PhotoView;
-import com.squareup.leakcanary.RefWatcher;
 import com.squareup.picasso.Picasso;
 
-import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.common.ConstantStrings;
+import org.fossasia.openevent.config.StrategyRegistry;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -57,7 +56,6 @@ public class ZoomableImageDialogFragment extends DialogFragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
-        RefWatcher refWatcher = OpenEventApp.getRefWatcher(getActivity());
-        refWatcher.watch(this);
+        StrategyRegistry.getInstance().getLeakCanaryStrategy().getRefWatcher().watch(this);
     }
 }

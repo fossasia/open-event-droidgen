@@ -23,7 +23,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.common.ConstantStrings;
 import org.fossasia.openevent.common.date.DateConverter;
@@ -32,6 +31,7 @@ import org.fossasia.openevent.common.ui.base.BaseFragment;
 import org.fossasia.openevent.common.utils.SharedPreferencesUtil;
 import org.fossasia.openevent.common.utils.SortOrder;
 import org.fossasia.openevent.common.utils.Utils;
+import org.fossasia.openevent.config.StrategyRegistry;
 import org.fossasia.openevent.core.bookmark.BookmarkStatus;
 import org.fossasia.openevent.core.bookmark.OnBookmarkSelectedListener;
 import org.fossasia.openevent.data.Track;
@@ -79,7 +79,7 @@ public class ScheduleFragment extends BaseFragment implements OnBookmarkSelected
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
         filterBar.setVisibility(View.GONE);
-        OpenEventApp.getEventBus().register(true);
+        StrategyRegistry.getInstance().getEventBusStrategy().getEventBus().register(true);
         compositeDisposable = new CompositeDisposable();
         sortType = SharedPreferencesUtil.getInt(ConstantStrings.PREF_SORT_SCHEDULE, 2);
         sortOrder = SharedPreferencesUtil.getInt(ConstantStrings.PREF_SORT_ORDER, 0);
@@ -250,7 +250,7 @@ public class ScheduleFragment extends BaseFragment implements OnBookmarkSelected
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        OpenEventApp.getEventBus().unregister(this);
+        StrategyRegistry.getInstance().getEventBusStrategy().getEventBus().unregister(this);
         compositeDisposable.dispose();
         if(viewPager != null && onPageChangeListener != null)
             viewPager.removeOnPageChangeListener(onPageChangeListener);

@@ -26,6 +26,8 @@ import android.widget.EdgeEffect;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.amulyakhare.textdrawable.TextDrawable;
+
 import org.fossasia.openevent.R;
 
 import java.lang.reflect.Field;
@@ -36,8 +38,17 @@ import static android.os.Build.VERSION_CODES.LOLLIPOP;
 
 public final class Views {
 
+    private static TextDrawable.IShapeBuilder textDrawableBuilder;
+
     private Views() {
         throw new UnsupportedOperationException();
+    }
+
+    public static TextDrawable.IShapeBuilder getTextDrawableBuilder() {
+        if (textDrawableBuilder == null) {
+            textDrawableBuilder = TextDrawable.builder();
+        }
+        return textDrawableBuilder;
     }
 
     @TargetApi(JELLY_BEAN)

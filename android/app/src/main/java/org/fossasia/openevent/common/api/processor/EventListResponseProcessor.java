@@ -1,13 +1,13 @@
 package org.fossasia.openevent.common.api.processor;
 
-import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.common.api.DataDownloadManager;
-import org.fossasia.openevent.data.Event;
-import org.fossasia.openevent.data.repository.RealmDataRepository;
 import org.fossasia.openevent.common.events.CounterEvent;
 import org.fossasia.openevent.common.events.DownloadEvent;
 import org.fossasia.openevent.common.events.EventDownloadEvent;
 import org.fossasia.openevent.common.events.RetrofitResponseEvent;
+import org.fossasia.openevent.config.StrategyRegistry;
+import org.fossasia.openevent.data.Event;
+import org.fossasia.openevent.data.repository.RealmDataRepository;
 
 import timber.log.Timber;
 
@@ -17,8 +17,8 @@ public class EventListResponseProcessor extends ResponseProcessor<Event> {
 
     private void save(Event event) {
         realmRepo.saveEvent(event).subscribe(() ->
-                OpenEventApp.postEventOnUIThread(new EventDownloadEvent(true)),
-                Timber::e);
+                        StrategyRegistry.getInstance().getEventBusStrategy().postEventOnUIThread(new EventDownloadEvent(true)),
+                        Timber::e);
     }
 
     @Override
@@ -26,7 +26,7 @@ public class EventListResponseProcessor extends ResponseProcessor<Event> {
         int counterRequests = 7;
 
         final DataDownloadManager download = DataDownloadManager.getInstance();
-        OpenEventApp.postEventOnUIThread(new CounterEvent(counterRequests));
+        StrategyRegistry.getInstance().getEventBusStrategy().postEventOnUIThread(new CounterEvent(counterRequests));
 
         save(event);
 

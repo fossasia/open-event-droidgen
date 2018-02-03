@@ -19,13 +19,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
-import org.fossasia.openevent.data.Event;
-import org.fossasia.openevent.data.repository.RealmDataRepository;
 import org.fossasia.openevent.common.date.DateConverter;
 import org.fossasia.openevent.common.utils.SharedPreferencesUtil;
 import org.fossasia.openevent.common.utils.Utils;
+import org.fossasia.openevent.config.StrategyRegistry;
+import org.fossasia.openevent.data.Event;
+import org.fossasia.openevent.data.repository.RealmDataRepository;
 import org.threeten.bp.format.DateTimeParseException;
 
 import timber.log.Timber;
@@ -60,7 +60,7 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
 
         prefNotification = findPreference(NOTIFICATION_PREF_MODE);
         languagePreference=findPreference(LANGUAGE_PREF_MODE);
-        languagePreference.setSummary(OpenEventApp.defaultSystemLanguage);
+        languagePreference.setSummary(StrategyRegistry.getInstance().getLanguageStrategy().getDefaultSystemLanguage());
     }
 
     @Override
@@ -128,7 +128,7 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
 
 
         prefNotification.setSummary(SharedPreferencesUtil.getString(getString(R.string.notification_key), ""));
-        languagePreference.setSummary(OpenEventApp.defaultSystemLanguage);
+        languagePreference.setSummary(StrategyRegistry.getInstance().getLanguageStrategy().getDefaultSystemLanguage());
     }
 
     @Override

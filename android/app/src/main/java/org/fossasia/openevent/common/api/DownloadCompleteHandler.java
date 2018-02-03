@@ -6,7 +6,6 @@ import android.support.annotation.StringRes;
 
 import com.squareup.otto.Subscribe;
 
-import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.common.events.CounterEvent;
 import org.fossasia.openevent.common.events.DownloadEvent;
@@ -17,6 +16,7 @@ import org.fossasia.openevent.common.events.SessionTypesDownloadEvent;
 import org.fossasia.openevent.common.events.SpeakerDownloadEvent;
 import org.fossasia.openevent.common.events.SponsorDownloadEvent;
 import org.fossasia.openevent.common.events.TracksDownloadEvent;
+import org.fossasia.openevent.config.StrategyRegistry;
 
 import io.reactivex.subjects.CompletableSubject;
 import timber.log.Timber;
@@ -161,11 +161,11 @@ public class DownloadCompleteHandler {
     private class EventHandler {
 
         EventHandler() {
-            OpenEventApp.getEventBus().register(this);
+            StrategyRegistry.getInstance().getEventBusStrategy().getEventBus().register(this);
         }
 
         private void unregister() {
-            OpenEventApp.getEventBus().unregister(this);
+            StrategyRegistry.getInstance().getEventBusStrategy().getEventBus().unregister(this);
         }
 
         @Subscribe

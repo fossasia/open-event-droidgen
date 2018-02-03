@@ -36,7 +36,6 @@ import android.widget.Toast;
 
 import com.squareup.otto.Subscribe;
 
-import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.common.ConstantStrings;
 import org.fossasia.openevent.common.date.DateConverter;
@@ -46,6 +45,7 @@ import org.fossasia.openevent.common.ui.SnackbarUtil;
 import org.fossasia.openevent.common.ui.Views;
 import org.fossasia.openevent.common.ui.base.BaseFragment;
 import org.fossasia.openevent.common.utils.Utils;
+import org.fossasia.openevent.config.StrategyRegistry;
 import org.fossasia.openevent.core.bookmark.BookmarkStatus;
 import org.fossasia.openevent.core.bookmark.OnBookmarkSelectedListener;
 import org.fossasia.openevent.core.main.MainActivity;
@@ -142,8 +142,7 @@ public class AboutFragment extends BaseFragment implements OnBookmarkSelectedLis
                 bundle.putString(ConstantStrings.LOCATION_NAME, event.getLocationName());
 
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                Context context = getActivity();
-                Fragment mapFragment = ((OpenEventApp) context.getApplicationContext())
+                Fragment mapFragment = StrategyRegistry.getInstance().getMapModuleStrategy()
                         .getMapModuleFactory()
                         .provideMapModule()
                         .provideMapFragment();
@@ -442,13 +441,13 @@ public class AboutFragment extends BaseFragment implements OnBookmarkSelectedLis
     @Override
     public void onStart() {
         super.onStart();
-        OpenEventApp.getEventBus().register(this);
+        StrategyRegistry.getInstance().getEventBusStrategy().getEventBus().register(this);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        OpenEventApp.getEventBus().unregister(this);
+        StrategyRegistry.getInstance().getEventBusStrategy().getEventBus().unregister(this);
         if (event != null && event.isValid())
             event.removeAllChangeListeners();
     }

@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
 
-import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.common.api.DataDownloadManager;
 import org.fossasia.openevent.common.events.SponsorDownloadEvent;
@@ -26,6 +25,7 @@ import org.fossasia.openevent.common.ui.Views;
 import org.fossasia.openevent.common.ui.base.BaseFragment;
 import org.fossasia.openevent.common.ui.recyclerview.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 import org.fossasia.openevent.common.utils.Utils;
+import org.fossasia.openevent.config.StrategyRegistry;
 import org.fossasia.openevent.data.Sponsor;
 
 import java.lang.ref.WeakReference;
@@ -141,7 +141,10 @@ public class SponsorsFragment extends BaseFragment {
 
             @Override
             public void networkUnavailable() {
-                OpenEventApp.getEventBus().post(new SponsorDownloadEvent(true));
+                StrategyRegistry.getInstance()
+                        .getEventBusStrategy()
+                        .getEventBus()
+                        .post(new SponsorDownloadEvent(true));
             }
         });
     }

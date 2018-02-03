@@ -37,23 +37,23 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
+import org.fossasia.openevent.common.ConstantStrings;
+import org.fossasia.openevent.common.date.DateConverter;
+import org.fossasia.openevent.common.notification.NotificationUtil;
+import org.fossasia.openevent.common.ui.SnackbarUtil;
+import org.fossasia.openevent.common.ui.Views;
+import org.fossasia.openevent.common.ui.WidgetUpdater;
 import org.fossasia.openevent.common.ui.base.BaseActivity;
+import org.fossasia.openevent.common.utils.SharedPreferencesUtil;
+import org.fossasia.openevent.common.utils.Utils;
+import org.fossasia.openevent.config.StrategyRegistry;
+import org.fossasia.openevent.core.bookmark.BookmarkStatus;
+import org.fossasia.openevent.core.bookmark.OnBookmarkSelectedListener;
 import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Track;
-import org.fossasia.openevent.core.bookmark.BookmarkStatus;
-import org.fossasia.openevent.core.bookmark.OnBookmarkSelectedListener;
-import org.fossasia.openevent.common.ConstantStrings;
-import org.fossasia.openevent.common.date.DateConverter;
-import org.fossasia.openevent.common.notification.NotificationUtil;
-import org.fossasia.openevent.common.utils.SharedPreferencesUtil;
-import org.fossasia.openevent.common.ui.SnackbarUtil;
-import org.fossasia.openevent.common.utils.Utils;
-import org.fossasia.openevent.common.ui.Views;
-import org.fossasia.openevent.common.ui.WidgetUpdater;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -348,7 +348,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
 
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                Fragment mapFragment = ((OpenEventApp)getApplication())
+                Fragment mapFragment = StrategyRegistry.getInstance().getMapModuleStrategy()
                         .getMapModuleFactory()
                         .provideMapModule()
                         .provideMapFragment();

@@ -6,8 +6,8 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.common.events.ConnectionCheckEvent;
+import org.fossasia.openevent.config.StrategyRegistry;
 
 import timber.log.Timber;
 
@@ -30,7 +30,7 @@ public class NetworkConnectivityChangeReceiver extends BroadcastReceiver {
             event.isConnected = false;
         }
         Timber.i("Network connected %s", event.isConnected);
-        OpenEventApp.postEventOnUIThread(event);
+        StrategyRegistry.getInstance().getEventBusStrategy().postEventOnUIThread(event);
     }
 
     private boolean isNetworkAvailable(Context context) {

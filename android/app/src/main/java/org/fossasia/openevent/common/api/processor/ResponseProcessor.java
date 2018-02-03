@@ -1,8 +1,8 @@
 package org.fossasia.openevent.common.api.processor;
 
-import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.common.events.DownloadEvent;
 import org.fossasia.openevent.common.events.RetrofitError;
+import org.fossasia.openevent.config.StrategyRegistry;
 
 import io.reactivex.Completable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -17,7 +17,7 @@ abstract class ResponseProcessor<T> implements Callback<T> {
     @Override
     public void onResponse(Call<T> call, Response<T> response) {
         if(!response.isSuccessful()) {
-            OpenEventApp.postEventOnUIThread(getErrorResponseEvent(response.code()));
+            StrategyRegistry.getInstance().getEventBusStrategy().postEventOnUIThread(getErrorResponseEvent(response.code()));
         } else {
             onSuccess(response.body());
         }
@@ -26,11 +26,11 @@ abstract class ResponseProcessor<T> implements Callback<T> {
     @Override
     public void onFailure(Call<T> call, Throwable throwable) {
         Timber.e(throwable);
-        OpenEventApp.postEventOnUIThread(new RetrofitError(throwable));
+        StrategyRegistry.getInstance().getEventBusStrategy().postEventOnUIThread(new RetrofitError(throwable));
 
         DownloadEvent downloadEvent = getDownloadEvent(false);
         if (downloadEvent != null)
-            OpenEventApp.getEventBus().post(downloadEvent);
+            StrategyRegistry.getInstance().getEventBusStrategy().getEventBus().post(downloadEvent);
     }
 
     protected void complete(Completable completable) {
@@ -40,7 +40,7 @@ abstract class ResponseProcessor<T> implements Callback<T> {
 
         completable.subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(() -> OpenEventApp.postEventOnUIThread(downloadEvent), Timber::e);
+                .subscribe(() -> StrategyRegistry.getInstance().getEventBusStrategy().postEventOnUIThread(downloadEvent), Timber::e);
     }
 
     protected abstract void onSuccess(T result);

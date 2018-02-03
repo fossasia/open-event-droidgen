@@ -22,11 +22,12 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
 import com.squareup.picasso.Target;
 
-import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
-import org.fossasia.openevent.data.Speaker;
+import org.fossasia.openevent.common.ui.Views;
 import org.fossasia.openevent.common.ui.image.CircleTransform;
 import org.fossasia.openevent.common.utils.Utils;
+import org.fossasia.openevent.config.StrategyRegistry;
+import org.fossasia.openevent.data.Speaker;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -99,16 +100,18 @@ public class SpeakerViewHolder extends RecyclerView.ViewHolder {
             }
         };
 
-        RequestCreator requestCreator = OpenEventApp.picassoWithCache
+        RequestCreator requestCreator = StrategyRegistry.getInstance()
+                .getHttpStrategy()
+                .getPicassoWithCache()
                 .load(thumbnail);
 
         TextDrawable drawable;
         if (isImageCircle) {
             requestCreator.transform(new CircleTransform());
-            drawable = OpenEventApp.getTextDrawableBuilder().round().build(Utils.getNameLetters(name),
+            drawable = Views.getTextDrawableBuilder().round().build(Utils.getNameLetters(name),
                     ColorGenerator.MATERIAL.getColor(name));
         } else {
-            drawable = OpenEventApp.getTextDrawableBuilder().buildRect(Utils.getNameLetters(name),
+            drawable = Views.getTextDrawableBuilder().buildRect(Utils.getNameLetters(name),
                     ColorGenerator.MATERIAL.getColor(name));
         }
 

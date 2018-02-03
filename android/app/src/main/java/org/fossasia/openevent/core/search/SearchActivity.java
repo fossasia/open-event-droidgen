@@ -17,10 +17,10 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.common.ui.SnackbarUtil;
 import org.fossasia.openevent.common.ui.base.BaseActivity;
+import org.fossasia.openevent.config.StrategyRegistry;
 import org.fossasia.openevent.core.bookmark.BookmarkStatus;
 import org.fossasia.openevent.core.bookmark.OnBookmarkSelectedListener;
 
@@ -51,7 +51,7 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        OpenEventApp.getEventBus().register(this);
+        StrategyRegistry.getInstance().getEventBusStrategy().getEventBus().register(this);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
@@ -136,7 +136,7 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
     @Override
     public void onDestroy() {
         super.onDestroy();
-        OpenEventApp.getEventBus().unregister(this);
+        StrategyRegistry.getInstance().getEventBusStrategy().getEventBus().unregister(this);
         //Set listener to null to avoid memory leaks
         if (searchView != null) searchView.setOnQueryTextListener(null);
         globalSearchAdapter.clearOnBookmarkSelectedListener();

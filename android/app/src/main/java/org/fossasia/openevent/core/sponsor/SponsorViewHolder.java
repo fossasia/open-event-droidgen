@@ -11,10 +11,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
-import org.fossasia.openevent.data.Sponsor;
 import org.fossasia.openevent.common.utils.Utils;
+import org.fossasia.openevent.config.StrategyRegistry;
+import org.fossasia.openevent.data.Sponsor;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -63,7 +63,9 @@ public class SponsorViewHolder extends RecyclerView.ViewHolder {
         sponsorName.setText(name);
         if (logo != null) {
             sponsorImage.setVisibility(View.VISIBLE);
-            OpenEventApp.picassoWithCache
+            StrategyRegistry.getInstance()
+                    .getHttpStrategy()
+                    .getPicassoWithCache()
                     .load(Uri.parse(logo))
                     .resize(width, (height / 6))
                     .centerInside()

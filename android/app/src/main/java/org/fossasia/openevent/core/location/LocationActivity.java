@@ -1,7 +1,6 @@
 package org.fossasia.openevent.core.location;
 
 import android.app.Dialog;
-
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -27,17 +26,17 @@ import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 
-import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
-import org.fossasia.openevent.common.ui.base.BaseActivity;
-import org.fossasia.openevent.core.track.session.SessionsListAdapter;
-import org.fossasia.openevent.data.Session;
-import org.fossasia.openevent.core.bookmark.BookmarkStatus;
-import org.fossasia.openevent.core.bookmark.OnBookmarkSelectedListener;
 import org.fossasia.openevent.common.ConstantStrings;
 import org.fossasia.openevent.common.date.DateConverter;
 import org.fossasia.openevent.common.ui.SnackbarUtil;
+import org.fossasia.openevent.common.ui.base.BaseActivity;
 import org.fossasia.openevent.common.utils.Utils;
+import org.fossasia.openevent.config.StrategyRegistry;
+import org.fossasia.openevent.core.bookmark.BookmarkStatus;
+import org.fossasia.openevent.core.bookmark.OnBookmarkSelectedListener;
+import org.fossasia.openevent.core.track.session.SessionsListAdapter;
+import org.fossasia.openevent.data.Session;
 import org.threeten.bp.ZonedDateTime;
 
 import java.util.ArrayList;
@@ -233,7 +232,7 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
                 bundle.putBoolean(ConstantStrings.IS_MAP_FRAGMENT_FROM_MAIN_ACTIVITY, false);
                 bundle.putString(ConstantStrings.LOCATION_NAME, location);
 
-                Fragment mapFragment = ((OpenEventApp) getApplication())
+                Fragment mapFragment = StrategyRegistry.getInstance().getMapModuleStrategy()
                         .getMapModuleFactory()
                         .provideMapModule()
                         .provideMapFragment();

@@ -21,13 +21,13 @@ import android.widget.Toast;
 
 import com.yalantis.ucrop.UCrop;
 
-import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.common.ConstantStrings;
 import org.fossasia.openevent.common.ui.Views;
 import org.fossasia.openevent.common.ui.image.CircleTransform;
 import org.fossasia.openevent.common.utils.SharedPreferencesUtil;
 import org.fossasia.openevent.common.utils.Utils;
+import org.fossasia.openevent.config.StrategyRegistry;
 import org.fossasia.openevent.core.auth.AuthUtil;
 import org.fossasia.openevent.core.auth.model.User;
 
@@ -206,7 +206,7 @@ public class EditProfileActivity extends AppCompatActivity {
             Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
             encodedImage = encodeImage(selectedImage);
 
-            OpenEventApp.picassoWithCache
+            StrategyRegistry.getInstance().getHttpStrategy().getPicassoWithCache()
                     .load(resultUri)
                     .transform(new CircleTransform())
                     .into(avatar);
@@ -246,7 +246,7 @@ public class EditProfileActivity extends AppCompatActivity {
             lastNameInput.setText(lastName.trim());
 
         if (avatarUrl != null) {
-            OpenEventApp.picassoWithCache.load(avatarUrl)
+            StrategyRegistry.getInstance().getHttpStrategy().getPicassoWithCache().load(avatarUrl)
                     .transform(new CircleTransform())
                     .into(avatar);
         }

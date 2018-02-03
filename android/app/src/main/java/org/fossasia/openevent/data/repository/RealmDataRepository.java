@@ -2,11 +2,11 @@ package org.fossasia.openevent.data.repository;
 
 import android.text.TextUtils;
 
-import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.common.arch.FilterableRealmLiveData;
 import org.fossasia.openevent.common.arch.LiveRealmData;
 import org.fossasia.openevent.common.arch.LiveRealmDataObject;
 import org.fossasia.openevent.common.events.BookmarkChangedEvent;
+import org.fossasia.openevent.config.StrategyRegistry;
 import org.fossasia.openevent.core.auth.model.User;
 import org.fossasia.openevent.data.Event;
 import org.fossasia.openevent.data.Microlocation;
@@ -346,7 +346,9 @@ public class RealmDataRepository {
                     .findFirst()
                     .setIsBookmarked(bookmark);
 
-            OpenEventApp.postEventOnUIThread(new BookmarkChangedEvent());
+            StrategyRegistry.getInstance()
+                    .getEventBusStrategy()
+                    .postEventOnUIThread(new BookmarkChangedEvent());
             realm1.commitTransaction();
 
             realm1.close();

@@ -29,19 +29,19 @@ import android.widget.TextView;
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.squareup.otto.Subscribe;
 
-import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
-import org.fossasia.openevent.common.ui.base.BaseActivity;
-import org.fossasia.openevent.data.Session;
-import org.fossasia.openevent.data.Track;
-import org.fossasia.openevent.common.events.BookmarkChangedEvent;
-import org.fossasia.openevent.core.bookmark.BookmarkStatus;
-import org.fossasia.openevent.core.bookmark.OnBookmarkSelectedListener;
 import org.fossasia.openevent.common.ConstantStrings;
 import org.fossasia.openevent.common.date.DateConverter;
+import org.fossasia.openevent.common.events.BookmarkChangedEvent;
 import org.fossasia.openevent.common.ui.SnackbarUtil;
-import org.fossasia.openevent.common.utils.Utils;
 import org.fossasia.openevent.common.ui.Views;
+import org.fossasia.openevent.common.ui.base.BaseActivity;
+import org.fossasia.openevent.common.utils.Utils;
+import org.fossasia.openevent.config.StrategyRegistry;
+import org.fossasia.openevent.core.bookmark.BookmarkStatus;
+import org.fossasia.openevent.core.bookmark.OnBookmarkSelectedListener;
+import org.fossasia.openevent.data.Session;
+import org.fossasia.openevent.data.Track;
 import org.threeten.bp.ZonedDateTime;
 
 import java.util.ArrayList;
@@ -262,13 +262,13 @@ public class TrackSessionsActivity extends BaseActivity implements SearchView.On
     @Override
     public void onStart() {
         super.onStart();
-        OpenEventApp.getEventBus().register(this);
+        StrategyRegistry.getInstance().getEventBusStrategy().getEventBus().register(this);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        OpenEventApp.getEventBus().unregister(this);
+        StrategyRegistry.getInstance().getEventBusStrategy().getEventBus().unregister(this);
         if (track != null) track.removeAllChangeListeners();
     }
 

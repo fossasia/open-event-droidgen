@@ -1,6 +1,7 @@
 package org.fossasia.openevent.common.api;
 
 import com.facebook.stetho.okhttp3.StethoInterceptor;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.jasminb.jsonapi.retrofit.JSONAPIConverterFactory;
 
@@ -40,6 +41,7 @@ public final class APIClient {
 
     private static OpenEventAPI openEventAPI;
 
+    private static ObjectMapper objectMapper;
     private static OkHttpClient.Builder okHttpClientBuilder;
     private static Retrofit.Builder retrofitBuilder;
 
@@ -52,7 +54,15 @@ public final class APIClient {
             okHttpClientBuilder.addNetworkInterceptor(new StethoInterceptor());
 
         retrofitBuilder = new Retrofit.Builder()
-                .addConverterFactory(JacksonConverterFactory.create(OpenEventApp.getObjectMapper()));
+                .addConverterFactory(JacksonConverterFactory.create(getObjectMapper()));
+    }
+
+    public static ObjectMapper getObjectMapper(){
+        if (objectMapper == null){
+            objectMapper = new ObjectMapper();
+            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        }
+        return objectMapper;
     }
 
     public static OkHttpClient getClient() {
@@ -76,14 +86,14 @@ public final class APIClient {
                     .authenticator(AuthUtil.getAuthenticator())
                     .build();
 
-            ObjectMapper objectMapper = OpenEventApp.getObjectMapper();
+            ObjectMapper objectMapper = getObjectMapper();
             Class[] classes = {Event.class, Track.class, Speaker.class, Sponsor.class, Session.class, Microlocation.class, User.class};
 
             openEventAPI = new Retrofit.Builder()
                     .client(okHttpClient)
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .addConverterFactory(new JSONAPIConverterFactory(objectMapper, classes))
-                    .addConverterFactory(JacksonConverterFactory.create(OpenEventApp.getObjectMapper()))
+                    .addConverterFactory(JacksonConverterFactory.create(getObjectMapper()))
                     .baseUrl(Urls.BASE_URL)
                     .build()
                     .create(OpenEventAPI.class);
