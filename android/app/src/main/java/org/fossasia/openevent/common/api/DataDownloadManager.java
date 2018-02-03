@@ -6,6 +6,7 @@ import org.fossasia.openevent.common.api.processor.SessionListResponseProcessor;
 import org.fossasia.openevent.common.api.processor.SessionTypeListResponseProcessor;
 import org.fossasia.openevent.common.api.processor.SpeakerListResponseProcessor;
 import org.fossasia.openevent.common.api.processor.SponsorListResponseProcessor;
+import org.fossasia.openevent.common.api.processor.TicketResponseProcessor;
 import org.fossasia.openevent.common.api.processor.TrackListResponseProcessor;
 
 /**
@@ -50,5 +51,9 @@ public final class DataDownloadManager {
 
     public void downloadSessionTypes() {
         APIClient.getOpenEventAPI().getSessionTypes().enqueue(new SessionTypeListResponseProcessor());
+    }
+
+    public void donwloadTicket() {
+        APIClient.getOpenEventAPI().getTickets().enqueue(new TicketResponseProcessor());
     }
 }

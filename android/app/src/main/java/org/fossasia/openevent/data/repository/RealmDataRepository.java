@@ -14,6 +14,7 @@ import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.SessionType;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Sponsor;
+import org.fossasia.openevent.data.Ticket;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.data.extras.EventDates;
 
@@ -500,6 +501,27 @@ public class RealmDataRepository {
     public RealmResults<Sponsor> getSponsors() {
         return realm.where(Sponsor.class).findAllSortedAsync("level", Sort.DESCENDING, "name", Sort.ASCENDING);
     }
+
+    // Tickets Section
+
+    private void saveTicketsInRealm(List<Ticket> tickets) {
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(realm1 -> realm1.insertOrUpdate(tickets));
+        realm.close();
+    }
+
+    public Completable saveTickets(final List<Ticket> tickets) {
+        return Completable.fromAction(() -> {
+            saveTicketsInRealm(tickets);
+            Timber.d("Saved Tickets");
+        });
+    }
+
+    public RealmResults<Ticket> getTickets() {
+       // return realm.where(Ticket.class).findAllSortedAsync("level", Sort.DESCENDING, "name", Sort.ASCENDING);
+        return realm.where(Ticket.class).findAllSortedAsync("name");
+    }
+
 
     // Location Section
 
