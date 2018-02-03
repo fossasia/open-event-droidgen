@@ -50,6 +50,11 @@ export ANDROID_HOME="/opt/android-sdk-linux"
 export PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
 ```
 
+#### Installing Redis Server
+
+You can follow the [Redis Installation Guide](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-redis) to install and activate Redis Server on your machine.
+
+
  ### 2. OSX:
 
 
