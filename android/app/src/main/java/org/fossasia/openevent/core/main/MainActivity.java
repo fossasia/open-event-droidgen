@@ -38,25 +38,13 @@ import android.widget.ImageView;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.squareup.otto.Subscribe;
 
-import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
-import org.fossasia.openevent.common.ui.base.BaseActivity;
-import org.fossasia.openevent.core.feed.facebook.api.FacebookApi;
-import org.fossasia.openevent.core.settings.SettingsActivity;
-import org.fossasia.openevent.core.auth.profile.UserProfileActivity;
-import org.fossasia.openevent.core.feed.facebook.FeedAdapter;
+import org.fossasia.openevent.common.ConstantStrings;
+import org.fossasia.openevent.common.api.APIClient;
 import org.fossasia.openevent.common.api.DataDownloadManager;
+import org.fossasia.openevent.common.api.DownloadCompleteHandler;
 import org.fossasia.openevent.common.api.Urls;
-import org.fossasia.openevent.data.Event;
-import org.fossasia.openevent.data.Microlocation;
-import org.fossasia.openevent.data.Session;
-import org.fossasia.openevent.data.SessionType;
-import org.fossasia.openevent.data.Speaker;
-import org.fossasia.openevent.data.Sponsor;
-import org.fossasia.openevent.data.Track;
-import org.fossasia.openevent.data.extras.SocialLink;
-import org.fossasia.openevent.core.feed.facebook.api.CommentItem;
-import org.fossasia.openevent.data.repository.RealmDataRepository;
+import org.fossasia.openevent.common.date.DateConverter;
 import org.fossasia.openevent.common.events.CounterEvent;
 import org.fossasia.openevent.common.events.DataDownloadEvent;
 import org.fossasia.openevent.common.events.DownloadEvent;
@@ -73,27 +61,40 @@ import org.fossasia.openevent.common.events.ShowNetworkDialogEvent;
 import org.fossasia.openevent.common.events.SpeakerDownloadEvent;
 import org.fossasia.openevent.common.events.SponsorDownloadEvent;
 import org.fossasia.openevent.common.events.TracksDownloadEvent;
+import org.fossasia.openevent.common.network.NetworkUtils;
+import org.fossasia.openevent.common.ui.DialogFactory;
+import org.fossasia.openevent.common.ui.SmoothActionBarDrawerToggle;
+import org.fossasia.openevent.common.ui.base.BaseActivity;
+import org.fossasia.openevent.common.ui.image.OnImageZoomListener;
+import org.fossasia.openevent.common.ui.image.ZoomableImageUtil;
+import org.fossasia.openevent.common.utils.CommonTaskLoop;
+import org.fossasia.openevent.common.utils.SharedPreferencesUtil;
+import org.fossasia.openevent.common.utils.Utils;
+import org.fossasia.openevent.config.StrategyRegistry;
 import org.fossasia.openevent.core.about.AboutFragment;
+import org.fossasia.openevent.core.auth.AuthUtil;
+import org.fossasia.openevent.core.auth.profile.UserProfileActivity;
 import org.fossasia.openevent.core.feed.facebook.CommentsDialogFragment;
+import org.fossasia.openevent.core.feed.facebook.FeedAdapter;
 import org.fossasia.openevent.core.feed.facebook.FeedFragment;
+import org.fossasia.openevent.core.feed.facebook.api.CommentItem;
+import org.fossasia.openevent.core.feed.facebook.api.FacebookApi;
+import org.fossasia.openevent.core.feed.twitter.TwitterFeedFragment;
 import org.fossasia.openevent.core.location.LocationsFragment;
 import org.fossasia.openevent.core.schedule.ScheduleFragment;
+import org.fossasia.openevent.core.settings.SettingsActivity;
 import org.fossasia.openevent.core.speaker.SpeakersListFragment;
 import org.fossasia.openevent.core.sponsor.SponsorsFragment;
 import org.fossasia.openevent.core.track.TracksFragment;
-import org.fossasia.openevent.core.feed.twitter.TwitterFeedFragment;
-import org.fossasia.openevent.common.ui.image.OnImageZoomListener;
-import org.fossasia.openevent.core.auth.AuthUtil;
-import org.fossasia.openevent.common.utils.CommonTaskLoop;
-import org.fossasia.openevent.common.ConstantStrings;
-import org.fossasia.openevent.common.date.DateConverter;
-import org.fossasia.openevent.common.api.DownloadCompleteHandler;
-import org.fossasia.openevent.common.network.NetworkUtils;
-import org.fossasia.openevent.common.utils.SharedPreferencesUtil;
-import org.fossasia.openevent.common.ui.SmoothActionBarDrawerToggle;
-import org.fossasia.openevent.common.utils.Utils;
-import org.fossasia.openevent.common.ui.image.ZoomableImageUtil;
-import org.fossasia.openevent.common.ui.DialogFactory;
+import org.fossasia.openevent.data.Event;
+import org.fossasia.openevent.data.Microlocation;
+import org.fossasia.openevent.data.Session;
+import org.fossasia.openevent.data.SessionType;
+import org.fossasia.openevent.data.Speaker;
+import org.fossasia.openevent.data.Sponsor;
+import org.fossasia.openevent.data.Track;
+import org.fossasia.openevent.data.extras.SocialLink;
+import org.fossasia.openevent.data.repository.RealmDataRepository;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -174,7 +175,6 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         context = this;
-        ((OpenEventApp) getApplicationContext()).attachMainActivity(this);
         ButterKnife.setDebug(true);
         fragmentManager = getSupportFragmentManager();
         setTheme(R.style.AppTheme_NoActionBar_MainTheme);
@@ -252,13 +252,13 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
     @Override
     protected void onPause() {
         super.onPause();
-        OpenEventApp.getEventBus().unregister(this);
+        StrategyRegistry.getInstance().getEventBusStrategy().getEventBus().unregister(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        OpenEventApp.getEventBus().register(this);
+        StrategyRegistry.getInstance().getEventBusStrategy().getEventBus().register(this);
         setUserProfileMenuItem();
     }
 
@@ -330,9 +330,9 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
     private void setNavHeader(Event event) {
         String logo = event.getLogoUrl();
         if (!Utils.isEmpty(logo)) {
-            OpenEventApp.picassoWithCache.load(logo).into(headerView);
+            StrategyRegistry.getInstance().getHttpStrategy().getPicassoWithCache().load(logo).into(headerView);
         } else {
-            OpenEventApp.picassoWithCache.load(R.mipmap.ic_launcher).into(headerView);
+            StrategyRegistry.getInstance().getHttpStrategy().getPicassoWithCache().load(R.mipmap.ic_launcher).into(headerView);
         }
     }
 
@@ -346,7 +346,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
             Timber.e(throwable);
             Timber.e("Error start parsing start date: %s and end date: %s in ISO format",
                     startTime, endTime);
-            OpenEventApp.postEventOnUIThread(new RetrofitError(new Throwable("Error parsing dates")));
+            StrategyRegistry.getInstance().getEventBusStrategy().postEventOnUIThread(new RetrofitError(new Throwable("Error parsing dates")));
         }));
     }
 
@@ -364,7 +364,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
         Timber.d(successMessage);
 
         setupEvent();
-        OpenEventApp.postEventOnUIThread(new EventLoadedEvent(event));
+        StrategyRegistry.getInstance().getEventBusStrategy().postEventOnUIThread(new EventLoadedEvent(event));
         saveEventDates(event);
 
         storeFeedDetails();
@@ -379,7 +379,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(isConnected -> {
                         if (isConnected) {
-                            OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
+                            StrategyRegistry.getInstance().getEventBusStrategy().postEventOnUIThread(new DataDownloadEvent());
                         } else {
                             final Snackbar snackbar = Snackbar.make(mainFrame, R.string.internet_preference_warning, Snackbar.LENGTH_INDEFINITE);
                             snackbar.setAction(R.string.yes, view -> downloadFromAssets());
@@ -387,7 +387,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
                         }
                     }));
         } else {
-            OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
+            StrategyRegistry.getInstance().getEventBusStrategy().postEventOnUIThread(new DataDownloadEvent());
         }
     }
 
@@ -457,9 +457,9 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
     private void downloadFailed(final DownloadEvent event) {
         Snackbar.make(mainFrame, getString(R.string.download_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, view -> {
             if (event == null)
-                OpenEventApp.postEventOnUIThread(new DataDownloadEvent());
+                StrategyRegistry.getInstance().getEventBusStrategy().postEventOnUIThread(new DataDownloadEvent());
             else
-                OpenEventApp.postEventOnUIThread(event);
+                StrategyRegistry.getInstance().getEventBusStrategy().postEventOnUIThread(event);
         }).show();
         SharedPreferencesUtil.putBoolean(ConstantStrings.IS_DOWNLOAD_DONE, false);
 
@@ -548,7 +548,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
             case R.id.nav_map:
                 Bundle bundle = new Bundle();
                 bundle.putBoolean(ConstantStrings.IS_MAP_FRAGMENT_FROM_MAIN_ACTIVITY, true);
-                Fragment mapFragment = ((OpenEventApp)getApplication())
+                Fragment mapFragment = StrategyRegistry.getInstance().getMapModuleStrategy()
                         .getMapModuleFactory()
                         .provideMapModule()
                         .provideMapFragment();
@@ -618,7 +618,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
                         downloadFailed(((DownloadCompleteHandler.DataEventError) throwable)
                                 .getDataDownloadEvent());
                     } else {
-                        OpenEventApp.postEventOnUIThread(new RetrofitError(throwable));
+                        StrategyRegistry.getInstance().getEventBusStrategy().postEventOnUIThread(new RetrofitError(throwable));
                     }
                 }));
     }
@@ -715,7 +715,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
         final String json = jsonReadEvent.getJson();
 
         disposable.add(Completable.fromAction(() -> {
-            ObjectMapper objectMapper = OpenEventApp.getObjectMapper();
+            ObjectMapper objectMapper = APIClient.getObjectMapper();
 
             // Need separate instance for background thread
             Realm realm = Realm.getDefaultInstance();
@@ -732,14 +732,14 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
 
                     realmDataRepository.saveEvent(event).subscribe();
 
-                    OpenEventApp.postEventOnUIThread(new EventDownloadEvent(true));
+                    StrategyRegistry.getInstance().getEventBusStrategy().postEventOnUIThread(new EventDownloadEvent(true));
                     break;
                 } case ConstantStrings.TRACKS: {
                     List<Track> tracks = objectMapper.readValue(json, objectMapper.getTypeFactory().constructCollectionType(List.class, Track.class));
 
                     realmDataRepository.saveTracks(tracks).subscribe();
 
-                    OpenEventApp.postEventOnUIThread(new TracksDownloadEvent(true));
+                    StrategyRegistry.getInstance().getEventBusStrategy().postEventOnUIThread(new TracksDownloadEvent(true));
                     break;
                 } case ConstantStrings.SESSIONS: {
                     List<Session> sessions = objectMapper.readValue(json, objectMapper.getTypeFactory().constructCollectionType(List.class, Session.class));
@@ -750,35 +750,35 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
 
                     realmDataRepository.saveSessions(sessions).subscribe();
 
-                    OpenEventApp.postEventOnUIThread(new SessionDownloadEvent(true));
+                    StrategyRegistry.getInstance().getEventBusStrategy().postEventOnUIThread(new SessionDownloadEvent(true));
                     break;
                 } case ConstantStrings.SPEAKERS: {
                     List<Speaker> speakers = objectMapper.readValue(json, objectMapper.getTypeFactory().constructCollectionType(List.class, Speaker.class));
 
                     realmRepo.saveSpeakers(speakers).subscribe();
 
-                    OpenEventApp.postEventOnUIThread(new SpeakerDownloadEvent(true));
+                    StrategyRegistry.getInstance().getEventBusStrategy().postEventOnUIThread(new SpeakerDownloadEvent(true));
                     break;
                 } case ConstantStrings.SPONSORS: {
                     List<Sponsor> sponsors = objectMapper.readValue(json, objectMapper.getTypeFactory().constructCollectionType(List.class, Sponsor.class));
 
                     realmRepo.saveSponsors(sponsors).subscribe();
 
-                    OpenEventApp.postEventOnUIThread(new SponsorDownloadEvent(true));
+                    StrategyRegistry.getInstance().getEventBusStrategy().postEventOnUIThread(new SponsorDownloadEvent(true));
                     break;
                 } case ConstantStrings.MICROLOCATIONS: {
                     List<Microlocation> microlocations = objectMapper.readValue(json, objectMapper.getTypeFactory().constructCollectionType(List.class, Microlocation.class));
 
                     realmRepo.saveLocations(microlocations).subscribe();
 
-                    OpenEventApp.postEventOnUIThread(new MicrolocationDownloadEvent(true));
+                    StrategyRegistry.getInstance().getEventBusStrategy().postEventOnUIThread(new MicrolocationDownloadEvent(true));
                     break;
                 } case ConstantStrings.SESSION_TYPES: {
                     List<SessionType> sessionTypes = objectMapper.readValue(json, objectMapper.getTypeFactory().constructCollectionType(List.class, SessionType.class));
 
                     realmRepo.saveSessionTypes(sessionTypes).subscribe();
 
-                    OpenEventApp.postEventOnUIThread(new SessionTypesDownloadEvent(true));
+                    StrategyRegistry.getInstance().getEventBusStrategy().postEventOnUIThread(new SessionTypesDownloadEvent(true));
                     break;
                 } default:
                     //do nothing
@@ -787,7 +787,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
         }).observeOn(Schedulers.computation()).subscribe(() -> Timber.d("Saved event from JSON"), throwable -> {
             throwable.printStackTrace();
             Timber.e(throwable);
-            OpenEventApp.postEventOnUIThread(new RetrofitError(throwable));
+            StrategyRegistry.getInstance().getEventBusStrategy().postEventOnUIThread(new RetrofitError(throwable));
         }));
     }
 
@@ -798,7 +798,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netinfo = connMgr != null ? connMgr.getActiveNetworkInfo() : null;
         if (!(netinfo != null && netinfo.isConnected())) {
-            OpenEventApp.postEventOnUIThread(new ShowNetworkDialogEvent());
+            StrategyRegistry.getInstance().getEventBusStrategy().postEventOnUIThread(new ShowNetworkDialogEvent());
         } else {
             if (error.getThrowable() instanceof IOException) {
                 errorType = "Timeout";
@@ -824,7 +824,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
             startDownloadListener();
             Timber.d("JSON parsing started");
 
-            OpenEventApp.postEventOnUIThread(new CounterEvent(7)); // Bump if increased
+            StrategyRegistry.getInstance().getEventBusStrategy().postEventOnUIThread(new CounterEvent(7)); // Bump if increased
 
             readJsonAsset(Urls.EVENT);
             readJsonAsset(Urls.SESSIONS);
@@ -856,7 +856,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                OpenEventApp.postEventOnUIThread(new JsonReadEvent(name, json));
+                StrategyRegistry.getInstance().getEventBusStrategy().postEventOnUIThread(new JsonReadEvent(name, json));
             }
         });
     }
@@ -870,7 +870,6 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
             event.removeAllChangeListeners();
         if(completeHandler != null)
             completeHandler.stopListening();
-        ((OpenEventApp) getApplicationContext()).detachMainActivity();
     }
 
     @Override

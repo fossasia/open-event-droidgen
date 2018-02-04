@@ -13,8 +13,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
+import org.fossasia.openevent.config.StrategyRegistry;
 import org.fossasia.openevent.core.auth.ChangePasswordActivity;
 import org.fossasia.openevent.core.auth.LoginActivity;
 import org.fossasia.openevent.core.auth.model.User;
@@ -173,7 +173,10 @@ public class UserProfileActivity extends AppCompatActivity {
             this.lastName.setText(lastName.trim());
 
         if (avatarUrl != null) {
-            OpenEventApp.picassoWithCache.load(avatarUrl)
+            StrategyRegistry.getInstance()
+                    .getHttpStrategy()
+                    .getPicassoWithCache()
+                    .load(avatarUrl)
                     .transform(new CircleTransform())
                     .into(avatar);
         }

@@ -27,17 +27,17 @@ import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
 
-import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
-import org.fossasia.openevent.common.api.DataDownloadManager;
-import org.fossasia.openevent.common.ui.base.BaseFragment;
-import org.fossasia.openevent.data.Speaker;
-import org.fossasia.openevent.common.events.SpeakerDownloadEvent;
 import org.fossasia.openevent.common.ConstantStrings;
+import org.fossasia.openevent.common.api.DataDownloadManager;
+import org.fossasia.openevent.common.events.SpeakerDownloadEvent;
 import org.fossasia.openevent.common.network.NetworkUtils;
+import org.fossasia.openevent.common.ui.Views;
+import org.fossasia.openevent.common.ui.base.BaseFragment;
 import org.fossasia.openevent.common.utils.SharedPreferencesUtil;
 import org.fossasia.openevent.common.utils.Utils;
-import org.fossasia.openevent.common.ui.Views;
+import org.fossasia.openevent.config.StrategyRegistry;
+import org.fossasia.openevent.data.Speaker;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -222,7 +222,7 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
 
             @Override
             public void networkUnavailable() {
-                OpenEventApp.getEventBus().post(new SpeakerDownloadEvent(false));
+                StrategyRegistry.getInstance().getEventBusStrategy().getEventBus().post(new SpeakerDownloadEvent(false));
             }
         });
     }

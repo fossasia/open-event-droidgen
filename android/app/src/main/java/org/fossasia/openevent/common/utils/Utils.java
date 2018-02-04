@@ -12,11 +12,11 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Patterns;
 import android.view.View;
 
-import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.common.ConstantStrings;
 import org.fossasia.openevent.common.api.Urls;
 import org.fossasia.openevent.common.date.DateConverter;
+import org.fossasia.openevent.config.StrategyRegistry;
 import org.fossasia.openevent.data.Event;
 
 import java.util.regex.Matcher;
@@ -76,14 +76,14 @@ public class Utils {
         if (isBaseUrlEmpty()) {
             swipeRefreshLayout.setEnabled(false);
         } else {
-            OpenEventApp.getEventBus().register(object);
+            StrategyRegistry.getInstance().getEventBusStrategy().getEventBus().register(object);
             swipeRefreshLayout.setOnRefreshListener(onRefreshListener);
         }
     }
 
     public static void unregisterIfUrlValid(Object object){
         if (!isBaseUrlEmpty()) {
-            OpenEventApp.getEventBus().unregister(object);
+            StrategyRegistry.getInstance().getEventBusStrategy().getEventBus().unregister(object);
         }
     }
 

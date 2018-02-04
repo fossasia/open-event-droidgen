@@ -11,9 +11,9 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
 import com.squareup.picasso.Target;
 
-import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.common.arch.LiveRealmData;
 import org.fossasia.openevent.common.date.DateConverter;
+import org.fossasia.openevent.config.StrategyRegistry;
 import org.fossasia.openevent.data.Event;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
@@ -99,7 +99,7 @@ public class AboutFragmentViewModel extends ViewModel {
     public LiveData<Bitmap> getEventLogo(String url) {
         if (eventLogo == null) {
             eventLogo = new MutableLiveData<>();
-            RequestCreator requestCreator = OpenEventApp.picassoWithCache.load(url);
+            RequestCreator requestCreator = StrategyRegistry.getInstance().getHttpStrategy().getPicassoWithCache().load(url);
             final Target target = new Target() {
                 @Override
                 public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {

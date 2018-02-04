@@ -14,12 +14,12 @@ import android.widget.ImageView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 
-import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.common.ConstantStrings;
 import org.fossasia.openevent.common.date.DateConverter;
 import org.fossasia.openevent.common.date.DateService;
 import org.fossasia.openevent.common.notification.NotificationUtil;
+import org.fossasia.openevent.common.ui.Views;
 import org.fossasia.openevent.common.ui.WidgetUpdater;
 import org.fossasia.openevent.common.ui.base.BaseRVAdapter;
 import org.fossasia.openevent.common.utils.Utils;
@@ -117,7 +117,7 @@ public class SessionsListAdapter extends BaseRVAdapter<Session, SessionViewHolde
                 color = storedColor;
             }
 
-            TextDrawable drawable = OpenEventApp.getTextDrawableBuilder().round()
+            TextDrawable drawable = Views.getTextDrawableBuilder().round()
                     .build(String.valueOf(track.getName().charAt(0)), storedColor);
             holder.trackImageIcon.setImageDrawable(drawable);
             holder.trackImageIcon.setBackgroundColor(Color.TRANSPARENT);

@@ -3,7 +3,7 @@ package org.fossasia.openevent.common.utils;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import org.fossasia.openevent.OpenEventApp;
+import org.fossasia.openevent.common.api.APIClient;
 import org.fossasia.openevent.data.Event;
 import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.data.Session;
@@ -29,7 +29,7 @@ public class JSONDeserializationTest {
 
     @Before
     public void setUp() {
-        objectMapper = OpenEventApp.getObjectMapper();
+        objectMapper = APIClient.getObjectMapper();
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
     }
 

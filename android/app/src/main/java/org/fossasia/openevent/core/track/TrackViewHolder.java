@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.R;
+import org.fossasia.openevent.common.ui.Views;
 import org.fossasia.openevent.core.track.session.TrackSessionsActivity;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.common.ConstantStrings;
@@ -58,7 +59,7 @@ public class TrackViewHolder extends RecyclerView.ViewHolder {
                 sessions, sessions));
 
         if(!Utils.isEmpty(trackName)) {
-            trackImageIcon.setImageDrawable(OpenEventApp.getTextDrawableBuilder().round()
+            trackImageIcon.setImageDrawable(Views.getTextDrawableBuilder().round()
                     .build(String.valueOf(trackName.charAt(0)), trackColor));
             trackImageIcon.setBackgroundColor(Color.TRANSPARENT);
         }
