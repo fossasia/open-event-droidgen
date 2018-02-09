@@ -92,7 +92,7 @@
     <string name="session">Session Detail</string>
     <string name="menu_schedule">Schedule</string>
     <string name="descriptionEmpty">Description: To be updated soon</string>
-
+    <string name="menu_faqs">FAQs</string>
 
     <!--Navigation Drawer-->
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -330,5 +330,7 @@
 
     <string name="twitter_feed">Twitter Feed</string>
     <string name="featured_speakers_header">Featured Speakers</string>
+    <string name="login_to_see_faqs">Please login to see faqs!</string>
+    <string name="login_to_view_faqs">Sorry you need to log in to view the FAQs.</string>
 
 </resources>

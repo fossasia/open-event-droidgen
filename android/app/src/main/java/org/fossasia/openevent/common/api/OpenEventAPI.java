@@ -1,6 +1,7 @@
 package org.fossasia.openevent.common.api;
 
 import org.fossasia.openevent.data.Event;
+import org.fossasia.openevent.data.FAQ;
 import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.SessionType;
@@ -60,5 +61,8 @@ public interface OpenEventAPI {
 
     @GET("session-types")
     Call<List<SessionType>> getSessionTypes();
+
+    @GET("faqs")
+    Observable<List<FAQ>> getFAQs();
 
 }

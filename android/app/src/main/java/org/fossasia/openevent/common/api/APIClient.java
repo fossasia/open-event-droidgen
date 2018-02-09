@@ -8,6 +8,7 @@ import com.github.jasminb.jsonapi.retrofit.JSONAPIConverterFactory;
 import org.fossasia.openevent.BuildConfig;
 import org.fossasia.openevent.OpenEventApp;
 import org.fossasia.openevent.data.Event;
+import org.fossasia.openevent.data.FAQ;
 import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
@@ -87,7 +88,7 @@ public final class APIClient {
                     .build();
 
             ObjectMapper objectMapper = getObjectMapper();
-            Class[] classes = {Event.class, Track.class, Speaker.class, Sponsor.class, Session.class, Microlocation.class, User.class};
+            Class[] classes = {Event.class, Track.class, Speaker.class, Sponsor.class, Session.class, Microlocation.class, User.class, FAQ.class};
 
             openEventAPI = new Retrofit.Builder()
                     .client(okHttpClient)

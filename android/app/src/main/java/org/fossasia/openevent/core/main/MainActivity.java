@@ -74,6 +74,7 @@ import org.fossasia.openevent.config.StrategyRegistry;
 import org.fossasia.openevent.core.about.AboutFragment;
 import org.fossasia.openevent.core.auth.AuthUtil;
 import org.fossasia.openevent.core.auth.profile.UserProfileActivity;
+import org.fossasia.openevent.core.faqs.FAQFragment;
 import org.fossasia.openevent.core.feed.facebook.CommentsDialogFragment;
 import org.fossasia.openevent.core.feed.facebook.FeedAdapter;
 import org.fossasia.openevent.core.feed.facebook.FeedFragment;
@@ -545,6 +546,9 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
             case R.id.nav_locations:
                 replaceFragment(new LocationsFragment(), R.string.menu_locations);
                 break;
+            case R.id.nav_faqs:
+                replaceFragment(new FAQFragment(), R.string.menu_faqs);
+                break;
             case R.id.nav_map:
                 Bundle bundle = new Bundle();
                 bundle.putBoolean(ConstantStrings.IS_MAP_FRAGMENT_FROM_MAIN_ACTIVITY, true);
@@ -833,6 +837,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
             readJsonAsset(Urls.SPONSORS);
             readJsonAsset(Urls.MICROLOCATIONS);
             readJsonAsset(Urls.SESSION_TYPES);
+            //readJsonAsset(Urls.FAQS);
         } else {
             completeHandler.hide();
         }

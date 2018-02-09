@@ -63,6 +63,12 @@
             app:showAsAction="always"
             android:title="@string/menu_locations" />
 
+        <item
+            android:id="@+id/nav_faqs"
+            android:icon="@drawable/ic_question_answer_black_24dp"
+            app:showAsAction="always"
+            android:title="@string/menu_faqs" />
+
     </group>
 
     <group
