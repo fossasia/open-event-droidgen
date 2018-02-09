@@ -82,6 +82,7 @@ import org.fossasia.openevent.core.feed.facebook.api.CommentItem;
 import org.fossasia.openevent.core.feed.facebook.api.FacebookApi;
 import org.fossasia.openevent.core.feed.twitter.TwitterFeedFragment;
 import org.fossasia.openevent.core.location.LocationsFragment;
+import org.fossasia.openevent.core.notifications.NotificationsFragment;
 import org.fossasia.openevent.core.schedule.ScheduleFragment;
 import org.fossasia.openevent.core.settings.SettingsActivity;
 import org.fossasia.openevent.core.speaker.SpeakersListFragment;
@@ -524,6 +525,9 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
         switch (menuItemId) {
             case R.id.nav_home:
                 replaceFragment(AboutFragment.newInstance(onMapSelectedListener), R.string.menu_home);
+                break;
+            case R.id.nav_notification:
+                replaceFragment(NotificationsFragment.getInstance(), R.string.menu_notification);
                 break;
             case R.id.nav_tracks:
                 replaceFragment(new TracksFragment(), R.string.menu_tracks);
