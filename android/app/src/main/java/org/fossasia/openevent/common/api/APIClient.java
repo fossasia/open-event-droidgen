@@ -7,16 +7,17 @@ import com.github.jasminb.jsonapi.retrofit.JSONAPIConverterFactory;
 
 import org.fossasia.openevent.BuildConfig;
 import org.fossasia.openevent.OpenEventApp;
+import org.fossasia.openevent.common.network.NetworkUtils;
+import org.fossasia.openevent.core.auth.AuthUtil;
+import org.fossasia.openevent.core.auth.model.User;
 import org.fossasia.openevent.data.Event;
 import org.fossasia.openevent.data.FAQ;
 import org.fossasia.openevent.data.Microlocation;
+import org.fossasia.openevent.data.Notification;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Sponsor;
 import org.fossasia.openevent.data.Track;
-import org.fossasia.openevent.core.auth.model.User;
-import org.fossasia.openevent.core.auth.AuthUtil;
-import org.fossasia.openevent.common.network.NetworkUtils;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;
@@ -88,7 +89,8 @@ public final class APIClient {
                     .build();
 
             ObjectMapper objectMapper = getObjectMapper();
-            Class[] classes = {Event.class, Track.class, Speaker.class, Sponsor.class, Session.class, Microlocation.class, User.class, FAQ.class};
+
+            Class[] classes = {Event.class, Track.class, Speaker.class, Sponsor.class, Session.class, Microlocation.class, User.class, FAQ.class, Notification.class};
 
             openEventAPI = new Retrofit.Builder()
                     .client(okHttpClient)

@@ -17,6 +17,13 @@
             android:checked="true"
             android:icon="@drawable/ic_home_black_24dp"
             android:title="@string/menu_home" />
+
+        <item
+            android:id="@+id/nav_notification"
+            android:checked="true"
+            android:icon="@drawable/ic_notifications_black_24dp"
+            android:title="@string/menu_notification" />
+
         <item
             android:id="@+id/nav_feed"
             android:checked="true"

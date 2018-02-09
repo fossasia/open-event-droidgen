@@ -3,9 +3,9 @@ package org.fossasia.openevent.common.date;
 import android.support.annotation.NonNull;
 
 import org.fossasia.openevent.common.ConstantStrings;
-import org.fossasia.openevent.data.extras.EventDates;
 import org.fossasia.openevent.common.utils.SharedPreferencesUtil;
 import org.fossasia.openevent.common.utils.Utils;
+import org.fossasia.openevent.data.extras.EventDates;
 import org.threeten.bp.Instant;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.LocalDateTime;

@@ -1,18 +1,19 @@
 package org.fossasia.openevent.common.api;
 
-import org.fossasia.openevent.data.Event;
-import org.fossasia.openevent.data.FAQ;
-import org.fossasia.openevent.data.Microlocation;
-import org.fossasia.openevent.data.Session;
-import org.fossasia.openevent.data.SessionType;
-import org.fossasia.openevent.data.Speaker;
-import org.fossasia.openevent.data.Sponsor;
-import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.core.auth.model.ImageResponse;
 import org.fossasia.openevent.core.auth.model.Login;
 import org.fossasia.openevent.core.auth.model.LoginResponse;
 import org.fossasia.openevent.core.auth.model.UploadImage;
 import org.fossasia.openevent.core.auth.model.User;
+import org.fossasia.openevent.data.Event;
+import org.fossasia.openevent.data.FAQ;
+import org.fossasia.openevent.data.Microlocation;
+import org.fossasia.openevent.data.Notification;
+import org.fossasia.openevent.data.Session;
+import org.fossasia.openevent.data.SessionType;
+import org.fossasia.openevent.data.Speaker;
+import org.fossasia.openevent.data.Sponsor;
+import org.fossasia.openevent.data.Track;
 
 import java.util.List;
 
@@ -64,5 +65,8 @@ public interface OpenEventAPI {
 
     @GET("faqs")
     Observable<List<FAQ>> getFAQs();
+
+    @GET("../../users/{id}/notifications")
+    Observable<List<Notification>> getNotifications(@Path("id") long id);
 
 }

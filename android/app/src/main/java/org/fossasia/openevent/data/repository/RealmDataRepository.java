@@ -11,6 +11,7 @@ import org.fossasia.openevent.core.auth.model.User;
 import org.fossasia.openevent.data.Event;
 import org.fossasia.openevent.data.FAQ;
 import org.fossasia.openevent.data.Microlocation;
+import org.fossasia.openevent.data.Notification;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.SessionType;
 import org.fossasia.openevent.data.Speaker;
@@ -574,6 +575,26 @@ public class RealmDataRepository {
 
     public RealmResults<EventDates> getEventDatesSync(){
         return realm.where(EventDates.class).findAll();
+    }
+    
+    // Notifications section
+
+    public Completable saveNotifications(final List<Notification> notifications) {
+        return Completable.fromAction(() -> {
+            saveNotificationsInRealm(notifications);
+            Timber.d("Saved notifications");
+        });
+    }
+
+    private void saveNotificationsInRealm(List<Notification> notifications) {
+        realm.executeTransaction(realm1 -> {
+            realm1.delete(Notification.class);
+            realm1.insertOrUpdate(notifications);
+        });
+    }
+
+    public RealmResults<Notification> getNotifications() {
+        return realm.where(Notification.class).findAllSortedAsync("receivedAt");
     }
 
     // FAQ Section
