@@ -3,10 +3,9 @@ package org.fossasia.openevent.core.location;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 
-import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.common.arch.FilterableRealmLiveData;
+import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.repository.RealmDataRepository;
-
 
 import java.util.List;
 import java.util.Locale;

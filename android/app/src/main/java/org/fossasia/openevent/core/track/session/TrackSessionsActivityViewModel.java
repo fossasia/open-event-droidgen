@@ -3,12 +3,12 @@ package org.fossasia.openevent.core.track.session;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 
-import org.fossasia.openevent.data.Session;
-import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.common.arch.FilterableRealmLiveData;
-import org.fossasia.openevent.data.repository.RealmDataRepository;
 import org.fossasia.openevent.common.date.DateConverter;
 import org.fossasia.openevent.common.date.DateService;
+import org.fossasia.openevent.data.Session;
+import org.fossasia.openevent.data.Track;
+import org.fossasia.openevent.data.repository.RealmDataRepository;
 import org.threeten.bp.ZonedDateTime;
 
 import java.util.List;
@@ -120,4 +120,5 @@ public class TrackSessionsActivityViewModel extends ViewModel {
         super.onCleared();
         clearChangeListeners();
     }
+
 }

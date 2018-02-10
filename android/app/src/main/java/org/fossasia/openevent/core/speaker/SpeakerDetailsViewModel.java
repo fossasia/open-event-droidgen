@@ -4,8 +4,8 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 
-import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.common.arch.LiveRealmDataObject;
+import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.repository.RealmDataRepository;
 
 public class SpeakerDetailsViewModel extends ViewModel {
@@ -23,4 +23,5 @@ public class SpeakerDetailsViewModel extends ViewModel {
         }
         return speaker;
     }
+
 }
