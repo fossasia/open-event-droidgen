@@ -74,7 +74,7 @@ Please find info about the set up of the Android app in your development environ
 - Retrofit [Docs](http://square.github.io/retrofit/2.x/retrofit/)
 - ButterKnife [Docs](http://jakewharton.github.io/butterknife/javadoc/)
 - Timber [Docs](http://jakewharton.github.io/timber/)
-- Jackson [Docs](http://wiki.fasterxml.com/JacksonHome)
+- Jackson [Docs](https://github.com/FasterXML/jackson)
 - LeakCanary [Docs](https://github.com/square/leakcanary)
 - Picasso [Docs](http://square.github.io/picasso/2.x/picasso/)
 - Realm [Docs](https://realm.io/docs/java/latest/)
