@@ -154,6 +154,11 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
             if(session == null)
                 return;
 
+            if (session.getTrack() == null) {
+                Snackbar.make(speakersRecyclerView, R.string.invalid_track, Snackbar.LENGTH_SHORT).show();
+                return;
+            }
+
             if(session.getIsBookmarked()) {
                 Timber.tag(TAG).d("Bookmark Removed");
 
