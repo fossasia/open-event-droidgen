@@ -6,10 +6,17 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AlertDialog;
+import android.view.KeyEvent;
 
 import org.fossasia.openevent.R;
 
 public final class DialogFactory {
+
+    private static DialogListener dialogBackPressListener;
+
+    public interface DialogListener {
+        void onDialogBackPress();
+    }
 
     public static AlertDialog createSimpleOkErrorDialog(Context context, String title, String message) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(context)
@@ -40,13 +47,25 @@ public final class DialogFactory {
         return alertDialog.create();
     }
 
-    public static Dialog createDownloadDialog(Context context,
-                                                  @StringRes int titleResource,
-                                                  @StringRes int messageResource,
-                                                  DialogInterface.OnClickListener listener) {
+    public static Dialog createDownloadDialog(DialogListener dialogListener, Boolean downloadDone, Context context,
+                                              @StringRes int titleResource,
+                                              @StringRes int messageResource,
+                                              DialogInterface.OnClickListener listener) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(context)
                 .setTitle(context.getString(titleResource))
                 .setMessage(context.getString(messageResource))
+                .setOnKeyListener((dialog, keyCode, event) -> {
+                    if (keyCode == KeyEvent.KEYCODE_BACK &&
+                            event.getAction() == KeyEvent.ACTION_UP &&
+                            !event.isCanceled()) {
+                        dialogBackPressListener = dialogListener;
+                        if (!downloadDone && dialogBackPressListener != null)
+                            dialogBackPressListener.onDialogBackPress();
+                        dialog.cancel();
+                        return true;
+                    }
+                    return false;
+                })
                 .setIcon(R.drawable.ic_file_download_black_24dp)
                 .setNegativeButton(context.getString(R.string.no), listener)
                 .setPositiveButton(context.getString(R.string.yes), listener);

@@ -116,7 +116,7 @@ import io.realm.RealmList;
 import io.realm.RealmResults;
 import timber.log.Timber;
 
-public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommentsDialogListener, OnImageZoomListener, AboutFragment.OnMapSelectedListener {
+public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommentsDialogListener, OnImageZoomListener, AboutFragment.OnMapSelectedListener, DialogFactory.DialogListener {
 
     private static final String STATE_FRAGMENT = "stateFragment";
     private static final String NAV_ITEM = "navItem";
@@ -149,6 +149,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
     private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
     private Event event; // Future Event, stored to remove listeners
     private AboutFragment.OnMapSelectedListener onMapSelectedListener = value -> isMapFragment = value;
+    private DialogFactory.DialogListener onDialogClickListener = this::downloadFromAssets;
 
     public static Intent createLaunchFragmentIntent(Context context) {
         return new Intent(context, MainActivity.class)
@@ -432,7 +433,8 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
             @Override
             public void networkAvailable() {
                 // Network is available
-                DialogFactory.createDownloadDialog(context, R.string.download_assets, R.string.charges_warning,
+                Boolean downloadDone = SharedPreferencesUtil.getBoolean(ConstantStrings.IS_DOWNLOAD_DONE, false);
+                DialogFactory.createDownloadDialog(onDialogClickListener, downloadDone, context, R.string.download_assets, R.string.charges_warning,
                         (dialogInterface, button) -> {
                             switch (button) {
                                 case DialogInterface.BUTTON_POSITIVE:
@@ -902,5 +904,11 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
 
     public void onZoom(String imageUri) {
         ZoomableImageUtil.showZoomableImageDialogFragment(fragmentManager, imageUri);
+    }
+
+    @Override
+    public void onDialogBackPress() {
+        //it used to call the method downloadFromAssets() if the user is using the app for
+        //the first time and presses the back button in the download dialog
     }
 }
