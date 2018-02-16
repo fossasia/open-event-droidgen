@@ -828,11 +828,9 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
         if (!SharedPreferencesUtil.getBoolean(ConstantStrings.DATABASE_RECORDS_EXIST, false)) {
             //TODO: Add and Take counter value from to config.json
             SharedPreferencesUtil.putBoolean(ConstantStrings.DATABASE_RECORDS_EXIST, true);
-
-            startDownloadListener();
             Timber.d("JSON parsing started");
-
             StrategyRegistry.getInstance().getEventBusStrategy().postEventOnUIThread(new CounterEvent(7)); // Bump if increased
+            startDownloadListener();
 
             readJsonAsset(Urls.EVENT);
             readJsonAsset(Urls.SESSIONS);
@@ -849,7 +847,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
     }
 
     public void readJsonAsset(final String name) {
-        CommonTaskLoop.getInstance().post(new Runnable() {
+        CommonTaskLoop.getInstance().delayPost(new Runnable() {
             String json = null;
 
             @Override
@@ -867,7 +865,7 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
                 }
                 StrategyRegistry.getInstance().getEventBusStrategy().postEventOnUIThread(new JsonReadEvent(name, json));
             }
-        });
+        },100);
     }
 
     @Override

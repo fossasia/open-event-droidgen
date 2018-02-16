@@ -79,11 +79,11 @@ public class LoginActivity extends AppCompatActivity implements AppCompatEditTex
         login.setOnClickListener(v -> {
             Views.hideKeyboard(this, this.getCurrentFocus());
 
-            progressBar.setVisibility(View.VISIBLE);
             email = emailInput.getText().toString();
             String password = passwordInput.getText().toString();
-
+            
             if (validateCredentials(email, password)) {
+                progressBar.setVisibility(View.VISIBLE);
                 loginUser(password);
             }
         });
