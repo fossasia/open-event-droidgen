@@ -82,6 +82,11 @@
         android:id="@+id/menu_bottom"
         android:checkableBehavior="none">
         <item
+            android:id="@+id/nav_feedbacks"
+            android:icon="@drawable/ic_settings_black_24dp"
+            app:showAsAction="always"
+            android:title="Feedbacks" />
+        <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_settings_black_24dp"
             app:showAsAction="always"

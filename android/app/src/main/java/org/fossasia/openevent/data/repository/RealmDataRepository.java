@@ -10,6 +10,7 @@ import org.fossasia.openevent.config.StrategyRegistry;
 import org.fossasia.openevent.core.auth.model.User;
 import org.fossasia.openevent.data.Event;
 import org.fossasia.openevent.data.FAQ;
+import org.fossasia.openevent.data.Feedback;
 import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.data.Notification;
 import org.fossasia.openevent.data.Session;
@@ -618,6 +619,28 @@ public class RealmDataRepository {
         });
         realm.close();
     }
+
+    // Feedbacks Section
+    public RealmResults<Feedback> getEventFeedbacks() {
+        return realm.where(Feedback.class).findAllAsync();
+    }
+
+    public Completable saveFeedbacks(final List<Feedback> feedbacks) {
+        return Completable.fromAction(() -> {
+            saveFeedbacksInRealm(feedbacks);
+            Timber.d("Saved Feedbacks");
+        });
+    }
+
+    private void saveFeedbacksInRealm(List<Feedback> feedbacks) {
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(transaction -> {
+            transaction.delete(Feedback.class);
+            transaction.insertOrUpdate(feedbacks);
+        });
+        realm.close();
+    }
+
 
     /**
      * Convert RealmResults to LiveRealmData

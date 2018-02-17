@@ -63,6 +63,8 @@ public class ChangePasswordActivity extends AppCompatActivity {
             Views.hideKeyboard(this, this.getCurrentFocus());
             saveChanges();
         });
+        //Timber.d("Authorization harsimar "+getAuthorization());
+        //Timber.d("Token harsimar"+getToken());
     }
 
     private void saveChanges() {

@@ -7,6 +7,7 @@ import org.fossasia.openevent.core.auth.model.UploadImage;
 import org.fossasia.openevent.core.auth.model.User;
 import org.fossasia.openevent.data.Event;
 import org.fossasia.openevent.data.FAQ;
+import org.fossasia.openevent.data.Feedback;
 import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.data.Notification;
 import org.fossasia.openevent.data.Session;
@@ -69,4 +70,6 @@ public interface OpenEventAPI {
     @GET("../../users/{id}/notifications")
     Observable<List<Notification>> getNotifications(@Path("id") long id);
 
+    @GET("feedbacks")
+    Observable<List<Feedback>> getFeedbacks();
 }

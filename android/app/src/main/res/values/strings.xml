@@ -80,6 +80,7 @@
     <string name="menu_home">Home</string>
     <string name="menu_feed">Live Feed</string>
     <string name="menu_twitter">Twitter Feed</string>
+    <string name="menu_feedback">Feedbacks</string>
     <string name="menu_tracks">Tracks</string>
     <string name="menu_bookmarks">Bookmarks</string>
     <string name="menu_speakers">Speakers</string>

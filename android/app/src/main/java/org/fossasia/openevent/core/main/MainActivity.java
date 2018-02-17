@@ -81,6 +81,7 @@ import org.fossasia.openevent.core.feed.facebook.FeedFragment;
 import org.fossasia.openevent.core.feed.facebook.api.CommentItem;
 import org.fossasia.openevent.core.feed.facebook.api.FacebookApi;
 import org.fossasia.openevent.core.feed.twitter.TwitterFeedFragment;
+import org.fossasia.openevent.core.feedback.FeedbackFragment;
 import org.fossasia.openevent.core.location.LocationsFragment;
 import org.fossasia.openevent.core.notifications.NotificationsFragment;
 import org.fossasia.openevent.core.schedule.ScheduleFragment;
@@ -534,6 +535,9 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
                 break;
             case R.id.nav_feed:
                 replaceFragment(FeedFragment.getInstance(this, this), R.string.menu_feed);
+                break;
+            case R.id.nav_feedbacks:
+                replaceFragment(new FeedbackFragment(),R.string.menu_feedback);
                 break;
             case R.id.nav_twitter_feed:
                 replaceFragment(TwitterFeedFragment.getInstance(this), R.string.menu_twitter);
