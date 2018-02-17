@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -21,5 +22,21 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="No Feedbacks to display." />
+
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/coordinate_layout_schedule"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/submit_feedback_fab"
+            android:layout_width="@dimen/fab_width"
+            android:layout_height="@dimen/fab_height"
+            android:layout_gravity="bottom|end"
+            android:layout_marginBottom="@dimen/layout_margin_large"
+            android:layout_marginEnd="@dimen/layout_margin_large"
+            android:layout_marginRight="@dimen/layout_margin_large"
+            app:srcCompat="@drawable/ic_edit_black_24dp" />
+    </android.support.design.widget.CoordinatorLayout>
 
 </RelativeLayout>

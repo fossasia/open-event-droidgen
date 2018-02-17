@@ -1,17 +1,21 @@
 package org.fossasia.openevent.core.feedback;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +31,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import timber.log.Timber;
 
 public class FeedbackFragment extends BaseFragment {
@@ -37,16 +42,20 @@ public class FeedbackFragment extends BaseFragment {
     protected TextView tvEmptyFeedback;
     @BindView(R.id.feedback_swipe_refresh_layout)
     protected SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.submit_feedback_fab)
+    protected FloatingActionButton submitFeedback;
 
     private ArrayList<Feedback> feedbackArrayList;
     private FeedbackListAdapter feedbackListAdapter;
     private FeedbackViewModel feedbackViewModel;
+    private Context context;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
         Utils.registerIfUrlValid(swipeRefreshLayout, this, this::refresh);
+        context = getContext();
         feedbackArrayList = new ArrayList<>();
         feedbackViewModel = ViewModelProviders.of(this).get(FeedbackViewModel.class);
         setUpRecyclerView();
@@ -146,5 +155,26 @@ public class FeedbackFragment extends BaseFragment {
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_feedbacks;
+    }
+
+    @OnClick(R.id.submit_feedback_fab)
+    public void submitFeedback(){
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.submit_feedback_dialog, null);
+        dialogBuilder.setView(dialogView).setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+        dialogBuilder.setView(dialogView).setPositiveButton("Submit", (dialog, which) -> {
+            Toast.makeText(context,"Submit",Toast.LENGTH_SHORT).show();
+
+        });
+        dialogBuilder.setTitle("Please share your feedback!");
+        EditText rating = dialogView.findViewById(R.id.feedback_rating);
+        EditText comments = dialogView.findViewById(R.id.feedback_comment);
+
+
+        AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.show();
+
     }
 }
