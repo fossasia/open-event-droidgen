@@ -123,12 +123,7 @@ public class RealmDataRepository {
 
     public void clearUserData() {
         Realm realm = Realm.getDefaultInstance();
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                realm.delete(User.class);
-            }
-        });
+        realm.executeTransaction(realm1 -> realm1.delete(User.class));
         realm.close();
     }
 
@@ -555,14 +550,15 @@ public class RealmDataRepository {
 
     /**
      * Saves Event Dates Synchronously
-     * TODO : Use threaded asynchronous transaction using separate Realm instance
      * @param eventDates List of dates of entire event span (inclusive)
      */
     private void saveEventDatesInRealm(List<EventDates> eventDates) {
-        realm.beginTransaction();
-        realm.delete(EventDates.class);
-        realm.insert(eventDates);
-        realm.commitTransaction();
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(transaction -> {
+            transaction.delete(EventDates.class);
+            transaction.insertOrUpdate(eventDates);
+        });
+        realm.close();
     }
 
     public Completable saveEventDates(List<EventDates> eventDates) {
@@ -637,7 +633,7 @@ public class RealmDataRepository {
      * Convert RealmResults to FilterableRealmLiveData
      */
     public static <K extends RealmObject> FilterableRealmLiveData<K> asFilterableLiveData(RealmResults<K> data) {
-        return new FilterableRealmLiveData<K>(data);
+        return new FilterableRealmLiveData<>(data);
     }
 
     /**
