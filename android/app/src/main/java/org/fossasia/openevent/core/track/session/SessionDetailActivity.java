@@ -54,6 +54,7 @@ import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.data.Session;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Track;
+import org.fossasia.openevent.data.repository.RealmDataRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -154,7 +155,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
             if(session == null)
                 return;
 
-            if (session.getTrack() == null) {
+            if (RealmDataRepository.isNull(session.getTrack())) {
                 Snackbar.make(speakersRecyclerView, R.string.invalid_track, Snackbar.LENGTH_SHORT).show();
                 return;
             }
