@@ -21,13 +21,13 @@ import lombok.Data;
 import static org.fossasia.openevent.core.auth.AuthUtil.INVALID;
 import static org.fossasia.openevent.core.auth.AuthUtil.VALID;
 
-public class FeedFragmentViewModel extends ViewModel {
+public class FacebookFeedFragmentViewModel extends ViewModel {
 
     private LiveData<FacebookPageId> facebookPageIdLiveData;
     private MutableLiveData<PostsResponse> feedLiveData;
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-    public FeedFragmentViewModel() {
+    public FacebookFeedFragmentViewModel() {
         facebookPageIdLiveData = new MutableLiveData<>();
         feedLiveData = new MutableLiveData<>();
     }

@@ -19,6 +19,7 @@ import org.fossasia.openevent.common.ui.Views;
 import org.fossasia.openevent.common.ui.image.OnImageZoomListener;
 import org.fossasia.openevent.common.utils.SharedPreferencesUtil;
 import org.fossasia.openevent.core.feed.BaseFeedFragment;
+import org.fossasia.openevent.core.feed.OpenCommentsDialogListener;
 import org.fossasia.openevent.core.feed.facebook.api.FeedItem;
 
 import java.lang.ref.WeakReference;
@@ -31,25 +32,25 @@ import timber.log.Timber;
 import static org.fossasia.openevent.core.auth.AuthUtil.INVALID;
 import static org.fossasia.openevent.core.auth.AuthUtil.VALID;
 
-public class FeedFragment extends BaseFeedFragment {
+public class FacebookFeedFragment extends BaseFeedFragment {
 
-    private FeedAdapter feedAdapter;
-    private FeedFragmentViewModel feedFragmentViewModel;
+    private FacebookFeedAdapter facebookFeedAdapter;
+    private FacebookFeedFragmentViewModel facebookFeedFragmentViewModel;
     private List<FeedItem> feedItems;
-    private FeedAdapter.OpenCommentsDialogListener openCommentsDialogListener;
+    private OpenCommentsDialogListener openCommentsDialogListener;
     private OnImageZoomListener onImageZoomListener;
 
     @BindView(R.id.feed_swipe_refresh) SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.feed_recycler_view) RecyclerView feedRecyclerView;
     @BindView(R.id.txt_no_posts) TextView noFeedView;
 
-    public static FeedFragment getInstance(FeedAdapter.OpenCommentsDialogListener openCommentsDialogListener,
-                                           OnImageZoomListener onImageZoomListener) {
-        FeedFragment feedFragment = new FeedFragment();
-        feedFragment.openCommentsDialogListener = openCommentsDialogListener;
-        feedFragment.onImageZoomListener = onImageZoomListener;
+    public static FacebookFeedFragment getInstance(OpenCommentsDialogListener openCommentsDialogListener,
+                                                   OnImageZoomListener onImageZoomListener) {
+        FacebookFeedFragment facebookFeedFragment = new FacebookFeedFragment();
+        facebookFeedFragment.openCommentsDialogListener = openCommentsDialogListener;
+        facebookFeedFragment.onImageZoomListener = onImageZoomListener;
 
-        return feedFragment;
+        return facebookFeedFragment;
     }
 
     @Override
@@ -59,12 +60,12 @@ public class FeedFragment extends BaseFeedFragment {
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
         feedItems = new ArrayList<>();
-        feedFragmentViewModel = ViewModelProviders.of(this).get(FeedFragmentViewModel.class);
+        facebookFeedFragmentViewModel = ViewModelProviders.of(this).get(FacebookFeedFragmentViewModel.class);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         feedRecyclerView.setLayoutManager(mLayoutManager);
-        feedAdapter = new FeedAdapter(getContext(), openCommentsDialogListener, feedItems);
-        feedAdapter.setOnImageZoomListener(onImageZoomListener);
-        feedRecyclerView.setAdapter(feedAdapter);
+        facebookFeedAdapter = new FacebookFeedAdapter(getContext(), openCommentsDialogListener, feedItems);
+        facebookFeedAdapter.setOnImageZoomListener(onImageZoomListener);
+        feedRecyclerView.setAdapter(facebookFeedAdapter);
 
         setupProgressBar();
 
@@ -85,13 +86,13 @@ public class FeedFragment extends BaseFeedFragment {
             return;
         }
 
-        feedFragmentViewModel.getPosts(getContext().getResources().getString(R.string.fields),
+        facebookFeedFragmentViewModel.getPosts(getContext().getResources().getString(R.string.fields),
                 getContext().getResources().getString(R.string.facebook_access_token), SharedPreferencesUtil.getString(ConstantStrings.FACEBOOK_PAGE_ID, null))
                 .observe(this, feedResponse -> {
                     if (feedResponse.getResponse() == VALID) {
                         feedItems.clear();
                         feedItems.addAll(feedResponse.getFeed().getData());
-                        feedAdapter.notifyDataSetChanged();
+                        facebookFeedAdapter.notifyDataSetChanged();
                         handleVisibility();
                         Views.setSwipeRefreshLayout(swipeRefreshLayout, false);
                         Timber.d("Refresh done");
@@ -114,8 +115,8 @@ public class FeedFragment extends BaseFeedFragment {
             public void networkAvailable() {
                 // Network is available
                 swipeRefreshLayout.setRefreshing(true);
-                feedFragmentViewModel.updateFBPageID(getResources().getString(R.string.facebook_access_token), SharedPreferencesUtil.getString(ConstantStrings.FACEBOOK_PAGE_ID, null))
-                        .observe(FeedFragment.this, facebookPageId -> {
+                facebookFeedFragmentViewModel.updateFBPageID(getResources().getString(R.string.facebook_access_token), SharedPreferencesUtil.getString(ConstantStrings.FACEBOOK_PAGE_ID, null))
+                        .observe(FacebookFeedFragment.this, facebookPageId -> {
                             String id = facebookPageId.getId();
                             SharedPreferencesUtil.putString(ConstantStrings.FACEBOOK_PAGE_ID, id);
                         });
@@ -141,9 +142,9 @@ public class FeedFragment extends BaseFeedFragment {
     @Override
     public void onStop() {
         super.onStop();
-        if (feedAdapter != null) {
-            feedAdapter.removeOnImageZoomListener();
-            feedAdapter.removeOpenCommentsDialogListener();
+        if (facebookFeedAdapter != null) {
+            facebookFeedAdapter.removeOnImageZoomListener();
+            facebookFeedAdapter.removeOpenCommentsDialogListener();
         }
     }
 

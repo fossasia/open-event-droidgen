@@ -75,12 +75,11 @@ import org.fossasia.openevent.core.about.AboutFragment;
 import org.fossasia.openevent.core.auth.AuthUtil;
 import org.fossasia.openevent.core.auth.profile.UserProfileActivity;
 import org.fossasia.openevent.core.faqs.FAQFragment;
+import org.fossasia.openevent.core.feed.FeedFragment;
+import org.fossasia.openevent.core.feed.OpenCommentsDialogListener;
 import org.fossasia.openevent.core.feed.facebook.CommentsDialogFragment;
-import org.fossasia.openevent.core.feed.facebook.FeedAdapter;
-import org.fossasia.openevent.core.feed.facebook.FeedFragment;
 import org.fossasia.openevent.core.feed.facebook.api.CommentItem;
 import org.fossasia.openevent.core.feed.facebook.api.FacebookApi;
-import org.fossasia.openevent.core.feed.twitter.TwitterFeedFragment;
 import org.fossasia.openevent.core.location.LocationsFragment;
 import org.fossasia.openevent.core.notifications.NotificationsFragment;
 import org.fossasia.openevent.core.schedule.ScheduleFragment;
@@ -116,7 +115,7 @@ import io.realm.RealmList;
 import io.realm.RealmResults;
 import timber.log.Timber;
 
-public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommentsDialogListener, OnImageZoomListener, AboutFragment.OnMapSelectedListener {
+public class MainActivity extends BaseActivity implements OpenCommentsDialogListener, OnImageZoomListener, AboutFragment.OnMapSelectedListener {
 
     private static final String STATE_FRAGMENT = "stateFragment";
     private static final String NAV_ITEM = "navItem";
@@ -534,9 +533,6 @@ public class MainActivity extends BaseActivity implements FeedAdapter.OpenCommen
                 break;
             case R.id.nav_feed:
                 replaceFragment(FeedFragment.getInstance(this, this), R.string.menu_feed);
-                break;
-            case R.id.nav_twitter_feed:
-                replaceFragment(TwitterFeedFragment.getInstance(this), R.string.menu_twitter);
                 break;
             case R.id.nav_schedule:
                 replaceFragment(new ScheduleFragment(), R.string.menu_schedule);

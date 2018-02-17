@@ -28,53 +28,49 @@
             android:id="@+id/nav_feed"
             android:checked="true"
             android:icon="@drawable/ic_feed_black_24dp"
-            app:showAsAction="always"
-            android:title="@string/menu_feed" />
-        <item
-            android:id="@+id/nav_twitter_feed"
-            android:icon="@drawable/ic_feed_black_24dp"
-            app:showAsAction="always"
-            android:title="@string/twitter_feed" />
+            android:title="@string/menu_feed"
+            app:showAsAction="always" />
+
         <item
             android:id="@+id/nav_tracks"
             android:checked="true"
             android:icon="@drawable/ic_event_white_24dp"
-            app:showAsAction="always"
-            android:title="@string/menu_tracks" />
+            android:title="@string/menu_tracks"
+            app:showAsAction="always" />
         <item
             android:id="@+id/nav_schedule"
             android:checked="true"
             android:icon="@drawable/ic_schedule_grey600_24dp"
-            app:showAsAction="always"
-            android:title="@string/menu_schedule" />
+            android:title="@string/menu_schedule"
+            app:showAsAction="always" />
 
 
         <item
             android:id="@+id/nav_speakers"
             android:icon="@drawable/ic_people_black_24dp"
-            app:showAsAction="always"
-            android:title="@string/menu_speakers" />
+            android:title="@string/menu_speakers"
+            app:showAsAction="always" />
         <item
             android:id="@+id/nav_sponsors"
             android:icon="@drawable/ic_sponsors_white_24dp"
-            app:showAsAction="always"
-            android:title="@string/menu_sponsor" />
+            android:title="@string/menu_sponsor"
+            app:showAsAction="always" />
         <item
             android:id="@+id/nav_map"
             android:icon="@drawable/ic_map_white_24dp"
-            app:showAsAction="always"
-            android:title="@string/menu_map" />
+            android:title="@string/menu_map"
+            app:showAsAction="always" />
         <item
             android:id="@+id/nav_locations"
             android:icon="@drawable/ic_location_on_black_24dp"
-            app:showAsAction="always"
-            android:title="@string/menu_locations" />
+            android:title="@string/menu_locations"
+            app:showAsAction="always" />
 
         <item
             android:id="@+id/nav_faqs"
             android:icon="@drawable/ic_question_answer_black_24dp"
-            app:showAsAction="always"
-            android:title="@string/menu_faqs" />
+            android:title="@string/menu_faqs"
+            app:showAsAction="always" />
 
     </group>
 
@@ -84,13 +80,13 @@
         <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_settings_black_24dp"
-            app:showAsAction="always"
-            android:title="@string/menu_settings" />
+            android:title="@string/menu_settings"
+            app:showAsAction="always" />
         <item
             android:id="@+id/nav_share"
             android:icon="@drawable/ic_share_white_24dp"
-            app:showAsAction="always"
-            android:title="@string/menu_share" />
+            android:title="@string/menu_share"
+            app:showAsAction="always" />
 
     </group>
 
