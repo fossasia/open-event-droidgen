@@ -7,20 +7,27 @@ import com.github.jasminb.jsonapi.annotations.Id;
 import com.github.jasminb.jsonapi.annotations.Type;
 
 import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Data
+@Builder()
 @Type("feedbacks")
 @EqualsAndHashCode(callSuper = false)
+@NoArgsConstructor
+@AllArgsConstructor
 @JsonNaming(PropertyNamingStrategy.KebabCaseStrategy.class)
 public class Feedback extends RealmObject {
 
     @PrimaryKey
     @Id(IntegerIdHandler.class)
     private int id;
-
     private String rating;
+    @Ignore
     private String comment;
 }

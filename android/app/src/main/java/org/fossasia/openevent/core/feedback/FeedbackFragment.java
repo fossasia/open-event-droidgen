@@ -9,13 +9,11 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -69,6 +67,7 @@ public class FeedbackFragment extends BaseFragment {
         } else {
             redirectToLogin();
         }
+
 
         return view;
     }
@@ -159,22 +158,29 @@ public class FeedbackFragment extends BaseFragment {
 
     @OnClick(R.id.submit_feedback_fab)
     public void submitFeedback(){
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
-
-        LayoutInflater inflater = this.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.submit_feedback_dialog, null);
-        dialogBuilder.setView(dialogView).setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
-        dialogBuilder.setView(dialogView).setPositiveButton("Submit", (dialog, which) -> {
-            Toast.makeText(context,"Submit",Toast.LENGTH_SHORT).show();
-
+        feedbackViewModel.postFeedback("1","This was bad").observe(this, postResponse ->{
+            if(postResponse==true){
+                Timber.d("post success");
+            }else{
+                Timber.d("Posting unsuccessful ");
+            }
         });
-        dialogBuilder.setTitle("Please share your feedback!");
-        EditText rating = dialogView.findViewById(R.id.feedback_rating);
-        EditText comments = dialogView.findViewById(R.id.feedback_comment);
-
-
-        AlertDialog alertDialog = dialogBuilder.create();
-        alertDialog.show();
+//        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+//
+//        LayoutInflater inflater = this.getLayoutInflater();
+//        View dialogView = inflater.inflate(R.layout.submit_feedback_dialog, null);
+//        dialogBuilder.setView(dialogView).setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+//        dialogBuilder.setView(dialogView).setPositiveButton("Submit", (dialog, which) -> {
+//            Toast.makeText(context,"Submit",Toast.LENGTH_SHORT).show();
+//
+//        });
+//        dialogBuilder.setTitle("Please share your feedback!");
+//        EditText rating = dialogView.findViewById(R.id.feedback_rating);
+//        EditText comments = dialogView.findViewById(R.id.feedback_comment);
+//
+//
+//        AlertDialog alertDialog = dialogBuilder.create();
+//        alertDialog.show();
 
     }
 }

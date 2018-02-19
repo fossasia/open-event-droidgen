@@ -23,6 +23,7 @@ public class FeedbackViewModel extends ViewModel {
     private LiveData<List<Feedback>> feedbackData;
     private MutableLiveData<Boolean> feedbackDownloadResponse;
     private final CompositeDisposable compositeDisposable;
+    private MutableLiveData<Boolean> postResponse;
 
     public FeedbackViewModel() {
         realmRepo = RealmDataRepository.getDefaultInstance();
@@ -59,9 +60,26 @@ public class FeedbackViewModel extends ViewModel {
         return feedbackDownloadResponse;
     }
 
+    public LiveData<Boolean> postFeedback(String rating, String comment) {
+        if (postResponse == null) {
+            postResponse = new MutableLiveData<>();
+        }
+        compositeDisposable.add(APIClient.getOpenEventAPI().postFeedback(Feedback.builder().id(198).rating(rating).comment(comment).build())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                    postResponse.setValue(true);
+                }, throwable -> {
+                    Timber.e(throwable.toString());
+                    postResponse.setValue(false);
+                }));
+        return postResponse;
+    }
+
     @Override
     protected void onCleared() {
         super.onCleared();
         compositeDisposable.dispose();
     }
+
 }
