@@ -39,7 +39,7 @@
                     android:layout_height="wrap_content"
                     android:columnCount="3"
                     android:padding="10dp"
-                    android:rowCount="4">
+                    android:rowCount="5">
 
                     <TextView
                         android:id="@+id/trak"
@@ -66,6 +66,43 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/primary_text"
                         android:textSize="@dimen/text_size_large" />
+
+                    <TextView
+                        android:id="@+id/type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/layout_margin_medium"
+                        android:layout_marginRight="30dp"
+                        android:text="@string/type"
+                        android:textColor="@color/primary_text"
+                        android:textSize="@dimen/text_size_large"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_columnSpan="2"
+                        android:id="@+id/typeLayout"
+                        android:visibility="gone"
+                        android:layout_rowSpan="1">
+
+                        <TextView
+                            android:id="@+id/dot"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dot_session"
+                            android:textColor="@color/primary_text"
+                            android:textSize="@dimen/text_size_large"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/sessionType"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/primary_text"
+                            android:textSize="@dimen/text_size_large" />
+
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/date"

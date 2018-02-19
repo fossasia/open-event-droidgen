@@ -211,6 +211,7 @@
     <string name="no_notification">No notifications yet!</string>
     <string name="charges_warning">Data charges may apply</string>
     <string name="tracks">Track</string>
+    <string name="type">Type</string>
     <string name="dot_session">:&#160;</string>
     <string name="date">Date</string>
     <string name="duration">Duration</string>
