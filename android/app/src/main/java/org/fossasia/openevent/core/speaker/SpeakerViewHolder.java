@@ -29,9 +29,6 @@ import org.fossasia.openevent.common.utils.Utils;
 import org.fossasia.openevent.config.StrategyRegistry;
 import org.fossasia.openevent.data.Speaker;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
@@ -55,11 +52,9 @@ public class SpeakerViewHolder extends RecyclerView.ViewHolder {
     protected LinearLayout speakerTextualInfo;
 
     private Speaker speaker;
-    private Map<Speaker, Integer> speakerToColor = new HashMap<>();
     private Context context;
+
     private boolean isImageCircle = true;
-
-
 
     public SpeakerViewHolder(View itemView, Context context) {
         super(itemView);
@@ -101,14 +96,7 @@ public class SpeakerViewHolder extends RecyclerView.ViewHolder {
         final Palette.PaletteAsyncListener paletteAsyncListener = palette -> {
             Palette.Swatch swatch = palette.getVibrantSwatch();
             if (swatch != null && speakerTextualInfo != null) {
-                int rgb;
-                if (speakerToColor.containsKey(speaker)) {
-                    rgb = speakerToColor.get(speaker);
-                } else {
-                    rgb = swatch.getRgb();
-                    speakerTextualInfo.setBackgroundColor(rgb);
-                    speakerToColor.put(speaker, rgb);
-                }
+                speakerTextualInfo.setBackgroundColor(swatch.getRgb());
             }
         };
 
