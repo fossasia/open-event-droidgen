@@ -95,8 +95,21 @@ public class SpeakerViewHolder extends RecyclerView.ViewHolder {
 
         final Palette.PaletteAsyncListener paletteAsyncListener = palette -> {
             Palette.Swatch swatch = palette.getVibrantSwatch();
-            if (swatch != null && speakerTextualInfo != null) {
-                speakerTextualInfo.setBackgroundColor(swatch.getRgb());
+            if (speakerTextualInfo != null) {
+                if (swatch != null) {
+                    // bitmap has vibrant swatch profile
+                    speakerTextualInfo.setBackgroundColor(swatch.getRgb());
+                } else {
+                    Palette.Swatch swatch2 = palette.getDarkMutedSwatch();
+                    if (swatch2 != null) {
+                        // bitmap has dark muted swatch profile
+                        speakerTextualInfo.setBackgroundColor(swatch2.getRgb());
+                    } else {
+                        // Default color is red if swatches cannot be found
+                        int defaultColor = 0xFFb20000;
+                        speakerTextualInfo.setBackgroundColor(defaultColor);
+                    }
+                }
             }
         };
 
