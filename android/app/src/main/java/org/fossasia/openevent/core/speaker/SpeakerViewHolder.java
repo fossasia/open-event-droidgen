@@ -106,7 +106,7 @@ public class SpeakerViewHolder extends RecyclerView.ViewHolder {
                         // bitmap has dark muted swatch profile
                         speakerTextualInfo.setBackgroundColor(swatch2.getRgb());
                     } else {
-                        speakerTextualInfo.setBackgroundColor(ContextCompat.getColor(context, R.color.speakers_viewholder_background));
+                        speakerTextualInfo.setBackgroundColor(ContextCompat.getColor(context, R.color.color_primary_dark));
                     }
                 }
             }
