@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.common.ui.base.BaseFragment;
-import org.fossasia.openevent.common.ui.image.OnImageZoomListener;
 import org.fossasia.openevent.core.feed.facebook.FacebookFeedFragment;
 import org.fossasia.openevent.core.feed.twitter.TwitterFeedFragment;
 
@@ -24,16 +23,9 @@ public class FeedFragment extends BaseFragment {
     @BindView(R.id.tabLayout)
     protected TabLayout feedTabLayout;
 
-    private OpenCommentsDialogListener openCommentsDialogListener;
-    private OnImageZoomListener onImageZoomListener;
 
-    public static FeedFragment getInstance(OpenCommentsDialogListener openCommentsDialogListener,
-                                           OnImageZoomListener onImageZoomListener) {
-        FeedFragment feedFragment = new FeedFragment();
-        feedFragment.openCommentsDialogListener = openCommentsDialogListener;
-        feedFragment.onImageZoomListener = onImageZoomListener;
-
-        return feedFragment;
+    public static FeedFragment getInstance() {
+        return new FeedFragment();
     }
 
     @Nullable
@@ -49,8 +41,8 @@ public class FeedFragment extends BaseFragment {
 
     private void setUpViewPager(ViewPager viewPager) {
         FeedViewPagerAdapter feedViewPagerAdapter = new FeedViewPagerAdapter(getChildFragmentManager());
-        feedViewPagerAdapter.addFragment(FacebookFeedFragment.getInstance(openCommentsDialogListener, onImageZoomListener), getString(R.string.facebook));
-        feedViewPagerAdapter.addFragment(TwitterFeedFragment.getInstance(onImageZoomListener), getString(R.string.twitter));
+        feedViewPagerAdapter.addFragment(FacebookFeedFragment.getInstance(), getString(R.string.facebook));
+        feedViewPagerAdapter.addFragment(TwitterFeedFragment.getInstance(), getString(R.string.twitter));
         feedViewPagerAdapter.notifyDataSetChanged();
 
         viewPager.setAdapter(feedViewPagerAdapter);

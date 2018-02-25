@@ -17,9 +17,11 @@ import org.fossasia.openevent.common.ConstantStrings;
 import org.fossasia.openevent.common.network.NetworkUtils;
 import org.fossasia.openevent.common.ui.Views;
 import org.fossasia.openevent.common.ui.image.OnImageZoomListener;
+import org.fossasia.openevent.common.ui.image.ZoomableImageUtil;
 import org.fossasia.openevent.common.utils.SharedPreferencesUtil;
 import org.fossasia.openevent.core.feed.BaseFeedFragment;
 import org.fossasia.openevent.core.feed.OpenCommentsDialogListener;
+import org.fossasia.openevent.core.feed.facebook.api.CommentItem;
 import org.fossasia.openevent.core.feed.facebook.api.FeedItem;
 
 import java.lang.ref.WeakReference;
@@ -32,25 +34,21 @@ import timber.log.Timber;
 import static org.fossasia.openevent.core.auth.AuthUtil.INVALID;
 import static org.fossasia.openevent.core.auth.AuthUtil.VALID;
 
-public class FacebookFeedFragment extends BaseFeedFragment {
+public class FacebookFeedFragment extends BaseFeedFragment implements OpenCommentsDialogListener, OnImageZoomListener {
 
     private FacebookFeedAdapter facebookFeedAdapter;
     private FacebookFeedFragmentViewModel facebookFeedFragmentViewModel;
     private List<FeedItem> feedItems;
-    private OpenCommentsDialogListener openCommentsDialogListener;
-    private OnImageZoomListener onImageZoomListener;
 
-    @BindView(R.id.feed_swipe_refresh) SwipeRefreshLayout swipeRefreshLayout;
-    @BindView(R.id.feed_recycler_view) RecyclerView feedRecyclerView;
-    @BindView(R.id.txt_no_posts) TextView noFeedView;
+    @BindView(R.id.feed_swipe_refresh)
+    protected SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.feed_recycler_view)
+    protected RecyclerView feedRecyclerView;
+    @BindView(R.id.txt_no_posts)
+    protected TextView noFeedView;
 
-    public static FacebookFeedFragment getInstance(OpenCommentsDialogListener openCommentsDialogListener,
-                                                   OnImageZoomListener onImageZoomListener) {
-        FacebookFeedFragment facebookFeedFragment = new FacebookFeedFragment();
-        facebookFeedFragment.openCommentsDialogListener = openCommentsDialogListener;
-        facebookFeedFragment.onImageZoomListener = onImageZoomListener;
-
-        return facebookFeedFragment;
+    public static FacebookFeedFragment getInstance() {
+        return new FacebookFeedFragment();
     }
 
     @Override
@@ -63,8 +61,9 @@ public class FacebookFeedFragment extends BaseFeedFragment {
         facebookFeedFragmentViewModel = ViewModelProviders.of(this).get(FacebookFeedFragmentViewModel.class);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         feedRecyclerView.setLayoutManager(mLayoutManager);
-        facebookFeedAdapter = new FacebookFeedAdapter(getContext(), openCommentsDialogListener, feedItems);
-        facebookFeedAdapter.setOnImageZoomListener(onImageZoomListener);
+        facebookFeedAdapter = new FacebookFeedAdapter(getContext(), feedItems);
+        facebookFeedAdapter.setOpenCommentsDialogListener(this);
+        facebookFeedAdapter.setOnImageZoomListener(this);
         feedRecyclerView.setAdapter(facebookFeedAdapter);
 
         setupProgressBar();
@@ -140,12 +139,10 @@ public class FacebookFeedFragment extends BaseFeedFragment {
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-        if (facebookFeedAdapter != null) {
-            facebookFeedAdapter.removeOnImageZoomListener();
-            facebookFeedAdapter.removeOpenCommentsDialogListener();
-        }
+    public void onDestroy() {
+        super.onDestroy();
+        facebookFeedAdapter.removeOnImageZoomListener();
+        facebookFeedAdapter.removeOpenCommentsDialogListener();
     }
 
     @Override
@@ -161,5 +158,19 @@ public class FacebookFeedFragment extends BaseFeedFragment {
     @Override
     protected View getNoFeedView() {
         return noFeedView;
+    }
+
+    @Override
+    public void openCommentsDialog(List<CommentItem> commentItems) {
+        CommentsDialogFragment newFragment = new CommentsDialogFragment();
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList(ConstantStrings.FACEBOOK_COMMENTS, new ArrayList<>(commentItems));
+        newFragment.setArguments(bundle);
+        newFragment.show(getChildFragmentManager(), "Comments");
+    }
+
+    @Override
+    public void onZoom(String imageUri) {
+        ZoomableImageUtil.showZoomableImageDialogFragment(getChildFragmentManager(), imageUri);
     }
 }

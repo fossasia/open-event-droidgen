@@ -65,7 +65,6 @@ import org.fossasia.openevent.common.network.NetworkUtils;
 import org.fossasia.openevent.common.ui.DialogFactory;
 import org.fossasia.openevent.common.ui.SmoothActionBarDrawerToggle;
 import org.fossasia.openevent.common.ui.base.BaseActivity;
-import org.fossasia.openevent.common.ui.image.OnImageZoomListener;
 import org.fossasia.openevent.common.ui.image.ZoomableImageUtil;
 import org.fossasia.openevent.common.utils.CommonTaskLoop;
 import org.fossasia.openevent.common.utils.SharedPreferencesUtil;
@@ -76,9 +75,6 @@ import org.fossasia.openevent.core.auth.AuthUtil;
 import org.fossasia.openevent.core.auth.profile.UserProfileActivity;
 import org.fossasia.openevent.core.faqs.FAQFragment;
 import org.fossasia.openevent.core.feed.FeedFragment;
-import org.fossasia.openevent.core.feed.OpenCommentsDialogListener;
-import org.fossasia.openevent.core.feed.facebook.CommentsDialogFragment;
-import org.fossasia.openevent.core.feed.facebook.api.CommentItem;
 import org.fossasia.openevent.core.feed.facebook.api.FacebookApi;
 import org.fossasia.openevent.core.location.LocationsFragment;
 import org.fossasia.openevent.core.notifications.NotificationsFragment;
@@ -100,7 +96,6 @@ import org.fossasia.openevent.data.repository.RealmDataRepository;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -115,7 +110,7 @@ import io.realm.RealmList;
 import io.realm.RealmResults;
 import timber.log.Timber;
 
-public class MainActivity extends BaseActivity implements OpenCommentsDialogListener, OnImageZoomListener, AboutFragment.OnMapSelectedListener {
+public class MainActivity extends BaseActivity implements AboutFragment.OnMapSelectedListener {
 
     private static final String STATE_FRAGMENT = "stateFragment";
     private static final String NAV_ITEM = "navItem";
@@ -532,7 +527,7 @@ public class MainActivity extends BaseActivity implements OpenCommentsDialogList
                 replaceFragment(new TracksFragment(), R.string.menu_tracks);
                 break;
             case R.id.nav_feed:
-                replaceFragment(FeedFragment.getInstance(this, this), R.string.menu_feed);
+                replaceFragment(FeedFragment.getInstance(), R.string.menu_feed);
                 break;
             case R.id.nav_schedule:
                 replaceFragment(new ScheduleFragment(), R.string.menu_schedule);
@@ -880,15 +875,6 @@ public class MainActivity extends BaseActivity implements OpenCommentsDialogList
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
-    public void openCommentsDialog(List<CommentItem> commentItems) {
-        CommentsDialogFragment newFragment = new CommentsDialogFragment();
-        Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList(ConstantStrings.FACEBOOK_COMMENTS, new ArrayList<>(commentItems));
-        newFragment.setArguments(bundle);
-        newFragment.show(fragmentManager, "Comments");
     }
 
     @Override

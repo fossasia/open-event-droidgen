@@ -18,6 +18,7 @@ import org.fossasia.openevent.common.ConstantStrings;
 import org.fossasia.openevent.common.network.NetworkUtils;
 import org.fossasia.openevent.common.ui.Views;
 import org.fossasia.openevent.common.ui.image.OnImageZoomListener;
+import org.fossasia.openevent.common.ui.image.ZoomableImageUtil;
 import org.fossasia.openevent.common.utils.SharedPreferencesUtil;
 import org.fossasia.openevent.core.feed.BaseFeedFragment;
 import org.fossasia.openevent.core.feed.twitter.api.TwitterFeedItem;
@@ -32,24 +33,21 @@ import timber.log.Timber;
 import static org.fossasia.openevent.core.auth.AuthUtil.INVALID;
 import static org.fossasia.openevent.core.auth.AuthUtil.VALID;
 
-public class TwitterFeedFragment extends BaseFeedFragment {
+public class TwitterFeedFragment extends BaseFeedFragment implements OnImageZoomListener {
 
     private TwitterFeedAdapter twitterFeedAdapter;
-    private OnImageZoomListener onImageZoomListener;
     private List<TwitterFeedItem> twitterFeedItems;
     private TwitterFeedFragmentViewModel twitterFeedFragmentViewModel;
 
     @BindView(R.id.twitter_feed_swipe_refresh)
-    SwipeRefreshLayout swipeRefreshLayout;
+    protected SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.twitter_feed_recycler_view)
-    RecyclerView twitterFeedRecyclerView;
+    protected RecyclerView twitterFeedRecyclerView;
     @BindView(R.id.twitter_txt_no_posts)
-    TextView noFeedView;
+    protected TextView noFeedView;
 
-    public static TwitterFeedFragment getInstance(OnImageZoomListener onImageZoomListener) {
-       TwitterFeedFragment twitterFeedFragment = new TwitterFeedFragment();
-       twitterFeedFragment.onImageZoomListener = onImageZoomListener;
-       return twitterFeedFragment;
+    public static TwitterFeedFragment getInstance() {
+        return new TwitterFeedFragment();
     }
 
     @Override
@@ -63,7 +61,7 @@ public class TwitterFeedFragment extends BaseFeedFragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         twitterFeedRecyclerView.setLayoutManager(layoutManager);
         twitterFeedAdapter = new TwitterFeedAdapter(getContext(), twitterFeedItems);
-        twitterFeedAdapter.setOnImageZoomListener(onImageZoomListener);
+        twitterFeedAdapter.setOnImageZoomListener(this);
         twitterFeedRecyclerView.setAdapter(twitterFeedAdapter);
 
         setupProgressBar();
@@ -144,9 +142,7 @@ public class TwitterFeedFragment extends BaseFeedFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (twitterFeedAdapter != null) {
-            twitterFeedAdapter.removeOnImageZoomListener();
-        }
+        twitterFeedAdapter.removeOnImageZoomListener();
     }
 
     @Override
@@ -162,5 +158,10 @@ public class TwitterFeedFragment extends BaseFeedFragment {
     @Override
     protected View getNoFeedView() {
         return noFeedView;
+    }
+
+    @Override
+    public void onZoom(String imageUri) {
+        ZoomableImageUtil.showZoomableImageDialogFragment(getChildFragmentManager(), imageUri);
     }
 }

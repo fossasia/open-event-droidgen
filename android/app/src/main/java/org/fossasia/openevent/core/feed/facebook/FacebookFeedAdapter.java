@@ -86,11 +86,10 @@ public class FacebookFeedAdapter extends BaseRVAdapter<FeedItem, FacebookFeedAda
         }
     }
 
-    public FacebookFeedAdapter(Context context, OpenCommentsDialogListener openCommentsDialogListener, List<FeedItem> feedItems) {
+    public FacebookFeedAdapter(Context context, List<FeedItem> feedItems) {
         super(feedItems);
         this.feedItems = feedItems;
         this.context = context;
-        this.openCommentsDialogListener = openCommentsDialogListener;
     }
 
     @Override
@@ -170,6 +169,10 @@ public class FacebookFeedAdapter extends BaseRVAdapter<FeedItem, FacebookFeedAda
         if (onImageZoomListener != null) {
             onImageZoomListener.onZoom(imageUri);
         }
+    }
+
+    public void setOpenCommentsDialogListener(OpenCommentsDialogListener openCommentsDialogListener) {
+        this.openCommentsDialogListener = openCommentsDialogListener;
     }
 
     public void removeOpenCommentsDialogListener() {
