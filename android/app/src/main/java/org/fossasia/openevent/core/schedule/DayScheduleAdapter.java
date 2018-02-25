@@ -19,39 +19,17 @@ import org.fossasia.openevent.common.ui.recyclerview.stickyheadersrecyclerview.S
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-
-import io.reactivex.Observable;
-import io.realm.RealmResults;
-import timber.log.Timber;
 
 public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleViewHolder> implements StickyRecyclerHeadersAdapter<HeaderViewHolder> {
 
     private Context context;
-    private String eventDate;
     private OnBookmarkSelectedListener onBookmarkSelectedListener;
-
     private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
-
     private ArrayList<String> tracks = new ArrayList<>();
-    private List<Session> copyOfSessions = new ArrayList<>();
 
     public DayScheduleAdapter(List<Session> sessions, Context context) {
         super(sessions);
-        this.copyOfSessions = new ArrayList<>(sessions);
         this.context = context;
-    }
-
-    public void setCopy(List<Session> sessions) {
-        copyOfSessions = sessions;
-    }
-
-    public String getEventDate() {
-        return eventDate;
-    }
-
-    public void setEventDate(String eventDate) {
-        this.eventDate = eventDate;
     }
 
     @Override
@@ -76,24 +54,6 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleViewHo
     @Override
     public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
         super.onDetachedFromRecyclerView(recyclerView);
-    }
-
-    public void filter(String constraint) {
-        final String query = constraint.toLowerCase(Locale.getDefault());
-
-        ((RealmResults<Session>) copyOfSessions).sort(SortOrder.sortTypeSchedule());
-
-        List<Session> filteredSessions = Observable.fromIterable(copyOfSessions)
-                .filter(session -> session.getTitle().toLowerCase().contains(query))
-                .toList().blockingGet();
-
-        Timber.d("Filtering done total results %d", filteredSessions.size());
-
-        if (filteredSessions.isEmpty()) {
-            Timber.e("No results published. There is an error in query. Check " + getClass().getName() + " filter!");
-        }
-
-        animateTo(filteredSessions);
     }
 
     @Override

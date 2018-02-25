@@ -1,5 +1,6 @@
 package org.fossasia.openevent.core.schedule;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -29,27 +30,21 @@ import org.fossasia.openevent.common.network.NetworkUtils;
 import org.fossasia.openevent.common.ui.Views;
 import org.fossasia.openevent.common.ui.base.BaseFragment;
 import org.fossasia.openevent.common.ui.recyclerview.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
-import org.fossasia.openevent.common.utils.SortOrder;
 import org.fossasia.openevent.common.utils.Utils;
 import org.fossasia.openevent.config.StrategyRegistry;
 import org.fossasia.openevent.core.bookmark.OnBookmarkSelectedListener;
 import org.fossasia.openevent.data.Session;
-import org.fossasia.openevent.data.repository.RealmDataRepository;
-
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
-import io.realm.RealmResults;
 import timber.log.Timber;
 
 public class DayScheduleFragment extends BaseFragment implements SearchView.OnQueryTextListener {
 
-    final private String SEARCH = "searchText";
-
     private Context context;
+    private String date;
     private String searchText = "";
     private SearchView searchView;
 
@@ -58,15 +53,12 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
     @BindView(R.id.txt_no_schedule) TextView noSchedule;
     @BindView(R.id.txt_no_result_schedule) protected TextView noResultsSchedule;
 
-    private List<Session> sessions = new ArrayList<>();
     private List<Session> filteredSessions = new ArrayList<>();
     private DayScheduleAdapter dayScheduleAdapter;
-    private OnBookmarkSelectedListener onBookmarkSelectedListener;
 
-    private String date;
-    private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
-    private RealmResults<Session> realmResults;
+    private OnBookmarkSelectedListener onBookmarkSelectedListener;
     private RecyclerView.AdapterDataObserver adapterDataObserver;
+    private DayScheduleFragmentViewModel dayScheduleFragmentViewModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -85,32 +77,22 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
         Utils.registerIfUrlValid(swipeRefreshLayout, this, this::refresh);
         setUpRecyclerView();
 
-        if (savedInstanceState != null && savedInstanceState.getString(SEARCH) != null) {
-            searchText = savedInstanceState.getString(SEARCH);
-        }
+        // Set up view model
+        dayScheduleFragmentViewModel = ViewModelProviders.of(this).get(DayScheduleFragmentViewModel.class);
+        searchText = dayScheduleFragmentViewModel.getSearchText();
 
-        realmResults = realmRepo.getSessionsByDate(date, SortOrder.sortTypeSchedule());
-        realmResults.addChangeListener((sortedSessions, orderedCollectionChangeSet) -> {
-            sessions.clear();
-            sessions.addAll(sortedSessions);
+        loadSessions();
+        handleVisibility();
+        return view;
+    }
 
+    private void loadSessions() {
+        dayScheduleFragmentViewModel.getSessionsByDate(date, searchText).observe(DayScheduleFragment.this, sessions ->  {
             filteredSessions.clear();
-            filteredSessions.addAll(sortedSessions);
-
-            dayScheduleAdapter.setCopy(sortedSessions);
+            filteredSessions.addAll(sessions);
             dayScheduleAdapter.notifyDataSetChanged();
-            if (!Utils.isEmpty(searchText))
-                dayScheduleAdapter.filter(searchText);
-
-            if(SortOrder.sortOrderSchedule() == SortOrder.SORT_ORDER_DESCENDING)
-                Collections.reverse(filteredSessions);
-
             handleVisibility();
         });
-
-        handleVisibility();
-
-        return view;
     }
 
     private void setUpRecyclerView() {
@@ -121,7 +103,6 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
         dayRecyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
         dayRecyclerView.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
         dayRecyclerView.setAdapter(dayScheduleAdapter);
-        dayScheduleAdapter.setEventDate(date);
 
         final StickyRecyclerHeadersDecoration headersDecoration = new StickyRecyclerHeadersDecoration(dayScheduleAdapter);
         dayRecyclerView.addItemDecoration(headersDecoration);
@@ -134,38 +115,25 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
         dayScheduleAdapter.registerAdapterDataObserver(adapterDataObserver);
     }
 
-    public void filter(List<String> selectedTracks) {
-        if(dayScheduleAdapter == null)
-            return;
-
-        realmRepo.getSessionsByDate(date, SortOrder.sortTypeSchedule())
-                .addChangeListener((sortedSessions, orderedCollectionChangeSet) -> {
-                    sessions.clear();
-                    sessions.addAll(sortedSessions);
-
-                    filteredSessions.clear();
-                    if (selectedTracks.isEmpty()) {
-                        filteredSessions.addAll(sessions);
-                    } else {
-                        for(int i = 0; i < sessions.size() ; i++) {
-                            String trackName = sessions.get(i).getTrack().getName();
-                            if (selectedTracks.contains(trackName)) {
-                                filteredSessions.add(sessions.get(i));
-                            }
-                        }
-
-                        if(searchText!=null)
-                            dayScheduleAdapter.filter(searchText);
-                    }
-
-                    if(SortOrder.sortOrderSchedule() == SortOrder.SORT_ORDER_DESCENDING)
-                        Collections.reverse(filteredSessions);
-
-                    dayScheduleAdapter.notifyDataSetChanged();
-
-                    handleVisibility();
-                });
+    public void filterByTracks(List<String> selectedTracks) {
+        dayScheduleFragmentViewModel.getSortedSessionsByTracks(searchText, selectedTracks).observe(DayScheduleFragment.this, trackSessions -> {
+            filteredSessions.clear();
+            filteredSessions.addAll(trackSessions);
+            dayScheduleAdapter.notifyDataSetChanged();
+            handleVisibility();
+        });
     }
+
+    public void filterByQuery(String query) {
+        searchText = query;
+        dayScheduleFragmentViewModel.getSessionsBySearchText(searchText).observe(DayScheduleFragment.this, matchingSessions -> {
+            filteredSessions.clear();
+            filteredSessions.addAll(matchingSessions);
+            dayScheduleAdapter.notifyDataSetChanged();
+            handleVisibility();
+        });
+    }
+
 
     private void handleVisibility() {
         if (dayRecyclerView != null && noSchedule != null) {
@@ -176,7 +144,6 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
             }
         }
     }
-
 
     @Override
     protected int getLayoutResource() {
@@ -190,7 +157,6 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
         dayScheduleAdapter.unregisterAdapterDataObserver(adapterDataObserver);
 
         // Remove listeners to fix memory leak
-        realmResults.removeAllChangeListeners();
         if(swipeRefreshLayout != null) swipeRefreshLayout.setOnRefreshListener(null);
         if(searchView != null) searchView.setOnQueryTextListener(null);
     }
@@ -202,7 +168,8 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
         if (event.isState()) {
             Timber.i("Schedule download completed");
             if (searchView != null && !searchView.getQuery().toString().isEmpty() && !searchView.isIconified()) {
-                dayScheduleAdapter.filter(searchView.getQuery().toString());
+                searchText = searchView.getQuery().toString();
+                filterByQuery(searchText);
             }
         } else {
             Timber.i("Schedule download failed");
@@ -213,18 +180,9 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
     }
 
     @Override
-    public void onSaveInstanceState(@NonNull Bundle bundle) {
-        if (isAdded() && searchView != null) {
-            bundle.putString(SEARCH, searchText);
-        }
-        super.onSaveInstanceState(bundle);
-    }
-
-    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
-        searchText = "";
         inflater.inflate(R.menu.menu_schedule, menu);
 
         MenuItem item = menu.findItem(R.id.action_search_schedule);
@@ -238,10 +196,9 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
     @Override
     public boolean onQueryTextChange(String query) {
         searchText = query;
-
-        dayScheduleAdapter.filter(searchText);
+        filterByQuery(searchText);
+        dayScheduleAdapter.animateTo(filteredSessions);
         Utils.displayNoResults(noResultsSchedule, dayRecyclerView, noSchedule, dayScheduleAdapter.getItemCount());
-
         return true;
     }
 

@@ -157,7 +157,7 @@ public class ScheduleFragment extends BaseFragment implements OnBookmarkSelected
         if(position == -1)
             position = viewPager.getCurrentItem();
 
-        ((DayScheduleFragment) adapter.getItem(position)).filter(selectedTracks);
+        ((DayScheduleFragment) adapter.getItem(position)).filterByTracks(selectedTracks);
     }
 
     @Override
