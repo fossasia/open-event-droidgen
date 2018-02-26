@@ -24,6 +24,7 @@ import org.fossasia.openevent.common.utils.Utils;
 import org.fossasia.openevent.core.bookmark.BookmarkStatus;
 import org.fossasia.openevent.core.bookmark.OnBookmarkSelectedListener;
 import org.fossasia.openevent.data.Session;
+import org.fossasia.openevent.data.SessionType;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.data.repository.RealmDataRepository;
@@ -85,6 +86,9 @@ public class SessionViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.session_status)
     TextView sessionStatus;
 
+    @BindView(R.id.subtitle)
+    TextView subtitle;
+
     private Session session;
     private Context context;
     private OnBookmarkSelectedListener onBookmarkSelectedListener;
@@ -116,6 +120,13 @@ public class SessionViewHolder extends RecyclerView.ViewHolder {
         } else {
             sessionSubtitle.setVisibility(View.VISIBLE);
             sessionSubtitle.setText(sessionSubTitle);
+        }
+
+        SessionType sessionType = session.getSessionType();
+
+        if (sessionType != null) {
+            subtitle.setVisibility(View.VISIBLE);
+            subtitle.setText(sessionType.getName());
         }
 
         sessionStatus.setVisibility(View.GONE);

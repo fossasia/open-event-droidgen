@@ -24,29 +24,43 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/layout_margin_medium"
                 android:background="@color/color_primary"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:padding="@dimen/padding_medium">
 
-                <TextView
-                    android:id="@+id/session_title"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:padding="@dimen/padding_medium"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/heading_text_size"
-                    tools:text="Session Title" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                <ImageView
-                    android:id="@+id/session_bookmark_status"
+                    <TextView
+                        android:id="@+id/session_title"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="@dimen/padding_medium"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/heading_text_size"
+                        tools:text="Session Title" />
+
+                    <ImageView
+                        android:id="@+id/session_bookmark_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="@string/session_bookmark_status"
+                        android:padding="@dimen/padding_medium"
+                        app:srcCompat="@drawable/ic_bookmark_border_white_24dp" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/subtitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:contentDescription="@string/session_bookmark_status"
-                    android:padding="@dimen/padding_medium"
-                    app:srcCompat="@drawable/ic_bookmark_border_white_24dp" />
-
+                    android:layout_marginStart="@dimen/layout_margin_medium"
+                    android:layout_marginLeft="@dimen/layout_margin_medium"
+                    android:textSize="@dimen/text_size_medium"
+                    tools:text="Type"/>
 
             </LinearLayout>
 
