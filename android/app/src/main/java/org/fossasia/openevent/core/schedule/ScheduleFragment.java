@@ -198,15 +198,13 @@ public class ScheduleFragment extends BaseFragment implements OnBookmarkSelected
 
     @OnClick (R.id.schedule_fab_filter)
     public void filterSchedule() {
+        boolean saveSelectedTracks[] = Arrays.copyOf(isTrackSelected, isTrackSelected.length);
         final AlertDialog.Builder dialogSort = new AlertDialog.Builder(context)
                 .setTitle(R.string.dialog_filter_title)
                 .setOnKeyListener((dialog, keyCode, event) -> {
                     if (keyCode == KeyEvent.KEYCODE_BACK &&
                             event.getAction() == KeyEvent.ACTION_UP &&
                             !event.isCanceled()) {
-                        Arrays.fill(isTrackSelected, false);
-                        selectedTracks.clear();
-                        notifyUpdate(-1, selectedTracks);
                         dialog.cancel();
                         return true;
                     }
@@ -233,7 +231,11 @@ public class ScheduleFragment extends BaseFragment implements OnBookmarkSelected
                         filterBar.setVisibility(View.VISIBLE);
                     } else {
                         filterBar.setVisibility(View.GONE);
+                        notifyUpdate(-1, selectedTracks);
                     }
+                })
+                .setNegativeButton("Cancel", (dialogInterface, i) -> {
+                    isTrackSelected = Arrays.copyOf(saveSelectedTracks, saveSelectedTracks.length);
                 });
 
         dialogSort.show();
