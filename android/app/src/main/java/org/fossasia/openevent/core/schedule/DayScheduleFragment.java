@@ -34,6 +34,7 @@ import org.fossasia.openevent.common.utils.Utils;
 import org.fossasia.openevent.config.StrategyRegistry;
 import org.fossasia.openevent.core.bookmark.OnBookmarkSelectedListener;
 import org.fossasia.openevent.data.Session;
+
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,10 +49,14 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
     private String searchText = "";
     private SearchView searchView;
 
-    @BindView(R.id.schedule_swipe_refresh) SwipeRefreshLayout swipeRefreshLayout;
-    @BindView(R.id.list_schedule) RecyclerView dayRecyclerView;
-    @BindView(R.id.txt_no_schedule) TextView noSchedule;
-    @BindView(R.id.txt_no_result_schedule) protected TextView noResultsSchedule;
+    @BindView(R.id.schedule_swipe_refresh)
+    SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.list_schedule)
+    RecyclerView dayRecyclerView;
+    @BindView(R.id.txt_no_schedule)
+    TextView noSchedule;
+    @BindView(R.id.txt_no_result_schedule)
+    protected TextView noResultsSchedule;
 
     private List<Session> filteredSessions = new ArrayList<>();
     private DayScheduleAdapter dayScheduleAdapter;
@@ -70,7 +75,6 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-
         context = getContext();
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
@@ -81,13 +85,19 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
         dayScheduleFragmentViewModel = ViewModelProviders.of(this).get(DayScheduleFragmentViewModel.class);
         searchText = dayScheduleFragmentViewModel.getSearchText();
 
-        loadSessions();
+//        loadSessions();
         handleVisibility();
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadSessions();
+    }
+
     private void loadSessions() {
-        dayScheduleFragmentViewModel.getSessionsByDate(date, searchText).observe(DayScheduleFragment.this, sessions ->  {
+        dayScheduleFragmentViewModel.getSessionsByDate(date, searchText).observe(DayScheduleFragment.this, sessions -> {
             filteredSessions.clear();
             filteredSessions.addAll(sessions);
             dayScheduleAdapter.notifyDataSetChanged();
@@ -157,8 +167,8 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
         dayScheduleAdapter.unregisterAdapterDataObserver(adapterDataObserver);
 
         // Remove listeners to fix memory leak
-        if(swipeRefreshLayout != null) swipeRefreshLayout.setOnRefreshListener(null);
-        if(searchView != null) searchView.setOnQueryTextListener(null);
+        if (swipeRefreshLayout != null) swipeRefreshLayout.setOnRefreshListener(null);
+        if (searchView != null) searchView.setOnQueryTextListener(null);
     }
 
     @Subscribe
