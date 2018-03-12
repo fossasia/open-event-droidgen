@@ -11,9 +11,6 @@ import io.realm.annotations.PrimaryKey;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-/**
- * Created by mayank on 4/2/18.
- */
 @Data
 @Type("faq")
 @EqualsAndHashCode(callSuper = false)
@@ -27,6 +24,4 @@ public class FAQ extends RealmObject {
     private String question;
     private String answer;
 
-//    @Relationship("faq-type")
-//    private RealmList<FAQType> faqTypes;
 }

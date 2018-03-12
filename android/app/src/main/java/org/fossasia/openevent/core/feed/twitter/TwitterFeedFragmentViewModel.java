@@ -4,13 +4,13 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
+import org.fossasia.openevent.core.feed.twitter.api.PostsResponse;
 import org.fossasia.openevent.core.feed.twitter.api.TwitterApi;
 import org.fossasia.openevent.core.feed.twitter.api.TwitterFeed;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
-import lombok.Data;
 
 import static org.fossasia.openevent.core.auth.AuthUtil.INVALID;
 import static org.fossasia.openevent.core.auth.AuthUtil.VALID;
@@ -39,9 +39,4 @@ public class TwitterFeedFragmentViewModel extends ViewModel {
         super.onCleared();
     }
 
-    @Data
-    public static class PostsResponse {
-        private final int response;
-        private final TwitterFeed twitterFeed;
-    }
 }

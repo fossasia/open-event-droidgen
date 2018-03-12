@@ -4,17 +4,16 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 
+import org.fossasia.openevent.common.arch.FilterableRealmLiveData;
+import org.fossasia.openevent.common.date.DateConverter;
 import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.data.extras.EventDates;
-import org.fossasia.openevent.common.arch.FilterableRealmLiveData;
 import org.fossasia.openevent.data.repository.RealmDataRepository;
-import org.fossasia.openevent.common.date.DateConverter;
 import org.threeten.bp.format.DateTimeParseException;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import lombok.Data;
 import timber.log.Timber;
 
 public class ScheduleFragmentViewModel extends ViewModel {
@@ -55,9 +54,4 @@ public class ScheduleFragmentViewModel extends ViewModel {
         return trackFilterableRealmLiveData;
     }
 
-    @Data
-    public static class EventDateStrings {
-        private final String formattedDate;
-        private final String date;
-    }
 }

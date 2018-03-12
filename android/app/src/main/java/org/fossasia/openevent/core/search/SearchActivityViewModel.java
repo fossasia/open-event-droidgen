@@ -51,7 +51,9 @@ public class SearchActivityViewModel extends ViewModel {
 
     public void addResultsFromTracks(String queryString) {
         RealmResults<Track> filteredTracks = realm.where(Track.class)
-                .like("name", queryString, Case.INSENSITIVE).findAllSortedAsync("name");
+                .like("name", queryString, Case.INSENSITIVE)
+                .sort("name")
+                .findAllAsync();
 
         filteredTracks.addChangeListener(tracks -> {
             if (tracks.size() > 0) {
@@ -66,7 +68,9 @@ public class SearchActivityViewModel extends ViewModel {
         RealmResults<Speaker> filteredSpeakers = realm.where(Speaker.class)
                 .like("name", queryString, Case.INSENSITIVE).or()
                 .like("country", queryString, Case.INSENSITIVE).or()
-                .like("organisation", queryString, Case.INSENSITIVE).findAllSortedAsync("name");
+                .like("organisation", queryString, Case.INSENSITIVE)
+                .sort("name")
+                .findAllAsync();
 
         filteredSpeakers.addChangeListener(speakers -> {
             if (speakers.size() > 0) {
@@ -79,7 +83,9 @@ public class SearchActivityViewModel extends ViewModel {
 
     public void addResultsFromLocations(String queryString) {
         RealmResults<Microlocation> filteredMicrolocations = realm.where(Microlocation.class)
-                .like("name", queryString, Case.INSENSITIVE).findAllSortedAsync("name");
+                .like("name", queryString, Case.INSENSITIVE)
+                .sort("name")
+                .findAllAsync();
 
         filteredMicrolocations.addChangeListener(microlocations -> {
             if (microlocations.size() > 0) {
@@ -92,7 +98,9 @@ public class SearchActivityViewModel extends ViewModel {
 
     public void addResultFromSessions(String queryString) {
         RealmResults<Session> filteredSessions = realm.where(Session.class)
-                .like("title", queryString, Case.INSENSITIVE).findAllSortedAsync("title");
+                .like("title", queryString, Case.INSENSITIVE)
+                .sort("title")
+                .findAllAsync();
 
         filteredSessions.addChangeListener(sessions -> {
             if (sessions.size() > 0) {
