@@ -326,9 +326,18 @@ public class MainActivity extends BaseActivity implements AboutFragment.OnMapSel
     private void setNavHeader(Event event) {
         String logo = event.getLogoUrl();
         if (!Utils.isEmpty(logo)) {
-            StrategyRegistry.getInstance().getHttpStrategy().getPicassoWithCache().load(logo).into(headerView);
+            StrategyRegistry.getInstance()
+                    .getHttpStrategy()
+                    .getPicassoWithCache()
+                    .load(logo)
+                    .error(R.mipmap.ic_launcher)
+                    .into(headerView);
         } else {
-            StrategyRegistry.getInstance().getHttpStrategy().getPicassoWithCache().load(R.mipmap.ic_launcher).into(headerView);
+            StrategyRegistry.getInstance()
+                    .getHttpStrategy()
+                    .getPicassoWithCache()
+                    .load(R.mipmap.ic_launcher)
+                    .into(headerView);
         }
     }
 
