@@ -209,6 +209,7 @@
     <string name="noTracks">No Tracks yet!</string>
     <string name="noFeed">No Posts yet!</string>
     <string name="no_notification">No notifications yet!</string>
+    <string name="no_faqs">No faqs yet!</string>
     <string name="charges_warning">Data charges may apply</string>
     <string name="tracks">Track</string>
     <string name="type">Type</string>
@@ -334,8 +335,7 @@
 
     <string name="twitter_feed">Twitter Feed</string>
     <string name="featured_speakers_header">Featured Speakers</string>
-    <string name="login_to_see_faqs">Please login to see faqs!</string>
-    <string name="login_to_view_faqs">Sorry you need to log in to view the FAQs.</string>
+    <string name="login_to_continue">Please login to continue</string>
 
 
 </resources>
