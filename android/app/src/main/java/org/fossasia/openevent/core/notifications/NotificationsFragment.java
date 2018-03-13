@@ -64,6 +64,7 @@ public class NotificationsFragment extends BaseFragment {
             loadNotifications();
             handleVisibility();
         } else {
+            noNotificationView.setText(R.string.login_to_see_notifications);
             redirectToLogin();
         }
 
