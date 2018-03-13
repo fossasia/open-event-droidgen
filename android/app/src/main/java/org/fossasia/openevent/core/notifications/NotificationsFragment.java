@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.common.network.NetworkUtils;
@@ -40,6 +39,8 @@ public class NotificationsFragment extends BaseFragment {
     protected RecyclerView notificationRecyclerView;
     @BindView(R.id.txt_no_notification)
     protected TextView noNotificationView;
+    @BindView(R.id.btn_login)
+    protected TextView loginBtn;
 
     public static NotificationsFragment getInstance() {
         return new NotificationsFragment();
@@ -50,21 +51,23 @@ public class NotificationsFragment extends BaseFragment {
         setHasOptionsMenu(true);
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
-        Utils.registerIfUrlValid(swipeRefreshLayout, this, this::refresh);
-
-        notificationsList = new ArrayList<>();
         notificationsFragmentViewModel = ViewModelProviders.of(this).get(NotificationsFragmentViewModel.class);
-        setUpRecyclerView();
 
         if(AuthUtil.isUserLoggedIn()) {
             if (NetworkUtils.haveNetworkConnection(getContext())) {
                 swipeRefreshLayout.setRefreshing(true);
                 downloadNotifications();
             }
+            showNotificationLayout(true);
+            Utils.registerIfUrlValid(swipeRefreshLayout, this, this::refresh);
+            notificationsList = new ArrayList<>();
+            setUpRecyclerView();
             loadNotifications();
             handleVisibility();
         } else {
-            redirectToLogin();
+            noNotificationView.setText(R.string.login_to_continue);
+            showNotificationLayout(false);
+            loginBtn.setOnClickListener(v -> redirectToLogin());
         }
 
         return view;
@@ -93,6 +96,16 @@ public class NotificationsFragment extends BaseFragment {
         } else {
             noNotificationView.setVisibility(View.GONE);
             notificationRecyclerView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void showNotificationLayout(boolean showLayout) {
+        if (showLayout) {
+            swipeRefreshLayout.setVisibility(View.VISIBLE);
+            loginBtn.setVisibility(View.GONE);
+        } else {
+            swipeRefreshLayout.setVisibility(View.GONE);
+            loginBtn.setVisibility(View.VISIBLE);
         }
     }
 
@@ -142,7 +155,6 @@ public class NotificationsFragment extends BaseFragment {
     }
 
     private void redirectToLogin() {
-        Toast.makeText(getContext(), "Please login to see notifications!", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(getActivity(), LoginActivity.class);
         startActivity(intent);
     }
