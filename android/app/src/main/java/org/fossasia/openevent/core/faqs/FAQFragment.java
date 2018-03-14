@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.common.network.NetworkUtils;
@@ -37,6 +36,8 @@ public class FAQFragment extends BaseFragment {
     protected TextView tvEmptyFaqs;
     @BindView(R.id.faq_swiperefreshlayout)
     protected SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.btn_login)
+    protected TextView loginBtn;
 
     private ArrayList<FAQ> faqArrayList;
     private FAQListAdapter faqListAdapter;
@@ -47,26 +48,28 @@ public class FAQFragment extends BaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 //        setHasOptionsMenu(true); TODO : ADD SEARCH OPTION
         View view = super.onCreateView(inflater, container, savedInstanceState);
-        Utils.registerIfUrlValid(swipeRefreshLayout, this, this::refresh);
-        faqArrayList = new ArrayList<>();
         faqViewModel = ViewModelProviders.of(this).get(FAQViewModel.class);
-        setUpRecyclerView();
 
         if (AuthUtil.isUserLoggedIn()) {
             if (NetworkUtils.haveNetworkConnection(getContext())) {
                 downloadFAQS();
             }
+            showFaqLayout(true);
+            Utils.registerIfUrlValid(swipeRefreshLayout, this, this::refresh);
+            faqArrayList = new ArrayList<>();
+            setUpRecyclerView();
             loadFAQs();
             handleVisibility();
         } else {
-            redirectToLogin();
+            showFaqLayout(false);
+            tvEmptyFaqs.setText(R.string.login_to_continue);
+            loginBtn.setOnClickListener(v -> redirectToLogin());
         }
 
         return view;
     }
 
     private void redirectToLogin() {
-        Toast.makeText(getContext(), R.string.login_to_see_faqs, Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(getActivity(), LoginActivity.class);
         startActivity(intent);
     }
@@ -122,11 +125,13 @@ public class FAQFragment extends BaseFragment {
         }
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (!AuthUtil.isUserLoggedIn()) {
-            tvEmptyFaqs.setText(R.string.login_to_view_faqs);
+    private void showFaqLayout(boolean showLayout) {
+        if (showLayout) {
+            swipeRefreshLayout.setVisibility(View.VISIBLE);
+            loginBtn.setVisibility(View.GONE);
+        } else {
+            swipeRefreshLayout.setVisibility(View.GONE);
+            loginBtn.setVisibility(View.VISIBLE);
         }
     }
 
