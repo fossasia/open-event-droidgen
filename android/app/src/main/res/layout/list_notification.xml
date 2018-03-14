@@ -29,4 +29,15 @@
             tools:listitem="@layout/item_notification" />
 
     </android.support.v4.widget.SwipeRefreshLayout>
+
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?android:actionBarSize"
+        android:layout_alignParentBottom="true"
+        android:background="@color/color_accent"
+        android:text="@string/login"
+        android:textColor="@color/white"/>
+
 </RelativeLayout>
