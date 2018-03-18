@@ -42,12 +42,9 @@ public class DiscountViewHolder extends RecyclerView.ViewHolder {
     public DiscountViewHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
-
-
     }
 
     public void bindDiscountCode(DiscountCode discountCode) {
-
         String code = Utils.checkStringEmpty(discountCode.getCode());
         String discountUrl = Utils.checkStringEmpty(discountCode.getDiscount_url());
         String tickets = Utils.checkStringEmpty(discountCode.getTickets());
@@ -57,14 +54,13 @@ public class DiscountViewHolder extends RecyclerView.ViewHolder {
         int maxQuantity = discountCode.getMax_quantity();
         float value = discountCode.getValue();
 
-        setStringFieldWithPrefix(discountCodeTextView, code, "");
-        setStringFieldWithPrefix(discountCodeValue, "Value : "+value, "");
-        setStringFieldWithPrefix(discountMinQuantity, "Minimum Quantity : "+minQuantity, "");
-        setStringFieldWithPrefix(discountMaxQuantity, "Maximum Quantity :"+maxQuantity, "");
+        setStringFieldWithPrefix(discountCodeTextView, code, null);
+        setStringFieldWithPrefix(discountCodeValue, "Value : " + value, null);
+        setStringFieldWithPrefix(discountMinQuantity, "Minimum Quantity : " + minQuantity, null);
+        setStringFieldWithPrefix(discountMaxQuantity, "Maximum Quantity :" + maxQuantity, null);
         setStringFieldWithPrefix(discountTicket, tickets, "Tickets : ");
         setStringFieldWithPrefix(discountUsedFor, usedFor, "Used For : ");
         setStringFieldWithPrefix(this.discountUrl, discountUrl, "Discount URL : ");
-
     }
 
 
@@ -74,7 +70,10 @@ public class DiscountViewHolder extends RecyclerView.ViewHolder {
 
         if (!TextUtils.isEmpty(field.trim())) {
             textView.setVisibility(View.VISIBLE);
-            textView.setText(prefix + field);
+            if(prefix == null)
+                textView.setText(field);
+            else
+                textView.setText(prefix + field);
         } else {
             textView.setVisibility(View.GONE);
         }
