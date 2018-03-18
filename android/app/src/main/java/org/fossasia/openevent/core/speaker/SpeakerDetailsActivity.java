@@ -34,7 +34,6 @@ import com.squareup.picasso.Target;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.common.api.Urls;
-import org.fossasia.openevent.common.events.BookmarkChangedEvent;
 import org.fossasia.openevent.common.events.ConnectionCheckEvent;
 import org.fossasia.openevent.common.ui.SnackbarUtil;
 import org.fossasia.openevent.common.ui.Views;
@@ -55,7 +54,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import timber.log.Timber;
 
 public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout.OnOffsetChangedListener, OnBookmarkSelectedListener, SessionsListAdapter.OnItemClickListener {
 
@@ -296,14 +294,6 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
         });
     }
 
-    //TODO: High Priority: Remove event bus pattern
-    @Subscribe
-    public void onBookmarksChanged(BookmarkChangedEvent bookmarkChangedEvent) {
-        Timber.d("Bookmarks Changed");
-        loadData();
-    }
-
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -316,7 +306,6 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
 
         gridLayoutManager.setSpanCount(spanCount);
 
-        //TODO: Workaround. Needs fix during implementation of RealmLiveData
         loadData();
     }
 
