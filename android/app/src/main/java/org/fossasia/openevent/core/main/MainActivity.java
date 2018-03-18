@@ -73,6 +73,7 @@ import org.fossasia.openevent.config.StrategyRegistry;
 import org.fossasia.openevent.core.about.AboutFragment;
 import org.fossasia.openevent.core.auth.AuthUtil;
 import org.fossasia.openevent.core.auth.profile.UserProfileActivity;
+import org.fossasia.openevent.core.discount.DiscountCodeFragment;
 import org.fossasia.openevent.core.faqs.FAQFragment;
 import org.fossasia.openevent.core.feed.FeedFragment;
 import org.fossasia.openevent.core.feed.facebook.api.FacebookApi;
@@ -528,6 +529,9 @@ public class MainActivity extends BaseActivity implements AboutFragment.OnMapSel
         switch (menuItemId) {
             case R.id.nav_home:
                 replaceFragment(AboutFragment.newInstance(onMapSelectedListener), R.string.menu_home);
+                break;
+            case R.id.nav_discount_code:
+                replaceFragment(new DiscountCodeFragment(), R.string.discount_code);
                 break;
             case R.id.nav_notification:
                 replaceFragment(NotificationsFragment.getInstance(), R.string.menu_notification);

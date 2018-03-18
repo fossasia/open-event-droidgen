@@ -25,6 +25,11 @@
             android:title="@string/menu_notification" />
 
         <item
+            android:id="@+id/nav_discount_code"
+            android:checked="true"
+            android:icon="@drawable/ic_discount_code_black_24dp"
+            android:title="@string/discount_code" />
+        <item
             android:id="@+id/nav_feed"
             android:checked="true"
             android:icon="@drawable/ic_feed_black_24dp"

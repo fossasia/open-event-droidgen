@@ -5,6 +5,7 @@ import org.fossasia.openevent.core.auth.model.Login;
 import org.fossasia.openevent.core.auth.model.LoginResponse;
 import org.fossasia.openevent.core.auth.model.UploadImage;
 import org.fossasia.openevent.core.auth.model.User;
+import org.fossasia.openevent.data.DiscountCode;
 import org.fossasia.openevent.data.Event;
 import org.fossasia.openevent.data.FAQ;
 import org.fossasia.openevent.data.Microlocation;
@@ -68,5 +69,8 @@ public interface OpenEventAPI {
 
     @GET("../../users/{id}/notifications")
     Observable<List<Notification>> getNotifications(@Path("id") long id);
+
+    @GET("discount-codes")
+    Observable<List<DiscountCode>> getDiscountCodes();
 
 }
