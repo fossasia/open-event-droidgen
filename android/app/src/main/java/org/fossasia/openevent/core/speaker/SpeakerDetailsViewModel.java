@@ -4,7 +4,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 
-import org.fossasia.openevent.common.arch.LiveRealmDataObject;
+import org.fossasia.openevent.common.arch.LiveRealmData;
 import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.repository.RealmDataRepository;
 
@@ -18,8 +18,8 @@ public class SpeakerDetailsViewModel extends ViewModel {
 
     public LiveData<Speaker> getSpeaker(String speakerName) {
         if (speaker == null) {
-            LiveRealmDataObject<Speaker> liveRealmDataObject = RealmDataRepository.asLiveDataForObject(realmRepo.getSpeaker(speakerName));
-            speaker = Transformations.map(liveRealmDataObject, input -> input);
+            LiveRealmData<Speaker> liveRealmDataObject = RealmDataRepository.asLiveData(realmRepo.getSpeakersForName(speakerName));
+            speaker = Transformations.map(liveRealmDataObject, input -> input.first());
         }
         return speaker;
     }

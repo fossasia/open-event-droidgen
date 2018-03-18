@@ -460,6 +460,10 @@ public class RealmDataRepository {
         return realm.where(Speaker.class).equalTo("name", speakerName).findFirstAsync();
     }
 
+    public RealmResults<Speaker> getSpeakersForName(String speakerName){
+        return realm.where(Speaker.class).equalTo("name", speakerName).findAllAsync();
+    }
+
     public RealmResults<Speaker> getSpeakers(String sortCriteria) {
         return realm.where(Speaker.class).findAllSortedAsync(sortCriteria);
     }
