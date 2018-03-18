@@ -44,6 +44,9 @@
     <string name="error_password_not_correct">Incorrect password</string>
     <string name="error_password_empty">Error, Cannot set empty password</string>
     <string name="ok">OK</string>
+    <string name="discount_code_value">Value : %1$f</string>
+    <string name="discount_code_min_quantity">Minimum Quantity : %1$d</string>
+    <string name="discount_code_max_quantity">Maximum Quantity : %1$d</string>
 
     <string name="logged_in_successfully">Successfully logged in</string>
     <string name="logged_out_successfully">Successfully logged out</string>
@@ -74,6 +77,7 @@
     <string name="event_info">Event Info</string>
     <string name="sessions">Sessions</string>
     <string name="session_types">Session Types</string>
+    <string name="discount_code">Discount Codes</string>
 
     <!-- Drawer menu items -->
     <string name="menu_sign_up">Sign Up</string>

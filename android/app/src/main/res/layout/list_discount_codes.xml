@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/discount_code_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_accent"
+        android:padding="@dimen/padding_medium"
+        android:text="Available Discount Codes"
+        android:textColor="@color/card_title"
+        android:textSize="@dimen/text_size_extra_large"
+        android:textStyle="bold" />
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:layout_below="@id/discount_code_header"
+        android:id="@+id/discount_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list_discount_codes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <TextView
+        android:id="@+id/txt_no_discount_codes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="No Disount Codes!" />
+</RelativeLayout>

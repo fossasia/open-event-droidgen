@@ -8,6 +8,7 @@ import org.fossasia.openevent.common.arch.LiveRealmDataObject;
 import org.fossasia.openevent.common.events.BookmarkChangedEvent;
 import org.fossasia.openevent.config.StrategyRegistry;
 import org.fossasia.openevent.core.auth.model.User;
+import org.fossasia.openevent.data.DiscountCode;
 import org.fossasia.openevent.data.Event;
 import org.fossasia.openevent.data.FAQ;
 import org.fossasia.openevent.data.Microlocation;
@@ -498,6 +499,25 @@ public class RealmDataRepository {
 
     public RealmResults<Sponsor> getSponsors() {
         return realm.where(Sponsor.class).findAllSortedAsync("level", Sort.DESCENDING, "name", Sort.ASCENDING);
+    }
+
+    //DiscountCode section
+
+    private void saveDiscountCodesinRealm(List<DiscountCode> discountCodes) {
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(realm1 -> realm1.insertOrUpdate(discountCodes));
+        realm.close();
+    }
+
+    public Completable saveDiscountCodes(final List<DiscountCode> discountCodes) {
+        return Completable.fromAction(() -> {
+            saveDiscountCodesinRealm(discountCodes);
+            Timber.d("Saved DiscountCodes");
+        });
+    }
+
+    public RealmResults<DiscountCode> getDiscountCodes() {
+        return realm.where(DiscountCode.class).findAllSortedAsync("code");
     }
 
     // Location Section

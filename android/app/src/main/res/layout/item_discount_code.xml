@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    android:foreground="?android:attr/selectableItemBackground"
+    tools:layout_width="match_parent">
+
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/layout_margin_medium"
+        card_view:cardCornerRadius="2dp"
+        card_view:cardElevation="2dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/discount_code"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:maxLines="2"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/text_size_large"
+                android:textStyle="bold"
+                tools:ignore="SpUsage"
+                tools:text="Code" />
+
+            <LinearLayout
+                android:layout_weight="7"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:alpha="0.8"
+                android:orientation="vertical"
+                android:padding="@dimen/padding_small"
+                android:layout_marginLeft="@dimen/layout_margin_small"
+                android:id="@+id/linear_layout_discount_code_list_info">
+
+                <TextView
+                    android:id="@+id/discount_code_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="2"
+                    android:visibility="gone"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_size_medium"
+                    tools:ignore="SpUsage"
+                    tools:text="Value" />
+                <TextView
+                    android:id="@+id/discount_url"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="2"
+                    android:visibility="gone"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_size_medium"
+                    tools:ignore="SpUsage"
+                    tools:text="discountUrl" />
+                <TextView
+                    android:id="@+id/discount_is_active"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="2"
+                    android:visibility="gone"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_size_medium"
+                    tools:ignore="SpUsage"
+                    tools:text="Active" />
+
+                <TextView
+                    android:id="@+id/discount_min_quantity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="2"
+                    android:visibility="gone"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_size_medium"
+                    tools:ignore="SpUsage"
+                    tools:text="Min quantity" />
+                <TextView
+                    android:id="@+id/discount_max_quantity"
+                    android:layout_width="match_parent"
+                    android:visibility="gone"
+                    android:layout_height="wrap_content"
+                    android:maxLines="2"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_size_medium"
+                    tools:ignore="SpUsage"
+                    tools:text="max quantity" />
+                <TextView
+                    android:id="@+id/discount_tickets"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="2"
+                    android:visibility="gone"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_size_medium"
+                    tools:ignore="SpUsage"
+                    tools:text="tickets" />
+                <TextView
+                    android:id="@+id/discount_used_for"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:maxLines="2"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_size_medium"
+                    tools:ignore="SpUsage"
+                    tools:text="Used For" />
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</FrameLayout>
