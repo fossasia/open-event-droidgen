@@ -1,5 +1,7 @@
 package org.fossasia.openevent.core.discount;
 
+import android.content.Context;
+import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
@@ -38,10 +40,12 @@ public class DiscountViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.discount_used_for)
     protected TextView discountUsedFor;
 
+    private Context context;
 
     public DiscountViewHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
+        context = itemView.getContext();
     }
 
     public void bindDiscountCode(DiscountCode discountCode) {
@@ -50,14 +54,15 @@ public class DiscountViewHolder extends RecyclerView.ViewHolder {
         String tickets = Utils.checkStringEmpty(discountCode.getTickets());
         String usedFor = Utils.checkStringEmpty(discountCode.getUsed_for());
 
-        int minQuantity = discountCode.getMin_quantity();
-        int maxQuantity = discountCode.getMax_quantity();
-        float value = discountCode.getValue();
+        Resources res = context.getResources();
+        String minQuantity = String.format(res.getString(R.string.discount_code_min_quantity), discountCode.getMin_quantity());
+        String maxQuantity = String.format(res.getString(R.string.discount_code_max_quantity), discountCode.getMax_quantity());
+        String value = String.format(res.getString(R.string.discount_code_value), discountCode.getValue());
 
         setStringFieldWithPrefix(discountCodeTextView, code, null);
-        setStringFieldWithPrefix(discountCodeValue, "Value : " + value, null);
-        setStringFieldWithPrefix(discountMinQuantity, "Minimum Quantity : " + minQuantity, null);
-        setStringFieldWithPrefix(discountMaxQuantity, "Maximum Quantity :" + maxQuantity, null);
+        setStringFieldWithPrefix(discountCodeValue, value, null);
+        setStringFieldWithPrefix(discountMinQuantity, minQuantity, null);
+        setStringFieldWithPrefix(discountMaxQuantity, maxQuantity, null);
         setStringFieldWithPrefix(discountTicket, tickets, "Tickets : ");
         setStringFieldWithPrefix(discountUsedFor, usedFor, "Used For : ");
         setStringFieldWithPrefix(this.discountUrl, discountUrl, "Discount URL : ");
