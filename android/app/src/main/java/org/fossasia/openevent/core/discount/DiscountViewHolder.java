@@ -50,13 +50,13 @@ public class DiscountViewHolder extends RecyclerView.ViewHolder {
 
     public void bindDiscountCode(DiscountCode discountCode) {
         String code = Utils.checkStringEmpty(discountCode.getCode());
-        String discountUrl = Utils.checkStringEmpty(discountCode.getDiscount_url());
+        String discountUrl = Utils.checkStringEmpty(discountCode.getDiscountUrl());
         String tickets = Utils.checkStringEmpty(discountCode.getTickets());
-        String usedFor = Utils.checkStringEmpty(discountCode.getUsed_for());
+        String usedFor = Utils.checkStringEmpty(discountCode.getUsedFor());
 
         Resources res = context.getResources();
-        String minQuantity = String.format(res.getString(R.string.discount_code_min_quantity), discountCode.getMin_quantity());
-        String maxQuantity = String.format(res.getString(R.string.discount_code_max_quantity), discountCode.getMax_quantity());
+        String minQuantity = String.format(res.getString(R.string.discount_code_min_quantity), discountCode.getMinQuantity());
+        String maxQuantity = String.format(res.getString(R.string.discount_code_max_quantity), discountCode.getMaxQuantity());
         String value = String.format(res.getString(R.string.discount_code_value), discountCode.getValue());
 
         setStringFieldWithPrefix(discountCodeTextView, code, null);
