@@ -21,14 +21,14 @@ public class DiscountCode extends RealmObject {
     @Id(IntegerIdHandler.class)
     private int id;
     private String code;
-    private String discount_url;
+    private String discountUrl;
     private float value;
     private String type;
-    private Boolean is_active;
-    private int tickets_number;
-    private int min_quantity;
-    private int max_quantity;
+    private Boolean isActive;
+    private int ticketsNumber;
+    private int minQuantity;
+    private int maxQuantity;
     private String tickets;
-    private String used_for;
+    private String usedFor;
 
 }
