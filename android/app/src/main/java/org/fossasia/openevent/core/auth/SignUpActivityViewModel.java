@@ -5,14 +5,14 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
 import org.fossasia.openevent.common.api.APIClient;
-import org.fossasia.openevent.core.auth.model.Login;
-import org.fossasia.openevent.core.auth.model.User;
 import org.fossasia.openevent.common.utils.Utils;
+import org.fossasia.openevent.core.auth.model.Login;
+import org.fossasia.openevent.core.auth.model.SignUpResponse;
+import org.fossasia.openevent.core.auth.model.User;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
-import lombok.Data;
 import timber.log.Timber;
 
 public class SignUpActivityViewModel extends ViewModel {
@@ -75,9 +75,4 @@ public class SignUpActivityViewModel extends ViewModel {
         super.onCleared();
     }
 
-    @Data
-    public static class SignUpResponse {
-        private final int response;
-        private final String token;
-    }
 }

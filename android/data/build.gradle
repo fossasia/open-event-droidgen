@@ -1,0 +1,32 @@
+apply plugin: 'com.android.library'
+apply plugin: 'realm-android'
+
+android {
+    compileSdkVersion rootProject.sdkVersion
+    buildToolsVersion rootProject.buildTools
+
+    defaultConfig {
+        targetSdkVersion rootProject.sdkVersion
+        minSdkVersion rootProject.minSdkVersion
+        versionCode 1
+        versionName "1.0"
+    }
+
+    compileOptions{
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.github.jasminb:jsonapi-converter:0.7'
+    compileOnly 'org.projectlombok:lombok:1.16.20'
+    annotationProcessor 'org.projectlombok:lombok:1.16.20'
+}

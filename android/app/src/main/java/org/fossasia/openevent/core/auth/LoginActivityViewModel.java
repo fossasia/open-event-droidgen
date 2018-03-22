@@ -6,11 +6,11 @@ import android.arch.lifecycle.ViewModel;
 
 import org.fossasia.openevent.common.api.APIClient;
 import org.fossasia.openevent.core.auth.model.Login;
+import org.fossasia.openevent.core.auth.model.LoginResponse;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
-import lombok.Data;
 import timber.log.Timber;
 
 import static org.fossasia.openevent.core.auth.AuthUtil.INVALID;
@@ -44,9 +44,4 @@ public class LoginActivityViewModel extends ViewModel {
         super.onCleared();
     }
 
-    @Data
-    public static class LoginResponse {
-        private final int response;
-        private final String accessToken;
-    }
 }

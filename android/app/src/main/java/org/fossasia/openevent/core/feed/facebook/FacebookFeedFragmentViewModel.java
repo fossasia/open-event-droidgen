@@ -10,13 +10,13 @@ import org.fossasia.openevent.common.utils.SharedPreferencesUtil;
 import org.fossasia.openevent.core.feed.facebook.api.FacebookApi;
 import org.fossasia.openevent.core.feed.facebook.api.FacebookPageId;
 import org.fossasia.openevent.core.feed.facebook.api.Feed;
+import org.fossasia.openevent.core.feed.facebook.api.PostsResponse;
 import org.reactivestreams.Publisher;
 
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
-import lombok.Data;
 
 import static org.fossasia.openevent.core.auth.AuthUtil.INVALID;
 import static org.fossasia.openevent.core.auth.AuthUtil.VALID;
@@ -62,9 +62,4 @@ public class FacebookFeedFragmentViewModel extends ViewModel {
         super.onCleared();
     }
 
-    @Data
-    public static class PostsResponse {
-        private final int response;
-        private final Feed feed;
-    }
 }
