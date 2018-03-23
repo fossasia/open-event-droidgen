@@ -420,7 +420,6 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
                     Toast.makeText(this, "This device does not have a calendar app installed", Toast.LENGTH_SHORT).show();
                 }
 
-
             default:
         }
         return super.onOptionsItemSelected(item);
