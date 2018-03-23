@@ -416,7 +416,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
                 intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, DateConverter.formatDateWithDefault(DateConverter.FORMAT_24H, session.getEndsAt()));
                 if (intent.resolveActivity(getPackageManager()) != null){
                     startActivity(intent);
-                }else{
+                } else {
                     Toast.makeText(this, "This device does not have a calendar app installed", Toast.LENGTH_SHORT).show();
                 }
 
