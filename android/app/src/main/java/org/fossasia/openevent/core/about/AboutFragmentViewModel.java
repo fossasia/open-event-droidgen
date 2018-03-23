@@ -34,6 +34,7 @@ public class AboutFragmentViewModel extends ViewModel {
     private LiveData<Event> eventLiveData;
     private LiveData<List<Speaker>> featuredSpeakers;
     private MutableLiveData<Bitmap> eventLogo;
+    private Long numberOfBookmarkedSessions;
 
     public AboutFragmentViewModel() {
         realmRepo = RealmDataRepository.getDefaultInstance();
@@ -58,10 +59,12 @@ public class AboutFragmentViewModel extends ViewModel {
     }
 
     public LiveData<List<Object>> getBookmarkedSessions() {
-        if (sessions == null) {
+        if (sessions == null || numberOfBookmarkedSessions != realmRepo.getBookMarkedSessionsLength()) {
             LiveRealmData<Session> sessionLiveRealmData = RealmDataRepository.asLiveData(realmRepo.getBookMarkedSessions());
             sessions = Transformations.map(sessionLiveRealmData, this::getSessionsList);
+            numberOfBookmarkedSessions = realmRepo.getBookMarkedSessionsLength();
         }
+
         return sessions;
     }
 

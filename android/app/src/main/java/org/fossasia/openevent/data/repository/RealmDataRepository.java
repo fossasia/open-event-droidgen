@@ -412,6 +412,10 @@ public class RealmDataRepository {
         return realm.where(Session.class).equalTo("isBookmarked", true).findAllAsync();
     }
 
+    public long getBookMarkedSessionsLength() {
+        return realm.where(Session.class).equalTo("isBookmarked", true).count();
+    }
+
     public List<Session> getBookMarkedSessionsSync() {
         Realm realm = Realm.getDefaultInstance();
         RealmResults<Session> sessions = realm.where(Session.class).equalTo("isBookmarked", true).findAll();
