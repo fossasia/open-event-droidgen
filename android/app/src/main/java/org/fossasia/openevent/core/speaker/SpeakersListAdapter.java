@@ -29,6 +29,10 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakerViewHolde
 
     private int sortType;
 
+    private final int SORTED_BY_NAME = 0;
+    private final int SORTED_BY_ORGANIZATION = 1;
+    private final int SORTED_BY_COUNTRY = 2;
+
     public SpeakersListAdapter(List<Speaker> speakers) {
         super(speakers);
     }
@@ -90,16 +94,16 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakerViewHolde
 
     @Override
     public long getHeaderId(int position) {
-        sortType = SharedPreferencesUtil.getInt(ConstantStrings.PREF_SORT_SPEAKER, 0);
+        sortType = SharedPreferencesUtil.getInt(ConstantStrings.PREF_SORT_SPEAKER, SORTED_BY_NAME);
         Speaker current = getItem(position);
 
         String name = current.getName();
         String organisation = current.getOrganisation();
         String country = current.getCountry();
 
-        if (sortType == 0)
+        if (sortType == SORTED_BY_NAME)
             return name.toUpperCase().charAt(0);
-        else if (sortType == 1) {
+        else if (sortType == SORTED_BY_ORGANIZATION) {
             if (!organizations.contains(organisation)) {
                 organizations.add(organisation);
             }
@@ -121,19 +125,19 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakerViewHolde
 
     @Override
     public void onBindHeaderViewHolder(HeaderViewHolder holder, int position) {
-        sortType = SharedPreferencesUtil.getInt(ConstantStrings.PREF_SORT_SPEAKER, 0);
+        sortType = SharedPreferencesUtil.getInt(ConstantStrings.PREF_SORT_SPEAKER, SORTED_BY_NAME);
         String speakerData;
 
-        if (sortType == 0)
+        if (sortType == SORTED_BY_NAME)
             speakerData = Utils.checkStringEmpty(getItem(position).getName());
-        else if (sortType == 1)
+        else if (sortType == SORTED_BY_ORGANIZATION)
             speakerData = Utils.checkStringEmpty(getItem(position).getOrganisation());
         else
             speakerData = Utils.checkStringEmpty(getItem(position).getCountry());
 
-        if (!TextUtils.isEmpty(speakerData) && sortType == 0)
+        if (!TextUtils.isEmpty(speakerData) && sortType == SORTED_BY_NAME)
             holder.header.setText(String.valueOf(speakerData.toUpperCase().charAt(0)));
-        else if (!TextUtils.isEmpty(speakerData) && (sortType == 1 || sortType == 2))
+        else if (!TextUtils.isEmpty(speakerData) && (sortType == SORTED_BY_ORGANIZATION || sortType == SORTED_BY_COUNTRY))
             holder.header.setText(String.valueOf(speakerData));
         else
             holder.header.setText(String.valueOf("#"));
@@ -143,11 +147,11 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakerViewHolde
     public String getSectionTitle(int position) {
         //this String will be shown in a bubble for specified position
         Speaker speaker = getItem(position);
-        sortType = SharedPreferencesUtil.getInt(ConstantStrings.PREF_SORT_SPEAKER, 0);
+        sortType = SharedPreferencesUtil.getInt(ConstantStrings.PREF_SORT_SPEAKER, SORTED_BY_NAME);
         String title;
-        if (sortType == 0) {
+        if (sortType == SORTED_BY_NAME) {
             title = speaker.getName();
-        } else if (sortType == 1) {
+        } else if (sortType == SORTED_BY_ORGANIZATION) {
             title = speaker.getOrganisation();
         } else {
             title = speaker.getCountry();
