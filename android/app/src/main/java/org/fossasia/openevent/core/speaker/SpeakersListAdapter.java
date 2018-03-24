@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 
 import com.futuremind.recyclerviewfastscroll.SectionTitleProvider;
 
-import org.fossasia.openevent.BuildConfig;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.common.ui.base.BaseRVAdapter;
 import org.fossasia.openevent.common.ui.recyclerview.HeaderViewHolder;
@@ -20,8 +19,6 @@ import org.fossasia.openevent.common.ui.recyclerview.stickyheadersrecyclerview.S
 
 import java.util.ArrayList;
 import java.util.List;
-
-import timber.log.Timber;
 
 public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakerViewHolder> implements StickyRecyclerHeadersAdapter<HeaderViewHolder>, SectionTitleProvider {
 
