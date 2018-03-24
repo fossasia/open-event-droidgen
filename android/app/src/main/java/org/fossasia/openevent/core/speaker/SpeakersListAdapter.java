@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.futuremind.recyclerviewfastscroll.SectionTitleProvider;
 
+import org.fossasia.openevent.BuildConfig;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.common.ui.base.BaseRVAdapter;
 import org.fossasia.openevent.common.ui.recyclerview.HeaderViewHolder;
@@ -19,6 +20,8 @@ import org.fossasia.openevent.common.ui.recyclerview.stickyheadersrecyclerview.S
 
 import java.util.ArrayList;
 import java.util.List;
+
+import timber.log.Timber;
 
 public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakerViewHolder> implements StickyRecyclerHeadersAdapter<HeaderViewHolder>, SectionTitleProvider {
 
@@ -143,8 +146,20 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakerViewHolde
     public String getSectionTitle(int position) {
         //this String will be shown in a bubble for specified position
         Speaker speaker = getItem(position);
-        String name = speaker.getName();
-        return name.substring(0, 1);
+        sortType = SharedPreferencesUtil.getInt(ConstantStrings.PREF_SORT_SPEAKER, 0);
+        String title;
+        if (sortType == 0) {
+            title = speaker.getName();
+        } else if (sortType == 1) {
+            title = speaker.getOrganisation();
+        } else {
+            title = speaker.getCountry();
+        }
+
+        if (title.length() == 0 || title.isEmpty()){
+            return "-";
+        }
+        return String.valueOf(title.charAt(0));
     }
 
 }

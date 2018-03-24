@@ -43,7 +43,6 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
-
     <com.futuremind.recyclerviewfastscroll.FastScroller
         android:id="@+id/scroller"
         android:orientation="vertical"
