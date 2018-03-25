@@ -149,15 +149,19 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakerViewHolde
         Speaker speaker = getItem(position);
         sortType = SharedPreferencesUtil.getInt(ConstantStrings.PREF_SORT_SPEAKER, SORTED_BY_NAME);
         String title;
-        if (sortType == SORTED_BY_NAME) {
-            title = speaker.getName();
-        } else if (sortType == SORTED_BY_ORGANIZATION) {
-            title = speaker.getOrganisation();
-        } else {
-            title = speaker.getCountry();
+        switch (sortType){
+            case SORTED_BY_NAME:
+                title = speaker.getName();
+                break;
+            case SORTED_BY_ORGANIZATION:
+                title = speaker.getOrganisation();
+                break;
+            default:
+                title = speaker.getCountry();
+                break;
         }
 
-        if (title.length() == 0 || title.isEmpty()){
+        if (TextUtils.isEmpty(title)) {
             return "-";
         }
         return String.valueOf(title.charAt(0));
