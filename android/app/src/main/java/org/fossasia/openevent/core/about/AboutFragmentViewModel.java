@@ -11,6 +11,7 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
 import com.squareup.picasso.Target;
 
+import org.fossasia.openevent.common.arch.FilterableRealmLiveData;
 import org.fossasia.openevent.common.arch.LiveRealmData;
 import org.fossasia.openevent.common.date.DateConverter;
 import org.fossasia.openevent.config.StrategyRegistry;
@@ -24,12 +25,13 @@ import org.threeten.bp.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.functions.Predicate;
 import io.realm.RealmResults;
 
 public class AboutFragmentViewModel extends ViewModel {
 
     private RealmDataRepository realmRepo;
-    private LiveData<List<Object>> sessions;
+    private FilterableRealmLiveData<Session> filterableRealmLiveData;
     private List<String> dateList;
     private LiveData<Event> eventLiveData;
     private LiveData<List<Speaker>> featuredSpeakers;
@@ -58,14 +60,15 @@ public class AboutFragmentViewModel extends ViewModel {
     }
 
     public LiveData<List<Object>> getBookmarkedSessions() {
-        if (sessions == null) {
-            LiveRealmData<Session> sessionLiveRealmData = RealmDataRepository.asLiveData(realmRepo.getBookMarkedSessions());
-            sessions = Transformations.map(sessionLiveRealmData, this::getSessionsList);
-        }
-        return sessions;
+        if (filterableRealmLiveData == null)
+            filterableRealmLiveData = RealmDataRepository.asFilterableLiveData(realmRepo.getBookMarkedSessions());
+        Predicate<Session> predicate = Session::getIsBookmarked;
+        filterableRealmLiveData.filter(predicate);
+
+        return Transformations.map(filterableRealmLiveData, this::getSessionsList);
     }
 
-    private List<Object> getSessionsList(RealmResults<Session> bookmarked) {
+    private List<Object> getSessionsList(List<Session> bookmarked) {
         List<Object> sessionsList = new ArrayList<>();
         for (String eventDate : getDateList()) {
             boolean headerCheck = false;
