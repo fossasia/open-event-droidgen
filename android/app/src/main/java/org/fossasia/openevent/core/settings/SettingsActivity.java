@@ -37,7 +37,6 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
     private SwitchPreference internetPreference;
     private SwitchPreference timezonePreference;
     private Preference prefNotification;
-    private Preference languagePreference;
     private AppCompatDelegate delegate;
 
     @Override
@@ -59,8 +58,7 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
         timezonePreference.setOnPreferenceChangeListener(this);
 
         prefNotification = findPreference(NOTIFICATION_PREF_MODE);
-        languagePreference=findPreference(LANGUAGE_PREF_MODE);
-        languagePreference.setSummary(StrategyRegistry.getInstance().getLanguageStrategy().getDefaultSystemLanguage());
+
     }
 
     @Override
@@ -79,8 +77,6 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
             updateEventDates();
         } else if (preference.getKey().equals(getResources().getString(R.string.notification_key))) {
             prefNotification.setSummary((String) choice);
-        } else if (preference.getKey().equals(getResources().getString(R.string.language_key))) {
-            languagePreference.setSummary((String) choice);
         }
 
         return false;
@@ -121,14 +117,8 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
             return true;
         });
 
-        languagePreference.setOnPreferenceClickListener(preference -> {
-            startActivity(new Intent((Settings.ACTION_LOCALE_SETTINGS)));
-            return true;
-        });
-
 
         prefNotification.setSummary(SharedPreferencesUtil.getString(getString(R.string.notification_key), ""));
-        languagePreference.setSummary(StrategyRegistry.getInstance().getLanguageStrategy().getDefaultSystemLanguage());
     }
 
     @Override
