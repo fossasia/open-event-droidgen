@@ -117,11 +117,11 @@ class Utils {
         }
 
         @JvmStatic
-        fun parseImageUri(uri: String): String? {
+        fun parseImageUri(uri: String?): String? {
             if (isEmpty(uri))
                 return null
 
-            if (uri.startsWith("http") || uri.startsWith("https"))
+            if (uri!!.startsWith("http") || uri.startsWith("https"))
                 return uri
 
             return if (uri.startsWith("/")) "file:///android_asset$uri" else null
