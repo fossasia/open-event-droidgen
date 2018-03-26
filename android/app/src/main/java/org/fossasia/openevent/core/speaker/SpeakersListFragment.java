@@ -25,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.futuremind.recyclerviewfastscroll.FastScroller;
 import com.squareup.otto.Subscribe;
 
 import org.fossasia.openevent.R;
@@ -53,7 +54,7 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
     @BindView(R.id.speaker_swipe_refresh) SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.txt_no_speakers)  TextView noSpeakersView;
     @BindView(R.id.txt_no_result_speakers)  protected TextView noSpeakersResultView;
-
+    @BindView(R.id.scroller) FastScroller scroller;
     @BindView(R.id.rv_speakers) RecyclerView speakersRecyclerView;
 
     private List<Speaker> speakers = new ArrayList<>();
@@ -100,8 +101,9 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
         speakersListAdapter = new SpeakersListAdapter(speakers);
 
         speakersRecyclerView.setHasFixedSize(true);
-        speakersRecyclerView.setAdapter(speakersListAdapter);
         speakersRecyclerView.setLayoutManager(staggeredGridLayoutManager);
+        speakersRecyclerView.setAdapter(speakersListAdapter);
+        scroller.setRecyclerView(speakersRecyclerView);
     }
 
     private void loadData() {

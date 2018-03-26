@@ -155,4 +155,7 @@ dependencies {
 
     // Zoomable image view
     implementation 'com.github.chrisbanes:PhotoView:2.1.3'
+
+    // fast scroll rv
+    implementation 'com.futuremind.recyclerfastscroll:fastscroll:0.2.5'
 }
