@@ -11,33 +11,23 @@ import java.util.concurrent.TimeUnit
 import timber.log.Timber
 
 class CommonEventLoop {
-    private val m_executor = Executors.newSingleThreadScheduledExecutor { r -> LooperThread(r) }
+    private val executor = Executors.newSingleThreadScheduledExecutor { runnable -> LooperThread(runnable) }
 
     fun post(call: Runnable) {
-        m_executor.execute(call)
-
+        executor.execute(call)
     }
 
-    fun cancel(f: Future<*>) {
-        if (f.isCancelled) {
-            return
-        }
-        if (f.isDone) {
-            return
-        }
-        f.cancel(true)
+    fun cancel(future: Future<*>) {
+        if (!(future.isCancelled || future.isDone)) future.cancel(true)
+        future.cancel(true)
     }
 
-    fun delayPost(call: Runnable, nMillSec: Int): Future<*> {
-        return m_executor.schedule(call, nMillSec.toLong(), TimeUnit.MILLISECONDS)
+    fun delayPost(call: Runnable, millSec: Int): Future<*> {
+        return executor.schedule(call, millSec.toLong(), TimeUnit.MILLISECONDS)
     }
-
-    //    public void waitTask(Future f) {
-    //
-    //    }
 
     fun shutdown() {
-        m_executor.shutdown()
+        executor.shutdown()
     }
 
     /**
@@ -50,7 +40,7 @@ class CommonEventLoop {
             try {
                 runnable.run()
             } catch (e: Exception) {
-                Timber.e("Parsing Error Occurred at CommonEventLoop::run.")
+                Timber.e("Parsing Error Occurred at CommonEventLoop::run. $e.")
             }
 
         }
