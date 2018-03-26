@@ -179,7 +179,7 @@ public class MainActivity extends BaseActivity implements AboutFragment.OnMapSel
 
         SharedPreferencesUtil.putInt(ConstantStrings.SESSION_MAP_ID, -1);
         isTwoPane = drawerLayout == null;
-        Utils.setTwoPane(isTwoPane);
+        Utils.twoPane = isTwoPane;
 
         setSupportActionBar(toolbar);
         setUpNavDrawer();
