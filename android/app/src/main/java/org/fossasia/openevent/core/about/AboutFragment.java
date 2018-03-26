@@ -39,7 +39,6 @@ import com.squareup.otto.Subscribe;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.common.ConstantStrings;
 import org.fossasia.openevent.common.date.DateConverter;
-import org.fossasia.openevent.common.events.BookmarkChangedEvent;
 import org.fossasia.openevent.common.events.EventLoadedEvent;
 import org.fossasia.openevent.common.ui.SnackbarUtil;
 import org.fossasia.openevent.common.ui.Views;
@@ -62,7 +61,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import timber.log.Timber;
 
 public class AboutFragment extends BaseFragment implements OnBookmarkSelectedListener {
 
@@ -384,11 +382,6 @@ public class AboutFragment extends BaseFragment implements OnBookmarkSelectedLis
         }
     }
 
-    @Subscribe
-    public void onBookmarksChanged(BookmarkChangedEvent bookmarkChangedEvent) {
-        Timber.d("Bookmarks changed");
-        loadData();
-    }
 
     @Override
     public void onResume() {
