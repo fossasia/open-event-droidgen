@@ -22,12 +22,11 @@ import org.fossasia.openevent.data.Event
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
-class Utils {
+object Utils {
 
-    companion object {
-
-        @JvmField
+        @JvmStatic
         var twoPane = false
+        set(value) {field = value}
 
         @JvmStatic
         val isBaseUrlEmpty: Boolean
@@ -197,5 +196,3 @@ class Utils {
             return "$name.com".toLowerCase()
         }
     }
-
-}

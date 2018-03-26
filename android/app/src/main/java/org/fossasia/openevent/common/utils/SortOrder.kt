@@ -4,9 +4,7 @@ import org.fossasia.openevent.common.ConstantStrings
 import org.fossasia.openevent.data.Session
 import org.fossasia.openevent.data.Speaker
 
-class SortOrder {
-
-    companion object {
+object SortOrder {
 
         private const val SORT_TYPE_FIRST = 0
         private const val SORT_TYPE_SECOND = 1
@@ -59,4 +57,3 @@ class SortOrder {
         }
     }
 
-}
