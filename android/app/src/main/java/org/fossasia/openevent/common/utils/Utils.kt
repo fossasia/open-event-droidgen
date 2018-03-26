@@ -26,7 +26,6 @@ object Utils {
 
         @JvmStatic
         var twoPane = false
-        set(value) {field = value}
 
         @JvmStatic
         val isBaseUrlEmpty: Boolean
