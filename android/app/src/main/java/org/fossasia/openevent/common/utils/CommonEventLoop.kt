@@ -19,7 +19,6 @@ class CommonEventLoop {
 
     fun cancel(future: Future<*>) {
         if (!(future.isCancelled || future.isDone)) future.cancel(true)
-        future.cancel(true)
     }
 
     fun delayPost(call: Runnable, millSec: Int): Future<*> {
