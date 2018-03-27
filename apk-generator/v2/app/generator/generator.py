@@ -186,7 +186,7 @@ class Generator:
 
         self.update_status('Preparing android build tools')
 
-        build_tools_version = get_build_tools_version(self.get_path('app/build.gradle'))
+        build_tools_version = get_build_tools_version(self.get_path('build.gradle'))
 
         logger.info('Detected build tools version: %s' % build_tools_version)
 
