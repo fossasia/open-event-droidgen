@@ -43,8 +43,8 @@ def get_build_tools_version(build_gradle_path):
     version = None
     with open(build_gradle_path) as f:
         for line in f:
-            if "buildToolsVersion" in line:
-                version = line.replace('buildToolsVersion', '').replace('"', '').replace('\'', '').strip()
+            if "project.ext.buildTools" in line:
+                version = line.replace('project.ext.buildTools', '').replace('=','').replace('"', '').replace('\'', '').strip()
     return version
 
 
