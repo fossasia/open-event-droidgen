@@ -1,13 +1,18 @@
 package org.fossasia.openevent.core.auth.profile;
 
+import android.Manifest;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -82,12 +87,32 @@ public class EditProfileActivity extends AppCompatActivity {
             showUserData(user);
         });
 
-        avatar.setOnClickListener(v -> showFileChooser());
+        avatar.setOnClickListener(v ->  androidVersionCheck());
 
         save.setOnClickListener(v -> {
             Views.hideKeyboard(this, this.getCurrentFocus());
             saveChanges();
         });
+    }
+
+    private void androidVersionCheck()
+    {
+        int MyVersion = Build.VERSION.SDK_INT;
+        if (MyVersion > Build.VERSION_CODES.LOLLIPOP_MR1) {
+            if (!checkIfAlreadyhavePermission()) {
+                requestForSpecificPermission();
+            }
+            else showFileChooser();
+        }
+        else showFileChooser();
+    }
+    private boolean checkIfAlreadyhavePermission() {
+        int result = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        return result == PackageManager.PERMISSION_GRANTED;
+
+    }
+    private void requestForSpecificPermission() {
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 101);
     }
 
     private void saveChanges() {
