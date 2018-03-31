@@ -81,6 +81,7 @@
 
     <!-- Drawer menu items -->
     <string name="menu_sign_up">Sign Up</string>
+    <string name="menu_feedback">Feedbacks</string>
     <string name="menu_home">Home</string>
     <string name="menu_feed">Live Feed</string>
     <string name="menu_twitter">Twitter Feed</string>

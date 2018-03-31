@@ -11,6 +11,7 @@ import org.fossasia.openevent.core.auth.model.User;
 import org.fossasia.openevent.data.DiscountCode;
 import org.fossasia.openevent.data.Event;
 import org.fossasia.openevent.data.FAQ;
+import org.fossasia.openevent.data.Feedback;
 import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.data.Notification;
 import org.fossasia.openevent.data.Session;
@@ -498,6 +499,26 @@ public class RealmDataRepository {
     public RealmResults<Speaker> getFeaturedSpeakers() {
         return realm.where(Speaker.class)
                 .equalTo("isFeatured", true)
+                .findAllAsync();
+    }
+
+    // Feedbacks Section
+
+    private void saveFeedbacksInRealm(List<Feedback> feedbacks) {
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(realm1 -> realm1.insertOrUpdate(feedbacks));
+        realm.close();
+    }
+
+    public Completable saveFeedbacks(final List<Feedback> feedbacks) {
+        return Completable.fromAction(() -> {
+            saveFeedbacksInRealm(feedbacks);
+            Timber.d("Saved feedbacks");
+        });
+    }
+
+    public RealmResults<Feedback> getFeedbacks() {
+        return realm.where(Feedback.class)
                 .findAllAsync();
     }
 
