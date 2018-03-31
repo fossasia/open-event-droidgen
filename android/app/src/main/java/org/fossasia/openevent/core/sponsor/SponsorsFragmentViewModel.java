@@ -4,8 +4,8 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 
-import org.fossasia.openevent.data.Sponsor;
 import org.fossasia.openevent.common.arch.LiveRealmData;
+import org.fossasia.openevent.data.Sponsor;
 import org.fossasia.openevent.data.repository.RealmDataRepository;
 
 import java.util.List;
@@ -26,5 +26,4 @@ public class SponsorsFragmentViewModel extends ViewModel {
         }
         return sponsorsList;
     }
-
 }
