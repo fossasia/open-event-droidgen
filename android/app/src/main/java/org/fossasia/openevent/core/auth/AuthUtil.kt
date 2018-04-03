@@ -56,7 +56,7 @@ object AuthUtil {
         SharedPreferencesUtil.remove(ConstantStrings.USER_LAST_NAME)
 
         //Delete User data from realm
-        RealmDataRepository.getDefaultInstance().clearUserData()
+        RealmDataRepository.defaultInstance.clearUserData()
 
         goToMainActivity(context)
         showMessage(R.string.logged_out_successfully)

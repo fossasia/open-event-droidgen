@@ -29,7 +29,7 @@ object Utils {
 
         @JvmStatic
         val isBaseUrlEmpty: Boolean
-            get() = Urls.getBaseUrl() == Urls.EMPTY_LINK
+            get() = Urls.baseUrl == Urls.EMPTY_LINK
 
         @JvmStatic
         fun isEmpty(string: String?): Boolean {
@@ -85,7 +85,7 @@ object Utils {
             if (isBaseUrlEmpty) {
                 swipeRefreshLayout.isEnabled = false
             } else {
-                StrategyRegistry.instance.eventBusStrategy!!.eventBus.register(`object`)
+                StrategyRegistry.instance.eventBusStrategy?.eventBus?.register(`object`)
                 swipeRefreshLayout.setOnRefreshListener(onRefreshListener)
             }
         }
@@ -93,7 +93,7 @@ object Utils {
         @JvmStatic
         fun unregisterIfUrlValid(`object`: Any) {
             if (!isBaseUrlEmpty) {
-                StrategyRegistry.instance.eventBusStrategy!!.eventBus.unregister(`object`)
+                StrategyRegistry.instance.eventBusStrategy?.eventBus?.unregister(`object`)
             }
         }
 
