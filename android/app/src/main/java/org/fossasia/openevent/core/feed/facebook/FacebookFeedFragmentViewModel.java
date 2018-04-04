@@ -2,40 +2,42 @@ package org.fossasia.openevent.core.feed.facebook;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.LiveDataReactiveStreams;
-import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
 import org.fossasia.openevent.common.ConstantStrings;
 import org.fossasia.openevent.common.utils.SharedPreferencesUtil;
+import org.fossasia.openevent.core.feed.Resource;
 import org.fossasia.openevent.core.feed.facebook.api.FacebookApi;
 import org.fossasia.openevent.core.feed.facebook.api.FacebookPageId;
 import org.fossasia.openevent.core.feed.facebook.api.Feed;
-import org.fossasia.openevent.core.feed.facebook.api.PostsResponse;
 import org.reactivestreams.Publisher;
 
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
-
-import static org.fossasia.openevent.core.auth.AuthUtil.INVALID;
-import static org.fossasia.openevent.core.auth.AuthUtil.VALID;
+import timber.log.Timber;
 
 public class FacebookFeedFragmentViewModel extends ViewModel {
 
-    private LiveData<FacebookPageId> facebookPageIdLiveData;
-    private MutableLiveData<PostsResponse> feedLiveData;
-    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private LiveData<Resource<FacebookPageId>> facebookPageIdLiveData;
+    private LiveData<Resource<Feed>> feedLiveData;
 
-    public FacebookFeedFragmentViewModel() {
-        facebookPageIdLiveData = new MutableLiveData<>();
-        feedLiveData = new MutableLiveData<>();
-    }
-
-    public LiveData<FacebookPageId> updateFBPageID(String fbAccessToken, String fbPageId) {
-        if (fbPageId == null) {
-            Publisher<FacebookPageId> publisher = FacebookApi.getFacebookGraphAPI().getPageId(SharedPreferencesUtil.getString(ConstantStrings.FACEBOOK_PAGE_NAME, null),
+    public LiveData<Resource<FacebookPageId>> getFBPageID(String fbAccessToken) {
+        if (facebookPageIdLiveData == null) {
+            Publisher<Resource<FacebookPageId>> publisher = FacebookApi.getFacebookGraphAPI().getPageId(SharedPreferencesUtil.getString(ConstantStrings.FACEBOOK_PAGE_NAME, null),
                     fbAccessToken)
+                    .map((Function<FacebookPageId, Resource<FacebookPageId>>) facebookPageId -> {
+                        if (facebookPageId != null && facebookPageId.getId() != null) {
+                            return Resource.success(facebookPageId);
+                        } else {
+                            return Resource.error("facebookPageId returned null", null);
+                        }
+                    })
+                    .onErrorReturn(throwable -> {
+                        Timber.e(throwable);
+                        return Resource.error(throwable.getMessage(), null);
+                    })
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .toFlowable(BackpressureStrategy.BUFFER);
@@ -44,22 +46,23 @@ public class FacebookFeedFragmentViewModel extends ViewModel {
         return facebookPageIdLiveData;
     }
 
-    public LiveData<PostsResponse> getPosts(String fields, String fbAccessToken, String fbPageId) {
-        compositeDisposable.add(FacebookApi.getFacebookGraphAPI()
-                .getPosts(fbPageId,
-                        fields,
-                        fbAccessToken)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(feed -> feedLiveData.setValue(new PostsResponse(VALID, feed)),
-                        throwable -> feedLiveData.setValue(new PostsResponse(INVALID, null))));
+    public LiveData<Resource<Feed>> getPosts(String fields, String fbAccessToken, String fbPageId) {
+        if (feedLiveData == null) {
+            Publisher<Resource<Feed>> publisher = FacebookApi.getFacebookGraphAPI()
+                    .getPosts(fbPageId,
+                            fields,
+                            fbAccessToken)
+                    .map(Resource::success)
+                    .onErrorReturn(throwable -> {
+                        Timber.e(throwable);
+                        return Resource.error(throwable.getMessage(), null);
+                    })
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .toFlowable(BackpressureStrategy.BUFFER);
+            feedLiveData = LiveDataReactiveStreams.fromPublisher(publisher);
+        }
         return feedLiveData;
-    }
-
-    @Override
-    protected void onCleared() {
-        compositeDisposable.dispose();
-        super.onCleared();
     }
 
 }

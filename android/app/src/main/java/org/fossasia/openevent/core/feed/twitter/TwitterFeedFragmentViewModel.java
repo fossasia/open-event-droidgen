@@ -1,42 +1,35 @@
 package org.fossasia.openevent.core.feed.twitter;
 
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.LiveDataReactiveStreams;
 import android.arch.lifecycle.ViewModel;
 
-import org.fossasia.openevent.core.feed.twitter.api.PostsResponse;
+import org.fossasia.openevent.core.feed.Resource;
 import org.fossasia.openevent.core.feed.twitter.api.TwitterApi;
 import org.fossasia.openevent.core.feed.twitter.api.TwitterFeed;
+import org.reactivestreams.Publisher;
 
+import io.reactivex.BackpressureStrategy;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
-
-import static org.fossasia.openevent.core.auth.AuthUtil.INVALID;
-import static org.fossasia.openevent.core.auth.AuthUtil.VALID;
+import timber.log.Timber;
 
 public class TwitterFeedFragmentViewModel extends ViewModel {
-    private MutableLiveData<PostsResponse> feedLiveData;
-    private final CompositeDisposable compositeDisposable;
+    private LiveData<Resource<TwitterFeed>> feedLiveData;
 
-    public TwitterFeedFragmentViewModel() {
-        compositeDisposable = new CompositeDisposable();
-        feedLiveData = new MutableLiveData<>();
-    }
-
-    public LiveData<PostsResponse> getPosts(String query, int count, String source) {
-        compositeDisposable.add(TwitterApi.getLoklakAPI().getTwitterFeed(query, count, source)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(feed -> feedLiveData.setValue(new PostsResponse(VALID, feed))
-                    , throwable -> feedLiveData.setValue(new PostsResponse(INVALID, null))));
+    public LiveData<Resource<TwitterFeed>> getPosts(String query, int count, String source) {
+        if (feedLiveData == null) {
+            Publisher<Resource<TwitterFeed>> publisher = TwitterApi.getLoklakAPI().getTwitterFeed(query, count, source)
+                    .map(Resource::success)
+                    .onErrorReturn(throwable -> {
+                        Timber.e(throwable);
+                        return Resource.error(throwable.getMessage(), null);
+                    })
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .toFlowable(BackpressureStrategy.BUFFER);
+            feedLiveData = LiveDataReactiveStreams.fromPublisher(publisher);
+        }
         return feedLiveData;
     }
-
-    @Override
-    protected void onCleared() {
-        compositeDisposable.dispose();
-        super.onCleared();
-    }
-
 }

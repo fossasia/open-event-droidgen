@@ -4,6 +4,7 @@ package org.fossasia.openevent.core.feed.twitter;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,11 +17,12 @@ import android.widget.TextView;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.common.ConstantStrings;
 import org.fossasia.openevent.common.network.NetworkUtils;
-import org.fossasia.openevent.common.ui.Views;
 import org.fossasia.openevent.common.ui.image.OnImageZoomListener;
 import org.fossasia.openevent.common.ui.image.ZoomableImageUtil;
 import org.fossasia.openevent.common.utils.SharedPreferencesUtil;
 import org.fossasia.openevent.core.feed.BaseFeedFragment;
+import org.fossasia.openevent.core.feed.Resource;
+import org.fossasia.openevent.core.feed.twitter.api.TwitterFeed;
 import org.fossasia.openevent.core.feed.twitter.api.TwitterFeedItem;
 
 import java.lang.ref.WeakReference;
@@ -29,9 +31,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import timber.log.Timber;
-
-import static org.fossasia.openevent.core.auth.AuthUtil.INVALID;
-import static org.fossasia.openevent.core.auth.AuthUtil.VALID;
 
 public class TwitterFeedFragment extends BaseFeedFragment implements OnImageZoomListener {
 
@@ -64,42 +63,37 @@ public class TwitterFeedFragment extends BaseFeedFragment implements OnImageZoom
         twitterFeedAdapter.setOnImageZoomListener(this);
         twitterFeedRecyclerView.setAdapter(twitterFeedAdapter);
 
-        setupProgressBar();
-
-        if (NetworkUtils.haveNetworkConnection(getContext()))
-            showProgressBar(true);
-
-        downloadFeed();
-
         swipeRefreshLayout.setOnRefreshListener(this::refresh);
+        swipeRefreshLayout.post(() -> {
+            swipeRefreshLayout.setRefreshing(true);
+            refresh();
+        });
+
         return view;
     }
 
     private void downloadFeed() {
         if (SharedPreferencesUtil.getString(ConstantStrings.TWITTER_PAGE_NAME, null) == null) {
-            if (downloadProgressDialog.isShowing())
-                showProgressBar(false);
-            return;
+            swipeRefreshLayout.setRefreshing(false);
+            Timber.d("Twitter page name is null");
         }
 
         twitterFeedFragmentViewModel.getPosts(SharedPreferencesUtil.getString(ConstantStrings.TWITTER_PAGE_NAME, null), 20, "twitter")
-                .observe(this, feedResponse -> {
-                    if (feedResponse.getResponse() == VALID) {
+                .observe(this, feedResource -> {
+                    if (feedResource == null) return;
+                    if (feedResource.getStatus() == Resource.Status.SUCCESS) {
+                        TwitterFeed feed = feedResource.getData();
                         twitterFeedItems.clear();
-                        twitterFeedItems.addAll(feedResponse.getTwitterFeed().getStatuses());
+                        if (feed != null && feed.getStatuses() != null)
+                            twitterFeedItems.addAll(feed.getStatuses());
                         twitterFeedAdapter.notifyDataSetChanged();
                         handleVisibility();
-                        Views.setSwipeRefreshLayout(swipeRefreshLayout, false);
                         Timber.d("Refresh done");
-                        showProgressBar(false);
-                    } else if (feedResponse.getResponse() == INVALID) {
-                        Snackbar.make(swipeRefreshLayout, getActivity()
-                                .getString(R.string.refresh_failed), Snackbar.LENGTH_LONG)
-                                .setAction(R.string.retry_download, view -> refresh()).show();
-                        Timber.d("Refresh not done");
-                        showProgressBar(false);
-                        swipeRefreshLayout.setRefreshing(false);
+                    } else if (feedResource.getStatus() == Resource.Status.ERROR) {
+                        showRetrySnackbar(R.string.refresh_failed);
+                        Timber.d(feedResource.getMessage());
                     }
+                    swipeRefreshLayout.postDelayed(() -> swipeRefreshLayout.setRefreshing(false), 1000);
                 });
     }
 
@@ -108,30 +102,21 @@ public class TwitterFeedFragment extends BaseFeedFragment implements OnImageZoom
 
             @Override
             public void networkAvailable() {
-                // Network is available
-                swipeRefreshLayout.setRefreshing(true);
                 downloadFeed();
             }
 
             @Override
             public void networkUnavailable() {
-                Views.setSwipeRefreshLayout(swipeRefreshLayout, false);
-
-                Snackbar.make(swipeRefreshLayout, getActivity()
-                        .getString(R.string.refresh_failed), Snackbar.LENGTH_LONG)
-                        .setAction(R.string.retry_download, view -> refresh()).show();
+                swipeRefreshLayout.setRefreshing(false);
+                showRetrySnackbar(R.string.no_internet_connection);
             }
         });
     }
 
-    public void handleVisibility() {
-        if (!twitterFeedItems.isEmpty()) {
-            noFeedView.setVisibility(View.GONE);
-            twitterFeedRecyclerView.setVisibility(View.VISIBLE);
-        } else {
-            noFeedView.setVisibility(View.VISIBLE);
-            twitterFeedRecyclerView.setVisibility(View.GONE);
-        }
+    private void showRetrySnackbar(@StringRes int resId) {
+        Snackbar.make(swipeRefreshLayout, getActivity()
+                .getString(resId), Snackbar.LENGTH_LONG)
+                .setAction(R.string.retry_download, view -> refresh()).show();
     }
 
     @Override

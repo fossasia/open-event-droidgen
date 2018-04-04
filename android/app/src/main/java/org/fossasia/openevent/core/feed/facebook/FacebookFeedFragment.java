@@ -3,6 +3,7 @@ package org.fossasia.openevent.core.feed.facebook;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,13 +16,14 @@ import android.widget.TextView;
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.common.ConstantStrings;
 import org.fossasia.openevent.common.network.NetworkUtils;
-import org.fossasia.openevent.common.ui.Views;
 import org.fossasia.openevent.common.ui.image.OnImageZoomListener;
 import org.fossasia.openevent.common.ui.image.ZoomableImageUtil;
 import org.fossasia.openevent.common.utils.SharedPreferencesUtil;
 import org.fossasia.openevent.core.feed.BaseFeedFragment;
 import org.fossasia.openevent.core.feed.OpenCommentsDialogListener;
+import org.fossasia.openevent.core.feed.Resource;
 import org.fossasia.openevent.core.feed.facebook.api.CommentItem;
+import org.fossasia.openevent.core.feed.facebook.api.Feed;
 import org.fossasia.openevent.core.feed.facebook.api.FeedItem;
 
 import java.lang.ref.WeakReference;
@@ -30,9 +32,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import timber.log.Timber;
-
-import static org.fossasia.openevent.core.auth.AuthUtil.INVALID;
-import static org.fossasia.openevent.core.auth.AuthUtil.VALID;
 
 public class FacebookFeedFragment extends BaseFeedFragment implements OpenCommentsDialogListener, OnImageZoomListener {
 
@@ -66,44 +65,33 @@ public class FacebookFeedFragment extends BaseFeedFragment implements OpenCommen
         facebookFeedAdapter.setOnImageZoomListener(this);
         feedRecyclerView.setAdapter(facebookFeedAdapter);
 
-        setupProgressBar();
-
-        if (NetworkUtils.haveNetworkConnection(getContext()))
-            showProgressBar(true);
-
-        downloadFeed();
-
         swipeRefreshLayout.setOnRefreshListener(this::refresh);
+        swipeRefreshLayout.post(() -> {
+            swipeRefreshLayout.setRefreshing(true);
+            refresh();
+        });
 
         return view;
     }
 
     private void downloadFeed() {
-        if (SharedPreferencesUtil.getString(ConstantStrings.FACEBOOK_PAGE_ID, null) == null) {
-            if (downloadProgressDialog.isShowing())
-                showProgressBar(false);
-            return;
-        }
-
         facebookFeedFragmentViewModel.getPosts(getContext().getResources().getString(R.string.fields),
                 getContext().getResources().getString(R.string.facebook_access_token), SharedPreferencesUtil.getString(ConstantStrings.FACEBOOK_PAGE_ID, null))
-                .observe(this, feedResponse -> {
-                    if (feedResponse.getResponse() == VALID) {
+                .observe(this, feedResponseResource -> {
+                    if (feedResponseResource == null) return;
+                    if (feedResponseResource.getStatus() == Resource.Status.SUCCESS) {
+                        Feed feed = feedResponseResource.getData();
                         feedItems.clear();
-                        feedItems.addAll(feedResponse.getFeed().getData());
+                        if (feed != null && feed.getData() != null)
+                            feedItems.addAll(feed.getData());
                         facebookFeedAdapter.notifyDataSetChanged();
                         handleVisibility();
-                        Views.setSwipeRefreshLayout(swipeRefreshLayout, false);
                         Timber.d("Refresh done");
-                        showProgressBar(false);
-                    } else if (feedResponse.getResponse() == INVALID) {
-                        Snackbar.make(swipeRefreshLayout, getActivity()
-                                .getString(R.string.refresh_failed), Snackbar.LENGTH_LONG)
-                                .setAction(R.string.retry_download, view -> refresh()).show();
-                        Timber.d("Refresh not done");
-                        showProgressBar(false);
-                        swipeRefreshLayout.setRefreshing(false);
+                    } else if (feedResponseResource.getStatus() == Resource.Status.ERROR) {
+                        Timber.d(feedResponseResource.getMessage());
+                        showRetrySnackbar(R.string.refresh_failed);
                     }
+                    swipeRefreshLayout.postDelayed(() -> swipeRefreshLayout.setRefreshing(false), 1000);
                 });
     }
 
@@ -112,25 +100,36 @@ public class FacebookFeedFragment extends BaseFeedFragment implements OpenCommen
 
             @Override
             public void networkAvailable() {
-                // Network is available
-                swipeRefreshLayout.setRefreshing(true);
-                facebookFeedFragmentViewModel.updateFBPageID(getResources().getString(R.string.facebook_access_token), SharedPreferencesUtil.getString(ConstantStrings.FACEBOOK_PAGE_ID, null))
-                        .observe(FacebookFeedFragment.this, facebookPageId -> {
-                            String id = facebookPageId.getId();
-                            SharedPreferencesUtil.putString(ConstantStrings.FACEBOOK_PAGE_ID, id);
-                        });
-                downloadFeed();
+                if (SharedPreferencesUtil.getString(ConstantStrings.FACEBOOK_PAGE_ID, null) == null) {
+                    facebookFeedFragmentViewModel.getFBPageID(getResources().getString(R.string.facebook_access_token))
+                            .observe(FacebookFeedFragment.this, facebookPageIdResource -> {
+                                if (facebookPageIdResource == null) return;
+                                if (facebookPageIdResource.getStatus() == Resource.Status.SUCCESS) {
+                                    SharedPreferencesUtil.putString(ConstantStrings.FACEBOOK_PAGE_ID, facebookPageIdResource.getData().getId());
+                                    downloadFeed();
+                                } else {
+                                    Timber.e(facebookPageIdResource.getMessage());
+                                    showRetrySnackbar(R.string.refresh_failed);
+                                    swipeRefreshLayout.setRefreshing(false);
+                                }
+                            });
+                } else {
+                    downloadFeed();
+                }
             }
 
             @Override
             public void networkUnavailable() {
-                Views.setSwipeRefreshLayout(swipeRefreshLayout, false);
-
-                Snackbar.make(swipeRefreshLayout, getActivity()
-                        .getString(R.string.refresh_failed), Snackbar.LENGTH_LONG)
-                        .setAction(R.string.retry_download, view -> refresh()).show();
+                swipeRefreshLayout.setRefreshing(false);
+                showRetrySnackbar(R.string.no_internet_connection);
             }
         });
+    }
+
+    private void showRetrySnackbar(@StringRes int resId) {
+        Snackbar.make(swipeRefreshLayout, getActivity()
+                .getString(resId), Snackbar.LENGTH_LONG)
+                .setAction(R.string.retry_download, view -> refresh()).show();
     }
 
     @Override
