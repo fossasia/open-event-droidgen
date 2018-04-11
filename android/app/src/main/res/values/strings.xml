@@ -340,6 +340,6 @@
     <string name="twitter_feed">Twitter Feed</string>
     <string name="featured_speakers_header">Featured Speakers</string>
     <string name="login_to_continue">Please login to continue</string>
-
+    <string name="share_via">Share via</string>
 
 </resources>

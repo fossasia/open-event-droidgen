@@ -493,7 +493,7 @@ public class MainActivity extends BaseActivity implements AboutFragment.OnMapSel
             shareIntent.setType("text/plain");
             shareIntent.putExtra(Intent.EXTRA_TEXT, String.format(getString(R.string.whatsapp_promo_msg_template),
                     String.format(getString(R.string.app_share_url),getPackageName())));
-            startActivity(shareIntent);
+            startActivity(Intent.createChooser(shareIntent, getString(R.string.share_via)));
         }
         catch (Exception e) {
             Snackbar.make(mainFrame, getString(R.string.error_msg_retry), Snackbar.LENGTH_SHORT).show();
