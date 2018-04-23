@@ -380,18 +380,24 @@ public class MainActivity extends BaseActivity implements AboutFragment.OnMapSel
         fromServer = true;
         boolean preference = SharedPreferencesUtil.getBoolean(getResources().getString(R.string.download_mode_key), true);
         if (preference) {
-            disposable.add(NetworkUtils.haveNetworkConnectionObservable(MainActivity.this)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(isConnected -> {
-                        if (isConnected) {
-                            StrategyRegistry.getInstance().getEventBusStrategy().postEventOnUIThread(new DataDownloadEvent());
-                        } else {
-                            final Snackbar snackbar = Snackbar.make(mainFrame, R.string.internet_preference_warning, Snackbar.LENGTH_INDEFINITE);
-                            snackbar.setAction(R.string.yes, view -> downloadFromAssets());
-                            snackbar.show();
-                        }
-                    }));
+            if (!NetworkUtils.haveMobileConnection(this)) {
+                disposable.add(NetworkUtils.haveNetworkConnectionObservable(MainActivity.this)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(isConnected -> {
+                            if (isConnected) {
+                                StrategyRegistry.getInstance().getEventBusStrategy().postEventOnUIThread(new DataDownloadEvent());
+                            } else {
+                                final Snackbar snackbar = Snackbar.make(mainFrame, R.string.internet_preference_warning, Snackbar.LENGTH_INDEFINITE);
+                                snackbar.setAction(R.string.yes, view -> downloadFromAssets());
+                                snackbar.show();
+                            }
+                        }));
+            } else {
+                final Snackbar snackbar = Snackbar.make(mainFrame, R.string.mobile_data_pref_warning, Snackbar.LENGTH_INDEFINITE);
+                snackbar.setAction(R.string.yes, view -> startActivity(new Intent(this, SettingsActivity.class)));
+                snackbar.show();
+            }
         } else {
             StrategyRegistry.getInstance().getEventBusStrategy().postEventOnUIThread(new DataDownloadEvent());
         }

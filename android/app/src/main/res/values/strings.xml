@@ -342,4 +342,6 @@
     <string name="login_to_continue">Please login to continue</string>
     <string name="share_via">Share via</string>
 
+    <string name="mobile_data_pref_warning">Wifi not found. Do you want to download using Mobile Data?</string>
+
 </resources>
