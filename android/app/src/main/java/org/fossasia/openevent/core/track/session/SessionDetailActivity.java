@@ -225,6 +225,7 @@ public class SessionDetailActivity extends BaseActivity implements AppBarLayout.
         SessionType type = session.getSessionType();
 
         if (type != null) {
+            typeLabel.setVisibility(View.VISIBLE);
             sessionType.setText(type.getName());
             typelayout.setVisibility(View.VISIBLE);
         }

@@ -66,9 +66,9 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/primary_text"
                         android:textSize="@dimen/text_size_large" />
-
                     <TextView
                         android:id="@+id/type"
+                        android:visibility="gone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/layout_margin_medium"
