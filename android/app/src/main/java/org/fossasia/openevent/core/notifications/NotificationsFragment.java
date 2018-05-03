@@ -109,6 +109,11 @@ public class NotificationsFragment extends BaseFragment {
         }
     }
 
+    private void clearViews() {
+        noNotificationView.setVisibility(View.GONE);
+        loginBtn.setVisibility(View.GONE);
+    }
+
     public void onNotificationsDownloadDone(boolean status) {
         if (!status) {
             Timber.d("Notifications download failed");
@@ -145,6 +150,12 @@ public class NotificationsFragment extends BaseFragment {
     @Override
     protected int getLayoutResource() {
         return R.layout.list_notification;
+    }
+
+    @Override
+    public void onPause() {
+        clearViews();
+        super.onPause();
     }
 
     @Override
