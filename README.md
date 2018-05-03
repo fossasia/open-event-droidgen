@@ -10,6 +10,12 @@
 
 The Open Event Android project consists of two components. The **App Generator** is a web application that is hosted on a server and generates an event Android app from a zip with JSON and binary files ([examples here](http://github.com/fossasia/open-event)) or through an API. The second component we are developing in the project is a generic **Android app** - the output of the app generator. The mobile app can be installed on any Android device for browsing information about the event. Updates can be made automatically through API endpoint connections from an online source (e.g. server), which needs to defined in the provided event zip with the JSON files. The Android app has a standard configuration file, that sets the details of the app (e.g. color scheme, logo of event, link to JSON app data).
 
+Have an issue? Create one using these:
+
+[![Bug](https://img.shields.io/badge/issues-bug-red.svg)](https://github.com/fossasia/open-event-android/issues/new?template=bug.md)
+[![Feature](https://img.shields.io/badge/issues-feature-green.svg)](https://github.com/fossasia/open-event-android/issues/new?template=feature.md)
+[![Chore](https://img.shields.io/badge/issues-chore-blue.svg)](https://github.com/fossasia/open-event-android/issues/new?template=chore.md)
+
 ## Communication
 
 Please join our mailing list to discuss questions regarding the project: https://groups.google.com/forum/#!forum/open-event
