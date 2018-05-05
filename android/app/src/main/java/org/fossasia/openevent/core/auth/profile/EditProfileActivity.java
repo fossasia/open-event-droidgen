@@ -212,7 +212,7 @@ public class EditProfileActivity extends AppCompatActivity {
                     .into(avatar);
         } else if (resultCode == UCrop.RESULT_ERROR) {
             final Throwable cropError = UCrop.getError(data);
-            Timber.d("EditProfileActivity", "UCrop Error" + cropError);
+            Timber.d("EditProfileActivity UCrop Error %s", cropError);
         }
     }
 
