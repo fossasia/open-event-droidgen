@@ -92,6 +92,10 @@ class RealmDataRepository private constructor(val realmInstance: Realm) {
                 .sort("level", Sort.DESCENDING, "name", Sort.ASCENDING)
                 .findAllAsync()
 
+    val feedbacks: RealmResults<Feedback>
+        get() = realmInstance.where(Feedback::class.java)
+                .findAllAsync()
+
     val discountCodes: RealmResults<DiscountCode>
         get() = realmInstance.where(DiscountCode::class.java)
                 .sort("code")
@@ -509,6 +513,22 @@ class RealmDataRepository private constructor(val realmInstance: Realm) {
             Timber.d("Saved DiscountCodes")
         }
     }
+
+    //Feedbacks section
+
+    private fun saveFeedbacksInRealm(feedback: List<Feedback>) {
+        val realm = Realm.getDefaultInstance()
+        realm.executeTransaction({ realm1 -> realm1.insertOrUpdate(feedback) })
+        realm.close()
+    }
+
+    fun saveFeedbacks(feedback: List<Feedback>): Completable {
+        return Completable.fromAction {
+            saveFeedbacksInRealm(feedback)
+            Timber.d("Saved Feedbacks")
+        }
+    }
+
 
     // Location Section
 
