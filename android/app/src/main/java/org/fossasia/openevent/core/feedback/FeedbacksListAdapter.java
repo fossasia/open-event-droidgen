@@ -24,6 +24,6 @@ public class FeedbacksListAdapter extends BaseRVAdapter<Feedback, FeedbackViewHo
     }
 
     public void onBindViewHolder(FeedbackViewHolder holder, int position) {
-        holder.bingFeedback(getItem(position));
+        holder.bindFeedback(getItem(position));
     }
 }

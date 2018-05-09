@@ -36,7 +36,7 @@ public class FeedbackViewHolder extends RecyclerView.ViewHolder {
         ButterKnife.bind(this, itemView);
     }
 
-    public void bingFeedback(Feedback feedback) {
+    public void bindFeedback(Feedback feedback) {
         String comment = Utils.checkStringEmpty(feedback.getComment());
         User user = feedback.getUser();
         if(user != null){
