@@ -126,9 +126,11 @@ public class LoginActivity extends AppCompatActivity implements AppCompatEditTex
 
         switch (AuthUtil.validateEmail(email)) {
             case EMPTY:
+                progressBar.setVisibility(View.INVISIBLE);
                 handleError(emailWrapper, R.string.error_email_required);
                 return false;
             case INVALID:
+                progressBar.setVisibility(View.INVISIBLE);
                 handleError(emailWrapper, R.string.error_enter_valid_email);
                 return false;
             default:
@@ -137,6 +139,7 @@ public class LoginActivity extends AppCompatActivity implements AppCompatEditTex
 
         switch (AuthUtil.validatePassword(password)) {
             case EMPTY:
+                progressBar.setVisibility(View.INVISIBLE);
                 handleError(passwordWrapper, R.string.error_password_required);
                 return false;
             default:
