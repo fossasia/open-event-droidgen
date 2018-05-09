@@ -3,11 +3,15 @@ package org.fossasia.openevent.core.feedback;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import org.fossasia.openevent.R;
+import org.fossasia.openevent.common.ui.image.CircleTransform;
 import org.fossasia.openevent.common.utils.Utils;
+import org.fossasia.openevent.config.StrategyRegistry;
+import org.fossasia.openevent.core.auth.model.User;
 import org.fossasia.openevent.data.Feedback;
 
 import butterknife.BindView;
@@ -18,8 +22,14 @@ public class FeedbackViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.feedback_rating)
     protected RatingBar feedbackRating;
 
+    @BindView(R.id.feedback_user_name)
+    protected TextView userName;
+
     @BindView(R.id.feedback_comment)
     protected TextView feedbackComment;
+
+    @BindView(R.id.feedback_profile)
+    protected ImageView avatar;
 
     public FeedbackViewHolder(View itemView) {
         super(itemView);
@@ -27,10 +37,24 @@ public class FeedbackViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bingFeedback(Feedback feedback) {
-        String rating = Utils.checkStringEmpty(feedback.getRating());
         String comment = Utils.checkStringEmpty(feedback.getComment());
+        User user = feedback.getUser();
+        if(user != null){
+            String avatarUrl = user.getAvatarUrl();
+            if(user.getFirstName() != null)
+                setStringFieldWithPrefix(userName, user.getFirstName(), null);
+            if(avatarUrl != null) {
+                StrategyRegistry.getInstance()
+                        .getHttpStrategy()
+                        .getPicassoWithCache()
+                        .load(avatarUrl)
+                        .transform(new CircleTransform())
+                        .into(avatar);
+            }
+        }
 
-        feedbackRating.setRating(Float.parseFloat(rating));
+
+        feedbackRating.setRating(feedback.getRating());
         setStringFieldWithPrefix(feedbackComment, comment, null);
     }
 

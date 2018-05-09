@@ -74,7 +74,7 @@ public interface OpenEventAPI {
     @GET("discount-codes")
     Observable<List<DiscountCode>> getDiscountCodes();
 
-    @GET("feedbacks")
+    @GET("feedbacks?include=user")
     Observable<List<Feedback>> getFeedbacks();
 
 }
