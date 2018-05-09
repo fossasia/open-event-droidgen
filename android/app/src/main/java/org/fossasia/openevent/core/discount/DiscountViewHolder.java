@@ -49,10 +49,10 @@ public class DiscountViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bindDiscountCode(DiscountCode discountCode) {
-        String code = Utils.checkStringEmpty(discountCode.getCode());
-        String discountUrl = Utils.checkStringEmpty(discountCode.getDiscountUrl());
-        String tickets = Utils.checkStringEmpty(discountCode.getTickets());
-        String usedFor = Utils.checkStringEmpty(discountCode.getUsedFor());
+        String code = Utils.nullToEmpty(discountCode.getCode());
+        String discountUrl = Utils.nullToEmpty(discountCode.getDiscountUrl());
+        String tickets = Utils.nullToEmpty(discountCode.getTickets());
+        String usedFor = Utils.nullToEmpty(discountCode.getUsedFor());
 
         Resources res = context.getResources();
         String minQuantity = String.format(res.getString(R.string.discount_code_min_quantity), discountCode.getMinQuantity());

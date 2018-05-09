@@ -47,7 +47,7 @@ public class TracksListAdapter extends BaseRVAdapter<Track, TrackViewHolder> imp
 
     @Override
     public long getHeaderId(int position) {
-        String trackName = Utils.checkStringEmpty(getItem(position).getName());
+        String trackName = Utils.nullToEmpty(getItem(position).getName());
         if(!Utils.isEmpty(trackName))
             return trackName.toUpperCase().charAt(0);
         else

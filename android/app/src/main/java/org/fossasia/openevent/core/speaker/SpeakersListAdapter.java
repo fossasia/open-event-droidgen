@@ -61,8 +61,8 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakerViewHolde
     public void onBindViewHolder(SpeakerViewHolder holder, final int position) {
         Speaker current = getItem(position);
 
-        String organisation = Utils.checkStringEmpty(current.getOrganisation());
-        String country = Utils.checkStringEmpty(current.getCountry());
+        String organisation = Utils.nullToEmpty(current.getOrganisation());
+        String country = Utils.nullToEmpty(current.getCountry());
 
         //adding distinct org and country (note size of array will never be greater than 2)
         if (!TextUtils.isEmpty(organisation)) {
@@ -129,11 +129,11 @@ public class SpeakersListAdapter extends BaseRVAdapter<Speaker, SpeakerViewHolde
         String speakerData;
 
         if (sortType == SORTED_BY_NAME)
-            speakerData = Utils.checkStringEmpty(getItem(position).getName());
+            speakerData = Utils.nullToEmpty(getItem(position).getName());
         else if (sortType == SORTED_BY_ORGANIZATION)
-            speakerData = Utils.checkStringEmpty(getItem(position).getOrganisation());
+            speakerData = Utils.nullToEmpty(getItem(position).getOrganisation());
         else
-            speakerData = Utils.checkStringEmpty(getItem(position).getCountry());
+            speakerData = Utils.nullToEmpty(getItem(position).getCountry());
 
         if (!TextUtils.isEmpty(speakerData) && sortType == SORTED_BY_NAME)
             holder.header.setText(String.valueOf(speakerData.toUpperCase().charAt(0)));

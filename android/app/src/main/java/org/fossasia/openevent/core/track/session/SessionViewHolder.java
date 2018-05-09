@@ -109,8 +109,8 @@ public class SessionViewHolder extends RecyclerView.ViewHolder {
 
     public void bindSession(int type, int colorInTracks, RealmDataRepository realmRepo) {
 
-        String sessionTitleString = Utils.checkStringEmpty(session.getTitle());
-        String sessionSubTitle = Utils.checkStringEmpty(session.getSubtitle());
+        String sessionTitleString = Utils.nullToEmpty(session.getTitle());
+        String sessionSubTitle = Utils.nullToEmpty(session.getSubtitle());
         int color = ContextCompat.getColor(context, R.color.color_primary);
 
         sessionTitle.setText(sessionTitleString);
@@ -166,7 +166,7 @@ public class SessionViewHolder extends RecyclerView.ViewHolder {
                 DateConverter.formatDateWithDefault(DateConverter.FORMAT_12H, session.getEndsAt())));
 
         if (session.getMicrolocation() != null) {
-            String locationName = Utils.checkStringEmpty(session.getMicrolocation().getName());
+            String locationName = Utils.nullToEmpty(session.getMicrolocation().getName());
             sessionLocation.setText(locationName);
         } else {
             sessionLocation.setText(context.getString(R.string.location_not_decided));
@@ -195,7 +195,7 @@ public class SessionViewHolder extends RecyclerView.ViewHolder {
 
         Observable.fromIterable(session.getSpeakers())
                 .map(Speaker::getName)
-                .map(Utils::checkStringEmpty) // Also, what is checkStringEmpty rename it to mean what it does
+                .map(Utils::nullToEmpty)
                 .toList()
                 .map(names -> TextUtils.join(", ", names))
                 .subscribe(s -> sessionSpeaker.setText(s));

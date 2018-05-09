@@ -19,9 +19,6 @@ import org.fossasia.openevent.common.date.DateConverter
 import org.fossasia.openevent.config.StrategyRegistry
 import org.fossasia.openevent.data.Event
 
-import java.util.regex.Matcher
-import java.util.regex.Pattern
-
 object Utils {
 
         @JvmStatic
@@ -48,12 +45,10 @@ object Utils {
         }
 
         @JvmStatic
-        fun checkStringEmpty(string: String): String {
-            var finalString = ""
-            if (!isEmpty(string)) {
-                finalString = string
-            }
-            return finalString
+        fun nullToEmpty(string: String?): String? {
+            if (isEmpty(string))
+                return ""
+            return string
         }
 
         @JvmStatic

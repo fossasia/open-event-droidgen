@@ -57,7 +57,7 @@ public class SponsorViewHolder extends RecyclerView.ViewHolder {
         final int width = displayMetrics.widthPixels;
         final int height = displayMetrics.heightPixels;
 
-        String name = Utils.checkStringEmpty(sponsor.getName());
+        String name = Utils.nullToEmpty(sponsor.getName());
         String logo = Utils.parseImageUri(sponsor.getLogoUrl());
 
         sponsorName.setText(name);
