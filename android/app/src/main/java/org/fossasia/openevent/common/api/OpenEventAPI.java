@@ -46,23 +46,44 @@ public interface OpenEventAPI {
     @GET("speakers?include=sessions&fields[session]=title")
     Call<List<Speaker>> getSpeakers();
 
+    @GET("speakers?include=sessions&fields[session]=title")
+    Observable<List<Speaker>> getSpeakersSingle();
+
     @GET("sponsors")
     Call<List<Sponsor>> getSponsors();
+
+    @GET("sponsors")
+    Observable<List<Sponsor>> getSponsorsObservable();
 
     @GET("sessions?include=microlocation,track&fields[microlocation]=name&fields[track]=name")
     Call<List<Session>> getSessions();
 
+    @GET("sessions?include=microlocation,track&fields[microlocation]=name&fields[track]=name")
+    Observable<List<Session>> getSessionsObservable();
+
     @GET("../{id}?include=social_links,speakers_call,event_copyright")
     Call<Event> getEvent(@Path("id") int eventId);
+
+    @GET("../{id}?include=social_links,speakers_call,event_copyright")
+    Observable<Event> getEventObservable(@Path("id") int eventId);
 
     @GET("microlocations")
     Call<List<Microlocation>> getMicrolocations();
 
+    @GET("microlocations")
+    Observable<List<Microlocation>> getMicrolocationsObservable();
+
     @GET("tracks?include=sessions&fields[session]=title")
     Call<List<Track>> getTracks();
 
+    @GET("tracks?include=sessions&fields[session]=title")
+    Observable<List<Track>> getTracksObservable();
+
     @GET("session-types")
     Call<List<SessionType>> getSessionTypes();
+
+    @GET("session-types")
+    Observable<List<SessionType>> getSessionTypesObservable();
 
     @GET("faqs")
     Observable<List<FAQ>> getFAQs();

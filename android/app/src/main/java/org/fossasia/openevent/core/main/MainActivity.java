@@ -35,12 +35,10 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.squareup.otto.Subscribe;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.common.ConstantStrings;
-import org.fossasia.openevent.common.api.APIClient;
 import org.fossasia.openevent.common.api.DataDownloadManager;
 import org.fossasia.openevent.common.api.DownloadCompleteHandler;
 import org.fossasia.openevent.common.api.Urls;
@@ -50,7 +48,6 @@ import org.fossasia.openevent.common.events.DataDownloadEvent;
 import org.fossasia.openevent.common.events.DownloadEvent;
 import org.fossasia.openevent.common.events.EventDownloadEvent;
 import org.fossasia.openevent.common.events.EventLoadedEvent;
-import org.fossasia.openevent.common.events.JsonReadEvent;
 import org.fossasia.openevent.common.events.MicrolocationDownloadEvent;
 import org.fossasia.openevent.common.events.NoInternetEvent;
 import org.fossasia.openevent.common.events.RetrofitError;
@@ -66,7 +63,6 @@ import org.fossasia.openevent.common.ui.DialogFactory;
 import org.fossasia.openevent.common.ui.SmoothActionBarDrawerToggle;
 import org.fossasia.openevent.common.ui.base.BaseActivity;
 import org.fossasia.openevent.common.ui.image.ZoomableImageUtil;
-import org.fossasia.openevent.common.utils.CommonTaskLoop;
 import org.fossasia.openevent.common.utils.SharedPreferencesUtil;
 import org.fossasia.openevent.common.utils.Utils;
 import org.fossasia.openevent.config.StrategyRegistry;
@@ -85,28 +81,18 @@ import org.fossasia.openevent.core.speaker.SpeakersListFragment;
 import org.fossasia.openevent.core.sponsor.SponsorsFragment;
 import org.fossasia.openevent.core.track.TracksFragment;
 import org.fossasia.openevent.data.Event;
-import org.fossasia.openevent.data.Microlocation;
-import org.fossasia.openevent.data.Session;
-import org.fossasia.openevent.data.SessionType;
-import org.fossasia.openevent.data.Speaker;
-import org.fossasia.openevent.data.Sponsor;
-import org.fossasia.openevent.data.Track;
 import org.fossasia.openevent.data.extras.SocialLink;
 import org.fossasia.openevent.data.repository.RealmDataRepository;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.lang.ref.WeakReference;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
-import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmResults;
 import timber.log.Timber;
@@ -140,6 +126,7 @@ public class MainActivity extends BaseActivity implements AboutFragment.OnMapSel
     private CustomTabsServiceConnection customTabsServiceConnection;
     private CustomTabsClient customTabsClient;
     private DownloadCompleteHandler completeHandler;
+    private DownloadHandler downloadHandler;
     private final CompositeDisposable disposable = new CompositeDisposable();
     private RealmDataRepository realmRepo = RealmDataRepository.getDefaultInstance();
     private Event event; // Future Event, stored to remove listeners
@@ -187,6 +174,7 @@ public class MainActivity extends BaseActivity implements AboutFragment.OnMapSel
         setupEvent();
 
         completeHandler = DownloadCompleteHandler.with(context);
+        downloadHandler = new DownloadHandler(context);
 
         if(!SharedPreferencesUtil.getBoolean(ConstantStrings.IS_DOWNLOAD_DONE, false)) {
             if(Utils.isBaseUrlEmpty()) {
@@ -358,11 +346,11 @@ public class MainActivity extends BaseActivity implements AboutFragment.OnMapSel
 
     private void syncComplete() {
         String successMessage = "Data loaded from JSON";
+        SharedPreferencesUtil.putBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true);
 
-        if (fromServer) {
-            // Event successfully loaded, set data downloaded to true
-            SharedPreferencesUtil.putBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true);
-
+        if (!fromServer) {
+            SharedPreferencesUtil.putBoolean(ConstantStrings.DATABASE_RECORDS_EXIST, true);
+        } else {
             successMessage = "Download done";
         }
 
@@ -728,88 +716,6 @@ public class MainActivity extends BaseActivity implements AboutFragment.OnMapSel
     }
 
     @Subscribe
-    public void handleJsonEvent(final JsonReadEvent jsonReadEvent) {
-        final String name = jsonReadEvent.getName();
-        final String json = jsonReadEvent.getJson();
-
-        disposable.add(Completable.fromAction(() -> {
-            ObjectMapper objectMapper = APIClient.getObjectMapper();
-
-            // Need separate instance for background thread
-            Realm realm = Realm.getDefaultInstance();
-
-            RealmDataRepository realmDataRepository = RealmDataRepository
-                    .getInstance(realm);
-
-            switch (name) {
-                case ConstantStrings.EVENT: {
-                    Event event = objectMapper.readValue(json, Event.class);
-
-                    saveEventDates(event);
-                    realmDataRepository.saveEvent(event).subscribe();
-
-                    realmDataRepository.saveEvent(event).subscribe();
-
-                    StrategyRegistry.getInstance().getEventBusStrategy().postEventOnUIThread(new EventDownloadEvent(true));
-                    break;
-                } case ConstantStrings.TRACKS: {
-                    List<Track> tracks = objectMapper.readValue(json, objectMapper.getTypeFactory().constructCollectionType(List.class, Track.class));
-
-                    realmDataRepository.saveTracks(tracks).subscribe();
-
-                    StrategyRegistry.getInstance().getEventBusStrategy().postEventOnUIThread(new TracksDownloadEvent(true));
-                    break;
-                } case ConstantStrings.SESSIONS: {
-                    List<Session> sessions = objectMapper.readValue(json, objectMapper.getTypeFactory().constructCollectionType(List.class, Session.class));
-
-                    for (Session current : sessions) {
-                        current.setStartDate(current.getStartsAt().split("T")[0]);
-                    }
-
-                    realmDataRepository.saveSessions(sessions).subscribe();
-
-                    StrategyRegistry.getInstance().getEventBusStrategy().postEventOnUIThread(new SessionDownloadEvent(true));
-                    break;
-                } case ConstantStrings.SPEAKERS: {
-                    List<Speaker> speakers = objectMapper.readValue(json, objectMapper.getTypeFactory().constructCollectionType(List.class, Speaker.class));
-
-                    realmRepo.saveSpeakers(speakers).subscribe();
-
-                    StrategyRegistry.getInstance().getEventBusStrategy().postEventOnUIThread(new SpeakerDownloadEvent(true));
-                    break;
-                } case ConstantStrings.SPONSORS: {
-                    List<Sponsor> sponsors = objectMapper.readValue(json, objectMapper.getTypeFactory().constructCollectionType(List.class, Sponsor.class));
-
-                    realmRepo.saveSponsors(sponsors).subscribe();
-
-                    StrategyRegistry.getInstance().getEventBusStrategy().postEventOnUIThread(new SponsorDownloadEvent(true));
-                    break;
-                } case ConstantStrings.MICROLOCATIONS: {
-                    List<Microlocation> microlocations = objectMapper.readValue(json, objectMapper.getTypeFactory().constructCollectionType(List.class, Microlocation.class));
-
-                    realmRepo.saveLocations(microlocations).subscribe();
-
-                    StrategyRegistry.getInstance().getEventBusStrategy().postEventOnUIThread(new MicrolocationDownloadEvent(true));
-                    break;
-                } case ConstantStrings.SESSION_TYPES: {
-                    List<SessionType> sessionTypes = objectMapper.readValue(json, objectMapper.getTypeFactory().constructCollectionType(List.class, SessionType.class));
-
-                    realmRepo.saveSessionTypes(sessionTypes).subscribe();
-
-                    StrategyRegistry.getInstance().getEventBusStrategy().postEventOnUIThread(new SessionTypesDownloadEvent(true));
-                    break;
-                } default:
-                    //do nothing
-            }
-            realm.close();
-        }).observeOn(Schedulers.computation()).subscribe(() -> Timber.d("Saved event from JSON"), throwable -> {
-            throwable.printStackTrace();
-            Timber.e(throwable);
-            StrategyRegistry.getInstance().getEventBusStrategy().postEventOnUIThread(new RetrofitError(throwable));
-        }));
-    }
-
-    @Subscribe
     public void errorHandlerEvent(RetrofitError error) {
         String errorType;
         String errorDesc;
@@ -837,47 +743,56 @@ public class MainActivity extends BaseActivity implements AboutFragment.OnMapSel
         fromServer = false;
         if (!SharedPreferencesUtil.getBoolean(ConstantStrings.DATABASE_RECORDS_EXIST, false)) {
             //TODO: Add and Take counter value from to config.json
-            SharedPreferencesUtil.putBoolean(ConstantStrings.DATABASE_RECORDS_EXIST, true);
 
             startDownloadListener();
             Timber.d("JSON parsing started");
 
             StrategyRegistry.getInstance().getEventBusStrategy().postEventOnUIThread(new CounterEvent(7)); // Bump if increased
 
-            readJsonAsset(Urls.EVENT);
-            readJsonAsset(Urls.SESSIONS);
-            readJsonAsset(Urls.SPEAKERS);
-            readJsonAsset(Urls.TRACKS);
-            readJsonAsset(Urls.SPONSORS);
-            readJsonAsset(Urls.MICROLOCATIONS);
-            readJsonAsset(Urls.SESSION_TYPES);
-            //readJsonAsset(Urls.FAQS);
+            disposable.add(downloadHandler.downloadFromAsset()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe((name) -> {
+                        switch (name) {
+                            case ConstantStrings.EVENT: {
+                                StrategyRegistry.getInstance().getEventBusStrategy().postEventOnUIThread(new EventDownloadEvent(true));
+                                break;
+                            }
+                            case ConstantStrings.TRACKS: {
+                                StrategyRegistry.getInstance().getEventBusStrategy().postEventOnUIThread(new TracksDownloadEvent(true));
+                                break;
+                            }
+                            case ConstantStrings.SESSIONS: {
+                                StrategyRegistry.getInstance().getEventBusStrategy().postEventOnUIThread(new SessionDownloadEvent(true));
+                                break;
+                            }
+                            case ConstantStrings.SPEAKERS: {
+                                StrategyRegistry.getInstance().getEventBusStrategy().postEventOnUIThread(new SpeakerDownloadEvent(true));
+                                break;
+                            }
+                            case ConstantStrings.SPONSORS: {
+                                StrategyRegistry.getInstance().getEventBusStrategy().postEventOnUIThread(new SponsorDownloadEvent(true));
+                                break;
+                            }
+                            case ConstantStrings.MICROLOCATIONS: {
+                                StrategyRegistry.getInstance().getEventBusStrategy().postEventOnUIThread(new MicrolocationDownloadEvent(true));
+                                break;
+                            }
+                            case ConstantStrings.SESSION_TYPES: {
+                                StrategyRegistry.getInstance().getEventBusStrategy().postEventOnUIThread(new SessionTypesDownloadEvent(true));
+                                break;
+                            }
+                            default:
+                                //do nothing
+                        }
+                    }, throwable -> {
+                        throwable.printStackTrace();
+                        Timber.e(throwable);
+                        StrategyRegistry.getInstance().getEventBusStrategy().postEventOnUIThread(new RetrofitError(throwable));
+                    }));
         } else {
             completeHandler.hide();
         }
-        SharedPreferencesUtil.putBoolean(ConstantStrings.IS_DOWNLOAD_DONE, true);
-    }
-
-    public void readJsonAsset(final String name) {
-        CommonTaskLoop.getInstance().post(new Runnable() {
-            String json = null;
-
-            @Override
-            public void run() {
-                try {
-                    InputStream inputStream = getAssets().open(name);
-                    int size = inputStream.available();
-                    byte[] buffer = new byte[size];
-                    if (inputStream.read(buffer) == -1)
-                        Timber.d("Empty Stream");
-                    inputStream.close();
-                    json = new String(buffer, "UTF-8");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                StrategyRegistry.getInstance().getEventBusStrategy().postEventOnUIThread(new JsonReadEvent(name, json));
-            }
-        });
     }
 
     @Override
