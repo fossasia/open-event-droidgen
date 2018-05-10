@@ -19,8 +19,8 @@ import timber.log.Timber;
 
 public class FeedbackFragmentViewModel extends ViewModel {
 
-    private RealmDataRepository realmRepo;
-    private CompositeDisposable compositeDisposable;
+    private final RealmDataRepository realmRepo;
+    private final CompositeDisposable compositeDisposable;
 
     private LiveData<List<Feedback>> feedbackList;
     private MutableLiveData<Boolean> feedbackDownloadResponse;

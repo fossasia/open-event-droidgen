@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.common.ui.image.CircleTransform;
-import org.fossasia.openevent.common.utils.Utils;
 import org.fossasia.openevent.config.StrategyRegistry;
 import org.fossasia.openevent.core.auth.model.User;
 import org.fossasia.openevent.data.Feedback;
@@ -37,13 +36,13 @@ public class FeedbackViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bindFeedback(Feedback feedback) {
-        String comment = Utils.checkStringEmpty(feedback.getComment());
+        String comment = feedback.getComment();
         User user = feedback.getUser();
-        if(user != null){
+        if (user != null) {
             String avatarUrl = user.getAvatarUrl();
-            if(user.getFirstName() != null)
+            if (user.getFirstName() != null)
                 setStringFieldWithPrefix(userName, user.getFirstName(), null);
-            if(avatarUrl != null) {
+            if (avatarUrl != null) {
                 StrategyRegistry.getInstance()
                         .getHttpStrategy()
                         .getPicassoWithCache()
@@ -53,8 +52,8 @@ public class FeedbackViewHolder extends RecyclerView.ViewHolder {
             }
         }
 
-
-        feedbackRating.setRating(feedback.getRating());
+        float rating = Float.parseFloat(feedback.getRating());
+        feedbackRating.setRating(rating);
         setStringFieldWithPrefix(feedbackComment, comment, null);
     }
 
