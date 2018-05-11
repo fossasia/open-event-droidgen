@@ -25,7 +25,6 @@ import org.fossasia.openevent.core.auth.AuthUtil;
 import org.fossasia.openevent.core.auth.LoginActivity;
 import org.fossasia.openevent.data.Feedback;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -121,24 +120,17 @@ public class FeedbackFragment extends BaseFragment {
     }
 
     private void refresh() {
-        NetworkUtils.checkConnection(new WeakReference<>(getContext()), new NetworkUtils.NetworkStateReceiverListener() {
-
-            @Override
-            public void networkAvailable() {
-                if (AuthUtil.isUserLoggedIn()) {
-                    downloadFeedbacks();
-                } else {
-                    redirectToLogin();
-                    if (swipeRefreshLayout != null)
-                        swipeRefreshLayout.setRefreshing(false);
+        if (NetworkUtils.haveNetworkConnection(getContext())) {
+            if (AuthUtil.isUserLoggedIn()) {
+                downloadFeedbacks();
+            } else {
+                if (swipeRefreshLayout != null) {
+                    swipeRefreshLayout.setRefreshing(true);
                 }
             }
-
-            @Override
-            public void networkUnavailable() {
-                onFeedbacksDownloadDone(false);
-            }
-        });
+        } else {
+            onFeedbacksDownloadDone(false);
+        }
     }
 
     @Override
