@@ -2,6 +2,6 @@
 
   "email": "dev@fossasia.org",
   "app-name": "Open Event",
-  "api-link": "https://open-event-api-dev.herokuapp.com/v1/events/1",
+  "api-link": "https://open-event-api-dev.herokuapp.com/v1/events/173",
   "is-auth-enabled": true
 }
