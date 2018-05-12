@@ -1,6 +1,7 @@
 package org.fossasia.openevent.common.api
 
 import android.webkit.URLUtil
+import org.fossasia.openevent.BuildConfig
 
 import org.fossasia.openevent.common.utils.Utils
 
@@ -52,7 +53,9 @@ object Urls {
 
     const val EMPTY_LINK = "http://xyz//"
 
-    private const val GOOGLE_PLAY_HOME = "https://play.google.com/store"
+    private const val APPLICATION_ID = BuildConfig.APPLICATION_ID
+
+    private const val GOOGLE_PLAY_HOME = "https://play.google.com/store/apps/details?id=$APPLICATION_ID"
 
     var baseUrl: String
         @JvmStatic

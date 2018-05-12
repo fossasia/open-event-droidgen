@@ -89,7 +89,7 @@ public class SpeakerViewHolder extends RecyclerView.ViewHolder {
         this.speaker = speaker;
 
         String thumbnail = Utils.parseImageUri(this.speaker.getThumbnailImageUrl());
-        String name = Utils.checkStringEmpty(speaker.getName());
+        String name = Utils.nullToEmpty(speaker.getName());
 
         if (thumbnail == null)
             thumbnail = Utils.parseImageUri(this.speaker.getPhotoUrl());
