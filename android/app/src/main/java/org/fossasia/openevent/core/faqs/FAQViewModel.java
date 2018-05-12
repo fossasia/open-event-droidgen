@@ -36,21 +36,17 @@ public class FAQViewModel extends ViewModel {
     public LiveData<Boolean> downloadFAQ() {
         if (faqOnDownloadResponse == null)
             faqOnDownloadResponse = new MutableLiveData<>();
-        try {
-            compositeDisposable.add(APIClient.getOpenEventAPI().getFAQs()
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(faqList -> {
-                        Timber.i("Downloaded FAQs");
-                        realmRepo.saveFAQs(faqList).subscribe();
-                        faqOnDownloadResponse.setValue(true);
-                    }, throwable -> {
-                        Timber.i("FAQs download failed");
-                        faqOnDownloadResponse.setValue(false);
-                    }));
-        } catch (Exception e) {
-            Timber.e(e);
-        }
+        compositeDisposable.add(APIClient.getOpenEventAPI().getFAQs()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(faqList -> {
+                    Timber.i("Downloaded FAQs");
+                    realmRepo.saveFAQs(faqList).subscribe();
+                    faqOnDownloadResponse.setValue(true);
+                }, throwable -> {
+                    Timber.i("FAQs download failed");
+                    faqOnDownloadResponse.setValue(false);
+                }));
 
         return faqOnDownloadResponse;
     }

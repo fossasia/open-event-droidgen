@@ -37,21 +37,17 @@ public class DiscountFragmentViewModel extends ViewModel {
     public LiveData<Boolean> downloadDiscountCodes() {
         if (discountCodesDownloadResponse == null)
             discountCodesDownloadResponse = new MutableLiveData<>();
-        try {
-            compositeDisposable.add(APIClient.getOpenEventAPI().getDiscountCodes()
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(discountList -> {
-                        Timber.i("Downloaded Discount Codes");
-                        realmRepo.saveDiscountCodes(discountList).subscribe();
-                        discountCodesDownloadResponse.setValue(true);
-                    }, throwable -> {
-                        Timber.i("Discount Codes download failed");
-                        discountCodesDownloadResponse.setValue(false);
-                    }));
-        } catch (Exception e) {
-            Timber.e(e);
-        }
+        compositeDisposable.add(APIClient.getOpenEventAPI().getDiscountCodes()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(discountList -> {
+                    Timber.i("Downloaded Discount Codes");
+                    realmRepo.saveDiscountCodes(discountList).subscribe();
+                    discountCodesDownloadResponse.setValue(true);
+                }, throwable -> {
+                    Timber.i("Discount Codes download failed");
+                    discountCodesDownloadResponse.setValue(false);
+                }));
 
         return discountCodesDownloadResponse;
     }
