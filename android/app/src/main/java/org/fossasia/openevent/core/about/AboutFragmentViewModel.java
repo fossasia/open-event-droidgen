@@ -34,7 +34,7 @@ public class AboutFragmentViewModel extends ViewModel {
     private FilterableRealmLiveData<Session> filterableRealmLiveData;
     private List<String> dateList;
     private LiveData<Event> eventLiveData;
-    private LiveData<List<Speaker>> featuredSpeakers;
+    private LiveRealmData<Speaker> featuredSpeakersLiveData;
     private MutableLiveData<Bitmap> eventLogo;
 
     public AboutFragmentViewModel() {
@@ -91,12 +91,11 @@ public class AboutFragmentViewModel extends ViewModel {
         return sessionsList;
     }
 
-    public LiveData<List<Speaker>> getFeaturedSpeakers() {
-        if (featuredSpeakers == null) {
-            LiveRealmData<Speaker> featuredSpeakersLiveData = RealmDataRepository.asLiveData(realmRepo.getFeaturedSpeakers());
-            featuredSpeakers = Transformations.map(featuredSpeakersLiveData, input -> input);
+    public LiveRealmData<Speaker> getFeaturedSpeakers() {
+        if (featuredSpeakersLiveData == null) {
+            featuredSpeakersLiveData = RealmDataRepository.asLiveData(realmRepo.getFeaturedSpeakers());
         }
-        return featuredSpeakers;
+        return featuredSpeakersLiveData;
     }
 
     public LiveData<Bitmap> getEventLogo(String url) {
