@@ -2,7 +2,6 @@ package org.fossasia.openevent.core.notifications;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 
 import org.fossasia.openevent.common.arch.LiveRealmData;
@@ -19,7 +18,7 @@ import timber.log.Timber;
 public class NotificationsFragmentViewModel extends ViewModel {
 
     private RealmDataRepository realmRepo;
-    private LiveData<List<Notification>> notificationsData;
+    private LiveRealmData<Notification> liveNotificationsRealmData;
     private MutableLiveData<Boolean> notificationDownloadResponse;
     private final CompositeDisposable compositeDisposable;
     private final NotificationsRepository notificationsRepository;
@@ -30,12 +29,11 @@ public class NotificationsFragmentViewModel extends ViewModel {
         notificationsRepository = new NotificationsRepository();
     }
 
-    public LiveData<List<Notification>> getNotificationsData() {
-        if (notificationsData == null) {
-            LiveRealmData<Notification> liveRealmData = RealmDataRepository.asLiveData(realmRepo.getNotifications());
-            notificationsData = Transformations.map(liveRealmData, input -> input);
+    public LiveRealmData<Notification> getNotificationsData() {
+        if (liveNotificationsRealmData == null) {
+            liveNotificationsRealmData = RealmDataRepository.asLiveData(realmRepo.getNotifications());
         }
-        return notificationsData;
+        return liveNotificationsRealmData;
     }
 
     public LiveData<Boolean> downloadNotifications() {

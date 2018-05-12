@@ -2,15 +2,12 @@ package org.fossasia.openevent.core.faqs;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 
 import org.fossasia.openevent.common.api.APIClient;
 import org.fossasia.openevent.common.arch.LiveRealmData;
 import org.fossasia.openevent.data.FAQ;
 import org.fossasia.openevent.data.repository.RealmDataRepository;
-
-import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -20,7 +17,7 @@ import timber.log.Timber;
 public class FAQViewModel extends ViewModel {
 
     private RealmDataRepository realmRepo;
-    private LiveData<List<FAQ>> faqData;
+    private LiveRealmData<FAQ> faqLiveRealmData;
     private MutableLiveData<Boolean> faqOnDownloadResponse;
     private final CompositeDisposable compositeDisposable;
 
@@ -29,12 +26,11 @@ public class FAQViewModel extends ViewModel {
         compositeDisposable = new CompositeDisposable();
     }
 
-    public LiveData<List<FAQ>> getFaqData() {
-        if (faqData == null) {
-            LiveRealmData<FAQ> faqLiveRealmData = RealmDataRepository.asLiveData(realmRepo.getEventFAQs());
-            faqData = Transformations.map(faqLiveRealmData, input -> input);
+    public LiveRealmData<FAQ> getFaqData() {
+        if (faqLiveRealmData == null) {
+            faqLiveRealmData = RealmDataRepository.asLiveData(realmRepo.getEventFAQs());
         }
-        return faqData;
+        return faqLiveRealmData;
     }
 
     public LiveData<Boolean> downloadFAQ() {
