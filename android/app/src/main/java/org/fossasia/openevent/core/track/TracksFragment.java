@@ -33,7 +33,6 @@ import org.fossasia.openevent.common.utils.Utils;
 import org.fossasia.openevent.config.StrategyRegistry;
 import org.fossasia.openevent.data.Track;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -196,19 +195,11 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
     }
 
     private void refresh() {
-        NetworkUtils.checkConnection(new WeakReference<>(context), new NetworkUtils.NetworkStateReceiverListener() {
-
-            @Override
-            public void networkAvailable() {
-                // Network is available
-                DataDownloadManager.getInstance().downloadTracks();
-            }
-
-            @Override
-            public void networkUnavailable() {
-                StrategyRegistry.getInstance().getEventBusStrategy().getEventBus().post(new TracksDownloadEvent(false));
-            }
-        });
+        if (NetworkUtils.haveNetworkConnection(getContext())) {
+            DataDownloadManager.getInstance().downloadTracks();
+        } else {
+            StrategyRegistry.getInstance().getEventBusStrategy().getEventBus().post(new TracksDownloadEvent(false));
+        }
     }
 
 }
