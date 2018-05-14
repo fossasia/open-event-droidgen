@@ -9,7 +9,8 @@ import org.fossasia.openevent.data.Speaker;
 import org.fossasia.openevent.data.repository.RealmDataRepository;
 
 public class SpeakerDetailsViewModel extends ViewModel {
-    private RealmDataRepository realmRepo;
+    private final RealmDataRepository realmRepo;
+
     private LiveData<Speaker> speaker;
 
     public SpeakerDetailsViewModel() {
