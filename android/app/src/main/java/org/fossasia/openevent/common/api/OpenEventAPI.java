@@ -8,6 +8,7 @@ import org.fossasia.openevent.core.auth.model.User;
 import org.fossasia.openevent.data.DiscountCode;
 import org.fossasia.openevent.data.Event;
 import org.fossasia.openevent.data.FAQ;
+import org.fossasia.openevent.data.Feedback;
 import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.data.Notification;
 import org.fossasia.openevent.data.Session;
@@ -72,5 +73,8 @@ public interface OpenEventAPI {
 
     @GET("discount-codes")
     Observable<List<DiscountCode>> getDiscountCodes();
+
+    @GET("feedbacks?include=user&size=0")
+    Observable<List<Feedback>> getFeedbacks();
 
 }

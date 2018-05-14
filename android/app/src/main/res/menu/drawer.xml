@@ -76,6 +76,11 @@
             android:icon="@drawable/ic_question_answer_black_24dp"
             android:title="@string/menu_faqs"
             app:showAsAction="always" />
+        <item
+            android:id="@+id/nav_feedbacks"
+            android:icon="@drawable/ic_feedback_black_24dp"
+            android:title="@string/menu_feedback"
+            app:showAsAction="always" />
 
     </group>
 

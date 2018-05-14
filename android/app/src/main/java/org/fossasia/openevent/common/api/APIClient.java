@@ -13,6 +13,7 @@ import org.fossasia.openevent.core.auth.model.User;
 import org.fossasia.openevent.data.DiscountCode;
 import org.fossasia.openevent.data.Event;
 import org.fossasia.openevent.data.FAQ;
+import org.fossasia.openevent.data.Feedback;
 import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.data.Notification;
 import org.fossasia.openevent.data.Session;
@@ -91,7 +92,7 @@ public final class APIClient {
 
             ObjectMapper objectMapper = getObjectMapper();
 
-            Class[] classes = {Event.class, Track.class, Speaker.class, Sponsor.class, Session.class, Microlocation.class, User.class, FAQ.class, Notification.class, DiscountCode.class};
+            Class[] classes = {Event.class, Track.class, Speaker.class, Sponsor.class, Session.class, Microlocation.class, User.class, FAQ.class, Notification.class, DiscountCode.class, Feedback.class};
 
             openEventAPI = new Retrofit.Builder()
                     .client(okHttpClient)
