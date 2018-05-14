@@ -47,6 +47,7 @@
     <string name="discount_code_value">Value : %1$f</string>
     <string name="discount_code_min_quantity">Minimum Quantity : %1$d</string>
     <string name="discount_code_max_quantity">Maximum Quantity : %1$d</string>
+    <string name="menu_feedback">Feedbacks</string>
 
     <string name="logged_in_successfully">Successfully logged in</string>
     <string name="logged_out_successfully">Successfully logged out</string>

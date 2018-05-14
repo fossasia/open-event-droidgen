@@ -75,6 +75,7 @@
                     style="@style/Base.TextAppearance.AppCompat.Subhead"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     android:textColor="@color/primary_text"
                     tools:text="Session Subtitle" />
 

@@ -34,7 +34,7 @@ import org.fossasia.openevent.common.utils.Utils;
 import org.fossasia.openevent.config.StrategyRegistry;
 import org.fossasia.openevent.core.bookmark.OnBookmarkSelectedListener;
 import org.fossasia.openevent.data.Session;
-import java.lang.ref.WeakReference;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -209,19 +209,11 @@ public class DayScheduleFragment extends BaseFragment implements SearchView.OnQu
     }
 
     private void refresh() {
-        NetworkUtils.checkConnection(new WeakReference<>(context), new NetworkUtils.NetworkStateReceiverListener() {
-
-            @Override
-            public void networkAvailable() {
-                // Network is available
-                DataDownloadManager.getInstance().downloadSession();
-            }
-
-            @Override
-            public void networkUnavailable() {
-                StrategyRegistry.getInstance().getEventBusStrategy().getEventBus().post(new SessionDownloadEvent(false));
-            }
-        });
+        if (NetworkUtils.haveNetworkConnection(getContext())) {
+            DataDownloadManager.getInstance().downloadSession();
+        } else {
+            StrategyRegistry.getInstance().getEventBusStrategy().getEventBus().post(new SessionDownloadEvent(false));
+        }
     }
 
     public void setOnBookmarkSelectedListener(OnBookmarkSelectedListener onBookmarkSelectedListener) {

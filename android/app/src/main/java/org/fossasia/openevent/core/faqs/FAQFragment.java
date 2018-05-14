@@ -22,7 +22,6 @@ import org.fossasia.openevent.core.auth.AuthUtil;
 import org.fossasia.openevent.core.auth.LoginActivity;
 import org.fossasia.openevent.data.FAQ;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -99,20 +98,12 @@ public class FAQFragment extends BaseFragment {
     }
 
     private void refresh() {
-        NetworkUtils.checkConnection(new WeakReference<>(getContext()), new NetworkUtils.NetworkStateReceiverListener() {
-
-            @Override
-            public void networkAvailable() {
-                downloadFAQS();
-                swipeRefreshLayout.setRefreshing(false);
-            }
-
-            @Override
-            public void networkUnavailable() {
-                onDownloadResponse(false);
-            }
-
-        });
+        if (NetworkUtils.haveNetworkConnection(getContext())) {
+            downloadFAQS();
+            swipeRefreshLayout.setRefreshing(false);
+        } else {
+            onDownloadResponse(false);
+        }
     }
 
     private void handleVisibility() {
