@@ -16,10 +16,11 @@ import timber.log.Timber;
 
 public class DiscountFragmentViewModel extends ViewModel {
 
+    private final CompositeDisposable compositeDisposable;
+    private final RealmDataRepository realmRepo;
+
     private LiveRealmData<DiscountCode> discountCodeLiveRealmData;
-    private RealmDataRepository realmRepo;
     private MutableLiveData<Boolean> discountCodesDownloadResponse;
-    private CompositeDisposable compositeDisposable;
 
     public DiscountFragmentViewModel() {
         realmRepo = RealmDataRepository.getDefaultInstance();

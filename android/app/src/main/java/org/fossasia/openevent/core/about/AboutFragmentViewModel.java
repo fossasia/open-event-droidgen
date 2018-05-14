@@ -30,7 +30,8 @@ import io.realm.RealmResults;
 
 public class AboutFragmentViewModel extends ViewModel {
 
-    private RealmDataRepository realmRepo;
+    private final RealmDataRepository realmRepo;
+
     private FilterableRealmLiveData<Session> filterableRealmLiveData;
     private List<String> dateList;
     private LiveData<Event> eventLiveData;

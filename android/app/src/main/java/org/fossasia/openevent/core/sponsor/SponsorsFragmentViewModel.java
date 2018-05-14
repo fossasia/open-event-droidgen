@@ -8,9 +8,9 @@ import org.fossasia.openevent.data.repository.RealmDataRepository;
 
 public class SponsorsFragmentViewModel extends ViewModel {
 
+    private final RealmDataRepository realmRepo;
+    
     private LiveRealmData<Sponsor> sponsorLiveRealmData;
-    private RealmDataRepository realmRepo;
-
     public SponsorsFragmentViewModel() {
         realmRepo = RealmDataRepository.getDefaultInstance();
     }

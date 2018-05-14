@@ -18,7 +18,8 @@ import io.realm.Sort;
 
 public class DayScheduleFragmentViewModel extends ViewModel {
 
-    private RealmDataRepository realmRepo;
+    private final RealmDataRepository realmRepo;
+
     private RealmResults<Session> sessions;
     private List<String> tracks = new ArrayList<>();
     private FilterableRealmLiveData<Session> filterableSessions;
