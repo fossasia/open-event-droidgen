@@ -66,9 +66,9 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/primary_text"
                         android:textSize="@dimen/text_size_large" />
-
                     <TextView
                         android:id="@+id/type"
+                        android:visibility="gone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/layout_margin_medium"
@@ -262,14 +262,12 @@
 
             <TextView
                 android:id="@+id/tv_description"
+                style="@style/TextAppearance.AppCompat.Body1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/layout_margin_large"
                 android:autoLink="web"
-                android:gravity="start"
-                android:textColor="@android:color/black"
                 android:textIsSelectable="true"
-                android:textSize="@dimen/text_size_large"
                 tools:text="Open Event!" />
         </LinearLayout>
 

@@ -20,7 +20,6 @@ import org.fossasia.openevent.core.auth.AuthUtil;
 import org.fossasia.openevent.core.auth.LoginActivity;
 import org.fossasia.openevent.data.Notification;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -109,6 +108,11 @@ public class NotificationsFragment extends BaseFragment {
         }
     }
 
+    private void clearViews() {
+        noNotificationView.setVisibility(View.GONE);
+        loginBtn.setVisibility(View.GONE);
+    }
+
     public void onNotificationsDownloadDone(boolean status) {
         if (!status) {
             Timber.d("Notifications download failed");
@@ -121,30 +125,28 @@ public class NotificationsFragment extends BaseFragment {
     }
 
     private void refresh() {
-        NetworkUtils.checkConnection(new WeakReference<>(getContext()), new NetworkUtils.NetworkStateReceiverListener() {
-
-            @Override
-            public void networkAvailable() {
-                // Network is available
-                if (AuthUtil.isUserLoggedIn()) {
-                    downloadNotifications();
-                } else {
-                    redirectToLogin();
-                    if (swipeRefreshLayout != null)
-                        swipeRefreshLayout.setRefreshing(false);
-                }
+        if (NetworkUtils.haveNetworkConnection(getContext())) {
+            if (AuthUtil.isUserLoggedIn()) {
+                downloadNotifications();
+            } else {
+                redirectToLogin();
+                if (swipeRefreshLayout != null)
+                    swipeRefreshLayout.setRefreshing(false);
             }
-
-            @Override
-            public void networkUnavailable() {
-                onNotificationsDownloadDone(false);
-            }
-        });
+        } else {
+            onNotificationsDownloadDone(false);
+        }
     }
 
     @Override
     protected int getLayoutResource() {
         return R.layout.list_notification;
+    }
+
+    @Override
+    public void onPause() {
+        clearViews();
+        super.onPause();
     }
 
     @Override

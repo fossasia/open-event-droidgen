@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.fossasia.openevent.R;
@@ -42,8 +43,8 @@ public class TwitterFeedFragment extends BaseFeedFragment implements OnImageZoom
     protected SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.twitter_feed_recycler_view)
     protected RecyclerView twitterFeedRecyclerView;
-    @BindView(R.id.twitter_txt_no_posts)
-    protected TextView noFeedView;
+    @BindView(R.id.ll_no_posts)
+    protected LinearLayout noFeedView;
 
     public static TwitterFeedFragment getInstance() {
         return new TwitterFeedFragment();

@@ -11,6 +11,7 @@ import org.fossasia.openevent.R;
 import org.fossasia.openevent.common.ui.base.BaseRVAdapter;
 import org.fossasia.openevent.common.date.DateConverter;
 import org.fossasia.openevent.core.feed.facebook.api.CommentItem;
+import org.fossasia.openevent.core.feed.facebook.api.Commenter;
 import org.threeten.bp.format.DateTimeParseException;
 
 import java.util.List;
@@ -74,8 +75,10 @@ public class CommentsListAdapter extends BaseRVAdapter<CommentItem, CommentsList
             holder.comment.setVisibility(View.GONE);
         }
 
-        if (!TextUtils.isEmpty(commentItem.getFrom().getName())) {
-            holder.commenter.setText(commentItem.getFrom().getName());
+        Commenter from = commentItem.getFrom();
+        String fromName = from.getName();
+        if (from != null && !TextUtils.isEmpty(fromName)) {
+            holder.commenter.setText(fromName);
             holder.commenter.setVisibility(View.VISIBLE);
         } else {
             // status is empty, remove from view

@@ -42,7 +42,7 @@ public class LocationViewHolder extends RecyclerView.ViewHolder {
     public void bindLocation(Microlocation location) {
         this.location = location;
 
-        String locationNameString = Utils.checkStringEmpty(location.getName());
+        String locationNameString = Utils.nullToEmpty(location.getName());
         locationName.setText(locationNameString);
         locationFloor.setText(MessageFormat.format("{0}{1}",
                 itemView.getResources().getString(R.string.fmt_floor),

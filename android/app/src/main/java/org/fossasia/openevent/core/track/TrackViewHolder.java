@@ -51,7 +51,7 @@ public class TrackViewHolder extends RecyclerView.ViewHolder {
 
         int trackColor = Color.parseColor(track.getColor());
         int sessions = track.getSessions().size();
-        String trackName = Utils.checkStringEmpty(track.getName());
+        String trackName = Utils.nullToEmpty(track.getName());
 
         trackTitle.setText(trackName);
         noOfSessions.getBackground().setColorFilter(trackColor, PorterDuff.Mode.SRC_ATOP);

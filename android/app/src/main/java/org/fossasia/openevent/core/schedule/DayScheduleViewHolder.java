@@ -72,7 +72,7 @@ public class DayScheduleViewHolder extends RecyclerView.ViewHolder {
     public void bindSession(RealmDataRepository realmRepo) {
         String startTimeText = DateConverter.formatDateWithDefault(DateConverter.FORMAT_24H, session.getStartsAt());
         String endTimeText = DateConverter.formatDateWithDefault(DateConverter.FORMAT_24H, session.getEndsAt());
-        String title = Utils.checkStringEmpty(session.getTitle());
+        String title = Utils.nullToEmpty(session.getTitle());
 
         startTime.setText(startTimeText);
         endTime.setText(endTimeText);
@@ -162,7 +162,7 @@ public class DayScheduleViewHolder extends RecyclerView.ViewHolder {
         }
 
         if (session.getMicrolocation() != null) {
-            String locationName = Utils.checkStringEmpty(session.getMicrolocation().getName());
+            String locationName = Utils.nullToEmpty(session.getMicrolocation().getName());
             slotLocation.setText(locationName);
         }
     }

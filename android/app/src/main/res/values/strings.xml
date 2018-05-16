@@ -47,6 +47,7 @@
     <string name="discount_code_value">Value : %1$f</string>
     <string name="discount_code_min_quantity">Minimum Quantity : %1$d</string>
     <string name="discount_code_max_quantity">Maximum Quantity : %1$d</string>
+    <string name="menu_feedback">Feedbacks</string>
 
     <string name="logged_in_successfully">Successfully logged in</string>
     <string name="logged_out_successfully">Successfully logged out</string>
@@ -227,6 +228,7 @@
     <string name="upcoming_sess">Upcoming session: </string>
     <string name="no_upcoming_Sess">No upcoming sessions</string>
     <string name="dash">&#160;-&#160;</string>
+    <string name="sad_face">Sad face</string>
 
     <!-- Sponsor types strings-->
     <string name="platinum">Platinum</string>

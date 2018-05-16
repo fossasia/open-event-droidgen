@@ -60,7 +60,7 @@ public class LocationsListAdapter extends BaseRVAdapter<Microlocation, LocationV
 
     @Override
     public void onBindHeaderViewHolder(HeaderViewHolder holder, int position) {
-        String locationName = Utils.checkStringEmpty(getItem(position).getName());
+        String locationName = Utils.nullToEmpty(getItem(position).getName());
         if (!Utils.isEmpty(locationName)) {
             holder.header.setText(String.valueOf(locationName.toUpperCase().charAt(0)));
         }

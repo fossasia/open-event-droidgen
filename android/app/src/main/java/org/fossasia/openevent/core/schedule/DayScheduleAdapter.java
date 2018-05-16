@@ -83,8 +83,8 @@ public class DayScheduleAdapter extends BaseRVAdapter<Session, DayScheduleViewHo
 
     @Override
     public void onBindHeaderViewHolder(HeaderViewHolder holder, int position) {
-        String sortTitle = Utils.checkStringEmpty(getItem(position).getTitle());
-        String sortName = Utils.checkStringEmpty(getItem(position).getTrack().getName());
+        String sortTitle = Utils.nullToEmpty(getItem(position).getTitle());
+        String sortName = Utils.nullToEmpty(getItem(position).getTrack().getName());
 
         if (SortOrder.sortTypeSchedule().equals(Session.TITLE) && (!Utils.isEmpty(sortTitle))) {
             holder.header.setText(String.valueOf(sortTitle.toUpperCase().charAt(0)));

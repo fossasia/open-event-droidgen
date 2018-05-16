@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.fossasia.openevent.R;
@@ -26,7 +27,6 @@ import org.fossasia.openevent.core.feed.facebook.api.CommentItem;
 import org.fossasia.openevent.core.feed.facebook.api.Feed;
 import org.fossasia.openevent.core.feed.facebook.api.FeedItem;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,8 +43,8 @@ public class FacebookFeedFragment extends BaseFeedFragment implements OpenCommen
     protected SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.feed_recycler_view)
     protected RecyclerView feedRecyclerView;
-    @BindView(R.id.txt_no_posts)
-    protected TextView noFeedView;
+    @BindView(R.id.ll_no_posts)
+    protected LinearLayout noFeedView;
 
     public static FacebookFeedFragment getInstance() {
         return new FacebookFeedFragment();
@@ -96,34 +96,27 @@ public class FacebookFeedFragment extends BaseFeedFragment implements OpenCommen
     }
 
     private void refresh() {
-        NetworkUtils.checkConnection(new WeakReference<>(getContext()), new NetworkUtils.NetworkStateReceiverListener() {
-
-            @Override
-            public void networkAvailable() {
-                if (SharedPreferencesUtil.getString(ConstantStrings.FACEBOOK_PAGE_ID, null) == null) {
-                    facebookFeedFragmentViewModel.getFBPageID(getResources().getString(R.string.facebook_access_token))
-                            .observe(FacebookFeedFragment.this, facebookPageIdResource -> {
-                                if (facebookPageIdResource == null) return;
-                                if (facebookPageIdResource.getStatus() == Resource.Status.SUCCESS) {
-                                    SharedPreferencesUtil.putString(ConstantStrings.FACEBOOK_PAGE_ID, facebookPageIdResource.getData().getId());
-                                    downloadFeed();
-                                } else {
-                                    Timber.e(facebookPageIdResource.getMessage());
-                                    showRetrySnackbar(R.string.refresh_failed);
-                                    swipeRefreshLayout.setRefreshing(false);
-                                }
-                            });
-                } else {
-                    downloadFeed();
-                }
+        if (NetworkUtils.haveNetworkConnection(getContext())) {
+            if (SharedPreferencesUtil.getString(ConstantStrings.FACEBOOK_PAGE_ID, null) == null) {
+                facebookFeedFragmentViewModel.getFBPageID(getResources().getString(R.string.facebook_access_token))
+                        .observe(FacebookFeedFragment.this, facebookPageIdResource -> {
+                            if (facebookPageIdResource == null) return;
+                            if (facebookPageIdResource.getStatus() == Resource.Status.SUCCESS) {
+                                SharedPreferencesUtil.putString(ConstantStrings.FACEBOOK_PAGE_ID, facebookPageIdResource.getData().getId());
+                                downloadFeed();
+                            } else {
+                                Timber.e(facebookPageIdResource.getMessage());
+                                showRetrySnackbar(R.string.refresh_failed);
+                                swipeRefreshLayout.setRefreshing(false);
+                            }
+                        });
+            } else {
+                downloadFeed();
             }
-
-            @Override
-            public void networkUnavailable() {
-                swipeRefreshLayout.setRefreshing(false);
-                showRetrySnackbar(R.string.no_internet_connection);
-            }
-        });
+        } else {
+            swipeRefreshLayout.setRefreshing(false);
+            showRetrySnackbar(R.string.no_internet_connection);
+        }
     }
 
     private void showRetrySnackbar(@StringRes int resId) {

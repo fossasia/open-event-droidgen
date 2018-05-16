@@ -40,7 +40,6 @@ import org.fossasia.openevent.common.utils.Utils;
 import org.fossasia.openevent.config.StrategyRegistry;
 import org.fossasia.openevent.data.Speaker;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -214,19 +213,11 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
     }
 
     private void refresh() {
-        NetworkUtils.checkConnection(new WeakReference<>(getContext()), new NetworkUtils.NetworkStateReceiverListener() {
-
-            @Override
-            public void networkAvailable() {
-                // Network is available
-                DataDownloadManager.getInstance().downloadSpeakers();
-            }
-
-            @Override
-            public void networkUnavailable() {
-                StrategyRegistry.getInstance().getEventBusStrategy().getEventBus().post(new SpeakerDownloadEvent(false));
-            }
-        });
+        if (NetworkUtils.haveNetworkConnection(getContext())) {
+            DataDownloadManager.getInstance().downloadSpeakers();
+        } else {
+            StrategyRegistry.getInstance().getEventBusStrategy().getEventBus().post(new SpeakerDownloadEvent(false));
+        }
     }
 
     @Override

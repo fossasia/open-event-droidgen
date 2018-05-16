@@ -77,6 +77,7 @@ import org.fossasia.openevent.core.discount.DiscountCodeFragment;
 import org.fossasia.openevent.core.faqs.FAQFragment;
 import org.fossasia.openevent.core.feed.FeedFragment;
 import org.fossasia.openevent.core.feed.facebook.api.FacebookApi;
+import org.fossasia.openevent.core.feedback.FeedbackFragment;
 import org.fossasia.openevent.core.location.LocationsFragment;
 import org.fossasia.openevent.core.notifications.NotificationsFragment;
 import org.fossasia.openevent.core.schedule.ScheduleFragment;
@@ -547,6 +548,9 @@ public class MainActivity extends BaseActivity implements AboutFragment.OnMapSel
                 break;
             case R.id.nav_feed:
                 replaceFragment(FeedFragment.getInstance(), R.string.menu_feed);
+                break;
+            case R.id.nav_feedbacks:
+                replaceFragment(new FeedbackFragment(), R.string.menu_feedback);
                 break;
             case R.id.nav_schedule:
                 replaceFragment(new ScheduleFragment(), R.string.menu_schedule);

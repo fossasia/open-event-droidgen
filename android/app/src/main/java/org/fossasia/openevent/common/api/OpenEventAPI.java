@@ -8,6 +8,7 @@ import org.fossasia.openevent.core.auth.model.User;
 import org.fossasia.openevent.data.DiscountCode;
 import org.fossasia.openevent.data.Event;
 import org.fossasia.openevent.data.FAQ;
+import org.fossasia.openevent.data.Feedback;
 import org.fossasia.openevent.data.Microlocation;
 import org.fossasia.openevent.data.Notification;
 import org.fossasia.openevent.data.Session;
@@ -43,34 +44,37 @@ public interface OpenEventAPI {
     @POST("../../upload/image")
     Observable<ImageResponse> uploadImage(@Body UploadImage uploadImage);
 
-    @GET("speakers?include=sessions&fields[session]=title")
+    @GET("speakers?include=sessions&fields[session]=title&size=0")
     Call<List<Speaker>> getSpeakers();
 
-    @GET("sponsors")
+    @GET("sponsors?size=0")
     Call<List<Sponsor>> getSponsors();
 
-    @GET("sessions?include=microlocation,track&fields[microlocation]=name&fields[track]=name")
+    @GET("sessions?include=microlocation,track&fields[microlocation]=name&fields[track]=name&size=0")
     Call<List<Session>> getSessions();
 
     @GET("../{id}?include=social_links,speakers_call,event_copyright")
     Call<Event> getEvent(@Path("id") int eventId);
 
-    @GET("microlocations")
+    @GET("microlocations?size=0")
     Call<List<Microlocation>> getMicrolocations();
 
-    @GET("tracks?include=sessions&fields[session]=title")
+    @GET("tracks?include=sessions&fields[session]=title&size=0")
     Call<List<Track>> getTracks();
 
-    @GET("session-types")
+    @GET("session-types?size=0")
     Call<List<SessionType>> getSessionTypes();
 
-    @GET("faqs")
+    @GET("faqs?size=0")
     Observable<List<FAQ>> getFAQs();
 
-    @GET("../../users/{id}/notifications")
+    @GET("../../users/{id}/notifications?size=0")
     Observable<List<Notification>> getNotifications(@Path("id") long id);
 
-    @GET("discount-codes")
+    @GET("discount-codes?size=0")
     Observable<List<DiscountCode>> getDiscountCodes();
+
+    @GET("feedbacks?include=user&size=0")
+    Observable<List<Feedback>> getFeedbacks();
 
 }
