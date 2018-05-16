@@ -7,14 +7,30 @@
     android:focusableInTouchMode="true"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <TextView
-        android:id="@+id/twitter_txt_no_posts"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="@string/noFeed"
-        android:textAppearance="?android:textAppearanceMedium" />
+    <LinearLayout
+        android:id="@+id/ll_no_posts"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/img_no_posts"
+            android:layout_width="@dimen/item_image_view_extra_large"
+            android:layout_height="@dimen/item_image_view_extra_large"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/no_posts_margin"
+            app:srcCompat="@drawable/ic_no_posts_grey_24dp"
+            android:contentDescription="@string/sad_face"/>
+
+        <TextView
+            android:id="@+id/txt_no_posts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/noFeed"
+            android:textAppearance="?android:textAppearanceMedium" />
+
+    </LinearLayout>
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/twitter_feed_swipe_refresh"

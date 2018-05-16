@@ -228,6 +228,7 @@
     <string name="upcoming_sess">Upcoming session: </string>
     <string name="no_upcoming_Sess">No upcoming sessions</string>
     <string name="dash">&#160;-&#160;</string>
+    <string name="sad_face">Sad face</string>
 
     <!-- Sponsor types strings-->
     <string name="platinum">Platinum</string>
