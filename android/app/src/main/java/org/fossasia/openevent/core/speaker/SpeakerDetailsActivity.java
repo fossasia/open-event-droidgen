@@ -58,6 +58,8 @@ import butterknife.OnClick;
 
 public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout.OnOffsetChangedListener, OnBookmarkSelectedListener, SessionsListAdapter.OnItemClickListener {
 
+    private int color = 0;
+    
     private SessionsListAdapter sessionsListAdapter;
 
     private GridLayoutManager gridLayoutManager;
@@ -123,8 +125,6 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
     }
 
     private String speakerName;
-    private int color = 0;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
