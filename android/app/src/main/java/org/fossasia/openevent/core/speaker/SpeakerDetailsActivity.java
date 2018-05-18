@@ -33,6 +33,7 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import org.fossasia.openevent.R;
+import org.fossasia.openevent.common.ConstantStrings;
 import org.fossasia.openevent.common.api.Urls;
 import org.fossasia.openevent.common.events.ConnectionCheckEvent;
 import org.fossasia.openevent.common.ui.SnackbarUtil;
@@ -122,6 +123,7 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
     }
 
     private String speakerName;
+    private int color = 0;
 
 
     @Override
@@ -129,6 +131,14 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
         super.onCreate(savedInstanceState);
 
         speakerName = getIntent().getStringExtra(Speaker.SPEAKER);
+        String color = getIntent().getStringExtra(ConstantStrings.COLOR);
+
+        if (color != null && !color.isEmpty()) {
+            this.color = Color.parseColor(color);
+        } else {
+            this.color = 0 ;
+        }
+
         setSupportActionBar(toolbar);
         if(getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         collapsingToolbarLayout.setTitle(" ");
@@ -182,33 +192,22 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
             progressBar.setVisibility(View.GONE);
             return;
         }
-
         final Context context = this;
-
-        final Palette.PaletteAsyncListener paletteAsyncListener = palette -> {
-            Palette.Swatch swatch = palette.getDarkVibrantSwatch();
-
-            int backgroundColor = ContextCompat.getColor(context, R.color.color_primary);
-
-            if(swatch != null) {
-                backgroundColor = swatch.getRgb();
-            }
-
-            collapsingToolbarLayout.setBackgroundColor(backgroundColor);
-            collapsingToolbarLayout.setStatusBarScrimColor(getDarkColor(backgroundColor));
-            collapsingToolbarLayout.setContentScrimColor(backgroundColor);
-
-            sessionsListAdapter.setColor(backgroundColor);
-        };
+        setUIColor(color);
 
         final Target imageTarget = new Target() {
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                 progressBar.setVisibility(View.GONE);
-
                 speakerImage.setImageBitmap(bitmap);
-
-                Palette.from(bitmap).generate(paletteAsyncListener);
+                Palette.from(bitmap).generate(palette -> {
+                    Palette.Swatch swatch = palette.getDarkVibrantSwatch();
+                    int backgroundColor = ContextCompat.getColor(context, R.color.color_primary);
+                    if(swatch != null) {
+                        backgroundColor = swatch.getRgb();
+                    }
+                    setUIColor(backgroundColor);
+                });
             }
 
             @Override
@@ -226,6 +225,13 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
         Picasso.with(SpeakerDetailsActivity.this)
                 .load(Uri.parse(photo))
                 .into(imageTarget);
+    }
+
+    private void setUIColor (int color) {
+        collapsingToolbarLayout.setBackgroundColor(color);
+        collapsingToolbarLayout.setStatusBarScrimColor(getDarkColor(color));
+        collapsingToolbarLayout.setContentScrimColor(color);
+        sessionsListAdapter.setColor(color);
     }
 
     private void loadSpeakerDetails() {
@@ -426,5 +432,5 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
         Intent intent = new Intent(this, SessionDetailActivity.class);
         startActivity(Views.openSessionDetails(session, intent));
     }
-
+    
 }
