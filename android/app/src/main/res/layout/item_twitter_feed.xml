@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/feed_bg"
+    android:paddingBottom="@dimen/padding_medium"
     android:orientation="vertical">
 
     <include
