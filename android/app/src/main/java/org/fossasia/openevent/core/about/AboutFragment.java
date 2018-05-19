@@ -358,22 +358,25 @@ public class AboutFragment extends BaseFragment implements OnBookmarkSelectedLis
         TextView toDateOfEvent = dialogView.findViewById(R.id.to_date_textview);
 
         if (event.isValid() && event.getSpeakersCall().isValid()) {
-            SpeakersCall speakersCall = event.getSpeakersCall();
+            final SpeakersCall speakersCall = event.getSpeakersCall();
             holder.setText(event.getEventCopyright().getHolder());
             String announcementString = Html.fromHtml(speakersCall.getAnnouncement()).toString();
-            announcement.setText(getResources().getString(R.string.about_fragment_announcement, announcementString, event.getEmail()));
+            String announcementText = getResources().getString(R.string.about_fragment_announcement, announcementString, event.getEmail());
+            announcement.setText(announcementText);
             int index = speakersCall.getStartsAt().indexOf("T");
-            toDateOfEvent.setText(getResources().getString(R.string.about_fragment_to_date_event, speakersCall.getStartsAt().substring(0, index)));
-            fromDateOfEvent.setText(getResources().getString(R.string.about_fragment_from_date_event, speakersCall.getEndsAt().substring(0, index)));
+            String toDate = getResources().getString(R.string.about_fragment_to_date_event, speakersCall.getStartsAt().substring(0, index));
+            toDateOfEvent.setText(toDate);
+            String fromDate = getResources().getString(R.string.about_fragment_from_date_event, speakersCall.getEndsAt().substring(0, index));
+            fromDateOfEvent.setText(fromDate);
+            final String email = announcementText + "\n\n" + fromDate + "\n" + toDate;
             dialogBuilder.setView(dialogView).setNegativeButton("Back", (dialog, which) -> dialog.cancel());
-            dialogBuilder.setPositiveButton("Copy Email",
+            dialogBuilder.setPositiveButton("Share",
                     (dialog, which) -> {
-                        ClipboardManager clipboard = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-                        ClipData clip = ClipData.newPlainText("Email", event.getEmail());
-                        if (clipboard != null) {
-                            clipboard.setPrimaryClip(clip);
-                        }
-                        Toast.makeText(getContext().getApplicationContext(), "Email copied to clipboard", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(Intent.ACTION_SEND);
+                        intent.setType("text/html");
+                        intent.putExtra(Intent.EXTRA_SUBJECT, getResources().getString(R.string.email_subject, event.getName()));
+                        intent.putExtra(Intent.EXTRA_TEXT, email);
+                        startActivity(Intent.createChooser(intent, "Send Mail/Share"));
                     });
             AlertDialog alertDialog = dialogBuilder.create();
             alertDialog.show();
