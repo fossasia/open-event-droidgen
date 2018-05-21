@@ -117,7 +117,7 @@ public class NotificationsFragment extends BaseFragment {
     public void onNotificationsDownloadDone(boolean status) {
         if (!status) {
             Timber.d("Notifications download failed");
-            if (getActivity() != null && swipeRefreshLayout != null ) {
+            if (getActivity() != null && swipeRefreshLayout != null) {
                 Snackbar.make(getActivity().findViewById(android.R.id.content), getActivity().getString(R.string.refresh_failed), Snackbar.LENGTH_LONG).setAction(R.string.retry_download, view -> refresh()).show();
             }
         }
