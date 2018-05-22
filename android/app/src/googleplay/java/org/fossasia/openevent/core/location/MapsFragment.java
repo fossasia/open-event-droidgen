@@ -147,7 +147,7 @@ public class MapsFragment extends Fragment implements LocationListener, OnMapRea
             mMap.setOnMapLoadedCallback(() -> mMap.moveCamera(cameraUpdate));
         }
 
-        if (fragmentLocationName != null)
+        if (fragmentLocationName != null && stringMicrolocationClusterWrapperMap.get(fragmentLocationName) != null)
             clusterRenderer.focusOnMarkers(stringMicrolocationClusterWrapperMap.get(fragmentLocationName));
 
         if (searchView == null || mSearchAutoComplete == null)

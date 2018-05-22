@@ -16,11 +16,11 @@ import timber.log.Timber;
 
 public class FAQViewModel extends ViewModel {
 
-    private RealmDataRepository realmRepo;
-    private LiveRealmData<FAQ> faqLiveRealmData;
-    private MutableLiveData<Boolean> faqOnDownloadResponse;
+    private final RealmDataRepository realmRepo;
     private final CompositeDisposable compositeDisposable;
 
+    private LiveRealmData<FAQ> faqLiveRealmData;
+    private MutableLiveData<Boolean> faqOnDownloadResponse;
     public FAQViewModel() {
         realmRepo = RealmDataRepository.getDefaultInstance();
         compositeDisposable = new CompositeDisposable();

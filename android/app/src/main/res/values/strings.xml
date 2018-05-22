@@ -230,6 +230,7 @@
     <string name="upcoming_sess">Upcoming session: </string>
     <string name="no_upcoming_Sess">No upcoming sessions</string>
     <string name="dash">&#160;-&#160;</string>
+    <string name="sad_face">Sad face</string>
 
     <!-- Sponsor types strings-->
     <string name="platinum">Platinum</string>
@@ -339,6 +340,7 @@
     <string name="about_fragment_announcement">%s at %s</string>
     <string name="about_fragment_to_date_event">To: %s</string>
     <string name="about_fragment_from_date_event">From: %s</string>
+    <string name="email_subject">Be a Speaker at the %s</string>
 
     <string name="twitter_feed">Twitter Feed</string>
     <string name="featured_speakers_header">Featured Speakers</string>

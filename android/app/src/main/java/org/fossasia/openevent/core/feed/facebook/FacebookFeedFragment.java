@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.fossasia.openevent.R;
@@ -42,8 +43,8 @@ public class FacebookFeedFragment extends BaseFeedFragment implements OpenCommen
     protected SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.feed_recycler_view)
     protected RecyclerView feedRecyclerView;
-    @BindView(R.id.txt_no_posts)
-    protected TextView noFeedView;
+    @BindView(R.id.ll_no_posts)
+    protected LinearLayout noFeedView;
 
     public static FacebookFeedFragment getInstance() {
         return new FacebookFeedFragment();

@@ -14,8 +14,9 @@ import io.reactivex.functions.Predicate;
 
 public class LocationActivityViewModel extends ViewModel {
 
+    private final RealmDataRepository realmRepo;
+
     private FilterableRealmLiveData<Session> filterableRealmLiveData;
-    private RealmDataRepository realmRepo;
     private String searchText = "";
 
     public LocationActivityViewModel() {

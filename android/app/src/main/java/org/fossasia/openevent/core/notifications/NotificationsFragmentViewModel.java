@@ -17,7 +17,8 @@ import timber.log.Timber;
 
 public class NotificationsFragmentViewModel extends ViewModel {
 
-    private RealmDataRepository realmRepo;
+    private final RealmDataRepository realmRepo;
+
     private LiveRealmData<Notification> liveNotificationsRealmData;
     private MutableLiveData<Boolean> notificationDownloadResponse;
     private final CompositeDisposable compositeDisposable;
