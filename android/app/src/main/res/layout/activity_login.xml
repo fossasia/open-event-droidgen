@@ -24,6 +24,7 @@
 
     <include layout="@layout/content_login" />
 
+
     <LinearLayout
         android:id="@+id/sign_up"
         android:layout_width="fill_parent"
@@ -49,5 +50,6 @@
             android:padding="@dimen/padding_small"
             app:srcCompat="@drawable/ic_arrow_right_white_24dp" />
     </LinearLayout>
+
 
 </android.support.design.widget.CoordinatorLayout>
