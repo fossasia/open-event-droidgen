@@ -108,6 +108,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/layout_margin_medium"
+                    android:id="@+id/speaker_details_linear_layout"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
@@ -188,6 +189,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/layout_margin_medium"
+                    android:id="@+id/location_linear_layout"
                     android:orientation="horizontal">
 
                     <ImageView

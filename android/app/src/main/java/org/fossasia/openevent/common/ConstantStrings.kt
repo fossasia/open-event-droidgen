@@ -74,6 +74,8 @@ object ConstantStrings {
 
     const val IMAGE_ZOOM_KEY = "imageZoom"
 
+    const val COLOR = "color"
+
     //Sort order
 
     const val PREF_SORT_SCHEDULE = "schedule_sort_type"

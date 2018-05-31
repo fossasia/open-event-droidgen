@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -93,6 +94,11 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
         super.onCreate(savedInstanceState);
         setUpcomingSessionsDialog();
 
+        String color = getIntent().getStringExtra(ConstantStrings.COLOR);
+        if (color != null) {
+            setUIColor(Color.parseColor(color));
+        }
+
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -129,6 +135,14 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
         loadData();
 
         handleVisibility();
+    }
+    
+    private void setUIColor (int color) {
+        int darkColor = Views.getDarkColor(color);
+        toolbar.setBackgroundColor(color);
+        if (Views.isCompatible(Build.VERSION_CODES.LOLLIPOP)) {
+            getWindow().setStatusBarColor(darkColor);
+        }
     }
 
     private void loadData() {
