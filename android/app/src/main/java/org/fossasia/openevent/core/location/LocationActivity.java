@@ -137,7 +137,7 @@ public class LocationActivity extends BaseActivity implements SearchView.OnQuery
         handleVisibility();
     }
     
-    private void setUIColor (int color){
+    private void setUIColor (int color) {
         int darkColor = Views.getDarkColor(color);
         toolbar.setBackgroundColor(color);
         if (Views.isCompatible(Build.VERSION_CODES.LOLLIPOP)) {
