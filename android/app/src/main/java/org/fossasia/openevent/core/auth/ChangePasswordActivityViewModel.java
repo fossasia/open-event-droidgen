@@ -47,7 +47,7 @@ public class ChangePasswordActivityViewModel extends ViewModel {
         if (checkPasswordResponse == null) {
             checkPasswordResponse = new MutableLiveData<>();
         }
-        
+
         compositeDisposable.add(APIClient.getOpenEventAPI().login(new Login(user.getEmail(), currentPassword))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

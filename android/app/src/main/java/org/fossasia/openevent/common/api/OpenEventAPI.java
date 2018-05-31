@@ -77,4 +77,7 @@ public interface OpenEventAPI {
     @GET("feedbacks?include=user&size=0")
     Observable<List<Feedback>> getFeedbacks();
 
+    @POST("../../feedbacks?include=user,event")
+    Observable<Feedback> postFeedback(@Body Feedback feedback);
+
 }

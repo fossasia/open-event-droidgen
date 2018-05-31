@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,6 +16,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import timber.log.Timber;
 
 public class FeedbackFragment extends BaseFragment {
@@ -41,6 +46,8 @@ public class FeedbackFragment extends BaseFragment {
     protected TextView feedbackHeaderView;
     @BindView(R.id.list_feedbacks)
     protected RecyclerView feedbacksRecyclerView;
+    @BindView(R.id.feedback_fab_post)
+    protected FloatingActionButton postFAB;
 
     private List<Feedback> feedbackList = new ArrayList<>();
     private FeedbacksListAdapter feedbacksListAdapter;
@@ -131,6 +138,33 @@ public class FeedbackFragment extends BaseFragment {
         } else {
             onFeedbacksDownloadDone(false);
         }
+    }
+
+    @OnClick(R.id.feedback_fab_post)
+    public void postFeedback() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.post_feedback_dialog, null);
+        TextView headerTextView= dialogView.findViewById(R.id.post_feedback_header);
+        headerTextView.setText("User Feedback!");
+        RatingBar ratingBar = dialogView.findViewById(R.id.post_feedback_rating_bar);
+        EditText commentEditText = dialogView.findViewById(R.id.post_feedback_comment_edit_text);
+        dialogBuilder.setView(dialogView).setPositiveButton("Post", ((dialog, which) -> {
+            dialog.cancel();
+            feedbackFragmentViewModel.postFeedback(ratingBar.getRating(), commentEditText.getText().toString()).observe(this, response -> {
+                if (response == FeedbackFragmentViewModel.ON_ERROR) {
+                    Toast.makeText(getActivity(), R.string.error_posting_feedback, Toast.LENGTH_SHORT).show();
+                } else if (response == FeedbackFragmentViewModel.ON_SUCCESS) {
+                    Toast.makeText(getActivity(), R.string.success_posting_feedback, Toast.LENGTH_SHORT).show();
+                    refresh();
+                }
+            });
+        }));
+        dialogBuilder.setNegativeButton("Cancel", (dialog, which) -> {
+            dialog.cancel();
+        });
+        dialogBuilder.create();
+        dialogBuilder.show();
     }
 
     @Override
