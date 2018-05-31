@@ -432,5 +432,4 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
         Intent intent = new Intent(this, SessionDetailActivity.class);
         startActivity(Views.openSessionDetails(session, intent));
     }
-    
 }
