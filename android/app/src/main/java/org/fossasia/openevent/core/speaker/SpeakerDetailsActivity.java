@@ -203,7 +203,7 @@ public class SpeakerDetailsActivity extends BaseActivity implements AppBarLayout
                 Palette.from(bitmap).generate(palette -> {
                     Palette.Swatch swatch = palette.getDarkVibrantSwatch();
                     int backgroundColor = ContextCompat.getColor(context, R.color.color_primary);
-                    if(swatch != null) {
+                    if (swatch != null) {
                         backgroundColor = swatch.getRgb();
                     }
                     setUIColor(backgroundColor);
