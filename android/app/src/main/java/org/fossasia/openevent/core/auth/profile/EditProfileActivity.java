@@ -1,13 +1,17 @@
 package org.fossasia.openevent.core.auth.profile;
 
+import android.Manifest;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -23,12 +27,14 @@ import com.yalantis.ucrop.UCrop;
 
 import org.fossasia.openevent.R;
 import org.fossasia.openevent.common.ConstantStrings;
+
 import org.fossasia.openevent.common.ui.Views;
 import org.fossasia.openevent.common.ui.image.CircleTransform;
 import org.fossasia.openevent.common.utils.SharedPreferencesUtil;
 import org.fossasia.openevent.common.utils.Utils;
 import org.fossasia.openevent.config.StrategyRegistry;
 import org.fossasia.openevent.core.auth.AuthUtil;
+
 import org.fossasia.openevent.core.auth.model.User;
 
 import java.io.ByteArrayOutputStream;
@@ -58,11 +64,14 @@ public class EditProfileActivity extends AppCompatActivity {
     private TextInputEditText lastNameInput;
 
     private User user;
+    private static final String [] READ_STORAGE = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE};
+    private static final int REQUEST_CODE = 1;
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     private int PICK_IMAGE_REQUEST = 100;
     private String encodedImage;
     private EditProfileActivityViewModel editProfileActivityViewModel;
+    private boolean permissionGranted = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +91,14 @@ public class EditProfileActivity extends AppCompatActivity {
             showUserData(user);
         });
 
-        avatar.setOnClickListener(v -> showFileChooser());
+        permissionGranted = checkReadExternalPermission();
+        avatar.setOnClickListener(v -> {
+            if (permissionGranted) {
+                showFileChooser();
+            } else {
+                ActivityCompat.requestPermissions(EditProfileActivity.this, READ_STORAGE, REQUEST_CODE);
+            }
+        });
 
         save.setOnClickListener(v -> {
             Views.hideKeyboard(this, this.getCurrentFocus());
@@ -119,7 +135,7 @@ public class EditProfileActivity extends AppCompatActivity {
             showProgressBar(false);
         });
     }
-    
+
     private void updateUser() {
         String firstName = firstNameInput.getText().toString().trim();
         String lastName = lastNameInput.getText().toString().trim();
@@ -271,5 +287,25 @@ public class EditProfileActivity extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private boolean checkReadExternalPermission() {
+        String permissionExternal = Manifest.permission.READ_EXTERNAL_STORAGE;
+        int permissionStatus = getApplicationContext().checkCallingOrSelfPermission(permissionExternal);
+        return permissionStatus == PackageManager.PERMISSION_GRANTED;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                permissionGranted = true;
+                Toast.makeText(getApplicationContext(), "Permission to Access External Storage Granted !", Toast.LENGTH_SHORT).show();
+                showFileChooser();
+            } else {
+                Toast.makeText(getApplicationContext(), "Permission to Access External Storage Denied :(", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        }
     }
 }

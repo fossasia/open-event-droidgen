@@ -14,6 +14,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -64,42 +65,32 @@ import butterknife.BindView;
 
 public class AboutFragment extends BaseFragment implements OnBookmarkSelectedListener {
 
-    @BindView(R.id.welcomeMessage)
-    protected TextView welcomeMessage;
     @BindView(R.id.event_description)
     protected TextView eventDescription;
     @BindView(R.id.organiser_description)
     protected TextView organiserDescription;
-    @BindView(R.id.event_timing_details)
-    protected TextView eventTiming;
-    @BindView(R.id.item_description_img)
-    protected ImageView descriptionImg;
-    @BindView(R.id.readmore)
-    protected TextView readMore;
-    @BindView(R.id.readless)
-    protected TextView readLess;
     @BindView(R.id.list_social_links)
     protected RecyclerView socialLinksRecyclerView;
     @BindView(R.id.event_venue_details)
     protected TextView venueDetails;
     @BindView(R.id.list_bookmarks)
     protected RecyclerView bookmarksRecyclerView;
+    @BindView(R.id.bookmarks_card)
+    protected CardView bookmarksCard;
     @BindView(R.id.bookmark_header)
     protected TextView bookmarkHeader;
-    @BindView(R.id.event_details_header)
-    protected TextView eventDetailsHeader;
-    @BindView(R.id.slidin_down_part)
-    protected LinearLayout slidinDownPart;
-    @BindView(R.id.ll_event_date)
-    protected LinearLayout eventDate;
-    @BindView(R.id.ll_event_loc)
-    protected LinearLayout eventLoc;
+    @BindView(R.id.starts_on)
+    protected TextView startsOn;
+    @BindView(R.id.ends_on)
+    protected TextView endsOn;
     @BindView(R.id.coordinate_layout_about)
     protected CoordinatorLayout coordinatorLayoutParent;
     @BindView(R.id.featured_speakers_header)
     protected TextView featuredSpeakersHeader;
     @BindView(R.id.list_featured_speakers)
     protected RecyclerView featuresSpeakersRecyclerView;
+    @BindView(R.id.event_name)
+    protected TextView eventName;
     @BindView(R.id.logo)
     protected ImageView eventLogo;
 
@@ -133,7 +124,7 @@ public class AboutFragment extends BaseFragment implements OnBookmarkSelectedLis
         setUpSocialLinksRecyclerView();
         setUpFeaturedSpeakersRecyclerView();
 
-        eventLoc.setOnClickListener(v -> {
+        venueDetails.setOnClickListener(v -> {
             if (event.isValid()) {
                 Bundle bundle = new Bundle();
                 bundle.putBoolean(ConstantStrings.IS_MAP_FRAGMENT_FROM_MAIN_ACTIVITY, true);
@@ -152,7 +143,12 @@ public class AboutFragment extends BaseFragment implements OnBookmarkSelectedLis
             }
         });
 
-        eventDate.setOnClickListener(v -> {
+        startsOn.setOnClickListener(v -> {
+            if (event.isValid())
+                startActivity(Utils.eventCalendar(event));
+        });
+
+        endsOn.setOnClickListener(v -> {
             if (event.isValid())
                 startActivity(Utils.eventCalendar(event));
         });
@@ -188,7 +184,7 @@ public class AboutFragment extends BaseFragment implements OnBookmarkSelectedLis
     }
 
     private void setUpBookmarksRecyclerView() {
-        bookmarksRecyclerView.setVisibility(View.VISIBLE);
+        bookmarksCard.setVisibility(View.VISIBLE);
         bookMarksListAdapter = new GlobalSearchAdapter(sessions, context);
         bookMarksListAdapter.setOnBookmarkSelectedListener(this);
         bookmarksRecyclerView.setAdapter(bookMarksListAdapter);
@@ -217,37 +213,12 @@ public class AboutFragment extends BaseFragment implements OnBookmarkSelectedLis
         if (event == null || !event.isValid())
             return;
 
-        String date = String.format("%s\n%s",
-                DateConverter.formatDateWithDefault(DateConverter.FORMAT_DATE_COMPLETE, event.getStartsAt()),
-                DateConverter.formatDateWithDefault(DateConverter.FORMAT_DATE_COMPLETE, event.getEndsAt()));
-
-        welcomeMessage.setText(String.format(getResources().getString(R.string.welcome_message), event.getName()));
+        eventName.setText(event.getName());
         Views.setHtml(organiserDescription, event.getOrganizerDescription(), true);
         Views.setHtml(eventDescription, event.getDescription(), true);
         venueDetails.setText(event.getLocationName());
-        eventTiming.setText(date);
-        descriptionImg.setOnClickListener(v -> collapseExpandTextView());
-        // Listener to trigger when the TextView is ready to be drawn
-        organiserDescription.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-            @Override
-            public boolean onPreDraw() {
-                if (organiserDescription.getLineCount() > 4)
-                    readMore.setVisibility(View.VISIBLE);
-                // Removing Listener after it has invoked once
-                organiserDescription.getViewTreeObserver().removeOnPreDrawListener(this);
-                return true;
-            }
-        });
-        readMore.setOnClickListener(v -> {
-            organiserDescription.setMaxLines(Integer.MAX_VALUE);
-            readMore.setVisibility(View.GONE);
-            readLess.setVisibility(View.VISIBLE);
-        });
-        readLess.setOnClickListener(v -> {
-            organiserDescription.setMaxLines(4);
-            readLess.setVisibility(View.GONE);
-            readMore.setVisibility(View.VISIBLE);
-        });
+        startsOn.setText(String.valueOf(DateConverter.formatDateWithDefault(DateConverter.FORMAT_DATE_COMPLETE, event.getStartsAt())));
+        endsOn.setText(String.valueOf(DateConverter.formatDateWithDefault(DateConverter.FORMAT_DATE_COMPLETE, event.getEndsAt())));
 
         socialLinks.clear();
         socialLinks.addAll(event.getSocialLinks());
@@ -256,37 +227,6 @@ public class AboutFragment extends BaseFragment implements OnBookmarkSelectedLis
         aboutFragmentViewModel.getEventLogo(event.getLogoUrl()).observe(this, logoBitmap -> {
             eventLogo.setImageBitmap(logoBitmap);
         });
-    }
-
-    @TargetApi(16)
-    void collapseExpandTextView() {
-        //translation animation of event bar
-        TranslateAnimation eventBarDownDirection = new TranslateAnimation(0, 0, -eventDescription.getHeight(), 0);
-        eventBarDownDirection.setInterpolator(new LinearInterpolator());
-        eventBarDownDirection.setDuration(300);
-
-        TranslateAnimation eventBarUpDirection = new TranslateAnimation(0, 0, eventDescription.getHeight(), 0);
-        eventBarUpDirection.setInterpolator(new LinearInterpolator());
-        eventBarUpDirection.setDuration(300);
-
-        //fading in or out of content
-        AlphaAnimation contentAppear = new AlphaAnimation(0, 1);
-        AlphaAnimation contentDisappear = new AlphaAnimation(1, 0);
-
-        if (eventDescription.getVisibility() == View.GONE) {
-            // it's collapsed - expand it.
-            slidinDownPart.startAnimation(eventBarDownDirection);
-            eventDescription.startAnimation(contentAppear);
-            eventDescription.setVisibility(View.VISIBLE);
-            descriptionImg.setImageResource(R.drawable.ic_expand_less_black_24dp);
-
-        } else {
-            // it's expanded - collapse it.
-            slidinDownPart.startAnimation(eventBarUpDirection);
-            eventDescription.startAnimation(contentDisappear);
-            eventDescription.setVisibility(View.GONE);
-            descriptionImg.setImageResource(R.drawable.ic_expand_more_black_24dp);
-        }
     }
 
     @Override
@@ -358,22 +298,25 @@ public class AboutFragment extends BaseFragment implements OnBookmarkSelectedLis
         TextView toDateOfEvent = dialogView.findViewById(R.id.to_date_textview);
 
         if (event.isValid() && event.getSpeakersCall().isValid()) {
-            SpeakersCall speakersCall = event.getSpeakersCall();
+            final SpeakersCall speakersCall = event.getSpeakersCall();
             holder.setText(event.getEventCopyright().getHolder());
             String announcementString = Html.fromHtml(speakersCall.getAnnouncement()).toString();
-            announcement.setText(getResources().getString(R.string.about_fragment_announcement, announcementString, event.getEmail()));
+            String announcementText = getResources().getString(R.string.about_fragment_announcement, announcementString, event.getEmail());
+            announcement.setText(announcementText);
             int index = speakersCall.getStartsAt().indexOf("T");
-            toDateOfEvent.setText(getResources().getString(R.string.about_fragment_to_date_event, speakersCall.getStartsAt().substring(0, index)));
-            fromDateOfEvent.setText(getResources().getString(R.string.about_fragment_from_date_event, speakersCall.getEndsAt().substring(0, index)));
+            String toDate = getResources().getString(R.string.about_fragment_to_date_event, speakersCall.getStartsAt().substring(0, index));
+            toDateOfEvent.setText(toDate);
+            String fromDate = getResources().getString(R.string.about_fragment_from_date_event, speakersCall.getEndsAt().substring(0, index));
+            fromDateOfEvent.setText(fromDate);
+            final String email = announcementText + "\n\n" + fromDate + "\n" + toDate;
             dialogBuilder.setView(dialogView).setNegativeButton("Back", (dialog, which) -> dialog.cancel());
-            dialogBuilder.setPositiveButton("Copy Email",
+            dialogBuilder.setPositiveButton("Share",
                     (dialog, which) -> {
-                        ClipboardManager clipboard = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-                        ClipData clip = ClipData.newPlainText("Email", event.getEmail());
-                        if (clipboard != null) {
-                            clipboard.setPrimaryClip(clip);
-                        }
-                        Toast.makeText(getContext().getApplicationContext(), "Email copied to clipboard", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(Intent.ACTION_SEND);
+                        intent.setType("text/html");
+                        intent.putExtra(Intent.EXTRA_SUBJECT, getResources().getString(R.string.email_subject, event.getName()));
+                        intent.putExtra(Intent.EXTRA_TEXT, email);
+                        startActivity(Intent.createChooser(intent, "Send Mail/Share"));
                     });
             AlertDialog alertDialog = dialogBuilder.create();
             alertDialog.show();
@@ -397,10 +340,10 @@ public class AboutFragment extends BaseFragment implements OnBookmarkSelectedLis
 
     private void handleVisibility() {
         if (!sessions.isEmpty()) {
-            bookmarksRecyclerView.setVisibility(View.VISIBLE);
+            bookmarksCard.setVisibility(View.VISIBLE);
             bookmarkHeader.setVisibility(View.VISIBLE);
         } else {
-            bookmarksRecyclerView.setVisibility(View.GONE);
+            bookmarksCard.setVisibility(View.GONE);
             bookmarkHeader.setVisibility(View.GONE);
         }
 

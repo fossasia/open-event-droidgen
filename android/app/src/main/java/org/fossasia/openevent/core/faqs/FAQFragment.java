@@ -133,6 +133,13 @@ public class FAQFragment extends BaseFragment {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        loginBtn.setVisibility(View.GONE);
+        tvEmptyFaqs.setVisibility(View.GONE);
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         Utils.unregisterIfUrlValid(this);

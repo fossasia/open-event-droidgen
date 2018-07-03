@@ -1,20 +1,20 @@
 ![Open Event Android](https://storage.googleapis.com/eventyay.com/assets/branding/android_branding.png)
 
-[![Build Status](https://travis-ci.org/fossasia/open-event-android.svg?branch=development)](https://travis-ci.org/fossasia/open-event-android?branch=development)
-[![codecov.io](https://codecov.io/github/fossasia/open-event-android/coverage.svg?branch=development)](https://codecov.io/github/fossasia/open-event-android?branch=development)
-[![Join the chat at https://gitter.im/fossasia/open-event-android](https://badges.gitter.im/fossasia/open-event-android.svg)](https://gitter.im/fossasia/open-event-android?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Build Status](https://travis-ci.org/fossasia/open-event-droidgen.svg?branch=development)](https://travis-ci.org/fossasia/open-event-droidgen?branch=development)
+[![codecov.io](https://codecov.io/github/fossasia/open-event-droidgen/coverage.svg?branch=development)](https://codecov.io/github/fossasia/open-event-droidgen?branch=development)
+[![Join the chat at https://gitter.im/fossasia/open-event-android](https://badges.gitter.im/fossasia/open-event-droidgen.svg)](https://gitter.im/fossasia/open-event-android?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Preview the app](https://img.shields.io/badge/Preview-Appetize.io-orange.svg)](https://appetize.io/app/2rfx5pavny47jnb1qzwg204fr8)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/15475df939da4195ae36f06f235a7aad)](https://www.codacy.com/app/harshithdwivedi/open-event-android?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=fossasia/open-event-android&amp;utm_campaign=Badge_Grade)
-[![Mailing List](https://img.shields.io/badge/Mailing%20List-FOSSASIA-blue.svg)](mailto:fossasia@googlegroups.com)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/15475df939da4195ae36f06f235a7aad)](https://www.codacy.com/app/harshithdwivedi/open-event-droidgen?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=fossasia/open-event-droidgen&amp;utm_campaign=Badge_Grade)
+[![Mailing List](https://img.shields.io/badge/Mailing%20List-FOSSASIA-blue.svg)](mailto:open-event@googlegroups.com)
 
 
 The Open Event Android project consists of two components. The **App Generator** is a web application that is hosted on a server and generates an event Android app from a zip with JSON and binary files ([examples here](http://github.com/fossasia/open-event)) or through an API. The second component we are developing in the project is a generic **Android app** - the output of the app generator. The mobile app can be installed on any Android device for browsing information about the event. Updates can be made automatically through API endpoint connections from an online source (e.g. server), which needs to defined in the provided event zip with the JSON files. The Android app has a standard configuration file, that sets the details of the app (e.g. color scheme, logo of event, link to JSON app data).
 
 Have an issue? Create one using these:
 
-[![Bug](https://img.shields.io/badge/issues-bug-red.svg)](https://github.com/fossasia/open-event-android/issues/new?template=bug.md)
-[![Feature](https://img.shields.io/badge/issues-feature-green.svg)](https://github.com/fossasia/open-event-android/issues/new?template=feature.md)
-[![Chore](https://img.shields.io/badge/issues-chore-blue.svg)](https://github.com/fossasia/open-event-android/issues/new?template=chore.md)
+[![Bug](https://img.shields.io/badge/issues-bug-red.svg)](https://github.com/fossasia/open-event-droidgen/issues/new?template=bug.md)
+[![Feature](https://img.shields.io/badge/issues-feature-green.svg)](https://github.com/fossasia/open-event-droidgen/issues/new?template=feature.md)
+[![Chore](https://img.shields.io/badge/issues-chore-blue.svg)](https://github.com/fossasia/open-event-droidgen/issues/new?template=chore.md)
 
 ## Communication
 
@@ -34,7 +34,7 @@ B) A JSON API provided by open-event-orga-servers server (Code maintained [here]
 
 ### Sample App
 
-A sample app for testing purposes is automatically built after commits in the repository. Please download and test the app that is using the code from the [dev branch here](https://github.com/fossasia/open-event-android/raw/apk/sample-apk-development.apk) and the code from the [master branch here](https://github.com/fossasia/open-event-android/raw/apk/sample-apk-master.apk).
+A sample app for testing purposes is automatically built after commits in the repository. Please download and test the app that is using the code from the [dev branch here](https://github.com/fossasia/open-event-droidgen/raw/apk/sample-apk-development.apk) and the code from the [master branch here](https://github.com/fossasia/open-event-droidgen/raw/apk/sample-apk-master.apk).
 
 ### Screenshots of a sample Android app
 
@@ -64,7 +64,7 @@ A sample app for testing purposes is automatically built after commits in the re
 
 ### Android App Development Set up
 
-Please find info about the set up of the Android app in your development environment [here](https://github.com/fossasia/open-event-android/blob/development/docs/android-app-setup.md).
+Please find info about the set up of the Android app in your development environment [here](https://github.com/fossasia/open-event-droidgen/blob/development/docs/android-app-setup.md).
 
 ### Data retrieval
 
@@ -136,7 +136,7 @@ Installation instructions for docker are [here](docs/installation/docker.md).
 
 ## Contributions, Bug Reports, Feature Requests
 
-This is an Open Source project and we would be happy to see contributors who report bugs and file feature requests submitting pull requests as well. Please report issues here https://github.com/fossasia/open-event-android/issues
+This is an Open Source project and we would be happy to see contributors who report bugs and file feature requests submitting pull requests as well. Please report issues here https://github.com/fossasia/open-event-droidgen/issues
 
 ## Branch Policy
 

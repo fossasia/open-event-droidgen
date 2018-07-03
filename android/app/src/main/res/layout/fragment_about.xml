@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="@color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent">
 
     <android.support.v4.widget.NestedScrollView
@@ -11,28 +12,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:background="@color/grey"
             android:orientation="vertical"
             android:descendantFocusability="blocksDescendants">
-
-            <TextView
-                android:id="@+id/bookmark_header"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/color_accent"
-                android:padding="@dimen/padding_medium"
-                android:text="@string/bookmark_header"
-                android:textColor="@color/card_title"
-                android:textSize="@dimen/text_size_extra_large"
-                android:textStyle="bold" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/list_bookmarks"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clipToPadding="false" />
-
-
             <include layout="@layout/content_about_event" />
         </LinearLayout>
 
