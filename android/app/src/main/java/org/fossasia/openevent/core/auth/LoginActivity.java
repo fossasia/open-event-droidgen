@@ -175,6 +175,7 @@ public class LoginActivity extends AppCompatActivity implements AppCompatEditTex
         switch (item.getItemId()) {
             case android.R.id.home:
                 this.finish();
+                startActivity(new Intent(this,MainActivity.class));
                 return true;
             default:
                 //do nothing
@@ -185,6 +186,12 @@ public class LoginActivity extends AppCompatActivity implements AppCompatEditTex
 
     private static void showMessage(@StringRes int id) {
         Toast.makeText(OpenEventApp.getAppContext(), id, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(this,MainActivity.class));
     }
 }
 
