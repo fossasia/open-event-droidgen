@@ -49,6 +49,8 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
     protected RecyclerView locationsRecyclerView;
     @BindView(R.id.txt_no_microlocations)
     protected TextView noMicrolocationsView;
+    @BindView(R.id.img_no_locations)
+    protected TextView noLocationsImage;
     @BindView(R.id.txt_no_result_locations)
     protected TextView noResultsView;
 
@@ -111,9 +113,11 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
     private void handleVisibility() {
         if (locationsListAdapter.getItemCount() != 0) {
             noMicrolocationsView.setVisibility(View.GONE);
+            noLocationsImage.setVisibility(View.GONE);
             locationsRecyclerView.setVisibility(View.VISIBLE);
         } else {
             noMicrolocationsView.setVisibility(View.VISIBLE);
+            noLocationsImage.setVisibility(View.VISIBLE);
             locationsRecyclerView.setVisibility(View.GONE);
         }
     }
@@ -126,9 +130,11 @@ public class LocationsFragment extends BaseFragment implements SearchView.OnQuer
     public void setVisibility(Boolean isDownloadDone) {
         if (isDownloadDone) {
             noMicrolocationsView.setVisibility(View.GONE);
+            noLocationsImage.setVisibility(View.GONE);
             locationsRecyclerView.setVisibility(View.VISIBLE);
         } else {
             noMicrolocationsView.setVisibility(View.VISIBLE);
+            noLocationsImage.setVisibility(View.VISIBLE);
             locationsRecyclerView.setVisibility(View.GONE);
         }
     }

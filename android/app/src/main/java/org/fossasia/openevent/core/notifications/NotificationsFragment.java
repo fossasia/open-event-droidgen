@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.fossasia.openevent.R;
@@ -40,6 +41,8 @@ public class NotificationsFragment extends BaseFragment {
     protected TextView noNotificationView;
     @BindView(R.id.btn_login)
     protected TextView loginBtn;
+    @BindView(R.id.img_no_notifications)
+    protected ImageView noNotificationsImage;
 
     public static NotificationsFragment getInstance() {
         return new NotificationsFragment();
@@ -65,6 +68,7 @@ public class NotificationsFragment extends BaseFragment {
             handleVisibility();
         } else {
             noNotificationView.setText(R.string.login_to_continue);
+            noNotificationsImage.setVisibility(View.GONE);
             showNotificationLayout(false);
             loginBtn.setOnClickListener(v -> redirectToLogin());
         }
@@ -91,9 +95,11 @@ public class NotificationsFragment extends BaseFragment {
     private void handleVisibility() {
         if (notificationsList.isEmpty()) {
             noNotificationView.setVisibility(View.VISIBLE);
+            noNotificationsImage.setVisibility(View.VISIBLE);
             notificationRecyclerView.setVisibility(View.GONE);
         } else {
             noNotificationView.setVisibility(View.GONE);
+            noNotificationsImage.setVisibility(View.GONE);
             notificationRecyclerView.setVisibility(View.VISIBLE);
         }
     }
@@ -110,6 +116,7 @@ public class NotificationsFragment extends BaseFragment {
 
     private void clearViews() {
         noNotificationView.setVisibility(View.GONE);
+        noNotificationsImage.setVisibility(View.GONE);
         loginBtn.setVisibility(View.GONE);
     }
 

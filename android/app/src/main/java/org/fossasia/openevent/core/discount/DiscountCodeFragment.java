@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +41,8 @@ public class DiscountCodeFragment extends BaseFragment {
     protected TextView discountCodeHeader;
     @BindView(R.id.list_discount_codes)
     protected RecyclerView discountCodesRecyclerView;
+    @BindView(R.id.img_no_discounts)
+    protected ImageView noDiscountsImage;
 
     private List<DiscountCode> discountCodes = new ArrayList<>();
     private DiscountCodesListAdapter discountCodesListAdapter;
@@ -89,6 +92,7 @@ public class DiscountCodeFragment extends BaseFragment {
             discountCodeHeader.setVisibility(View.VISIBLE);
             discountCodesRecyclerView.setVisibility(View.VISIBLE);
             noDiscountCodeView.setVisibility(View.GONE);
+            noDiscountsImage.setVisibility(View.GONE);
         } else {
             discountCodeHeader.setVisibility(View.GONE);
             discountCodesRecyclerView.setVisibility(View.GONE);

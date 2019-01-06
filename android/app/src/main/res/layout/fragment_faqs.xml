@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/faq_swiperefreshlayout"
@@ -15,12 +16,23 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
+    <ImageView
+        android:id="@+id/img_no_faqs"
+        android:layout_width="@dimen/item_image_view_extra_large"
+        android:layout_height="@dimen/item_image_view_extra_large"
+        android:layout_gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/no_posts_margin"
+        app:srcCompat="@drawable/ic_no_posts_grey_24dp"
+        android:contentDescription="@string/sad_face"/>
+
     <TextView
         android:id="@+id/tv_emptyFaqs"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="@string/no_faqs"
+        android:layout_below="@+id/img_no_faqs"
         android:textAppearance="?android:textAppearanceMedium" />
 
     <Button

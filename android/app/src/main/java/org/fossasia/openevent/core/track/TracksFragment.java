@@ -17,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
@@ -48,6 +49,8 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
 
     @BindView(R.id.tracks_swipe_refresh) SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.txt_no_tracks) TextView noTracksView;
+    @BindView(R.id.img_no_tracks)
+    ImageView noTracksImage;
     @BindView(R.id.txt_no_result_tracks) protected TextView noResultsTracksView;
     @BindView(R.id.list_tracks) RecyclerView tracksRecyclerView;
     @BindView(R.id.tracks_frame) View windowFrame;
@@ -106,9 +109,11 @@ public class TracksFragment extends BaseFragment implements SearchView.OnQueryTe
     public void handleVisibility() {
         if (!tracks.isEmpty()) {
             noTracksView.setVisibility(View.GONE);
+            noTracksImage.setVisibility(View.GONE);
             tracksRecyclerView.setVisibility(View.VISIBLE);
         } else {
             noTracksView.setVisibility(View.VISIBLE);
+            noTracksImage.setVisibility(View.VISIBLE);
             tracksRecyclerView.setVisibility(View.GONE);
         }
     }

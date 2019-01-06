@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
@@ -43,6 +44,8 @@ public class SponsorsFragment extends BaseFragment {
 
     @BindView(R.id.txt_no_sponsors)
     TextView noSponsorsView;
+    @BindView(R.id.img_no_sponsors)
+    ImageView noSponsorsImage;
     @BindView(R.id.sponsor_swipe_refresh)
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.list_sponsors)
@@ -94,9 +97,11 @@ public class SponsorsFragment extends BaseFragment {
     private void handleVisibility() {
         if (sponsorsListAdapter.getItemCount() != 0) {
             noSponsorsView.setVisibility(View.GONE);
+            noSponsorsImage.setVisibility(View.GONE);
             sponsorsRecyclerView.setVisibility(View.VISIBLE);
         } else {
             noSponsorsView.setVisibility(View.VISIBLE);
+            noSponsorsImage.setVisibility(View.VISIBLE);
             sponsorsRecyclerView.setVisibility(View.GONE);
         }
     }

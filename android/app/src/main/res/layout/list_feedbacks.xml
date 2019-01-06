@@ -27,12 +27,23 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
+    <ImageView
+        android:id="@+id/img_no_feedbacks"
+        android:layout_width="@dimen/item_image_view_extra_large"
+        android:layout_height="@dimen/item_image_view_extra_large"
+        android:layout_gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/no_posts_margin"
+        app:srcCompat="@drawable/ic_no_posts_grey_24dp"
+        android:contentDescription="@string/sad_face"/>
+
     <TextView
         android:id="@+id/txt_no_feedback"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="No Feedbacks!"
+        android:layout_below="@+id/img_no_feedbacks"
         android:textAppearance="?android:textAppearanceMedium" />
 
     <android.support.design.widget.CoordinatorLayout

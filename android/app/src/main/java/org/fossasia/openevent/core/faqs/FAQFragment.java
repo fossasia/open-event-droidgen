@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.fossasia.openevent.R;
@@ -37,6 +38,8 @@ public class FAQFragment extends BaseFragment {
     protected SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.btn_login)
     protected TextView loginBtn;
+    @BindView(R.id.img_no_faqs)
+    protected ImageView noFaqsImage;
 
     private ArrayList<FAQ> faqArrayList;
     private FAQListAdapter faqListAdapter;
@@ -62,6 +65,7 @@ public class FAQFragment extends BaseFragment {
         } else {
             showFaqLayout(false);
             tvEmptyFaqs.setText(R.string.login_to_continue);
+            noFaqsImage.setVisibility(View.GONE);
             loginBtn.setOnClickListener(v -> redirectToLogin());
         }
 
@@ -109,9 +113,11 @@ public class FAQFragment extends BaseFragment {
     private void handleVisibility() {
         if (faqArrayList.isEmpty()) {
             tvEmptyFaqs.setVisibility(View.VISIBLE);
+            noFaqsImage.setVisibility(View.VISIBLE);
             rvFaq.setVisibility(View.GONE);
         } else {
             tvEmptyFaqs.setVisibility(View.GONE);
+            noFaqsImage.setVisibility(View.GONE);
             rvFaq.setVisibility(View.VISIBLE);
         }
     }
@@ -137,6 +143,7 @@ public class FAQFragment extends BaseFragment {
         super.onPause();
         loginBtn.setVisibility(View.GONE);
         tvEmptyFaqs.setVisibility(View.GONE);
+        noFaqsImage.setVisibility(View.GONE);
     }
 
     @Override

@@ -23,6 +23,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.futuremind.recyclerviewfastscroll.FastScroller;
@@ -52,6 +53,8 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
 
     @BindView(R.id.speaker_swipe_refresh) SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.txt_no_speakers)  TextView noSpeakersView;
+    @BindView(R.id.img_no_speakers)
+    ImageView noSpeakersImage;
     @BindView(R.id.txt_no_result_speakers)  protected TextView noSpeakersResultView;
     @BindView(R.id.scroller) FastScroller scroller;
     @BindView(R.id.rv_speakers) RecyclerView speakersRecyclerView;
@@ -117,9 +120,11 @@ public class SpeakersListFragment extends BaseFragment implements SearchView.OnQ
     private void handleVisibility() {
         if (!speakers.isEmpty()) {
             noSpeakersView.setVisibility(View.GONE);
+            noSpeakersImage.setVisibility(View.GONE);
             speakersRecyclerView.setVisibility(View.VISIBLE);
         } else if(noSpeakersResultView.getVisibility() != View.VISIBLE){
             noSpeakersView.setVisibility(View.VISIBLE);
+            noSpeakersImage.setVisibility(View.VISIBLE);
             speakersRecyclerView.setVisibility(View.GONE);
         }
     }

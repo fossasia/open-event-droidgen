@@ -14,7 +14,18 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:text="@string/no_notification"
+        android:layout_below="@+id/img_no_notifications"
         android:textAppearance="?android:textAppearanceMedium" />
+
+    <ImageView
+        android:id="@+id/img_no_notifications"
+        android:layout_width="@dimen/item_image_view_extra_large"
+        android:layout_height="@dimen/item_image_view_extra_large"
+        android:layout_gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/no_posts_margin"
+        app:srcCompat="@drawable/ic_no_posts_grey_24dp"
+        android:contentDescription="@string/sad_face"/>
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/notification_refresh"

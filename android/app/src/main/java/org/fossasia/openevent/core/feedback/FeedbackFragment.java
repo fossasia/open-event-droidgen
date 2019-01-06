@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,6 +49,8 @@ public class FeedbackFragment extends BaseFragment {
     protected RecyclerView feedbacksRecyclerView;
     @BindView(R.id.feedback_fab_post)
     protected FloatingActionButton postFAB;
+    @BindView(R.id.img_no_feedbacks)
+    protected ImageView noFeedbackImage;
 
     private List<Feedback> feedbackList = new ArrayList<>();
     private FeedbacksListAdapter feedbacksListAdapter;
@@ -99,6 +102,7 @@ public class FeedbackFragment extends BaseFragment {
             feedbackHeaderView.setVisibility(View.VISIBLE);
             feedbacksRecyclerView.setVisibility(View.VISIBLE);
             noFeedbacksView.setVisibility(View.GONE);
+            noFeedbackImage.setVisibility(View.GONE);
         } else {
             feedbackHeaderView.setVisibility(View.GONE);
             feedbacksRecyclerView.setVisibility(View.GONE);
