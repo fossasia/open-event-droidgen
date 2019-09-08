@@ -8,7 +8,7 @@
 [![Mailing List](https://img.shields.io/badge/Mailing%20List-FOSSASIA-blue.svg)](mailto:open-event@googlegroups.com)
 
 
-The Open Event Android project consists of two components. The **App Generator** is a web application that is hosted on a server and generates an event Android app from a zip with JSON and binary files ([examples here](http://github.com/fossasia/open-event)) or through an API. The second component we are developing in the project is a generic **Android app** - the output of the app generator. The mobile app can be installed on any Android device for browsing information about the event. Updates can be made automatically through API endpoint connections from an online source (e.g. server), which needs to defined in the provided event zip with the JSON files. The Android app has a standard configuration file, that sets the details of the app (e.g. color scheme, the logo of an event, link to JSON app data).
+The Open Event Android project consists of two components. The **App Generator** is a web application that is hosted on a server and generates an event Android app from zip with JSON and binary files ([examples here](http://github.com/fossasia/open-event)) or through an API. The second component we are developing in the project is a generic **Android app** - the output of the app generator. The mobile app can be installed on any Android device for browsing information about the event. Updates can be made automatically through API endpoint connections from an online source (e.g. server), which needs to defined in the provided event zip with the JSON files. The Android app has a standard configuration file, that sets the details of the app (e.g. color scheme, the logo of an event, link to JSON app data).
 
 Have an issue? Create one using these:
 
@@ -69,10 +69,10 @@ Please find info about the set up of the Android app in your development environ
 ### Data retrieval
 
 - The orga-server provides the data which is stored in its backend database in a JSON format.
-- The app on startup picks up data from a JSON file in its assets folder if the version number of data is -1, which happens when there is no internet connection
+- The app on startup picks up data from a JSON file in its assets folder if the version number of data is -1, which happens when there is no internet connection.
 - If there is a valid internet connection, the data download starts from the server.
 - Also, there is a check on the version of data already there in the app's database. If data is stale then only it is downloaded.
-- If the database is empty then firstly JSON file in assets is accessed but if the internet is available, latest data is downloaded.
+- If the database is empty then firstly JSON file in assets is accessed but if the internet is available then the latest data is downloaded.
 
 ### Libraries used and their documentation
 
@@ -132,7 +132,7 @@ Installation instructions for Digital Ocean servers are [here](docs/installation
 
 Installation instructions for docker are [here](docs/installation/docker.md).
 
-**Note: You will need to install Lombok Plugin in Android Studio in order to properly access generated methods of data classes**
+**Note: You will need to install Lombok Plugin in Android Studio to properly access the generated methods of data classes**
 
 ## Contributions, Bug Reports, Feature Requests
 
@@ -144,7 +144,7 @@ We have the following branches
  * **development**
 	 All development goes on in this branch. If you're making a contribution,
 	 you are supposed to make a pull request to _development_.
-	 PRs to master must pass a build check and a unit-test (_app/src/test_) check on Travis
+	 PRs to master must pass a build check and a unit-test (_app/src/test_) check on Travis.
  * **master**
    This contains shipped code. After significant features/bugfixes are accumulated on development, we make a version update and make a release.
 	 All tagged commits on _master_ branch will automatically generate a release on Github with a copy of ***fDroid-debug*** and ***GooglePlay-debug*** apks.
